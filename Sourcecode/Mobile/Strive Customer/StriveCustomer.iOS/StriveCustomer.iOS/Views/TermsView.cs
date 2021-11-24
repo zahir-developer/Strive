@@ -41,8 +41,8 @@ namespace StriveCustomer.iOS.Views
             };
             NavigationItem.Title = "Vehicle";
             string Datenow = DateTime.Now.Date.ToString("yyyy-MM-dd");
-            StartingDate.Text = DateTime.Now.Date.ToString("yyyy-MM-dd");
-            EndingDate.Text = DateTime.Now.Date.AddMonths(12).ToString("yyyy-MM-dd");
+            StartingDate.Text = new DateTime(DateTime.Now.Date.AddMonths(1).Year, DateTime.Now.Date.AddMonths(1).Month, 1).ToString("yyyy-MM-dd"); 
+            EndingDate.Text = "Open";
             Date.Text = Datenow.Substring(0, 10);
             string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName.Substring(8) + "- $" + (VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price);
             membership_name.Text = membershipname;

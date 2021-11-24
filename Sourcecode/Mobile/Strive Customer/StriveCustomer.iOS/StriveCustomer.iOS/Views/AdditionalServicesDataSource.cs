@@ -54,21 +54,25 @@ namespace StriveCustomer.iOS.Views
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
              MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
-             cell.updateServices(indexPath);
+            cell.updateServices(indexPath);
             if (MembershipDetails.selectedAdditionalServices.Count!=0)
             {
                 if (MembershipDetails.selectedAdditionalServices.Contains(services[indexPath.Row].ServiceId))
                 {
+                    
                     MembershipDetails.selectedAdditionalServices.Remove(services[indexPath.Row].ServiceId);
                 }
                 else
                 {
+                    
                     MembershipDetails.selectedAdditionalServices.Add(services[indexPath.Row].ServiceId);
                 }
 
             }
             else
             {
+
+
                 MembershipDetails.selectedAdditionalServices.Add(services[indexPath.Row].ServiceId);
             }
             

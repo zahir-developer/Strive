@@ -124,28 +124,29 @@ namespace StriveCustomer.iOS.Views
                 if (itm.Replace(" ", "") == service)
                 {
                     Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-                    //cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    //Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    //Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    //Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    cell.UserInteractionEnabled = false;
+                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                 }
-                else
-                {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-                }
+                //else
+                //{
+                //    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                //}
             }                
            
         }
 
         public void updateServices(NSIndexPath indexPath)
         {
-            if(Membership_CellBtn.CurrentImage == UIImage.FromBundle("icon-unchecked-round"))
+            if(Membership_CellBtn.CurrentImage == UIImage.FromBundle("icon-checked-round"))
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
             }
             else
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
             }
         }
     }

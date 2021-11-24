@@ -28,6 +28,7 @@ namespace Strive.Core.ViewModels.Customer
         public MakeList makeList { get; set; }
         public ModelList modelList { get; set; }
 
+        public List<int> VehicleNumber = new List<int>();
         #endregion Properties
 
 
@@ -184,11 +185,19 @@ namespace Strive.Core.ViewModels.Customer
                     clientVehicles.clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
                     clientVehicles.clientVehicle.vehicleModel = MembershipDetails.modelNumber;
                     clientVehicles.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+                    foreach (var element in CustomerVehiclesInformation.vehiclesList.Status)
+                    {
+                        if (element.VehicleNumber!=null)
+                        {
+                            int val = int.Parse(element.VehicleNumber);
+                            VehicleNumber.Add(val);
+                        }
+                    }
+                    clientVehicles.clientVehicle.vehicleNumber = (VehicleNumber.Max()+1).ToString();
                     clientVehicles.clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
                     clientVehicles.clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
                     clientVehicles.clientVehicle.isActive = true;
                     clientVehicles.clientVehicle.isDeleted = false;
-
                     //var vehicleImage = new vehicleImage();
                     //vehicleImage.vehicleImageId = 0;
                     //vehicleImage.vehicleId = 0;

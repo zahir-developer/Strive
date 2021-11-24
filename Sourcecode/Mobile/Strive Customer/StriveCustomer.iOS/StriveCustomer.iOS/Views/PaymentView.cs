@@ -32,7 +32,7 @@ namespace StriveCustomer.iOS.Views
         UITextField securityCodeTextField;
 
         UIEdgeInsets scrollViewInsets;
-        const string TIP_AMOUNT_FORMAT = "{0}{1}{2}.{3}{4}";
+        
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
         //
         public float Total=0;
@@ -48,7 +48,7 @@ namespace StriveCustomer.iOS.Views
             GetTotal();
             KeyBoardHandling();
             UpdateData();
-            tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0, 0, 0);
+            
            // RegisterForCardDetailsScanning();
 
 #if DEBUG
@@ -321,22 +321,6 @@ namespace StriveCustomer.iOS.Views
             customerNameTextField.TextColor = UIColor.Black;
             backgroundView.Add(customerNameTextField);
 
-            var tipAmountNameLabel = new UILabel(CGRect.Empty);
-            tipAmountNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            tipAmountNameLabel.Text = "Tip Amount($)";
-            tipAmountNameLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
-            tipAmountNameLabel.Font = UIFont.SystemFontOfSize(18);
-            backgroundView.Add(tipAmountNameLabel);
-
-            tipAmountTextField = new UITextField(CGRect.Empty);
-            tipAmountTextField.TranslatesAutoresizingMaskIntoConstraints = false;
-            tipAmountTextField.WeakDelegate = this;
-            tipAmountTextField.BorderStyle = UITextBorderStyle.RoundedRect;
-            tipAmountTextField.Font = UIFont.SystemFontOfSize(18);
-            tipAmountTextField.TextColor = UIColor.Black;
-            tipAmountTextField.KeyboardType = UIKeyboardType.NumberPad;  
-            backgroundView.Add(tipAmountTextField);
-
             var totalAmountDueTitleLabel = new UILabel(CGRect.Empty);
             totalAmountDueTitleLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             totalAmountDueTitleLabel.Text = "Total Amount";
@@ -447,13 +431,12 @@ namespace StriveCustomer.iOS.Views
             scrollView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor).Active = true;
             scrollView.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
             scrollView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
-
-            scrollView.WidthAnchor.ConstraintEqualTo(347);
+            scrollView.WidthAnchor.ConstraintEqualTo(337);
 
             backgroundView.WidthAnchor.ConstraintEqualTo(347);
             backgroundView.HeightAnchor.ConstraintEqualTo(550);
             backgroundView.LeadingAnchor.ConstraintEqualTo(scrollView.LeadingAnchor, constant: 10).Active = true;
-            backgroundView.TrailingAnchor.ConstraintEqualTo(scrollView.TrailingAnchor, constant: 10).Active = true;
+            backgroundView.TrailingAnchor.ConstraintEqualTo(scrollView.TrailingAnchor, constant: 4).Active = true;
             backgroundView.TopAnchor.ConstraintGreaterThanOrEqualTo(scrollView.TopAnchor, constant: 60).Active = true;
             backgroundView.CenterYAnchor.ConstraintEqualTo(scrollView.CenterYAnchor).Active = true;
             backgroundView.BottomAnchor.ConstraintEqualTo(scrollView.BottomAnchor, constant: 60).Active = true;
@@ -463,49 +446,41 @@ namespace StriveCustomer.iOS.Views
             customerNameLabel.TopAnchor.ConstraintEqualTo(backgroundView.TopAnchor, constant: 30).Active = true;
 
             
-            customerNameTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor, constant:5).Active = true;
-            customerNameTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -10).Active = true;
+            customerNameTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor, constant:-10).Active = true;
+            customerNameTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -8).Active = true;
             customerNameTextField.TopAnchor.ConstraintEqualTo(backgroundView.TopAnchor, constant: 15).Active = true;
             customerNameTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
-
-            tipAmountNameLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
-            tipAmountNameLabel.CenterYAnchor.ConstraintEqualTo(tipAmountTextField.CenterYAnchor).Active = true;
-
-            tipAmountTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor,constant: 5).Active = true;
-            tipAmountTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -10).Active = true;
-            tipAmountTextField.TopAnchor.ConstraintEqualTo(customerNameTextField.BottomAnchor, constant: 20).Active = true;
-            tipAmountTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
 
             totalAmountDueTitleLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
             totalAmountDueTitleLabel.CenterYAnchor.ConstraintEqualTo(totalAmountDueLabel.CenterYAnchor).Active = true;
 
             totalAmountDueLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
-            totalAmountDueLabel.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -10).Active = true;
-            totalAmountDueLabel.TopAnchor.ConstraintEqualTo(tipAmountTextField.BottomAnchor, constant: 20).Active = true;
+            totalAmountDueLabel.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -8).Active = true;
+            totalAmountDueLabel.TopAnchor.ConstraintEqualTo(customerNameLabel.BottomAnchor, constant: 20).Active = true;
             totalAmountDueLabel.HeightAnchor.ConstraintEqualTo(50).Active = true;
 
             paymentInfoTitleLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
             paymentInfoTitleLabel.CenterYAnchor.ConstraintEqualTo(paymentInfoLabel.CenterYAnchor).Active = true;
 
             paymentInfoLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
-            paymentInfoLabel.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: 10).Active = true;
+            paymentInfoLabel.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -8).Active = true;
             paymentInfoLabel.TopAnchor.ConstraintEqualTo(totalAmountDueLabel.BottomAnchor, constant: 20).Active = true;
             paymentInfoLabel.HeightAnchor.ConstraintEqualTo(50).Active = true;
 
             cardNumberLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
             cardNumberLabel.CenterYAnchor.ConstraintEqualTo(cardNumberTextField.CenterYAnchor).Active = true;
 
-            cardNumberTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor,constant: 5).Active = true;
-            cardNumberTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -10).Active = true;
+            cardNumberTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor,constant: -10).Active = true;
+            cardNumberTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -8).Active = true;
             cardNumberTextField.TopAnchor.ConstraintEqualTo(paymentInfoLabel.BottomAnchor, constant: 20).Active = true;
             cardNumberTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
-            cardNumberTextField.WidthAnchor.ConstraintEqualTo(195).Active = true;
+            cardNumberTextField.WidthAnchor.ConstraintEqualTo(190).Active = true;
 
             expirationDateLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
             expirationDateLabel.CenterYAnchor.ConstraintEqualTo(expirationDateTextField.CenterYAnchor).Active = true;
 
-            expirationDateTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor,constant: 5).Active = true;
-            expirationDateTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -10).Active = true;
+            expirationDateTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor,constant: -10).Active = true;
+            expirationDateTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -8).Active = true;
             expirationDateTextField.TopAnchor.ConstraintEqualTo(cardNumberTextField.BottomAnchor, constant: 20).Active = true;
             expirationDateTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
            
@@ -513,8 +488,8 @@ namespace StriveCustomer.iOS.Views
             securityCodeLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
             securityCodeLabel.CenterYAnchor.ConstraintEqualTo(securityCodeTextField.CenterYAnchor).Active = true;
 
-            securityCodeTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor,constant: 5).Active = true;
-            securityCodeTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -10).Active = true;
+            securityCodeTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor,constant: -10).Active = true;
+            securityCodeTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -8).Active = true;
             securityCodeTextField.TopAnchor.ConstraintEqualTo(expirationDateTextField.BottomAnchor, constant: 20).Active = true;
             securityCodeTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
 
@@ -522,7 +497,7 @@ namespace StriveCustomer.iOS.Views
             payButton.BottomAnchor.ConstraintEqualTo(backgroundView.BottomAnchor, constant: 10).Active = true;
             payButton.CenterXAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
             payButton.HeightAnchor.ConstraintEqualTo(40).Active = true;
-            payButton.WidthAnchor.ConstraintEqualTo(250).Active = true;
+            payButton.WidthAnchor.ConstraintEqualTo(240).Active = true;
         }
         void KeyBoardHandling()
         {
