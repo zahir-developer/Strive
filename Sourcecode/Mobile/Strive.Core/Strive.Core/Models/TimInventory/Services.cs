@@ -14,6 +14,9 @@ namespace Strive.Core.Models.TimInventory
 
         public string ServiceName { get; set; }
         public string ServiceTypeName { get; set; }
+        public double? Price { get; set; }
+
+        
     }
 
     public class ServiceList

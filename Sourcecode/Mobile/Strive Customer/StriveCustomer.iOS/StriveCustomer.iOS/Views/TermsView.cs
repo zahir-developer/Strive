@@ -58,15 +58,13 @@ namespace StriveCustomer.iOS.Views
             var SelectedServices = MembershipDetails.completeList.ServicesWithPrice.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
             foreach (var Service in SelectedServices)
             {
-                if (Service.Upcharges != null )
+                if (Service.Price != null)
                 {
-                    if (Service.Upcharges.Count() > 4)
-                    {
-                        
-                        //Console.WriteLine(Service.Upcharges.Split("-")[1].Substring(3));
-                        Total += double.Parse(Service.Upcharges.Split("-")[1].Substring(3));
-                        SelectedAdditionalServices.Add(Service.ServiceName.Trim() + "-$"+Service.Upcharges.Split("-")[1].Substring(3));
-                    } 
+                    
+                    //Console.WriteLine(Service.Upcharges.Split("-")[1].Substring(3));
+                    Total += (double)Service.Price;
+                    SelectedAdditionalServices.Add(Service.ServiceName.Trim() + "-$"+ string.Format("{0:0.00}", Service.Price));
+                     
                 }
                 else
                 {
@@ -76,13 +74,13 @@ namespace StriveCustomer.iOS.Views
                
                 
             }
-            string ValuesToDisply = "Additional Services: "+ String.Join(", ",SelectedAdditionalServices);
+            string ValuesToDisply = "Additional Services: "+ string.Join(", ",SelectedAdditionalServices);
             DisplaySelectedAddtionals.Text = ValuesToDisply;
-            AdditionalServicesTotal.Text = "$"+Total.ToString();
+            AdditionalServicesTotal.Text = "$"+ string.Format("{0:0.00}", Total);
             Total += MembershipAmount;
-            MonthlyTotal.Text = "$"+Total.ToString();
-            total.Text = "$" + Total.ToString();
-            Yearlytotal.Text = "$" + (Total * 12).ToString();
+            MonthlyTotal.Text = "$"+ string.Format("{0:0.00}", Total);
+            total.Text = "$" + string.Format("{0:0.00}", Total);
+            Yearlytotal.Text = "$" + string.Format("{0:0.00}", Total * 12);
 
 
         }
