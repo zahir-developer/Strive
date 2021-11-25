@@ -109,11 +109,11 @@ namespace StriveCustomer.iOS.Views
             PresentViewController(okAlertController, true, null);
         }
 
-        public async Task PayAsync(string cardNo, string expiryDate, short ccv, float tipAmount)
+        public async Task PayAsync(string cardNo, string expiryDate, short ccv)
         {
 
             //_userDialog.ShowLoading();
-            var totalAmnt = Amount + tipAmount;
+            var totalAmnt = Amount;
 
             if (cardNo.IsEmpty() || expiryDate.IsEmpty() || ccv == 0)
             {
@@ -204,19 +204,7 @@ namespace StriveCustomer.iOS.Views
                             JobID = JobID
                         };
 
-                        if (tipAmount != 0)
-                        {
-                            var tipsTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentType.Tips.ToString(), StringComparison.OrdinalIgnoreCase)).ID ?? -1;
-
-                            var tipAmountObj = new JobPaymentDetail()
-                            {
-                                Amount = tipAmount,
-                                PaymentType = tipsTypeId
-                            };
-
-                            addPaymentReqReq.SalesPaymentDto.JobPaymentDetails.Add(tipAmountObj);
-                        }
-
+                        
                         //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
 
                         var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
@@ -415,10 +403,8 @@ namespace StriveCustomer.iOS.Views
                     ccv = Convert.ToInt16(securityCodeTextField.Text);
                 }
 
-                if (tipAmountTextField.Text != null)
-                    if (float.TryParse(tipAmountTextField.Text, out float tipAmount))
-
-                        _ =PayAsync(cardNumberTextField.Text, expirationDateTextField.Text, ccv, tipAmount);
+                
+                        _ =PayAsync(cardNumberTextField.Text, expirationDateTextField.Text, ccv);
                
             };
             
