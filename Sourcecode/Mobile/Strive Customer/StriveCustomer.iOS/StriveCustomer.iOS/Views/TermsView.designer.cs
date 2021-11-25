@@ -61,9 +61,19 @@ namespace StriveCustomer.iOS.Views
 				_TermsConfirmView = null;
 			}
 
+			if (AdditionalServicesTotal != null) {
+				AdditionalServicesTotal.Dispose ();
+				AdditionalServicesTotal = null;
+			}
+
 			if (Date != null) {
 				Date.Dispose ();
 				Date = null;
+			}
+
+			if (DisplaySelectedAddtionals != null) {
+				DisplaySelectedAddtionals.Dispose ();
+				DisplaySelectedAddtionals = null;
 			}
 
 			if (EndingDate != null) {
@@ -104,16 +114,6 @@ namespace StriveCustomer.iOS.Views
 			if (Yearlytotal != null) {
 				Yearlytotal.Dispose ();
 				Yearlytotal = null;
-			}
-
-			if (AdditionalServicesTotal != null) {
-				AdditionalServicesTotal.Dispose ();
-				AdditionalServicesTotal = null;
-			}
-
-			if (DisplaySelectedAddtionals != null) {
-				DisplaySelectedAddtionals.Dispose ();
-				DisplaySelectedAddtionals = null;
 			}
 		}
 	}

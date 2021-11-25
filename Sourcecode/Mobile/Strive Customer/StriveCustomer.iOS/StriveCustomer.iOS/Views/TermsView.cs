@@ -17,7 +17,8 @@ namespace StriveCustomer.iOS.Views
         }
         public double Total = 0;
         public List<string> SelectedAdditionalServices = new List<string>();
-        
+        public static UIImage contract;
+        public static UIImage TermsConfirmView;
         UILabel DisplaySelectedServices = new UILabel();
         public override void ViewDidLoad()
         {
@@ -84,8 +85,12 @@ namespace StriveCustomer.iOS.Views
 
 
         }
+
+        
         partial void AgreeBtn_Touch(UIButton sender)
         {
+            contract = UIViewExtensions.AsImage(termsLabel);
+            TermsConfirmView= UIViewExtensions.AsImage(_TermsConfirmView);
             ViewModel.NavToSignatureView();
         }
 
@@ -115,6 +120,25 @@ namespace StriveCustomer.iOS.Views
                 ViewModel.NavigateToLanding();
             }
         }
+    }
+    public static class UIViewExtensions
+    {
+
+        public static UIImage AsImage(this UIView view)
+        {
+            UIGraphics.BeginImageContextWithOptions(view.Bounds.Size, view.Opaque, 0);
+            view.Layer.RenderInContext(UIGraphics.GetCurrentContext());
+            UIImage img = UIGraphics.GetImageFromCurrentImageContext();
+            UIGraphics.EndImageContext();
+
+            return img;
+        }
+
+        public static UIImage TakeScreenshot()
+        {
+            return UIApplication.SharedApplication.KeyWindow.AsImage();
+        }
+
     }
 }
 

@@ -11,6 +11,7 @@ namespace StriveCustomer.iOS.Views
     public partial class SignatureView : MvxViewController<MembershipSignatureViewModel>
     {
         public static SignaturePadView signature { get; set; }
+        public static UIImage Signatureimage;
         public SignatureView() : base("SignatureView", null)
         {
         }
@@ -58,8 +59,8 @@ namespace StriveCustomer.iOS.Views
             signPadView.Layer.CornerRadius = 5;
             CancelBtn_Sign.Layer.CornerRadius = 5;
             DoneBtn_Sign.Layer.CornerRadius = 5;
-            SignatureParentView.Layer.CornerRadius = 5;                     
-                        
+            SignatureParentView.Layer.CornerRadius = 5;
+            FinalContract.Hidden = true;        
             signature.SignaturePrompt.Text = "";
             signature.SignaturePrompt.TextColor = UIColor.Clear;
             signature.Caption.TextColor = UIColor.Clear;
@@ -71,12 +72,23 @@ namespace StriveCustomer.iOS.Views
 
             LoadSignature();
         }
+        
         private async void Agree()
         {
+            Signatureimage = UIViewExtensions.AsImage(signPadView);
+            FinalContract.Hidden = true;
+            //UIImage CroppedContract = CropImage.cropImage(TermsView.contract,0,120,410,590);
+            UIImage CroppedSignature = CropImage.cropImage(Signatureimage,35,180,310,300);
+            
+            Contract.Image =TermsView.contract ;
+            TermsConfirmView.Image = TermsView.TermsConfirmView;
+            SignatureImg.Image = CroppedSignature;
             //CancelMembership
+
+
             var result = await ViewModel.AgreeMembership();
             if (result)
-            { 
+            {
                 ViewModel.NextCommand();
             }
         }
@@ -125,10 +137,29 @@ namespace StriveCustomer.iOS.Views
                 await ViewModel.NavToMembership();
             }            
         }
+        
     }
 
     public static class SignatureClass
     {
         public static CGPoint[] signaturePoints { get; set; }        
+    }
+
+    public static class CropImage
+    {
+        public static UIImage cropImage(this UIImage sourceImage, int crop_x, int crop_y, int width, int height)
+        {
+            var imgSize = sourceImage.Size;
+            UIGraphics.BeginImageContext(new SizeF(width, height));
+            var context = UIGraphics.GetCurrentContext();
+            var clippedRect = new RectangleF(0, 0, width, height);
+            context.ClipToRect(clippedRect);
+            var drawRect = new CGRect(-crop_x, -crop_y, imgSize.Width, imgSize.Height);
+            sourceImage.Draw(drawRect);
+            var modifiedImage = UIGraphics.GetImageFromCurrentImageContext();
+            UIGraphics.EndImageContext();
+            return modifiedImage;
+        }
+        
     }
 }

@@ -16,13 +16,25 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UIButton CancelBtn_Sign { get; set; }
 
 		[Outlet]
+		UIKit.UIImageView Contract { get; set; }
+
+		[Outlet]
 		UIKit.UIButton DoneBtn_Sign { get; set; }
+
+		[Outlet]
+		UIKit.UIView FinalContract { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView SignatureImg { get; set; }
 
 		[Outlet]
 		UIKit.UIView SignatureParentView { get; set; }
 
 		[Outlet]
 		Xamarin.Controls.SignaturePadView signPadView { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView TermsConfirmView { get; set; }
 
 		[Action ("CancelBtn_SignTouch:")]
 		partial void CancelBtn_SignTouch (UIKit.UIButton sender);
@@ -32,14 +44,14 @@ namespace StriveCustomer.iOS.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (signPadView != null) {
-				signPadView.Dispose ();
-				signPadView = null;
-			}
-
 			if (CancelBtn_Sign != null) {
 				CancelBtn_Sign.Dispose ();
 				CancelBtn_Sign = null;
+			}
+
+			if (Contract != null) {
+				Contract.Dispose ();
+				Contract = null;
 			}
 
 			if (DoneBtn_Sign != null) {
@@ -47,9 +59,29 @@ namespace StriveCustomer.iOS.Views
 				DoneBtn_Sign = null;
 			}
 
+			if (FinalContract != null) {
+				FinalContract.Dispose ();
+				FinalContract = null;
+			}
+
+			if (SignatureImg != null) {
+				SignatureImg.Dispose ();
+				SignatureImg = null;
+			}
+
+			if (TermsConfirmView != null) {
+				TermsConfirmView.Dispose ();
+				TermsConfirmView = null;
+			}
+
 			if (SignatureParentView != null) {
 				SignatureParentView.Dispose ();
 				SignatureParentView = null;
+			}
+
+			if (signPadView != null) {
+				signPadView.Dispose ();
+				signPadView = null;
 			}
 		}
 	}
