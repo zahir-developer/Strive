@@ -187,13 +187,14 @@ namespace Strive.Core.ViewModels.Customer
                     clientVehicles.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
                     foreach (var element in CustomerVehiclesInformation.vehiclesList.Status)
                     {
-                        if (element.VehicleNumber!=null)
+                        if (element.VehicleNumber != null)
                         {
-                            int val = int.Parse(element.VehicleNumber);
-                            VehicleNumber.Add(val);
+                            if (int.TryParse(element.VehicleNumber, out int val))
+                                VehicleNumber.Add(val);
+
                         }
                     }
-                    clientVehicles.clientVehicle.vehicleNumber = (VehicleNumber.Max()+1).ToString();
+                    clientVehicles.clientVehicle.vehicleNumber = (VehicleNumber.Count() > 0) ? (VehicleNumber.Max()+1).ToString() : "1" ;
                     clientVehicles.clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
                     clientVehicles.clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
                     clientVehicles.clientVehicle.isActive = true;

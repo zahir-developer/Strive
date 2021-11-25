@@ -431,12 +431,12 @@ namespace StriveCustomer.iOS.Views
             scrollView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor).Active = true;
             scrollView.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
             scrollView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
-            scrollView.WidthAnchor.ConstraintEqualTo(337);
+            //scrollView.WidthAnchor.ConstraintEqualTo(347);
 
-            backgroundView.WidthAnchor.ConstraintEqualTo(347);
+            //backgroundView.WidthAnchor.ConstraintEqualTo(347);
             backgroundView.HeightAnchor.ConstraintEqualTo(550);
-            backgroundView.LeadingAnchor.ConstraintEqualTo(scrollView.LeadingAnchor, constant: 10).Active = true;
-            backgroundView.TrailingAnchor.ConstraintEqualTo(scrollView.TrailingAnchor, constant: 4).Active = true;
+            backgroundView.LeadingAnchor.ConstraintEqualTo(scrollView.LeadingAnchor, constant: 20).Active = true;
+            backgroundView.TrailingAnchor.ConstraintEqualTo(scrollView.TrailingAnchor, constant: 10).Active = true;
             backgroundView.TopAnchor.ConstraintGreaterThanOrEqualTo(scrollView.TopAnchor, constant: 60).Active = true;
             backgroundView.CenterYAnchor.ConstraintEqualTo(scrollView.CenterYAnchor).Active = true;
             backgroundView.BottomAnchor.ConstraintEqualTo(scrollView.BottomAnchor, constant: 60).Active = true;
@@ -474,7 +474,7 @@ namespace StriveCustomer.iOS.Views
             cardNumberTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -8).Active = true;
             cardNumberTextField.TopAnchor.ConstraintEqualTo(paymentInfoLabel.BottomAnchor, constant: 20).Active = true;
             cardNumberTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
-            cardNumberTextField.WidthAnchor.ConstraintEqualTo(190).Active = true;
+            cardNumberTextField.WidthAnchor.ConstraintEqualTo(200).Active = true;
 
             expirationDateLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
             expirationDateLabel.CenterYAnchor.ConstraintEqualTo(expirationDateTextField.CenterYAnchor).Active = true;
