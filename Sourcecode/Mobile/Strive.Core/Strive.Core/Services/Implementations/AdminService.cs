@@ -428,7 +428,15 @@ namespace Strive.Core.Services.Implementations
             var url = uriBuilder + string1 + string2;
 
             return await _restClient.MakeApiCall<ScheduleModel>(url, HttpMethod.Get);
-    }
+        }
+        public async Task<UploadedDocument> AddDocumentDetails(AddDocument addDocument)
+        {
+            return await _restClient.MakeApiCall<UploadedDocument>(ApiUtils.URL_ADD_DOCUMENT, HttpMethod.Post,addDocument);
+        }
+        public async Task<ProductType> GetCodesByCategory()
+        {
+            return await _restClient.MakeApiCall<ProductType>(ApiUtils.URL_GET_CODES_BY_CATEGORY, HttpMethod.Get);
+        }
     }
     public static class RestUtils
     {

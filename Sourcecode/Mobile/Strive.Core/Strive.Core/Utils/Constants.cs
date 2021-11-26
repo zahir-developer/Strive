@@ -176,5 +176,9 @@ namespace Strive.Core.Utils
         internal const string PAYMENT_CAPTURE = "/Payroll/PaymentGateway/Capture";
         internal const string ADD_PAYMENT = "/Admin/Sales/AddPayment";
         internal const string GLOBAL_DATA = "/Admin/Common/GetCodesByCategory/";
-    }
+
+        //Document
+        public const string URL_ADD_DOCUMENT = "/Admin/Document/AddDocument";
+        public const string URL_GET_CODES_BY_CATEGORY = "/Admin/Common/GetCodesByCategory/DOCUMENTTYPE";
+}
 }

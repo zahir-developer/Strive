@@ -155,5 +155,8 @@ namespace Strive.Core.Services.Interfaces
 
         Task<PayRoll> GetPayRoll(string StartDate, string EndDate, int EmpId, int LocationId);
 
+        Task<UploadedDocument> AddDocumentDetails(AddDocument addDocument);
+
+        Task<ProductType> GetCodesByCategory();
     }
 }

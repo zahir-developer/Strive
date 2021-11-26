@@ -9,8 +9,8 @@ namespace Strive.Core.ViewModels.Customer
     public class PaymentViewModel : BaseViewModel
     {
         public List<ClientVehicleMembershipService> selectedmembershipServices = new List<ClientVehicleMembershipService>();
-       
-        
+        public static string Base64ContractString;
+
         public PaymentViewModel()
         {
 
@@ -27,13 +27,56 @@ namespace Strive.Core.ViewModels.Customer
                     var isDeleted = await AdminService.DeleteVehicleMembership(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
                 }
             }
+
             PrepareAdditionalServices();
+           
             var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
             if (data.Status == true)
             {
-                _userDialog.Toast("Membership has been created successfully");
-                MembershipDetails.clearMembershipData();
-                await _navigationService.Navigate<MyProfileInfoViewModel>();
+                var codeByCategory = await AdminService.GetCodesByCategory();
+
+                var membershipAgreement = codeByCategory.Codes.Find(x => x.CodeValue == "MembershipAgreement");
+               
+                var termsDocument = new Document()
+                {
+                    DocumentId = membershipAgreement.CategoryId,
+                    DocumentName = "MembershipAgreement",
+                    DocumentType = membershipAgreement.CodeId,
+                    DocumentSubType = null,
+                    Base64 = Base64ContractString,
+                    CreatedBy = CustomerInfo.ClientID,
+                    CreatedDate = DateTime.Now,
+                    FileName = "MembershipAgreement -"+ CustomerInfo.custName + ".jpeg",
+                    FilePath = "",
+                    OriginalFileName = "MembershipAgreement -" + CustomerInfo.custName + ".jpeg",
+                    IsActive = true,
+                    IsDeleted = false,
+                    RoleId = null,
+                    UpdatedBy = CustomerInfo.ClientID,
+                    UpdatedDate = DateTime.Now
+                    
+                };
+
+                var addDocument = new AddDocument()
+                {
+                    Document = termsDocument,
+                    DocumentType = membershipAgreement.CodeValue,
+
+                };
+
+                var document = await AdminService.AddDocumentDetails(addDocument);
+
+                if (document != null)
+                {
+                    _userDialog.Toast("Membership has been created successfully");
+                    MembershipDetails.clearMembershipData();
+                    await _navigationService.Navigate<MyProfileInfoViewModel>();
+                  
+                }
+                else
+                {
+                    _userDialog.Alert("Error membership not created");
+                }
 
             }
             else
