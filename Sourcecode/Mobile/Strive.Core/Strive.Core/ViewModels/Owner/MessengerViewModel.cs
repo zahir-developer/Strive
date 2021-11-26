@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Services.HubServices;
+using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 
 namespace Strive.Core.ViewModels.Owner
@@ -38,5 +39,17 @@ namespace Strive.Core.ViewModels.Owner
                 }
             }
         }
+
+        public void navigateToCreateGroup()
+        {
+            _navigationService.Navigate<MessengerCreateGroupViewModel>();
+        }
+
+        public async Task LogoutCommand()
+        {
+            await _navigationService.Close(this);
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit!"));
+        }
+
     }
 }

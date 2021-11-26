@@ -69,11 +69,6 @@ namespace StriveCustomer.iOS.Views
 				SignatureImg = null;
 			}
 
-			if (TermsConfirmView != null) {
-				TermsConfirmView.Dispose ();
-				TermsConfirmView = null;
-			}
-
 			if (SignatureParentView != null) {
 				SignatureParentView.Dispose ();
 				SignatureParentView = null;
@@ -82,6 +77,11 @@ namespace StriveCustomer.iOS.Views
 			if (signPadView != null) {
 				signPadView.Dispose ();
 				signPadView = null;
+			}
+
+			if (TermsConfirmView != null) {
+				TermsConfirmView.Dispose ();
+				TermsConfirmView = null;
 			}
 		}
 	}

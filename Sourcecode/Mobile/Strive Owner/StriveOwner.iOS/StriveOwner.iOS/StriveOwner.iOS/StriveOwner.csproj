@@ -280,6 +280,18 @@
         <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346.png" />
         <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1%402x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1%403x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1 %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1%402x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1%403x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1 %281%29.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -331,6 +343,7 @@
         <Folder Include="Resources\Assets.xcassets\pieChart.imageset\" />
         <Folder Include="Resources\Assets.xcassets\lineChart.imageset\" />
         <Folder Include="Resources\Assets.xcassets\select-Contact.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Menu.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -351,6 +364,8 @@
         <InterfaceDefinition Include="Views\Login\ForgotPasswordView.xib" />
         <InterfaceDefinition Include="Views\Login\NewPasswordView.xib" />
         <InterfaceDefinition Include="Views\Login\OtpView.xib" />
+        <InterfaceDefinition Include="Views\Messenger\SelectContactCell.xib" />
+        <InterfaceDefinition Include="Views\Messenger\CreateGroupView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -435,6 +450,14 @@
         <Compile Include="Views\Login\NewPasswordView.designer.cs" />
         <Compile Include="Views\Login\OtpView.cs" />
         <Compile Include="Views\Login\OtpView.designer.cs" />
+        <Compile Include="Views\Messenger\SelectContactCell.cs" />
+        <Compile Include="Views\Messenger\SelectContactCell.designer.cs">
+          <DependentUpon>SelectContactCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\CreateGroupView.cs" />
+        <Compile Include="Views\Messenger\CreateGroupView.designer.cs">
+          <DependentUpon>CreateGroupView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

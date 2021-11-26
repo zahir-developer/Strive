@@ -1,5 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Text;
 using CoreGraphics;
+using Foundation;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
@@ -12,6 +16,7 @@ namespace StriveCustomer.iOS.Views
     {
         public static SignaturePadView signature { get; set; }
         public static UIImage Signatureimage;
+        public static UIImage Base64ContractImage;
         public SignatureView() : base("SignatureView", null)
         {
         }
@@ -76,22 +81,26 @@ namespace StriveCustomer.iOS.Views
         private async void Agree()
         {
             Signatureimage = UIViewExtensions.AsImage(signPadView);
-            FinalContract.Hidden = true;
+            FinalContract.Hidden = false;
             //UIImage CroppedContract = CropImage.cropImage(TermsView.contract,0,120,410,590);
-            UIImage CroppedSignature = CropImage.cropImage(Signatureimage,35,180,310,300);
-            
+            //UIImage CroppedSignature = CropImage.cropImage(Signatureimage,35,180,310,300);
+            // combine all the images related to the contract
             Contract.Image =TermsView.contract ;
             TermsConfirmView.Image = TermsView.TermsConfirmView;
-            SignatureImg.Image = CroppedSignature;
+            SignatureImg.Image = Signatureimage;
+            Base64ContractImage = UIViewExtensions.AsImage(FinalContract);
+            // Conversion to base 64 string
+            PaymentViewModel.Base64ContractString = Base64ContractImage.AsJPEG(0.15f).GetBase64EncodedString(NSDataBase64EncodingOptions.None);
             //CancelMembership
 
-
+            
             var result = await ViewModel.AgreeMembership();
             if (result)
             {
                 ViewModel.NextCommand();
             }
         }
+       
         private void LoadSignature()
         {
             if (SignatureClass.signaturePoints != null)

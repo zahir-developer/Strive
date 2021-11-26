@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EmployeeList = Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeMessengerContacts;
 
-namespace Strive.Core.ViewModels.Employee
+namespace Strive.Core.ViewModels.Owner
 {
     public class MessengerCreateGroupViewModel : BaseViewModel
     {

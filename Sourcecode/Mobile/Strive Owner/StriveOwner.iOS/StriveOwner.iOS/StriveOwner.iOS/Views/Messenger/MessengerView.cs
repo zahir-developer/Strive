@@ -248,6 +248,11 @@ namespace StriveOwner.iOS.Views.Messenger
             Messenger_TableView.DelaysContentTouches = false;
             Messenger_TableView.ReloadData();
         }
+        partial void MenuBtnTouch(UIButton sender)
+        {
+            ViewModel.navigateToCreateGroup();
+        }
+
     }
 }
 
