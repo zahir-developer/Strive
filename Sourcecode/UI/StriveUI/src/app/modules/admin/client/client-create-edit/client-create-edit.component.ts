@@ -10,6 +10,7 @@ import { ClientHistoryComponent } from '../client-history/client-history.compone
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { AddActivityComponent } from '../../gift-card/add-activity/add-activity.component';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -233,6 +234,20 @@ export class ClientCreateEditComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
+  }
+  // Add Activity Popup
+  addActivity() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(AddActivityComponent, ngbModalOptions);
+    modalRef.result.then((result) => {
+      if (result) {
+        // add code here
+      }
+    });
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
