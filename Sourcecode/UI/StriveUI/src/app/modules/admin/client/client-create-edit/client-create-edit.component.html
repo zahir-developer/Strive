@@ -81,6 +81,57 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="m-t-10 m-b-10">
+                                        <h5 class="d-inline-block font-weight-600">Activity</h5>&nbsp;
+                                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                                            (click)="addActivity()" [disabled]="isView">Add Activity</button>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table  table-striped m-t-10">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" >Id&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleNumber')"
+                                                        aria-hidden="true"></i></th>
+                                                    <th scope="col" >Amount&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
+                                                        aria-hidden="true"></i></th>
+                                                    <th scope="col" >Credited Date&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleMfr')"
+                                                        aria-hidden="true"></i></th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <!-- <tbody>
+                                                <tr
+                                                    *ngFor="let vehicle of vehicleDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    <th scope="row">{{vehicle.VehicleNumber}}</th>
+                                                    <td>{{vehicle.VehicleColor}}</td>
+                                                    <td>{{vehicle.VehicleMfr }}</td>
+                                                    <td>{{vehicle.VehicleModel}}</td>
+                                                    <td>{{vehicle.Barcode}}</td>
+                                                    <td>{{vehicle.MembershipName !== null ? vehicle.MembershipName : 'No'}}</td>
+                                                    <td>
+                                                        <em class="fa fa-pencil-square edit-list  m-r-10"
+                                                            [ngClass]="{'theme-disabled-icon-color': !vehicle.isAddedVehicle, 'theme-secondary-icon-color': vehicle.isAddedVehicle  }"
+                                                            pTooltip="Edit" tooltipPosition="bottom"
+                                                            (click)="editVehicle(vehicle)"></em>
+                                                        <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                            style="color:red" pTooltip="Delete"
+                                                            (click)="delete(vehicle)" tooltipPosition="bottom"></em>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="vehicleDetails.length === 0">
+                                                    <td colspan="7" class="text-center">No Record Found</td>
+                                                </tr>
+                                            </tbody> -->
+                                        </table>
+                                        <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="m-t-12">
                                 <span class="mw-100" *ngIf="isEdit">
                                     <button type="button" class="btn theme-primary-button-color"

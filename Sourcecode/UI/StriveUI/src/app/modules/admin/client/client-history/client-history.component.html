@@ -12,6 +12,7 @@
                         <th scope="col">Date&nbsp;</th>
                         <th scope="col">Service Type&nbsp;</th>
                         <th scope="col">Total Amount&nbsp;</th>
+                        <th scope="col">Notes&nbsp;</th>
                         <!-- <th scope="col">Price&nbsp;</th>
                         <th scope="col">Comm&nbsp;</th> -->
                     </tr>
@@ -24,6 +25,7 @@
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
                         <td>{{history.Amount | currency}}</td>
+                        <!-- <td>{{history.notes}}</td> -->
                         <!-- <td>{{history.Price | currency}}</td>
                         <td>{{history.Comm | currency}}</td> -->
                     </tr>
