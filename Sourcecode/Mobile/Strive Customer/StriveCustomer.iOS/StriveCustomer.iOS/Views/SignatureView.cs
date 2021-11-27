@@ -70,7 +70,7 @@ namespace StriveCustomer.iOS.Views
             signature.SignaturePrompt.TextColor = UIColor.Clear;
             signature.Caption.TextColor = UIColor.Clear;
             signature.Caption.Text = "";
-
+            
             UIImage image = signature.GetImage();
                         
             signPadView.AddSubview(signature);
@@ -87,7 +87,7 @@ namespace StriveCustomer.iOS.Views
             // combine all the images related to the contract
             Contract.Image =TermsView.contract ;
             TermsConfirmView.Image = TermsView.TermsConfirmView;
-            SignatureImg.Image = Signatureimage;
+            SignatureImg.Image = signature.GetImage();  //Signatureimage;
             Base64ContractImage = UIViewExtensions.AsImage(FinalContract);
             // Conversion to base 64 string
             PaymentViewModel.Base64ContractString = Base64ContractImage.AsJPEG(0.15f).GetBase64EncodedString(NSDataBase64EncodingOptions.None);
