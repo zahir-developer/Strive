@@ -198,9 +198,20 @@ namespace Greeter.Storyboards
                 }
             }
 
+            string stars = string.Empty;
+
+            var shownCountOfCardNumber = 4;
+
+            for (int i = 0; i < CardNumber.Length - shownCountOfCardNumber; i++)
+            {
+                stars += "*";
+            }
+
+            var maskedCardNumber = stars + CardNumber.Substring(CardNumber.Length - shownCountOfCardNumber, shownCountOfCardNumber);
+
             body += "<br /><p>Payment Details : </p>";
             body += "<p> Payment Type - Credit Card</p>";
-            body += "<p> Card Number - " + CardNumber + "</p>";
+            body += "<p> Card Number - " + maskedCardNumber + "</p>";
 
 
 

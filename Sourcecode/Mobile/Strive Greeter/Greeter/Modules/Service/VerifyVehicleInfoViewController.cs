@@ -175,7 +175,7 @@ namespace Greeter.Storyboards
                         var datetime = DateTime.Now;
 
 #if DEBUG
-                        //datetime = new DateTime(2021, 10, 21, 17, 15, 00);
+                        datetime = new DateTime(2021, 11, 26, 5, 15, 0);
 
                         for (int i = 0; i < availableScheduleResponse.GetTimeInDetails.Count; i++)
                         {
@@ -342,11 +342,11 @@ namespace Greeter.Storyboards
                             return;
                         }
 
-                        req.JobDetail = new JobDetail
-                        {
-                            JobID = jobId,
-                            BayID = matchTimeInDetails.BayID
-                        };
+                        //req.JobDetail = new JobDetail
+                        //{
+                        //    JobID = jobId,
+                        //    BayID = matchTimeInDetails.BayID
+                        //};
 
                         req.BaySchedules = new List<BaySchedule>();
 
@@ -389,10 +389,12 @@ namespace Greeter.Storyboards
                         }
                         //#endif
                         string[] sdt = startTime.Split(":");
-                        req.Job.TimeIn = DateTime.Now.Date.AddHours(Convert.ToDouble(sdt[0])).AddMinutes(Convert.ToDouble(sdt[1])).AddSeconds(0);
+                        //req.Job.TimeIn = DateTime.Now.Date.AddHours(Convert.ToDouble(sdt[0])).AddMinutes(Convert.ToDouble(sdt[1])).AddSeconds(0);
 
                         string[] edt = endTime.Split(":");
-                        req.Job.EstimatedTimeOut = DateTime.Now.Date.AddHours(Convert.ToDouble(edt[0])).AddMinutes(Convert.ToDouble(edt[1])).AddSeconds(0);
+                        req.Job.TimeIn = DateTime.Now;
+                        //req.Job.EstimatedTimeOut = DateTime.Now.Date.AddHours(Convert.ToDouble(edt[0])).AddMinutes(Convert.ToDouble(edt[1])).AddSeconds(0);
+                        req.Job.EstimatedTimeOut = req.Job.TimeIn.AddMinutes(totalTimeMins);
                         createServiceResponse = await apiService.CreateDetailService(req);
                     }
 

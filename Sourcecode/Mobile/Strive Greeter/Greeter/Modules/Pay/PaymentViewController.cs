@@ -4,7 +4,6 @@ using CoreGraphics;
 using Foundation;
 using Greeter.Common;
 using Greeter.Extensions;
-using Greeter.Storyboards;
 using InfineaSDK.iOS;
 using UIKit;
 using Xamarin.Essentials;
@@ -30,7 +29,7 @@ namespace Greeter.Modules.Pay
 
         private IPCDTDevices Peripheral { get; } = IPCDTDevices.Instance;
         private IPCDTDeviceDelegateEvents PeripheralEvents { get; } = new IPCDTDeviceDelegateEvents();
-        private readonly int[] barcodeTone = { 1046, 80, 1397, 80 };
+        //private readonly int[] barcodeTone = { 1046, 80, 1397, 80 };
 
         public override void ViewDidLoad()
         {
@@ -44,11 +43,11 @@ namespace Greeter.Modules.Pay
 
             RegisterForCardDetailsScanning();
 
-            #if DEBUG
-                cardNumberTextField.Text = "6011000995500000";
-                expirationDateTextField.Text = "12/21";
-                securityCodeTextField.Text = "291";
-            #endif
+#if DEBUG
+            cardNumberTextField.Text = "6011000995500000";
+            expirationDateTextField.Text = "12/21";
+            securityCodeTextField.Text = "291";
+#endif
         }
 
         void RegisterForCardDetailsScanning()
@@ -346,7 +345,7 @@ namespace Greeter.Modules.Pay
                 if (!tipAmountTextField.Text.IsEmpty())
                     if (float.TryParse(tipAmountTextField.Text, out float tipAmount))
 
-                        _ = PayAsync(cardNumberTextField.Text, expirationDateTextField.Text, ccv, tipAmount);
+                        _ = PayAsync(CardNumber, expirationDateTextField.Text, ccv, tipAmount);
             };
 
             backgroundImage.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
@@ -509,7 +508,7 @@ namespace Greeter.Modules.Pay
 
                 var replacedString = oldNSString.Replace(range, new NSString(replacementString))
                     .ToString()
-                    .Replace(".", string.Empty); 
+                    .Replace(".", string.Empty);
 
                 if (int.TryParse(replacedString, out int tipAmount))
                 {
@@ -535,7 +534,41 @@ namespace Greeter.Modules.Pay
                 var oldNSString = new NSString(cardNumberTextField.Text ?? string.Empty);
                 var replacedString = oldNSString.Replace(range, new NSString(replacementString));
 
-                return replacedString.Length <= 16;
+                if (replacedString.Length > 16)
+                {
+                    return false;
+                }
+
+                CardNumber = replacedString;
+
+                if (replacedString.Length > 12)
+                {
+                    string stars = string.Empty;
+
+                    var shownCountOfCardNumber = 4;
+
+                    for (int i = 0; i < replacedString.Length - shownCountOfCardNumber; i++)
+                    {
+                        stars += "*";
+                    }
+
+                    var maskedCardNumber = stars + replacedString.ToString().Substring((int)replacedString.Length - shownCountOfCardNumber, shownCountOfCardNumber);
+
+                    cardNumberTextField.Text = maskedCardNumber;
+
+                    return false;
+                }
+                else
+                {
+                    string stars = string.Empty;
+                    for (int i = 0; i < replacedString.Length; i++)
+                    {
+                        stars += "*";
+                    }
+                    cardNumberTextField.Text = stars;
+
+                    return false;
+                }
             }
 
             if (textField == securityCodeTextField)
@@ -562,7 +595,7 @@ namespace Greeter.Modules.Pay
                 {
                     expirationDateTextField.Text = $"{replacedString[..2]}/{replacedString[2..]}";
                     return false;
-                } 
+                }
             }
 
             return true;

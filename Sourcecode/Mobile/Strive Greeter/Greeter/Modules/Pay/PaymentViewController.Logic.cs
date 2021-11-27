@@ -27,6 +27,8 @@ namespace Greeter.Modules.Pay
         public CreateServiceRequest Service;
         //public bool IsMembershipService;
 
+        string CardNumber;
+
         public PaymentViewController()
         {
 
@@ -40,7 +42,13 @@ namespace Greeter.Modules.Pay
             {
                 ShowAlertMsg(Common.Messages.CARD_DETAILS_EMPTY_MISSING_MSG);
                 return;
-            }            
+            }
+
+            if (cardNo.Length < 16)
+            {
+                ShowAlertMsg(Common.Messages.CARD_NUMBER_16_DIGIT_WARNING_MSG);
+                return;
+            }
 
             try
             {

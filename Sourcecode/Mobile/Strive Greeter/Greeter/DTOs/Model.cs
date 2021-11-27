@@ -316,7 +316,7 @@ namespace Greeter.DTOs
         public DateTime CreatedDate { get; } = DateTime.Now;
 
         [JsonProperty("estimatedTimeOut")]
-        public DateTime EstimatedTimeOut { get; set; }
+        public DateTime? EstimatedTimeOut { get; set; } = null;
 
         [JsonProperty("isActive")]
         public bool IsActive { get; } = true;
@@ -1275,7 +1275,7 @@ namespace Greeter.DTOs
         public int LocationID { get; set; }
 
         [JsonProperty("date")]
-        public DateTime CurrentDateTime { get; } = DateTime.Now;
+        public String CurrentDateTime { get; } = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
     }
 
     public class AvailableScheduleResponse : BaseResponse
