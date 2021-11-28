@@ -70,7 +70,12 @@ namespace Greeter.Modules.Pay
 
                 var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
 
-                if (paymentAuthResponse.IsSuccess())
+                if (paymentAuthResponse != null && paymentAuthResponse.SucessType.Equals("b", StringComparison.OrdinalIgnoreCase) || paymentAuthResponse.SucessType.Equals("c", StringComparison.OrdinalIgnoreCase))
+                {
+                    ShowAlertMsg(paymentAuthResponse.ErrorMessage);
+                }
+
+                if (paymentAuthResponse.IsSuccess() && paymentAuthResponse.SucessType.Equals("a", StringComparison.OrdinalIgnoreCase))
                 {
                     var paymentCaptureReq = new PaymentCaptureReq
                     {

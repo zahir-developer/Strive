@@ -1,6 +1,7 @@
 using Foundation;
 using Greeter;
 using Greeter.Common;
+using Greeter.Modules.Pay;
 using UIKit;
 using Xamarin.Essentials;
 
@@ -9,7 +10,6 @@ namespace NewSingleViewTemplate
     [Register("SceneDelegate")]
     public class SceneDelegate : UIResponder, IUIWindowSceneDelegate
     {
-
         [Export("window")]
         public UIWindow Window { get; set; }
 
@@ -37,7 +37,7 @@ namespace NewSingleViewTemplate
                     vc = sb.InstantiateViewController(nameof(LocationViewController));
                 else
                 {
-                  sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
+                    sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
                     vc = sb.InstantiateViewController(nameof(TabViewController));
                 }
 
@@ -49,6 +49,8 @@ namespace NewSingleViewTemplate
 
                 //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
                 //vc = sb.InstantiateViewController(nameof(IssueImagesViewController));
+
+                vc = new PaymentViewController();
 
                 var nc = new UINavigationController();
                 var vcs = new UIViewController[] { vc };

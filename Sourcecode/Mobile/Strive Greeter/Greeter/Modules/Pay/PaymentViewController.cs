@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using CoreGraphics;
 using Foundation;
+using Greeter.Cells;
 using Greeter.Common;
 using Greeter.Extensions;
 using InfineaSDK.iOS;
@@ -10,7 +11,7 @@ using Xamarin.Essentials;
 
 namespace Greeter.Modules.Pay
 {
-    public partial class PaymentViewController : BaseViewController, IUITextFieldDelegate
+    public partial class PaymentViewController : BaseViewController, IUITextFieldDelegate, IUICollectionViewSource
     {
         WeakReference<UITextField> focusedTextField = new(null);
 
@@ -22,10 +23,14 @@ namespace Greeter.Modules.Pay
         UITextField cardNumberTextField;
         UITextField expirationDateTextField;
         UITextField securityCodeTextField;
+        UICollectionView tipsTemplatesCv;
+        NSLayoutConstraint heightConstraintOfTipsCollectionView;
 
         UIEdgeInsets scrollViewInsets;
 
         const string TIP_AMOUNT_FORMAT = "{0}{1}{2}.{3}{4}";
+
+        readonly string[] TIP_TEMPLATES = new string[] { "10%", "15%", "20%", "25%", "Custom" };
 
         private IPCDTDevices Peripheral { get; } = IPCDTDevices.Instance;
         private IPCDTDeviceDelegateEvents PeripheralEvents { get; } = new IPCDTDeviceDelegateEvents();
@@ -37,11 +42,11 @@ namespace Greeter.Modules.Pay
 
             SetupView();
             KeyBoardHandling();
-            UpdateData();
+            //UpdateData();
 
             tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0, 0, 0);
 
-            RegisterForCardDetailsScanning();
+            //RegisterForCardDetailsScanning();
 
 #if DEBUG
             cardNumberTextField.Text = "6011000995500000";
@@ -168,13 +173,50 @@ namespace Greeter.Modules.Pay
             }
         }
 
-        private static string ParseMagcardData(string rawData)
+        string ParseMagcardData(string rawData)
         {
             Regex magcardRegex = new Regex(@"^%B(\d+)\^");
             Match numberMatch = magcardRegex.Match(rawData);
             if (!numberMatch.Success)
                 return null;
             return numberMatch.Groups[1].Value;
+        }
+
+        string ParseExpiryData(string rawData)
+        {
+            string BEFORE_EXPIRY_MONTH_YEAR = "/^";
+
+            int pos = rawData.IndexOf("/^");
+
+            string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
+
+            return yearMonth;
+        }
+
+        string ParseExpiryYear(string rawData)
+        {
+            string BEFORE_EXPIRY_MONTH_YEAR = "/^";
+
+            int pos = rawData.IndexOf("/^");
+
+            string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
+
+            string year = yearMonth.Substring(0, 2);
+
+            return year;
+        }
+
+        string ParseExpiryMonth(string rawData)
+        {
+            string BEFORE_EXPIRY_MONTH_YEAR = "/^";
+
+            int pos = rawData.IndexOf("/^");
+
+            string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
+
+            string month = yearMonth.Substring(2, 2);
+
+            return month;
         }
 
         void UpdateData()
@@ -250,6 +292,20 @@ namespace Greeter.Modules.Pay
             tipAmountTextField.TextColor = UIColor.Black;
             tipAmountTextField.KeyboardType = UIKeyboardType.NumberPad;
             backgroundView.Add(tipAmountTextField);
+
+            var cvLayout = new UICollectionViewFlowLayout();
+            cvLayout.MinimumInteritemSpacing = 10;
+            cvLayout.MinimumLineSpacing = 10;
+            cvLayout.SectionInset = new UIEdgeInsets(5, 5, 5, 5);
+            cvLayout.ItemSize = UICollectionViewFlowLayout.AutomaticSize;
+            cvLayout.EstimatedItemSize = new CGSize(300, 80);
+            tipsTemplatesCv = new UICollectionView(CGRect.Empty, cvLayout);
+            tipsTemplatesCv.TranslatesAutoresizingMaskIntoConstraints = false;
+            tipsTemplatesCv.RegisterClassForCell(typeof(TipTemplateCell), nameof(TipTemplateCell));
+            tipsTemplatesCv.DataSource = this;
+            tipsTemplatesCv.WeakDelegate = this;
+            tipsTemplatesCv.BackgroundColor = UIColor.Cyan;
+            backgroundView.Add(tipsTemplatesCv);
 
             var totalAmountDueTitleLabel = new UILabel(CGRect.Empty);
             totalAmountDueTitleLabel.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -377,11 +433,20 @@ namespace Greeter.Modules.Pay
             customerNameTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
 
             tipAmountNameLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 100).Active = true;
-            tipAmountNameLabel.CenterYAnchor.ConstraintEqualTo(tipAmountTextField.CenterYAnchor).Active = true;
+            //tipAmountNameLabel.CenterYAnchor.ConstraintEqualTo(tipAmountTextField.CenterYAnchor).Active = true;
+            tipAmountNameLabel.TopAnchor.ConstraintEqualTo(customerNameTextField.BottomAnchor, constant: 30).Active = true;
+
+            tipsTemplatesCv.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
+            tipsTemplatesCv.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -100).Active = true;
+            tipsTemplatesCv.TopAnchor.ConstraintEqualTo(tipAmountNameLabel.TopAnchor, constant: 0).Active = true;
+
+            heightConstraintOfTipsCollectionView = tipsTemplatesCv.HeightAnchor.ConstraintEqualTo(100);
+            heightConstraintOfTipsCollectionView.Priority = 999;
 
             tipAmountTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
             tipAmountTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -100).Active = true;
-            tipAmountTextField.TopAnchor.ConstraintEqualTo(customerNameTextField.BottomAnchor, constant: 30).Active = true;
+            //tipAmountTextField.TopAnchor.ConstraintEqualTo(customerNameTextField.BottomAnchor, constant: 30).Active = true;
+            tipAmountTextField.TopAnchor.ConstraintEqualTo(tipsTemplatesCv.BottomAnchor, constant: 10).Active = true;
             tipAmountTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
 
             totalAmountDueTitleLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 100).Active = true;
@@ -486,6 +551,13 @@ namespace Greeter.Modules.Pay
             }
         }
 
+        void UpdateTipsCollectionViewHeight()
+        {
+            var height = tipsTemplatesCv.CollectionViewLayout.CollectionViewContentSize.Height;
+            heightConstraintOfTipsCollectionView.Constant = height;
+            tipsTemplatesCv.LayoutIfNeeded();
+        }
+
         void OnKeyboardHide(object sender, UIKeyboardEventArgs e)
         {
             scrollView.ContentInset = scrollViewInsets;
@@ -534,12 +606,36 @@ namespace Greeter.Modules.Pay
                 var oldNSString = new NSString(cardNumberTextField.Text ?? string.Empty);
                 var replacedString = oldNSString.Replace(range, new NSString(replacementString));
 
+                string parsedCardNo = ParseMagcardData(replacementString);
+
+                if (!string.IsNullOrEmpty(parsedCardNo))
+                {
+                    replacedString = (NSString)parsedCardNo;
+                    string year = ParseExpiryYear(replacementString);
+                    string month = ParseExpiryMonth(replacementString);
+                    //string yearMonth = ParseExpiryData(replacementString);
+
+                    string monthYear = month + year;
+                    UpdateExpiryField(monthYear);
+                }
+
                 if (replacedString.Length > 16)
                 {
                     return false;
                 }
 
-                CardNumber = replacedString;
+                if(!string.IsNullOrEmpty(parsedCardNo))
+                {
+                    CardNumber = replacedString;
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(CardNumber))
+                        CardNumber = cardNumberTextField.Text ?? string.Empty;
+
+                    var replacedNo = ((NSString)CardNumber).Replace(range, new NSString(replacementString));
+                    CardNumber = replacedNo;
+                }
 
                 if (replacedString.Length > 12)
                 {
@@ -601,6 +697,21 @@ namespace Greeter.Modules.Pay
             return true;
         }
 
+        void UpdateExpiryField(string replacedString)
+        {
+            if (replacedString.Length > 4)
+                return;
+
+            if (replacedString.Length > 2)
+            {
+                expirationDateTextField.Text = $"{replacedString[..2]}/{replacedString[2..]}";
+            }
+            else
+            {
+                expirationDateTextField.Text = replacedString;
+            }
+        }
+
         [Export("textFieldShouldReturn:")]
         public bool ShouldReturn(UITextField textField)
         {
@@ -625,6 +736,25 @@ namespace Greeter.Modules.Pay
                 View.EndEditing(true);
             }
             return true;
+        }
+
+        public nint GetItemsCount(UICollectionView collectionView, nint section)
+        {
+            return TIP_TEMPLATES.Length;
+        }
+
+        public UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            var cell = (TipTemplateCell)collectionView.DequeueReusableCell(nameof(TipTemplateCell), indexPath);
+            cell.UpdateTipTemplate(TIP_TEMPLATES[indexPath.Row]);
+            return cell;
+        }
+
+        public override void ViewWillLayoutSubviews()
+        {
+            base.ViewWillLayoutSubviews();
+
+            UpdateTipsCollectionViewHeight();
         }
     }
 }

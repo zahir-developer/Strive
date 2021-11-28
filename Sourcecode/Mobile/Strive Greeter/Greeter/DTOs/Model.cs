@@ -79,7 +79,7 @@ namespace Greeter.DTOs
         public short WashTimeMinutes { get; set; }
 
         [JsonProperty("StoreStatus")]
-        public string StoreStatus { get; set; }        
+        public string StoreStatus { get; set; }
     }
 
     public class BarcodeResponse : BaseResponse
@@ -817,6 +817,15 @@ namespace Greeter.DTOs
 
         [JsonProperty("retref")]
         public string Retref { get; set; }
+
+        [JsonProperty("respstat")]
+        public string SucessType { get; set; }
+
+        [JsonProperty("resptext")]
+        public string ErrorMessage { get; set; }
+
+        //[JsonProperty("errorMessage")]
+        //public string ErrorMessage { get; set; }
     }
 
     public class RecentChatListResponse : BaseResponse
@@ -1572,6 +1581,6 @@ namespace Greeter.DTOs
         public long ServiceTypeId;
 
         [JsonProperty("ServiceType")]
-        public string ServiceType;        
+        public string ServiceType;
     }
 }
