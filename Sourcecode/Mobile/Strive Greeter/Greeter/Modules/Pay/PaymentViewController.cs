@@ -441,7 +441,7 @@ namespace Greeter.Modules.Pay
             tipsTemplatesCv.TopAnchor.ConstraintEqualTo(tipAmountNameLabel.TopAnchor, constant: 0).Active = true;
 
             heightConstraintOfTipsCollectionView = tipsTemplatesCv.HeightAnchor.ConstraintEqualTo(100);
-            heightConstraintOfTipsCollectionView.Priority = 999;
+            heightConstraintOfTipsCollectionView.Active = true;
 
             tipAmountTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
             tipAmountTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -100).Active = true;
@@ -553,6 +553,7 @@ namespace Greeter.Modules.Pay
 
         void UpdateTipsCollectionViewHeight()
         {
+            tipsTemplatesCv.LayoutIfNeeded();
             var height = tipsTemplatesCv.CollectionViewLayout.CollectionViewContentSize.Height;
             heightConstraintOfTipsCollectionView.Constant = height;
             tipsTemplatesCv.LayoutIfNeeded();
@@ -750,9 +751,9 @@ namespace Greeter.Modules.Pay
             return cell;
         }
 
-        public override void ViewWillLayoutSubviews()
+        public override void ViewDidLayoutSubviews()
         {
-            base.ViewWillLayoutSubviews();
+            base.ViewDidLayoutSubviews();
 
             UpdateTipsCollectionViewHeight();
         }
