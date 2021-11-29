@@ -35,18 +35,18 @@ namespace Strive.Core.ViewModels.Employee
         public async Task GetAllMessages(ChatDataRequest chatData)
         {
             var result = await MessengerService.GetPersonalChatMessages(chatData);
-            if(result == null || result.ChatMessage == null || result.ChatMessage.ChatMessageDetail == null || result.ChatMessage.ChatMessageDetail.Count == 0)
-            {
-                ChatMessages = null;
-            }
-            else
-            {
+            //if(result == null || result.ChatMessage == null || result.ChatMessage.ChatMessageDetail == null || result.ChatMessage.ChatMessageDetail.Count == 0)
+            //{
+            //    ChatMessages = null;
+            //}
+            //else
+            //{}
                 personalChatMessages = new PersonalChatMessages();
                 personalChatMessages.ChatMessage = new ChatMessage();
                 personalChatMessages.ChatMessage.ChatMessageDetail = new MvxObservableCollection<ChatMessageDetail>();
                 personalChatMessages = result;
                 ChatMessages = personalChatMessages.ChatMessage.ChatMessageDetail;
-            }
+            
         }
 
         public async Task SendMessage()

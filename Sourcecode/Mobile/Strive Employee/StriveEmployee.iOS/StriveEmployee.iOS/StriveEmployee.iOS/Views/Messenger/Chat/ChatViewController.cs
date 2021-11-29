@@ -277,7 +277,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 };
                 if (ViewModel.ChatMessages == null)
                 {
-                    
+                    ViewModel.ChatMessages = new MvxObservableCollection<ChatMessageDetail>();
                     ViewModel.ChatMessages.Add(data);
                 }
                 else
@@ -293,6 +293,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 {
                     messageTextView.Text = "";
                     //getChatData();
+                    chatTableView.ReloadData();
                 }
             }
             else
