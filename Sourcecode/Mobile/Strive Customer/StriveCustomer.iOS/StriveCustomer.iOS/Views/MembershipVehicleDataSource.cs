@@ -57,18 +57,27 @@ namespace StriveCustomer.iOS.Views
         }
 
         public void UpdatePrice(NSIndexPath indexPath)
-        { 
-            if (MembershipDetails.selectedMembershipDetail.Price > data.Membership[indexPath.Row].Price)
+        {
+            if (MembershipDetails.selectedMembershipServices!=null)
             {
-                CustomerInfo.MembershipFee = 20 ;
-                MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
+                if (MembershipDetails.selectedMembershipDetail.Price > data.Membership[indexPath.Row].Price)
+                {
+                    CustomerInfo.MembershipFee = 20;
+                    MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
 
+                }
+                else
+                {
+                    CustomerInfo.MembershipFee = 0;
+                    MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
+                }
             }
             else
             {
-                CustomerInfo.MembershipFee = 0;
                 MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
             }
+
+            
         }
 
 
