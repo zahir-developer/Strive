@@ -32,6 +32,22 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(client);
         }
+        public int InsertCreditDetails(CreditDTO credit)
+        {
+            if (credit.CreditAccount.CreditAccountId == 0)
+                return dbRepo.InsertPK(credit, "CreditAccountId");
+            else
+                return (dbRepo.UpdatePc(credit, "CreditAccountId") ? 1 : 0);
+        }
+
+        public bool AddCreditAccountHistory(CreditHistoryDTO creditAccountHistoryDto)
+        {
+            return dbRepo.SavePc(creditAccountHistoryDto, "CreditAccountHistoryId");
+        }
+        public bool UpdateGiftCardHistory(CreditHistoryDTO creditAccountHistoryDto)
+        {
+            return dbRepo.SavePc(creditAccountHistoryDto, "CreditAccountHistoryId");
+        }
         public bool UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
         {
             _prm.Add("@ClientId", clientAmountUpdate.ClientId);
@@ -42,15 +58,15 @@ namespace Strive.ResourceAccess
         public ClientListViewModel GetAllClient(SearchDto searchDto)
         {
 
-             _prm.Add("@locationId", searchDto.LocationId);
+            _prm.Add("@locationId", searchDto.LocationId);
             _prm.Add("@PageNo", searchDto.PageNo);
             _prm.Add("@PageSize", searchDto.PageSize);
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
-            var result= db.FetchMultiResult<ClientListViewModel>(SPEnum.USPGETALLCLIENT.ToString(), _prm);
+            var result = db.FetchMultiResult<ClientListViewModel>(SPEnum.USPGETALLCLIENT.ToString(), _prm);
             return result;
-            
+
         }
 
         public ClientLoginViewModel GetClientByAuthId(int authId)
@@ -63,7 +79,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@ClientId", clientId);
             return db.Fetch<ClientDetailViewModel>(SPEnum.USPGETCLIENT.ToString(), _prm);
-            
+
         }
         public ClientVehicleDetailModelView GetClientVehicleById(int clientId)
         {
@@ -114,7 +130,7 @@ namespace Strive.ResourceAccess
         public bool IsClientName(ClientNameDto clientNameDto)
         {
             _prm.Add("FirstName", clientNameDto.FirstName);
-            _prm.Add("LastName", clientNameDto.LastName); 
+            _prm.Add("LastName", clientNameDto.LastName);
             _prm.Add("PhoneNumber", clientNameDto.PhoneNumber);
 
             var result = db.Fetch<ClientViewModel>(SPEnum.USPISCLIENTAVAILABLE.ToString(), _prm);
@@ -160,6 +176,13 @@ namespace Strive.ResourceAccess
 
             return db.Fetch<ClientEmailBlastViewModel>(EnumSP.Client.USPGETCLIENTLIST.ToString(), _prm);
 
+        }
+
+        public GiftCardBalanceHistoryViewModel GetCreditAccountBalanceHistory(string clientId)
+        {
+            _prm.Add("@ClientId", clientId);
+            var result = db.FetchMultiResult<GiftCardBalanceHistoryViewModel>(EnumSP.Client.USPGETCREDITACCOUNTBALANCEHISTORY.ToString(), _prm);
+            return result;
         }
 
         //public List<ClientEmailBlastViewModel> GetStatementByClientId(int id)

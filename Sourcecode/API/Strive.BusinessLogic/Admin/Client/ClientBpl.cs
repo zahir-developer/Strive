@@ -196,5 +196,25 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).GetClientList, emailBlast, "ClientCSVExport");
         }
+
+        public Result SaveCreditDetails(CreditDTO credit)
+        {            
+            return ResultWrap(new ClientRal(_tenant).InsertCreditDetails, credit, "Status");
+        }
+
+        public Result GetCreditAccountBalanceHistory(string clientId)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetCreditAccountBalanceHistory, clientId, "CreditAccountDetail");
+        }
+
+        public Result AddCreditAccountHistory(CreditHistoryDTO addGiftCardHistory)
+        {
+            return ResultWrap(new ClientRal(_tenant).AddCreditAccountHistory, addGiftCardHistory, "Status");
+        }
+
+        public Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory)
+        {
+            return ResultWrap(new ClientRal(_tenant).UpdateGiftCardHistory, updateGiftCardHistory, "Status");
+        }
     }
 }

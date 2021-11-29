@@ -26,6 +26,18 @@ namespace Admin.API.Controllers
         public Result ClientVehicleSave([FromBody] ClientDto client) => _bplManager.UpdateClientVehicle(client);
 
         [HttpPost]
+        [Route("InsertCreditDetails")]
+        public Result InsertCreditDetails([FromBody] CreditDTO credit) => _bplManager.SaveCreditDetails(credit);
+
+        [HttpPost]
+        [Route("AddCreditAccountHistory")]
+        public Result AddCreditAccountHistory([FromBody] CreditHistoryDTO addCreditAccountHistory) => _bplManager.AddCreditAccountHistory(addCreditAccountHistory);
+
+        [HttpPost]
+        [Route("UpdateCreditAccountHistory")]
+        public Result UpdateCreditAccountHistory([FromBody] CreditHistoryDTO updateCreditAccountHistory) => _bplManager.UpdateCreditAccountHistory(updateCreditAccountHistory);
+
+        [HttpPost]
         [Route("GetAll")]
         public Result GetAllClient([FromBody] SearchDto  searchDto) =>_bplManager.GetAllClient(searchDto);
 
@@ -153,7 +165,11 @@ namespace Admin.API.Controllers
         [Route("EmailBlastCSV")]
 
         public Result GetClientListCSV([FromBody] EmailBlastDto emailBlast) => _bplManager.ClientCSVExport(emailBlast);
-        
+
+        [HttpGet]
+        [Route("GetCreditAccountBalanceHistory/{clientId}")]
+        public Result GetCreditAccountBalanceHistory(string clientId) => _bplManager.GetCreditAccountBalanceHistory(clientId);
+
 
     }
 }

@@ -35,5 +35,9 @@ namespace Strive.BusinessLogic.Client
         List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto emailBlast);
 
         Result ClientCSVExport(EmailBlastDto emailBlast);
+        Result SaveCreditDetails(CreditDTO client);
+        Result GetCreditAccountBalanceHistory(string clientId);
+        Result AddCreditAccountHistory(CreditHistoryDTO addGiftCardHistory);
+        Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory);
     }
 }
