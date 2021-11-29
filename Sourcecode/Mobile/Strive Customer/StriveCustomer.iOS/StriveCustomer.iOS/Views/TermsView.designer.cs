@@ -37,6 +37,9 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UILabel StartingDate { get; set; }
 
 		[Outlet]
+		UIKit.UILabel SwitchMembershipFee { get; set; }
+
+		[Outlet]
 		UIKit.UILabel termsLabel { get; set; }
 
 		[Outlet]
@@ -109,6 +112,11 @@ namespace StriveCustomer.iOS.Views
 			if (total != null) {
 				total.Dispose ();
 				total = null;
+			}
+
+			if (SwitchMembershipFee != null) {
+				SwitchMembershipFee.Dispose ();
+				SwitchMembershipFee = null;
 			}
 
 			if (Yearlytotal != null) {

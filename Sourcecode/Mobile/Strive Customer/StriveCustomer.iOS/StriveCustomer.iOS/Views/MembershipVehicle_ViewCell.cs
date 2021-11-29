@@ -43,7 +43,7 @@ namespace StriveCustomer.iOS.Views
             else
             {
                 Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }                         
+            }
         }
 
         public void updateCell(NSIndexPath indexPath)

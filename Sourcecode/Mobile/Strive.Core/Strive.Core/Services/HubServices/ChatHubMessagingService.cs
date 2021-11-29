@@ -63,6 +63,7 @@ namespace Strive.Core.Services.HubServices
             }
             connection.Closed += Connection_Closed;
             ConnectionID = connection.ConnectionId;
+
             var chatcommunication = new ChatCommunication();
             chatcommunication.communicationId = ConnectionID;
             chatcommunication.employeeId = EmployeeTempData.EmployeeID;

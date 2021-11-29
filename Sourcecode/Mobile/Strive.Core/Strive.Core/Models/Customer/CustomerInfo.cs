@@ -30,6 +30,7 @@ namespace Strive.Core.Models.Customer
         public static PastClientServices pastClientServices { get; set; }
         public static int SelectedVehiclePastDetails {get; set;}
         public static List<float> TotalCost { get; set; }
+        public static double MembershipFee { get; set; }
 
         #endregion properties
 

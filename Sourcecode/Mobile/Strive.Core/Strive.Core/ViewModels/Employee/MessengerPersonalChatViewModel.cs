@@ -1,4 +1,5 @@
 ﻿using MvvmCross.ViewModels;
+using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Services.HubServices;
 using Strive.Core.Utils;
@@ -21,6 +22,9 @@ namespace Strive.Core.ViewModels.Employee
         public PersonalChatMessages personalChatMessages;
 
         public MvxObservableCollection<ChatMessageDetail> ChatMessages = new MvxObservableCollection<ChatMessageDetail>();
+
+
+        ChatCommunication Chat = new ChatCommunication();
        
         public SendChatMessage sendChat { get; set; }
 
@@ -103,7 +107,7 @@ namespace Strive.Core.ViewModels.Employee
             sendChat.chatMessageRecipient.chatRecipientId = 0;
             sendChat.chatMessageRecipient.chatMessageId = 0;
             sendChat.chatMessageRecipient.senderId = EmployeeTempData.EmployeeID;
-
+            
             if (MessengerTempData.IsGroup)
             {
                 sendChat.chatMessageRecipient.recipientId = null;
@@ -117,7 +121,15 @@ namespace Strive.Core.ViewModels.Employee
             {
                 sendChat.chatMessageRecipient.recipientId = MessengerTempData.RecipientID;
                 sendChat.firstName = MessengerTempData.RecipientName;
-                sendChat.connectionId = MessengerTempData.ConnectionID;
+                if (MessengerTempData.RecipientsConnectionID!=null)
+                {
+                    sendChat.connectionId = MessengerTempData.RecipientsConnectionID[MessengerTempData.RecipientID.ToString()];
+                }
+                else
+                {
+                    sendChat.connectionId = MessengerTempData.ConnectionID;
+                }
+                
                 sendChat.chatMessageRecipient.recipientGroupId = null;
                 sendChat.groupId = null;
                 sendChat.fullName = MessengerTempData.FirstName;

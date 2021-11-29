@@ -80,10 +80,35 @@ namespace StriveEmployee.iOS.Views.Messenger
             {
                 ChatHubMessagingService.RecipientsID = new ObservableCollection<RecipientsCommunicationID>();
                 ChatHubMessagingService.RecipientsID.CollectionChanged += RecipientsID_CollectionChanged;
+                ChatHubMessagingService.RecipientsID.CollectionChanged += RecipientsID_CollectionChanged1;
             }
             EstablishHubConnection();
 
             getRecentContacts();
+        }
+
+        private void RecipientsID_CollectionChanged1(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                if (MessengerTempData.RecipientsConnectionID == null)
+                {
+                    MessengerTempData.RecipientsConnectionID = new Dictionary<string, string>();
+                }
+                foreach (var item in e.NewItems)
+                {
+                    var datas = (RecipientsCommunicationID)item;
+                    if (MessengerTempData.RecipientsConnectionID.ContainsKey(datas.employeeId))
+                    {
+                        MessengerTempData.RecipientsConnectionID.Remove(datas.employeeId);
+                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
+                    }
+                    else
+                    {
+                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
+                    }
+                }
+            }
         }
 
         partial void Messenger_SegmentTouch(UISegmentedControl sender)
@@ -198,7 +223,7 @@ namespace StriveEmployee.iOS.Views.Messenger
 
             MessengerTempData.ConnectionID = ConnectionID;
 
-            //await ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
+            await ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
             await ChatHubMessagingService.SubscribeChatEvent();    
         }
 

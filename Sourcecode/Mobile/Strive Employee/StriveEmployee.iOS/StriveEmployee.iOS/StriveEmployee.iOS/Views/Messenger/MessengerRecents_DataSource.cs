@@ -60,7 +60,7 @@ namespace StriveEmployee.iOS.Views.Messenger
                 MessengerTempData.RecipientName = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(indexPath.Row).FirstName + " " + MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(indexPath.Row).LastName;
                 MessengerTempData.GroupUniqueID = null;
                 MessengerTempData.RecipientID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(indexPath.Row).Id;
-
+                MessengerTempData.ConnectionID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(indexPath.Row).CommunicationId;
                 getRecentChats();                
                 //var selectedData = data.EmployeeList.ChatEmployeeList.Find(x => x.Id == MessengerTempData.RecipientID);
                 //MessengerTempData.ConnectionID = selectedData.CommunicationId;

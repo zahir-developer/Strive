@@ -131,7 +131,44 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
 
             await ChatHubMessagingService.SubscribeChatEvent();
             ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
+            ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
         }
+
+        private async  void GroupMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Console.WriteLine("GroupMessageList_CollectionChanged called");
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(item));
+                    var newChatItem = (SendChatMessage)item;
+
+                    ChatMessageDetail chatMessageDetail = new ChatMessageDetail();
+                    chatMessageDetail.CreatedDate = DateTime.Parse(newChatItem.chatMessage.createdDate);
+                    chatMessageDetail.MessageBody = newChatItem.chatMessage.messagebody;
+                    chatMessageDetail.ReceipientId = (int)newChatItem.chatMessageRecipient.chatRecipientId;
+                    chatMessageDetail.RecipientFirstName = newChatItem.firstName;
+                    chatMessageDetail.RecipientLastName = newChatItem.lastName;
+
+                    //Sender 1st name, last name is not coming in the outpu
+                    chatMessageDetail.SenderId = (int)newChatItem.chatMessageRecipient.senderId;
+                    chatMessageDetail.SenderFirstName = newChatItem.firstName;
+                    chatMessageDetail.SenderLastName = newChatItem.lastName;
+
+                    chatMessageDetail.chatMessageId = newChatItem.chatMessageRecipient.chatMessageId;
+
+                    if (!ViewModel.ChatMessages.Any(x => x.chatMessageId == chatMessageDetail.chatMessageId))
+                    {
+                        ViewModel.ChatMessages.Add(chatMessageDetail);
+                    }
+
+                }
+
+                chatTableView.ReloadData();
+            }
+        }
+
         private async void PrivateMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Console.WriteLine("PrivateMessageList_CollectionChanged called");
@@ -255,7 +292,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 if (ViewModel.SentSuccess)
                 {
                     messageTextView.Text = "";
-                    getChatData();
+                    //getChatData();
                 }
             }
             else

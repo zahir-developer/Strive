@@ -46,7 +46,8 @@ namespace StriveCustomer.iOS.Views
             MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
             cell.updateCell(indexPath);            
             MembershipDetails.selectedMembership = data.Membership[indexPath.Row].MembershipId;
-            MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row]; 
+            
+            UpdatePrice(indexPath);
         }
 
         public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
@@ -54,5 +55,22 @@ namespace StriveCustomer.iOS.Views
             MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
             cell.deselectRow(indexPath);
         }
+
+        public void UpdatePrice(NSIndexPath indexPath)
+        { 
+            if (MembershipDetails.selectedMembershipDetail.Price > data.Membership[indexPath.Row].Price)
+            {
+                CustomerInfo.MembershipFee = 20 ;
+                MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
+
+            }
+            else
+            {
+                CustomerInfo.MembershipFee = 0;
+                MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
+            }
+        }
+
+
     }
 }

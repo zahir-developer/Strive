@@ -59,5 +59,6 @@ namespace StriveCustomer.iOS.Views
             VehicleMembership_TableView.DelaysContentTouches = false;
             VehicleMembership_TableView.ReloadData();
         }
+        
     }
 }

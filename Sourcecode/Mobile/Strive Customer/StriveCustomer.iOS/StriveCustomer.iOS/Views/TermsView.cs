@@ -40,6 +40,7 @@ namespace StriveCustomer.iOS.Views
                 Font = DesignUtils.OpenSansBoldFifteen(),
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
+            SwitchMembershipFee.Hidden = true;
             NavigationItem.Title = "Vehicle";
             string Datenow = DateTime.Now.Date.ToString("yyyy-MM-dd");
             StartingDate.Text = new DateTime(DateTime.Now.Date.AddMonths(1).Year, DateTime.Now.Date.AddMonths(1).Month, 1).ToString("yyyy-MM-dd"); 
@@ -75,6 +76,12 @@ namespace StriveCustomer.iOS.Views
                
                 
             }
+            if (CustomerInfo.MembershipFee!=0)
+            {
+                MembershipAmount += CustomerInfo.MembershipFee;
+                SwitchMembershipFee.Hidden = false;
+            }
+            
             string ValuesToDisply = "Additional Services: "+ string.Join(", ",SelectedAdditionalServices);
             DisplaySelectedAddtionals.Text = ValuesToDisply;
             AdditionalServicesTotal.Text = "$"+ string.Format("{0:0.00}", Total);

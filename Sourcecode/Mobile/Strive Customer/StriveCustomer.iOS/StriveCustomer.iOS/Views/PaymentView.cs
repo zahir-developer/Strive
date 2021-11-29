@@ -71,6 +71,11 @@ namespace StriveCustomer.iOS.Views
                     
                 }
             }
+            if (CustomerInfo.MembershipFee != 0)
+            {
+                MembershipAmount += CustomerInfo.MembershipFee;
+                
+            }
             Amount += (float)MembershipAmount;
            
         }

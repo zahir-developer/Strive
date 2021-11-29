@@ -108,6 +108,7 @@ namespace Strive.Core.ViewModels.Customer
         }
         public async void NavToUpcharges()
         {
+            
             await _navigationService.Navigate<VehicleUpchargeViewModel>();
         }
         #endregion Commands
