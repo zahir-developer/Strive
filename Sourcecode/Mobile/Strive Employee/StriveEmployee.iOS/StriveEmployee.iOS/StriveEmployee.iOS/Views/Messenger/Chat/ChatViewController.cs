@@ -154,11 +154,13 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                     chatMessageDetail.SenderFirstName = newChatItem.firstName;
                     chatMessageDetail.SenderLastName = newChatItem.lastName;
 
-                    if(!ViewModel.ChatMessages.Any(x => x.CreatedDate == chatMessageDetail.CreatedDate))
+                    chatMessageDetail.chatMessageId = newChatItem.chatMessageRecipient.chatMessageId;
+
+                    if (!ViewModel.ChatMessages.Any(x => x.chatMessageId == chatMessageDetail.chatMessageId))
                     {
                         ViewModel.ChatMessages.Add(chatMessageDetail);
                     }
-                    
+
                 }
 
                 chatTableView.ReloadData();

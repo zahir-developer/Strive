@@ -31,5 +31,6 @@ namespace Strive.Core.Models.Employee.Messenger.PersonalChat
         public string RecipientLastName { get; set; }
         public string MessageBody { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public long? chatMessageId { get; set; }
     }
 }
