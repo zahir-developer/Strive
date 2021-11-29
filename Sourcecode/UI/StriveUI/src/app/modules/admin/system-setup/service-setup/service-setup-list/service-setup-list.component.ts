@@ -65,6 +65,12 @@ export class ServiceSetupListComponent implements OnInit {
     this.getAllserviceSetupDetails();
   }
 
+  getAllserviceSetup(){
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.getAllserviceSetupDetails();
+
+  }
   // Get All Services
   getAllserviceSetupDetails() {
     const serviceObj = {

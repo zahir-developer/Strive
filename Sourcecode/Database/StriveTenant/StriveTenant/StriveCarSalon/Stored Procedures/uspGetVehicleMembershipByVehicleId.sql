@@ -9,8 +9,8 @@ CREATE procedure [StriveCarSalon].[uspGetVehicleMembershipByVehicleId]
 AS
 BEGIN
 
-select * from [StriveCarSalon].[tblClientVehicle] WITH(NOLOCK) WHERE VehicleId=@VehicleId AND ISNULL(IsDeleted,0)=0 AND IsActive=1
-select * from [StriveCarSalon].[tblClientVehicleMembershipDetails] WITH(NOLOCK) WHERE ClientVehicleId=@VehicleId AND ISNULL(IsDeleted,0)=0 AND IsActive=1
+select * from [tblClientVehicle] WITH(NOLOCK) WHERE VehicleId=@VehicleId AND ISNULL(IsDeleted,0)=0 AND IsActive=1
+select * from [tblClientVehicleMembershipDetails] WITH(NOLOCK) WHERE ClientVehicleId=@VehicleId AND ISNULL(IsDeleted,0)=0 AND IsActive=1
 
 select 
 ClientVehicleMembershipServiceId,
@@ -20,14 +20,9 @@ s.ServiceType as ServiceTypeId,
 s.Upcharges,
 ms.IsActive,
 ms.IsDeleted
-from [StriveCarSalon].[tblClientVehicleMembershipService] ms
-LEFT JOIN StriveCarSalon.tblService s WITH(NOLOCK) on s.ServiceId = ms.ServiceId
-WHERE ClientMembershipId IN (select ClientMembershipId from [StriveCarSalon].[tblClientVehicleMembershipDetails] WHERE ClientVehicleId=@VehicleId AND ISNULL(IsDeleted,0)=0 AND IsActive=1) AND
+from [tblClientVehicleMembershipService] ms
+LEFT JOIN tblService s WITH(NOLOCK) on s.ServiceId = ms.ServiceId
+WHERE ClientMembershipId IN (select ClientMembershipId from [tblClientVehicleMembershipDetails] WHERE ClientVehicleId=@VehicleId AND ISNULL(IsDeleted,0)=0 AND IsActive=1) AND
 ISNULL(ms.IsDeleted,0)=0 AND ms.IsActive=1 
-
-
-
-
-
 
 END

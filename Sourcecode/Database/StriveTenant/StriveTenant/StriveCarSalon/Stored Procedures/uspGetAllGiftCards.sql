@@ -1,4 +1,9 @@
-﻿
+﻿---------------------History---------------------------
+-- ====================================================
+-- 08-jun-2021, shalini - pagenumber and count for nullquery changes					 
+
+-------------------------------------------------------
+--[StriveCarSalon].[uspGetAllGiftCards]null,9,10,'ASC',null,null
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllGiftCards]
 (@Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
@@ -83,25 +88,34 @@ CASE WHEN @SortBy IS NULL AND @SortOrder='DESC' THEN gc.GiftCardId END DESC,
 
 CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN gc.GiftCardId  END ASC
 
-
 OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
-
-
 
 select * from #GetAllGiftCard
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from tblGiftCard where 
-ISNULL(IsDeleted,0) = 0 
+select count(1) as Count 
+from [tblGiftCard] gc
+LEFT JOIN #GiftCardHistory gh on gh.GiftCardId = gc.GiftCardId
+left Join [tblClient] tblCli on(gc.ClientId = tblCli.ClientId) 
+where gc.IsDeleted =0 and gc.IsActive=1 and ( cast (gc.ActivationDate as date) between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
+
 
 END
 
 IF @Query IS Not NULL AND @Query != ''
 BEGIN
-select count(1) as Count from #GetAllGiftCard
+select count(1) as Count from [tblGiftCard] gc
+LEFT JOIN #GiftCardHistory gh on gh.GiftCardId = gc.GiftCardId
+left Join [tblClient] tblCli on(gc.ClientId = tblCli.ClientId) 
+where gc.IsDeleted =0 and gc.IsActive=1 and ( cast (gc.ActivationDate as date) between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
+and (@Query is null OR	gc.GiftCardName like '%'+@Query+'%'
+OR	gc.GiftCardCode like '%'+@Query+'%'
+OR	tblCli.FirstName like '%'+@Query+'%'
+OR	tblCli.LastName like '%'+@Query+'%'
+OR	TotalAmount like '%'+@Query+'%'
+OR	gc.ActivationDate like '%'+@Query+'%')
+
 END
 
-
-
-end
+END

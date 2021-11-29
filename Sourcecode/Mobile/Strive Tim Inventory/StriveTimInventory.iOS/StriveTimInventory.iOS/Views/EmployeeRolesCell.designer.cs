@@ -1,28 +1,26 @@
-﻿// WARNING
+// WARNING
 //
-// This file has been generated automatically by Visual Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Visual Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
 
 namespace StriveTimInventory.iOS.Views
 {
-    [Register ("EmployeeRolesCell")]
-    partial class EmployeeRolesCell
-    {
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIImageView ImgView { get; set; }
-
-        void ReleaseDesignerOutlets ()
-        {
-            if (ImgView != null) {
-                ImgView.Dispose ();
-                ImgView = null;
-            }
-        }
-    }
+	[Register ("EmployeeRolesCell")]
+	partial class EmployeeRolesCell
+	{
+		[Outlet]
+		UIKit.UILabel RolenameLbl { get; set; }
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (RolenameLbl != null) {
+				RolenameLbl.Dispose ();
+				RolenameLbl = null;
+			}
+		}
+	}
 }

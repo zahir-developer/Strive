@@ -25,6 +25,7 @@ namespace StriveCustomer.iOS.Views.Schedule
         public void SetData(List<BayJobDetailViewModel> datalist, NSIndexPath indexPath)
         {            
             PastHis_FullView.Layer.CornerRadius = 5;
+            PH_TicNo_Lbl.Text = datalist[indexPath.Row].TicketNumber;
             PH_VehicleName_Lbl.Text = datalist[indexPath.Row].VehicleColor +
                                         datalist[indexPath.Row].VehicleColor +
                                         datalist[indexPath.Row].VehicleModel;

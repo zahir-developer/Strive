@@ -35,11 +35,13 @@ namespace StriveCustomer.iOS.Views
             NavigationItem.Title = "Vehicle";
 
             TermsParentView.Layer.CornerRadius = 5;
+
+            //termsLabel.Text = "";
         }
 
         partial void AgreeBtn_Touch(UIButton sender)
         {
-            AgreeTerms();
+            ViewModel.NavToSignatureView();
         }
 
         partial void DisAgreeBtn_Touch(UIButton sender)
@@ -54,7 +56,7 @@ namespace StriveCustomer.iOS.Views
             if (result)
             {                
                 SignatureClass.signaturePoints = null;
-                ViewModel.NavigateToLanding();
+                ViewModel.NavToSignatureView();
             }
         }
 

@@ -63,6 +63,7 @@ export class VehicleCreateEditComponent implements OnInit {
   MembershipDiscount: boolean = false;
   membershipId: number = 0;
   clientMembershipId: number = 0;
+  locationId: number = 0;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
     private spinner: NgxSpinnerService, private employeeService: EmployeeService,
     private modelService: ModelService,
@@ -78,8 +79,18 @@ export class VehicleCreateEditComponent implements OnInit {
       this.isClientVehicle = false;
       this.vehicleForm.reset();
 
+
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
+      this.getMembershipService();
+    }
+    else {
+      this.locationId = +localStorage.getItem('empLocationId');
+
+      this.getMembershipService();
+      this.getVehicleMembership(this.locationId);
+
+      this.getVehicleCodes();
     }
 
   }
@@ -104,10 +115,8 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.patchValue({
       wash: ""
     });
-    this.getVehicleCodes();
     this.getAllMake();
-    this.getVehicleMembership();
-    this.getMembershipService();
+
 
   }
 
@@ -152,9 +161,17 @@ export class VehicleCreateEditComponent implements OnInit {
       wash: ''
     });
 
+    this.locationId = this.selectedData.LocationId;
+    
+    this.getVehicleMembership(this.locationId);
     //this.getUpcharge();
 
+    this.selectedData.LocationId
+
     this.getModel(this.selectedData.VehicleMakeId);
+
+    
+    this.getVehicleCodes();
   }
 
   selectedClient(event) {
@@ -280,8 +297,8 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   // Get VehicleMembership
-  getVehicleMembership() {
-    this.vehicle.getVehicleMembership().subscribe(data => {
+  getVehicleMembership(locId) {
+    this.vehicle.getVehicleMembership(locId).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.MembershipName;
@@ -439,8 +456,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.get('services').patchValue(this.memberService);
     let price = 0;
     price = +this.additionalService.filter(i => i.ServiceId === data.item_id)[0].Price;
-    if(price === 0)
-    {
+    if (price === 0) {
       this.toastr.warning(MessageConfig.Admin.Vehicle.ServiceZeroPrice, 'Additional Service');
     }
     price += +this.vehicleForm.value.monthlyCharge;
@@ -557,7 +573,7 @@ export class VehicleCreateEditComponent implements OnInit {
           };
         });
 
-        this.upchargeService();
+        this.getAllServiceDetail();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -566,7 +582,7 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
-  upchargeService() {
+  getAllServiceDetail() {
     const serviceObj = {
       locationId: localStorage.getItem('empLocationId'),
       pageNo: null,
@@ -576,8 +592,8 @@ export class VehicleCreateEditComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    const locationID = localStorage.getItem('empLocationId');
-    this.vehicle.getUpchargeService(locationID).subscribe(data => {
+    const locationID = this.locationId;
+    this.vehicle.getAllServiceDetail(locationID).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.upchargeType = serviceDetails.AllServiceDetail.filter(item =>
@@ -638,9 +654,9 @@ export class VehicleCreateEditComponent implements OnInit {
             item.ServiceId = item.item_id;
           item.IsActive = true;
         });
-        const r2 = this.patchedService.filter((elem) => !this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
-        r2.forEach(item => item.IsDeleted = true);
-        memberService = r.concat(r1).concat(r2);
+        /*const r2 = this.patchedService.filter((elem) => !this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
+        r2.forEach(item => item.IsDeleted = true);*/
+        memberService = r.concat(r1);
       } else {
         memberService = this.memberService;
       }
@@ -660,8 +676,7 @@ export class VehicleCreateEditComponent implements OnInit {
         }
       }
 
-      if(this.washServiceId === 0 && this.vehicleForm.value.wash !== "")
-      {
+      if (this.washServiceId === 0 && this.vehicleForm.value.wash !== "") {
         memberService.push(
           {
             ClientVehicleMembershipServiceId: 0,
@@ -671,7 +686,7 @@ export class VehicleCreateEditComponent implements OnInit {
             IsActive: true,
           }
         )
-        
+
       }
 
       if (this.patchedService !== undefined) {
@@ -755,8 +770,8 @@ export class VehicleCreateEditComponent implements OnInit {
 
       const formObj = {
         vehicleId: this.selectedData.ClientVehicleId,
-        clientId: this.vehicleForm.value.client.id,
-        locationId: localStorage.getItem('empLocationId'),
+        clientId: this.vehicleForm.value.client?.id,
+        locationId: this.selectedData.LocationId,
         vehicleNumber: this.vehicleForm.value.vehicleNumber,
         vehicleMfr: this.vehicleForm.value.make.id,
         vehicleModel: this.vehicleForm.value.model.id,
@@ -834,6 +849,18 @@ export class VehicleCreateEditComponent implements OnInit {
 
       //Avoid duplicate of existing services which is not removed.
       membershipServices = membershipServices.filter(s => (s.clientVehicleMembershipServiceId === 0 && (s.serviceId !== null) && (s.serviceId !== undefined)) || (s.clientVehicleMembershipServiceId > 0 && s.isDeleted === true));
+      var membershipServicefiltered = [];
+      if (this.vehicleForm.value.membership !== '') {
+        membershipServices.forEach(s => {
+          var t = membershipServices.filter(s => s.serviceId === this.vehicleForm.value.wash && s.isDeleted === true);
+
+          if (t.length === 0)
+            membershipServicefiltered.push(s);
+
+        })
+      }
+
+      membershipServices = membershipServicefiltered;
 
       const model = {
         clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
@@ -1002,8 +1029,9 @@ export class VehicleCreateEditComponent implements OnInit {
         return;
       }
       const obj = {
-        "upchargeServiceType": this.upchargeTypeId,
-        "modelId": this.vehicleForm.value.model?.id
+        upchargeServiceType : this.upchargeTypeId,
+        modelId: this.vehicleForm.value.model?.id,
+        locationId: this.locationId
       };
 
       this.GetUpchargeService.getUpcharge(obj).subscribe(res => {

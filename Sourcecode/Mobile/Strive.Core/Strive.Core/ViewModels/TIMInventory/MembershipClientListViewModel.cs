@@ -19,6 +19,8 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         private ObservableCollection<ClientInfo> ClientList = new ObservableCollection<ClientInfo>();
 
+        public ObservableCollection<ClientViewModel> Clients { get; set; } = new ObservableCollection<ClientViewModel>();
+
 
         public MembershipClientListViewModel()
         {
@@ -26,44 +28,71 @@ namespace Strive.Core.ViewModels.TIMInventory
         }
 
         public async Task ClientSearchCommand(string SearchText)
-        {
-            _userDialog.ShowLoading("Fetching Clients");
-            var result = await AdminService.SearchClient(SearchText);
-            if(result != null)
+        {           
+            if(FilteredList.Count <= 0 || SearchText != "")
             {
-                FilteredList = result.ClientSearch;
-            }
-            //FilteredList = new ObservableCollection<ClientInfo>(ClientList.
-            //    Where(s => s.FirstName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
-            await RaiseAllPropertiesChanged();
+                _userDialog.ShowLoading("Fetching Clients");
+                var result = await AdminService.SearchClient(SearchText);
+                if (result != null)
+                {
+                    FilteredList = result.ClientSearch;
+                }
+                //FilteredList = new ObservableCollection<ClientInfo>(ClientList.
+                //    Where(s => s.FirstName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+                await RaiseAllPropertiesChanged();
+            }            
         }
 
-        public async Task GetAllClientsCommand()
+        public async Task GetAllClientsCommand(String query)
         {
-            _userDialog.ShowLoading(Strings.Loading);
-            Clients Clients = null; 
-            var result = await AdminService.GetAllClient();
+            _userDialog.ShowLoading(Strings.Loading);            
+            var clientReq = PrepareClientReuest(query);
+            var result = await AdminService.GetAllClient(clientReq);
             if (result != null)
             {
-                Clients = result;
+                Clients.Clear();
+                if (result.Client.Count.Count != 0)
+                {
+                    foreach (var item in result.Client.clientViewModel)
+                    {
+                        Clients.Add(item);
+                    }
+                }                
             }
             _userDialog.HideLoading();
-            if(Clients != null)
+            await RaiseAllPropertiesChanged();
+            //if(Clients != null)
+            //{
+            //    foreach (var client in Clients.Client)
+            //    {
+            //        ClientList.Add(client);
+            //    }
+            //}  
+        }
+
+        private ClientRequest PrepareClientReuest(string searchQuery)
+        {
+            ClientRequest client = new ClientRequest()
             {
-                foreach (var client in Clients.Client)
-                {
-                    ClientList.Add(client);
-                }
-            }  
+                locationId = EmployeeData.selectedLocationId,
+                pageNo = 1,
+                pageSize = 100,
+                query = searchQuery,
+                sortOrder = "ASC",
+                sortBy = "FirstName",
+                status = true
+            };
+            return client;
         }
 
         public void ClearCommand()
         {
             FilteredList.Clear();
             ClientList.Clear();
+            Clients.Clear();
         }
 
-        public async void NavigateToDetailCommand(ClientInfo client)
+        public async void NavigateToDetailCommand(ClientViewModel client)
         {
             _userDialog.ShowLoading(Strings.Loading);
             var clientDetail = await AdminService.GetClientDetail(client.ClientId);

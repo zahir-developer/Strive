@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Acr.UserDialogs;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using Strive.Core.Models.TimInventory;
 using UIKit;
@@ -15,6 +18,7 @@ namespace StriveTimInventory.iOS.Views
         private static string CellId = "EmployeeRolesCell";
 
         public IList<EmployeeRole> RolesList { get; set; }
+        //public ObservableCollection<EmployeeRole> RolesList { get; set; }
 
         public EmployeeRolesViewSource(UICollectionView collectionView)
             : base(collectionView, EmployeeRolesCell.Key)

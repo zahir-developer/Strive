@@ -1,27 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CoreLocation;
+using Foundation;
 using MapKit;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class ContactUsView : MvxViewController<ContactUsViewModel>
-    { 
-        private Locations locations;
+    public partial class ContactUsView : MvxViewController<ContactUsViewModel>, IMKMapViewDelegate
+    {        
+        public washLocations locations;
+        public static washLocations washlocations;
+        public List<Double> distanceList = new List<double>();
+        Dictionary<int, double> dict = new Dictionary<int, double>();
+
         CLLocationManager locationManager = new CLLocationManager();
-        private MapDelegate mapDelegate;
         public ContactUsView() : base("ContactUsView", null)
         {
-        }
+        }             
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
             InitialSetUp();
+            MaintainData.SetMapData(LocationNameLbl, locationValue_Lbl, phoneValue_Lbl, mailValue_Lbl, timeValue_Lbl);
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
@@ -41,151 +49,177 @@ namespace StriveCustomer.iOS.Views
                 Font = DesignUtils.OpenSansBoldFifteen(),
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
-            NavigationItem.Title = "ContactUs";            
+            NavigationItem.Title = "ContactUs";
 
-            ContactUsMap.MapType = MKMapType.Standard;
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
+
+            ContactUsMap.MapType = MKMapType.Hybrid;
+            ContactUsMap.WeakDelegate = this;
             ContactUsMap.ZoomEnabled = true;
             ContactUsMap.ScrollEnabled = true;
 
             setMaps();
-
             locationManager.RequestWhenInUseAuthorization();
-
-            this.mapDelegate = new MapDelegate();
-            this.ContactUsMap.Delegate = this.mapDelegate;
-
-            ContactUsMap.AddAnnotation(new MKPointAnnotation
-            {
-                Title = "MyAnnotation",
-                Coordinate = new CLLocationCoordinate2D(42.364260, -71.120824)
-            });
-
-            var geofenceRegioncenter = new CLLocationCoordinate2D(8.185458, 77.401112);
-            var geofenceRegion = new CLCircularRegion(geofenceRegioncenter, 100, "notifymeonExit");
-            geofenceRegion.NotifyOnEntry = true;
-            geofenceRegion.NotifyOnExit = true;
-            locationManager.StartMonitoring(geofenceRegion);
-            locationManager.Delegate = new MyLocationDelegate(ContactUsMap);
+            ContactUsMap.Register(typeof(WashStationAnnotationView), MKMapViewDefault.AnnotationViewReuseIdentifier);                        
         }
 
         private async void setMaps()
         {
-            var allLocations = await this.ViewModel.GetAllLocationsCommand();
-            if (allLocations.Location.Count == 0)
+            //var allLocations = await this.ViewModel.GetAllLocationsCommand();
+            var allLocations = await ViewModel.GetAllLocationStatus();
+            if (allLocations.Washes.Count == 0)
             {
                 locations = null;
             }
             else
             {
                 locations = allLocations;
+                washlocations = allLocations;
             }
-            SetMapAnnotations();
+            
+            PlaceLocationDetailsToMap(locations.Washes);
         }
 
-        private void setData()
+        public void setData(int index)
         {
-            LocationNameLbl.Text = locations.Location[0].LocationName;
-            locationValue_Lbl.Text = locations.Location[0].Address1;
-            phoneValue_Lbl.Text = locations.Location[0].PhoneNumber;
-            mailValue_Lbl.Text = locations.Location[0].Email;
-            timeValue_Lbl.Text = locations.Location[0].StartTime + "to" + locations.Location[0].EndTime;
+            LocationNameLbl.Text = washlocations.Washes[index].LocationName;
+            locationValue_Lbl.Text = washlocations.Washes[index].Address1;
+            phoneValue_Lbl.Text = washlocations.Washes[index].PhoneNumber;
+            mailValue_Lbl.Text = washlocations.Washes[index].Email;
+            //if(washlocations.Washes[index].StartTime != null)
+            //{
+            //    timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
+            //}
+        } 
+        public void setAnnotationData(UILabel locationName, UILabel locationValue_Lbls, UILabel phoneValue_Lbls, UILabel mailValue_Lbls, UILabel timeValue_Lbls, int index)
+        {
+            LocationNameLbl = locationName;
+            locationValue_Lbl = locationValue_Lbls;
+            phoneValue_Lbl = phoneValue_Lbls;
+            mailValue_Lbl = mailValue_Lbls;
+            LocationNameLbl.Text = washlocations.Washes[index].LocationName;
+            locationValue_Lbl.Text = washlocations.Washes[index].Address1;
+            phoneValue_Lbl.Text = washlocations.Washes[index].PhoneNumber;
+            mailValue_Lbl.Text = washlocations.Washes[index].Email;
+            //if (washlocations.Washes[index].StartTime != null)
+            //{
+            //    timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
+            //}
         }
 
-        private void SetMapAnnotations()
+        void PlaceLocationDetailsToMap(List<LocationStatus> locations)
         {
-            double LatCenter = 0.0;
-            double LongCenter = 0.0;
-            int AddressCount = 0;
+            if (locations == null) return;
 
-            MKPointAnnotation[] annotations = new MKPointAnnotation[locations.Location.Count];
+            locations = locations.FindAll(location => location.Latitude != 0 && location.Longitude != 0);
 
-            for (int i = 0; i < locations.Location.Count; i++)
+            var annotations = locations.ConvertAll(location => new MKPointAnnotation
             {
-                var subtitle = "";
-                LatCenter += (double)locations.Location[i].Latitude;
-                LongCenter += (double)locations.Location[i].Longitude;
-                ++AddressCount;
-                var WashTime = locations.Location[i].WashTimeMinutes;
-                var OpenTime = locations.Location[i].StartTime;
-                var CloseTime = locations.Location[i].EndTime;
-                subtitle = WashTime.ToString();
+                Coordinate = new CLLocationCoordinate2D((double)location.Latitude, (double)location.Longitude)
+            }).ToArray();
 
-                annotations[i] = new MKPointAnnotation()
+            ContactUsMap.AddAnnotations(annotations);
+            setData(0);
+            setCenter();
+        }
+
+        void setCenter()
+        {
+            dict.Clear();
+
+            foreach (var item in locations.Washes)
+            {
+                getDistance((double)item.Latitude, (double)item.Longitude, item.LocationId);
+            }
+            distanceList.Sort();
+            foreach (var item in dict)
+            {
+                if (item.Value == distanceList[0])
                 {
-                    Title = locations.Location[i].Address1,
-                    Subtitle = subtitle,
-                    Coordinate = new CLLocationCoordinate2D((double)locations.Location[i].Latitude, (double)locations.Location[i].Longitude)
-                };
-                ContactUsMap.AddAnnotations(annotations[i]);
-            }
-            LatCenter = LatCenter / AddressCount;
-            LongCenter = LongCenter / AddressCount;
-            setData();
-        }
 
-        public class MapDelegate : MKMapViewDelegate
-        {           
-            private bool CustomMapLoaded = false;
-            private bool isOpen = true;
-            static string pId = "Annotation";
-
-            public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
-            {
-                if (annotation is MKUserLocation)
-                    return null;
-               
-                MKAnnotationView pinView = (MKPinAnnotationView)mapView.DequeueReusableAnnotation(pId);
-
-                if (pinView == null)
-                    pinView = new MKPinAnnotationView(annotation, pId);            
-                                
-                ((MKPinAnnotationView)pinView).PinColor = MKPinAnnotationColor.Red;
-                pinView.CanShowCallout = true;
-
-                return pinView;
-            }
-
-            public override void CalloutAccessoryControlTapped(MKMapView mapView, MKAnnotationView view, UIControl control)
-            {
-                var coordinate = view.Annotation.Coordinate;
-                var mapItem = new MKMapItem(new MKPlacemark(coordinate));
-                mapItem.Name = view.Annotation.GetTitle();
-                mapItem.OpenInMaps();
+                    var shortLoc = locations.Washes.Find(location => location.LocationId == item.Key);
+                    CenterMap((double)shortLoc.Latitude, (double)shortLoc.Longitude);
+                }
             }
         }
 
-        public class MyLocationDelegate : CLLocationManagerDelegate
+        async void getDistance(double lat, double lon, int id)
         {
-            private MKMapView mapView;
-            public MyLocationDelegate(MKMapView mapView)
+            double latEnd = lat;
+            double lngEnd = lon;
+
+            var currentLocation = await Geolocation.GetLastKnownLocationAsync();
+            double dist = currentLocation.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles);
+
+            dict.Add(id, dist);
+            distanceList.Add(dist);
+        }
+
+        [Export("mapView:viewForAnnotation:")]
+        public MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
+        {
+            var annotationView = mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier) as WashStationAnnotationView;
+            if (locations.Washes != null)
             {
-                this.mapView = mapView;
+                var washlocation = locations.Washes.First(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
+                annotationView.SetupData(washlocation);
             }
+            return annotationView;
+        }        
 
-            public override void LocationsUpdated(CLLocationManager manager, CLLocation[] locations)
+        [Export("mapView:didSelectAnnotationView:")]
+        public virtual void DidSelectAnnotationView(MKMapView mapView, MKAnnotationView view)
+        {
+            var coordinate = view.Annotation.Coordinate;
+            var mapItem = new MKMapItem(new MKPlacemark(coordinate));
+            mapItem.Name = view.Annotation.GetTitle();
+            
+            var index = 0;
+            foreach (var item in washlocations.Washes)
             {
-
-            }
-
-            public override void AuthorizationChanged(CLLocationManager manager, CLAuthorizationStatus status)
-            {
-                mapView.ShowsUserLocation = status == CLAuthorizationStatus.AuthorizedAlways;
-            }
-
-            public override void RegionEntered(CLLocationManager manager, CLRegion region)
-            {
-
-            }
-
-            public override void RegionLeft(CLLocationManager manager, CLRegion region)
-            {
-
-            }
-
-            public override void DidStartMonitoringForRegion(CLLocationManager manager, CLRegion region)
-            {
-
+                if (coordinate.Latitude == (double)item.Latitude)
+                {
+                    if(coordinate.Longitude == (double)item.Longitude)
+                    {
+                        setAnnotationData(MaintainData.LocationNameLbl, MaintainData.locationValue_Lbl, MaintainData.phoneValue_Lbl, MaintainData.mailValue_Lbl, MaintainData.timeValue_Lbl, index);
+                    }
+                }
+                index++;
             }
         }
+        
+        void CenterMap(double lat, double lon)
+        {
+            var mapCenter = new CLLocationCoordinate2D(lat, lon);
+            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1000, 1000);
+            ContactUsMap.CenterCoordinate = mapCenter;
+            ContactUsMap.Region = mapRegion;
+        }
+        public class MaintainData
+        {
+            public static UILabel LocationNameLbl { get; set; }
+            public static UILabel locationValue_Lbl { get; set; }
+            public static UILabel phoneValue_Lbl { get; set; }
+            public static UILabel mailValue_Lbl { get; set; }
+            public static UILabel timeValue_Lbl { get; set; }
+
+            public static void SetMapData(UILabel locationName, UILabel locationValue_Lbls, UILabel phoneValue_Lbls, UILabel mailValue_Lbls, UILabel timeValue_Lbls)
+            {
+                LocationNameLbl = locationName;
+                locationValue_Lbl = locationValue_Lbls;
+                phoneValue_Lbl = phoneValue_Lbls;
+                mailValue_Lbl = mailValue_Lbls;
+                timeValue_Lbl = timeValue_Lbls;
+            }
+        }                 
     }
 }

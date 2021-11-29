@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+        <ProjectGuid>{3ED5F467-7C95-4E9A-AF48-535035C0FBF5}</ProjectGuid>
+        <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <TemplateGuid>{edc1b0fa-90cd-4038-8fad-98fe74adb368}</TemplateGuid>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>StriveOwner.iOS</RootNamespace>
+        <AssemblyName>StriveOwner.iOS</AssemblyName>
+        <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+        <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+        <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+        <ProvisioningType>automatic</ProvisioningType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+        <DefineConstants>DEBUG</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <MtouchArch>x86_64</MtouchArch>
+        <MtouchLink>None</MtouchLink>
+        <MtouchDebug>true</MtouchDebug>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+        <DebugType>none</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <MtouchLink>None</MtouchLink>
+        <MtouchArch>x86_64</MtouchArch>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\iPhone\Debug</OutputPath>
+        <DefineConstants>DEBUG</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <MtouchArch>ARM64</MtouchArch>
+        <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <MtouchDebug>true</MtouchDebug>
+        <MtouchLink>SdkOnly</MtouchLink>
+        <CodesignProvision>Strive Owner Release</CodesignProvision>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+        <DebugType>none</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\iPhone\Release</OutputPath>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+        <MtouchArch>ARM64</MtouchArch>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <MtouchLink>SdkOnly</MtouchLink>
+        <CodesignProvision>Strive Owner Release</CodesignProvision>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System" />
+        <Reference Include="System.Xml" />
+        <Reference Include="System.Core" />
+        <Reference Include="Xamarin.iOS" />
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Numerics.Vectors" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+      <PackageReference Include="MvvmCross">
+        <Version>7.1.2</Version>
+      </PackageReference>
+      <PackageReference Include="MvvmCross.Plugin.Json">
+        <Version>7.1.2</Version>
+      </PackageReference>
+      <PackageReference Include="System.Net.Http">
+        <Version>4.3.4</Version>
+      </PackageReference>
+      <PackageReference Include="OxyPlot.Xamarin.iOS">
+        <Version>1.0.0</Version>
+      </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon167.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon152.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon29.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon40.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon76.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
+            <Visible>false</Visible>
+        </ImageAsset>
+        <ImageAsset Include="Resources\Assets.xcassets\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash.imageset\mobile-portrait-bg.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash.imageset\mobile-portrait-bg%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash.imageset\mobile-portrait-bg%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Icon ionic-ios-checkbox %282%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Group 517%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Group 517%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Icon-home.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Icon-home%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Icon-home%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Icon awesome-home.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Icon awesome-home%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Icon awesome-home%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\Group 366.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\Group 366%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\Group 366%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\Inventory.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\Inventory%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\Inventory%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%403x-2.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Ellipse 85.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\icons8-trash-30.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%401x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\Icon map-car-wash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\Icon map-car-wash%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\Icon map-car-wash%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Details.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Score.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Details.imageset\Icon material-local-car-wash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Details.imageset\Icon material-local-car-wash%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Details.imageset\Icon material-local-car-wash%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\Icon awesome-user-alt.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\Icon awesome-user-alt%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\Icon awesome-user-alt%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Score.imageset\scoreboard.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\Current  Forecasted Cars.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\Current  Forecasted Cars%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\Current  Forecasted Cars%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\Average Car Wash Time.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\Average Car Wash Time%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\Average Car Wash Time%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\graph-chart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\graph-chart.imageset\Icon metro-chart-dots.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\graph-chart.imageset\Icon metro-chart-dots%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\graph-chart.imageset\Icon metro-chart-dots%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-WashSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-DetailSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-TotalSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-WashSales.imageset\Wash Sales.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-WashSales.imageset\Wash Sales%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-WashSales.imageset\Wash Sales%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-DetailSales.imageset\Detail Sales.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-DetailSales.imageset\Detail Sales%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-DetailSales.imageset\Detail Sales%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\Icon metro-dollar2.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\Icon metro-dollar2%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\Icon metro-dollar2%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\Merchandise Sales %402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\Merchandise Sales.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\Merchandise Sales %403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-TotalSales.imageset\Icon awesome-percent.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-TotalSales.imageset\Icon awesome-percent%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-TotalSales.imageset\Icon awesome-percent%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\Monthly Client Sales.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\Monthly Client Sales%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\Monthly Client Sales%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Wash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Detail.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\LaborCost.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Wash.imageset\Ave Wash %24 per car.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Wash.imageset\Ave Wash %24 per car%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Wash.imageset\Ave Wash %24 per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Detail.imageset\Ave Detail %24 per car.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Detail.imageset\Ave Detail %24 per car%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Detail.imageset\Ave Detail %24 per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\Ave Extra Service %24 per car.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\Ave Extra Service %24 per car%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\Ave Extra Service %24 per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\Current  Forecasted Cars.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\Current  Forecasted Cars%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\Current  Forecasted Cars%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\LaborCost.imageset\Labor cost per car.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\LaborCost.imageset\Labor cost per car%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\LaborCost.imageset\Labor cost per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car %402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%403x.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Resources\" />
+        <Folder Include="MvvmCross\" />
+        <Folder Include="UIUtils\" />
+        <Folder Include="Views\" />
+        <Folder Include="Views\Login\" />
+        <Folder Include="Resources\Assets.xcassets\splash.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-strive-splash.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-message.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-message-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checkout.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checkout-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-home.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-home-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\" />
+        <Folder Include="Views\CheckOut\" />
+        <Folder Include="Views\Inventory\" />
+        <Folder Include="Resources\Assets.xcassets\white-ellipse.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-trash.imageset\" />
+        <Folder Include="Views\Messenger\" />
+        <Folder Include="Views\Messenger\Chat\" />
+        <Folder Include="Resources\Assets.xcassets\send-msg.imageset\" />
+        <Folder Include="Views\HomeView\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-Details.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-Score.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\graph-chart.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-WashSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-DetailSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-TotalSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Ave-Wash.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Ave-Detail.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\LaborCost.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DetailCost.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-rightArrow.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\barChart-Active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\pieChart.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\lineChart.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\select-Contact.imageset\" />
+    </ItemGroup>
+    <ItemGroup>
+        <InterfaceDefinition Include="LaunchScreen.storyboard" />
+        <InterfaceDefinition Include="Views\Login\LoginView.xib" />
+        <InterfaceDefinition Include="Views\DashboardView.xib" />
+        <InterfaceDefinition Include="Views\CheckOut\CheckOutView.xib" />
+        <InterfaceDefinition Include="Views\CheckOut\CheckOut_Cell.xib" />
+        <InterfaceDefinition Include="Views\Inventory\InventoryView.xib" />
+        <InterfaceDefinition Include="Views\Inventory\InventoryProd_Cell.xib" />
+        <InterfaceDefinition Include="Views\Messenger\MessengerView.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Messenger_CellView.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Contact_CellView.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Chat\ChatViewController.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Chat\MessageIncomingCell.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Chat\MessageOutgoingCell.xib" />
+        <InterfaceDefinition Include="Views\HomeView\HomeView.xib" />
+        <InterfaceDefinition Include="Views\HomeView\DBSchedule_Cell.xib" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Info.plist" />
+        <None Include="Entitlements.plist" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Main.cs" />
+        <Compile Include="AppDelegate.cs" />
+        <Compile Include="SceneDelegate.cs" />
+        <Compile Include="MvvmCross\App.cs" />
+        <Compile Include="MvvmCross\AppStart.cs" />
+        <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
+        <Compile Include="MvvmCross\Setup.cs" />
+        <Compile Include="UIUtils\DesignUtils.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Views\Login\LoginView.cs" />
+        <Compile Include="Views\Login\LoginView.designer.cs">
+          <DependentUpon>LoginView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\DashboardView.cs" />
+        <Compile Include="Views\DashboardView.designer.cs">
+          <DependentUpon>DashboardView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CheckOut\CheckOutView.cs" />
+        <Compile Include="Views\CheckOut\CheckOutView.designer.cs">
+          <DependentUpon>CheckOutView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CheckOut\CheckOut_Cell.cs" />
+        <Compile Include="Views\CheckOut\CheckOut_Cell.designer.cs">
+          <DependentUpon>CheckOut_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CheckOut\CheckOut_DataSource.cs" />
+        <Compile Include="Views\Inventory\InventoryView.cs" />
+        <Compile Include="Views\Inventory\InventoryView.designer.cs">
+          <DependentUpon>InventoryView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Inventory\InventoryDataSource.cs" />
+        <Compile Include="Views\Inventory\InventoryProd_Cell.cs" />
+        <Compile Include="Views\Inventory\InventoryProd_Cell.designer.cs">
+          <DependentUpon>InventoryProd_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\MessengerView.cs" />
+        <Compile Include="Views\Messenger\MessengerView.designer.cs">
+          <DependentUpon>MessengerView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Messenger_CellView.cs" />
+        <Compile Include="Views\Messenger\Messenger_CellView.designer.cs">
+          <DependentUpon>Messenger_CellView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Messenger_BaseDataSource.cs" />
+        <Compile Include="Views\Messenger\Contact_CellView.cs" />
+        <Compile Include="Views\Messenger\Contact_CellView.designer.cs">
+          <DependentUpon>Contact_CellView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Contact_DataSource.cs" />
+        <Compile Include="Views\Messenger\Chat\ChatViewController.cs" />
+        <Compile Include="Views\Messenger\Chat\ChatViewController.designer.cs">
+          <DependentUpon>ChatViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Chat\MessageIncomingCell.cs" />
+        <Compile Include="Views\Messenger\Chat\MessageIncomingCell.designer.cs">
+          <DependentUpon>MessageIncomingCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.cs" />
+        <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.designer.cs">
+          <DependentUpon>MessageOutgoingCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Chat\ChatDataSource.cs" />
+        <Compile Include="Views\HomeView\HomeView.cs" />
+        <Compile Include="Views\HomeView\HomeView.designer.cs">
+          <DependentUpon>HomeView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\MsgGroup_DataSource.cs" />
+        <Compile Include="Views\HomeView\DBSchedule_DataSource.cs" />
+        <Compile Include="Views\HomeView\DBSchedule_Cell.cs" />
+        <Compile Include="Views\HomeView\DBSchedule_Cell.designer.cs">
+          <DependentUpon>DBSchedule_Cell.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
+        <Project>{E04062FE-730C-4674-AA48-D4EEF5B1D1A4}</Project>
+        <Name>Strive.Core</Name>
+      </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <BundleResource Include="Resources\OpenSans-Bold.ttf" />
+      <BundleResource Include="Resources\OpenSans-BoldItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-ExtraBold.ttf" />
+      <BundleResource Include="Resources\OpenSans-ExtraBoldItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Italic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Light.ttf" />
+      <BundleResource Include="Resources\OpenSans-LightItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Regular.ttf" />
+      <BundleResource Include="Resources\OpenSans-SemiBold.ttf" />
+      <BundleResource Include="Resources\OpenSans-SemiBoldItalic.ttf" />
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+</Project>

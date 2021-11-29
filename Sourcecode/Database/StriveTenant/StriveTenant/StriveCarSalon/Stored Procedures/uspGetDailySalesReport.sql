@@ -1,5 +1,5 @@
-﻿-- [StriveCarSalon].[uspGetDailySalesReport] '2020-12-24',2057
-CREATE   procedure [StriveCarSalon].[uspGetDailySalesReport] 
+﻿-- [StriveCarSalon].[uspGetDailySalesReport] '2021-05-20',1
+CREATE PROCEDURE [StriveCarSalon].[uspGetDailySalesReport] 
 @Date date , @LocationId int
 AS
 BEGIN
@@ -49,7 +49,9 @@ SELECT
 	ISNULL(MC.MerchandizeQuantity,0) MerchandiseItemsPurchased,
 	tblcv.Barcode,
 	vc.valuedesc AS Color,
-	vmo.valuedesc AS Model,
+	--vmo.valuedesc AS Model,
+	vmo.ModelValue 	AS Model,
+	make.MakeValue AS Make,
 	CONCAT(tblc.FirstName,' ',tblc.LastName) AS CustomerName,
 	tblca.PhoneNumber,
 	(co.CostOfAllService + ISNULL(MC.MerchandizePrice,'0.00')) AS Amount,
@@ -70,7 +72,10 @@ INNER JOIN
 INNER JOIN
 	tblClientVehicle tblcv  WITH(NOLOCK) ON(tblj.VehicleId = tblcv.VehicleId)
 INNER JOIN
-	GetTable('VehicleModel') vmo ON(tblcv.VehicleModel = vmo.valueid)
+	tblVehicleModel
+	--GetTable('VehicleModel')
+	vmo ON(tblcv.VehicleModel = vmo.ModelId)
+	JOIN tblVehicleMake make on make.MakeId =vmo.MakeId
 INNER JOIN
 	GetTable('VehicleColor') vc ON(tblcv.VehicleColor = vc.valueid)
 INNER JOIN

@@ -5,52 +5,76 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils;
 using System.Collections.Generic;
+using Strive.Core.Resources;
+using Strive.Core.Models.Customer;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
     public class WashTimesViewModel : BaseViewModel
     {
-        public ILocationService LocationService = Mvx.IoCProvider.Resolve<ILocationService>();
+        //public ILocationService LocationService = Mvx.IoCProvider.Resolve<ILocationService>();
+        //public Locations Location;
 
-        public Location Location;
+        public ICarwashLocationService carWashLocationService = Mvx.IoCProvider.Resolve<ICarwashLocationService>();
+        public washLocations locationStatus;
 
         public WashTimesViewModel()
         {
         }
 
-        public async Task<Location> GetAllLocationAddress()
+        //public async Task<Locations> GetAllLocationAddress()
+        //{
+        //    //_userDialog.ShowLoading(Strings.Loading);
+        //    var locations = await LocationService.GetAllLocationAddress();
+
+        //    if (locations == null)
+        //    {
+        //        Location = new Locations();
+
+        //        return Location;
+        //    }
+        //    else
+        //    {
+        //        Location = new Locations();
+        //        Location.Location = new List<LocationAddress>();
+        //        foreach (var item in locations.Location)
+        //        {
+        //            if (item.Latitude != null && item.Longitude != null)
+        //            {
+        //                Location.Location.Add(item);
+        //            }
+        //        }
+        //        return Location;
+        //    }
+        //}
+
+        public async Task<washLocations> GetAllLocationStatus()
         {
-            Location = new Location()
+            LocationStatusReq request = new LocationStatusReq()
             {
-                LocationAddress = new List<LocationAddress>()
+                Date = (System.DateTime.Now).ToString("yyy-MM-dd"),
+                LocationId = 0
+            };
+            var washLocations = await carWashLocationService.GetAllLocationStatus(request);
+
+            if (washLocations == null)
+            {
+                locationStatus = new washLocations();
+                return locationStatus;
+            }
+            else
+            {
+                locationStatus = new washLocations();
+                locationStatus.Washes = new List<LocationStatus>();
+                foreach (var locationItem in washLocations.Washes)
                 {
-                    new LocationAddress(){
-                        OpenTime = "09:30 AM",
-                    CloseTime = "05:00 PM",
-                    WashTiming = "40",
-                    Latitude = 34.070915,
-                    Longitude = -84.295814,
-                    Address1 = "Old Milton"
-                    },
-                    new LocationAddress(){
-                        OpenTime = "11:00 AM",
-                    CloseTime = "07:00 PM",
-                    WashTiming = "25",
-                    Latitude = 33.967986,
-                    Longitude = -84.257494,
-                    Address1 = "Halcomb Bridge",
-                    },
-                     new LocationAddress(){
-                        OpenTime = "08:00 AM",
-                    CloseTime = "04:00 PM",
-                    WashTiming = "08:00 AM",
-                    Latitude = 34.068472,
-                    Longitude = -84.300668,
-                    Address1 = "Main Street",
+                    if (locationItem.Latitude != null && locationItem.Longitude != null)
+                    {
+                        locationStatus.Washes.Add(locationItem);
                     }
                 }
-            };
-            return Location;
+                return locationStatus;
+            }
         }
 
         public async Task NavigateBackCommand()

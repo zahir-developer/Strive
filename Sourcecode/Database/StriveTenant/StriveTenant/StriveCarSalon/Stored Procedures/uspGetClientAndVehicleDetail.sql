@@ -1,7 +1,4 @@
-﻿
-
-
--- =================================================================
+﻿-- =================================================================
 -- Author:              Vineeth.B
 -- Created date:        2020-08-20
 -- LastModified date: 
@@ -12,10 +9,12 @@
 ---------------------History--------------------
 -- =============================================
 -- 28-08-2020, Vineeth - Add vehicle model id
+-- 24-05-2021, shalini added where Condition
 ------------------------------------------------
+--[StriveCarSalon].[uspGetClientAndVehicleDetail]121212
 -- =============================================
 
-CREATE proc [StriveCarSalon].[uspGetClientAndVehicleDetail]
+CREATE PROCEDURE [StriveCarSalon].[uspGetClientAndVehicleDetail]
 (@BarCode varchar(50))
 AS
 BEGIN
@@ -32,7 +31,8 @@ tblcv.VehicleModel as VehicleModelId,
 vmo.ModelValue as VehicleModel,
 tblcv.VehicleColor,
 tblcv.VehicleModelNo,
-tblcv.VehicleYear
+tblcv.VehicleYear,
+tblcv.Barcode
  from [tblClient] tblc 
  inner join [tblClientVehicle] tblcv on(tblc.ClientId = tblcv.ClientId) 
  LEFT JOIN tblVehicleModel vmo ON(tblcv.VehicleModel = vmo.ModelId) and tblcv.VehicleMfr = vmo.MakeId
@@ -47,4 +47,5 @@ tblcv.VehicleYear
  tblc.IsActive=1
  AND
  tblcv.IsActive=1
+ where tblcv.barcode =@barcode
 END

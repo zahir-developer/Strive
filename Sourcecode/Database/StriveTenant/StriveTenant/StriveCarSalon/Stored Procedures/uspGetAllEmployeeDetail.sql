@@ -1,5 +1,4 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		Naveen
 -- Create date: 15-07-2020
 -- Description:	Retrieves All Employee details
@@ -12,9 +11,9 @@
 -- 21-10-2020, Zahir - Added employee chat communicationId.
 -- 02-02-2021, Zahir - Added Offset, pagination and sorting
 -- 24-02-2021, Zahir - Removed STUFF for employee phone number
-
+-- 07-jun-2021, shalini - pagenumber and count for nullquery changes					 
 ------------------------------------------------
--- [StriveCarSalon].[uspGetAllEmployeeDetail] 'Zac',1,10,'ASC',firstname
+-- [StriveCarSalon].[uspGetAllEmployeeDetail] null,1,100,'ASC',firstname
 -- =============================================
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllEmployeeDetail]
@@ -91,14 +90,27 @@ Select * from #Employee
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from tblEmployee where 
-ISNULL(IsDeleted,0) = 0 
-
+select count(1) as Count 
+FROM tblEmployee emp 
+LEFT JOIN tblEmployeeAddress empAd on emp.employeeId = empAd.employeeId and empAd.PhoneNumber != ''
+LEFT JOIN tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
+LEFT JOIN tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId 
+WHERE  
+ISNULL(emp.IsDeleted,0) = 0 
 END
 
 IF @Query IS Not NULL AND @Query != ''
 BEGIN
-select count(1) as Count from #Employee
+select count(1) as Count 
+FROM tblEmployee emp 
+LEFT JOIN tblEmployeeAddress empAd on emp.employeeId = empAd.employeeId and empAd.PhoneNumber != ''
+LEFT JOIN tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
+LEFT JOIN tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId 
+WHERE --empdet.EmployeeDetailId is NOT NULL AND 
+ISNULL(emp.IsDeleted,0) = 0 
+AND ((emp.FirstName like '%'+@Query+'%')
+OR (emp.LastName like '%'+@Query+'%')
+OR @Query is null OR @Query = ' ')
 END
 
 END

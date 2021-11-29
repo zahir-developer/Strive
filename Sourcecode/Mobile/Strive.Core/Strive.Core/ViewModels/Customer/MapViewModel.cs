@@ -1,8 +1,10 @@
 ﻿using Acr.UserDialogs;
 using MvvmCross;
 using Strive.Core.Models.Customer;
+using Strive.Core.Resources;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Services.Interfaces;
+using Strive.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +16,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public ICarwashLocationService carWashLocationService = Mvx.IoCProvider.Resolve<ICarwashLocationService>();
         public Locations Locations;
+        public washLocations locationStatus;
         
         public MapViewModel()
         {
@@ -43,6 +46,57 @@ namespace Strive.Core.ViewModels.Customer
                 }
                 return Locations;
             }
+        }
+
+        public async Task<washLocations> GetAllLocationStatus()
+        {
+            LocationStatusReq request = new LocationStatusReq()
+            {
+                Date = (System.DateTime.Now).ToString("yyy-MM-dd"),
+                LocationId = 0
+            };
+            var washLocations = await carWashLocationService.GetAllLocationStatus(request);
+
+            if(washLocations == null)
+            {
+                locationStatus = new washLocations();
+                return locationStatus;
+            }
+            else
+            {
+                locationStatus = new washLocations();
+                locationStatus.Washes = new List<LocationStatus>();
+                foreach(var locationItem in washLocations.Washes)
+                {
+                    if (locationItem.Latitude != null && locationItem.Longitude != null)
+                    {
+                        locationStatus.Washes.Add(locationItem);
+                    }
+                }
+                return locationStatus;
+            }
+        }
+
+        public void LogoutCommand()
+        {
+            var confirmconfig = new ConfirmConfig
+            {
+                Title = Strings.LogoutTitle,
+                Message = Strings.LogoutMessage,
+                CancelText = Strings.LogoutCancelButton,
+                OkText = Strings.LogoutSuccessButton,
+                OnAction = success =>
+                {
+                    if (success)
+                    {
+                        CustomerInfo.Clear();
+                        _navigationService.Close(this);
+                        _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit!"));
+                    }
+                }
+
+            };
+            _userDialog.Confirm(confirmconfig);
         }
     }
 }

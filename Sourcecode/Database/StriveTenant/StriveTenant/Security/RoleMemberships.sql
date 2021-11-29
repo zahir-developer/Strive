@@ -2,23 +2,13 @@
 
 
 GO
-ALTER ROLE [db_ddladmin] ADD MEMBER [StriveCarS];
+ALTER ROLE [db_owner] ADD MEMBER [StriveClient];
 
 
 GO
-ALTER ROLE [db_ddladmin] ADD MEMBER [StriveSuperAdminTestuser];
+ALTER ROLE [db_ddladmin] ADD MEMBER [StriveMigrationUser];
 
 
 GO
 ALTER ROLE [db_ddladmin] ADD MEMBER [StriveDevUser];
-
-
-
-
-GO
-
-
-
-GO
-
 

@@ -16,7 +16,7 @@ namespace Strive.Core.Services.HubServices
 {
     public static class ChatHubMessagingService
     {
-        
+
         public static string ConnectionID { get; set; }
         public static string EmpID { get; set; }
         public static string EmpConnectionID { get; set; }
@@ -37,7 +37,7 @@ namespace Strive.Core.Services.HubServices
                 connection = new HubConnectionBuilder().WithUrl(ApiUtils.AZURE_URL + "/chatMessageHub").Build();
                 try
                 {
-                    await connection?.StartAsync();          
+                    await connection?.StartAsync();
                     PrivateMessageList = new System.Collections.ObjectModel.ObservableCollection<SendChatMessage>();
                     GroupMessageList = new ObservableCollection<SendChatMessage>();
                 }
@@ -47,7 +47,7 @@ namespace Strive.Core.Services.HubServices
                     Console.WriteLine(ex.Message);
                 }
             }
-            if(connection.State == HubConnectionState.Disconnected)
+            if (connection.State == HubConnectionState.Disconnected)
             {
                 await connection?.StartAsync();
                 await SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
@@ -82,31 +82,35 @@ namespace Strive.Core.Services.HubServices
 
         public static async Task SubscribeChatEvent()
         {
-            connection.On<string>("OnDisconnected", (data) => {
+            connection.On<string>("OnDisconnected", (data) =>
+            {
 
                 Console.WriteLine("Connection is disconnected !");
 
             });
 
-            connection.On<object>("ReceiveCommunicationID", (id) => {
-               
+            connection.On<object>("ReceiveCommunicationID", (id) =>
+            {
+
             });
 
-            connection?.On<object>("ReceivePrivateMessage", (data) => {
+            connection?.On<object>("ReceivePrivateMessage", (data) =>
+            {
                 Console.WriteLine("Private Message received", data);
                 try
                 {
-                    var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());                  
+                    var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
                     PrivateMessageList.Add(datas);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
 
             });
 
-            connection?.On<object>("ReceiveGroupMessage", (data) => {
+            connection?.On<object>("ReceiveGroupMessage", (data) =>
+            {
 
                 Console.WriteLine("Group Message received", data);
                 try
@@ -121,39 +125,44 @@ namespace Strive.Core.Services.HubServices
 
             });
 
-            connection?.On<string>("SendPrivateMessage", (data) => {
+            connection?.On<string>("SendPrivateMessage", (data) =>
+            {
 
                 Console.WriteLine("Private Message sent", data);
 
             });
 
-            connection?.On<object>("ReceiveEmployeeCommunicationId", (data) => {
+            connection?.On<object>("ReceiveEmployeeCommunicationId", (data) =>
+            {
                 Console.WriteLine("new communication id received", data);
                 try
                 {
                     var datas = JsonConvert.DeserializeObject<string[]>(data.ToString());
-                   RecipientsID.Add(new RecipientsCommunicationID() {employeeId = datas[0], communicationId = datas[1]});
+                    RecipientsID.Add(new RecipientsCommunicationID() { employeeId = datas[0], communicationId = datas[1] });
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
 
             });
 
-            connection?.On<string>("UserAddedtoGroup", (data) => {
+            connection?.On<string>("UserAddedtoGroup", (data) =>
+            {
 
                 Console.WriteLine("User added", data);
 
             });
 
-            connection?.On<object>("UserLogOutNotification", (data) => {
+            connection?.On<object>("UserLogOutNotification", (data) =>
+            {
 
                 StopConnection();
 
             });
 
-            connection?.On<object>("GroupMessageReceive", (data) => {
+            connection?.On<object>("GroupMessageReceive", (data) =>
+            {
 
                 Console.WriteLine("Group Message Received", data);
                 try
@@ -177,13 +186,13 @@ namespace Strive.Core.Services.HubServices
                 await connection.InvokeAsync("SendEmployeeCommunicationId", EmployeeTempData.EmployeeID, "0");
                 await connection.StopAsync();
                 ConnectionID = null;
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            
+
         }
 
         public static async Task SendEmployeeCommunicationId(string empID, string commID)
@@ -192,11 +201,11 @@ namespace Strive.Core.Services.HubServices
             {
                 await connection.InvokeAsync("SendEmployeeCommunicationId", empID, commID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            
+
         }
         public static async void SendMessageToGroup(SendChatMessage groupInfo)
         {

@@ -105,14 +105,6 @@
             android:layout_marginRight="@dimen/twenty"
             android:background="@drawable/primarybutton"
             android:fontFamily="@font/opensans_bold" />
-        <TextView
-            android:id="@+id/forgotPasswordLink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/defaultLinkColor"
-            android:fontFamily="@font/opensans_regular"
-            android:layout_marginTop="@dimen/twenty"
-            android:layout_marginLeft="@dimen/twenty"/>
     </LinearLayout>
    <!-- <LinearLayout
         android:layout_width="match_parent"

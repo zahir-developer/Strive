@@ -37,9 +37,22 @@ namespace Strive.Core.ViewModels.Customer
                 if(loginResponse != null)
                 {
                     ApiUtils.Token = loginResponse.Token;
-                    if (!string.IsNullOrEmpty(loginResponse.Token))
+                    if(loginResponse.ClientDetails != null)
                     {
-                        await _navigationService.Navigate<DashboardViewModel>();
+                        CustomerInfo.ClientID = loginResponse.ClientDetails.ClientDetail.ClientId;
+                        CustomerInfo.AuthID = loginResponse.ClientDetails.ClientDetail.AuthId;
+                        if (!string.IsNullOrEmpty(loginResponse.Token))
+                        {
+                            await _navigationService.Navigate<DashboardViewModel>();
+                        }
+                        else
+                        {
+                            _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                        }
+                    }
+                    else
+                    {
+                        _userDialog.Alert(Strings.UsernamePasswordIncorrect);
                     }
                 }
                 else

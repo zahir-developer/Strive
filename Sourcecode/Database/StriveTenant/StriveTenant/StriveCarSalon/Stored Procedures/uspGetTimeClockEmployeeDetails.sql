@@ -18,9 +18,9 @@ AS
 BEGIN
 	
 Select distinct e.EmployeeId, e.FirstName, e.LastName, l.LocationId, l.LocationName--, tc.EventDate
-FROM StriveCarSalon.tblTimeClock tc
-JOIN StriveCarSalon.tblEmployee e on e.EmployeeId = tc.EmployeeId 
-JOIN StriveCarSalon.tblLocation l on l.LocationId = tc.LocationId
+FROM tblTimeClock tc
+JOIN tblEmployee e on e.EmployeeId = tc.EmployeeId 
+JOIN tblLocation l on l.LocationId = tc.LocationId
 WHERE (l.LocationId = @LocationId OR @LocationId = 0) AND
 (tc.EventDate BETWEEN @StartDate AND @EndDate OR (@StartDate IS NULL AND @EndDate IS NULL))
 AND ISNULL(tc.IsDeleted,0) = 0 AND tc.IsActive = 1
@@ -29,7 +29,7 @@ AND ISNULL(e.IsDeleted,0) = 0 AND e.IsActive = 1
 Select distinct 
 EmployeeId, 
 CONCAT(FirstName,' ',LastName) AS EmployeeName
-FROM StriveCarSalon.tblEmployee 
+FROM tblEmployee 
 WHERE 
 EmployeeId 
 NOT IN

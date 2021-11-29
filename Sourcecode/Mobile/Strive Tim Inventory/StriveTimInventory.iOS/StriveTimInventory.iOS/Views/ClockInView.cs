@@ -1,16 +1,14 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.TIMInventory;
-using StriveTimInventory.iOS.SupportView;
-using StriveTimInventory.iOS.UIUtils;
 using UIKit;
+using System.Threading.Tasks;
+using Strive.Core.Utils.TimInventory;
 
 namespace StriveTimInventory.iOS.Views
 {
-    
+
     public partial class ClockInView : MvxViewController<ClockInViewModel>
     {
         private EmployeeRolesViewSource RolesCollectionViewSource;
@@ -35,8 +33,8 @@ namespace StriveTimInventory.iOS.Views
         private void CreateBindings()
         {
             RolesCollectionView.Source = RolesCollectionViewSource = new EmployeeRolesViewSource(RolesCollectionView);
-            
-            RolesCollectionView.Delegate = new EmployeeRolesViewDelegate(RolesCollectionView, ViewModel);
+
+            RolesCollectionView.Delegate = new EmployeeRolesViewDelegate(RolesCollectionView, ViewModel, this);
 
             var set = this.CreateBindingSet<ClockInView, ClockInViewModel>();
             set.Bind(RolesCollectionViewSource).For(v => v.ItemsSource).To(vm => vm.RolesList);
@@ -48,22 +46,24 @@ namespace StriveTimInventory.iOS.Views
 
         private void DoInitialSetup()
         {
-        //    NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
-        //    {
-        //        Font = DesignUtils.OpenSansBoldTitle(),
-        //        ForegroundColor = UIColor.Clear.FromHex(0x24489A),
-        //};
-            
-        //    LogoutButton.Title = "Logout";
-        //    LogoutButton.SetTitleTextAttributes(new UITextAttributes()
-        //    {
-        //        Font = DesignUtils.OpenSansRegularText(),
-        //        TextColor = UIColor.Clear.FromHex(0x24489A),
-        //    }, UIControlState.Normal);
+            //    NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+            //    {
+            //        Font = DesignUtils.OpenSansBoldTitle(),
+            //        ForegroundColor = UIColor.Clear.FromHex(0x24489A),
+            //};
+
+            //    LogoutButton.Title = "Logout";
+            //    LogoutButton.SetTitleTextAttributes(new UITextAttributes()
+            //    {
+            //        Font = DesignUtils.OpenSansRegularText(),
+            //        TextColor = UIColor.Clear.FromHex(0x24489A),
+            //    }, UIControlState.Normal);
             //NavigationItem.LeftBarButtonItem = LogoutButton;
             NavigationController.NavigationBarHidden = true;
+            ClockinButton.Hidden = true;
             ClockinButton.Layer.CornerRadius = 3;
         }
+
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
@@ -75,7 +75,8 @@ namespace StriveTimInventory.iOS.Views
             var itemsCount = RolesCollectionView.NumberOfItemsInSection(0);
 
             if (itemsCount > 2)
-            {   if (itemsCount % 2 != 0)
+            {
+                if (itemsCount % 2 != 0)
                     itemsCount++;
                 leftInset = (int)(leftInset - ((itemsCount / 1.35) * 50));
             }
@@ -94,10 +95,30 @@ namespace StriveTimInventory.iOS.Views
                 SectionInset = new UIEdgeInsets(topInset, leftInset, bottomInset, rightInset),
                 MinimumInteritemSpacing = 15,
                 MinimumLineSpacing = 15,
-                ItemSize = new SizeF(150, 150) 
+                ItemSize = new SizeF(150, 150)
             };
 
             RolesCollectionView.SetCollectionViewLayout(layout, true);
+        }
+
+        public async void ClockInBtnView()
+        {
+            await ViewModel.getClockInStatus();
+
+            if (ViewModel.clockInStatus != null && ViewModel.clockInStatus.timeClock.Count > 0)
+            {
+                foreach (var item in ViewModel.clockInStatus.timeClock)
+                {
+                    //if (item.inTime == item.outTime)
+                    if(item.outTime == null)
+                    {
+                        var inTime = item.inTime.Substring(0, 19);
+                        EmployeeData.ClockInTime = inTime;
+                        ViewModel.NavToClockOut();
+                    }
+                }
+            }            
+            ClockinButton.Hidden = false;
         }
     }
 }

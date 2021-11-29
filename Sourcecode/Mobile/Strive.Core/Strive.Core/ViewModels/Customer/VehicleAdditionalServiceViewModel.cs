@@ -1,16 +1,22 @@
 ﻿using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Resources;
+using Strive.Core.Utils.TimInventory;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Strive.Core.ViewModels.Customer
 {
     public class VehicleAdditionalServiceViewModel : BaseViewModel
     {
+        public ObservableCollection<AllServiceDetail> serviceList { get; set; } = new ObservableCollection<AllServiceDetail>();
+
         public VehicleAdditionalServiceViewModel()
-        {
-           
-            AddUpchargesToServiceList();
+        {           
+            
         }
 
         #region Properties
@@ -20,15 +26,27 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Commands
 
-        public void AddUpchargesToServiceList()
+        public async Task AddUpchargesToServiceList()
         {
+            _userDialog.ShowLoading(Strings.Loading);
+            var result = await AdminService.GetScheduleServices(1);
 
+            if (result != null)
+            {
+                foreach (var item in result.AllServiceDetail)
+                {
+                    if (item.ServiceTypeName == "Additional Services")
+                    {
+                        serviceList.Add(item);
+                    }
+                }
+            }
         }
-
-        public async void NavToSignatureView()
+        public async void NavtoTermsCondition()
         {
-            await _navigationService.Navigate<MembershipSignatureViewModel>();
+            await _navigationService.Navigate<TermsAndConditionsViewModel>();
         }
+        
         #endregion Commands
     }
 }

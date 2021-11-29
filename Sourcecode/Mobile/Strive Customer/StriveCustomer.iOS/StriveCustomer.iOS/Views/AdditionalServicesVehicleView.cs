@@ -37,7 +37,7 @@ namespace StriveCustomer.iOS.Views
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>
             {
-                ViewModel.NavToSignatureView();
+                ViewModel.NavtoTermsCondition();
             };
 
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
@@ -51,11 +51,19 @@ namespace StriveCustomer.iOS.Views
             AdditionalServicesTableView.RegisterNibForCellReuse(MembershipVehicle_ViewCell.Nib, MembershipVehicle_ViewCell.Key);
             AdditionalServicesTableView.ReloadData();
 
-            var source = new AdditionalServicesDataSource(MembershipDetails.filteredList.ServicesWithPrice);
+            getAdditionalServices();           
+            
+        }
+
+        private async void getAdditionalServices()
+        {
+            await this.ViewModel.AddUpchargesToServiceList();
+
+            var source = new AdditionalServicesDataSource(ViewModel.serviceList);
             AdditionalServicesTableView.Source = source;
             AdditionalServicesTableView.TableFooterView = new UIView(CGRect.Empty);
             AdditionalServicesTableView.DelaysContentTouches = false;
             AdditionalServicesTableView.ReloadData();
-        }       
+        }
     }
 }

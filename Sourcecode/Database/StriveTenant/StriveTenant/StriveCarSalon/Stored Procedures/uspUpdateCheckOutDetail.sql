@@ -15,5 +15,5 @@ CREATE procedure [StriveCarSalon].[uspUpdateCheckOutDetail]
 
 AS
 BEGIN
-UPDATE [StriveCarSalon].[tblJob] SET CheckOut=@CheckOut, CheckOutTime = @CheckOutTime WHERE JobId=@JobId
+UPDATE [tblJob] SET CheckOut=@CheckOut, CheckOutTime = @CheckOutTime WHERE JobId=@JobId
 END

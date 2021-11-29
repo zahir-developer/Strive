@@ -10,8 +10,14 @@ namespace Strive.Core.Models.TimInventory
 
     public class TimeClockRootList
     {
-        public List<TimeClock> TimeClock { get; set; }
+        public List<TimeClock> timeClock { get; set; }
     }
+
+    public class TimeClockSave
+    {
+        public TimeClockRootList timeClock { get; set; }
+    }
+
 
     public class TimeClockRequest
     {

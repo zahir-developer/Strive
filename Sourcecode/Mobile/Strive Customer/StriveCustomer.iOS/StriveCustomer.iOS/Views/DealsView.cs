@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
+using AVFoundation;
 using CoreGraphics;
+using Foundation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer;
@@ -26,20 +29,23 @@ namespace StriveCustomer.iOS.Views
 
             NavigationItem.Title = "Deals";
 
-            //LogoutButton.Title = "Logout";
-            //LogoutButton.SetTitleTextAttributes(new UITextAttributes()
-            //{
-            //    Font = DesignUtils.OpenSansRegularTwelve(),
-            //    TextColor = UIColor.Clear.FromHex(0x24489A),
-            //}, UIControlState.Normal);
-            //NavigationItem.LeftBarButtonItem = LogoutButton;
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
 
 
             var DealsTableSource = new DealsTableSource(VehiclesTableView, ViewModel);
 
             var set = this.CreateBindingSet<DealsView, DealsViewModel>();
-            set.Bind(DealsTableSource).To(vm => vm.DealsList);
-            set.Bind(DealsTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
+            set.Bind(DealsTableSource).To(vm => vm.Deals);
+            //set.Bind(DealsTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
             set.Apply();
 
             VehiclesTableView.Source = DealsTableSource;
@@ -60,10 +66,39 @@ namespace StriveCustomer.iOS.Views
                 Console.WriteLine("Scanned Barcode: " + result.Text);
         }
 
+        public override async void ViewDidAppear(bool animated)
+        {
+            getDeals();
+        }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
+        }
+
+        public async Task getDeals()
+        {
+            await ViewModel.GetAllDealsCommand();
+            IsCameraAuthorized();
+        }
+
+        public bool IsCameraAuthorized()
+        {
+            AVAuthorizationStatus authStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
+
+            switch (authStatus)
+            {
+                case AVAuthorizationStatus.NotDetermined:
+                    return false;                   
+                case AVAuthorizationStatus.Restricted:
+                    return false;
+                case AVAuthorizationStatus.Denied:
+                    return false;
+                case AVAuthorizationStatus.Authorized:
+                    return true;
+                default:
+                   return false;
+            }
         }
     }
 }

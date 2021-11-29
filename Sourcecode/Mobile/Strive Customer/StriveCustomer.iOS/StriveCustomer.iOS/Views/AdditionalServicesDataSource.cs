@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Foundation;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
 using UIKit;
 
@@ -9,8 +11,8 @@ namespace StriveCustomer.iOS.Views
 {
     public class AdditionalServicesDataSource : UITableViewSource
     {
-        private List<ServiceDetail> services = new List<ServiceDetail>();
-        public AdditionalServicesDataSource(List<ServiceDetail> services)
+        private ObservableCollection<AllServiceDetail> services = new ObservableCollection<AllServiceDetail>();
+        public AdditionalServicesDataSource(ObservableCollection<AllServiceDetail> services)
         {
             if (MembershipDetails.selectedAdditionalServices == null || MembershipDetails.selectedAdditionalServices.Count == 0)
             {
@@ -45,7 +47,7 @@ namespace StriveCustomer.iOS.Views
         {
             var cell = tableView.DequeueReusableCell("MembershipVehicle_ViewCell", indexPath) as MembershipVehicle_ViewCell;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.setServicesData(services, indexPath);                  
+            cell.setServicesData(services, indexPath, cell);                  
             return cell;
         }
 
@@ -53,6 +55,7 @@ namespace StriveCustomer.iOS.Views
         {
              MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
              cell.updateServices(indexPath);
+             MembershipDetails.selectedAdditionalServices.Add(services[indexPath.Row].ServiceId);
         }
     }
 }

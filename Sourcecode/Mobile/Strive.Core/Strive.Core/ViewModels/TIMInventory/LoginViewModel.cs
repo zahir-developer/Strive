@@ -11,13 +11,14 @@ namespace Strive.Core.ViewModels.TIMInventory
     {
         public LoginViewModel()
         {
-           
+
         }
 
         #region Properties
         private bool _isPasswordSecure = true;
 
-        public bool isPasswordSecure {
+        public bool isPasswordSecure
+        {
             get
             {
                 return _isPasswordSecure;
@@ -28,7 +29,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        private string _UserId = "";
+        private string _UserId = "caradmin@strive.com";
 
         public string UserId
         {
@@ -42,7 +43,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        private string _Password = "";
+        private string _Password = "pass@123";
 
         public string Password
         {
@@ -96,25 +97,25 @@ namespace Strive.Core.ViewModels.TIMInventory
                 {
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;
                     ApiUtils.Token = response.Token;
-                    var request = new TimeClockRequest()
-                    {
-                        locationId = 1,
-                        employeeId = response.EmployeeDetails.EmployeeLogin.EmployeeId,
-                        roleId = 5,
-                        date = DateUtils.GetTodayDateString()
-                    };
-                    var status = await AdminService.GetClockInStatus(request);
-                    if (status.TimeClock.Count > 0)
-                    {
-                        var SingleTimeClock = new TimeClockRoot();
-                        SingleTimeClock.TimeClock = status.TimeClock[0];
-                        EmployeeData.ClockInStatus = SingleTimeClock;
-                    }
-                   
-                    await _navigationService.Navigate<RootViewModel>();
-                    _UserId = "";
-                    _Password = "";
-                    await RaiseAllPropertiesChanged();
+                    //var request = new TimeClockRequest()
+                    //{
+                    //    locationId = 1,
+                    //    employeeId = response.EmployeeDetails.EmployeeLogin.EmployeeId,
+                    //    roleId = 5,
+                    //    date = DateUtils.GetTodayDateString()
+                    //};
+                    //var status = await AdminService.GetClockInStatus(request);
+                    //if (status.TimeClock.Count > 0)
+                    //{
+                    //    var SingleTimeClock = new TimeClockRoot();
+                    //    SingleTimeClock.TimeClock = status.TimeClock[0];
+                    //    EmployeeData.ClockInStatus = SingleTimeClock;
+                    //}
+
+                    await _navigationService.Navigate<LocationSelectViewModel>();
+                    //_UserId = "";
+                    //_Password = "";
+                    //await RaiseAllPropertiesChanged();
                 }
             }
         }
@@ -122,7 +123,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         async Task<bool> ValidateCredentialsAsync()
         {
             bool isValid = true;
-            if(!Validations.validateEmail(UserId))
+            if (!Validations.validateEmail(UserId))
             {
                 await _userDialog.AlertAsync(Strings.ValidEmail, Strings.Alert);
                 return !isValid;
@@ -142,7 +143,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public void DoLogin()
         {
-            AdminService.Login("Admin", "Admin"); 
+            AdminService.Login("Admin", "Admin");
         }
 
         #endregion Commands

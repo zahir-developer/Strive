@@ -3,7 +3,7 @@
  @MembershipName varchar(50))
  AS
 BEGIN
-UPDATE [StriveCarSalon].[tblMembership]
+UPDATE [tblMembership]
    SET [MembershipName] = @MembershipName
    WHERE MembershipId = @MembershipId
 

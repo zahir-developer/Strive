@@ -1,5 +1,5 @@
-﻿
-Create PROCEDURE [StriveCarSalon].[uspGetVehicleImageById] --[StriveCarSalon].[uspGetVehicleImageById] 15
+﻿--[StriveCarSalon].[uspGetVehicleImageById] 15
+CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleImageById] 
 (@VehicleImageId int)
 AS
 BEGIN

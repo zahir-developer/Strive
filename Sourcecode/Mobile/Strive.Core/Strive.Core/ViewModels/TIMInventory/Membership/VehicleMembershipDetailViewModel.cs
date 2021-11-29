@@ -34,7 +34,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public string CancelledDate { get { return MembershipDetail.EndDate.ToShortDateString(); } set { } }
 
-        public string Status { get { return MembershipDetail.Status ? "Active" : "Inactive"; } set { } }
+        public string Status { get { return (bool)MembershipDetail.Status ? "Active" : "Inactive"; } set { } }
 
         public async Task NavigateBackCommand()
         {
@@ -102,7 +102,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     {
                         clientMembershipId = ClientMembership,
                         clientVehicleId = MembershipData.SelectedVehicle.VehicleId,
-                        locationId = 1,
+                        locationId = EmployeeData.selectedLocationId,
                         membershipId = MembershipData.MembershipDetailView.ClientVehicleMembership.MembershipId,
                         startDate = DateUtils.GetTodayDateString(),
                         endDate = DateUtils.GetTodayDateString(),

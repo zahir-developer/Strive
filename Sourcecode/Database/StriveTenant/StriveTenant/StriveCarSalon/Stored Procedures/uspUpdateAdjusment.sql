@@ -4,6 +4,6 @@
 as
 Begin
 
-Update StriveCarSalon.tblEmployeeLiabilityDetail set Amount=@Amount where LiabilityId=@LiabilityId
+Update tblEmployeeLiabilityDetail set Amount=@Amount where LiabilityId=@LiabilityId
 
 End

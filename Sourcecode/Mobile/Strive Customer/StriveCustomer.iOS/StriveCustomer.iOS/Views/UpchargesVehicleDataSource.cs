@@ -30,9 +30,10 @@ namespace StriveCustomer.iOS.Views
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             var index = 0;
+            recentUpcharge.Add("None");
             foreach(var item in upchargeList.ServicesWithPrice)
             {
-                if ((upchargeList.ServicesWithPrice[index].Upcharges.Length != 0) && (!recentUpcharge.Contains(upchargeList.ServicesWithPrice[index].Upcharges)))
+                if ((upchargeList.ServicesWithPrice[index].Upcharges != null) && (!recentUpcharge.Contains(upchargeList.ServicesWithPrice[index].Upcharges)))
                 {
                     recentUpcharge.Add(upchargeList.ServicesWithPrice[index].Upcharges);
                 }
@@ -46,11 +47,11 @@ namespace StriveCustomer.iOS.Views
             var cell = tableView.DequeueReusableCell("MembershipVehicle_ViewCell", indexPath) as MembershipVehicle_ViewCell;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
                         
-            if ((upchargeList.ServicesWithPrice[indexPath.Row].Upcharges.Length != 0) || (!recentUpcharge.Contains(upchargeList.ServicesWithPrice[indexPath.Row].Upcharges)))
-            {
-                cell.setUpchargeData(recentUpcharge, indexPath);
-                recentUpcharge.Add(upchargeList.ServicesWithPrice[indexPath.Row].Upcharges);
-            }            
+            //if ((upchargeList.ServicesWithPrice[indexPath.Row].Upcharges != null) || (!recentUpcharge.Contains(upchargeList.ServicesWithPrice[indexPath.Row].Upcharges)))
+            //{
+                cell.setUpchargeData(recentUpcharge, indexPath, cell);
+            //    recentUpcharge.Add(upchargeList.ServicesWithPrice[indexPath.Row].Upcharges);
+            //}            
             return cell;
         }
 
@@ -63,6 +64,11 @@ namespace StriveCustomer.iOS.Views
                 if (recentUpcharge[indexPath.Row] == item.Upcharges)
                 {
                     MembershipDetails.selectedUpCharge = item.ServiceId;
+                }
+                else if(recentUpcharge[indexPath.Row] == "None")
+                {
+                    MembershipDetails.isNoneSelected = true;
+                    MembershipDetails.selectedUpCharge = 0;
                 }
             }
         }

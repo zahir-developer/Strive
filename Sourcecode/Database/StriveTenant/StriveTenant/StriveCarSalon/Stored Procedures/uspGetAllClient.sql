@@ -1,4 +1,9 @@
-﻿--[StriveCarSalon].[uspGetAllClient] 1,'and',1,10,null,null
+﻿---------------------History---------------------------
+-- ====================================================
+-- 07-jun-2021, shalini - pagenumber and count for nullquery changes					 
+
+-------------------------------------------------------
+--[StriveCarSalon].[uspGetAllClient] 1,null,35,1000,null,null
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllClient]
 @locationId int =null,
 @Query NVARCHAR(50) = NULL,
@@ -43,12 +48,12 @@ FROM [tblClient] tblc
 WHERE ISNULL(tblc.IsDeleted,0) = 0 AND ISNULL(tblc.FirstName,' ') != ''   AND
 isnull(tblc.IsDeleted,0)=0 and 
 isnull(tblca.IsDeleted,0)=0 and (
-@Query is null OR	tblc.FirstName like '%'+@Query+'%' 
-								OR	tblc.lastName like '%'+@Query+'%'
+@Query is null OR	tblc.FirstName like +@Query+'%' 
+								OR	tblc.lastName like +@Query+'%'
 								OR CONCAT_WS(' ',tblc.FirstName,tblc.LastName) like '%'+@Query+'%'
-								OR	ct.valuedesc like '%'+@Query+'%'
-								OR	tblca.IsActive like '%'+@Query+'%'
-								OR	tblca.PhoneNumber like '%'+@Query+'%')
+								OR	ct.valuedesc like +@Query+'%'
+								OR	tblca.IsActive like +@Query+'%'
+								OR	tblca.PhoneNumber like +@Query+'%')
 Group by
 tblc.ClientId,
 tblc.FirstName,
@@ -87,14 +92,30 @@ select * from #GetAllClient
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from tblClient where 
-ISNULL(IsDeleted,0) = 0 
+select count(1) as Count FROM [tblClient] tblc 
+     left join [tblClientAddress] tblca ON(tblc.ClientId = tblca.ClientId)
+	 left join GetTable('ClientType') ct ON tblc.ClientType = ct.valueid	 
+WHERE ISNULL(tblc.IsDeleted,0) = 0 AND ISNULL(tblc.FirstName,' ') != ''   AND
+isnull(tblc.IsDeleted,0)=0 and 
+isnull(tblca.IsDeleted,0)=0 
 
 END
 
 IF @Query IS Not NULL AND @Query != ''
 BEGIN
-select count(1) as Count from #GetAllClient
+select count(1) as Count 
+FROM [tblClient] tblc 
+     left join [tblClientAddress] tblca ON(tblc.ClientId = tblca.ClientId)
+	 left join GetTable('ClientType') ct ON tblc.ClientType = ct.valueid	 
+WHERE ISNULL(tblc.IsDeleted,0) = 0 AND ISNULL(tblc.FirstName,' ') != ''   AND
+isnull(tblc.IsDeleted,0)=0 and 
+isnull(tblca.IsDeleted,0)=0 and (
+@Query is null OR	tblc.FirstName like '%'+@Query+'%' 
+OR	tblc.lastName like '%'+@Query+'%'
+OR CONCAT_WS(' ',tblc.FirstName,tblc.LastName) like '%'+@Query+'%'
+OR	ct.valuedesc like '%'+@Query+'%'
+OR	tblca.IsActive like '%'+@Query+'%'
+OR	tblca.PhoneNumber like '%'+@Query+'%')
 END
 
 END

@@ -3,6 +3,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,8 +18,8 @@ namespace Strive.Core.ViewModels.Customer
         #region Properties
 
         public SelectedServiceList selectedMembership { get; set; }
+        public ServiceList upchargeFullList { get; set; } = new ServiceList();
         
-
         #endregion Properties
 
         #region Commands
@@ -49,23 +50,33 @@ namespace Strive.Core.ViewModels.Customer
         public async Task getAllServiceList()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var completeList = await AdminService.GetVehicleServices();
-            if (completeList == null)
+           MembershipDetails.completeList = await AdminService.GetVehicleServices();
+            if (MembershipDetails.completeList != null)
             {
+                upchargeFullList.ServicesWithPrice = new List<ServiceDetail>();
+                foreach(var item in MembershipDetails.completeList.ServicesWithPrice)
+                {
+                    if( item.ServiceTypeName == "Wash-Upcharge")
+                    {
+                        upchargeFullList.ServicesWithPrice.Add(item);
+                    }
+                }
                 _userDialog.HideLoading();
             }
             MembershipDetails.filteredList = new ServiceList();
             MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();
             foreach (var upcharges in selectedMembership.MembershipDetail)
             {
-                MembershipDetails.filteredList.
+                if (upcharges.Upcharges != null)
+                {
+                    MembershipDetails.filteredList.
                     ServicesWithPrice.
                     Add(
-                     completeList.
+                     MembershipDetails.completeList.
                      ServicesWithPrice.
                      Find(c => c.ServiceId == upcharges.ServiceId)
                     );
-
+                }               
             }
             _userDialog.HideLoading();
 
@@ -73,7 +84,7 @@ namespace Strive.Core.ViewModels.Customer
 
         public bool VehicleUpchargeCheck()
         {
-            if(MembershipDetails.selectedUpCharge == 0)
+            if(MembershipDetails.selectedUpCharge == 0 && !MembershipDetails.isNoneSelected)
             {
                 _userDialog.Alert("Please select an upcharge");
                 return false;
@@ -94,7 +105,13 @@ namespace Strive.Core.ViewModels.Customer
         }
 
         public async void NavToAdditionalServices()
-        {
+        {            
+            //MembershipDetails.filteredList = new ServiceList();
+            //MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();
+            //if (MembershipDetails.selectedUpCharge != 0)
+            //{
+            //    MembershipDetails.filteredList.ServicesWithPrice.Add(upchargeFullList.ServicesWithPrice.Find(a => a.ServiceId == MembershipDetails.selectedUpCharge));
+            //}
             await _navigationService.Navigate<VehicleAdditionalServiceViewModel>();
         }
         #endregion Commands

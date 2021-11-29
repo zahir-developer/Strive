@@ -38,12 +38,12 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             }
             _userDialog.HideLoading();
         }
-
-        public async void NavToSelect_Appoitment()
+        public async void NavToSelect_Service()
         {
             if (checkSelectedLocation())
             {
-                await _navigationService.Navigate<ScheduleAppointmentDateViewModel>();
+                await _navigationService.Navigate<ScheduleServicesViewModel>();
+                
             }
         }
         public async void NavToSchedule()

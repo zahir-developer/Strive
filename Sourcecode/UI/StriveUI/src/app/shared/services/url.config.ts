@@ -147,13 +147,13 @@ export const UrlConfig = {
     getMerchantDetails: `Admin/Location/GetMerchantDetails`,
   },
   MembershipSetup: {
-    getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName`,
+    getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName/`,
 
    
     getMembershipById: `Admin/MembershipSetup/GetMembershipAndServiceByMembershipId/`,
     addMembership: `Admin/MembershipSetup/Add`,
     updateMembership: `Admin/MembershipSetup/Update`,
-    deleteMembership: `Admin/MembershipSetup/Delete/`,
+    deleteMembership: `Admin/MembershipSetup/Delete/`,  
     getMembershipService: `Admin/ServiceSetup/GetService`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getAllMembership: `Admin/MembershipSetup/GetAll`,

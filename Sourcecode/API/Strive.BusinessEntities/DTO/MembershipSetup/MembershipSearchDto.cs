@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.DTO.MembershipSetup
 {
     public class MembershipSearchDto
     {
-       public string MembershipSearch { get; set; }
+        public string MembershipSearch { get; set; }
         public int LocationId { get; set; }
     }
 }

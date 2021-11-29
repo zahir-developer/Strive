@@ -1,6 +1,5 @@
-﻿
-
-CREATE proc [StriveCarSalon].[uspGetUserByAuthId] --[StriveCarSalon].[uspGetUserByAuthId]2499
+﻿--[StriveCarSalon].[uspGetUserByAuthId]2499
+CREATE PROCEDURE [StriveCarSalon].[uspGetUserByAuthId] 
 (@AuthId int)
 as
 begin
@@ -16,49 +15,49 @@ Emp.IsActive,
 ISNULL(ClientDet.ClientId,0) ClientId,
 ISNULL(ClientDet.AuthId,0) ClientAuthId
 FROM
-StriveCarSalon.tblEmployee Emp
+tblEmployee Emp
 LEFT JOIN
-StriveCarSalon.tblEmployeeDetail EmpDet ON Emp.EmployeeId = EmpDet.EmployeeId
+tblEmployeeDetail EmpDet ON Emp.EmployeeId = EmpDet.EmployeeId
 LEFT JOIN
-StriveCarSalon.tblClient ClientDet ON ClientDet.AuthId = @AuthId
+tblClient ClientDet ON ClientDet.AuthId = @AuthId
 LEFT JOIN 
-StriveCarSalon.tblEmployeeAddress EmpAdd on Emp.EmployeeId = EmpAdd.EmployeeId
+tblEmployeeAddress EmpAdd on Emp.EmployeeId = EmpAdd.EmployeeId
 WHERE
 EmpDet.AuthId = @AuthId AND (Emp.IsDeleted=0 OR Emp.IsDeleted IS NULL)
 
 
 SELECT EmpRo.EmployeeId,EmpRo.RoleId, rm.RoleName AS RoleName
 FROM
-StriveCarSalon.tblEmployeeRole EmpRo
-INNER JOIN StriveCarSalon.tblRoleMaster rm on EmpRo.RoleId=rm.RoleMasterId
-INNER JOIN StriveCarSalon.tblEmployeeDetail EmpDet
+tblEmployeeRole EmpRo
+INNER JOIN tblRoleMaster rm on EmpRo.RoleId=rm.RoleMasterId
+INNER JOIN tblEmployeeDetail EmpDet
 ON EmpDet.EmployeeId = EmpRo.EmployeeId 
 WHERE
 EmpDet.AuthId = @AuthId AND EmpRo.IsActive=1 AND EmpRo.IsDeleted=0
 
 SELECT DISTINCT EmpLo.EmployeeId,EmpLo.LocationId, Lo.LocationName, la.City,tblc.valuedesc AS CityName
 FROM
-StriveCarSalon.tblEmployeeLocation EmpLo
+tblEmployeeLocation EmpLo
 INNER JOIN
-StriveCarSalon.tblLocation Lo 
+tblLocation Lo 
 ON EmpLo.LocationId=Lo.LocationId
-INNER JOIN StriveCarSalon.tblEmployeeDetail EmpDet ON EmpDet.EmployeeId = EmpLo.EmployeeId 
+INNER JOIN tblEmployeeDetail EmpDet ON EmpDet.EmployeeId = EmpLo.EmployeeId 
 INNER JOIN tbllocationaddress la on Lo.LocationId =la.LocationId
-LEFT JOIN [StriveCarSalon].[GetTable]('City') tblc ON (la.City = tblc.valueid)
+LEFT JOIN [GetTable]('City') tblc ON (la.City = tblc.valueid)
 WHERE
 EmpDet.AuthId = @AuthId AND EmpLo.IsActive=1 AND EmpLo.IsDeleted=0
 
 SELECT EmpLoDr.drawerid,EmpLoDr.DrawerName, Lo.LocationId
 FROM
-StriveCarSalon.tblDrawer EmpLoDr
+tblDrawer EmpLoDr
 INNER JOIN
-StriveCarSalon.tblLocation Lo 
+tblLocation Lo 
 ON EmpLoDr.LocationId=Lo.LocationId
 INNER JOIN 
-StriveCarSalon.tblEmployeeLocation EmpLo
+tblEmployeeLocation EmpLo
 ON EmpLo.LocationId = EmpLoDr.LocationId
 INNER JOIN
-StriveCarSalon.tblEmployeeDetail EmpDet
+tblEmployeeDetail EmpDet
 ON EmpDet.EmployeeId = EmpLo.EmployeeId 
 WHERE
 EmpDet.AuthId = @AuthId AND EmpLoDr.IsActive=1 AND EmpLoDr.IsDeleted=0
@@ -66,7 +65,7 @@ EmpDet.AuthId = @AuthId AND EmpLoDr.IsActive=1 AND EmpLoDr.IsDeleted=0
 
 
 DECLARE @EmployeeID INT;
-SELECT @EmployeeID = EmployeeId FROM [StriveCarSalon].tblEmployeeDetail WHERE AuthId=@AuthId
+SELECT @EmployeeID = EmployeeId FROM tblEmployeeDetail WHERE AuthId=@AuthId
 
 SELECT 
 emp.EmployeeId, 
@@ -77,13 +76,13 @@ rolmas.RoleName,
 module.ModuleName,
 modscrn.ViewName,
 fld.FieldName
-FROM StriveCarSalon.tblEmployee emp 
-left join StriveCarSalon.tblEmployeeRole emprol on emprol.EmployeeId=emp.EmployeeId
-left join StriveCarSalon.tblRoleMaster rolmas on emprol.RoleId=rolmas.RoleMasterId
-left join StriveCarSalon.TblRolePermissiondetail rolper on rolper.RoleId=emprol.RoleId
-left join StriveCarSalon.TblModule module on rolper.ModuleId=module.ModuleId
-left join StriveCarSalon.TblModuleScreen modscrn on rolper.ModuleScreenId=modscrn.ModuleScreenId
-left join StriveCarSalon.TblField fld  on rolper.FieldId=fld.FieldId AND fld.IsActive =1
+FROM tblEmployee emp 
+left join tblEmployeeRole emprol on emprol.EmployeeId=emp.EmployeeId
+left join tblRoleMaster rolmas on emprol.RoleId=rolmas.RoleMasterId
+left join TblRolePermission rolper on rolper.RoleId=emprol.RoleId
+left join TblModule module on rolper.ModuleId=module.ModuleId
+left join TblModuleScreen modscrn on rolper.ModuleScreenId=modscrn.ModuleScreenId
+left join TblField fld  on rolper.FieldId=fld.FieldId AND fld.IsActive =1
 WHERE emp.EmployeeId =@Employeeid 
 AND  emp.IsActive =1
 AND emprol.IsActive=1

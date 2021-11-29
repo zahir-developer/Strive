@@ -13,6 +13,9 @@ namespace StriveCustomer.iOS.Views
 	partial class TermsView
 	{
 		[Outlet]
+		UIKit.UILabel termsLabel { get; set; }
+
+		[Outlet]
 		UIKit.UIView TermsParentView { get; set; }
 
 		[Action ("AgreeBtn_Touch:")]
@@ -23,6 +26,11 @@ namespace StriveCustomer.iOS.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (termsLabel != null) {
+				termsLabel.Dispose ();
+				termsLabel = null;
+			}
+
 			if (TermsParentView != null) {
 				TermsParentView.Dispose ();
 				TermsParentView = null;

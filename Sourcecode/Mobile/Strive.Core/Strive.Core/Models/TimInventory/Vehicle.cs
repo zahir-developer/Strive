@@ -16,6 +16,8 @@ namespace Strive.Core.Models.TimInventory
         public string VehicleNumber { get; set; }
         public string VehicleMfr { get; set; }
         public int VehicleModelId { get; set; }
+        public int VehicleMakeId { get; set; }
+        public int VehicleColorId { get; set; }
         public string VehicleModel { get; set; }
         public string VehicleColor { get; set; }
         public int? VehicleModelNo { get; set; }

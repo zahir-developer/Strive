@@ -52,6 +52,18 @@ namespace StriveCustomer.iOS.Views
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             NavigationItem.Title = "Account";
+
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
+
             PastDetail_Segment.Hidden = true;
             PersonalInfo_Segment.Hidden = false;
             VehicleList_Segment.Hidden = true;
@@ -133,19 +145,19 @@ namespace StriveCustomer.iOS.Views
 
             if (personalInfoViewModel.customerInfo.Status.Count > 0)
             {
-                FullName_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName;
-                ContactNo_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
-                Address_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Address1;
-                ZipCode_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
-                PhoneNo_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
-                Email_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
+                FullName_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().FirstName +" "+ personalInfoViewModel.customerInfo.Status.FirstOrDefault().MiddleName +" "+ personalInfoViewModel.customerInfo.Status.FirstOrDefault().LastName;
+                ContactNo_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().PhoneNumber;
+                Address_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Address1;
+                ZipCode_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Zip;
+                PhoneNo_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().PhoneNumber2;
+                Email_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Email;
 
-                MyProfileCustomerInfo.FullName = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName;
-                MyProfileCustomerInfo.ContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
-                MyProfileCustomerInfo.Email = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
-                MyProfileCustomerInfo.SecondaryContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
-                MyProfileCustomerInfo.Address = personalInfoViewModel.customerInfo.Status.LastOrDefault().Address1;
-                MyProfileCustomerInfo.ZipCode = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
+                MyProfileCustomerInfo.FullName = personalInfoViewModel.customerInfo.Status.FirstOrDefault().FirstName +" "+ personalInfoViewModel.customerInfo.Status.FirstOrDefault().MiddleName + " " + personalInfoViewModel.customerInfo.Status.FirstOrDefault().LastName;
+                MyProfileCustomerInfo.ContactNumber = personalInfoViewModel.customerInfo.Status.FirstOrDefault().PhoneNumber;
+                MyProfileCustomerInfo.Email = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Email;
+                MyProfileCustomerInfo.SecondaryContactNumber = personalInfoViewModel.customerInfo.Status.FirstOrDefault().PhoneNumber2;
+                MyProfileCustomerInfo.Address = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Address1;
+                MyProfileCustomerInfo.ZipCode = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Zip;
             }
         }
 
@@ -171,6 +183,7 @@ namespace StriveCustomer.iOS.Views
                     }
                     else if (String.Equals(data.DetailOrAdditionalService, "Additional Services") && string.Equals(data.DetailVisitDate, previousDates))
                     {
+                        CustomerInfo.pastClientServices.PastClientDetails.Add(data);
                         totalCost = totalCost + float.Parse(data.Cost);
 
                     }

@@ -42,12 +42,12 @@ namespace StriveCustomer.iOS.Views
                 MembershipNameLbl.Text = this.ViewModel.MembershipName;
             }
 
-            var CreatedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.CreatedDate.ToString());
+            var CreatedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.StartDate.ToString());
             var DeletedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.EndDate.ToString());
 
             ActivatedDate_Value.Text = CreatedDate;
             CancelledDate_Value.Text = DeletedDate;
-            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive)
+            if (!CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive.HasValue)
             {
                 MembershipStatus_Value.Text = "Active";
             }

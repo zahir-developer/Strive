@@ -10,7 +10,11 @@ namespace Strive.Core.Utils.TimInventory
 
         public static string CurrentRole { get; set; }
 
+        public static int SelectedRoleId { get; set; }
+
         public static TimeClockRoot ClockInStatus { get; set; }
+
+        public static string ClockInTime { get; set; }
 
         public static InventoryDataModel EditableProduct { get; set; }
 
@@ -19,6 +23,8 @@ namespace Strive.Core.Utils.TimInventory
         public static string ViewSourceUrl { get; set; }
 
         public static bool load { get; set; }
+
+        public static int selectedLocationId { get; set; }
     }
 
     public static class MembershipData

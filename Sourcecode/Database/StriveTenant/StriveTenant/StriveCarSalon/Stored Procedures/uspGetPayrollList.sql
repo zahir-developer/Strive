@@ -1,4 +1,8 @@
-﻿
+﻿--[StriveCarSalon].[uspGetPayrollList]  1,'2021-05-20','2021-06-04'
+/*
+ 03-06-2021 - Vetriselvi OverTime Pay calculation and excluded overtime hours in total wash hours
+  4  |  2021-June-08  | Vetriselvi  | Added Location filter in Collision  
+*/
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetPayrollList] 
 @LocationId INT,

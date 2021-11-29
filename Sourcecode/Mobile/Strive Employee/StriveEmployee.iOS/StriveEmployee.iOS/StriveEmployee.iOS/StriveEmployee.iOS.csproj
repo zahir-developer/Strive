@@ -25,6 +25,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>StriveEmployeeRelease</CodesignProvision>
+    <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -45,8 +47,9 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>StriveEmployeeRelease</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -56,7 +59,9 @@
     <WarningLevel>4</WarningLevel>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+    <CodesignProvision>StriveEmployeeRelease</CodesignProvision>
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -80,6 +85,99 @@
     <Compile Include="Views\DashboardView.cs" />
     <Compile Include="Views\DashboardView.designer.cs">
       <DependentUpon>DashboardView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Profile\ProfileView.cs" />
+    <Compile Include="Views\Profile\ProfileView.designer.cs">
+      <DependentUpon>ProfileView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Profile\ProfileView.xib" />
+    <Compile Include="Views\Profile\CollisionCell.cs" />
+    <Compile Include="Views\Profile\CollisionCell.designer.cs">
+      <DependentUpon>CollisionCell.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Profile\CollisionCell.xib" />
+    <Compile Include="Views\Profile\CollisionDataSource.cs" />
+    <Compile Include="Views\Profile\DocumentDataSource.cs" />
+    <Compile Include="Views\Profile\DocumentsCell.cs" />
+    <Compile Include="Views\Profile\DocumentsCell.designer.cs">
+      <DependentUpon>DocumentsCell.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Profile\DocumentsCell.xib" />
+    <Compile Include="Views\CheckOut\CheckOut_Cell.cs" />
+    <Compile Include="Views\CheckOut\CheckOut_Cell.designer.cs">
+      <DependentUpon>CheckOut_Cell.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\CheckOut\CheckOut_Cell.xib" />
+    <Compile Include="Views\CheckOut\Checkout_DataSource.cs" />
+    <Compile Include="Views\CheckOut\CheckOutView.cs" />
+    <Compile Include="Views\CheckOut\CheckOutView.designer.cs">
+      <DependentUpon>CheckOutView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\CheckOut\CheckOutView.xib" />
+    <InterfaceDefinition Include="Views\Messenger\MessengerView.xib" />
+    <Compile Include="Views\Messenger\MessengerView.cs" />
+    <Compile Include="Views\Messenger\MessengerView.designer.cs">
+      <DependentUpon>MessengerView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Schedule\ScheduleView.xib" />
+    <Compile Include="Views\Schedule\ScheduleView.cs" />
+    <Compile Include="Views\Schedule\ScheduleView.designer.cs">
+      <DependentUpon>ScheduleView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Tickets\TicketView.xib" />
+    <Compile Include="Views\Tickets\TicketView.cs" />
+    <Compile Include="Views\Tickets\TicketView.designer.cs">
+      <DependentUpon>TicketView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Schedule\empSchedule_Cell.xib" />
+    <Compile Include="Views\Schedule\empSchedule_Cell.cs" />
+    <Compile Include="Views\Schedule\empSchedule_Cell.designer.cs">
+      <DependentUpon>empSchedule_Cell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Schedule\Emp_Schedule_DataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\Messenger_CellView.xib" />
+    <Compile Include="Views\Messenger\Messenger_CellView.cs" />
+    <Compile Include="Views\Messenger\Messenger_CellView.designer.cs">
+      <DependentUpon>Messenger_CellView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messenger\MessengerRecents_DataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\Contact_CellView.xib" />
+    <Compile Include="Views\Messenger\Contact_CellView.cs" />
+    <Compile Include="Views\Messenger\Contact_CellView.designer.cs">
+      <DependentUpon>Contact_CellView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messenger\Contact_DataSource.cs" />
+    <Compile Include="Views\Messenger\MsgGroup_DataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\Chat\ChatViewController.xib" />
+    <Compile Include="Views\Messenger\Chat\ChatViewController.cs" />
+    <Compile Include="Views\Messenger\Chat\ChatViewController.designer.cs">
+      <DependentUpon>ChatViewController.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Messenger\Chat\MessageIncomingCell.xib" />
+    <Compile Include="Views\Messenger\Chat\MessageIncomingCell.cs" />
+    <Compile Include="Views\Messenger\Chat\MessageIncomingCell.designer.cs">
+      <DependentUpon>MessageIncomingCell.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Messenger\Chat\MessageOutgoingCell.xib" />
+    <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.cs" />
+    <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.designer.cs">
+      <DependentUpon>MessageOutgoingCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messenger\Chat\ChatDataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\CreateGroupView.xib" />
+    <Compile Include="Views\Messenger\CreateGroupView.cs" />
+    <Compile Include="Views\Messenger\CreateGroupView.designer.cs">
+      <DependentUpon>CreateGroupView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Messenger\SelectContactCell.xib" />
+    <Compile Include="Views\Messenger\SelectContactCell.cs" />
+    <Compile Include="Views\Messenger\SelectContactCell.designer.cs">
+      <DependentUpon>SelectContactCell.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Profile\DocumentView.xib" />
+    <Compile Include="Views\Profile\DocumentView.cs" />
+    <Compile Include="Views\Profile\DocumentView.designer.cs">
+      <DependentUpon>DocumentView.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +292,30 @@
     <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%401x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -213,6 +335,18 @@
     <Folder Include="Resources\Assets.xcassets\icon-schedule-active.imageset\" />
     <Folder Include="Resources\Assets.xcassets\icon-ticket.imageset\" />
     <Folder Include="Resources\Assets.xcassets\icon-ticket-active.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-view.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-checkout.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-checkout-active.imageset\" />
+    <Folder Include="Views\Profile\" />
+    <Folder Include="Views\CheckOut\" />
+    <Folder Include="Views\Messenger\" />
+    <Folder Include="Views\Schedule\" />
+    <Folder Include="Views\Tickets\" />
+    <Folder Include="Views\Messenger\Chat\" />
+    <Folder Include="Resources\Assets.xcassets\send-msg.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\menu-options.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\select-Contact.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

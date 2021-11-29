@@ -92,15 +92,15 @@ namespace StriveEmployee.Android.Adapter
         public void OnClick(View v)
         {
             var position = (int)v.Tag;
-            if(MessengerTempData.employeeList_Contact.EmployeeList.Employee.Contains(contacts[position]))
+            if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Contains(contacts[position]))
             {
-                var index = MessengerTempData.employeeList_Contact.EmployeeList.Employee.IndexOf(contacts[position]);
-                MessengerTempData.employeeList_Contact.EmployeeList.Employee.RemoveAt(index);
+                var index = MessengerTempData.createGroup_Contact.EmployeeList.Employee.IndexOf(contacts[position]);
+                MessengerTempData.createGroup_Contact.EmployeeList.Employee.RemoveAt(index);
                 v.SetBackgroundColor(Color.Transparent);
             }
             else
             {
-                MessengerTempData.employeeList_Contact.EmployeeList.Employee.Add(contacts[position]);
+                MessengerTempData.createGroup_Contact.EmployeeList.Employee.Add(contacts[position]);
                 v.SetBackgroundColor(Color.LightCyan);
             }
         }

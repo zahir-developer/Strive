@@ -1,6 +1,7 @@
 ﻿using System;
-
+using Acr.UserDialogs;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using Strive.Core.Models.TimInventory;
@@ -12,6 +13,7 @@ namespace StriveTimInventory.iOS.Views
     {
         public static readonly NSString Key = new NSString("EmployeeRolesCell");
         public static readonly UINib Nib;
+        private static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         static EmployeeRolesCell()
         {
@@ -31,7 +33,8 @@ namespace StriveTimInventory.iOS.Views
 
         public void SetCell(EmployeeRolesCell cell, EmployeeRole role)
         {
-            cell.ImgView.Image = UIImage.FromBundle(role.ImageUri);
+            //cell.ImgView.Image = UIImage.FromBundle(role.ImageUri);
+            cell.RolenameLbl.Text = role.Title;
         }
     }
 }

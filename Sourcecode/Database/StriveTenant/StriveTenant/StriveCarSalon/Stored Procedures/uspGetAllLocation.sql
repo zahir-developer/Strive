@@ -11,6 +11,7 @@
 --                       and tblLocationAddress
 -- 30-09-2020, Vineeth - Added Start Time and End Time and
 --						 Latitude and Longitude
+-- 10-04-2020, Zahir   - Added location Email address table
 ----------------------------------------------------------------
 -- =============================================================
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocation]
@@ -30,7 +31,7 @@ SELECT tbll.LocationId,
 	   tblla.PhoneNumber,
 	   STUFF((SELECT Distinct ', ' + le.EmailAddress  
     FROM [tblLocationEmail] le
-	WHERE le.LocationId = tbll.LocationId
+	WHERE le.LocationId = tbll.LocationId and IsDeleted = 0
     FOR XML PATH('')
 	), 1, 2, '')  AS Email,
 	   --tblla.Email,

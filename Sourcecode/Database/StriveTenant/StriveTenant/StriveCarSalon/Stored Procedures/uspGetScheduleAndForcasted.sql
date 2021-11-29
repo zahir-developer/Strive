@@ -1,11 +1,11 @@
-﻿--[StriveCarSalon].[uspGetScheduleAndForcasted]1,null,'2021-05-01','2021-05-01','2021-04-01','2021-01-01'
-CREATE PROC [StriveCarSalon].[uspGetScheduleAndForcasted] 
+﻿--[StriveCarSalon].[uspGetScheduleAndForcasted]1,null,'2021-05-01','2021-05-23'
+CREATE PROCEDURE [StriveCarSalon].[uspGetScheduleAndForcasted] 
 @LocationId int,
 @EmployeeId int = NULL,
 @ScheduledStartDate Date = NULL,--lastweek
-@ScheduledEndDate Date = NULL,--today
-@lastMonth VARCHAR(10),
-@lastThirdMonth  VARCHAR(10)
+@ScheduledEndDate Date = NULL--today
+--@lastMonth VARCHAR(10),
+--@lastThirdMonth  VARCHAR(10)
 AS
 BEGIN  
 DROP TABLE IF EXISTS #Schedule
@@ -40,9 +40,8 @@ WHERE
 AND
 (ScheduledDate BETWEEN @ScheduledStartDate AND @ScheduledendDate) OR (@ScheduledStartDate IS NULL AND @ScheduledendDate IS NULL))
 
-
-
-select SUM(CONVERT(DECIMAL(4,2),(DATEDIFF(MINUTE,StartTime, EndTime))))/60 as Totalhours ,ScheduledDate
+select SUM(CONVERT(DECIMAL(6,2),(DATEDIFF(MINUTE,StartTime, EndTime))))/60 as Totalhours ,ScheduledDate
+,count(distinct EmployeeId) as TotalEmployees
 from #Schedule s
 Group by s.ScheduledDate
 
@@ -50,42 +49,57 @@ select count(distinct EmployeeId) as TotalEmployees ,ScheduledDate
 from #Schedule s
 Group by s.ScheduledDate
 
+--Forcasted employee hours and cars
 
-DROP TABLE IF EXISTS #WashHours
+Declare @imax int,@imin int
+DROP TABLE IF EXISTS #TempDate
+DROP TABLE IF EXISTS #tempdata
 
-Select count(1) as WashCount,j.JobDate, j.locationId into #WashHours from tblJob j 
-INNER JOIN GetTable('JobType') JT on JT.valueid = j.JobType
---INNER join GetTable('JobStatus') GT on GT.valueId = j.JobStatus and GT.valuedesc = 'Completed'
-WHERE j.JobDate in (@ScheduledendDate,@ScheduledStartDate,@lastMonth,@lastThirdMonth)  and j.Locationid=@LocationId
-GROUP BY JobDate, j.LocationId
+Create table #tempdata (
+id int identity(1,1),
+today date,
+Lastweek date,
+LastMonth date,
+LastThreeMonth date);
 
-DROP TABLE IF EXISTS #WashTime
-SELECT 
-WP.Weather,
-WP.RainProbability,
-convert (decimal(18,2),(ISNULL(a.WashCount,0)*1.5)) AS WashTimeMinutes,
-a.JobDate ,
-WP.CreatedDate into #WashTime
-FROM [tblWeatherPrediction] WP
-LEFT join #WashHours a on CONVERT(VARCHAR(10), wp.CreatedDate, 120) = a.JobDate
-WHERE
-WP.LocationId =@LocationId AND CONVERT(VARCHAR(10), wp.CreatedDate, 120) in (@ScheduledendDate,@ScheduledStartDate,@lastMonth,@lastThirdMonth) 
-and wp.Weather IS NOT NULL AND WP.RainProbability IS nOT NULL 
-ORDER BY CreatedDate DESC
+WITH DateRange(DateData) AS 
+(
+    SELECT @ScheduledStartDate as Date
+    UNION ALL
+    SELECT DATEADD(d,1,DateData)
+    FROM DateRange 
+    WHERE DateData < @ScheduledendDate
+)
+
+insert into #tempdata
+Select DateData,DATEADD(Day,-7,DateData)As LastWeek,DATEADD(Month,-1,DateData)as LastMonth,DATEADD(Month,-3,DateData)as LastthreeMonth FROM DateRange
+--SELECT * FROM #TEMPDATA
 
 
-DECLARE @AvgCount INT = (Select count(1) from #WashTime WHERE WashTimeMinutes >0 )
+select @imin =min(id),@imax =MAX(id) from #tempdata
 
-DECLARE @Normal DECIMAL(18,2) = (Select SUM(CONVERT(DECIMAL(18,2),WashTimeMinutes))/@AvgCount from #WashTime)
 
-DECLARE @Today_RainPrecipitation int = (select top 1 RainProbability from #WashTime where (CONVERT(VARCHAR(10), CreatedDate, 120) = @ScheduledendDate))
+while @imax >= @imin
+begin
+declare @Forcasted table
+(date date ,
+ForcastedEmployeeHours decimal(19,2),
+ForcastedCars decimal(19,2),
+RainPrecipitation decimal(19,2))
 
-DEclare @Formula decimal(18,2) =(select top(1) Formula from tblForcastedRainPercentageMaster fr 
-where @Today_RainPrecipitation between fr.PrecipitationRangeFrom and fr.PrecipitationRangeTo)
+Declare @today varchar(10);
+Declare @lastWeek  VARCHAR(10)  ;
+declare @lastMonth VARCHAR(10);
+declare @lastThirdMonth  VARCHAR(10);
 
-select  Round(@Normal * @Formula,0) as ForcastedEmployeeHours
-,Round((@Normal * @Formula) / 1.25,0) as ForcastedCars ,@Today_RainPrecipitation as RainPrecipitation
+select @today=today,@lastWeek=Lastweek,@lastMonth=LastMonth,@lastThirdMonth=LastThreeMonth from #tempdata where id=@imin
+--select @today,@lastWeek,@lastMonth,@lastThirdMonth
+
+insert into @Forcasted
+Exec uspGetForcastedCarsEmployeeHours 1,@today,@lastWeek,@lastMonth,@lastThirdMonth
+set @imin =@imin+1;
+end
+select * from @Forcasted
 
 END
-
-END
+End

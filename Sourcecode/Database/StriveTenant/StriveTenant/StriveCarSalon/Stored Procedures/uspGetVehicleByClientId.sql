@@ -19,12 +19,12 @@ SELECT
 	,model.ModelId as VehicleModelId
 	,model.ModelValue as VehicleModelName
 FROM
-strivecarsalon.tblClientVehicle cvl
+tblClientVehicle cvl
 Left join tblVehicleMake make on cvl.VehicleMfr=make.MakeId
 Left join tblvehicleModel model on cvl.VehicleModel= model.ModelId and make.MakeId = model.MakeId
 --INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
 --INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
-INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+INNER JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 
 WHERE ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1 AND
 (@ClientId is null or cvl.ClientId = @ClientId)

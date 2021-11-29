@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Runtime.Remoting.Channels;
 using CoreGraphics;
+using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views.Schedule
 {
-    public partial class Schedule_SelectService : UIViewController
+    public partial class Schedule_SelectService : MvxViewController<ScheduleServicesViewModel>
     {
         ScheduleServicesViewModel ViewModel = new ScheduleServicesViewModel();
         public Schedule_SelectService() : base("Schedule_SelectService", null)
@@ -39,7 +40,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             {
                 if (this.ViewModel.checkSelectedService())
                 {
-                    ViewModel.NavToSelect_Loc();
+                    ViewModel.NavToSelect_Appoitment();
                 }                
             };
 
@@ -64,7 +65,7 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             await ViewModel.GetScheduledServices();
 
-            if(this.ViewModel.scheduleServices != null && this.ViewModel.scheduleServices.ServicesWithPrice.Count > 0)
+            if(this.ViewModel.scheduleServices != null && this.ViewModel.scheduleServices.AllServiceDetail.Count > 0)
             {
                 var selectServiceSource = new Schedule_SelectService_Source(this.ViewModel);
                 SelectService_TableView.Source = selectServiceSource;

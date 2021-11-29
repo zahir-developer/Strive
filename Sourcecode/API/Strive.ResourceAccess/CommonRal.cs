@@ -178,6 +178,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("ModelId", upchargeDto.ModelId);
             _prm.Add("ServiceType", upchargeDto.UpchargeServiceType);
+            _prm.Add("LocationId", upchargeDto.LocationId);
             return db.Fetch<UpchargeViewModel>(EnumSP.Vehicle.USPGETUPCHARGEBYTYPE.ToString(), _prm);
         }
 

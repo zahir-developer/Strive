@@ -1,5 +1,4 @@
-﻿
--- ================================================
+﻿-- ================================================
 -- Author:		Benny Johnson
 -- Create date: 01-08-2020
 -- Description:	Retrieve Vehicle Detail by ClientId
@@ -12,6 +11,8 @@
 --                      for any vehicle of 
 --                      respective client,
 --						Added distinct conditon
+-- 08-jun-2021, shalini - Added unk for make,mode
+--08-jun-2021, shalini - Added IsDiscount field
 
 ------------------------------------------------
 -- =============================================
@@ -26,7 +27,7 @@ DECLARE @Count int
 DECLARE @IsMembership bit
 
 set @TodayDate =(SELECT CAST( GETDATE() AS Date ) as CurrentDate)
-set @Count =(select Count(1) from strivecarsalon.tblClientVehicleMembershipDetails 
+set @Count =(select Count(1) from tblClientVehicleMembershipDetails 
                 where @TodayDate between StartDate and EndDate and ClientVehicleId 
 				in(select VehicleId from tblClientVehicle where ClientId=@ClientId and IsActive=1 and ISNULL(IsDeleted,0)=0)
 				and IsActive=1 and ISNULL(IsDeleted,0)=0) 
@@ -62,21 +63,22 @@ SELECT
 	cvl.IsActive,
 	cvl.MonthlyCharge,
 	@IsMembership as IsMembership,
+	cvmd.IsDiscount,
 	tblm.MembershipName	
 	,make.MakeId as VehicleMakeId
-	,make.MakeValue as VehicleMfr
+	,IsNull(make.MakeValue,'Unk') as VehicleMfr
 	,model.ModelId as VehicleModelId
-	,model.ModelValue as VehicleModel
+	,IsNull(model.ModelValue,'Unk') as VehicleModel
 FROM 
-strivecarsalon.tblclient cl
-INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId
-LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId
-LEFT JOIN strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId
+tblclient cl
+INNER JOIN tblClientVehicle cvl ON cl.ClientId = cvl.ClientId
+LEFT JOIN  tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId
+LEFT JOIN  tblmembership tblm on cvmd.MembershipId = tblm.MembershipId
 LEFT JOIN tblVehicleMake make on cvl.VehicleMfr=make.MakeId
 LEFT JOIN tblvehicleModel model on cvl.VehicleModel= model.ModelId and make.MakeId = model.MakeId
 --LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
 --LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
-LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+LEFT JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND ISNULL(cvl.IsActive,1)=1 AND
 ISNULL(cvl.IsDeleted,0)=0 AND
 cl.ClientId = @ClientId

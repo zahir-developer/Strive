@@ -6,14 +6,19 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Strive.Core.Utils;
 using Strive.Core.Resources;
+using System.Collections.Generic;
+using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
     public class InventoryEditViewModel : BaseViewModel
     {
-        private InventoryDataModel EditInventoryItem;
+        private InventoryDataModel  EditInventoryItem;
 
         public ObservableCollection<VendorDetail> VendorList = new ObservableCollection<VendorDetail>();
+        public ObservableCollection<LocationDetail> LocationList = new ObservableCollection<LocationDetail>();
+        public ObservableCollection<Code> ProductTypeList = new ObservableCollection<Code>();
+        public EditProduct.ProductDetail_Id editableProduct = new EditProduct.ProductDetail_Id();
 
         private VendorDetail CurrentVendor = new VendorDetail();
 
@@ -30,15 +35,47 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
             if(EditInventoryItem != null)
             {
+                productByIdCommand();
                 PickerSelectionCommand(EditInventoryItem.Vendor);
             }
             if (EditInventoryItem != null)
             {
                 SetProductCommand(EditInventoryItem.Product);
-            }
+                ItemLocation = EditInventoryItem.Product.LocationName;
+                ItemType = EditInventoryItem.Product.ProductTypeName;
+                if(EditInventoryItem.Product.Base64 != null)
+                {
+                    Base64String = EditInventoryItem.Product.Base64;
+                }
+            }           
             RaiseAllPropertiesChanged();
         }
 
+        public async Task GetAllLocNameCommand()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var locations = await AdminService.GetAllLocationName();
+
+            foreach(var location in locations.Location)
+            {
+                LocationList.Add(location);
+                LocationNames.Add(location.LocationName);
+            }
+            _userDialog.HideLoading();
+            await RaiseAllPropertiesChanged();
+        }
+        public async Task GetProductTypeCommand()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var Typelist = await AdminService.GetProductType();
+
+            foreach(var item in Typelist.Codes)
+            {
+                ProductTypeList.Add(item);
+            }
+            _userDialog.HideLoading();
+            await RaiseAllPropertiesChanged();
+        }
         public string ItemCode { get
             {
                 return _SelectedItemCode;
@@ -67,6 +104,59 @@ namespace Strive.Core.ViewModels.TIMInventory
                 if(((isNumeric) && number > 0) || value == "")
                 {
                     SetProperty(ref _SelectedItemQuantity, value);
+                }
+                RaiseAllPropertiesChanged();
+            }
+        }
+        public string ItemType { get
+            {
+                return _SelectedItemType;
+            }
+            set { SetProperty(ref _SelectedItemType, value); }
+        }
+        public int ItemTypeId {
+            get
+            {
+                return _SelectedItemTypeId;
+            }
+            set { SetProperty(ref _SelectedItemTypeId, value); }
+        }
+        public string ItemLocation { get
+            {
+                return _SelectedItemLocation;
+            }
+            set { SetProperty(ref _SelectedItemLocation, value); }
+        }
+         public int ItemLocationId { get
+            {
+                return _SelectedItemLocationId;
+            }
+            set { SetProperty(ref _SelectedItemLocationId, value); }
+        }
+        public string ItemCost { get
+            {
+                return _SelectedItemCost;
+            }
+            set {
+                double number = 0;
+                bool isNumeric = double.TryParse(value, out number);
+                if (((isNumeric) && number > 0) || value == "")
+                {
+                    SetProperty(ref _SelectedItemCost, value);
+                }
+                RaiseAllPropertiesChanged();
+            }                   
+        }
+        public string ItemPrice { get
+            {
+                return _SelectedItemPrice;
+            }
+            set {
+                double number = 0;
+                bool isNumeric = double.TryParse(value, out number);
+                if (((isNumeric) && number > 0) || value == "")
+                {
+                    SetProperty(ref _SelectedItemPrice, value);
                 }
                 RaiseAllPropertiesChanged();
             }
@@ -126,6 +216,12 @@ namespace Strive.Core.ViewModels.TIMInventory
         private string _SelectedItemCode;
         private string _SelectedItemDescription;
         private string _SelectedItemQuantity;
+        private string _SelectedItemType;
+        private int _SelectedItemTypeId;
+        private string _SelectedItemLocation;
+        private int _SelectedItemLocationId;
+        private string _SelectedItemCost;
+        private string _SelectedItemPrice;
 
         public string Base64String { get; set; }
         public string Filename { get; set; }
@@ -135,6 +231,13 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             get { return _VendorNames; }
             set { SetProperty(ref _VendorNames, value); }
+        }
+
+        private ObservableCollection<string> _LocationNames = new ObservableCollection<string>();
+        public virtual ObservableCollection<string> LocationNames
+        {
+            get { return _LocationNames; }
+            set { SetProperty(ref _LocationNames, value); }
         }
 
         public async Task NavigateBackCommand()
@@ -153,12 +256,26 @@ namespace Strive.Core.ViewModels.TIMInventory
             CurrentVendor = SelectedVendor;
         }
 
-        public void SetProductCommand(ProductDetail SelectedProduct)
+        public void SetProductCommand(ProductSearch SelectedProduct)
         {
             ItemCode = SelectedProduct.ProductCode;
             ItemName = SelectedProduct.ProductName;
             ItemDescription = SelectedProduct.ProductDescription;
             ItemQuantity = SelectedProduct.Quantity.ToString();
+            ItemCost = SelectedProduct.Cost.ToString();
+            ItemPrice = SelectedProduct.Price.ToString();
+        }
+
+        public void setLocationCommand(LocationDetail selectedLocation)
+        {
+            ItemLocation = selectedLocation.LocationName;
+            ItemLocationId = selectedLocation.LocationId;
+        }
+
+        public void setProdTypeCommand(Code selectedType)
+        {
+            ItemType = selectedType.CodeValue;
+            ItemTypeId = selectedType.CodeId;
         }
 
         public async Task AddProductCommand()
@@ -167,7 +284,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 return;
             }
-            var product = PrepareAddProduct();
+            var product = PrepareAddProduct(); 
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.AddProduct(product);
             if(result.Status == "true")
@@ -194,6 +311,38 @@ namespace Strive.Core.ViewModels.TIMInventory
                 _userDialog.AlertAsync("Quantity cannot be a negative value");
                 return false;
             }
+            else if (string.IsNullOrEmpty(ItemType))
+            {
+                _userDialog.AlertAsync("Please enter product Type");
+                return false;
+            }
+            else if(ItemTypeId == 0)
+            {
+                var productType = ProductTypeList.Where(l => l.CodeValue == EditInventoryItem.Product.ProductTypeName).FirstOrDefault();
+                ItemTypeId = productType.CodeId;
+                return false;
+            }
+            else if (string.IsNullOrEmpty(ItemLocation) || (ItemLocation == ""))
+            {
+                _userDialog.AlertAsync("Please enter location");
+                return false;
+            }
+            else if(ItemLocationId == 0)
+            {
+                var location = LocationList.Where(l => l.LocationName == EditInventoryItem.Product.LocationName).FirstOrDefault();
+                ItemLocationId = location.LocationId;
+                return false;
+            }
+            else if (string.IsNullOrEmpty(ItemCost))
+            {
+                _userDialog.AlertAsync("Please enter Item cost");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(ItemPrice))
+            {
+                _userDialog.AlertAsync("Please enter Item Price");
+                return false;
+            }
             else if (string.IsNullOrEmpty(SupplierName))
             {
                 _userDialog.AlertAsync("Please enter Supplier information");
@@ -202,35 +351,54 @@ namespace Strive.Core.ViewModels.TIMInventory
             return true;
         }
 
-        private ProductDetail PrepareAddProduct()
-        {
-            ProductDetail AddProduct = new ProductDetail()
+        private AddProduct PrepareAddProduct()
+        {           
+            ProductDetail newProd = new ProductDetail()
             {
-                ProductCode = _SelectedItemCode,
-                ProductName = _SelectedItemName,
-                ProductDescription = _SelectedItemDescription,
-                ProductType = 1,
-                fileName = _SelectedItemName + _SelectedItemCode,
+                productCode = _SelectedItemCode,
+                productDescription = _SelectedItemDescription,
+                productType = _SelectedItemTypeId,
+                productId = 0,
+                locationId = _SelectedItemLocationId,
+                productName = _SelectedItemName,
                 base64 = Base64String,
-                LocationId = 1,
-                VendorId = CurrentVendor.VendorId,
-                Size = 1,
-                SizeDescription = "",
-                Quantity = int.Parse(_SelectedItemQuantity),
-                QuantityDescription = "",
-                Cost = 10,
-                IsTaxable = true,
-                TaxAmount = 10,
-                ThresholdLimit = 5,
-                IsActive = true,
-                IsDeleted = false,
-                CreatedBy = 0,
-                CreatedDate = DateUtils.GetTodayDateString(),
-                UpdatedBy = 0,
-                UpdatedDate = DateUtils.GetTodayDateString(),
-                Price = 20
+                fileName = Filename,
+                OriginalFileName = Filename,
+                thumbFileName = "png",
+                cost = _SelectedItemCost,
+                isTaxable = false,
+                taxAmount = 0,
+                size = 23,
+                quantity = int.Parse(_SelectedItemQuantity),
+                isActive = true,
+                thresholdLimit = "",
+                isDeleted = false,
+                price = _SelectedItemPrice
             };
-            return AddProduct;
+            ProductVendor newVendor = new ProductVendor()
+            {
+                productVendorId = 0,
+                productId = 0,
+                vendorId = CurrentVendor.VendorId,
+                isActive = true,
+                isDeleted = false
+            };
+            List<ProductVendor> vendorList = new List<ProductVendor>();
+            vendorList.Add(newVendor);
+            Product productSet = new Product()
+            {
+                product = newProd,
+                productVendor = vendorList
+            };
+
+            List<Product> productList = new List<Product>();
+            productList.Add(productSet);
+
+            AddProduct newProduct = new AddProduct()
+            {
+                Product = productList
+            };
+            return newProduct;
         }
 
         public void AddorUpdateCommand()
@@ -245,8 +413,18 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async void UpdateProductCommand()
         {
-            PrepareUpdateProduct();
-            var response = await AdminService.UpdateProduct(EmployeeData.EditableProduct.Product);
+            if (ValidateCommand() == false)
+            {
+                return;
+            }
+
+            if(Filename == null)
+            {
+                System.Random random = new System.Random();
+                Filename = "Image" + random.Next().ToString() + ".png";
+            }
+            var updateProduct = PrepareUpdateProduct();
+            var response = await AdminService.UpdateProduct(updateProduct);
             if(response == null)
             {
                await _userDialog.AlertAsync("Something unusal has happened.");
@@ -255,15 +433,58 @@ namespace Strive.Core.ViewModels.TIMInventory
             NavigateBackCommand();
         }
 
-        private void PrepareUpdateProduct()
+        public async void productByIdCommand()
         {
-            EmployeeData.EditableProduct.Product.ProductName = _SelectedItemName;
-            EmployeeData.EditableProduct.Product.ProductCode = _SelectedItemCode;
-            EmployeeData.EditableProduct.Product.ProductDescription = _SelectedItemDescription;
-            EmployeeData.EditableProduct.Product.Quantity = int.Parse(_SelectedItemQuantity);
-            EmployeeData.EditableProduct.Product.VendorId = CurrentVendor.VendorId;
-            EmployeeData.EditableProduct.Product.base64 = Base64String;
-            EmployeeData.EditableProduct.Product.fileName = _SelectedItemName + _SelectedItemCode;
+            editableProduct = await AdminService.GetProductByID(EditInventoryItem.Product.ProductId);
+        }
+        private AddProduct PrepareUpdateProduct()
+        {         
+            ProductDetail newProd = new ProductDetail()
+            {
+                productCode = _SelectedItemCode,
+                productDescription = _SelectedItemDescription,
+                productType = _SelectedItemTypeId,
+                productId = editableProduct.Product.ProductDetail.ProductId,
+                locationId = _SelectedItemLocationId,
+                productName = _SelectedItemName,
+                base64 = Base64String,
+                fileName = Filename,
+                OriginalFileName = Filename,
+                thumbFileName = "png",
+                cost = _SelectedItemCost,
+                isTaxable = false,
+                taxAmount = 0,
+                size = 23,
+                quantity = int.Parse(_SelectedItemQuantity),
+                isActive = true,
+                thresholdLimit = "",
+                isDeleted = false,
+                price = _SelectedItemPrice
+            };
+            ProductVendor newVendor = new ProductVendor()
+            {
+                productVendorId = editableProduct.Product.ProductVendor.FirstOrDefault().ProductVendorId,
+                productId = editableProduct.Product.ProductDetail.ProductId,
+                vendorId = CurrentVendor.VendorId,
+                isActive = true,
+                isDeleted = false
+            };
+            List<ProductVendor> vendorList = new List<ProductVendor>();
+            vendorList.Add(newVendor);
+            Product productSet = new Product()
+            {
+                product = newProd,
+                productVendor = vendorList
+            };
+
+            List<Product> productList = new List<Product>();
+            productList.Add(productSet);
+
+            AddProduct newProduct = new AddProduct()
+            {
+                Product = productList
+            };
+            return newProduct;
         }
 
         public async Task NavigateUploadImageCommand()

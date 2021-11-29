@@ -96,7 +96,12 @@ namespace StriveEmployee.Android.Fragments.MyProfile
                 LastName_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
                 if(this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != null)
                 {
-                    Gender_TextView.Text = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                  
+                    if(this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != 0)
+                    {
+                        var genders = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                        Gender_TextView.Text = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                    }
                 }
                 
                 ContactNo_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.PhoneNumber;

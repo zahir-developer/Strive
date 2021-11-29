@@ -60,6 +60,8 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="dbo\Scripts" />
+    <Folder Include="dbo\Scripts\Data" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\tblTenantMaster.sql" />
@@ -92,5 +94,10 @@
     <Build Include="dbo\Stored Procedures\uspCreateTenant.sql" />
     <Build Include="dbo\Stored Procedures\uspSaveTenantUserMap.sql" />
     <Build Include="dbo\Stored Procedures\uspEmailExist.sql" />
+    <Build Include="dbo\Scripts\Data\tblCity.sql" />
+    <Build Include="dbo\Scripts\Data\tblState.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AuthDb.scmp" />
   </ItemGroup>
 </Project>

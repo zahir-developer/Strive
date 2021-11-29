@@ -47,7 +47,10 @@ namespace Strive.Core.ViewModels.Customer
                 VehicleMembershipDetails.ClientVehicleMembershipService = new List<ClientVehicleMembershipServiceView>();
 
             CustomerVehiclesInformation.completeVehicleDetails = await AdminService.GetVehicleMembership(CustomerVehiclesInformation.selectedVehicleInfo);
-
+            if(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+            {
+                MembershipDetails.selectedMembership = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.MembershipId;
+            }
 
             _userDialog.HideLoading();
         }
@@ -76,6 +79,7 @@ namespace Strive.Core.ViewModels.Customer
                 return confirmed = false;
             }
         }
+        
 
         public async void NavToVehicleMembership()
         {

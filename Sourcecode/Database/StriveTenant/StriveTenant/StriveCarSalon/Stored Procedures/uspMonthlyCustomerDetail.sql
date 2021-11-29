@@ -1,4 +1,4 @@
-﻿
+﻿--[StriveCarSalon].[uspMonthlyCustomerDetail]  1,06,2021
 -- =============================================
 -- Author:		Arunkumae S
 -- Create date: 02-11-2020

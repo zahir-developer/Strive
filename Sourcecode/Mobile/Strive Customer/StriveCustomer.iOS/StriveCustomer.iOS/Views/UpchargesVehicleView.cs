@@ -51,6 +51,7 @@ namespace StriveCustomer.iOS.Views
             };
             NavigationItem.Title = "Vehicle";
 
+            UpchargesVehicle_TableView.UserInteractionEnabled = false;
             UpchargesVehicle_TableView.Layer.CornerRadius = 5;
             UpchargesVehicle_TableView.RegisterNibForCellReuse(MembershipVehicle_ViewCell.Nib, MembershipVehicle_ViewCell.Key);
             UpchargesVehicle_TableView.ReloadData();
@@ -65,7 +66,7 @@ namespace StriveCustomer.iOS.Views
 
             if (MembershipDetails.filteredList != null)
             {
-                var source = new UpchargesVehicleDataSource(MembershipDetails.filteredList);
+                var source = new UpchargesVehicleDataSource(ViewModel.upchargeFullList);
                 UpchargesVehicle_TableView.Source = source;
                 UpchargesVehicle_TableView.TableFooterView = new UIView(CGRect.Empty);
                 UpchargesVehicle_TableView.DelaysContentTouches = false;

@@ -1,5 +1,4 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		Vineeth B
 -- Create date: 14-12-2020
 -- Description:	To get Available Time Slot Details
@@ -16,7 +15,7 @@ INTO #TimeSlot
 FROM tblBaySlot baySlot
 JOIN tblBay bay on bay.BayId = baySlot.BayId
 WHERE bay.IsActive=1 AND ISNULL(bay.IsDeleted,0)=0 AND bay.LocationId = @LocationId
-
+and (BayName like 'Detail%' OR BayName Like 'Bay%') AND BayName NOT Like 'Bay %'
 
 DROP TABLE IF EXISTS #AvailableTimeSlot
 SELECT 

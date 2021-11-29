@@ -1,5 +1,5 @@
-﻿
-CREATE PROC [StriveCarSalon].[uspGetWashTimeByLocationId] --[StriveCarSalon].[uspGetWashTimeByLocationId] 2,'2021-03-03'
+﻿--[StriveCarSalon].[uspGetWashTimeByLocationId] 2,'2021-03-03'
+CREATE PROC [StriveCarSalon].[uspGetWashTimeByLocationId] 
 (@LocationId int = null,
 @DateTime datetime =null)
 AS
@@ -87,7 +87,7 @@ SELECT distinct
 	   CONVERT(VARCHAR(5),tbll.EndTime,108) AS EndTime
 	   
 
-FROM [StriveCarSalon].[tblLocation]  tbll
+FROM [tblLocation]  tbll
 LEFT JOIN #WashTime wt
 ON(tbll.LocationId = wt.LocationId )
 WHERE (tbll.LocationId = @LocationId OR @LocationId IS NULL) AND

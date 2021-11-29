@@ -12,15 +12,11 @@ namespace StriveCustomer.iOS.Views.Schedule
         NSIndexPath selected_index = new NSIndexPath();
         UITableView service_tableview = new UITableView();
         ScheduleServicesViewModel viewModel;
+        
         public Schedule_SelectService_Source(ScheduleServicesViewModel ViewModel)
         {
             this.viewModel = ViewModel;
-        }
-
-        public override nint NumberOfSections(UITableView tableView)
-        {
-            return 1;
-        }
+        }        
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {           
@@ -29,7 +25,7 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {            
-            return viewModel.scheduleServices.ServicesWithPrice.Count;
+            return viewModel.scheduleServices.AllServiceDetail.Count;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -44,23 +40,27 @@ namespace StriveCustomer.iOS.Views.Schedule
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             Schedule_SelectService_Cell cell = (Schedule_SelectService_Cell)tableView.CellAt(indexPath);
-            cell.updateRow(indexPath);
-            foreach(var item in viewModel.scheduleServices.ServicesWithPrice)
+            selected_index = indexPath;
+            cell.updateRow(selected_index);
+            foreach(var item in viewModel.scheduleServices.AllServiceDetail)
             {
-                if (viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].ServiceName == item.ServiceName)
+                if (viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceName == item.ServiceName)
                 {
-                    CustomerScheduleInformation.ScheduleServiceID = viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].ServiceId;
-                    CustomerScheduleInformation.ScheduleServiceType = viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].ServiceType;
+                    CustomerScheduleInformation.ScheduleServiceID = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceId;
+                    CustomerScheduleInformation.ScheduleServiceType = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceTypeId;
                     CustomerScheduleInformation.ScheduleServicePrice =
-                        viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].Price;
-                    CustomerScheduleInformation.ScheduleServiceName = viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].ServiceName;
+                        viewModel.scheduleServices.AllServiceDetail[indexPath.Row].Price;
+                    CustomerScheduleInformation.ScheduleServiceName = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceName;
+                    CustomerScheduleInformation.ScheduleServiceEstimatedTime = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].EstimatedTime ?? 0;
                 }
-            } 
+            }            
         }
 
         public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
         {
             Schedule_SelectService_Cell cell = (Schedule_SelectService_Cell)tableView.CellAt(indexPath);
+            if (cell == null)
+                cell = tableView.DequeueReusableCell("Schedule_SelectService_Cell", indexPath) as Schedule_SelectService_Cell;
             cell.deselectRow(indexPath);
         }
     }

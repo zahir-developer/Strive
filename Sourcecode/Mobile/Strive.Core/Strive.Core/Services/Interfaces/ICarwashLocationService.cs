@@ -9,5 +9,6 @@ namespace Strive.Core.Services.Interfaces
     public interface ICarwashLocationService
     {
         Task<Locations> GetAllCarWashLocations();
+        Task<washLocations> GetAllLocationStatus(LocationStatusReq request);
     }
 }

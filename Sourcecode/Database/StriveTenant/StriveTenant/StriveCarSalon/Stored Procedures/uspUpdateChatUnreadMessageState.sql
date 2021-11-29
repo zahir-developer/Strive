@@ -13,12 +13,12 @@ BEGIN
 
 IF(@SenderId !=0 AND @RecipientId != 0 )
 BEGIN
-	Update strivecarsalon.tblChatMessageRecipient SET IsRead = 1 WHERE SenderId=@SenderId and RecipientId = @RecipientId and IsRead = 0
+	Update tblChatMessageRecipient SET IsRead = 1 WHERE SenderId=@SenderId and RecipientId = @RecipientId and IsRead = 0
 END
 
 IF(@GroupId IS NOT NULL OR @GroupId != 0 )
 BEGIN
-	DELETE FROM strivecarsalon.tblChatGroupRecipient WHERE RecipientId=@RecipientId and ChatGroupId = @GroupId and IsRead = 0
+	DELETE FROM tblChatGroupRecipient WHERE RecipientId=@RecipientId and ChatGroupId = @GroupId and IsRead = 0
 END
 
 END

@@ -5,6 +5,7 @@ using System.Linq;
 using Foundation;
 using MvvmCross.Base;
 using MvvmCross.Platforms.Ios.Binding.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 
@@ -17,7 +18,7 @@ namespace StriveCustomer.iOS.Views
 
         private DealsViewModel ViewModel;
 
-        private ObservableCollection<string> ItemList;
+        private ObservableCollection<GetAllDeal> ItemList;
 
         public DealsTableSource(UITableView tableView, DealsViewModel ViewModel) : base(tableView)
         {
@@ -32,11 +33,11 @@ namespace StriveCustomer.iOS.Views
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<string>)value;
+                    ItemList = (ObservableCollection<GetAllDeal>)value;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<string>();
+                    ItemList = new ObservableCollection<GetAllDeal>();
                 }
 
                 base.ItemsSource = value;
@@ -76,7 +77,7 @@ namespace StriveCustomer.iOS.Views
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
             DealsViewCell cell = (DealsViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetCell();
+            cell.SetCell(ItemList[indexPath.Row]);
             return cell;
         }
     }

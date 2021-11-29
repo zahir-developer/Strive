@@ -1,6 +1,7 @@
 ﻿using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -76,9 +77,11 @@ namespace Strive.Core.ViewModels.Customer
                 InfoModel.client.clientId = CustomerInfo.ClientID;
                 clientAddress.clientId = CustomerInfo.ClientID;
                 clientVehicle.clientId = CustomerInfo.ClientID;
+                InfoModel.client.authId = CustomerInfo.AuthID;
                 InfoModel.client.firstName = FirstName;
                 InfoModel.client.lastName = LastName;
                 InfoModel.client.middleName = MiddleName;
+                clientAddress.clientAddressId = CustomerInfo.customerPersonalInfo.Status[0].ClientAddressId;
                 clientAddress.address1 = Address;
                 clientAddress.address2 = Address;
                 clientAddress.phoneNumber = ContactNumber;
@@ -131,6 +134,24 @@ namespace Strive.Core.ViewModels.Customer
                 _userDialog.Alert("Please enter your email Id.");
                 return proceed = false;
             }
+            if (!Validations.validateEmail(Email))
+            {
+                _userDialog.Alert("Enter a valid email Id.");
+                return proceed = false;
+            }
+            if (!Validations.validatePhone(ContactNumber))
+            {
+                _userDialog.Alert("Enter a valid phone number.");
+                return proceed = false;
+            }
+            if(SecondaryContactNumber != "")
+            {
+                if (!Validations.validatePhone(SecondaryContactNumber))
+                {
+                    _userDialog.Alert("Enter a valid secondary phone number.");
+                    return proceed = false;
+                }
+            }            
             return proceed;
         }
 

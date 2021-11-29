@@ -20,7 +20,7 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public string ServiceName { get; set; }
         public decimal? Cost { get; set; }
         public decimal? Price { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
 
         public bool? IsActive { get; set; }
         public string Description { get; set; }

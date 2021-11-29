@@ -7,10 +7,11 @@ namespace Strive.Core.Models.TimInventory
         public int employeeId { get; set; }
         public int locationId { get; set; }
         public int roleId { get; set; }
+        public string roleName { get; set; }
         public string eventDate { get; set; }
         public string inTime { get; set; }
         public string outTime { get; set; }
-        public int eventType { get; set; }
+        public int? eventType { get; set; }
         public string updatedFrom { get; set; }
         public bool status { get; set; }
         public string comments { get; set; }

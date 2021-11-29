@@ -1,5 +1,11 @@
-﻿--[StriveCarSalon].[uspGetGiftCardBalanceHistory]'363519'
-CREATE proc [StriveCarSalon].[uspGetGiftCardBalanceHistory] 
+﻿-------------History-----------------
+-- =============================================
+-- 1  shalini 2021-06-07  -added tbljobpayment in join
+
+--[StriveCarSalon].[uspGetGiftCardBalanceHistory]'70007342'
+
+-- =============================================
+CREATE PROCEDURE [StriveCarSalon].[uspGetGiftCardBalanceHistory] 
 (@GiftCardCode varchar(10))
 as
 begin
@@ -27,7 +33,8 @@ INTO #GiftCardHistory
 from [tblGiftCardHistory] tblgch 
 
 LEFT JOIN tblJobPaymentDetail jp on tblgch.JobPaymentDetailId =jp.JobPaymentDetailId
-left join tblJob tj on jp.JobPaymentId = tj.JobPaymentId
+left join tblJobPayment jpm on jp.JobPaymentId =jpm.JobPaymentId
+left join tblJob tj on jpm.JobId = tj.JobId
 where tblgch.GiftCardId =@GiftCardId
 AND tblgch.IsDeleted=0 
 

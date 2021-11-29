@@ -1,5 +1,12 @@
-﻿CREATE proc [StriveCarSalon].[uspGetServices]
---EXEC [StriveCarSalon].[uspGetServices] null,null,'$5',null,null,'ASC','ServiceName',1
+﻿---------------------History---------------------------
+-- ====================================================
+-- 08-jun-2021, shalini - pagenumber and count for nullquery changes					 
+
+-------------------------------------------------------
+--EXEC [StriveCarSalon].[uspGetServices] null,1,null,27,10,'ASC',null,1
+
+CREATE PROCEDURE [StriveCarSalon].[uspGetServices]
+
 (@ServiceId int =NULL,
 @locationId int =NULL,
 @Query NVARCHAR(50) = NULL,
@@ -47,7 +54,8 @@ SELECT
 	svc.Description,	
 	svc.DiscountServiceType,
 	svc.DiscountType,
-	isnull(svc.IsActive,1) as IsActive
+	 convert(varchar(5),svc.Hours,108) as hours,
+	 isnull(svc.IsActive,1) as IsActive
 	into #GetAllServices
 	FROM tblService svc 
 	INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
@@ -55,9 +63,9 @@ SELECT
 	LEFT JOIN GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
 	LEFT JOIN GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
 WHERE  (@ServiceId is null or svc.ServiceId = @ServiceId) and   isnull(svc.IsDeleted,0)=0
-AND
+AND (
  @Query is null or cv.valuedesc like '%'+@Query+'%'
-  or svc.ServiceName  like '%'+@Query+'%'  AND  
+  or svc.ServiceName  like '%'+@Query+'%' ) AND  
    (isnull(svc.IsActive,1)=@Status or @Status is null  ) 
   Group By
   svc.ServiceId,
@@ -78,7 +86,9 @@ AND
 		svc.Price,
 	svc.Description,	
 	svc.DiscountServiceType,
-	svc.DiscountType,
+	svc.DiscountType,	
+	svc.Hours,
+
 	svc.IsActive
 ORDER BY 
 CASE WHEN @SortBy = 'ServiceName' AND @SortOrder='ASC' THEN svc.ServiceName END ASC,
@@ -109,14 +119,30 @@ select * from #GetAllServices
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from StriveCarSalon.tblService where 
-ISNULL(IsDeleted,0) = 0 
+select count(1) as Count 
+	FROM tblService svc 
+	INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
+	LEFT JOIN GetTable('ServiceType') cv ON (svc.ServiceType = cv.valueid)
+	LEFT JOIN GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
+	LEFT JOIN GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
+WHERE  (@ServiceId is null or svc.ServiceId = @ServiceId) and   isnull(svc.IsDeleted,0)=0
+AND (isnull(svc.IsActive,1)=@Status or @Status is null  ) 
 
 END
 
 IF @Query IS Not NULL AND @Query != ''
 BEGIN
-select count(1) as Count from #GetAllServices
+select count(1) as Count 
+	FROM tblService svc 
+	INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
+	LEFT JOIN GetTable('ServiceType') cv ON (svc.ServiceType = cv.valueid)
+	LEFT JOIN GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
+	LEFT JOIN GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
+WHERE  (@ServiceId is null or svc.ServiceId = @ServiceId) and   isnull(svc.IsDeleted,0)=0
+AND (
+ @Query is null or cv.valuedesc like '%'+@Query+'%'
+  or svc.ServiceName  like '%'+@Query+'%' ) AND  
+   (isnull(svc.IsActive,1)=@Status or @Status is null  ) 
 END
 
 

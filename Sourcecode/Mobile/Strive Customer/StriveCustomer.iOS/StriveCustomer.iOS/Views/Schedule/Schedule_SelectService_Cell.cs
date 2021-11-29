@@ -2,6 +2,7 @@
 using System.Drawing;
 using CoreGraphics;
 using Foundation;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer.Schedule;
 using UIKit;
 
@@ -11,6 +12,7 @@ namespace StriveCustomer.iOS.Views.Schedule
     {       
         NSIndexPath selected_index = new NSIndexPath();
         UITableView service_tableview = new UITableView();
+        ScheduleServicesViewModel view = new ScheduleServicesViewModel();
         public static readonly NSString Key = new NSString("Schedule_SelectService_Cell");
         public static readonly UINib Nib;
 
@@ -25,16 +27,21 @@ namespace StriveCustomer.iOS.Views.Schedule
         }
 
         public void SetData(NSIndexPath indexPath, UITableView tableView, ScheduleServicesViewModel viewModel)
-        {
-            selected_index = indexPath;
+        {            
             service_tableview = tableView;
             SelectService_CellView.Layer.CornerRadius = 5;            
             MoreValue_Const.Constant = 75;
             ViewMore_ValueLbl.Hidden = false;
+            view = viewModel;
 
-            ServiceName_Lbl.Text = viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].ServiceName;
-            SelectService_CostLbl.Text = "$" + viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].Price.ToString();
+            ServiceName_Lbl.Text = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceName;
+            SelectService_CostLbl.Text = "$" + viewModel.scheduleServices.AllServiceDetail[indexPath.Row].Price.ToString();
             ViewMore_Btn.SetTitle("View Less", UIControlState.Normal);
+            SelectService_Btn.Tag = indexPath.Row;
+            if(selected_index == indexPath)
+                SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+            else
+                SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
         }
 
         partial void ViewMore_BtnTouch(UIButton sender)
@@ -57,12 +64,46 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public void updateRow(NSIndexPath indexPath)
         {
-            SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+            if(SelectService_Btn.Tag == indexPath.Row)
+            {
+                SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                selected_index = indexPath;
+            }
+            else
+            {
+                SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            }
         }
 
         public void deselectRow(NSIndexPath indexPath)
         {
             SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-        }        
+            selected_index = null;
+        }
+
+        partial void SelectService_BtnTouch(UIButton sender)
+        {
+            if (SelectService_Btn.CurrentImage == UIImage.FromBundle("icon-unchecked-round"))
+            {
+                SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                var selectedItem = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())];
+                foreach (var item in view.scheduleServices.AllServiceDetail)
+                {
+                    if (view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceName == item.ServiceName)
+                    {
+                        CustomerScheduleInformation.ScheduleServiceID = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceId;
+                        CustomerScheduleInformation.ScheduleServiceType = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceTypeId;
+                        CustomerScheduleInformation.ScheduleServicePrice =
+                            view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].Price;
+                        CustomerScheduleInformation.ScheduleServiceName = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceName;
+                        CustomerScheduleInformation.ScheduleServiceEstimatedTime = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].EstimatedTime ?? 0;
+                    }
+                }
+            }
+            else
+            {
+                SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            }                      
+        }
     }
 }

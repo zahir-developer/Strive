@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,13 +29,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bounce Back Coupon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hh5-70-GoG">
-                                <rect key="frame" x="43.5" y="21" width="157" height="21"/>
+                                <rect key="frame" x="50" y="21" width="157" height="21"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2if-03-yST">
-                                <rect key="frame" x="43.5" y="48.5" width="233" height="20"/>
+                                <rect key="frame" x="50" y="48.5" width="220" height="20"/>
                                 <string key="text" base64-UTF8="YES">
 EFZhbGlkaXR5OiAzMCBKdW4gMjAyMCB0byAzMSBBdWcgMjAyMA
 </string>
@@ -47,8 +47,9 @@ EFZhbGlkaXR5OiAzMCBKdW4gMjAyMCB0byAzMSBBdWcgMjAyMA
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Hh5-70-GoG" firstAttribute="centerY" secondItem="80V-qt-lQj" secondAttribute="centerY" multiplier="0.7" id="JBa-y2-eOj"/>
+                            <constraint firstItem="Hh5-70-GoG" firstAttribute="leading" secondItem="80V-qt-lQj" secondAttribute="leading" constant="50" id="JOZ-Gg-2dn"/>
                             <constraint firstItem="2if-03-yST" firstAttribute="centerY" secondItem="80V-qt-lQj" secondAttribute="centerY" multiplier="1.3" id="LbC-uP-dLg"/>
-                            <constraint firstItem="Hh5-70-GoG" firstAttribute="leading" secondItem="2if-03-yST" secondAttribute="leading" id="jzV-hu-wi4"/>
+                            <constraint firstItem="2if-03-yST" firstAttribute="leading" secondItem="Hh5-70-GoG" secondAttribute="leading" id="eoQ-WT-YG1"/>
                             <constraint firstItem="2if-03-yST" firstAttribute="centerX" secondItem="80V-qt-lQj" secondAttribute="centerX" id="rVM-AX-qlj"/>
                         </constraints>
                     </view>

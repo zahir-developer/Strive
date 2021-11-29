@@ -14,19 +14,19 @@ CREATE procedure [StriveCarSalon].[uspSaveSchedule]
  )
 
 AS 
-IF EXISTS(SELECT * FROM [StriveCarSalon].[tblSchedule] WHERE EmployeeId = @EmployeeId and ScheduledDate= @ScheduledDate and (StartTime between @StartTime and @EndTime OR EndTime between @StartTime and @EndTime))
+IF EXISTS(SELECT * FROM [tblSchedule] WHERE EmployeeId = @EmployeeId and ScheduledDate= @ScheduledDate and (StartTime between @StartTime and @EndTime OR EndTime between @StartTime and @EndTime))
 BEGIN
 select Result ='Employee Is Already Scheduled Between This Time'
 END
 ELSE
-IF EXISTS(SELECT * FROM [StriveCarSalon].[tblSchedule] WHERE ScheduleId = @ScheduleId)
+IF EXISTS(SELECT * FROM [tblSchedule] WHERE ScheduleId = @ScheduleId)
 BEGIN
-UPDATE [StriveCarSalon].[tblSchedule] SET EmployeeId=@EmployeeId, LocationId=@LocationId, RoleId=@RoleId, ScheduledDate=@ScheduledDate, 
+UPDATE [tblSchedule] SET EmployeeId=@EmployeeId, LocationId=@LocationId, RoleId=@RoleId, ScheduledDate=@ScheduledDate, 
       StartTime=@StartTime, EndTime = @EndTime, ScheduleType = @ScheduleType,Comments = @Comments
 	  ,IsActive = @IsActive where ScheduleId=@ScheduleId
 END
 ELSE
 BEGIN 
-INSERT INTO [StriveCarSalon].[tblSchedule] (EmployeeId,LocationId,RoleId,ScheduledDate,StartTime,EndTime,ScheduleType,Comments,IsActive)
+INSERT INTO [tblSchedule] (EmployeeId,LocationId,RoleId,ScheduledDate,StartTime,EndTime,ScheduleType,Comments,IsActive)
  VALUES (@EmployeeId,@LocationId,@RoleId,@ScheduledDate,@StartTime,@EndTime,@ScheduleType,@Comments,@IsActive);
 END

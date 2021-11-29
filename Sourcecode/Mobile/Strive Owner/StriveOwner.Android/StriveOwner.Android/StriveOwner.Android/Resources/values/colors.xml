@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2c3e50</color>
-    <color name="colorPrimaryDark">#1B3147</color>
-    <color name="colorAccent">#3498db</color>
+  <color name="colorPrimary">#2c3e50</color>
+  <color name="colorPrimaryDark">#1B3147</color>
+  <color name="colorAccent">#1DC9B7</color>
+  <color name="defaultHintColor">#819896</color>
+  <color name="defaultLabelColor">#FFFFFF</color>
+  <color name="defaultButtonColor">#1DC9B7</color>
+  <color name="defaultLinkColor">#99FEF3</color>
+  <color name="secondaryLabelColor">#ABD5D1</color>
+  <color name="markerInfoColor">#00584F</color>
+  <color name="infoButtonColor">#FDCC53</color>
+  <color name="infoTextColor">#2AC1B1</color>
+  <color name="infoPopUpBackground">#00584F</color>
+  <color name="profileInfoColor">#24489A</color>
+  <color name="profileQColor">#02143D</color>
+  <color name="borderColor">#B1B5B4</color>
+  <color name="secondarybuttonColor">#BEB8B8</color>
+  <color name="secondaryTextColor">#333333</color>
+  <color name="vehicleInfoCardColor">#F2F2F2</color>
+  <color name="AvatarProfileColor">#AFE9E3</color>
+  <color name="AvatarTextColor">#5F6281</color>
+  <color name="chatTextLayoutColor">#EAF1F6</color>
+  <color name="recipientChatBubble">#E3E3E3</color>
+  <color name="recipientChatTime">#000000</color>
+  <color name="recipientTextColor">#11141A</color>
+  <color name="senderChatBubble">#0E7268</color>
+  <color name="senderChatTime">#5F6281</color>
+  <color name="documentDate">#747475</color>
+  <color name="addImage">#030303</color>
+  <color name="browseButtonColor">#6C757D</color>
+  <color name="ticketTextColor">#14A293</color>
 </resources>

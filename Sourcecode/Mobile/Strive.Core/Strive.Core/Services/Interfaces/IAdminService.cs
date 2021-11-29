@@ -10,7 +10,9 @@ using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.PersonalDetails;
+using Strive.Core.Models.Owner;
 using Strive.Core.Models.TimInventory;
+using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.Services.Interfaces
 {
@@ -20,7 +22,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<EmployeeResultData> EmployeeLogin(EmployeeLoginRequest request);
 
-        Task<EmployeeResultData> CustomerLogin(CustomerLoginRequest loginRequest);
+        Task<CustomerLoginResponse> CustomerLogin(CustomerLoginRequest loginRequest);
 
         Task<CustomerResponse> CustomerSignUp(CustomerSignUp signUpRequest);
 
@@ -32,27 +34,45 @@ namespace Strive.Core.Services.Interfaces
 
         Task<TimeClockRootList> GetClockInStatus(TimeClockRequest request);
 
-        Task<DeleteResponse> SaveClockInTime(TimeClockRoot ClockInRequest);
+        Task<DeleteResponse> SaveClockInTime(TimeClockSave ClockInRequest);
 
-        Task<Products> GetAllProducts();
+        Task<DealsList> GetAllDeals();
+
+        Task<Products> GetAllProducts(ProductSearches searchQuery);
 
         Task<Vendors> GetAllVendors();
 
-        Task<PostResponse> AddProduct(ProductDetail product);
+        Task<LocationProd> GetAllLocationName();
+
+        Task<ProductType> GetProductType();
+
+        Task<ProductType> GetCodes();
+
+        Task<PostResponse> AddProduct(AddProduct product);
 
         Task<DeleteResponse> DeleteProduct(int Id);
 
-        Task<PostResponse> UpdateProduct(ProductDetail product);
+        Task<EditProduct.ProductDetail_Id> GetProductByID(int Id);
 
-        Task<Clients> GetAllClient();
+        Task<PostResponse> UpdateProduct(AddProduct product);
+
+        Task<PostResponse> ProductRequest(ProductRequest product);
+
+        Task<PostResponse> UpdateProdQuantity(int Id, int quantity);
+
+        Task<ClientResponse> GetAllClient(ClientRequest clientRequest);
 
         Task<CustomerPersonalInfo> GetClientById(int Id);
 
         Task<ProductsSearch> SearchProduct(string productName);
 
+        Task<modelUpchargeResponse> GetModelUpcharge(modelUpcharge request);
+
         Task<MembershipServiceList> GetMembershipServiceList();
 
         Task<PostResponseBool> SaveVehicleMembership(ClientVehicleRoot clientVehicle);
+
+        Task<PostResponse> DeleteVehicleMembership(int clientMembershipId);
 
         Task<ClientStatus> GetClientDetail(int ClientId);
 
@@ -70,6 +90,9 @@ namespace Strive.Core.Services.Interfaces
         Task<CustomerResponse> SaveClientInfo(CustomerUpdateInfo infoModel);
 
         Task<VehicleCodes> GetVehicleCodes();
+
+        Task<MakeList> GetMakeList();
+        Task<ModelList> GetModelList(int Id);
 
         Task<GeneralResponse> AddCustomerVehicle(CustomerVehicles addVehicle);
 
@@ -98,14 +121,32 @@ namespace Strive.Core.Services.Interfaces
         Task<DeleteResponse> DeleteDocuments(int documentID);
 
         Task<CheckoutDetails> CheckOutVehicleDetails(GetAllEmployeeDetail_Request EmployeeID);
-        
+
+        Task<holdCheckoutResponse> CheckOutHold(holdCheckoutReq holdReq);
+
+        Task<holdCheckoutResponse> CheckOutComplete(completeCheckoutReq completeReq);
+
+        Task<CheckoutResponse> DoCheckout(doCheckoutReq checkoutReq);
+
         Task<ScheduleModel> GetSchedulePastService(int clientID);
-        
+
+        Task<PostResponse> ScheduleDetail(DetailSchedule detailScheduleRequest);
+
         Task<AvailableServicesModel> GetScheduleServices(int LocationID);
         
         Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);
 
+        Task<ticketNumber> GetTicketNumber(int locationId);
+
         Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo);
-    
+
+        Task<employeeSchedule> GetScheduleList(ScheduleRequest scheduleRequest);
+
+        Task<StatisticsData> getDashboardServices(StatisticRequest statisticsRequest);
+
+        Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId);
+
+        Task<VehicleDiscountDetail> GetVehicleDiscountDetail(int ClientId);
+
     }
 }

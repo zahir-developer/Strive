@@ -1,3 +1,3 @@
-﻿CREATE LOGIN [StriveDevUser]
-    WITH PASSWORD = N'cowV+Ziqhkmw{=ksnjpztGxtmsFT7_&#$!~<yLxkdhr?zCGe', SID = 0x5AF492032DFB814BA87A4757328BCFD1, DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+﻿CREATE USER [StriveDevUser]
+    WITH DEFAULT_SCHEMA = [StriveCarSalon];
 

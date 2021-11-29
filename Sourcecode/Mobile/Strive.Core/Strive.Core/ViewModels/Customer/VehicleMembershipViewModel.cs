@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using System;
@@ -12,16 +13,19 @@ namespace Strive.Core.ViewModels.Customer
     {
         public VehicleMembershipViewModel()
         {
+            
             SetVehicleInformation();
         }
         #region Properties
          public MembershipServiceList membershipList { get; set; }
+         public modelUpchargeResponse modelUpcharge { get; set; }
         #endregion Properties
 
         #region Commands
 
         private void SetVehicleInformation()
         {
+            PreviousMembership(CustomerInfo.ClientID);
             MembershipDetails.customerVehicleDetails = new ClientVehicleRoot();
             MembershipDetails.customerVehicleDetails.clientVehicle = new ClientVehicle();
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle = new ClientVehicleDetail();
@@ -35,10 +39,23 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.locationId = 1;
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.createdDate = DateTime.Now;
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.updatedDate = DateTime.Now;
+            
         }
         public async Task getMembershipDetails()
         {
             _userDialog.ShowLoading(Strings.Loading);
+            var result = await AdminService.GetCommonCodes("SERVICETYPE");
+            var washId = result.Codes.Find(x => x.CodeValue == "Wash-Upcharge");
+            var upchargeRequest = new modelUpcharge()
+            {
+                upchargeServiceType = washId.CodeId ,
+                modelId = MembershipDetails.modelNumber ?? 0
+            };
+
+            modelUpcharge = new modelUpchargeResponse();
+            modelUpcharge = await AdminService.GetModelUpcharge(upchargeRequest);
+            MembershipDetails.modelUpcharge = modelUpcharge;
+
             membershipList = new MembershipServiceList();
             membershipList = await AdminService.GetMembershipServiceList();
             if (membershipList == null)
@@ -47,7 +64,20 @@ namespace Strive.Core.ViewModels.Customer
             }
             _userDialog.HideLoading();
         }
-
+        public async Task<bool> PreviousMembership(int id)
+        {
+            var result = await AdminService.GetVehicleDiscountDetail(id);
+            if (result.Status == "true")
+            {
+                _userDialog.Alert("Membership Discount Available !");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
         public async void NextCommand()
         {
            if(VehicleMembershipCheck())
@@ -68,6 +98,7 @@ namespace Strive.Core.ViewModels.Customer
                 _userDialog.Alert("Please choose a membership");
                 return false;
             }
+
             return true;
         }
         public async void NavToUpcharges()

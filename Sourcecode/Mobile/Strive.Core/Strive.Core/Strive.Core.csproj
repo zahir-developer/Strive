@@ -24,6 +24,8 @@
     <Folder Include="Models\TimInventory\" />
     <Folder Include="Utils\TimInventory\" />
     <Folder Include="ViewModels\TIMInventory\Membership\" />
+    <Folder Include="Models\TimInventory\Product_Id\" />
+    <Folder Include="Models\Owner\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings.resx">

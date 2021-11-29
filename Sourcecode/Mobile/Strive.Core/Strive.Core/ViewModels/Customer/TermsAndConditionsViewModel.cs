@@ -25,7 +25,7 @@ namespace Strive.Core.ViewModels.Customer
             SetupServices();
         }
 
-        private void SetupServices()
+        public void SetupServices()
         {
             ClientVehicleMembershipService clientVehicleAddServices ;
             MembershipDetails.customerVehicleDetails
@@ -37,7 +37,14 @@ namespace Strive.Core.ViewModels.Customer
                 {
                     clientVehicleAddServices = new ClientVehicleMembershipService();
                     clientVehicleAddServices.clientVehicleMembershipServiceId = 0;
-                    clientVehicleAddServices.clientMembershipId = 0;
+                    //if (CustomerVehiclesInformation.completeVehicleDetails != null)
+                    //{
+                    //    clientVehicleAddServices.clientMembershipId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId;
+                    //}
+                    //else
+                    //{
+                        clientVehicleAddServices.clientMembershipId = 0;
+                    //}
                     clientVehicleAddServices.serviceId = data.ServiceId;
                     clientVehicleAddServices.serviceTypeId = data.ServiceTypeId;
                     clientVehicleAddServices.isActive = true;
@@ -53,11 +60,20 @@ namespace Strive.Core.ViewModels.Customer
             }
         }
 
-        private void SetupMembership()
+        public void SetupMembership()
         {
-            MembershipDetails.customerVehicleDetails
+            //if (CustomerInfo.actionType == 2)
+            //{
+            //    MembershipDetails.customerVehicleDetails
+            //    .clientVehicleMembershipModel
+            //    .clientVehicleMembershipDetails.clientMembershipId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId;
+            //}
+            //else
+            //{
+                MembershipDetails.customerVehicleDetails
                 .clientVehicleMembershipModel
                 .clientVehicleMembershipDetails.clientMembershipId = 0;
+            //}                
 
             MembershipDetails.customerVehicleDetails
                .clientVehicleMembershipModel
@@ -79,9 +95,17 @@ namespace Strive.Core.ViewModels.Customer
               .clientVehicleMembershipModel
               .clientVehicleMembershipDetails.isActive = true;
 
-            MembershipDetails.customerVehicleDetails
-               .clientVehicleMembershipModel
-               .clientVehicleMembershipDetails.isDeleted = false;
+            //if (CustomerInfo.actionType == 2)
+            //{
+            //    MembershipDetails.customerVehicleDetails
+            //  .clientVehicleMembershipModel
+            //  .clientVehicleMembershipDetails.isDeleted = true;
+            //}
+            //else
+            //{
+                MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel
+              .clientVehicleMembershipDetails.isDeleted = false;
+            //}               
 
             MembershipDetails.customerVehicleDetails
                .clientVehicleMembershipModel
@@ -114,6 +138,10 @@ namespace Strive.Core.ViewModels.Customer
             var confirm = await _userDialog.ConfirmAsync("Would you like to create the membership ?");
             if(confirm)
             {
+                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                {
+                    var isDeleted = await AdminService.DeleteVehicleMembership(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
+                }
                 var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
                 if (data.Status == true)
                 {
@@ -153,7 +181,15 @@ namespace Strive.Core.ViewModels.Customer
         {
             await _navigationService.Navigate<MyProfileInfoViewModel>();
         }
-       
+        public async void NavToSignatureView()
+        {
+            foreach (var item in MembershipDetails.selectedAdditionalServices)
+            {
+                MembershipDetails.filteredList.ServicesWithPrice.Add(MembershipDetails.completeList.ServicesWithPrice.Find(a => a.ServiceId == item));
+            }
+
+            await _navigationService.Navigate<MembershipSignatureViewModel>();
+        }
         public async void BackCommand()
         {
             await _navigationService.Navigate<MembershipSignatureViewModel>();

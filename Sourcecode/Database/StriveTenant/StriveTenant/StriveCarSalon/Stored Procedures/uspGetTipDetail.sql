@@ -1,5 +1,5 @@
-﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetTipDetail] --[StriveCarSalon].[uspGetTipDetail] 1,'2021-04-02'
+﻿--[StriveCarSalon].[uspGetTipDetail] 1,'2021-04-02'
+CREATE PROCEDURE [StriveCarSalon].[uspGetTipDetail]
 (@locationId INT, @date DATE)
 AS
 Begin
@@ -15,10 +15,10 @@ Select Top 100
 tblj.LocationId, tblj.JobDate,
 tblj.jobid,jt.valueid as JobTypeId, jt.valueid
 into #TotalJobs
-from [StriveCarSalon].[tblJob] tblj 
-INNER JOIN [StriveCarSalon].GetTable('JobType') jt on(tblj.JobType = jt.valueid) 
+from [tblJob] tblj 
+INNER JOIN GetTable('JobType') jt on(tblj.JobType = jt.valueid) 
 INNER JOIN tblJobPayment jp on tblj.JobId = jp.JobId
-WHERE --tblj.LocationId = @LocationId AND--
+WHERE tblj.LocationId = @LocationId AND
 tblj.JobDate = @date and 
 (jt.valueid = @Wash OR jt.valueid = @Detail)
 
@@ -34,9 +34,9 @@ tblj.valueid as JobType,
 tbljp.JobPaymentId
 into #TotalJobTips
 from #TotalJobs tblj 
-inner join [StriveCarSalon].[tblJobPayment] tbljp on(tblj.JobId = tbljp.JobId)
+inner join [tblJobPayment] tbljp on(tblj.JobId = tbljp.JobId)
 inner join tblJobPaymentDetail tjpd on tjpd.JobPaymentId = tbljp.JobPaymentId 
-inner join [StriveCarSalon].GetTable('PaymentType') pt on(tjpd.PaymentType = pt.valueid)
+inner join GetTable('PaymentType') pt on(tjpd.PaymentType = pt.valueid)
 --WHERE (pt.valuedesc = @Tips)--tips
 --select * from #TotalJobTips
 --Finalwashtips

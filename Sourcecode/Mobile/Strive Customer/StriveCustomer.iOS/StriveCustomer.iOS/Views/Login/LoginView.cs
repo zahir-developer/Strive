@@ -4,6 +4,7 @@ using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 using Foundation;
+using Strive.Core.Utils;
 
 namespace StriveCustomer.iOS.Views.Login
 {
@@ -27,6 +28,16 @@ namespace StriveCustomer.iOS.Views.Login
             set.Bind(LoginButton).To(vm => vm.Commands["DoLogin"]);
             set.Bind(ForgotPasswordButton).To(vm => vm.Commands["ForgotPassword"]);
             set.Apply();
+
+            SignupLbl.UserInteractionEnabled = true;
+
+            Action action = () =>
+            {
+                UIApplication.SharedApplication.OpenUrl(new NSUrl(ApiUtils.URL_CUSTOMER_SIGNUP));
+            };
+
+            UITapGestureRecognizer tap = new UITapGestureRecognizer(action);
+            SignupLbl.AddGestureRecognizer(tap);
             // Perform any additional setup after loading the view, typically from a nib.
         }
 

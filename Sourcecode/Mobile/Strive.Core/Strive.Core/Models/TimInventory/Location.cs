@@ -3,8 +3,13 @@ using System.Collections.Generic;
 
 namespace Strive.Core.Models.TimInventory
 {
-    public class Location
+    public class Locations
     {
-        public List<LocationAddress> LocationAddress { get; set; }
+        public List<LocationAddress> Location { get; set; }
+    }
+
+    public class LocationProd
+    {
+        public List<LocationDetail> Location { get; set; }
     }
 }
