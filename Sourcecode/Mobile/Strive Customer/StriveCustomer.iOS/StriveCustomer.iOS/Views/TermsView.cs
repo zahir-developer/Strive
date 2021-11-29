@@ -46,8 +46,20 @@ namespace StriveCustomer.iOS.Views
             StartingDate.Text = new DateTime(DateTime.Now.Date.AddMonths(1).Year, DateTime.Now.Date.AddMonths(1).Month, 1).ToString("yyyy-MM-dd"); 
             EndingDate.Text = "Open";
             Date.Text = Datenow.Substring(0, 10);
-            string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName.Substring(8) + "- $" + (VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price);
-            membership_name.Text = membershipname;
+            if (MembershipDetails.selectedMembershipDetail.MembershipName.Length<8)
+            {
+
+                string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName+ "- $" + (VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price);
+                membership_name.Text = membershipname;
+            }
+
+            else
+            {
+                string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName.Substring(8) + "- $" + (VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price);
+                membership_name.Text = membershipname;
+            }
+            //string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName.Substring(8) + "- $" + (VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price);
+           
             TermsParentView.Layer.CornerRadius = 5;
             GetTotal();
 

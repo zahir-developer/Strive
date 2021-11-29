@@ -58,7 +58,7 @@ namespace StriveCustomer.iOS.Views
 
         public void UpdatePrice(NSIndexPath indexPath)
         {
-            if (MembershipDetails.selectedMembershipServices!=null)
+            if (MembershipDetails.selectedMembershipDetail!=null)
             {
                 if (MembershipDetails.selectedMembershipDetail.Price > data.Membership[indexPath.Row].Price)
                 {

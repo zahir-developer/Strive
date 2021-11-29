@@ -116,25 +116,32 @@ namespace StriveCustomer.iOS.Views
             Membership_Discount.Hidden = true;
             MonthlyCharge_lbl.Hidden = true;
             string service = Membership_VehicleLbl.Text.Replace(" ", "");
-
-            string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");
-
-            foreach(var itm in selectedServices)
+            if (MembershipDetails.selectedMembershipDetail.Services!=null)
             {
-                if (itm.Replace(" ", "") == service)
+                string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");
+
+                foreach (var itm in selectedServices)
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-                    cell.UserInteractionEnabled = false;
-                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    if (itm.Replace(" ", "") == service)
+                    {
+                        Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                        cell.UserInteractionEnabled = false;
+                        cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                        Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                        Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                        Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    }
+                    //else
+                    //{
+                    //    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    //}
                 }
-                //else
-                //{
-                //    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-                //}
-            }                
+            }
+            else
+            {
+
+            }
+                        
            
         }
 
