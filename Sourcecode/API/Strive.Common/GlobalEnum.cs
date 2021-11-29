@@ -40,8 +40,8 @@ namespace Strive.Common
             LOGO,
             EMPLOYEEHANDBOOK,
             TERMSANDCONDITION,
-            ADS
-
+            ADS,
+            MEMBERSHIPAGREEMENT
         }
 
         public enum ArchiveFolder

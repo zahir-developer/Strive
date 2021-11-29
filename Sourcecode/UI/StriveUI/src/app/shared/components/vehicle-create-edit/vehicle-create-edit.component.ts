@@ -79,7 +79,7 @@ export class VehicleCreateEditComponent implements OnInit {
       this.isClientVehicle = false;
       this.vehicleForm.reset();
 
-
+      
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
       this.getMembershipService();
@@ -534,6 +534,7 @@ export class VehicleCreateEditComponent implements OnInit {
               name: item.ModelValue
             };
           });
+          this.getUpcharge();
         }
       }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
