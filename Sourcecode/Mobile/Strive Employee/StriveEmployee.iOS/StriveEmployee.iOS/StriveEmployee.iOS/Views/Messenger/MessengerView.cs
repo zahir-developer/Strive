@@ -192,14 +192,14 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         private async void EstablishHubConnection()
         {
-            ConnectionID = await this.ViewModel.StartCommunication();
+            ConnectionID = await ViewModel.StartCommunication();
 
             await ChatHubMessagingService.SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
 
             MessengerTempData.ConnectionID = ConnectionID;
 
-            await this.ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
-            await ChatHubMessagingService.SubscribeChatEvent();
+            //await ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
+            await ChatHubMessagingService.SubscribeChatEvent();    
         }
 
         private async void getRecentContacts()

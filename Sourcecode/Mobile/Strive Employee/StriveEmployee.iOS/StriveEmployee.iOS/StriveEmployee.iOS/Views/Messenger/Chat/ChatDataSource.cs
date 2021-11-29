@@ -1,40 +1,41 @@
 ﻿using System;
 using Foundation;
+using MvvmCross.ViewModels;
+using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Utils.Employee;
-using Strive.Core.ViewModels.Employee;
 using UIKit;
 
 namespace StriveEmployee.iOS.Views.Messenger.Chat
 {
     public class ChatDataSource : UITableViewSource
     {
-        MessengerPersonalChatViewModel ViewModel;
-        public ChatDataSource(MessengerPersonalChatViewModel view)
+        public MvxObservableCollection<ChatMessageDetail> ChatMessages;
+        public ChatDataSource(MvxObservableCollection<ChatMessageDetail> list)
         {
-            this.ViewModel = view;
+            ChatMessages = list;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if(ViewModel.chatMessages.ChatMessage.ChatMessageDetail[indexPath.Row].SenderId != EmployeeTempData.EmployeeID)
+            if(ChatMessages[indexPath.Row].SenderId != EmployeeTempData.EmployeeID)
             {
                 var cell = tableView.DequeueReusableCell("MessageIncomingCell", indexPath) as MessageIncomingCell;
                 cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-                cell.SetData(ViewModel.chatMessages.ChatMessage.ChatMessageDetail[indexPath.Row]);
+                cell.SetData(ChatMessages[indexPath.Row]);
                 return cell;
             }
             else
             {
                 var cell = tableView.DequeueReusableCell("MessageOutgoingCell", indexPath) as MessageOutgoingCell;
                 cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-                cell.SetData(ViewModel.chatMessages.ChatMessage.ChatMessageDetail[indexPath.Row]);
+                cell.SetData(ChatMessages[indexPath.Row]);
                 return cell;
             }
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count;
+            return ChatMessages.Count;
         }
     }
 }

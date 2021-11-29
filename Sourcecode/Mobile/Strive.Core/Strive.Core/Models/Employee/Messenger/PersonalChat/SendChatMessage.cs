@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Strive.Core.Models.Employee.Messenger.PersonalChat
 {
-    public class SendChatMessage
+    public class  SendChatMessage
     {
         public chatMessage chatMessage { get; set; }
         public chatMessageRecipient chatMessageRecipient { get; set; }

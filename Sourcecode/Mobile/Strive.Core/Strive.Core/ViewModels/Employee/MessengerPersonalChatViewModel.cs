@@ -1,4 +1,5 @@
-﻿using Strive.Core.Models.Employee.Messenger.PersonalChat;
+﻿using MvvmCross.ViewModels;
+using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Services.HubServices;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
@@ -16,7 +17,11 @@ namespace Strive.Core.ViewModels.Employee
         public string Message { get; set; }
 
         public bool SentSuccess { get; set; }
-        public PersonalChatMessages chatMessages { get; set; }
+
+        public PersonalChatMessages personalChatMessages;
+
+        public MvxObservableCollection<ChatMessageDetail> ChatMessages = new MvxObservableCollection<ChatMessageDetail>();
+       
         public SendChatMessage sendChat { get; set; }
 
         #endregion Properties
@@ -28,14 +33,15 @@ namespace Strive.Core.ViewModels.Employee
             var result = await MessengerService.GetPersonalChatMessages(chatData);
             if(result == null || result.ChatMessage == null || result.ChatMessage.ChatMessageDetail == null || result.ChatMessage.ChatMessageDetail.Count == 0)
             {
-                chatMessages = null;
+                ChatMessages = null;
             }
             else
             {
-                chatMessages = new PersonalChatMessages();
-                chatMessages.ChatMessage = new ChatMessage();
-                chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
-                chatMessages = result;
+                personalChatMessages = new PersonalChatMessages();
+                personalChatMessages.ChatMessage = new ChatMessage();
+                personalChatMessages.ChatMessage.ChatMessageDetail = new MvxObservableCollection<ChatMessageDetail>();
+                personalChatMessages = result;
+                ChatMessages = personalChatMessages.ChatMessage.ChatMessageDetail;
             }
         }
 

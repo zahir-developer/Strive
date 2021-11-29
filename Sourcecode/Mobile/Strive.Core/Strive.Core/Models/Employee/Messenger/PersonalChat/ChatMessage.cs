@@ -1,13 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MvvmCross.ViewModels;
 
 namespace Strive.Core.Models.Employee.Messenger.PersonalChat
 {
-    public class ChatMessage
+    public class ChatMessage : MvxViewModel
     {
-        public List<ChatMessageDetail> ChatMessageDetail { get; set; }
+        public MvxObservableCollection<ChatMessageDetail> _chatMessageDetail;
+
+        public MvxObservableCollection<ChatMessageDetail> ChatMessageDetail
+        {
+            get => _chatMessageDetail;
+            set
+            {
+                _chatMessageDetail = value;
+                RaisePropertyChanged(() => ChatMessageDetail);
+                // take any additional actions here which are required when MyProperty is updated
+            }
+        }
     }
+
     public class ChatMessageDetail
     {
         public int SenderId { get; set; }

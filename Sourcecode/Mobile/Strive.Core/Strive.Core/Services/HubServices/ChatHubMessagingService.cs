@@ -35,12 +35,12 @@ namespace Strive.Core.Services.HubServices
             if (string.IsNullOrEmpty(ConnectionID) || connection == null)
             {
                 //connection = new HubConnectionBuilder().WithUrl("http://10.0.2.2:60001/ChatMessageHub").Build();
-                connection = new HubConnectionBuilder().WithUrl(ApiUtils.AZURE_URL + "/chatMessageHub").Build();
+                connection = new HubConnectionBuilder().WithUrl(ApiUtils.AZURE_URL_TEST + "/chatMessageHub").Build();
                 try
                 {
                     await connection?.StartAsync();
                     Console.WriteLine("Connection established Successfully! ");
-                    PrivateMessageList = new System.Collections.ObjectModel.ObservableCollection<SendChatMessage>();
+                    PrivateMessageList = new ObservableCollection<SendChatMessage>();
                     GroupMessageList = new ObservableCollection<SendChatMessage>();
                 }
                 catch (Exception ex)
@@ -100,7 +100,20 @@ namespace Strive.Core.Services.HubServices
 
             });
 
-            
+            connection?.On<object>("ReceivePrivateMessage", (data) =>
+            {
+                Console.WriteLine("Private Message received", data);
+                try
+                {
+                    var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
+                    PrivateMessageList.Add(datas);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            });
+
 
             connection?.On<object>("ReceiveGroupMessage", (data) =>
             {

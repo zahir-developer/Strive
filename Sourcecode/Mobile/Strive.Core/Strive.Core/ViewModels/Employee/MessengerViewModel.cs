@@ -29,7 +29,7 @@ namespace Strive.Core.ViewModels.Employee
             var result = await MessengerService.ChatCommunication(communicationData);
             if(result == null)
             {
-
+                _userDialog.Alert("Communication has not been established");
             }
             else
             {

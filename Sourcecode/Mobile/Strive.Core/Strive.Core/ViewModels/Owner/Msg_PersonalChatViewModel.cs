@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MvvmCross.ViewModels;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
@@ -51,7 +52,7 @@ namespace Strive.Core.ViewModels.Owner
             {
                 chatMessages = new PersonalChatMessages();
                 chatMessages.ChatMessage = new ChatMessage();
-                chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
+                chatMessages.ChatMessage.ChatMessageDetail = new MvxObservableCollection<ChatMessageDetail>();
                 chatMessages = result;
             }
         }

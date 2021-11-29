@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using CoreGraphics;
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
+using MvvmCross.ViewModels;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Services.HubServices;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
+using MvvmCross.Binding.BindingContext;
 using UIKit;
+using System.Linq;
 
 namespace StriveEmployee.iOS.Views.Messenger.Chat
 {
@@ -18,7 +21,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
         UITextView messageTextView;
         UILabel chatMessagePlaceholderLabel;
         NSLayoutConstraint messageBoxContainerBottomConstraint;
-        MessengerPersonalChatViewModel ViewModel;
+        //MessengerPersonalChatViewModel ViewModel;
         
 
         public List<string> Chats = new List<string>();
@@ -30,14 +33,14 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            ViewModel = new MessengerPersonalChatViewModel();
+            //ViewModel = new MessengerPersonalChatViewModel();
 
             getChatData();            
             RegisterKeyboardObserver();
-                      
+
             //chatTableView.WeakDelegate = this;
             //chatTableView.WeakDataSource = this;
-            
+
         }
 
         public override void DidReceiveMemoryWarning()
@@ -112,25 +115,63 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             sendImageView.WidthAnchor.ConstraintEqualTo(40).Active = true;
             sendImageView.HeightAnchor.ConstraintEqualTo(40).Active = true;
 
-            if (ViewModel.chatMessages != null)
+            if (ViewModel.ChatMessages != null)
             {
-                var chatSource = new ChatDataSource(ViewModel);
+                var chatSource = new ChatDataSource(ViewModel.ChatMessages);
                 chatTableView.Source = chatSource;
+
+                //var set = this.CreateBindingSet<ChatViewController, MessengerPersonalChatViewModel>();
+                //set.Bind(chatTableView.Source).To(vm => vm.ChatMessages);
+                //set.Apply();
+
                 chatTableView.TableFooterView = new UIView(CGRect.Empty);
                 chatTableView.DelaysContentTouches = false;
                 chatTableView.ReloadData();
             }
-            await ChatHubMessagingService.SubscribeChatEvent();
-        }
 
+            await ChatHubMessagingService.SubscribeChatEvent();
+            ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
+        }
+        private async void PrivateMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Console.WriteLine("PrivateMessageList_CollectionChanged called");
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(item));
+                    var newChatItem = (SendChatMessage)item;
+
+                    ChatMessageDetail chatMessageDetail = new ChatMessageDetail();
+                    chatMessageDetail.CreatedDate = DateTime.Parse(newChatItem.chatMessage.createdDate);
+                    chatMessageDetail.MessageBody = newChatItem.chatMessage.messagebody;
+                    chatMessageDetail.ReceipientId = (int)newChatItem.chatMessageRecipient.recipientId;
+                    chatMessageDetail.RecipientFirstName = newChatItem.firstName;
+                    chatMessageDetail.RecipientLastName = newChatItem.lastName;
+
+                    //Sender 1st name, last name is not coming in the outpu
+                    chatMessageDetail.SenderId = (int)newChatItem.chatMessageRecipient.senderId;
+                    chatMessageDetail.SenderFirstName = newChatItem.firstName;
+                    chatMessageDetail.SenderLastName = newChatItem.lastName;
+
+                    if(!ViewModel.ChatMessages.Any(x => x.CreatedDate == chatMessageDetail.CreatedDate))
+                    {
+                        ViewModel.ChatMessages.Add(chatMessageDetail);
+                    }
+                    
+                }
+
+                chatTableView.ReloadData();
+            }
+        }
         void SetupNavigationItem()
         {
-            if(ViewModel.chatMessages != null)
+            if(ViewModel.ChatMessages != null)
             {
-                if(ViewModel.chatMessages.ChatMessage.ChatMessageDetail[0].RecipientFirstName != null)
+                if(ViewModel.ChatMessages[0].RecipientFirstName != null)
                 {
-                    Title = ViewModel.chatMessages.ChatMessage.ChatMessageDetail[0].RecipientFirstName +
-                   ViewModel.chatMessages.ChatMessage.ChatMessageDetail[0].RecipientLastName;
+                    Title = ViewModel.ChatMessages[0].RecipientFirstName +
+                    ViewModel.ChatMessages[0].RecipientLastName;
                 }
                 else
                 {
@@ -163,7 +204,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 RecipientId = MessengerTempData.RecipientID,
                 GroupId = MessengerTempData.GroupID
             };
-            await this.ViewModel.GetAllMessages(chatData);
+            await ViewModel.GetAllMessages(chatData);
 
             SetupView();
             SetupNavigationItem();
@@ -195,21 +236,21 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                     SenderId = EmployeeTempData.EmployeeID,
                     CreatedDate = DateTime.UtcNow
                 };
-                if (ViewModel.chatMessages == null)
+                if (ViewModel.ChatMessages == null)
                 {
-                    ViewModel.chatMessages = new PersonalChatMessages();
-                    ViewModel.chatMessages.ChatMessage = new ChatMessage();
-                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
-                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
+                    
+                    ViewModel.ChatMessages.Add(data);
                 }
                 else
                 {
-                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
+                    ViewModel.ChatMessages.Add(data);
+
                 }
-                this.ViewModel.Message = messageTextView.Text;
+
+                ViewModel.Message = messageTextView.Text;
                 
-                await this.ViewModel.SendMessage();
-                if (this.ViewModel.SentSuccess)
+                await ViewModel.SendMessage();
+                if (ViewModel.SentSuccess)
                 {
                     messageTextView.Text = "";
                     getChatData();
@@ -217,7 +258,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             }
             else
             {
-                this.ViewModel.EmptyChatMessageError();
+                ViewModel.EmptyChatMessageError();
             }
         }
 
