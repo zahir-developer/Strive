@@ -64,6 +64,7 @@ namespace Strive.ResourceAccess
         public List<AllMembershipViewModel> GetMembershipSearch(MembershipSearchDto search)
         {
             _prm.Add("@MembershipSearch", search.MembershipSearch);
+            _prm.Add("@LocationId", search.LocationId);
             var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
             return result;
         }
