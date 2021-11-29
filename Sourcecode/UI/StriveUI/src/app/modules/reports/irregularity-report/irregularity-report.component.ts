@@ -47,12 +47,14 @@ export class IrregularityReportComponent implements OnInit {
   weeklyDateAssign() {
     const currentDate = new Date();
     const first = currentDate.getDate() - currentDate.getDay();
-    const last = first + 7;
+    const last = first + 6;
     this.startDate = new Date(currentDate.setDate(first));
     this.currentWeek = this.startDate;
-    this.endDate = new Date(currentDate.setDate(last));
-    this.endDate = this.endDate.setDate(this.startDate.getDate() + 7);
-    this.endDate = new Date(moment(this.endDate).format());
+    const lastDate = new Date();
+    // this.endDate = new Date(currentDate.setDate(last));
+    // this.endDate = this.endDate.setDate(this.startDate.getDate() + 7);
+    // this.endDate = new Date(moment(this.endDate).format());
+    this.endDate = new Date(lastDate.setDate(last));
     this.daterangepickerModel = [this.startDate, this.endDate];
   }
 
