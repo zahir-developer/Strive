@@ -123,7 +123,11 @@ namespace Strive.Core.ViewModels.Employee
                 sendChat.firstName = MessengerTempData.RecipientName;
                 if (MessengerTempData.RecipientsConnectionID!=null)
                 {
-                    sendChat.connectionId = MessengerTempData.RecipientsConnectionID[MessengerTempData.RecipientID.ToString()];
+                    if (MessengerTempData.RecipientsConnectionID.ContainsKey(MessengerTempData.RecipientID.ToString()))
+                    {
+                        sendChat.connectionId = MessengerTempData.RecipientsConnectionID[MessengerTempData.RecipientID.ToString()];
+                    }
+                    
                 }
                 else
                 {

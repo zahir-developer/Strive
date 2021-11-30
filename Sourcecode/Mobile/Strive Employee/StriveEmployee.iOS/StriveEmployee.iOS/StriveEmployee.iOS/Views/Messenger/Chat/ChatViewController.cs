@@ -165,8 +165,9 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
 
                 }
 
-                chatTableView.ReloadData();
+                
             }
+            chatTableView.ReloadData();
         }
 
         private async void PrivateMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -248,6 +249,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             SetupView();
             SetupNavigationItem();
             RegisterCell();
+            ScrollToBottom();
         }
        
         [Export("textView:shouldChangeTextInRange:replacementText:")]
@@ -273,7 +275,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                     SenderFirstName = "",
                     SenderLastName = "",
                     SenderId = EmployeeTempData.EmployeeID,
-                    CreatedDate = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow.ToLocalTime()
                 };
                 if (ViewModel.ChatMessages == null)
                 {
@@ -292,8 +294,8 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 if (ViewModel.SentSuccess)
                 {
                     messageTextView.Text = "";
-                    //getChatData();
-                    chatTableView.ReloadData();
+                    getChatData();
+                    //chatTableView.ReloadData();
                 }
             }
             else
@@ -337,6 +339,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             if (rowCount > 0)
             {
                 chatTableView.ScrollToRow(NSIndexPath.FromItemSection(rowCount - 1, 0), UITableViewScrollPosition.Bottom, true);
+                
             }
         }
     }

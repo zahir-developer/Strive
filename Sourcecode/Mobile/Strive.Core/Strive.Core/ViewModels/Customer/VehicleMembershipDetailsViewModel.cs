@@ -10,6 +10,8 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class VehicleMembershipDetailsViewModel : BaseViewModel
     {
+        
+
         #region Properties
 
         public string MembershipName { get; set; }
@@ -46,7 +48,9 @@ namespace Strive.Core.ViewModels.Customer
                     clientVehicleMembershipModel.clientVehicleMembershipDetails = new ClientVehicleMembershipDetails();
                 CustomerVehiclesInformation.membershipDetails.
                     clientVehicleMembershipModel.clientVehicleMembershipService = new List<ClientVehicleMembershipService>();
-
+                MembershipDetails.selectedMembership = 0;
+                MembershipDetails.selectedMembershipDetail = null;
+                
                 GetClientMembershipData();
 
                 GetMembershipServicesData();

@@ -138,6 +138,12 @@ namespace Strive.Core.Services.HubServices
                 Console.WriteLine("Private Message sent", data);
 
             });
+            connection?.On<string>("SendGroupMessage", (data) =>
+            {
+
+                Console.WriteLine("Group Message sent", data);
+
+            });
 
             connection?.On<object>("ReceiveEmployeeCommunicationId", (data) =>
             {
