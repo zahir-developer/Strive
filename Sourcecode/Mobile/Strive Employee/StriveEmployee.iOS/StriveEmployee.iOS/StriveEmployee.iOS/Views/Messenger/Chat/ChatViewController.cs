@@ -55,7 +55,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
 
             chatTableView = new UITableView(CGRect.Empty);
             chatTableView.TranslatesAutoresizingMaskIntoConstraints = false;
-            chatTableView.EstimatedRowHeight = 60;
+            chatTableView.EstimatedRowHeight = 110;
             chatTableView.RowHeight = UITableView.AutomaticDimension;
             chatTableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
             chatTableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.Interactive;
@@ -338,8 +338,8 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             var rowCount = chatTableView.NumberOfRowsInSection(0);
             if (rowCount > 0)
             {
-                chatTableView.ScrollToRow(NSIndexPath.FromItemSection(rowCount - 1, 0), UITableViewScrollPosition.Bottom, true);
-                
+                //chatTableView.ScrollToRow(NSIndexPath.FromItemSection(rowCount - 1, 0), UITableViewScrollPosition.Bottom, true);
+                chatTableView.SetContentOffset(new CGPoint(0, chatTableView.ContentSize.Height - chatTableView.Frame.Size.Height), false);
             }
         }
     }

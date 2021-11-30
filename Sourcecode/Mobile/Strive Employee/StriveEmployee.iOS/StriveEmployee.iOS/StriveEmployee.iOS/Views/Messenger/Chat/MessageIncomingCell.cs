@@ -94,7 +94,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
 
         public void SetData(ChatMessageDetail chatMessage)
         {
-            userNameLabel.Text = chatMessage.RecipientFirstName;
+            userNameLabel.Text = chatMessage.SenderFirstName;
             messageLabel.Text = chatMessage.MessageBody;
             messageTimeLabel.Text = chatMessage.CreatedDate.ToString();
         }
