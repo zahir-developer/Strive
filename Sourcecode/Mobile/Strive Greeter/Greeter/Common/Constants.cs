@@ -8,6 +8,7 @@ namespace Greeter.Common
         internal const string TIME_FORMAT = "hh:mm tt";
         internal const string DATE_FORMAT = "dd/MM/yyyy";
         internal const string DATE_FORMAT_FOR_API = "yyyy-MM-dd";
+        internal const string DATE_TIME_FORMAT_FOR_API = "yyyy-MM-dd HH:mm:ss";
 
         internal const short PAGINATION_LIMIT = 10;
 

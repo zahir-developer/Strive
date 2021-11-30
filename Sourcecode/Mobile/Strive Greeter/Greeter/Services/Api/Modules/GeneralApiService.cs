@@ -39,7 +39,7 @@ namespace Greeter.Services.Api
         public Task<LocationWashTimeResponse> GetLocationWashTime(long locationId = 0)
         {
             //string formattedCurrentDate = DateTime.Now.Date.ToString(Constants.DATE_FORMAT_FOR_API);
-            string formattedCurrentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string formattedCurrentDate = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
             var parameters = new Dictionary<string, string>() { { nameof(locationId), locationId.ToString()} ,{ "date" , formattedCurrentDate} };
             return apiService.DoApiCall<LocationWashTimeResponse>(Urls.GET_LOCATION_WASH_TIME, HttpMethod.Get, parameters);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CoreGraphics;
 using Foundation;
@@ -30,7 +31,9 @@ namespace Greeter.Modules.Pay
 
         const string TIP_AMOUNT_FORMAT = "{0}{1}{2}.{3}{4}";
 
-        readonly string[] TIP_TEMPLATES = new string[] { "10%", "15%", "20%", "25%", "Custom" };
+        readonly string[] TIP_TEMPLATES = new string[] { "10", "15", "20", "25", "Custom" };
+
+        int tipTemplateSelectedIndex = -1;
 
         private IPCDTDevices Peripheral { get; } = IPCDTDevices.Instance;
         private IPCDTDeviceDelegateEvents PeripheralEvents { get; } = new IPCDTDeviceDelegateEvents();
@@ -42,11 +45,11 @@ namespace Greeter.Modules.Pay
 
             SetupView();
             KeyBoardHandling();
-            //UpdateData();
+            UpdateData();
 
             tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0, 0, 0);
 
-            //RegisterForCardDetailsScanning();
+            RegisterForCardDetailsScanning();
 
 #if DEBUG
             cardNumberTextField.Text = "6011000995500000";
@@ -298,13 +301,14 @@ namespace Greeter.Modules.Pay
             cvLayout.MinimumLineSpacing = 10;
             cvLayout.SectionInset = new UIEdgeInsets(5, 5, 5, 5);
             cvLayout.ItemSize = UICollectionViewFlowLayout.AutomaticSize;
-            cvLayout.EstimatedItemSize = new CGSize(300, 80);
+            cvLayout.EstimatedItemSize = new CGSize(120, 40);
+            //cvLayout.ItemSize = new CGSize(120, 40);
             tipsTemplatesCv = new UICollectionView(CGRect.Empty, cvLayout);
             tipsTemplatesCv.TranslatesAutoresizingMaskIntoConstraints = false;
             tipsTemplatesCv.RegisterClassForCell(typeof(TipTemplateCell), nameof(TipTemplateCell));
             tipsTemplatesCv.DataSource = this;
             tipsTemplatesCv.WeakDelegate = this;
-            tipsTemplatesCv.BackgroundColor = UIColor.Cyan;
+            tipsTemplatesCv.BackgroundColor = UIColor.Clear;
             backgroundView.Add(tipsTemplatesCv);
 
             var totalAmountDueTitleLabel = new UILabel(CGRect.Empty);
@@ -318,7 +322,7 @@ namespace Greeter.Modules.Pay
             totalAmountDueLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             totalAmountDueLabel.Font = UIFont.SystemFontOfSize(18);
             totalAmountDueLabel.TextColor = UIColor.Black;
-            //totalAmountDueLabel.Text = "$15.00";
+            totalAmountDueLabel.Text = "$15.00";
             backgroundView.Add(totalAmountDueLabel);
 
             var paymentInfoTitleLabel = new UILabel(CGRect.Empty);
@@ -713,6 +717,54 @@ namespace Greeter.Modules.Pay
             }
         }
 
+        void TipTemplateSelected(int pos)
+        {
+            var indexPaths = new List<NSIndexPath>();
+            if (tipTemplateSelectedIndex != -1)
+            {
+                indexPaths.Add(NSIndexPath.FromRowSection(tipTemplateSelectedIndex, 0));
+            }
+
+            indexPaths.Add(NSIndexPath.FromRowSection(pos, 0));
+
+            tipTemplateSelectedIndex = pos;
+
+            var indexPathsArray = indexPaths.ToArray();
+
+            UIView.Animate(0.2, () => {
+                tipsTemplatesCv.ReloadItems(indexPathsArray);
+            });
+
+            //TODO : update tip amount
+            if (TIP_TEMPLATES[pos].Equals("custom", StringComparison.CurrentCultureIgnoreCase))
+            {
+                tipAmountTextField.UserInteractionEnabled = true;
+                tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0, 0, 0);
+                UpdateAmountLblInDollar(Amount.ToString());
+            }
+            else
+            {
+                var percentage = Convert.ToInt32(TIP_TEMPLATES[pos]);
+                var tipAmount = (Amount * percentage) / 100;
+                tipAmountTextField.UserInteractionEnabled = false;
+
+                //var formattedString = tipAmount.ToString("D" + 5.ToString())
+                //     .Insert(3, ".");
+
+                //if (formattedString.Length > 6) return;
+
+                //tipAmountTextField.Text = tipAmount.ToString();
+
+                tipAmountTextField.Text = String.Format("{0:0.00}", tipAmount);
+
+                if (!tipAmountTextField.Text.IsEmpty())
+                    if (float.TryParse(tipAmountTextField.Text, out float extraTipAmount))
+                    {
+                        UpdateAmountLblInDollar((Amount + extraTipAmount).ToString());
+                    }
+            }
+        }
+
         [Export("textFieldShouldReturn:")]
         public bool ShouldReturn(UITextField textField)
         {
@@ -747,7 +799,13 @@ namespace Greeter.Modules.Pay
         public UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = (TipTemplateCell)collectionView.DequeueReusableCell(nameof(TipTemplateCell), indexPath);
-            cell.UpdateTipTemplate(TIP_TEMPLATES[indexPath.Row]);
+            bool isSelectedPos = false;
+            if (tipTemplateSelectedIndex == indexPath.Row)
+            {
+                isSelectedPos = true;
+            }
+
+            cell.UpdateTipTemplate(TIP_TEMPLATES[indexPath.Row], TipTemplateSelected, isSelectedPos, indexPath.Row);
             return cell;
         }
 

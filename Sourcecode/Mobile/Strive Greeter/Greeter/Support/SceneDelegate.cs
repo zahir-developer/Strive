@@ -50,7 +50,7 @@ namespace NewSingleViewTemplate
                 //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
                 //vc = sb.InstantiateViewController(nameof(IssueImagesViewController));
 
-                vc = new PaymentViewController();
+                //vc = new PaymentViewController();
 
                 var nc = new UINavigationController();
                 var vcs = new UIViewController[] { vc };

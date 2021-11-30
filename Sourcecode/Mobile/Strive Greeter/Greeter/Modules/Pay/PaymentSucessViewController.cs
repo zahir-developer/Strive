@@ -87,6 +87,17 @@ namespace Greeter.Storyboards
             //EmailServiceReceipt(emailContentHtml, subject);
         }
 
+        async Task TestEmailTemplate()
+        {
+            ShowActivityIndicator();
+
+            //string email = "";
+
+            //var response = await SingleTon.WashApiService.SendEmail(, subject, emailContentHtml);
+
+            HideActivityIndicator();
+        }
+
         [Export("mailComposeController:didFinishWithResult:error:")]
         public void Finished(MFMailComposeViewController controller, MFMailComposeResult result, NSError error)
         {
