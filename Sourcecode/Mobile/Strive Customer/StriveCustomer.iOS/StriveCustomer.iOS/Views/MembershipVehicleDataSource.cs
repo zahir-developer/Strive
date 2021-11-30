@@ -44,17 +44,18 @@ namespace StriveCustomer.iOS.Views
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {                       
             MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
-            cell.updateCell(indexPath);            
+            cell.updateServices(indexPath);            
             MembershipDetails.selectedMembership = data.Membership[indexPath.Row].MembershipId;
             
             UpdatePrice(indexPath);
+
         }
 
-        public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
-        {
-            MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
-            cell.deselectRow(indexPath);
-        }
+        //public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
+        //{
+        //    MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
+        //    cell.deselectRow(indexPath);
+        //}
 
         public void UpdatePrice(NSIndexPath indexPath)
         {

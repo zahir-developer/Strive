@@ -17,6 +17,8 @@ namespace StriveCustomer.iOS.Views
         public static readonly NSString Key = new NSString("MembershipVehicle_ViewCell");
         public static readonly UINib Nib;
         public List<string> upchargeList;
+        public static NSIndexPath selectedMembershipIndexPath;
+        public static UIButton selectedMembershipButton;
 
         static MembershipVehicle_ViewCell()
         {
@@ -39,6 +41,8 @@ namespace StriveCustomer.iOS.Views
             {
                 Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);                
                 MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
+                selectedMembershipIndexPath = indexPath;
+                selectedMembershipButton = Membership_CellBtn;
             }
             else
             {
@@ -49,13 +53,20 @@ namespace StriveCustomer.iOS.Views
         public void updateCell(NSIndexPath indexPath)
         {
             Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+        
         }
 
         public void deselectRow(NSIndexPath indexpath)
         {
             Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-        }
 
+        }
+        public void deselectRowForInitialCellUpdate(NSIndexPath indexPath)
+        {
+                       
+             selectedMembershipButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    
+        }
         //Cell for Upcharges
 
         public void setUpchargeData(List<string> serviceList, NSIndexPath indexpath, MembershipVehicle_ViewCell cell)
@@ -147,6 +158,7 @@ namespace StriveCustomer.iOS.Views
 
         public void updateServices(NSIndexPath indexPath)
         {
+            
             if(Membership_CellBtn.CurrentImage == UIImage.FromBundle("icon-checked-round"))
             {
                 Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
@@ -154,6 +166,10 @@ namespace StriveCustomer.iOS.Views
             else
             {
                 Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                deselectRowForInitialCellUpdate(selectedMembershipIndexPath);
+                selectedMembershipButton = Membership_CellBtn;
+                selectedMembershipIndexPath = indexPath;
+               
             }
         }
     }
