@@ -62,8 +62,9 @@
                                         <tr>
                                             <th scope="col">FirstName</th>
                                             <th scope="col">LastName</th>
-                                            <th scope="col">Membership<br>amount</th>
-                                            <th>Drive Up Rate</th>
+                                            <th scope="col">Barcode</th>
+                                            <th scope="col">Membership<br>Amount</th>
+                                            <th>Drive Up<br> Rate</th>
                                             <th *ngFor="let item of headerShortGroup">{{item}}</th>
                                             <th scope="col">Total</th>
                                             <th scope="col">Average</th>
@@ -73,8 +74,15 @@
 
                                     <tbody *ngIf="newMoneyOwnedReports.length > 0">
                                         <tr *ngFor="let report of newMoneyOwnedReports">
-                                            <td>{{report.FirstName}}</td>
-                                            <td>{{report.LastName}}</td>
+                                            <td title="{{report.FirstName}}">
+                                                {{report.FirstName | slice:0:13}}
+                                                {{(report.FirstName !== null) ? report.FirstName.length >=
+                                                    13 ? '' : '...' :''}} </td>
+                                                    <td title="{{report.LastName}}">
+                                                        {{report.LastName | slice:0:13}}
+                                                        {{(report.LastName !== null) ? report.LastName.length >=
+                                                            13 ? '' : '...' :''}} </td>
+                                            <td>{{report.Barcode}}</td>
                                             <td>{{report.MembershipAmount | number:'.2'}}</td>
                                             <td>{{report.TotalJobAmount | number:'.2'}}</td>
                                             <td *ngFor="let value of report.mulipleLocWash">{{value}}</td>
@@ -88,13 +96,13 @@
 
                                     <tbody *ngIf="newMoneyOwnedReports.length === 0">
                                         <tr>
-                                            <td colspan="6" class="text-center">No Record Found</td>
+                                            <td colspan="8" class="text-center">No Record Found</td>
                                         </tr>
                                     </tbody>
 
                                     <tfoot class="table-foot font-weight-700" *ngIf="newMoneyOwnedReports.length > 0">
                                         <tr>
-                                            <td colspan="2">Total</td>
+                                            <td colspan="3">Total</td>
                                             <td>{{membership | number:'.2'}}</td>
                                             <td>{{driveUp | number:'.2'}}</td>
                                             <td *ngFor="let item of shortCharValue">{{item | number:'.2'}}</td>

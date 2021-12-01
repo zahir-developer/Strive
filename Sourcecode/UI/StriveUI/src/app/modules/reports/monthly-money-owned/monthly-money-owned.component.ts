@@ -48,7 +48,8 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   headerShortGroup: any;
   headerOwned: any;
   totalAmount = 0;
-  totalAverage = 0;
+  totalAverage = "";
+  totalAvg = 0
   membership = 0;
   driveUp = 0
   shortCharValue: any;
@@ -255,7 +256,9 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
             var newObject = {
               "Average": owned.Average,
               "ClientId": owned.ClientId,
+              "VehicleId": owned.VehicleId,
               "FirstName": owned.FirstName,
+              "Barcode": owned.Barcode,
               "LastName": owned.LastName,
               "LocationId": owned.LocationId,
               "LocationName": owned.LocationName,
@@ -270,7 +273,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
               "shortName": owned.shortName
             }
             this.moneyOwnedReport.MoneyOwedReport.forEach(innerOwned => {
-              if (innerOwned.ClientId === owned.ClientId) {
+              if (innerOwned.VehicleId === owned.VehicleId) {
                 newObject.mulipleLocWash.push(innerOwned.shortLocationValue)
               }
             });
@@ -281,7 +284,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
             owned.mulipleLocWash = owned.mulipleLocWash[0].map((x, idx) => owned.mulipleLocWash.reduce((sum, curr) => sum + curr[idx], 0));
           });
 
-          const removeDuplicateClient = this.newMoneyOwnedReports.map(e => e.ClientId).map((e, i, fin) => fin.indexOf(e) === i && i)
+          const removeDuplicateClient = this.newMoneyOwnedReports.map(e => e.VehicleId).map((e, i, fin) => fin.indexOf(e) === i && i)
             .filter(e => this.newMoneyOwnedReports[e]).map(e => this.newMoneyOwnedReports[e])
 
           this.newMoneyOwnedReports = removeDuplicateClient;
@@ -294,14 +297,20 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
             owned.totalAmount = 0;
             if (this.headerLocationShort.length !== 0) {
               this.headerLocationShort.forEach(element => {
-                owned.ownedTitle.push("Total Owned For" + " " + element);
+                owned.ownedTitle.push("Owed for " + element);
               });
             }
 
             if (owned.mulipleLocWash.length !== 0) {
               for (let i = 0; i < owned.mulipleLocWash.length; i++) {
-                const list = owned.mulipleLocWash[i] * owned.Average
-                owned.ownedValue.push(list);
+                let owed = 0;
+
+                if(owned.mulipleLocWash[i] === 1)
+                owed = owned.MoneyOwed;
+                else
+                owed = owned.mulipleLocWash[i] * owned.Average;
+                
+                owned.ownedValue.push(owed);
                 owned.total += owned.mulipleLocWash[i];
               }
             }
@@ -317,7 +326,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
           }
 
           this.totalAmount = 0;
-          this.totalAverage = 0;
+          this.totalAvg = 0;
           this.membership = 0;
           this.driveUp = 0;
           this.newMoneyOwnedReports.forEach(element => {
@@ -327,11 +336,13 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
             this.headerShortGroup = element.locationTitle
             this.headerOwned = element.ownedTitle;
             this.totalAmount += element.total
-            this.totalAverage += element.Average
+            this.totalAvg += element.Average
             this.membership += element.MembershipAmount
             this.driveUp += element.TotalJobAmount
           });
 
+          this.totalAverage = this.totalAvg.toFixed(2);
+          
           let shortArray = [];
           let ownedArray = [];
           this.newMoneyOwnedReports.forEach(element => {
