@@ -10,7 +10,6 @@ export const UrlConfig = {
     resetPassword: `Auth/ResetPassword`,
     customerSignup: `Auth/CustomerSignup`,
     allmake: `Auth/GetAllMake`,
-    model:`Auth/GetModelById/`,
     emailIdExists: `Auth/EmailIdExists/`,
     color: `Auth/GetAllColor`,
     ModelByMakeId: `Auth/GetModelById/`
