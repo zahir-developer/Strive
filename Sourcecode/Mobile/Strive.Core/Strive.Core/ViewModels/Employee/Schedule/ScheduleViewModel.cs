@@ -12,20 +12,27 @@ namespace Strive.Core.ViewModels.Employee.Schedule
 {
     public class ScheduleViewModel : BaseViewModel
     {
+        private string date = (System.DateTime.Now).ToString("yyy-MM-dd");
+        public static string StartDate { get; set; }
         #region Properties
 
         public ScheduleDetail scheduleList { get; set; }
-
+        //(System.DateTime.Now).ToString("yyy-MM-dd")
         #endregion Properties
 
         #region Commands
 
         public async Task GetScheduleList()
         {
-            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);            
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            if (StartDate!=null)
+            {
+                date = StartDate;
+            }
+            
             var result = await AdminService.GetScheduleList(new ScheduleRequest
             {
-                startDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
+                startDate = date,
                 endDate = getEndDate().ToString("yyy-MM-dd"),
                 locationId = 0,
                 employeeId = EmployeeTempData.EmployeeID,

@@ -85,16 +85,20 @@ namespace StriveEmployee.iOS.Views.Schedule
             empSchedule_TableView.Source = empScheduleSource;
             empSchedule_TableView.TableFooterView = new UIView(CGRect.Empty);
             empSchedule_TableView.DelaysContentTouches = false;
+            
             empSchedule_TableView.ReloadData();
         }
-
-        partial void scheduleDate_Touch(UIDatePicker sender)
+        
+        async partial void scheduleDate_Touch(UIDatePicker sender)
         {
-            var selectedDate = ScheduleDateView.Date;
+            var  selectedDate = ScheduleDateView.Date;
+            ScheduleViewModel.StartDate = selectedDate.ToString();
+            await ViewModel.GetScheduleList();
             if (ViewModel.scheduleList != null && ViewModel.scheduleList.ScheduleDetailViewModel != null)
             {
                 setData(selectedDate.ToString());
             }
+            //setData(selectedDate.ToString());
         }
     }
 }

@@ -35,9 +35,23 @@ namespace StriveCustomer.iOS.Views
 
 		[Outlet]
 		UIKit.UILabel timeValue_Lbl { get; set; }
+
+		[Action ("FacebookRedirect:")]
+		partial void FacebookRedirect (UIKit.UIButton sender);
+
+		[Action ("InstagramRedirect:")]
+		partial void InstagramRedirect (UIKit.UIButton sender);
+
+		[Action ("TwitterRedirect:")]
+		partial void TwitterRedirect (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ContactUsChildView != null) {
+				ContactUsChildView.Dispose ();
+				ContactUsChildView = null;
+			}
+
 			if (ContactUsMap != null) {
 				ContactUsMap.Dispose ();
 				ContactUsMap = null;
@@ -53,24 +67,19 @@ namespace StriveCustomer.iOS.Views
 				LocationNameLbl = null;
 			}
 
-			if (ContactUsChildView != null) {
-				ContactUsChildView.Dispose ();
-				ContactUsChildView = null;
-			}
-
 			if (locationValue_Lbl != null) {
 				locationValue_Lbl.Dispose ();
 				locationValue_Lbl = null;
 			}
 
-			if (phoneValue_Lbl != null) {
-				phoneValue_Lbl.Dispose ();
-				phoneValue_Lbl = null;
-			}
-
 			if (mailValue_Lbl != null) {
 				mailValue_Lbl.Dispose ();
 				mailValue_Lbl = null;
+			}
+
+			if (phoneValue_Lbl != null) {
+				phoneValue_Lbl.Dispose ();
+				phoneValue_Lbl = null;
 			}
 
 			if (timeValue_Lbl != null) {

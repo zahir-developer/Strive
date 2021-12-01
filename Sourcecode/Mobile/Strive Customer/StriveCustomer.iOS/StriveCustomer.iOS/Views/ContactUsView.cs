@@ -17,6 +17,7 @@ namespace StriveCustomer.iOS.Views
     {        
         public washLocations locations;
         public static washLocations washlocations;
+        public Locations Locations;
         public List<Double> distanceList = new List<double>();
         Dictionary<int, double> dict = new Dictionary<int, double>();
 
@@ -95,11 +96,48 @@ namespace StriveCustomer.iOS.Views
             locationValue_Lbl.Text = washlocations.Washes[index].Address1;
             phoneValue_Lbl.Text = washlocations.Washes[index].PhoneNumber;
             mailValue_Lbl.Text = washlocations.Washes[index].Email;
-            //if(washlocations.Washes[index].StartTime != null)
-            //{
-            //    timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
-            //}
-        } 
+            if (washlocations.Washes[index].StoreTimeIn != null)
+            {   
+                DateTime StartTime = DateTime.Parse(washlocations.Washes[index].StoreTimeIn);
+                DateTime EndTime = DateTime.Parse(washlocations.Washes[index].StoreTimeOut);
+                timeValue_Lbl.Text = StartTime.TimeOfDay.ToString() + " to " + EndTime.TimeOfDay.ToString();
+            }
+        }
+
+        async partial   void FacebookRedirect(UIButton sender)
+        {
+            try
+            {
+                 await Browser.OpenAsync(new Uri("https://www.facebook.com/"), BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("unable to open ");
+            }
+        }
+        async partial void InstagramRedirect(UIButton sender)
+        {
+            try
+            {
+                await Browser.OpenAsync(new Uri("https://www.instagram.com/accounts/login/"), BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("unable to open ");
+            }
+            
+        }
+        async partial void TwitterRedirect(UIButton sender)
+        {
+            try
+            {
+                await Browser.OpenAsync(new Uri("https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZW4ifQ%3D%3D%22%7D"), BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("unable to open ");
+            }
+        }
         public void setAnnotationData(UILabel locationName, UILabel locationValue_Lbls, UILabel phoneValue_Lbls, UILabel mailValue_Lbls, UILabel timeValue_Lbls, int index)
         {
             LocationNameLbl = locationName;

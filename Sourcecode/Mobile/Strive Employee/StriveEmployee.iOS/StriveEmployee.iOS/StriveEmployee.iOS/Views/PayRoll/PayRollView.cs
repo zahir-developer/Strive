@@ -80,7 +80,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
             Cardtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
             Washtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
             Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
-            Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonous);
+            Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
             Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
             Location.Text = EmployeeTempData.LocationName;
             FindPayRoll.TouchUpInside += (sender, e) =>
@@ -120,7 +120,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 Cardtip.Text = "$" + ViewModel.PayRoll.CardTip;
                 Washtip.Text = "$" + ViewModel.PayRoll.WashTip;
                 Detailtip.Text = "$" + ViewModel.PayRoll.DetailTip;
-                Bonus.Text = "$" + ViewModel.PayRoll.Bonous;
+                Bonus.Text = "$" + ViewModel.PayRoll.Bonus;
                 Total.Text = "$" + ViewModel.PayRoll.PayeeTotal;
             }
         

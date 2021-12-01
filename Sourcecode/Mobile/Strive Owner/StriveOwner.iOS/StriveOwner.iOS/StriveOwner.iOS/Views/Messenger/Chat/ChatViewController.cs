@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CoreGraphics;
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
+using MvvmCross.ViewModels;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Owner;
@@ -200,9 +201,8 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
                 };
                 if (ViewModel.chatMessages == null)
                 {
-                    ViewModel.chatMessages = new PersonalChatMessages();
-                    ViewModel.chatMessages.ChatMessage = new ChatMessage();
-                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
+                    
+                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new MvxObservableCollection<ChatMessageDetail>();
                     ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
                     //ReloadChatTableView();
                 }
