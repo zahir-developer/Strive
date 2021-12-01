@@ -59,8 +59,14 @@ namespace Greeter.Services.Api
 
         public Task<BaseResponse> SendEmail(string email, string subject, string body)
         {
-            var parameters = new Dictionary<string, string>() { { nameof(email), email }, { nameof(subject), subject }, { nameof(body), body } };
-            return apiService.DoApiCall<BaseResponse>(Urls.SEND_EMAIL, HttpMethod.Post, parameters);
+            //var parameters = new Dictionary<string, string>() { { nameof(email), email }, { nameof(subject), subject }, { nameof(body), body } };
+
+            var sendEmailReq = new SendEmailReq();
+            sendEmailReq.EmailId = email;
+            sendEmailReq.Subject = subject;
+            sendEmailReq.BodyHtml = body;
+
+            return apiService.DoApiCall<BaseResponse>(Urls.SEND_EMAIL, HttpMethod.Post, null, sendEmailReq);
         }
 
         public Task<AvailableScheduleResponse> GetAvailablilityScheduleTime(GetAvailableScheduleReq req)

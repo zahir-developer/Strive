@@ -9,18 +9,14 @@ namespace Greeter
     {
         public static HubConnection hubConnection;
 
+
         async Task StartConnection()
         {
             if (hubConnection == null)
             {
-                var hubConnection = new HubConnectionBuilder()
-                .WithUrl(Urls.BASE_URL + "/chatMessageHub")
-                .Build();
-
-                await hubConnection.StartAsync();
+                _ = ConnectHubAndSubscribeForEvents();
             }
-
-            if (hubConnection.State == HubConnectionState.Disconnected)
+            else if (hubConnection.State == HubConnectionState.Disconnected)
             {
                 await hubConnection?.StartAsync();
                 //await SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
@@ -33,27 +29,92 @@ namespace Greeter
 
                 //await MessengerService.ChatCommunication(communicationData);
             }
+
+            hubConnection.Closed += async (arg) => await ConnectHubAndSubscribeForEvents();
         }
 
-        async Task SendMessage(string user, string message)
+        static async Task ConnectToHub()
         {
             var hubConnection = new HubConnectionBuilder()
-               .WithUrl("{https://yoururlhere.com or ip:port or localhost:port" + "/chatHub")
-               .Build();
-
-            await hubConnection.InvokeAsync("SendMessage", user, message);
-        }
-
-        async Task ReceiveMsg()
-        {
-            var hubConnection = new HubConnectionBuilder()
-                .WithUrl("{https://yoururlhere.com or ip:port or localhost:port" + "/chatHub")
+                .WithUrl(Urls.BASE_URL + "/chatMessageHub")
                 .Build();
 
-            hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+            await hubConnection.StartAsync();
+        }
+
+        static async Task ConnectHubAndSubscribeForEvents()
+        {
+            await ConnectToHub();
+            await SubscribeChatEvent();
+        }
+
+        //async Task SendMessage(string user, string message)
+        //{
+        //    var hubConnection = new HubConnectionBuilder()
+        //       .WithUrl(Urls.BASE_URL + "/chatHub")
+        //       .Build();
+
+        //    await hubConnection.InvokeAsync("SendMessage", user, message);
+        //}
+
+        //async Task ReceiveMsg()
+        //{
+        //    var hubConnection = new HubConnectionBuilder()
+        //        .WithUrl(Urls.BASE_URL + "/chatHub")
+        //        .Build();
+
+        //    hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        //    {
+        //        //do something on your UI maybe?
+        //    });
+        //}
+
+        public static async Task SubscribeChatEvent()
+        {
+            hubConnection?.On<object>("ReceivePrivateMessage", (data) =>
             {
-                //do something on your UI maybe?
+                Console.WriteLine("Private Message received", data);
+                try
+                {
+                    //var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
+                    //PrivateMessageList.Add(datas);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             });
+
+            hubConnection?.On<object>("UserLogOutNotification", (data) =>
+            {
+                StopConnection(123);
+            });
+        }
+
+        public static async void StopConnection(long empId)
+        {
+            try
+            {
+                await hubConnection.InvokeAsync("SendEmployeeCommunicationId", empId, "0");
+                await hubConnection.StopAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static async void SendMessageToGroup(long groupId, long empId, string groupName, string msg)
+        {
+            try
+            {
+                await hubConnection.InvokeAsync("SendMessageToGroup", groupId, empId, groupName, msg);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using CoreFoundation;
 using Foundation;
 using Greeter.Common;
 using Greeter.CustomView;

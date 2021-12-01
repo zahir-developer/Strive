@@ -2,6 +2,7 @@ using Foundation;
 using Greeter;
 using Greeter.Common;
 using Greeter.Modules.Pay;
+using Greeter.Storyboards;
 using UIKit;
 using Xamarin.Essentials;
 
@@ -51,6 +52,9 @@ namespace NewSingleViewTemplate
                 //vc = sb.InstantiateViewController(nameof(IssueImagesViewController));
 
                 //vc = new PaymentViewController();
+
+                //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
+                //vc = sb.InstantiateViewController(nameof(PaymentSucessViewController));
 
                 var nc = new UINavigationController();
                 var vcs = new UIViewController[] { vc };
