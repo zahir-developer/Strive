@@ -234,10 +234,10 @@ namespace Greeter.DTOs
         [JsonProperty("jobItem")]
         public List<JobItem> JobItems { get; set; }
 
-        [JsonProperty("jobDetail")]
+        [JsonProperty("jobDetail", NullValueHandling = NullValueHandling.Ignore)]
         public JobDetail JobDetail { get; set; } = null;
 
-        [JsonProperty("BaySchedule")]
+        [JsonProperty("BaySchedule", NullValueHandling = NullValueHandling.Ignore)]
         public List<BaySchedule> BaySchedules { get; set; } = null;
     }
 
@@ -316,7 +316,7 @@ namespace Greeter.DTOs
         public DateTime CreatedDate { get; } = DateTime.Now;
 
         [JsonProperty("estimatedTimeOut")]
-        public DateTime? EstimatedTimeOut { get; set; } = null;
+        public string? EstimatedTimeOut { get; set; } = null;
 
         [JsonProperty("isActive")]
         public bool IsActive { get; } = true;
@@ -352,7 +352,7 @@ namespace Greeter.DTOs
         public long TicketNumber { get; set; }
 
         [JsonProperty("timeIn")]
-        public DateTime TimeIn { get; set; }
+        public string TimeIn { get; set; }
 
         [JsonProperty("updatedBy")]
         public long UpdatedByID { get; } = AppSettings.UserID;

@@ -9,7 +9,6 @@ namespace Greeter
     {
         public static HubConnection hubConnection;
 
-
         async Task StartConnection()
         {
             if (hubConnection == null)
