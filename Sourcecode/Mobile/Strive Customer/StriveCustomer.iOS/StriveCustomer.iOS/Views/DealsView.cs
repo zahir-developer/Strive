@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer;
@@ -14,6 +16,8 @@ namespace StriveCustomer.iOS.Views
 {
     public partial class DealsView : MvxViewController<DealsViewModel>
     {
+        public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
+
         public DealsView() : base("DealsView", null)
         {
         }
@@ -63,7 +67,13 @@ namespace StriveCustomer.iOS.Views
             var result = await scanner.Scan();
 
             if (result != null)
+            {
                 Console.WriteLine("Scanned Barcode: " + result.Text);
+
+                _userDialog.Alert("Your coupon code is : " + result.Text);
+
+            }
+
         }
 
         public override async void ViewDidAppear(bool animated)

@@ -72,15 +72,17 @@ namespace StriveEmployee.iOS.Views.Schedule
         private void setData(string date)
         {
             schedules.Clear();
-            foreach(var item in ViewModel.scheduleList.ScheduleDetailViewModel)
-            {
-                var newDate = date.Replace("/", "-");                
-                if(item.ScheduledDate.Substring(0,10) == newDate.Substring(0,10))
+            if (ViewModel.scheduleList != null && ViewModel.scheduleList.ScheduleDetailViewModel != null)
+            { 
+                foreach (var item in ViewModel.scheduleList.ScheduleDetailViewModel)
                 {
-                    schedules.Add(item);
+                    var newDate = date.Replace("/", "-");
+                    if (item.ScheduledDate.Substring(0, 10) == newDate.Substring(0, 10))
+                    {
+                        schedules.Add(item);
+                    }
                 }
             }
-
             var empScheduleSource = new Emp_Schedule_DataSource(schedules);
             empSchedule_TableView.Source = empScheduleSource;
             empSchedule_TableView.TableFooterView = new UIView(CGRect.Empty);
@@ -94,11 +96,9 @@ namespace StriveEmployee.iOS.Views.Schedule
             var  selectedDate = ScheduleDateView.Date;
             ScheduleViewModel.StartDate = selectedDate.ToString();
             await ViewModel.GetScheduleList();
-            if (ViewModel.scheduleList != null && ViewModel.scheduleList.ScheduleDetailViewModel != null)
-            {
-                setData(selectedDate.ToString());
-            }
-            //setData(selectedDate.ToString());
+            
+            setData(selectedDate.ToString());
+            
         }
     }
 }
