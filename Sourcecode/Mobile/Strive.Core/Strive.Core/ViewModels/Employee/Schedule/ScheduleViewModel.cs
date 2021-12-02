@@ -56,7 +56,7 @@ namespace Strive.Core.ViewModels.Employee.Schedule
         {
             DateTime now = DateTime.Now;
             var startDate = new DateTime(now.Year, now.Month, 1);
-            var endDate = startDate.AddMonths(1).AddDays(-1);
+            var endDate = startDate.AddYears(10).AddDays(-1); //Some future date
 
             return endDate;
         }
