@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Strive.Core.Models.Employee.PayRoll;
+//using Strive.Core.Models.Employee.PersonalDetails;
+using Strive.Core.Models.TimInventory;
+using Strive.Core.Utils.Employee;
+using Strive.Core.Utils.TimInventory;
 
 namespace Strive.Core.ViewModels.Employee
 {
@@ -12,9 +17,29 @@ namespace Strive.Core.ViewModels.Employee
         public string Fromdate { get; set; }
         public string Todate { get; set; }
         public int employeeid { get; set; }
+        public List<EmployeeLocation> EmployeeLocations { get; set; }
         public PayRollViewModel()
         {
 
+        }
+        public string ItemLocation
+        {
+            get
+            {
+                return _selectedLocation;
+            }
+            set { SetProperty(ref _selectedLocation, value); }
+        }
+
+
+        public string _selectedLocation;
+
+        public void locationCommand(EmployeeLocation location )
+        {
+            ItemLocation = location.LocationName;
+            Location = location.LocationId;
+           // EmployeeData.selectedLocationId = location.LocationId;
+            //EmployeeData.selectedLocationId = EmployeeData.EmployeeDetails.EmployeeLocations[0].LocationId;
         }
 
         public async Task GetPayRollProcess()

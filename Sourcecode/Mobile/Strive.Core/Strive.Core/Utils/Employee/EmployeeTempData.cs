@@ -1,6 +1,7 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Models.Employee.PersonalDetails;
+using Strive.Core.Models.TimInventory;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,7 @@ namespace Strive.Core.Utils.Employee
         public static int LocationId { get; set; }
         public static string MessengerTabHeader { get; set; }
         public static PersonalDetails EmployeePersonalDetails { get; set; }
+        public static List<EmployeeLocation> employeeLocationdata { get; set; } 
         public static void ResetAll()
         {
             MessengerTempData.FirstName = null;

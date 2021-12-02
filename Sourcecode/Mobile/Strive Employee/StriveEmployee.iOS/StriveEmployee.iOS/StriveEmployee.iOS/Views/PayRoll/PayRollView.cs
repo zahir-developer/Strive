@@ -8,6 +8,8 @@ using Strive.Core.Models.Employee.PayRoll;
 using StriveEmployee.iOS.UIUtils;
 using UIKit;
 using System.Threading.Tasks;
+using Strive.Core.Utils.TimInventory;
+using MvvmCross.Binding.BindingContext;
 
 namespace StriveEmployee.iOS.Views.PayRoll
 {
@@ -23,7 +25,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            
+            ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
             InitialSetup();
             
             // Perform any additional setup after loading the view, typically from a nib.
@@ -65,6 +67,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 await ViewModel.GetPayRollProcess();
                 
             }
+            
             //Setting Data
             EmployeeName.Text = ViewModel.PayRoll.PayeeName;
             WashHrs.Text = ViewModel.PayRoll.TotalWashHours;
@@ -82,13 +85,34 @@ namespace StriveEmployee.iOS.Views.PayRoll
             Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
             Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
             Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
-            Location.Text = EmployeeTempData.LocationName;
+           
             FindPayRoll.TouchUpInside += (sender, e) =>
             {  
                 GetDate();
             };
-            
+
+            //Spinner
+            var pickerView = new UIPickerView();
+            var PickerViewModel = new LocationPicker(ViewModel, pickerView);
+            pickerView.Model = PickerViewModel;
+            pickerView.ShowSelectionIndicator = true;
+            AddPickerToolbar(locationTextField, "Location", PickerDone);
+            locationTextField.InputView = pickerView;
+             //PickerDone();
+            ViewModel.ItemLocation = ViewModel.EmployeeLocations[0].LocationName;
+            ViewModel.Location = ViewModel.EmployeeLocations[0].LocationId;
+           
+            var set = this.CreateBindingSet<PayRollView, PayRollViewModel>();
+            set.Bind(locationTextField).To(vm => vm.ItemLocation);
+            set.Apply();
+
+            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
+            Tap.CancelsTouchesInView = false;
+            View.AddGestureRecognizer(Tap);
+
         }
+        
+
 
         private string SetTwoDecimel(float value)
         {
@@ -99,7 +123,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
         {
             fromdate = (DateTime)FromDate.Date;
             todate = (DateTime)ToDate.Date;
-            ViewModel.Location = 1;
+           // ViewModel.Location = 1;
             ViewModel.Fromdate = fromdate.Date.ToString("yyyy-MM-dd");
             ViewModel.Todate = todate.Date.ToString("yyyy-MM-dd");
             ViewModel.employeeid = EmployeeTempData.EmployeeID;
@@ -124,6 +148,46 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 Total.Text = "$" + ViewModel.PayRoll.PayeeTotal;
             }
         
+        }
+
+        void PickerDone()
+        {
+            //if (locationTextField.Text == "")
+            //{
+            //    locationTextField.Text = EmployeeTempData.LocationName;
+
+            //}
+            View.EndEditing(true);
+        }
+        public void AddPickerToolbar(UITextField textField, string title, Action action)
+        {
+            const string CANCEL_BUTTON_TXT = "Cancel";
+            const string DONE_BUTTON_TXT = "Done";
+
+            var toolbarDone = new UIToolbar();
+            toolbarDone.SizeToFit();
+
+            var barBtnCancel = new UIBarButtonItem(CANCEL_BUTTON_TXT, UIBarButtonItemStyle.Plain, (sender, s) =>
+            {
+                textField.EndEditing(false);
+            });
+
+            var barBtnDone = new UIBarButtonItem(DONE_BUTTON_TXT, UIBarButtonItemStyle.Done, (sender, s) =>
+            {
+                textField.EndEditing(false);
+                action.Invoke();
+            });
+
+            var barBtnSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
+
+            var lbl = new UILabel();
+            lbl.Text = title;
+            lbl.TextAlignment = UITextAlignment.Center;
+            lbl.Font = UIFont.BoldSystemFontOfSize(size: 16.0f);
+            var lblBtn = new UIBarButtonItem(lbl);
+
+            toolbarDone.Items = new UIBarButtonItem[] { barBtnCancel, barBtnSpace, lblBtn, barBtnSpace, barBtnDone };
+            textField.InputAccessoryView = toolbarDone;
         }
     }    
 }

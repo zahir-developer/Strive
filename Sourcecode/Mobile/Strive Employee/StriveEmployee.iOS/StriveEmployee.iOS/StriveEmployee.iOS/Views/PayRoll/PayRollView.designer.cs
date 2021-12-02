@@ -46,7 +46,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
 		UIKit.UIDatePicker FromDate { get; set; }
 
 		[Outlet]
-		UIKit.UILabel Location { get; set; }
+		UIKit.UITextField locationTextField { get; set; }
 
 		[Outlet]
 		UIKit.UILabel OtHrs { get; set; }
@@ -132,6 +132,11 @@ namespace StriveEmployee.iOS.Views.PayRoll
 				FromDate = null;
 			}
 
+			if (locationTextField != null) {
+				locationTextField.Dispose ();
+				locationTextField = null;
+			}
+
 			if (OtHrs != null) {
 				OtHrs.Dispose ();
 				OtHrs = null;
@@ -175,11 +180,6 @@ namespace StriveEmployee.iOS.Views.PayRoll
 			if (Washtip != null) {
 				Washtip.Dispose ();
 				Washtip = null;
-			}
-
-			if (Location != null) {
-				Location.Dispose ();
-				Location = null;
 			}
 		}
 	}

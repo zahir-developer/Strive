@@ -197,6 +197,7 @@
     <Compile Include="Views\PayRoll\PayRollView.designer.cs">
       <DependentUpon>PayRollView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\PayRoll\LocationPicker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
