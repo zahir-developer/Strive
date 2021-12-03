@@ -27,6 +27,7 @@ namespace Strive.Core.Services.HubServices
         public static ObservableCollection<SendChatMessage> GroupMessageList { get; set; }
         public static ObservableCollection<RecipientsCommunicationID> RecipientsID { get; set; }
         public static IMessengerService MessengerService = Mvx.IoCProvider.Resolve<IMessengerService>();
+        
 
         //meh! Just to connect to the so called "SERVER"
         public static async Task<string> StartConnection()
@@ -34,11 +35,12 @@ namespace Strive.Core.Services.HubServices
             if (string.IsNullOrEmpty(ConnectionID) || connection == null)
             {
                 //connection = new HubConnectionBuilder().WithUrl("http://10.0.2.2:60001/ChatMessageHub").Build();
-                connection = new HubConnectionBuilder().WithUrl(ApiUtils.BASE_URL + "/chatMessageHub").Build();
+                connection = new HubConnectionBuilder().WithUrl(ApiUtils.AZURE_URL_TEST + "/chatMessageHub").Build();
                 try
                 {
                     await connection?.StartAsync();
-                    PrivateMessageList = new System.Collections.ObjectModel.ObservableCollection<SendChatMessage>();
+                    Console.WriteLine("Connection established Successfully! ");
+                    PrivateMessageList = new ObservableCollection<SendChatMessage>();
                     GroupMessageList = new ObservableCollection<SendChatMessage>();
                 }
                 catch (Exception ex)
@@ -61,6 +63,11 @@ namespace Strive.Core.Services.HubServices
             }
             connection.Closed += Connection_Closed;
             ConnectionID = connection.ConnectionId;
+
+            var chatcommunication = new ChatCommunication();
+            chatcommunication.communicationId = ConnectionID;
+            chatcommunication.employeeId = EmployeeTempData.EmployeeID;
+            var tempresult = await MessengerService.ChatCommunication(chatcommunication);
             return ConnectionID;
         }
 
@@ -106,12 +113,10 @@ namespace Strive.Core.Services.HubServices
                 {
                     Console.WriteLine(ex.Message);
                 }
-
             });
 
             connection?.On<object>("ReceiveGroupMessage", (data) =>
             {
-
                 Console.WriteLine("Group Message received", data);
                 try
                 {
@@ -127,8 +132,14 @@ namespace Strive.Core.Services.HubServices
 
             connection?.On<string>("SendPrivateMessage", (data) =>
             {
-
                 Console.WriteLine("Private Message sent", data);
+
+            });
+
+            connection?.On<string>("SendGroupMessage", (data) =>
+            {
+
+                Console.WriteLine("Group Message sent", data);
 
             });
 
@@ -219,5 +230,6 @@ namespace Strive.Core.Services.HubServices
             }
 
         }
+      
     }
 }

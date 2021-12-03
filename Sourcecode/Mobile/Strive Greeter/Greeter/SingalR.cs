@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundation;
 using Greeter.Common;
 using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
 
 namespace Greeter
 {
@@ -75,8 +77,11 @@ namespace Greeter
                 Console.WriteLine("Private Message received", data);
                 try
                 {
-                    //var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
+                    var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
                     //PrivateMessageList.Add(datas);
+
+                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), chatMsg);
+
                 }
                 catch (Exception ex)
                 {
@@ -113,7 +118,6 @@ namespace Greeter
             {
                 Console.WriteLine(ex.Message);
             }
-
         }
     }
 }

@@ -95,16 +95,16 @@ namespace Greeter.Storyboards
             //EmailServiceReceipt(emailContentHtml, subject);
         }
 
-        async Task TestEmailTemplate()
-        {
-            ShowActivityIndicator();
+        //async Task TestEmailTemplate()
+        //{
+        //    ShowActivityIndicator();
 
-            //string email = "";
+        //    //string email = "";
 
-            //var response = await SingleTon.WashApiService.SendEmail("karthiknever16@gmail.com", "something", HTML_TEMPLATE);
+        //    var response = await SingleTon.WashApiService.SendEmail("karthiknever16@gmail.com", "something", HTML_TEMPLATE);
 
-            HideActivityIndicator();
-        }
+        //    HideActivityIndicator();
+        //}
 
         [Export("mailComposeController:didFinishWithResult:error:")]
         public void Finished(MFMailComposeViewController controller, MFMailComposeResult result, NSError error)

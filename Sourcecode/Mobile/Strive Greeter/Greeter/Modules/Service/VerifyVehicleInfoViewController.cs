@@ -684,15 +684,15 @@ namespace Greeter.Storyboards
                     {
                         ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG, () =>
                         {
-                            //var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
-                            //this.NavigationController.PopToViewController(vc, true);
+                                    //var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
+                                    //this.NavigationController.PopToViewController(vc, true);
 
-                            // Remove this and service question view controllers from stack
-                            var nc = NavigationController;
+                                    // Remove this and service question view controllers from stack
+                                    var nc = NavigationController;
                             var navigationViewControllers = NavigationController.ViewControllers.ToList();
                             navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);
                             navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);// You can pass your index here
-                            NavigationController.ViewControllers = navigationViewControllers.ToArray();
+                                    NavigationController.ViewControllers = navigationViewControllers.ToArray();
 
                             var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
                             vc.Make = Make;

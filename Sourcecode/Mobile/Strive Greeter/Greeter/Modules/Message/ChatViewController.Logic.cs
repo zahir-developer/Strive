@@ -20,6 +20,8 @@ namespace Greeter.Modules.Message
             this.chatType = chatType;
             this.chatInfo = chatInfo;
             _ = GetChatsAsync();
+
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.private_message_received"), notify: async (notification) => { await MessageReceived(notification); });
         }
 
         async Task GetChatsAsync()
@@ -43,6 +45,21 @@ namespace Greeter.Modules.Message
                 Chats = result.ChatMessageObject.ChatMessageDetail;
                 ReloadChatTableView();
                 ScrollToBottom();
+            }
+        }
+
+        void MessageReceived()
+        {
+            if ( is not null)
+            {
+                var chatMessage = new ChatMessage();
+                chatMessage.ReceipientID = ;
+                chatMessage.SenderFirstName = ;
+                chatMessage.SenderLastName = ;
+                chatMessage.MessageBody = ;
+                chatMessage.CreatedDate = ;
+                Chats.Add()
+                ReloadChatTableView();
             }
         }
 

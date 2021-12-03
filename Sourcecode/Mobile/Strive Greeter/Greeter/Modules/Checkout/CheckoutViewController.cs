@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
+using Greeter.DTOs;
+using Greeter.Extensions;
 using UIKit;
 using Xamarin.Essentials;
 
 namespace Greeter.Modules.Pay
 {
-    public partial class CheckoutViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
+    public partial class CheckoutViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate, IUISearchBarDelegate
     {
         UITableView checkoutTableView;
+        UISearchBar searchBar;
         readonly UIRefreshControl refreshControl = new();
         bool isAlreadyLoaded;
 
@@ -30,7 +34,15 @@ namespace Greeter.Modules.Pay
             refreshControl.ValueChanged += async (sender, e) =>
             {
                 Checkouts = await GetCheckoutListFromApiAsync();
-                checkoutTableView.ReloadData();
+                if (!string.IsNullOrWhiteSpace(searchBar.Text))
+                {
+                    dsa(searchBar.Text);
+                }
+                else
+                {
+                    FilteredCheckouts = Checkouts;
+                    checkoutTableView.ReloadData();
+                }
                 refreshControl.EndRefreshing();
             };
         }
@@ -61,6 +73,23 @@ namespace Greeter.Modules.Pay
             backgroundImage.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
             backgroundImage.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
 
+            searchBar = new UISearchBar(CGRect.Empty);
+            searchBar.TranslatesAutoresizingMaskIntoConstraints = false;
+            searchBar.SearchBarStyle = UISearchBarStyle.Default;
+            searchBar.BackgroundColor = UIColor.Clear;
+            searchBar.SearchTextField.Subviews.FirstOrDefault().BackgroundColor = UIColor.Clear;
+
+            //searchBar.TintColor = UIColor.Clear;
+            searchBar.BackgroundImage = new UIImage();
+            searchBar.Placeholder = " Search Ticket ID";
+            searchBar.SizeToFit();
+            searchBar.Translucent = false;
+            searchBar.Delegate = this;
+            searchBar.SearchTextField.KeyboardType = UIKeyboardType.NumberPad;
+            //searchBar.CancelButtonClicked += SearchBar_CancelButtonClicked;
+            //NavigationItem.TitleView = searchBar;
+            View.Add(searchBar);
+
             checkoutTableView = new UITableView(CGRect.Empty);
             checkoutTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             checkoutTableView.BackgroundColor = UIColor.Clear;
@@ -69,10 +98,45 @@ namespace Greeter.Modules.Pay
             checkoutTableView.RefreshControl = refreshControl;
             View.Add(checkoutTableView);
 
+            searchBar.LeadingAnchor.ConstraintEqualTo(checkoutTableView.LeadingAnchor, constant: 0).Active = true;
+            searchBar.TrailingAnchor.ConstraintEqualTo(checkoutTableView.TrailingAnchor, constant: 0).Active = true;
+            searchBar.TopAnchor.ConstraintEqualTo(View.TopAnchor, constant: 40).Active = true;
+            searchBar.HeightAnchor.ConstraintEqualTo(60).Active = true;
+
             checkoutTableView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 60).Active = true;
             checkoutTableView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor, constant: -60).Active = true;
-            checkoutTableView.TopAnchor.ConstraintEqualTo(View.TopAnchor, constant: 40).Active = true;
+            checkoutTableView.TopAnchor.ConstraintEqualTo(searchBar.TopAnchor, constant: 40).Active = true;
             checkoutTableView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor, constant: -40).Active = true;
+        }
+
+        //private void SearchBar_CancelButtonClicked(object sender, EventArgs e)
+        //{
+        //    searchBar.Text = string.Empty;
+        //    FilteredCheckouts = Checkouts;
+        //    checkoutTableView.ReloadData();
+        //}
+
+        void dsa(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text.Trim()))
+            {
+                FilteredCheckouts = Checkouts;
+                checkoutTableView.ReloadData();
+                return;
+            }
+
+            FilteredCheckouts = FilterCheckout(text, Checkouts);
+            if (!FilteredCheckouts.IsNullOrEmpty())
+            {
+                checkoutTableView.ReloadData();
+            }
+        }
+
+        List<Checkout> FilterCheckout(string ticketId, List<Checkout> checkouts)
+        {
+            List<Checkout> filteredCheckouts = null;
+            filteredCheckouts = checkouts.Where(x => x.ID.ToString().Contains(ticketId)).ToList();
+            return filteredCheckouts;
         }
 
         void RegisterCells()
@@ -91,7 +155,7 @@ namespace Greeter.Modules.Pay
 
         public nint RowsInSection(UITableView tableView, nint section)
         {
-            return Checkouts == null ? 0 : Checkouts.Count;
+            return FilteredCheckouts == null ? 0 : FilteredCheckouts.Count;
         }
 
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -105,7 +169,7 @@ namespace Greeter.Modules.Pay
                 //_ = LoadItems(lastPagePos);
             }
 
-            cell.SetupData(Checkouts[indexPath.Row]);
+            cell.SetupData(FilteredCheckouts[indexPath.Row]);
             return cell;
         }
 
@@ -113,15 +177,15 @@ namespace Greeter.Modules.Pay
         public UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
         {
             var row = (int)indexPath.Row;
-            var checkout = Checkouts[row];
+            var checkout = FilteredCheckouts[row];
 
             var actionPrint = UIContextualAction.FromContextualActionStyle(
              UIContextualActionStyle.Normal,
              "Print",
              (flagAction, view, success) =>
              {
-                  //success(true);
-                  tableView.Editing = false;
+                 //success(true);
+                 tableView.Editing = false;
                  PrintReceipt(checkout);
              });
 
@@ -177,6 +241,18 @@ namespace Greeter.Modules.Pay
             return UISwipeActionsConfiguration.FromActions(contextualActions.ToArray());
         }
 
+        [Export("searchBar:textDidChange:")]
+        public void TextChanged(UISearchBar searchBar, string searchText)
+        {
+            dsa(searchText);
+        }
 
+        [Export("searchBarCancelButtonClicked:")]
+        public void CancelButtonClicked(UISearchBar searchBar)
+        {
+            searchBar.Text = string.Empty;
+            FilteredCheckouts = Checkouts;
+            checkoutTableView.ReloadData();
+        }
     }
 }

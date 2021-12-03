@@ -12,6 +12,7 @@ namespace Greeter.Modules.Pay
     public partial class CheckoutViewController
     {
         List<Checkout> Checkouts = new List<Checkout>();
+        List<Checkout> FilteredCheckouts = new List<Checkout>();
 
         //bool isFinished = false;
         //short lastPagePos = 0;
@@ -27,6 +28,7 @@ namespace Greeter.Modules.Pay
         {
             ShowActivityIndicator();
             Checkouts = await GetCheckoutListFromApiAsync();
+            FilteredCheckouts = Checkouts;
             if (IsViewLoaded)
                 checkoutTableView.ReloadData();
             HideActivityIndicator();
