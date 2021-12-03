@@ -102,7 +102,8 @@ namespace Strive.Core.ViewModels.Employee
                 createGroupChat.chatGroup = chatGroupforCreation;
                 createGroupChat.chatUserGroup = chatUserGroups;
                 Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(createGroupChat));
-                var result =await MessengerService.CreateChatGroup(createGroupChat);
+                var result = await MessengerService.CreateChatGroup(createGroupChat);
+                chatUserGroups = new List<chatUserGroup>();
                 if (result!=null)
                 {
                     _navigationService.Navigate<MessengerViewModel>();

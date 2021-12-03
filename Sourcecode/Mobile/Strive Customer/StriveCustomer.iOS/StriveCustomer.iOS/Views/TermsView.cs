@@ -41,6 +41,7 @@ namespace StriveCustomer.iOS.Views
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             SwitchMembershipFee.Hidden = true;
+            UpchargesLbl.Hidden = true;
             NavigationItem.Title = "Vehicle";
             string Datenow = DateTime.Now.Date.ToString("yyyy-MM-dd");
             StartingDate.Text = new DateTime(DateTime.Now.Date.AddMonths(1).Year, DateTime.Now.Date.AddMonths(1).Month, 1).ToString("yyyy-MM-dd"); 
@@ -93,7 +94,12 @@ namespace StriveCustomer.iOS.Views
                 MembershipAmount += CustomerInfo.MembershipFee;
                 SwitchMembershipFee.Hidden = false;
             }
-            
+            if (MembershipDetails.modelUpcharge.upcharge.Count!=0)
+            {
+                UpchargesLbl.Hidden = false;
+                MembershipAmount += MembershipDetails.modelUpcharge.upcharge[0].Price;
+                UpchargesLbl.Text = "Wash Upcharges:   "+"$"+string.Format("{0:0.00}", MembershipDetails.modelUpcharge.upcharge[0].Price);
+            }
             string ValuesToDisply = "Additional Services: "+ string.Join(", ",SelectedAdditionalServices);
             DisplaySelectedAddtionals.Text = ValuesToDisply;
             AdditionalServicesTotal.Text = "$"+ string.Format("{0:0.00}", Total);

@@ -302,6 +302,8 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             {
                 ViewModel.EmptyChatMessageError();
             }
+            UIKeyboard.Notifications.ObserveWillHide(OnKeyboardHide);
+
         }
 
         void OnKeyboardShow(object sender, UIKeyboardEventArgs e)

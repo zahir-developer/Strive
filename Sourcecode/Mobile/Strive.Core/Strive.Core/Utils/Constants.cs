@@ -31,6 +31,8 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_ALLDEALS = "/Admin/DealSetup/GetAllDeals";
 
+        public const string URL_GET_CLIENT_DEALS = "/Admin/DealSetup/GetClientDeal";
+
         public const string URL_GET_ALL_PRODUCTS = "/Admin/Product/GetAll";
 
         public const string URL_GET_ALL_VENDORS = "/Admin/Vendor/GetAll";

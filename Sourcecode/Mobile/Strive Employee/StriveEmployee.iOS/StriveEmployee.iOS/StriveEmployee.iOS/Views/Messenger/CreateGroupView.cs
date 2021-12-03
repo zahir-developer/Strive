@@ -100,7 +100,8 @@ namespace StriveEmployee.iOS.Views.Messenger
         {
             var cell = tableView.DequeueReusableCell("SelectContactCell", indexPath) as SelectContactCell;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.SetData(list[indexPath.Row]);
+            cell.SetData(list[indexPath.Row],RowSelections,indexPath);
+            
             return cell;
         }
 
@@ -113,35 +114,38 @@ namespace StriveEmployee.iOS.Views.Messenger
         {
             SelectContactCell cell = (SelectContactCell)tableView.CellAt(indexPath);
             var tempgrplist = list[indexPath.Row];
+            var temp = new chatUserGroup();
+            temp.CommunicationId = list[indexPath.Row].CommunicationId;
+            temp.createdBy = 0;
+            temp.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss").ToString();
+            temp.isActive = true;
+            temp.isDeleted = false;
+            temp.userId = list[indexPath.Row].EmployeeId;
+            temp.chatGroupUserId = 0;
+            temp.chatGroupId = 0;
             if (RowSelections.Contains(indexPath))
             {
-                var temp = new chatUserGroup();
-                
+                MessengerCreateGroupViewModel.chatUserGroups.RemoveAt(indexPath.Row);
                 var itemToRemove = RowSelections.FindIndex(r => r == indexPath);
                 RowSelections.RemoveAt(itemToRemove);
-
                 cell.deselectRow(indexPath);
             }
             else
-            {
-                     
-                var temp = new chatUserGroup();
-                temp.CommunicationId = list[indexPath.Row].CommunicationId;
-                temp.createdBy = 0;
-                temp.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss").ToString();
-                temp.isActive = true;
-                temp.isDeleted = false;
-                temp.userId = list[indexPath.Row].EmployeeId;
-                temp.chatGroupUserId = 0;
-                temp.chatGroupId = 0;
-                MessengerCreateGroupViewModel.chatUserGroups.Add(temp);
+            {     
+                if (MessengerCreateGroupViewModel.chatUserGroups!=null)
+                {
+                    if (MessengerCreateGroupViewModel.chatUserGroups.Contains(temp))
+                    {
+                        temp = new chatUserGroup();
+                    }
+                    else
+                    {
+                        MessengerCreateGroupViewModel.chatUserGroups.Add(temp);
+                    }
+                }        
                 RowSelections.Add(indexPath);
                 cell.updateCell(indexPath);
-
             }
-
-
-
         }
         
 

@@ -98,6 +98,14 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<DealsList>(ApiUtils.URL_GET_ALLDEALS, HttpMethod.Get);
         }
 
+        public async Task<ClientDeal> GetClientDeal(int clientid, string date, int dealid)
+        {
+            var url = ApiUtils.URL_GET_CLIENT_DEALS + "?ClientId="+clientid+"&Date="+date+"&DealId="+dealid;
+            return await _restClient.MakeApiCall<ClientDeal>(url, HttpMethod.Get);
+
+        }
+
+
         public async Task<Products> GetAllProducts(ProductSearches searchQuery)
         {
             return await _restClient.MakeApiCall<Products>(ApiUtils.URL_GET_ALL_PRODUCTS, HttpMethod.Post, searchQuery);

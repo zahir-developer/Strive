@@ -24,6 +24,7 @@
                 <outlet property="SwitchMembershipFee" destination="W3c-Bh-H17" id="A2T-YM-etX"/>
                 <outlet property="TermsParentView" destination="JWt-zI-vZz" id="6fq-OP-Kv4"/>
                 <outlet property="Total" destination="5xb-rx-rJg" id="VhH-Sr-MO6"/>
+                <outlet property="UpchargesLbl" destination="Kr6-ST-4pi" id="zG7-SI-HJk"/>
                 <outlet property="Yearlytotal" destination="Sod-vZ-56c" id="6qm-Gk-iSo"/>
                 <outlet property="_TermsConfirmView" destination="HRb-m2-ikm" id="0QE-t5-VAj"/>
                 <outlet property="membership_name" destination="Val-2o-ecW" id="1cQ-Vp-B0V"/>
@@ -112,23 +113,6 @@
                                     </attributedString>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zve-Lp-dBN">
-                                    <rect key="frame" x="257.66666666666663" y="75" width="29" height="10"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="10" id="7bj-9U-EaI"/>
-                                        <constraint firstAttribute="width" constant="29" id="LsN-kw-p5I"/>
-                                    </constraints>
-                                    <attributedString key="attributedText">
-                                        <fragment content="Total: ">
-                                            <attributes>
-                                                <color key="NSBackgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <font key="NSFont" size="10" name="TimesNewRomanPS-BoldMT"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxZ-Rb-POc">
                                     <rect key="frame" x="69" y="56" width="50" height="10"/>
                                     <constraints>
@@ -165,63 +149,6 @@
                                         <fragment content="Option Code:">
                                             <attributes>
                                                 <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcW-af-Zvh">
-                                    <rect key="frame" x="5" y="76" width="56" height="10"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="56" id="1Px-Zf-v46"/>
-                                        <constraint firstAttribute="height" constant="10" id="3nU-xG-fN3"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="EVa-eC-nzw"/>
-                                    </constraints>
-                                    <attributedString key="attributedText">
-                                        <fragment content="Advance Fee:">
-                                            <attributes>
-                                                <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLk-TP-XPM">
-                                    <rect key="frame" x="125" y="76" width="24" height="10"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="10" id="YkD-No-R9u"/>
-                                        <constraint firstAttribute="width" constant="24" id="t8A-UT-wTv"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="10"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00-00-000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdK-V2-gSP">
-                                    <rect key="frame" x="150" y="76" width="50" height="10"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="AFz-fO-Khh"/>
-                                        <constraint firstAttribute="width" constant="50" id="Yyx-LN-dZe"/>
-                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="10" id="eUP-ni-9WZ"/>
-                                        <constraint firstAttribute="height" constant="10" id="pPd-ed-BwX"/>
-                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="tsI-hW-3HO"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="10"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kkw-7Y-iGH">
-                                    <rect key="frame" x="69" y="76" width="50" height="10"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="50" id="Itd-VB-Ejg"/>
-                                        <constraint firstAttribute="height" constant="10" id="QkL-Xx-PSL"/>
-                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="TpL-Dd-GbU"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="s8t-tG-3ZO"/>
-                                    </constraints>
-                                    <attributedString key="attributedText">
-                                        <fragment content="____">
-                                            <attributes>
-                                                <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
@@ -367,32 +294,13 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Additional Services:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wr2-El-ddi">
-                                    <rect key="frame" x="5" y="93" width="306" height="23"/>
+                                    <rect key="frame" x="5" y="91" width="323" height="33"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="23" id="Z1w-WD-QrG"/>
-                                        <constraint firstAttribute="width" constant="306" id="nrZ-dt-LqO"/>
+                                        <constraint firstAttribute="height" constant="33" id="Z1w-WD-QrG"/>
+                                        <constraint firstAttribute="width" constant="323" id="nrZ-dt-LqO"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="10"/>
                                     <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xb-rx-rJg">
-                                    <rect key="frame" x="289.66666666666663" y="75" width="57" height="10"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="bgt-hY-8LV"/>
-                                        <constraint firstAttribute="width" constant="57" id="gcE-03-bjg"/>
-                                        <constraint firstAttribute="height" constant="10" id="wq4-NE-x6Y"/>
-                                    </constraints>
-                                    <attributedString key="attributedText">
-                                        <fragment content="0.0">
-                                            <attributes>
-                                                <color key="NSBackgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <color key="NSColor" red="0.0066989937213935979" green="0.0066989937213935979" blue="0.0066989937213935979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <font key="NSFont" size="10" name="TimesNewRomanPS-BoldMT"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6G-Jk-8bZ">
@@ -444,16 +352,128 @@
                                     </attributedString>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kr6-ST-4pi">
+                                    <rect key="frame" x="197" y="65" width="153" height="10"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="10" id="ZCO-TP-oen"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="fbT-df-8MM"/>
+                                        <constraint firstAttribute="height" constant="10" id="oE2-MT-Grf"/>
+                                    </constraints>
+                                    <attributedString key="attributedText">
+                                        <fragment content="Upcharges">
+                                            <attributes>
+                                                <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zve-Lp-dBN">
+                                    <rect key="frame" x="257.66666666666663" y="78" width="29" height="10"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="10" id="7bj-9U-EaI"/>
+                                        <constraint firstAttribute="width" constant="29" id="LsN-kw-p5I"/>
+                                    </constraints>
+                                    <attributedString key="attributedText">
+                                        <fragment content="Total: ">
+                                            <attributes>
+                                                <color key="NSBackgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <font key="NSFont" size="10" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcW-af-Zvh">
+                                    <rect key="frame" x="5" y="79" width="56" height="10"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="56" id="1Px-Zf-v46"/>
+                                        <constraint firstAttribute="height" constant="10" id="3nU-xG-fN3"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="EVa-eC-nzw"/>
+                                    </constraints>
+                                    <attributedString key="attributedText">
+                                        <fragment content="Advance Fee:">
+                                            <attributes>
+                                                <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLk-TP-XPM">
+                                    <rect key="frame" x="125" y="79" width="24" height="10"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="10" id="YkD-No-R9u"/>
+                                        <constraint firstAttribute="width" constant="24" id="t8A-UT-wTv"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="10"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00-00-000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdK-V2-gSP">
+                                    <rect key="frame" x="150" y="79" width="50" height="10"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="AFz-fO-Khh"/>
+                                        <constraint firstAttribute="width" constant="50" id="Yyx-LN-dZe"/>
+                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="10" id="eUP-ni-9WZ"/>
+                                        <constraint firstAttribute="height" constant="10" id="pPd-ed-BwX"/>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="tsI-hW-3HO"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="10"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kkw-7Y-iGH">
+                                    <rect key="frame" x="69" y="79" width="50" height="10"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="50" id="Itd-VB-Ejg"/>
+                                        <constraint firstAttribute="height" constant="10" id="QkL-Xx-PSL"/>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="TpL-Dd-GbU"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="s8t-tG-3ZO"/>
+                                    </constraints>
+                                    <attributedString key="attributedText">
+                                        <fragment content="____">
+                                            <attributes>
+                                                <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xb-rx-rJg">
+                                    <rect key="frame" x="289.66666666666663" y="78" width="57" height="10"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="bgt-hY-8LV"/>
+                                        <constraint firstAttribute="width" constant="57" id="gcE-03-bjg"/>
+                                        <constraint firstAttribute="height" constant="10" id="wq4-NE-x6Y"/>
+                                    </constraints>
+                                    <attributedString key="attributedText">
+                                        <fragment content="0.0">
+                                            <attributes>
+                                                <color key="NSBackgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="NSColor" red="0.0066989937213935979" green="0.0066989937213935979" blue="0.0066989937213935979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <font key="NSFont" size="10" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="Sod-vZ-56c" firstAttribute="baseline" secondItem="s6G-Jk-8bZ" secondAttribute="baseline" id="0WY-d0-G5w"/>
                                 <constraint firstItem="J1N-Fx-dmk" firstAttribute="leading" secondItem="CaZ-TU-OfZ" secondAttribute="trailing" constant="29" id="1pb-dn-JiB"/>
+                                <constraint firstItem="Kr6-ST-4pi" firstAttribute="leading" secondItem="HRb-m2-ikm" secondAttribute="leading" constant="197" id="3cN-h7-clB"/>
                                 <constraint firstItem="Sod-vZ-56c" firstAttribute="bottom" secondItem="V5N-4j-TzC" secondAttribute="bottom" constant="-1" id="3r6-l1-L6y"/>
                                 <constraint firstItem="QwI-ZH-4CY" firstAttribute="top" secondItem="V5N-4j-TzC" secondAttribute="bottom" constant="1" id="3xe-z8-hIu"/>
+                                <constraint firstAttribute="trailing" secondItem="Kr6-ST-4pi" secondAttribute="trailing" constant="8.6666666666666288" id="4t0-YF-ntb"/>
                                 <constraint firstAttribute="trailing" secondItem="W3c-Bh-H17" secondAttribute="trailing" constant="8.6666666666666856" id="6Hg-MZ-MW7"/>
                                 <constraint firstItem="CaZ-TU-OfZ" firstAttribute="leading" secondItem="HRb-m2-ikm" secondAttribute="leading" constant="48" id="6XV-0K-nOe"/>
-                                <constraint firstItem="Zve-Lp-dBN" firstAttribute="top" secondItem="nQ2-xg-aKG" secondAttribute="bottom" constant="27" id="7nA-aG-1u5"/>
+                                <constraint firstItem="Zve-Lp-dBN" firstAttribute="top" secondItem="nQ2-xg-aKG" secondAttribute="bottom" constant="30" id="7nA-aG-1u5"/>
                                 <constraint firstItem="Pcf-a1-VGK" firstAttribute="top" secondItem="HRb-m2-ikm" secondAttribute="top" constant="5" id="9se-xZ-3N1"/>
                                 <constraint firstItem="Pcf-a1-VGK" firstAttribute="baseline" secondItem="Val-2o-ecW" secondAttribute="baseline" id="A01-Ag-DsX"/>
                                 <constraint firstItem="JdK-V2-gSP" firstAttribute="leading" secondItem="aLk-TP-XPM" secondAttribute="trailing" constant="1" id="C96-56-N4Q"/>
@@ -467,16 +487,17 @@
                                 <constraint firstItem="Pcf-a1-VGK" firstAttribute="leading" secondItem="HRb-m2-ikm" secondAttribute="leading" constant="5" id="T7P-eq-8y7"/>
                                 <constraint firstItem="mye-Pb-0mr" firstAttribute="leading" secondItem="wPa-gm-kNo" secondAttribute="leading" id="TSV-3Q-anj"/>
                                 <constraint firstAttribute="trailing" secondItem="0Lw-66-qai" secondAttribute="trailing" constant="12" id="UU9-wP-jJV"/>
-                                <constraint firstItem="Wr2-El-ddi" firstAttribute="top" secondItem="Zve-Lp-dBN" secondAttribute="bottom" constant="8" id="YNw-dJ-8ob"/>
+                                <constraint firstItem="Wr2-El-ddi" firstAttribute="top" secondItem="Zve-Lp-dBN" secondAttribute="bottom" constant="3" id="YNw-dJ-8ob"/>
                                 <constraint firstItem="iCf-hi-4Vk" firstAttribute="baseline" secondItem="fxZ-Rb-POc" secondAttribute="baseline" id="aEy-wo-lrc"/>
                                 <constraint firstItem="Wr2-El-ddi" firstAttribute="leading" secondItem="HRb-m2-ikm" secondAttribute="leading" constant="5" id="aFZ-dV-1XB"/>
                                 <constraint firstItem="CaZ-TU-OfZ" firstAttribute="top" secondItem="Sod-vZ-56c" secondAttribute="bottom" constant="2" id="bA2-UF-Ddo"/>
                                 <constraint firstItem="CaZ-TU-OfZ" firstAttribute="baseline" secondItem="wPa-gm-kNo" secondAttribute="firstBaseline" id="bfa-g2-AGS"/>
+                                <constraint firstItem="Kr6-ST-4pi" firstAttribute="top" secondItem="nQ2-xg-aKG" secondAttribute="bottom" constant="17" id="bm7-8R-nTf"/>
                                 <constraint firstItem="W3c-Bh-H17" firstAttribute="baseline" secondItem="fxZ-Rb-POc" secondAttribute="baseline" id="btZ-60-5jW"/>
                                 <constraint firstItem="XWJ-co-D5f" firstAttribute="top" secondItem="Pcf-a1-VGK" secondAttribute="bottom" constant="6" id="byW-cp-KEa"/>
                                 <constraint firstItem="fxZ-Rb-POc" firstAttribute="leading" secondItem="iCf-hi-4Vk" secondAttribute="trailing" constant="5" id="dQM-JN-AVQ"/>
                                 <constraint firstItem="fxZ-Rb-POc" firstAttribute="leading" secondItem="kkw-7Y-iGH" secondAttribute="leading" id="eeX-Iz-egK"/>
-                                <constraint firstItem="5xb-rx-rJg" firstAttribute="top" secondItem="nQ2-xg-aKG" secondAttribute="bottom" constant="27" id="ffv-VT-dM0"/>
+                                <constraint firstItem="5xb-rx-rJg" firstAttribute="top" secondItem="nQ2-xg-aKG" secondAttribute="bottom" constant="30" id="ffv-VT-dM0"/>
                                 <constraint firstAttribute="trailing" secondItem="5xb-rx-rJg" secondAttribute="trailing" constant="12" id="gGu-bF-CWt"/>
                                 <constraint firstItem="5xb-rx-rJg" firstAttribute="leading" secondItem="Zve-Lp-dBN" secondAttribute="trailing" constant="3" id="h2z-Bb-2bx"/>
                                 <constraint firstItem="JdK-V2-gSP" firstAttribute="baseline" secondItem="Zve-Lp-dBN" secondAttribute="baseline" constant="1" id="ime-gp-SmS"/>
@@ -486,12 +507,12 @@
                                 <constraint firstItem="aLk-TP-XPM" firstAttribute="leading" secondItem="kkw-7Y-iGH" secondAttribute="trailing" constant="6" id="lyJ-Vo-Vgm"/>
                                 <constraint firstItem="XcW-af-Zvh" firstAttribute="leading" secondItem="mye-Pb-0mr" secondAttribute="leading" constant="-1" id="nFX-uS-XSK"/>
                                 <constraint firstItem="V5N-4j-TzC" firstAttribute="leading" secondItem="Sod-vZ-56c" secondAttribute="trailing" constant="-1" id="oEk-xQ-qtk"/>
-                                <constraint firstItem="XcW-af-Zvh" firstAttribute="top" secondItem="iCf-hi-4Vk" secondAttribute="bottom" constant="10" id="rO9-2g-Iet"/>
+                                <constraint firstItem="XcW-af-Zvh" firstAttribute="top" secondItem="iCf-hi-4Vk" secondAttribute="bottom" constant="13" id="rO9-2g-Iet"/>
                                 <constraint firstItem="0Lw-66-qai" firstAttribute="leading" secondItem="nQ2-xg-aKG" secondAttribute="trailing" constant="5" id="sfR-04-QdC"/>
                                 <constraint firstItem="s6G-Jk-8bZ" firstAttribute="leading" secondItem="V5N-4j-TzC" secondAttribute="trailing" constant="3" id="shr-GG-taD"/>
                                 <constraint firstItem="QwI-ZH-4CY" firstAttribute="leading" secondItem="CaZ-TU-OfZ" secondAttribute="trailing" constant="-5" id="tEj-5M-Rpa"/>
                                 <constraint firstItem="iCf-hi-4Vk" firstAttribute="leading" secondItem="XcW-af-Zvh" secondAttribute="leading" id="vM6-qX-jjN"/>
-                                <constraint firstItem="mye-Pb-0mr" firstAttribute="top" secondItem="XcW-af-Zvh" secondAttribute="bottom" constant="34" id="vXl-wY-3l7"/>
+                                <constraint firstItem="mye-Pb-0mr" firstAttribute="top" secondItem="XcW-af-Zvh" secondAttribute="bottom" constant="30.999999999999972" id="vXl-wY-3l7"/>
                                 <constraint firstItem="aLk-TP-XPM" firstAttribute="baseline" secondItem="JdK-V2-gSP" secondAttribute="baseline" id="w9A-FF-Nb9"/>
                                 <constraint firstItem="XcW-af-Zvh" firstAttribute="baseline" secondItem="kkw-7Y-iGH" secondAttribute="baseline" id="ynR-ua-rFm"/>
                                 <constraint firstItem="kkw-7Y-iGH" firstAttribute="baseline" secondItem="aLk-TP-XPM" secondAttribute="baseline" id="zdA-Y7-Y2n"/>
@@ -1259,7 +1280,7 @@ Cg
                 <constraint firstItem="JWt-zI-vZz" firstAttribute="width" secondItem="eLe-uN-qoT" secondAttribute="width" multiplier="0.8" id="xdi-MR-k2P"/>
                 <constraint firstItem="eLe-uN-qoT" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="zAx-fJ-OiF"/>
             </constraints>
-            <point key="canvasLocation" x="69.230769230769226" y="0.0"/>
+            <point key="canvasLocation" x="65.887850467289709" y="0.0"/>
         </view>
     </objects>
     <resources>

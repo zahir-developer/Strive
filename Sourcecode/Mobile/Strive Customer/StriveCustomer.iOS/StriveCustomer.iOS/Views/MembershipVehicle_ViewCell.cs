@@ -166,7 +166,10 @@ namespace StriveCustomer.iOS.Views
             else
             {
                 Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-                deselectRowForInitialCellUpdate(selectedMembershipIndexPath);
+                if (selectedMembershipIndexPath!=null)
+                {
+                    deselectRowForInitialCellUpdate(selectedMembershipIndexPath);
+                }
                 selectedMembershipButton = Membership_CellBtn;
                 selectedMembershipIndexPath = indexPath;
                

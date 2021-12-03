@@ -12,7 +12,7 @@ namespace Strive.Core.ViewModels.Customer
     public class DealsViewModel : BaseViewModel
     {
         public ObservableCollection<GetAllDeal> Deals { get; set; } = new ObservableCollection<GetAllDeal>();
-
+        public int SelectedDealId { get; set; }
         public async Task GetAllDealsCommand()
         {
             _userDialog.ShowLoading("Loading");
@@ -33,7 +33,12 @@ namespace Strive.Core.ViewModels.Customer
         }
         public async Task NavigateToDealsPageCommand()
         {
-            await _navigationService.Navigate<DealsPageViewModel>();
+            var result = await AdminService.GetClientDeal(CustomerInfo.ClientID,DateTime.Today.ToString("yyyy-MM-dd"),SelectedDealId);
+            if( result!= null)
+            {
+                await _navigationService.Navigate<DealsPageViewModel>();
+            }
+           
         }
 
         public void LogoutCommand()

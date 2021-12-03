@@ -86,6 +86,7 @@ namespace StriveCustomer.iOS.Views
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             DealsViewCell cell = (DealsViewCell)tableView.CellAt(indexPath);
+            ViewModel.SelectedDealId = ViewModel.Deals[indexPath.Row].DealId;
             ViewModel.NavigateToDealsPageCommand();
         }
     }

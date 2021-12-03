@@ -49,6 +49,9 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UILabel total { get; set; }
 
 		[Outlet]
+		UIKit.UILabel UpchargesLbl { get; set; }
+
+		[Outlet]
 		UIKit.UILabel Yearlytotal { get; set; }
 
 		[Action ("AgreeBtn_Touch:")]
@@ -99,6 +102,11 @@ namespace StriveCustomer.iOS.Views
 				StartingDate = null;
 			}
 
+			if (SwitchMembershipFee != null) {
+				SwitchMembershipFee.Dispose ();
+				SwitchMembershipFee = null;
+			}
+
 			if (termsLabel != null) {
 				termsLabel.Dispose ();
 				termsLabel = null;
@@ -114,14 +122,14 @@ namespace StriveCustomer.iOS.Views
 				total = null;
 			}
 
-			if (SwitchMembershipFee != null) {
-				SwitchMembershipFee.Dispose ();
-				SwitchMembershipFee = null;
-			}
-
 			if (Yearlytotal != null) {
 				Yearlytotal.Dispose ();
 				Yearlytotal = null;
+			}
+
+			if (UpchargesLbl != null) {
+				UpchargesLbl.Dispose ();
+				UpchargesLbl = null;
 			}
 		}
 	}
