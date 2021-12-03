@@ -31,6 +31,10 @@ namespace Strive.Core.ViewModels.Customer
         {
             await _navigationService.Navigate<DealsDetailViewModel>();
         }
+        public async Task NavigateToDealsPageCommand()
+        {
+            await _navigationService.Navigate<DealsPageViewModel>();
+        }
 
         public void LogoutCommand()
         {

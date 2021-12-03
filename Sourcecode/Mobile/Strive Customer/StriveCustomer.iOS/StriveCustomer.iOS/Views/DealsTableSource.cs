@@ -18,6 +18,8 @@ namespace StriveCustomer.iOS.Views
 
         private DealsViewModel ViewModel;
 
+        public DealsPageViewModel dealsPage;
+
         private ObservableCollection<GetAllDeal> ItemList;
 
         public DealsTableSource(UITableView tableView, DealsViewModel ViewModel) : base(tableView)
@@ -79,6 +81,12 @@ namespace StriveCustomer.iOS.Views
             DealsViewCell cell = (DealsViewCell)tableView.DequeueReusableCell(CellId, indexPath);
             cell.SetCell(ItemList[indexPath.Row]);
             return cell;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            DealsViewCell cell = (DealsViewCell)tableView.CellAt(indexPath);
+            ViewModel.NavigateToDealsPageCommand();
         }
     }
 
