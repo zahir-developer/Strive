@@ -445,6 +445,12 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<ProductType>(ApiUtils.URL_GET_CODES_BY_CATEGORY, HttpMethod.Get);
         }
+
+        public async Task<AddClientDealResponse> AddClientDeal(AddClientDeal clientDeal)
+        {
+            return await _restClient.MakeApiCall<AddClientDealResponse>(ApiUtils.URL_ADD_CLIENT_DEAL, HttpMethod.Post,clientDeal);
+        }
+
     }
     public static class RestUtils
     {

@@ -182,5 +182,9 @@ namespace Strive.Core.Utils
         //Document
         public const string URL_ADD_DOCUMENT = "/Admin/Document/AddDocument";
         public const string URL_GET_CODES_BY_CATEGORY = "/Admin/Common/GetCodesByCategory/DOCUMENTTYPE";
+
+        //Deals
+        public const string URL_ADD_CLIENT_DEAL = "/Admin/DealSetup/AddClientDeal";
+
 }
 }

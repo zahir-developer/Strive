@@ -160,5 +160,8 @@ namespace Strive.Core.Services.Interfaces
         Task<UploadedDocument> AddDocumentDetails(AddDocument addDocument);
 
         Task<ProductType> GetCodesByCategory();
+
+        Task<AddClientDealResponse> AddClientDeal(AddClientDeal clientDeal);
+
     }
 }

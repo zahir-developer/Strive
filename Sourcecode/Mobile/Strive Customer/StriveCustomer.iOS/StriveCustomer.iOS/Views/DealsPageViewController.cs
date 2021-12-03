@@ -57,10 +57,10 @@ namespace StriveCustomer.iOS.Views
 
             //PriceView.Hidden = true;
             PriceStackView.Hidden = true;
-            if (PriceProgessBar.Progress == 1)
-            {
-                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }
+           // if (PriceProgessBar.Progress == 0.1)
+           // {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+           // }
             
         }
 
@@ -77,6 +77,11 @@ namespace StriveCustomer.iOS.Views
                 _userDialog.Alert("Your coupon code is : " + result.Text);
 
             }
+            ViewModel.AddClientDeals();
+            //if (result.Text == "Buy 10, Get next FREE")
+            //{
+            //    ViewModel.AddClientDeals();
+            //}
         }
                 
         private void FifthPriceButton_TouchUpInside(object sender, EventArgs e)
