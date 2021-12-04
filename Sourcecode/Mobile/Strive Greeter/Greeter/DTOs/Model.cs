@@ -1149,7 +1149,7 @@ namespace Greeter.DTOs
         public string SenderLastName { get; set; }
 
         [JsonProperty("ReceipientId")]
-        public int ReceipientID { get; set; }
+        public long ReceipientID { get; set; }
 
         [JsonProperty("RecipientFirstName")]
         public string RecipientFirstName { get; set; }

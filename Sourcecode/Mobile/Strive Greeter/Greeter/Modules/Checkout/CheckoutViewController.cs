@@ -77,7 +77,7 @@ namespace Greeter.Modules.Pay
             searchBar.TranslatesAutoresizingMaskIntoConstraints = false;
             searchBar.SearchBarStyle = UISearchBarStyle.Default;
             searchBar.BackgroundColor = UIColor.Clear;
-            searchBar.SearchTextField.Subviews.FirstOrDefault().BackgroundColor = UIColor.Clear;
+            //searchBar.SearchTextField.Subviews.FirstOrDefault().BackgroundColor = UIColor.Clear;
 
             //searchBar.TintColor = UIColor.Clear;
             searchBar.BackgroundImage = new UIImage();

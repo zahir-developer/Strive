@@ -3,6 +3,8 @@ using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
+using Greeter.DTOs;
+using Newtonsoft.Json;
 using UIKit;
 
 namespace Greeter.Modules.Message
@@ -29,8 +31,17 @@ namespace Greeter.Modules.Message
             chatTableView.WeakDelegate = this;
             chatTableView.WeakDataSource = this;
 
-            //Reload once more to sync with original data
-            //ReloadChatTableView();
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.private_message_received"), notify: (notification) => {
+                if (notification.UserInfo is null)
+                    return;
+
+                var chatMsgString = notification.UserInfo["chatMsg"] as NSString;
+                var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(chatMsgString);
+
+                InvokeOnMainThread(()=> {
+                    MessageReceived(chatMsg);
+                });
+            });
         }
 
         void SetupView()
@@ -135,9 +146,24 @@ namespace Greeter.Modules.Message
             UIKeyboard.Notifications.ObserveWillHide(OnKeyboardHide);
         }
 
+        void MessageReceived(SendChatMessage sendChatMessage)
+        {
+            if (sendChatMessage is not null)
+            {
+                var chatMessage = new ChatMessage();
+                chatMessage.ReceipientID = sendChatMessage.chatMessageRecipient.chatRecipientId;
+                chatMessage.SenderFirstName = sendChatMessage.firstName;
+                chatMessage.SenderLastName = sendChatMessage.lastName;
+                chatMessage.MessageBody = sendChatMessage.chatMessage.messagebody;
+                chatMessage.CreatedDate = sendChatMessage.chatMessage.createdDate;
+                Chats.Add(chatMessage);
+                ReloadChatTableView();
+            }
+        }
+
         void ReloadChatTableView(NSIndexPath[] indexPaths = null)
         {
-            if (!IsViewLoaded) return;
+            //if (!IsViewLoaded) return;
 
             if (indexPaths == null)
                 chatTableView.ReloadData();

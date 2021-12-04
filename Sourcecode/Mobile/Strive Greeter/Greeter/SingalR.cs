@@ -2,16 +2,17 @@
 using System.Threading.Tasks;
 using Foundation;
 using Greeter.Common;
+using Greeter.Modules.Message;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 
 namespace Greeter
 {
-    public class SingalR
+    public static class SingalR
     {
         public static HubConnection hubConnection;
 
-        async Task StartConnection()
+        public static async Task StartConnection()
         {
             if (hubConnection == null)
             {
@@ -77,11 +78,9 @@ namespace Greeter
                 Console.WriteLine("Private Message received", data);
                 try
                 {
-                    var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
                     //PrivateMessageList.Add(datas);
-
-                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), chatMsg);
-
+                    var dict = new NSDictionary(new NSString("chatMsg"), new NSString(data.ToString()));
+                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), dict);
                 }
                 catch (Exception ex)
                 {

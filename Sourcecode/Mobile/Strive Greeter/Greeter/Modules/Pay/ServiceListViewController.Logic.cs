@@ -15,6 +15,7 @@ namespace Greeter.Modules.Pay
 	public partial class ServiceListViewController
     {
 		List<Checkout> Checkouts;
+        List<Checkout> FilteredCheckouts = new List<Checkout>();
 
         public ServiceListViewController()
         {
@@ -53,6 +54,7 @@ namespace Greeter.Modules.Pay
             if (response.IsSuccess())
             {
                 Checkouts = FilterUnpaidItems(response?.CheckinVehicleDetails?.CheckOutList);
+                FilteredCheckouts = Checkouts;
                 Debug.WriteLine("Unpaid Filtered Services " + JsonConvert.SerializeObject(Checkouts));
                 if (IsViewLoaded)
                     checkoutTableView.ReloadData();
@@ -139,6 +141,29 @@ namespace Greeter.Modules.Pay
             Debug.WriteLine("Email Body :" + body);
 
             return body;
+        }
+
+        void dsa(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text.Trim()))
+            {
+                FilteredCheckouts = Checkouts;
+                checkoutTableView.ReloadData();
+                return;
+            }
+
+            FilteredCheckouts = FilterCheckout(text, Checkouts);
+            if (!FilteredCheckouts.IsNullOrEmpty())
+            {
+                checkoutTableView.ReloadData();
+            }
+        }
+
+        List<Checkout> FilterCheckout(string ticketId, List<Checkout> checkouts)
+        {
+            List<Checkout> filteredCheckouts = null;
+            filteredCheckouts = checkouts.Where(x => x.ID.ToString().Contains(ticketId)).ToList();
+            return filteredCheckouts;
         }
 
         //ServiceType GetSerViceType(string jobType)

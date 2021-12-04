@@ -9,9 +9,10 @@ using Xamarin.Essentials;
 
 namespace Greeter.Modules.Pay
 {
-    public partial class ServiceListViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
+    public partial class ServiceListViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate, IUISearchBarDelegate
     {
         UITableView checkoutTableView;
+        UISearchBar searchBar;
         readonly UIRefreshControl refreshControl = new();
         bool isAlreadyLoaded;
 
@@ -60,6 +61,22 @@ namespace Greeter.Modules.Pay
             backgroundImage.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
             backgroundImage.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
 
+            searchBar = new UISearchBar(CGRect.Empty);
+            searchBar.TranslatesAutoresizingMaskIntoConstraints = false;
+            searchBar.SearchBarStyle = UISearchBarStyle.Default;
+            searchBar.BackgroundColor = UIColor.Clear;
+            //searchBar.SearchTextField.Subviews.FirstOrDefault().BackgroundColor = UIColor.Clear;
+            //searchBar.TintColor = UIColor.Clear;
+            searchBar.BackgroundImage = new UIImage();
+            searchBar.Placeholder = " Search Ticket ID";
+            searchBar.SizeToFit();
+            searchBar.Translucent = false;
+            searchBar.Delegate = this;
+            searchBar.SearchTextField.KeyboardType = UIKeyboardType.NumberPad;
+            //searchBar.CancelButtonClicked += SearchBar_CancelButtonClicked;
+            //NavigationItem.TitleView = searchBar;
+            View.Add(searchBar);
+
             checkoutTableView = new UITableView(CGRect.Empty);
             checkoutTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             checkoutTableView.BackgroundColor = UIColor.Clear;
@@ -68,9 +85,14 @@ namespace Greeter.Modules.Pay
             checkoutTableView.RefreshControl = refreshControl;
             View.Add(checkoutTableView);
 
+            searchBar.LeadingAnchor.ConstraintEqualTo(checkoutTableView.LeadingAnchor, constant: 0).Active = true;
+            searchBar.TrailingAnchor.ConstraintEqualTo(checkoutTableView.TrailingAnchor, constant: 0).Active = true;
+            searchBar.TopAnchor.ConstraintEqualTo(View.TopAnchor, constant: 40).Active = true;
+            searchBar.HeightAnchor.ConstraintEqualTo(60).Active = true;
+
             checkoutTableView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 60).Active = true;
             checkoutTableView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor, constant: -60).Active = true;
-            checkoutTableView.TopAnchor.ConstraintEqualTo(View.TopAnchor, constant: 40).Active = true;
+            checkoutTableView.TopAnchor.ConstraintEqualTo(searchBar.TopAnchor, constant: 40).Active = true;
             checkoutTableView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor, constant: -40).Active = true;
         }
 
@@ -90,13 +112,13 @@ namespace Greeter.Modules.Pay
 
         public nint RowsInSection(UITableView tableView, nint section)
         {
-            return Checkouts == null ? 0 : Checkouts.Count;
+            return FilteredCheckouts == null ? 0 : FilteredCheckouts.Count;
         }
 
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(CheckoutCell.Key) as CheckoutCell;
-            cell.SetupData(Checkouts[indexPath.Row], true, PayBtnClicked);
+            cell.SetupData(FilteredCheckouts[indexPath.Row], true, PayBtnClicked);
             return cell;
         }
 
@@ -104,7 +126,7 @@ namespace Greeter.Modules.Pay
         public UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
         {
             var row = (int)indexPath.Row;
-            var checkout = Checkouts[row];
+            var checkout = FilteredCheckouts[row];
 
             var actionPrint = UIContextualAction.FromContextualActionStyle(
               UIContextualActionStyle.Normal,
@@ -122,6 +144,20 @@ namespace Greeter.Modules.Pay
             var contextualActions = new List<UIContextualAction>() { actionPrint };
 
             return UISwipeActionsConfiguration.FromActions(contextualActions.ToArray());
+        }
+
+        [Export("searchBar:textDidChange:")]
+        public void TextChanged(UISearchBar searchBar, string searchText)
+        {
+            dsa(searchText);
+        }
+
+        [Export("searchBarCancelButtonClicked:")]
+        public void CancelButtonClicked(UISearchBar searchBar)
+        {
+            searchBar.Text = string.Empty;
+            FilteredCheckouts = Checkouts;
+            checkoutTableView.ReloadData();
         }
     }
 }
