@@ -87,6 +87,7 @@ export const UrlConfig = {
     getClientById: `Admin/Client/GetClientById/`,
     getClientList: `Admin/Client/EmailBlast/`,
     getCSVClientList: `Admin/Client/EmailBlastCSV/`,
+    sendClientEmail: `Admin/Client/SendClientEmail/`
   },
   details: {
     addDetail: `Admin/Details/AddDetails`,
@@ -119,7 +120,8 @@ export const UrlConfig = {
     deleteEmployeeDocument: `Admin/Document/DeleteEmployeeDocument/`,
     getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`,
     getEmployeeHourlyRateById: `Admin/Employee/GetEmployeeHourlyRateById`,
-    validateEmail: `Admin/Common/GetEmailIdExist/`
+    validateEmail: `Admin/Common/GetEmailIdExist/`,
+    sendEmployeeEmail: `Admin/Employee/SendEmployeeEmail/`
   },
 
   giftCard: {

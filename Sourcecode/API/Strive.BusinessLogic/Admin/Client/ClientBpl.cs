@@ -19,6 +19,7 @@ using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.ViewModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Strive.BusinessLogic
 {
@@ -215,6 +216,43 @@ namespace Strive.BusinessLogic
         public Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory)
         {
             return ResultWrap(new ClientRal(_tenant).UpdateGiftCardHistory, updateGiftCardHistory, "Status");
+        }
+
+        public Result SendClientEmail()
+        {
+            var commonBpl = new CommonBpl(_cache, _tenant);
+            var subject = EmailSubject.WelcomeEmail;
+            var allClientList = new ClientRal(_tenant).GetClientEmailList();
+            foreach (var client in allClientList)
+            {
+                if (!string.IsNullOrWhiteSpace(client.Email) && !client.IsNotified)
+                {
+                    var splitEmail = client.Email.Split(',');
+                    foreach (var email in splitEmail)
+                    {
+                        if (new EmailAddressAttribute().IsValid(email))
+                        {
+                            string password = string.Empty;
+                            var clientLogin = commonBpl.CreateLogin(UserType.Client, email, client.PhoneNumber, password);
+
+                            password = clientLogin.password;
+                            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                            keyValues.Add("{{emailId}}", email);
+                            keyValues.Add("{{password}}", password);
+                            keyValues.Add("{{employeeName}}", client.FirstName);
+                            keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                            keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+                            commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
+                            var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
+                            return null;
+                        }
+                    }
+                }
+
+            }
+
+            return ResultWrap(true, "Send Client Mail");
         }
     }
 }

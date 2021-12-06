@@ -438,5 +438,19 @@ export class EmployeeListComponent implements OnInit {
     }
   }
 
+  sendEmployeeEmail() {
+    this.spinner.show();
+    this.employeeService.sendEmployeeEmail().subscribe(res => {
+      if (res.status === 'Success') {
+        this.spinner.hide();
+      } else {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
+    });
+  }
 
 }

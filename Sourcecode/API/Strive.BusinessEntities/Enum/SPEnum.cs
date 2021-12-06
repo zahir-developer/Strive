@@ -159,7 +159,8 @@ namespace Strive.BusinessEntities
             USPISCLIENTAVAILABLE,
             USPGETCLIENTLIST,
             USPGETCREDITACCOUNTBALANCE,
-            USPGETCREDITACCOUNTBALANCEHISTORY
+            USPGETCREDITACCOUNTBALANCEHISTORY,
+            USPGETCLIENTMAILLIST
         }
         public enum GiftCard
         {
@@ -406,6 +407,7 @@ namespace Strive.BusinessEntities
         USPEMAILEXIST,
         USPGETEMPLOYEEROLEBYID,
         USPGETCITYBYSTATE,
+        USPUPDATEEMPLOYEEADDRESSISNOTIFIED,
 
         //Client
         USPGETALLCLIENT,
@@ -415,6 +417,8 @@ namespace Strive.BusinessEntities
         USPGETCLIENTBYID,
         USPISCLIENTAVAILABLE,
         USPGETALLCLIENTNAME,
+        USPUPDATECLIENTADDRESSISNOTIFIED,
+        
         //GiftCard
         USPGETALLGIFTCARD,
         USPGETGIFTCARDHISTORY,

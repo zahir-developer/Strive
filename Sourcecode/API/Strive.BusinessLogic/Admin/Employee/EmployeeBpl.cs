@@ -12,6 +12,7 @@ using Strive.Crypto;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 
@@ -230,5 +231,65 @@ namespace Strive.BusinessLogic
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeePayCheck, checkDto, "EmployeePayCheck");
         }
 
+        public Result SendEmployeeEmail()
+        {
+            var allEmployeeList = new EmployeeRal(_tenant).GetEmployeeList();
+            foreach (var emp in allEmployeeList.Employee)
+            {
+                var empDetail = new EmployeeRal(_tenant).GetEmployeeById(emp.EmployeeId);
+                if (!string.IsNullOrWhiteSpace(empDetail.EmployeeInfo.Email) && !empDetail.EmployeeInfo.IsNotified)
+                {
+                    var splitEmail = empDetail.EmployeeInfo.Email.Split(',');
+                    foreach (var email in splitEmail)
+                    {
+                        if (new EmailAddressAttribute().IsValid(email))
+                        {
+                            SendEmployeeMail(empDetail.EmployeeInfo, email, empDetail.EmployeeLocations, empDetail.EmployeeRoles, emp.EmployeeId);
+                            new EmployeeRal(_tenant).UpdateEmployeeAddressIsNotified(empDetail.EmployeeInfo.EmployeeAddressId, true);
+                        }
+                    }
+                }
+
+            }
+
+            return ResultWrap(true, "Send Employee Mail");
+        }
+
+        private void SendEmployeeMail(EmployeeInfoDto employee, string email, List<EmployeeLocationDto> employeeLocations, List<EmployeeRoleDto> employeeRoles, int employeeId)
+        {
+            var commonBpl = new CommonBpl(_cache, _tenant);
+            if (employeeLocations != null)
+            {
+                var createLogin = commonBpl.CreateLogin(UserType.Employee, email, employee.PhoneNumber);
+                var subject = EmailSubject.WelcomeEmail;
+                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+
+                keyValues.Add("{{employeeName}}", employee.Firstname);
+                string emplocation = string.Empty;
+                foreach (var empLoc in employeeLocations)
+                {
+                    emplocation += empLoc.LocationName + ",";
+                }
+                char[] chars = { ',' };
+                emplocation = emplocation.TrimEnd(chars);
+                keyValues.Add("{{locationList}}", emplocation);
+                string emprole = string.Empty;
+                foreach (var empRole in employeeRoles)
+                {
+                    emprole += empRole.RoleName + ",";
+                }
+                char[] comma = { ',' };
+                emprole = emprole.TrimEnd(comma);
+                keyValues.Add("{{roleList}}", emprole);
+                keyValues.Add("{{emailId}}", email);
+                keyValues.Add("{{password}}", createLogin.password);
+                keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+
+
+                commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, email, keyValues, subject);
+            }
+        }
     }
 }

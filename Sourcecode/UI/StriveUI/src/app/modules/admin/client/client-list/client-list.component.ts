@@ -284,4 +284,19 @@ export class ClientListComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+
+  sendClientMail() {
+    this.spinner.show();
+    this.client.sendClientEmail().subscribe(res => {
+      if (res.status === 'Success') {
+        this.spinner.hide();
+      } else {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
+    });
+  }
 }

@@ -62,4 +62,8 @@ export class ClientService {
   getCSVClientList(obj) {
       return this.http.post(`${UrlConfig.client.getCSVClientList}` , obj);
     }
+
+  sendClientEmail() {
+    return this.http.post(`${UrlConfig.client.sendClientEmail}`);
+  }
 }
