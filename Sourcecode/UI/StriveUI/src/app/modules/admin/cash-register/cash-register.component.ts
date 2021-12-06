@@ -67,6 +67,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   storeTimeOut = '';
   submitted = false;
   isTimechange: boolean;
+  target : number;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe,
@@ -85,6 +86,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.getStoreStatusList();
     this.getTargetBusinessData(locationId, this.Todaydate);
     this.getWeatherDetails();
+    this.target  = 0;
   }
   ngAfterViewInit() {
     this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false });
@@ -129,11 +131,20 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
-        if (this.targetBusiness.WeatherPrediction.WeatherPredictionToday !== null) {
-          this.cashRegisterForm.patchValue({
-            goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
-          });
+        debugger;
+        var todayTarget = 0;
+        if(this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday){
+        todayTarget = (this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness != '' && this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness != null)? parseInt(this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness) : 0;
         }
+        var LastMonth = (this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastMonth.WashCount != '' && this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastMonth.WashCount != null)? parseInt(this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastMonth.WashCount) : 0;
+        var LastWeek = (this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastWeek.WashCount != '' && this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastWeek.WashCount != null) ? parseInt(this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastWeek.WashCount) : 0;
+        var ThirdMonth = (this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastThirdMonth.WashCount != '' && this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastThirdMonth.WashCount != null) ? parseInt(this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastThirdMonth.WashCount) : 0;
+         this.target = todayTarget > 0 ? todayTarget : Math.round((LastMonth + LastWeek + ThirdMonth)/3);
+                 
+          this.cashRegisterForm.patchValue({
+            goal: this.target
+          });
+                
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -230,7 +241,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           setTimeout(() => {
             this.cashRegisterForm.patchValue({
-              goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
+              goal: this.target
             });
           }, 500);
           this.getTotalCash();

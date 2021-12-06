@@ -5,6 +5,7 @@ using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.City;
 using Strive.BusinessEntities;
 using System.Collections.Generic;
+using Strive.BusinessEntities.DTO;
 
 namespace Admin.API.Controllers
 {
@@ -95,12 +96,11 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("SendMail")]
-        public void SendMail(string email, string body, string subject)
+        public void SendMail([FromBody]EmailDto emailDetails)
         {
-            Dictionary<string, string> keyValues = new Dictionary<string, string>();
-
-            keyValues.Add("{{body}}", body);
-            _commonBpl.SendEmail(HtmlTemplate.GeneralMail, email, keyValues, subject);
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();            
+            keyValues.Add("{{body}}", emailDetails.body);
+            _commonBpl.SendEmail(HtmlTemplate.GeneralMail, emailDetails.email, keyValues, emailDetails.subject);
 
         }
 

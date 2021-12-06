@@ -418,7 +418,7 @@ export class BonusSetupComponent implements OnInit {
         let totalAmount = 0;
         let deduction: any;
         for (const list of this.monthBonusList) {
-          if (+(list.Min) <= +this.noOfWashes && +this.noOfWashes >= +(list.Max)) {
+          if (+(list.Min) <= +this.noOfWashes && +this.noOfWashes <= +(list.Max)) {
             totalAmount = list.BonusAmount;
           }
         }

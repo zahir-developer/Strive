@@ -204,6 +204,9 @@ export class UserSignupComponent implements OnInit {
       if (data.status === 'Success') {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Client.Add, 'Success');
+          setTimeout(() => {
+            this.router.navigate(['/login'])
+          }, 500);
       } else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -290,7 +293,7 @@ export class UserSignupComponent implements OnInit {
 
 
   getVehicleModelList(code) {
-    this.modelService.getModelByMakeId(code).subscribe(data => {
+    this.modelService.getAuthModelByMakeId(code).subscribe(data => {
       if (data.status === 'Success') {
         this.vehicleModelTotalList = JSON.parse(data.resultData);
         const modelList = this.vehicleModelTotalList.Model;
