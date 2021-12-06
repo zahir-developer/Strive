@@ -142,20 +142,36 @@ namespace StriveCustomer.iOS.Views
                         Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                         Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                     }
-                    //else
-                    //{
-                    //    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-                    //}
+
                 }
+            }
+            if (MembershipDetails.selectedAdditionalServices.Count != 0)
+            {
+                if (MembershipDetails.selectedAdditionalServices.Contains(services[indexPath.Row].ServiceId))
+                {
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+
+                }
+                else
+                {
+
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                }
+
+            }
+
+        }
+        public void updateadditionalservices(NSIndexPath indexPath)
+        {
+            if (Membership_CellBtn.CurrentImage == UIImage.FromBundle("icon-checked-round"))
+            {
+                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
             }
             else
             {
-
+                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
             }
-                        
-           
         }
-
         public void updateServices(NSIndexPath indexPath)
         {
             

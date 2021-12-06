@@ -93,7 +93,9 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void BackCommand()
         {
+            
             await _navigationService.Navigate<VehicleInfoEditViewModel>();
+           
         }
 
         public bool VehicleMembershipCheck()

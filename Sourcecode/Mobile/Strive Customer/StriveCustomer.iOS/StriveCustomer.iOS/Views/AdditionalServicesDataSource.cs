@@ -47,14 +47,15 @@ namespace StriveCustomer.iOS.Views
         {
             var cell = tableView.DequeueReusableCell("MembershipVehicle_ViewCell", indexPath) as MembershipVehicle_ViewCell;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.setServicesData(services, indexPath, cell);                  
+            cell.setServicesData(services, indexPath, cell);
+            
             return cell;
         }
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
              MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
-            cell.updateServices(indexPath);
+            cell.updateadditionalservices(indexPath);
             if (MembershipDetails.selectedAdditionalServices.Count!=0)
             {
                 if (MembershipDetails.selectedAdditionalServices.Contains(services[indexPath.Row].ServiceId))

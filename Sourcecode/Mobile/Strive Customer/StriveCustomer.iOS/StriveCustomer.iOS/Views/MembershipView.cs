@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 
@@ -31,7 +32,11 @@ namespace StriveCustomer.iOS.Views
             var rightBtn = new UIButton(UIButtonType.Custom);
             rightBtn.SetTitle("Next", UIControlState.Normal);
             rightBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
-
+            if (MembershipDetails.selectedMembershipDetail != null)
+            {
+                MembershipDetails.selectedMembershipDetail =null;
+                MembershipDetails.selectedMembership = 0;
+            }
             var rightBarBtn = new UIBarButtonItem(rightBtn);
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoreLocation;
 using Foundation;
 using MapKit;
@@ -24,22 +25,27 @@ namespace StriveCustomer.iOS.Views
         CLLocationManager locationManager = new CLLocationManager();
         public ContactUsView() : base("ContactUsView", null)
         {
-        }             
-
-        public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-            InitialSetUp();
-            MaintainData.SetMapData(LocationNameLbl, locationValue_Lbl, phoneValue_Lbl, mailValue_Lbl, timeValue_Lbl);
-            // Perform any additional setup after loading the view, typically from a nib.
         }
+
+        //public override void ViewDidLoad()
+        //{
+        //    base.ViewDidLoad();
+        //    InitialSetUp();
+        //    MaintainData.SetMapData(LocationNameLbl, locationValue_Lbl, phoneValue_Lbl, mailValue_Lbl, timeValue_Lbl);
+        //    // Perform any additional setup after loading the view, typically from a nib.
+        //}
+        
 
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
-
+        public override void ViewDidAppear(bool animated)
+        {
+            InitialSetUp();
+            //setMaps();
+        }
         private void InitialSetUp()
         {
             ContactUsParentView.Layer.CornerRadius = 5;

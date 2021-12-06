@@ -261,9 +261,10 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             chatMessagePlaceholderLabel.Hidden = !string.IsNullOrEmpty(replacedString);
             return true;
         }        
-
+        
         public async void OnSend()
         {
+            
             if (messageTextView.Text != null)
             {
                 var data = new ChatMessageDetail()
@@ -302,6 +303,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             {
                 ViewModel.EmptyChatMessageError();
             }
+            
             UIKeyboard.Notifications.ObserveWillHide(OnKeyboardHide);
 
         }
