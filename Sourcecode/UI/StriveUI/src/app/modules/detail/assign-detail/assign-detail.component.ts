@@ -340,7 +340,8 @@ export class AssignDetailComponent implements OnInit {
   }
 
   getDetailService() {
-    this.details = this.details.filter(i => i.ServiceTypeId !== this.serviceType.CodeId);
+    //Removing the filter for Detail Upcharge. Need to show the detail Upcharge as well.
+    //this.details = this.details.filter(i => i.ServiceTypeId !== this.serviceType.CodeId);
 
 
     this.clonedServices = [];
