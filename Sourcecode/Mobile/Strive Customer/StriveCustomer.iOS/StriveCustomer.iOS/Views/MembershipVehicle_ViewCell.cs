@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Foundation;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
@@ -127,37 +128,44 @@ namespace StriveCustomer.iOS.Views
             Membership_Discount.Hidden = true;
             MonthlyCharge_lbl.Hidden = true;
             string service = Membership_VehicleLbl.Text.Replace(" ", "");
-            if (MembershipDetails.selectedMembershipDetail.Services!=null)
+            if (MembershipDetails.selectedMembershipDetail.Services != null)
             {
                 string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");
 
-                foreach (var itm in selectedServices)
+                if(selectedServices.Any(x => x.Replace(" ", "") == service))
                 {
-                    if (itm.Replace(" ", "") == service)
-                    {
-                        Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-                        cell.UserInteractionEnabled = false;
-                        cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                        Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                        Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                        Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    }
-
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    cell.UserInteractionEnabled = false;
+                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                 }
+                else if (MembershipDetails.selectedAdditionalServices.Contains(services[indexPath.Row].ServiceId))
+                {
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                }
+                else
+                {
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    cell.UserInteractionEnabled = true;
+                    cell.BackgroundColor = UIColor.Clear.FromHex(0xFFFFFF);
+                    Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xFFFFFF);
+                    Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xFFFFFF);
+                    Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xFFFFFF);
+                }
+               
             }
-            if (MembershipDetails.selectedAdditionalServices.Count != 0)
+            else if (MembershipDetails.selectedAdditionalServices.Count != 0)
             {
                 if (MembershipDetails.selectedAdditionalServices.Contains(services[indexPath.Row].ServiceId))
                 {
                     Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-
                 }
                 else
                 {
-
                     Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                 }
-
             }
 
         }
