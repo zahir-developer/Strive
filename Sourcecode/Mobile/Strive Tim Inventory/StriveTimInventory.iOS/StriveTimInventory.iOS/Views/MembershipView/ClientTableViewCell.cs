@@ -119,10 +119,35 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             if (MembershipData.MembershipDetailView != null)
             {
                 var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
-                if ((SelectedMembership != null) && (SelectedMembership.Services == item.ServiceName))
+                //if ((SelectedMembership != null) && (SelectedMembership.Services == item.ServiceName))
+                //{
+                //    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                //    cell.UserInteractionEnabled = false;
+                //    SelectMembershipcell();
+                //}
+                //else
+                //{
+                //    DeSelectMembershipcell();
+                //}
+                if (SelectedMembership != null)
                 {
-                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    cell.UserInteractionEnabled = false;
+                    string[] selectedServices = SelectedMembership.Services.Split(",");
+
+                    foreach (var itm in selectedServices)
+                    {
+                        string service = item.ServiceName.Replace(" ", "");
+                        
+                        if (selectedServices.Any(x => x.Replace(" ", "") == service)) //(service.Equals(itm))
+                        {
+                            cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                            cell.UserInteractionEnabled = true;
+                            SelectMembershipcell();
+                        }
+                        else
+                        {
+                            DeSelectMembershipcell();
+                        }
+                    }
                 }
             }
             else
@@ -135,10 +160,15 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                     foreach(var itm in selectedServices)
                     {
                         string service = item.ServiceName.Replace(" ", "");
-                        if(service.Equals(itm))
+                        if (service.Equals(itm))
                         {
                             cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                             cell.UserInteractionEnabled = true;
+                            SelectMembershipcell();
+                        }
+                        else
+                        {
+                            DeSelectMembershipcell();
                         }
                     }                   
                 }

@@ -63,7 +63,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-           // ItemList.Add("None");
             return ItemList.Count();
         }
 

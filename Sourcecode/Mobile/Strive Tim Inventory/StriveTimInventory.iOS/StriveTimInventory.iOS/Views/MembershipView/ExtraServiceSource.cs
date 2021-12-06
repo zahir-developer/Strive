@@ -91,10 +91,10 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 cell.DeSelectMembershipcell();
             }
             else
-            {
+           {
                 ViewModel.ExtraServiceList.Add(ItemList[indexPath.Row]);
                 cell.SelectMembershipcell();
-            }
+           }
         }
 
 

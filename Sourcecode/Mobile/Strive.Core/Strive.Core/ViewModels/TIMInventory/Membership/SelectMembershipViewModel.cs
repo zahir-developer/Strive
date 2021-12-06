@@ -73,12 +73,6 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             modelUpcharge = await AdminService.GetModelUpcharge(upchargeRequest);
             MembershipDetails.modelUpcharge = modelUpcharge;
 
-            //membershipList = new MembershipServiceList();
-            //membershipList = await AdminService.GetMembershipServiceList();
-            //if (membershipList == null)
-            //{
-
-            //}
             _userDialog.HideLoading();
         }
 
