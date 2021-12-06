@@ -39,7 +39,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<DealsList> GetAllDeals();
 
-        Task<ClientDeal> GetClientDeal(int clientid, string date, int dealid);
+        Task<ClientDeals> GetClientDeal(int clientid, string date, int dealid);
 
         Task<Products> GetAllProducts(ProductSearches searchQuery);
 

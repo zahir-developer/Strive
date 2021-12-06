@@ -12,7 +12,10 @@ namespace Strive.Core.ViewModels.Customer
     public class DealsViewModel : BaseViewModel
     {
         public ObservableCollection<GetAllDeal> Deals { get; set; } = new ObservableCollection<GetAllDeal>();
-        public int SelectedDealId { get; set; }
+        public static int SelectedDealId { get; set; }
+        public static string startdate { get; set; }
+        public static string enddate { get; set; }
+        public static string CouponName;
         public async Task GetAllDealsCommand()
         {
             _userDialog.ShowLoading("Loading");
@@ -29,16 +32,29 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task NavigateToDetailCommand(string item)
         {
+            
             await _navigationService.Navigate<DealsDetailViewModel>();
         }
         public async Task NavigateToDealsPageCommand()
         {
-            var result = await AdminService.GetClientDeal(CustomerInfo.ClientID,DateTime.Today.ToString("yyyy-MM-dd"),SelectedDealId);
-            if( result!= null)
+            foreach (var element in Deals)
             {
-                await _navigationService.Navigate<DealsPageViewModel>();
+                if (element.DealId == SelectedDealId)
+                {
+                    CouponName = element.DealName;
+                    startdate = element.StartDate;
+                    enddate = element.EndDate;
+                }
+
             }
-           
+            var result2 = await AdminService.GetClientDeal(CustomerInfo.ClientID, DateTime.Today.ToString("yyyy-MM-dd"), SelectedDealId);
+            if (result2.ClientDeal.ClientDealDetail != null)
+            {
+                DealsPageViewModel.clientDeal = result2;
+                CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
+            }
+            await _navigationService.Navigate<DealsPageViewModel>();
+
         }
 
         public void LogoutCommand()

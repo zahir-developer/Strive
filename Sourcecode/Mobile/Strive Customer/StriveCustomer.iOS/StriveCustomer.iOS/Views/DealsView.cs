@@ -7,6 +7,7 @@ using Foundation;
 using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
@@ -17,7 +18,7 @@ namespace StriveCustomer.iOS.Views
     public partial class DealsView : MvxViewController<DealsViewModel>
     {
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
-
+        //DealsPageViewModel DealsPageViewModel = new DealsPageViewModel();
         public DealsView() : base("DealsView", null)
         {
         }
@@ -73,12 +74,13 @@ namespace StriveCustomer.iOS.Views
                 _userDialog.Alert("Your coupon code is : " + result.Text);
 
             }
-
+           
+            
         }
 
-        public override async void ViewDidAppear(bool animated)
+        public override  void ViewDidAppear(bool animated)
         {
-            getDeals();
+             getDeals();
         }
         public override void DidReceiveMemoryWarning()
         {

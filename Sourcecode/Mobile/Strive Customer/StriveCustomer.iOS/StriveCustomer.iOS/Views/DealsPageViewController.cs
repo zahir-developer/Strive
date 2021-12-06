@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using MvvmCross;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 using ZXing.Mobile;
@@ -38,32 +39,177 @@ namespace StriveCustomer.iOS.Views
             DealsLabel.ClipsToBounds = true;
 
             NoOfDaysLabel.Text = "30";
-
-            BounceBackCouponLabel.Layer.CornerRadius = 10;
-
+            CouponLabel.Text = DealsViewModel.CouponName;
+            if (DealsViewModel.SelectedDealId==1)
+            {
+                PriceView.Hidden = false;
+                PriceStackView.Hidden = true;
+            }
+            else
+            {
+                PriceView.Hidden = true;
+                PriceStackView.Hidden = false;
+            }
             FirstPriceLabel.Text = "$0";
             SecondPriceLabel.Text = "$5";
             ThirdPriceLabel.Text = "$5";
+
             FourthPriceLabel.Text = "$10";
             FifthPriceLabel.Text = "$15";
-
-            FirstPriceButton.TouchUpInside += FirstPriceButton_TouchUpInside;
-            SecondPriceButton.TouchUpInside += SecondPriceButton_TouchUpInside;
-            ThirdPriceButton.TouchUpInside += ThirdPriceButton_TouchUpInside;
-            FourthPriceButton.TouchUpInside += FourthPriceButton_TouchUpInside;
-            FifthPriceButton.TouchUpInside += FifthPriceButton_TouchUpInside;
-
             ScanQrCodeButton.TouchUpInside += ScanQrCodeButton_TouchUpInsideAsync;
-
+            PriceProgessBar.SetProgress(0.1f,false);
             //PriceView.Hidden = true;
-            PriceStackView.Hidden = true;
-           // if (PriceProgessBar.Progress == 0.1)
-           // {
-                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-           // }
-            
+            CouponValidity();
+            //PriceStackView.Hidden = true;
+            if (DealsPageViewModel.clientDeal!=null)
+            {
+                if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount>10&&DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId==1)
+                {
+                    _userDialog.Alert("You Save $15",DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName+" Sucess");
+                    FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                }
+                else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount > 5 && DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId == 2)
+                {
+                    _userDialog.Alert("You Save $15",DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName + " Success");
+                    FirstPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    SecondPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    ThirdPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    FourthPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    FifthPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                }
+                else
+                {
+                    SetProgress();
+                }
+                
+            }
+            else
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            }   
         }
+        public void SetProgress()
+        {
+            if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount==1)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
 
+                FirstPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.0f, false);
+            }
+            else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 2)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+
+                FirstPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.15f, false);
+            }
+            else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 3)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+
+                FirstPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.25f, false);
+            }
+            else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 4)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+
+                FirstPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.35f, false);
+            }
+            else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 5)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FifthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+
+                FirstPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FifthPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.45f, false);
+            }
+            else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 6)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FifthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SixthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.55f, false);
+            }
+            else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 7)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FifthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SixthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SeventhProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.65f, false);
+            }
+            else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 8)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FifthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SixthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SeventhProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                EighthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.75f, false);
+            }
+            else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 9)
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FifthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SixthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SeventhProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                EighthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                NinthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.85f, false);
+
+            }
+            else 
+            {
+                FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FourthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                FifthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SixthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SeventhProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                EighthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                NinthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                TenthProgressBarButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                PriceProgessBar.SetProgress(0.95f, false);
+            }
+
+            DealsPageViewModel.clientDeal = null;
+
+        }
         private async void ScanQrCodeButton_TouchUpInsideAsync(object sender, EventArgs e)
         {
             var scanner = new MobileBarcodeScanner();
@@ -77,73 +223,36 @@ namespace StriveCustomer.iOS.Views
                 _userDialog.Alert("Your coupon code is : " + result.Text);
 
             }
-            ViewModel.AddClientDeals();
+            DealsPageViewModel.clientID = CustomerInfo.ClientID;
+            DealsPageViewModel.dealId = 1;
+            DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+
+            await ViewModel.AddClientDeals();
+            SetProgress();
+            CouponValidity();
             //if (result.Text == "Buy 10, Get next FREE")
             //{
             //    ViewModel.AddClientDeals();
             //}
         }
-                
-        private void FifthPriceButton_TouchUpInside(object sender, EventArgs e)
+        private void CouponValidity()
         {
-            if (FifthPriceButton.CurrentImage == UIImage.FromBundle("icon-checked-round"))
-            {
-                FifthPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }
-            else
-            {
-                FifthPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-            }
+            //if (DealsPageViewModel.clientDeal != null)
+            //{
+                DateTime startdate = DateTime.Parse(DealsViewModel.startdate);
+                DateTime enddate = DateTime.Parse(DealsViewModel.enddate);
+                NoOfDaysLabel.Text = (enddate.Date - startdate.Date).ToString("dd");
+
+            //}
+            //else
+            //{
+            //    NoOfDaysLabel.Text ="30";
+            //}
+
         }
 
-        private void FourthPriceButton_TouchUpInside(object sender, EventArgs e)
-        {
-            if (FourthPriceButton.CurrentImage == UIImage.FromBundle("icon-checked-round"))
-            {
-                FourthPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }
-            else
-            {
-                FourthPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-            }
-        }
-
-        private void ThirdPriceButton_TouchUpInside(object sender, EventArgs e)
-        {
-            if (ThirdPriceButton.CurrentImage == UIImage.FromBundle("icon-checked-round"))
-            {
-                ThirdPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }
-            else
-            {
-                ThirdPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-            }
-        }
-
-        private void SecondPriceButton_TouchUpInside(object sender, EventArgs e)
-        {
-            if (SecondPriceButton.CurrentImage == UIImage.FromBundle("icon-checked-round"))
-            {
-                SecondPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }
-            else
-            {
-                SecondPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-            }
-        }
-
-        private void FirstPriceButton_TouchUpInside(object sender, EventArgs e)
-        {
-            if (FirstPriceButton.CurrentImage == UIImage.FromBundle("icon-checked-round"))
-            {
-                FirstPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }
-            else
-            {
-                FirstPriceButton.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-            }
-            
-        }
+ 
+       
        
     }
 }

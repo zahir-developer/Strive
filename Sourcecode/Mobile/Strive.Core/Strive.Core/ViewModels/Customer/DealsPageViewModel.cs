@@ -1,26 +1,55 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Strive.Core.Models.Customer;
 
 namespace Strive.Core.ViewModels.Customer
 {
     public class DealsPageViewModel:BaseViewModel
     {
+        public static int  dealId;
+        public static int clientID;
+        public static string Date;
+        public static ClientDeals clientDeal;
         public DealsPageViewModel()
         {
         }
         
-        public async void AddClientDeals()
+        public  async Task AddClientDeals()
         {
             var clientDeal = new AddClientDeal()
             {
-                dealId = 2,
-                clientId = 57398,
-                date = "2021-12-03"
+                dealId = dealId,
+                clientId = clientID,
+                date = Date
 
             };
 
             var data = await AdminService.AddClientDeal(clientDeal);
             Console.WriteLine(data);
+            if (data.Status)
+            {
+                if (dealId != 0)
+                {
+                    var result2 = await AdminService.GetClientDeal(CustomerInfo.ClientID, DateTime.Today.ToString("yyyy-MM-dd"),dealId);
+                    if (result2 != null)
+                    {
+                        DealsPageViewModel.clientDeal = result2;
+                        DealsViewModel.CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
+         
+                    }
+                }
+                //else
+                //{
+                //    var result = await AdminService.GetClientDeal(CustomerInfo.ClientID, DateTime.Today.ToString("yyyy-MM-dd"), DealsViewModel.SelectedDealId);
+                //    if (result != null)
+                //    {
+                //        DealsPageViewModel.clientDeal = result;
+ 
+                //        DealsViewModel.CouponName = result.ClientDeal.ClientDealDetail[0].DealName;
+                //    }
+                //}
+            }
+            return ;
         }
     }
 }

@@ -44,6 +44,7 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidAppear(bool animated)
         {
             InitialSetUp();
+            MaintainData.SetMapData(LocationNameLbl, locationValue_Lbl, phoneValue_Lbl, mailValue_Lbl, timeValue_Lbl);
             //setMaps();
         }
         private void InitialSetUp()

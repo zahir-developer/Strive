@@ -13,7 +13,7 @@ namespace StriveCustomer.iOS.Views
 	partial class DealsPageViewController
 	{
 		[Outlet]
-		UIKit.UILabel BounceBackCouponLabel { get; set; }
+		UIKit.UILabel CouponLabel { get; set; }
 
 		[Outlet]
 		UIKit.UILabel DaysRemainingLabel { get; set; }
@@ -98,9 +98,9 @@ namespace StriveCustomer.iOS.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (BounceBackCouponLabel != null) {
-				BounceBackCouponLabel.Dispose ();
-				BounceBackCouponLabel = null;
+			if (CouponLabel != null) {
+				CouponLabel.Dispose ();
+				CouponLabel = null;
 			}
 
 			if (DaysRemainingLabel != null) {
@@ -113,6 +113,11 @@ namespace StriveCustomer.iOS.Views
 				DealsLabel = null;
 			}
 
+			if (EighthProgressBarButton != null) {
+				EighthProgressBarButton.Dispose ();
+				EighthProgressBarButton = null;
+			}
+
 			if (FifthPriceButton != null) {
 				FifthPriceButton.Dispose ();
 				FifthPriceButton = null;
@@ -121,6 +126,11 @@ namespace StriveCustomer.iOS.Views
 			if (FifthPriceLabel != null) {
 				FifthPriceLabel.Dispose ();
 				FifthPriceLabel = null;
+			}
+
+			if (FifthProgressBarButton != null) {
+				FifthProgressBarButton.Dispose ();
+				FifthProgressBarButton = null;
 			}
 
 			if (FirstPriceButton != null) {
@@ -133,6 +143,11 @@ namespace StriveCustomer.iOS.Views
 				FirstPriceLabel = null;
 			}
 
+			if (FirstProgressBarButton != null) {
+				FirstProgressBarButton.Dispose ();
+				FirstProgressBarButton = null;
+			}
+
 			if (FourthPriceButton != null) {
 				FourthPriceButton.Dispose ();
 				FourthPriceButton = null;
@@ -143,9 +158,34 @@ namespace StriveCustomer.iOS.Views
 				FourthPriceLabel = null;
 			}
 
+			if (FourthProgressBarButton != null) {
+				FourthProgressBarButton.Dispose ();
+				FourthProgressBarButton = null;
+			}
+
+			if (NinthProgressBarButton != null) {
+				NinthProgressBarButton.Dispose ();
+				NinthProgressBarButton = null;
+			}
+
 			if (NoOfDaysLabel != null) {
 				NoOfDaysLabel.Dispose ();
 				NoOfDaysLabel = null;
+			}
+
+			if (PriceProgessBar != null) {
+				PriceProgessBar.Dispose ();
+				PriceProgessBar = null;
+			}
+
+			if (PriceStackView != null) {
+				PriceStackView.Dispose ();
+				PriceStackView = null;
+			}
+
+			if (PriceView != null) {
+				PriceView.Dispose ();
+				PriceView = null;
 			}
 
 			if (ScanQrCodeButton != null) {
@@ -163,6 +203,26 @@ namespace StriveCustomer.iOS.Views
 				SecondPriceLabel = null;
 			}
 
+			if (SecondProgressBarButton != null) {
+				SecondProgressBarButton.Dispose ();
+				SecondProgressBarButton = null;
+			}
+
+			if (SeventhProgressBarButton != null) {
+				SeventhProgressBarButton.Dispose ();
+				SeventhProgressBarButton = null;
+			}
+
+			if (SixthProgressBarButton != null) {
+				SixthProgressBarButton.Dispose ();
+				SixthProgressBarButton = null;
+			}
+
+			if (TenthProgressBarButton != null) {
+				TenthProgressBarButton.Dispose ();
+				TenthProgressBarButton = null;
+			}
+
 			if (ThirdPriceButton != null) {
 				ThirdPriceButton.Dispose ();
 				ThirdPriceButton = null;
@@ -173,69 +233,9 @@ namespace StriveCustomer.iOS.Views
 				ThirdPriceLabel = null;
 			}
 
-			if (PriceStackView != null) {
-				PriceStackView.Dispose ();
-				PriceStackView = null;
-			}
-
-			if (PriceView != null) {
-				PriceView.Dispose ();
-				PriceView = null;
-			}
-
-			if (PriceProgessBar != null) {
-				PriceProgessBar.Dispose ();
-				PriceProgessBar = null;
-			}
-
-			if (FirstProgressBarButton != null) {
-				FirstProgressBarButton.Dispose ();
-				FirstProgressBarButton = null;
-			}
-
-			if (SecondProgressBarButton != null) {
-				SecondProgressBarButton.Dispose ();
-				SecondProgressBarButton = null;
-			}
-
 			if (ThirdProgressBarButton != null) {
 				ThirdProgressBarButton.Dispose ();
 				ThirdProgressBarButton = null;
-			}
-
-			if (FourthProgressBarButton != null) {
-				FourthProgressBarButton.Dispose ();
-				FourthProgressBarButton = null;
-			}
-
-			if (FifthProgressBarButton != null) {
-				FifthProgressBarButton.Dispose ();
-				FifthProgressBarButton = null;
-			}
-
-			if (SixthProgressBarButton != null) {
-				SixthProgressBarButton.Dispose ();
-				SixthProgressBarButton = null;
-			}
-
-			if (SeventhProgressBarButton != null) {
-				SeventhProgressBarButton.Dispose ();
-				SeventhProgressBarButton = null;
-			}
-
-			if (EighthProgressBarButton != null) {
-				EighthProgressBarButton.Dispose ();
-				EighthProgressBarButton = null;
-			}
-
-			if (NinthProgressBarButton != null) {
-				NinthProgressBarButton.Dispose ();
-				NinthProgressBarButton = null;
-			}
-
-			if (TenthProgressBarButton != null) {
-				TenthProgressBarButton.Dispose ();
-				TenthProgressBarButton = null;
 			}
 		}
 	}
