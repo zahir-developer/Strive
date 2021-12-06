@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.AdSetup;
 using Strive.BusinessLogic.DealSetup;
 using Strive.Common;
 using System;
@@ -40,5 +41,14 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("Update")]
         public Result UpdateToggledeal(bool status) => _bplManager.UpdateToggledeal(status);
+
+        [HttpPost]
+        [Route("AddClientDeal")]
+        public Result AddClientDetail([FromBody] ClientDealDto addClientDeal) => _bplManager.AddClientDeal(addClientDeal);
+
+
+        [HttpGet]
+        [Route("GetClientDeal")]
+        public Result GetClientDeal(ClientDealDto clientDeal) => _bplManager.GetClientDeal(clientDeal);
     }
 }

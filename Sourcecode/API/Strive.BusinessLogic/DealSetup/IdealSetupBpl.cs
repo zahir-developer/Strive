@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.AdSetup;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,7 @@ namespace Strive.BusinessLogic.DealSetup
         Result AddDealSetup(Deals dealSetup);
         Result GetAllDeals();
         Result UpdateToggledeal(bool status);
+        Result AddClientDeal(ClientDealDto addClientDeal);
+        Result GetClientDeal(ClientDealDto addClientDeal);
     }
 }

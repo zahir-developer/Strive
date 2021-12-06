@@ -367,7 +367,9 @@ namespace Strive.BusinessEntities
         {
             USPGETALLADSETUP,
             USPGETADSETUPBYID,
-            USPDELETEADSETUP
+            USPDELETEADSETUP,
+            USPADDCLIENTDEAL,
+            USPGETCLIENTDEAL
         }
 
         public enum Job
