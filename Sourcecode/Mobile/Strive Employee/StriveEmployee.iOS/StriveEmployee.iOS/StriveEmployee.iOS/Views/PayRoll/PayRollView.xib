@@ -300,7 +300,7 @@
                                 <constraint firstAttribute="height" constant="27" id="tpc-jK-otX"/>
                             </constraints>
                         </datePicker>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="locationTextField" borderStyle="line" placeholder="Select Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CLi-PS-0RE">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Select Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CLi-PS-0RE">
                             <rect key="frame" x="87" y="141" width="252" height="26.666666666666657"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>

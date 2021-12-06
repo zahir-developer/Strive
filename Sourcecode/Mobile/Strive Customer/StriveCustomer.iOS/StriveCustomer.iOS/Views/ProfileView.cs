@@ -123,20 +123,20 @@ namespace StriveCustomer.iOS.Views
 
                 GetVehicleList();
             }
-            else if (index == 2)
-            {
-                PersonalInfo_Segment.Hidden = true;
-                PastDetail_Segment.Hidden = false;
-                VehicleList_Segment.Hidden = true;
+            //else if (index == 2)
+            //{
+            //    PersonalInfo_Segment.Hidden = true;
+            //    PastDetail_Segment.Hidden = false;
+            //    VehicleList_Segment.Hidden = true;
 
-                PastDetailTableView.RegisterNibForCellReuse(PastDetailViewCell.Nib, PastDetailViewCell.Key);
-                PastDetailTableView.BackgroundColor = UIColor.Clear;
-                PastDetailTableView.ReloadData();
-                if (pastClientServices.PastClientDetails.Count == 0)
-                {
-                    getPastDetails();
-                }
-            }
+            //    PastDetailTableView.RegisterNibForCellReuse(PastDetailViewCell.Nib, PastDetailViewCell.Key);
+            //    PastDetailTableView.BackgroundColor = UIColor.Clear;
+            //    PastDetailTableView.ReloadData();
+            //    if (pastClientServices.PastClientDetails.Count == 0)
+            //    {
+            //        getPastDetails();
+            //    }
+            //}
         }
 
         private async void getPersonalInfo()
@@ -161,66 +161,66 @@ namespace StriveCustomer.iOS.Views
             }
         }
 
-        private async void getPastDetails()
-        {
-            totalCost = 0;
-            int previousID = 0;
-            string previousVehicle;
-            var result = await this.pastViewModel.GetPastDetailsServices();
-            PastDetailsCompleteDetails.pastClientServices = result;
-            if (result != null && result.PastClientDetails.Count != 0)
-            {
-                var count = 0;
-                previousID = result.PastClientDetails[0].VehicleId;
-                previousDates = result.PastClientDetails[0].DetailVisitDate;
-                previousVehicle = result.PastClientDetails[0].Color + " " + result.PastClientDetails[0].Make + " " + result.PastClientDetails[0].Model;
-                foreach (var data in result.PastClientDetails)
-                {
-                    if (String.Equals(data.DetailOrAdditionalService, "Details") && string.Equals(data.DetailVisitDate, previousDates))
-                    {
-                        CustomerInfo.pastClientServices.PastClientDetails.Add(data);
-                        totalCost = totalCost + float.Parse(data.Cost);
-                    }
-                    else if (String.Equals(data.DetailOrAdditionalService, "Additional Services") && string.Equals(data.DetailVisitDate, previousDates))
-                    {
-                        CustomerInfo.pastClientServices.PastClientDetails.Add(data);
-                        totalCost = totalCost + float.Parse(data.Cost);
+        //private async void getPastDetails()
+        //{
+        //    totalCost = 0;
+        //    int previousID = 0;
+        //    string previousVehicle;
+        //    var result = await this.pastViewModel.GetPastDetailsServices();
+        //    PastDetailsCompleteDetails.pastClientServices = result;
+        //    if (result != null && result.PastClientDetails.Count != 0)
+        //    {
+        //        var count = 0;
+        //        previousID = result.PastClientDetails[0].VehicleId;
+        //        previousDates = result.PastClientDetails[0].DetailVisitDate;
+        //        previousVehicle = result.PastClientDetails[0].Color + " " + result.PastClientDetails[0].Make + " " + result.PastClientDetails[0].Model;
+        //        foreach (var data in result.PastClientDetails)
+        //        {
+        //            if (String.Equals(data.DetailOrAdditionalService, "Details") && string.Equals(data.DetailVisitDate, previousDates))
+        //            {
+        //                CustomerInfo.pastClientServices.PastClientDetails.Add(data);
+        //                totalCost = totalCost + float.Parse(data.Cost);
+        //            }
+        //            else if (String.Equals(data.DetailOrAdditionalService, "Additional Services") && string.Equals(data.DetailVisitDate, previousDates))
+        //            {
+        //                CustomerInfo.pastClientServices.PastClientDetails.Add(data);
+        //                totalCost = totalCost + float.Parse(data.Cost);
 
-                    }
-                    else if (String.Equals(data.DetailOrAdditionalService, "Details") && !string.Equals(data.DetailVisitDate, previousDates))
-                    {
-                        CustomerInfo.TotalCost.Add(totalCost);
-                        totalCost = 0;
-                        CustomerInfo.pastClientServices.PastClientDetails.Add(data);
-                        totalCost = totalCost + float.Parse(data.Cost);
-                    }
-                    count++;
-                    if (count == result.PastClientDetails.Count)
-                    {
-                        CustomerInfo.TotalCost.Add(totalCost);
-                        totalCost = 0;
-                    }
-                    previousID = data.VehicleId;
-                    previousDates = data.DetailVisitDate;
-                }
-                var counts = 0;
-                foreach (var data in CustomerInfo.pastClientServices.PastClientDetails)
-                {
-                    if (data.VehicleId != previousID || counts == 0)
-                    {
-                        pastClientServices.PastClientDetails.Add(data);
-                        previousID = data.VehicleId;
-                    }
-                    counts++;
-                }
+        //            }
+        //            else if (String.Equals(data.DetailOrAdditionalService, "Details") && !string.Equals(data.DetailVisitDate, previousDates))
+        //            {
+        //                CustomerInfo.TotalCost.Add(totalCost);
+        //                totalCost = 0;
+        //                CustomerInfo.pastClientServices.PastClientDetails.Add(data);
+        //                totalCost = totalCost + float.Parse(data.Cost);
+        //            }
+        //            count++;
+        //            if (count == result.PastClientDetails.Count)
+        //            {
+        //                CustomerInfo.TotalCost.Add(totalCost);
+        //                totalCost = 0;
+        //            }
+        //            previousID = data.VehicleId;
+        //            previousDates = data.DetailVisitDate;
+        //        }
+        //        var counts = 0;
+        //        foreach (var data in CustomerInfo.pastClientServices.PastClientDetails)
+        //        {
+        //            if (data.VehicleId != previousID || counts == 0)
+        //            {
+        //                pastClientServices.PastClientDetails.Add(data);
+        //                previousID = data.VehicleId;
+        //            }
+        //            counts++;
+        //        }
 
-                var PastDetailTableSource = new PastDetailTableSource(this, pastClientServices);
-                PastDetailTableView.Source = PastDetailTableSource;
-                PastDetailTableView.TableFooterView = new UIView(CGRect.Empty);
-                PastDetailTableView.DelaysContentTouches = false;
-                PastDetailTableView.ReloadData();
-            }
-        }
+        //        var PastDetailTableSource = new PastDetailTableSource(this, pastClientServices);
+        //        PastDetailTableView.Source = PastDetailTableSource;
+        //        PastDetailTableView.TableFooterView = new UIView(CGRect.Empty);
+        //        PastDetailTableView.DelaysContentTouches = false;
+        //        PastDetailTableView.ReloadData();
+        //    }
+        //}
 
         partial void EditProfile_Touch(UIButton sender)
         {

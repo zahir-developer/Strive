@@ -63,8 +63,8 @@ namespace StriveCustomer.iOS.Views
         }
         public void deselectRowForInitialCellUpdate(NSIndexPath indexPath)
         {
-                       
-             selectedMembershipButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+             if(selectedMembershipButton != null)          
+                selectedMembershipButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     
         }
         //Cell for Upcharges

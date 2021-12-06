@@ -112,12 +112,12 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     isDeleted = false
                 });
             }
-            if(ExtraServiceList.Count == 0)
-            {
-                _userDialog.AlertAsync("Select a service to proceed further");
-            }
-            else
-            {
+            //if(ExtraServiceList.Count == 0)
+            //{
+            //    _userDialog.AlertAsync("Select a service to proceed further");
+            //}
+            //else
+            //{
                 foreach (var service in ExtraServiceList)
                 {
                     MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
@@ -131,7 +131,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     });
                 }
                 _navigationService.Navigate<TermsViewModel>();
-            }           
+            //}           
         }
     }
 }

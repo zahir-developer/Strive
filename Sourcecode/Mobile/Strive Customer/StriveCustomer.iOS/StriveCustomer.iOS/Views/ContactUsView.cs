@@ -108,7 +108,7 @@ namespace StriveCustomer.iOS.Views
         {
             try
             {
-                 await Browser.OpenAsync(new Uri("https://www.facebook.com/"), BrowserLaunchMode.SystemPreferred);
+                 await Browser.OpenAsync(new Uri("https://www.facebook.com/MammothDetailSalon"), BrowserLaunchMode.SystemPreferred);
             }
             catch (Exception ex)
             {
@@ -119,7 +119,7 @@ namespace StriveCustomer.iOS.Views
         {
             try
             {
-                await Browser.OpenAsync(new Uri("https://www.instagram.com/accounts/login/"), BrowserLaunchMode.SystemPreferred);
+                await Browser.OpenAsync(new Uri("https://www.instagram.com/mammothdetailsalons/"), BrowserLaunchMode.SystemPreferred);
             }
             catch (Exception ex)
             {
@@ -131,7 +131,7 @@ namespace StriveCustomer.iOS.Views
         {
             try
             {
-                await Browser.OpenAsync(new Uri("https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZW4ifQ%3D%3D%22%7D"), BrowserLaunchMode.SystemPreferred);
+                await Browser.OpenAsync(new Uri("https://twitter.com/mammoth_detail"), BrowserLaunchMode.SystemPreferred);
             }
             catch (Exception ex)
             {
