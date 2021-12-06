@@ -83,14 +83,14 @@ export class ServiceCreateEditComponent implements OnInit {
    
          if (this.isEdit === true) {
            
-      this.serviceSetupForm.controls.upcharge.disable();
+      //this.serviceSetupForm.controls.upcharge.disable();
     }
     else{
       this.serviceSetupForm.patchValue({
         serviceCategory: this.codeCategory[0]
       }) 
     
-      this.serviceSetupForm.controls.upcharge.disable();
+      //this.serviceSetupForm.controls.upcharge.disable();
   
     }
   }
@@ -330,7 +330,7 @@ export class ServiceCreateEditComponent implements OnInit {
       if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
         type === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge || type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.isUpcharge = true;
-        this.categoryName();
+        //this.categoryName();
         this.isCommission = true;
       } else {
         this.isUpcharge = false;
