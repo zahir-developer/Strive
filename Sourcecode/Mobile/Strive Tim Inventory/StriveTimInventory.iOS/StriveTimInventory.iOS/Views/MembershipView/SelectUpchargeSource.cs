@@ -25,6 +25,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         {
             tableView.RegisterNibForCellReuse(ClientTableViewCell.Nib, CellId);
             this.ViewModel = ViewModel;
+            
         }
 
         public override IEnumerable ItemsSource
@@ -32,9 +33,13 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             get => base.ItemsSource;
             set
             {
+               
                 if (value != null)
                 {
+                    
                     ItemList = (ObservableCollection<string>)value;
+                    ItemList.Insert(0, "None");
+
                 }
                 else
                 {
@@ -58,6 +63,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
+           // ItemList.Add("None");
             return ItemList.Count();
         }
 
@@ -69,32 +75,32 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             return cell;
         }
 
-        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {
+        //public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        //{
 
-            var cell = (ClientTableViewCell)tableView.CellAt(indexPath);
-            if (firstselected == null)
-            {
-                firstselected = cell;
-                firstselected.SelectMembershipcell();
-            }
-            else
-            {
-                secondselected = cell;
-                if (firstselected == secondselected)
-                {
-                    firstselected.DeSelectMembershipcell();
-                    firstselected = secondselected = null;
-                }
-                else
-                {
-                    firstselected.DeSelectMembershipcell();
-                    secondselected.SelectMembershipcell();
-                    firstselected = secondselected;
-                    secondselected = null;
-                }
-            }
-        }
+        //    var cell = (ClientTableViewCell)tableView.CellAt(indexPath);
+        //    if (firstselected == null)
+        //    {
+        //        firstselected = cell;
+        //        firstselected.SelectMembershipcell();
+        //    }
+        //    else
+        //    {
+        //        secondselected = cell;
+        //        if (firstselected == secondselected)
+        //        {
+        //            firstselected.DeSelectMembershipcell();
+        //            firstselected = secondselected = null;
+        //        }
+        //        else
+        //        {
+        //            firstselected.DeSelectMembershipcell();
+        //            secondselected.SelectMembershipcell();
+        //            firstselected = secondselected;
+        //            secondselected = null;
+        //        }
+        //    }
+        //}
 
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)

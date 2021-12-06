@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Foundation;
+using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils.TimInventory;
@@ -67,8 +69,42 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         public void SetUpchargeList(string item)
         {
             ItemTitle.Text = item;
-            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+           // ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+            if (MembershipDetails.modelUpcharge == null)
+            {
+                
+            }
+            else
+            {
+                if (MembershipDetails.modelUpcharge.upcharge.Count == 0)
+                {
+                    if ("None" == item)
+                    {
+                        ItemIcon.Image = UIImage.FromBundle("icon-checked");
+                        MembershipDetails.isNoneSelected = true;
+                    }
+                    else
+                    {
+                        ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+                    }
+                }
+                else
+                {
+
+                    if (item == MembershipDetails.modelUpcharge.upcharge[0].Upcharges)
+                    {
+                        ItemIcon.Image = UIImage.FromBundle("icon-checked");
+                        MembershipDetails.isNoneSelected = true;
+                    }
+                    else
+                    {
+                        ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+                    }
+                }
+            }
+
         }
+        
 
         public void SetExtraServiceList(AllServiceDetail item,ObservableCollection<AllServiceDetail> list, ObservableCollection<AllServiceDetail> GrayedList, ClientTableViewCell cell)
         {

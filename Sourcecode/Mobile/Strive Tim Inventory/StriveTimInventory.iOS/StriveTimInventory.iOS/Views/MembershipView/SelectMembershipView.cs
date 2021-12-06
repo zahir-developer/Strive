@@ -32,6 +32,9 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             MembershipTableView.TableFooterView = new UIView(CGRect.Empty);
             MembershipTableView.DelaysContentTouches = false;
             MembershipTableView.ReloadData();
+
+            ViewModel.getMembershipDetails();
+
         }
 
         public override void DidReceiveMemoryWarning()

@@ -8,6 +8,8 @@ using Strive.Core.Resources;
 using Strive.Core.Utils;
 using MvvmCross.Plugin.Messenger;
 using System.Linq;
+using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Models.Customer;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
@@ -55,6 +57,29 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                 }
             }
             await RaiseAllPropertiesChanged();
+        }
+        public async Task getMembershipDetails()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var result = await AdminService.GetCommonCodes("SERVICETYPE");
+            var washId = result.Codes.Find(x => x.CodeValue == "Wash-Upcharge");
+            var upchargeRequest = new modelUpcharge()
+            {
+                upchargeServiceType = washId.CodeId,
+                modelId = MembershipData.SelectedVehicle.VehicleModelId
+            };
+
+           var modelUpcharge = new modelUpchargeResponse();
+            modelUpcharge = await AdminService.GetModelUpcharge(upchargeRequest);
+            MembershipDetails.modelUpcharge = modelUpcharge;
+
+            //membershipList = new MembershipServiceList();
+            //membershipList = await AdminService.GetMembershipServiceList();
+            //if (membershipList == null)
+            //{
+
+            //}
+            _userDialog.HideLoading();
         }
 
         public void NextCommand()
