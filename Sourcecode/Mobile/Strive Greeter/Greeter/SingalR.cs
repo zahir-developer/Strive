@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Foundation;
 using Greeter.Common;
+using Greeter.DTOs;
 using Greeter.Modules.Message;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace Greeter
     {
         public static HubConnection hubConnection;
 
-        public static async Task StartConnection(string empId = null, string connectionId = null)
+        public static async Task StartConnection(long empId = -1, string connectionId = null)
         {
             if (hubConnection == null)
             {
@@ -24,14 +25,14 @@ namespace Greeter
                 await hubConnection?.StartAsync();
                 Debug.WriteLine("hubConnection.ConnectionId : " + hubConnection.ConnectionId);
                 await SendEmployeeCommunicationId(empId.ToString(), hubConnection.ConnectionId);
-                //await SubscribeChatEvent();
-                //var communicationData = new ChatCommunication()
-                //{
-                //    communicationId = ConnectionID,
-                //    employeeId = EmployeeTempData.EmployeeID
-                //};
+                await SubscribeChatEvent();
+                var communicationData = new ChatCommunication()
+                {
+                    CommunicationID = hubConnection.ConnectionId,
+                    EmpID = empId
+                };
 
-                //await MessengerService.ChatCommunication(communicationData);
+                var response = await SingleTon.MessageApiService.ChatCommunication(communicationData);
             }
 
             hubConnection.Closed += async (arg) => await ConnectHubAndSubscribeForEvents();

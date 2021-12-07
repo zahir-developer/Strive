@@ -1595,4 +1595,13 @@ namespace Greeter.DTOs
         [JsonProperty("body")]
         public string BodyHtml;
     }
+
+    public class ChatCommunication
+    {
+        [JsonProperty("employeeId")]
+        public long EmpID  { get; set; }
+
+        [JsonProperty("communicationId")]
+        public string CommunicationID { get; set; }
+    }
 }

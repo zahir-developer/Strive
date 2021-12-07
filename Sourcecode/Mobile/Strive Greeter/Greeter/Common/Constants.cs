@@ -105,6 +105,7 @@ namespace Greeter.Common
         internal const string REMOVE_USER_FROM_GROUP = "/Admin/Messenger/DeleteChatGroupUser/";
         internal const string CHAT_MESSAGES = "/Admin/Messenger/GetChatMessage";
         internal const string SEND_MESSAGE = "/Admin/Messenger/SendChatMessage";
+        internal const string CHAT_COMMUNICATION = "/Admin/Messenger/ChatCommunication";
         //internal const string GET_DETAIL_SERVICES = "/Admin/Details/GetAllDetails";
         internal const string GET_LOCATION_WASH_TIME = "/Admin/Washes/GetAllLocationWashTime/";
         internal const string LAST_VISIT_SERVICE = "/Admin/Washes/GetLastServiceVisit";

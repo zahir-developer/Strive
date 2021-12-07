@@ -16,6 +16,7 @@ namespace Greeter.Services.Api
         Task<RemoveUserFromGroupResponse> RemoveUserFromGroup(long groupUserId);
         Task<GroupUsersResponse> GetGroupUsers(long groupId);
         Task<SendMessageResponse> SendMesasge(SendChatMessageReq req);
+        Task<BaseResponse> ChatCommunication(ChatCommunication req);
     }
 
     public class MessageApiService : IMessageApiService
@@ -70,6 +71,11 @@ namespace Greeter.Services.Api
         public Task<SendMessageResponse> SendMesasge(SendChatMessageReq req)
         {
             return apiService.DoApiCall<SendMessageResponse>(Urls.SEND_MESSAGE, HttpMethod.Post, null, req);
+        }
+
+        public Task<BaseResponse> ChatCommunication(ChatCommunication req)
+        {
+            return apiService.DoApiCall<BaseResponse>(Urls.CHAT_COMMUNICATION, HttpMethod.Post, null, req);
         }
     }
 }
