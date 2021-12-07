@@ -163,7 +163,7 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_DASHBOARD_STATISTICS = "/Admin/Dashboard/GetDashboardStatistics";
 
-        public const string URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT = "/Admin/Vehicle/GetMembershipDiscountStatus/{0}";
+        public const string URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT = "/Admin/Vehicle/GetMembershipDiscountStatus";
 
         public const string URL_GET_TERMS_AND_CONDITIONS = "/Admin/Document/GetDocument/";
 

@@ -226,15 +226,18 @@ namespace StriveCustomer.iOS.Views
                     DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
                     DealsPageViewModel.clientID = CustomerInfo.ClientID;
                     DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
-                    _userDialog.Loading();
+                    //_userDialog.Loading();
 
                     await ViewModel.AddClientDeals();
                     ValidateDeals();
                     CouponValidity();
 
-                    _userDialog.HideLoading();
+                    //_userDialog.HideLoading();
                 }
-                
+                else
+                {
+                    _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
+                }
             }
             else
             {

@@ -151,7 +151,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId);
 
-        Task<VehicleDiscountDetail> GetVehicleDiscountDetail(int ClientId);
+        Task<VehicleDiscountDetail> GetVehicleDiscountDetail(int ClientId, int VehicleId);
 
         Task<PayRollRateViewModel> GetPayRollStatus(string StartDate, String EndDate, int EmpId, int LocationId);
 

@@ -411,10 +411,10 @@ namespace Strive.Core.Services.Implementations
         }
 
 
-        public async Task<VehicleDiscountDetail> GetVehicleDiscountDetail(int Id)
+        public async Task<VehicleDiscountDetail> GetVehicleDiscountDetail(int ClientId,int VehicleID)
         {
 
-            return await _restClient.MakeApiCall<VehicleDiscountDetail>(string.Format(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT, Id), HttpMethod.Get, Id);
+            return await _restClient.MakeApiCall<VehicleDiscountDetail>(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT+ "/" + ClientId + "/" + VehicleID, HttpMethod.Get);
 
         }
         public async Task<PayRollRateViewModel> GetPayRollStatus(string StartDate, string EndDate, int EmpId, int LocationId)

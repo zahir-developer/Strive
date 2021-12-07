@@ -27,7 +27,7 @@ namespace Strive.Core.ViewModels.Customer
 
         private void SetVehicleInformation()
         {
-            PreviousMembership(CustomerInfo.ClientID);
+            PreviousMembership(CustomerInfo.ClientID, MembershipDetails.clientVehicleID);
             MembershipDetails.customerVehicleDetails = new ClientVehicleRoot();
             MembershipDetails.customerVehicleDetails.clientVehicle = new ClientVehicle();
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle = new ClientVehicleDetail();
@@ -66,9 +66,9 @@ namespace Strive.Core.ViewModels.Customer
             }
             _userDialog.HideLoading();
         }
-        public async Task<bool> PreviousMembership(int id)
+        public async Task<bool> PreviousMembership(int ClientId, int VehicleId)
         {
-            var result = await AdminService.GetVehicleDiscountDetail(id);
+            var result = await AdminService.GetVehicleDiscountDetail(ClientId, VehicleId);
             if (result.Status == "true")
             {
                 isDiscoutAvailable = true;
