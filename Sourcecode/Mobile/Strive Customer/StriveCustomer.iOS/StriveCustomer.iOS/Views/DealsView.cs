@@ -59,6 +59,7 @@ namespace StriveCustomer.iOS.Views
             VehiclesTableView.ReloadData();
 
             ScanButton.TouchUpInside += ScanButton_TouchUpInside;
+            ScanButton.Hidden = true;
         }
 
         private async void ScanButton_TouchUpInside(object sender, EventArgs e)

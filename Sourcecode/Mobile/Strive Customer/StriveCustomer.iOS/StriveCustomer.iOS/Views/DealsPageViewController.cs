@@ -221,14 +221,18 @@ namespace StriveCustomer.iOS.Views
             if (result != null)
             {
                 Console.WriteLine("Scanned Barcode: " + result.Text);
-
-                _userDialog.Alert("Your coupon code is : " + result.Text);
-                if (result.Text == DealsViewModel.CouponName)
+                if (DealsViewModel.CouponName.ToUpper().Replace(" ", "").Contains(result.Text.ToUpper().Replace(" ", "")))
                 {
                     DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
                     DealsPageViewModel.clientID = CustomerInfo.ClientID;
                     DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+                    _userDialog.Loading();
+
                     await ViewModel.AddClientDeals();
+                    ValidateDeals();
+                    CouponValidity();
+
+                    _userDialog.HideLoading();
                 }
                 
             }
@@ -236,8 +240,7 @@ namespace StriveCustomer.iOS.Views
             {
                 _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
             }
-            ValidateDeals();
-            CouponValidity();
+            
             //if (result.Text == "Buy 10, Get next FREE")
             //{
             //    ViewModel.AddClientDeals();
