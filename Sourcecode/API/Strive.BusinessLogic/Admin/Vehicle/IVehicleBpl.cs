@@ -25,7 +25,7 @@ namespace Strive.BusinessLogic.Vehicle
         Result GetAllVehicleThumbnail(int vehicleId);
         Result GetVehicleImageById(int vehicleImageId);
         Result DeleteVehicleImage(int vehicleImageId);
-        Result GetMembershipDiscountStatus(int clientId);
+        Result GetMembershipDiscountStatus(int clientId, int vehicleId);
 
     }
 }

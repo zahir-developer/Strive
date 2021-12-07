@@ -122,18 +122,16 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENTVEHICLEIMAGE.ToString(), _prm);
             return true;
         }
-        public bool GetMembershipDiscountStatus(int clientId)
+
+        public bool GetMembershipDiscountStatus(int clientId, int vehicleId)
         {
-            _prm.Add("ClientId", clientId);            
+            _prm.Add("ClientId", clientId);
+            _prm.Add("VehicleId", vehicleId);
             var result = db.FetchSingle<MembershipDiscountViewModel>(SPEnum.USPGETMEMBERSHIPDISCOUNT.ToString(), _prm);
             if(result.IsDiscount == true)
-            {
                 return true;
-            }
             else
-            {
                 return false;
-            }
            
         }
 
