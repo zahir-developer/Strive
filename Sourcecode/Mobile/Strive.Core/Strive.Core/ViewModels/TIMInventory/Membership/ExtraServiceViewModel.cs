@@ -94,6 +94,10 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         {
             MembershipData.ExtraServices = new List<ClientVehicleMembershipService>();
 
+            var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
+
+            string[] selectedServices = SelectedMembership.Services.Split(",");
+
             int ClientMembership = 0;
             if(MembershipData.MembershipDetailView != null)
             {
@@ -109,28 +113,31 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     serviceId = service.ServiceId,
                     serviceTypeId = 0,
                     isActive = true,
-                    isDeleted = false
-                });
+                    isDeleted = false,
+                    
+                }); 
             }
+
             //if(ExtraServiceList.Count == 0)
             //{
             //    _userDialog.AlertAsync("Select a service to proceed further");
             //}
             //else
             //{
-                foreach (var service in ExtraServiceList)
+            foreach (var service in ExtraServiceList)
+            {
+                MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
                 {
-                    MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
-                    {
-                        clientVehicleMembershipServiceId = 0,
-                        clientMembershipId = ClientMembership,
-                        serviceId = service.ServiceId,
-                        serviceTypeId = 0,
-                        isActive = true,
-                        isDeleted = false
-                    });
-                }
-                _navigationService.Navigate<TermsViewModel>();
+                    clientVehicleMembershipServiceId = 0,
+                    clientMembershipId = ClientMembership,
+                    serviceId = service.ServiceId,
+                    serviceTypeId = 0,
+                    isActive = true,
+                    isDeleted = false,
+                    services = selectedServices.Count() > 0 ? selectedServices.Last() : ""
+                });
+            }
+            _navigationService.Navigate<TermsViewModel>();
             //}           
         }
     }

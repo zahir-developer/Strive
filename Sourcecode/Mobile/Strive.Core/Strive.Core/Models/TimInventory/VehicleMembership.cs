@@ -61,6 +61,7 @@ namespace Strive.Core.Models.TimInventory
         public string createdDate { get; set; }
         public int updatedBy { get; set; }
         public string updatedDate { get; set; }
+        public string services { get; set; }
     }
 
     public class ClientVehicleMembershipModel
