@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
+using Xamarin.Essentials;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -15,6 +15,9 @@ using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
 using Environment = System.Environment;
+using StriveEmployee.Android.Views;
+using Java.Util.Zip;
+using Android.Support.V7.App;
 
 namespace StriveEmployee.Android.Adapter.MyProfile.Documents
 {
@@ -67,6 +70,8 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
         {
             this.context = context;
             this.employeeDocuments = employeeDocuments;
+            
+            
         }
         public override int ItemCount
         {
@@ -94,6 +99,7 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
             View itemView = inflater.Inflate(Resource.Layout.DocumentsItemView, parent, false);
             return new DocumentsViewHolder(itemView);
         }
+        
         public async void OnClick(View itemView, int position, bool isLongClick)
         {
             if(ClickInfo.ClickAction == ClickInfo.DeleteClickAction)
@@ -105,7 +111,7 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
                     employeeDocuments.RemoveAt(position);
                     NotifyItemRemoved(position);
                     NotifyItemRangeChanged(position, employeeDocuments.Count);
-
+                    
                 }
 
             }
@@ -115,21 +121,10 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
                 MyProfileTempData.DocumentPassword = "string";
                 DocumentsViewModel docsViewModel = new DocumentsViewModel();
                 var fileBase64 = await docsViewModel.DownloadDocument(employeeDocuments[position].EmployeeDocumentId, "string");
+                Intent intent = new Intent(context, typeof(DocumentView));
+                MyProfileTempData.DocumentString = fileBase64.Document.Base64Url.ToString();
+                context.StartActivity(intent);
 
-                var backingFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "codex.txt"); //fileBase64.Document.FileName + "." + fileBase64.Document.FileType);
-
-                File.WriteAllBytes(backingFile,Convert.FromBase64String(fileBase64.Document.Base64Url.ToString()));
-
-                //fileBase64.Document.Base64Url.ToString()
-  
-
-                //string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                //string localFilename = "downloaded.jpg";
-                //string localPath = Path.Combine(documentsPath, localFilename);
-
-                //byte[] fileBytes = Convert.FromBase64String(fileBase64.Document.Base64Url);
-
-                //File.WriteAllBytes(localPath, fileBytes);
             }
             else
             {
@@ -144,5 +139,5 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
         public static int DownloadClickAction = 2;
         public static int ClickAction = -1;
     }
-
+   
 }

@@ -75,7 +75,7 @@ namespace StriveCustomer.Android.Fragments
 
             createdDate.Text = CreatedDate;
             cancelledDate.Text = DeletedDate;
-            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive)
+            if ((bool)CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive)
             {
                 status.Text = "Active";
             }

@@ -69,7 +69,7 @@ namespace StriveCustomer.Android.Adapter
         {
             recyclerViewHolder = holder as RecyclerViewHolder;
             recyclerViewHolder.dealsText.Text = dealsData[position].DealName;
-            recyclerViewHolder.dealsValidity.Text = "Validity: "+ dealsData[position].StartDate.ToShortDateString() +" to "+ dealsData[position].EndDate.ToShortDateString();
+            recyclerViewHolder.dealsValidity.Text = "Validity: "+ dealsData[position].StartDate.ToString() +" to "+ dealsData[position].EndDate.ToString();
             match = position;
             checkForSelected();
             recyclerViewHolder.SetItemClickListener(this);
