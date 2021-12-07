@@ -204,7 +204,7 @@ export class DetailScheduleComponent implements OnInit {
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
-    this.refreshDetailGrid();
+    //this.refreshDetailGrid();
   }
   
   refreshDetailGrid() {
