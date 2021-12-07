@@ -112,20 +112,19 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             DeSelectMembershipcell();
             cell.BackgroundColor = UIColor.White;
             cell.UserInteractionEnabled = true;
-            
+
+            var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
+            string[] selectedServices = SelectedMembership.Services.Split(",");
+
             if (MembershipData.MembershipDetailView != null)
             {
-                var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
-                
                 if (SelectedMembership != null)
                 {
-                    string[] selectedServices = SelectedMembership.Services.Split(",");
-
                     foreach (var itm in selectedServices)
                     {
                         string service = item.ServiceName.Replace(" ", "");
                         
-                        if (selectedServices.Any(x => x.Replace(" ", "") == service)) //(service.Equals(itm))
+                        if (selectedServices.Any(x => x.Replace(" ", "") == service)) 
                         {
                             cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                             cell.UserInteractionEnabled = false;
@@ -144,14 +143,24 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             }
             else
             {
-                if (list.Any(x => x.ServiceName.Replace(" ", "") == item.ServiceName.Replace(" ", "")))
+                foreach (var itm in selectedServices)
                 {
-                    SelectMembershipcell();
-                }
-                else
-                {
-                    DeSelectMembershipcell();
+                    string service = item.ServiceName.Replace(" ", "");
 
+                    if (selectedServices.Any(x => x.Replace(" ", "") == service))
+                    {
+                        cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                        cell.UserInteractionEnabled = false;
+                        SelectMembershipcell();
+                    }
+                    else if (list.Any(x => x.ServiceName.Replace(" ", "") == item.ServiceName.Replace(" ", "")))
+                    {
+                        SelectMembershipcell();
+                    }
+                    else
+                    {
+                        DeSelectMembershipcell();
+                    }
                 }
             }
 
