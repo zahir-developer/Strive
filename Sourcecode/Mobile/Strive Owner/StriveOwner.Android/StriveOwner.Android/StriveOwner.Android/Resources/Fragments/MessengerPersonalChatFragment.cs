@@ -25,6 +25,7 @@ using IList = System.Collections.IList;
 using System.Collections.ObjectModel;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using MvvmCross.ViewModels;
 
 namespace StriveOwner.Android.Fragments
 {
@@ -109,9 +110,9 @@ namespace StriveOwner.Android.Fragments
                     };
                     if(MessengerTempData.GroupUniqueID == lastMessage.groupId && EmployeeTempData.EmployeeID != message.SenderId)
                     {
-                        ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(message);
-                        messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
-                        chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                        ViewModel.ChatMessages.Add(message);
+                        messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
+                        chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count);
                     }
                    
                 }
@@ -148,9 +149,9 @@ namespace StriveOwner.Android.Fragments
                 };
                 if (MessengerTempData.RecipientID == message.SenderId || MessengerTempData.GroupID == message.ReceipientId)
                 {
-                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(message);
-                    messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
-                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count + 1);
+                    ViewModel.ChatMessages.Add(message);
+                    messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
+                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count + 1);
                 }
                 
             }
@@ -190,24 +191,24 @@ namespace StriveOwner.Android.Fragments
                     SenderId = EmployeeTempData.EmployeeID,
                     CreatedDate = DateTime.UtcNow
                 };
-                if (ViewModel.chatMessages == null)
+                if (ViewModel.ChatMessages == null)
                 {
-                    ViewModel.chatMessages = new PersonalChatMessages();
-                    ViewModel.chatMessages.ChatMessage = new ChatMessage();
-                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
-                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
-                    messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.chatMessages.ChatMessage.ChatMessageDetail);
+                    ViewModel.ChatMessages = new MvxObservableCollection<ChatMessageDetail>();
+                    //ViewModel.chatMessages.ChatMessage = new ChatMessage();
+                    //ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
+                    ViewModel.ChatMessages.Add(data);
+                    messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.ChatMessages);
 
                     var layoutManager = new LinearLayoutManager(Context);
                     chatMessage_RecyclerView.SetLayoutManager(layoutManager);
                     chatMessage_RecyclerView.SetAdapter(messengerChat_Adapter);
-                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count);
                 }
                 else
                 {
-                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
+                    ViewModel.ChatMessages.Add(data);
                 }
-                messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
                 this.ViewModel.Message = chatMessage_EditText.Text;
                 await this.ViewModel.SendMessage();
                 if (this.ViewModel.SentSuccess)
@@ -236,9 +237,9 @@ namespace StriveOwner.Android.Fragments
                 GroupId = MessengerTempData.GroupID
             };
             await this.ViewModel.GetAllMessages(chatData);
-            if(ViewModel.chatMessages != null )
+            if(ViewModel.ChatMessages != null )
             {
-                messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.chatMessages.ChatMessage.ChatMessageDetail);
+                messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.ChatMessages);
                 var layoutManager = new LinearLayoutManager(Context);
                 layoutManager.StackFromEnd = true;
                 chatMessage_RecyclerView.SetLayoutManager(layoutManager);

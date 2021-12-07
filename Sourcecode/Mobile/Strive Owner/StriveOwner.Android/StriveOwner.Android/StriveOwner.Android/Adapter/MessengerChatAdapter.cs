@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using MvvmCross.ViewModels;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Enums;
@@ -62,9 +63,9 @@ namespace StriveOwner.Android.Adapter
         private const int TYPE_RECIPIENT = 1;
         private SenderChatViewHolder sender_holder;
         private RecipientChatViewHolder recipient_holder;
-        private List<ChatMessageDetail> chatMessages = new List<ChatMessageDetail>();
+        private MvxObservableCollection<ChatMessageDetail> chatMessages = new MvxObservableCollection<ChatMessageDetail>();
         int adapterPosition;
-        public MessengerChatAdapter(Context context, List<ChatMessageDetail> chatMessages)
+        public MessengerChatAdapter(Context context, MvxObservableCollection<ChatMessageDetail> chatMessages)
         {
             this.context = context;
             this.chatMessages = chatMessages;
