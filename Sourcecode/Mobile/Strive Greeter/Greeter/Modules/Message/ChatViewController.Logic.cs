@@ -23,27 +23,53 @@ namespace Greeter.Modules.Message
             this.chatInfo = chatInfo;
             _ = GetChatsAsync();
 
-            //SingalR.StartConnection();
-            SendMsg();
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.private_message_received"), notify: (notification) => {
+                if (notification.UserInfo is null)
+                    return;
+
+                var chatMsgString = notification.UserInfo["chatMsg"] as NSString;
+                var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(chatMsgString);
+
+                InvokeOnMainThread(() => {
+                    MessageReceived(chatMsg);
+                });
+            });
+
+            _ = SingalR.StartConnection();
         }
 
-        void SendMsg()
+        //void SendMsg()
+        //{
+        //    SendChatMessage sendChatMessage = new SendChatMessage() {
+        //        chatMessageRecipient = new chatMessageRecipient() { chatRecipientId = 4321, senderId = 325626 },
+        //        firstName = "Karthik",
+        //        lastName = "Poornam",
+        //        chatMessage = new chatMessage() { messagebody = "Testing Update", createdDate = DateTime.Now },
+        //    };
+
+        //    var dict = new NSDictionary(new NSString("chatMsg"), new NSString(JsonConvert.SerializeObject(sendChatMessage)));
+
+        //    //var milliseconds = 15000;
+        //    //Thread.Sleep(milliseconds);
+
+        //    Task.Delay(new TimeSpan(0, 0, 5)).ContinueWith(o => {
+        //        NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), null, dict);
+        //    });
+        //}
+
+        void MessageReceived(SendChatMessage sendChatMessage)
         {
-            SendChatMessage sendChatMessage = new SendChatMessage() {
-                chatMessageRecipient = new chatMessageRecipient() { chatRecipientId = 4321, senderId = 325626 },
-                firstName = "Karthik",
-                lastName = "Poornam",
-                chatMessage = new chatMessage() { messagebody = "Testing Update", createdDate = DateTime.Now },
-            };
-
-            var dict = new NSDictionary(new NSString("chatMsg"), new NSString(JsonConvert.SerializeObject(sendChatMessage)));
-
-            //var milliseconds = 15000;
-            //Thread.Sleep(milliseconds);
-
-            Task.Delay(new TimeSpan(0, 0, 5)).ContinueWith(o => {
-                NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), null, dict);
-            });
+            if (sendChatMessage is not null)
+            {
+                var chatMessage = new ChatMessage();
+                chatMessage.ReceipientID = sendChatMessage.chatMessageRecipient.chatRecipientId;
+                chatMessage.SenderFirstName = sendChatMessage.firstName;
+                chatMessage.SenderLastName = sendChatMessage.lastName;
+                chatMessage.MessageBody = sendChatMessage.chatMessage.messagebody;
+                chatMessage.CreatedDate = sendChatMessage.chatMessage.createdDate;
+                Chats.Add(chatMessage);
+                ReloadChatTableView();
+            }
         }
 
         async Task GetChatsAsync()

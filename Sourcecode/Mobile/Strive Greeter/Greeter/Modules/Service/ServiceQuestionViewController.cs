@@ -440,12 +440,12 @@ namespace Greeter.Storyboards
         {
             if (!String.IsNullOrEmpty(barcode))
             {
-                btnTypeDropdown.Hidden = true;
                 btnMakeDropdown.Hidden = true;
+                //btnTypeDropdown.Hidden = true;
                 btnColorDropdown.Hidden = true;
 
                 tfMake.UserInteractionEnabled = false;
-                tfModel.UserInteractionEnabled = false;
+                //tfModel.UserInteractionEnabled = false;
                 tfColor.UserInteractionEnabled = false;
 
                 tfBarcode.Text = barcode;

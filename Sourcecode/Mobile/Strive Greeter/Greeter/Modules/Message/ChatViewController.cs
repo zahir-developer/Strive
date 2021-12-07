@@ -30,18 +30,6 @@ namespace Greeter.Modules.Message
             //Setup Delegate and DataSource
             chatTableView.WeakDelegate = this;
             chatTableView.WeakDataSource = this;
-
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.private_message_received"), notify: (notification) => {
-                if (notification.UserInfo is null)
-                    return;
-
-                var chatMsgString = notification.UserInfo["chatMsg"] as NSString;
-                var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(chatMsgString);
-
-                InvokeOnMainThread(()=> {
-                    MessageReceived(chatMsg);
-                });
-            });
         }
 
         void SetupView()
@@ -144,21 +132,6 @@ namespace Greeter.Modules.Message
         {
             UIKeyboard.Notifications.ObserveWillShow(OnKeyboardShow);
             UIKeyboard.Notifications.ObserveWillHide(OnKeyboardHide);
-        }
-
-        void MessageReceived(SendChatMessage sendChatMessage)
-        {
-            if (sendChatMessage is not null)
-            {
-                var chatMessage = new ChatMessage();
-                chatMessage.ReceipientID = sendChatMessage.chatMessageRecipient.chatRecipientId;
-                chatMessage.SenderFirstName = sendChatMessage.firstName;
-                chatMessage.SenderLastName = sendChatMessage.lastName;
-                chatMessage.MessageBody = sendChatMessage.chatMessage.messagebody;
-                chatMessage.CreatedDate = sendChatMessage.chatMessage.createdDate;
-                Chats.Add(chatMessage);
-                ReloadChatTableView();
-            }
         }
 
         void ReloadChatTableView(NSIndexPath[] indexPaths = null)

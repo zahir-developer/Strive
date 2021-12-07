@@ -379,8 +379,6 @@ namespace Greeter.Storyboards
 
                 var jobStatusResponse = await new GeneralApiService().GetGlobalData("JOBSTATUS");
 
-                long jobStatusId = jobStatusResponse.Codes.Where(x => x.Name.Equals("Waiting")).FirstOrDefault().ID;
-
                 if (jobId != 0)
                 {
                     var req = new CreateServiceRequest()
@@ -389,7 +387,6 @@ namespace Greeter.Storyboards
                         {
                             JobID = jobId,
                             TicketNumber = jobId,
-                            JobStatusID = jobStatusId,
                             JobTypeID = JobTypeID,
                             MakeID = MakeID,
                             ModelID = ModelID,
@@ -406,12 +403,15 @@ namespace Greeter.Storyboards
 
                     if (ServiceType == ServiceType.Wash)
                     {
+                        req.Job.JobStatusID = jobStatusResponse.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID;
                         req.Job.TimeIn = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
                         req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API); ;
                         createServiceResponse = await apiService.CreateService(req);
                     }
                     else // Detail
                     {
+                        req.Job.JobStatusID = jobStatusResponse.Codes.Where(x => x.Name.Equals("Waiting")).FirstOrDefault().ID;
+
                         var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationID = AppSettings.LocationID };
                         var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
 
@@ -421,7 +421,6 @@ namespace Greeter.Storyboards
 
                         var distinct = availableScheduleResponse.GetTimeInDetails.Distinct();
                         var datetime = DateTime.Now;
-
 #if DEBUG
                         datetime = new DateTime(2021, 11, 26, 5, 15, 0);
 

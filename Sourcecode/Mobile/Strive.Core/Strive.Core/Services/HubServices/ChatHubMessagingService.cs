@@ -218,6 +218,7 @@ namespace Strive.Core.Services.HubServices
             }
 
         }
+
         public static async void SendMessageToGroup(SendChatMessage groupInfo)
         {
             try

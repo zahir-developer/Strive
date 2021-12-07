@@ -156,7 +156,8 @@ namespace Greeter
             //txtFieldBarcode.Text = "231120211";
             //txtFieldBarcode.Text = "22112021";
             //txtFieldBarcode.Text = "05996829";
-            txtFieldBarcode.Text = "291120211";
+            //txtFieldBarcode.Text = "291120211";
+            txtFieldBarcode.Text = "73062069";
 
             // DEV Membership Barcode
             //txtFieldBarcode.Text = "19112021p";

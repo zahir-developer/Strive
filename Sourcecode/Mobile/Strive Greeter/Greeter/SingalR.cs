@@ -12,16 +12,16 @@ namespace Greeter
     {
         public static HubConnection hubConnection;
 
-        public static async Task StartConnection()
+        public static async Task StartConnection(string empId = null, string connectionId = null)
         {
             if (hubConnection == null)
             {
-                _ = ConnectHubAndSubscribeForEvents();
+                await ConnectHubAndSubscribeForEvents();
             }
             else if (hubConnection.State == HubConnectionState.Disconnected)
             {
                 await hubConnection?.StartAsync();
-                //await SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
+                //await SendEmployeeCommunicationId(empId.ToString(), connectionId);
                 //await SubscribeChatEvent();
                 //var communicationData = new ChatCommunication()
                 //{
@@ -35,18 +35,32 @@ namespace Greeter
             hubConnection.Closed += async (arg) => await ConnectHubAndSubscribeForEvents();
         }
 
-        static async Task ConnectToHub()
+        public static async Task SendEmployeeCommunicationId(string empID, string commID)
+        {
+            try
+            {
+                await hubConnection.InvokeAsync("SendEmployeeCommunicationId", empID, commID);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        static async Task<HubConnection> ConnectToHub()
         {
             var hubConnection = new HubConnectionBuilder()
                 .WithUrl(Urls.BASE_URL + "/chatMessageHub")
                 .Build();
 
             await hubConnection.StartAsync();
+            return hubConnection;
         }
 
         static async Task ConnectHubAndSubscribeForEvents()
         {
-            await ConnectToHub();
+            hubConnection = await ConnectToHub();
             await SubscribeChatEvent();
         }
 
@@ -79,8 +93,9 @@ namespace Greeter
                 try
                 {
                     //PrivateMessageList.Add(datas);
-                    var dict = new NSDictionary(new NSString("chatMsg"), new NSString(data.ToString()));
-                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), dict);
+                    //var dict = new NSDictionary(new NSString("chatMsg"), new NSString(data.ToString()));
+                    var dict = new NSDictionary(new NSString("chatMsg"), new NSString(JsonConvert.SerializeObject(data.ToString())));
+                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), null, dict);
                 }
                 catch (Exception ex)
                 {
