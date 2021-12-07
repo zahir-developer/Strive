@@ -257,9 +257,9 @@ export class VehicleCreateEditComponent implements OnInit {
         }
         else {
           var clientId = vehicle.VehicleMembershipDetails?.ClientVehicle?.ClientId;
-
+          var vehicleId = vehicle.VehicleMembershipDetails?.ClientVehicle?.VehicleId;
           if (clientId !== null || clientId !== undefined) {
-            this.getMembershipDiscount(clientId);
+            this.getMembershipDiscount(clientId, vehicleId);
           }
         }
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
@@ -437,8 +437,8 @@ export class VehicleCreateEditComponent implements OnInit {
     }
   }
 
-  getMembershipDiscount(clientId) {
-    this.vehicle.GetMembershipDiscountStatus(clientId).subscribe(res => {
+  getMembershipDiscount(clientId, vehicleId) {
+    this.vehicle.GetMembershipDiscountStatus(clientId, vehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const discount = JSON.parse(res.resultData);
         this.MembershipDiscount += discount.Status;
