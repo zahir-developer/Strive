@@ -31,7 +31,7 @@ namespace Strive.Core.ViewModels.Customer
                 if (dealId != 0)
                 {
                     var result2 = await AdminService.GetClientDeal(CustomerInfo.ClientID, DateTime.Today.ToString("yyyy-MM-dd"),dealId);
-                    if (result2 != null)
+                    if (result2.ClientDeal.ClientDealDetail != null)
                     {
                         DealsPageViewModel.clientDeal = result2;
                         DealsViewModel.CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;

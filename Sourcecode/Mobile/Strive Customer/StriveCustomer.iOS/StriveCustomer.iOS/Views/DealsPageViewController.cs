@@ -53,24 +53,27 @@ namespace StriveCustomer.iOS.Views
             FirstPriceLabel.Text = "$0";
             SecondPriceLabel.Text = "$5";
             ThirdPriceLabel.Text = "$5";
-
             FourthPriceLabel.Text = "$10";
             FifthPriceLabel.Text = "$15";
             ScanQrCodeButton.TouchUpInside += ScanQrCodeButton_TouchUpInsideAsync;
-            PriceProgessBar.SetProgress(0.1f,false);
             //PriceView.Hidden = true;
             CouponValidity();
             //PriceStackView.Hidden = true;
-            if (DealsPageViewModel.clientDeal!=null)
+            ValidateDeals();
+            
+        }
+        private void ValidateDeals()
+        {
+            if (DealsPageViewModel.clientDeal != null)
             {
-                if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount>10&&DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId==1)
+                if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 10 && DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId == 1)
                 {
-                    _userDialog.Alert("You Save $15",DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName+" Sucess");
+                    _userDialog.Alert("", DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName + " Sucess");
                     FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                 }
-                else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount > 5 && DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId == 2)
+                else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 5 && DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId == 2)
                 {
-                    _userDialog.Alert("You Save $15",DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName + " Success");
+                    _userDialog.Alert("You Save $15", DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName + " Success");
                     FirstPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     SecondPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     ThirdPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
@@ -81,12 +84,11 @@ namespace StriveCustomer.iOS.Views
                 {
                     SetProgress();
                 }
-                
             }
             else
             {
                 FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }   
+            }
         }
         public void SetProgress()
         {
@@ -221,14 +223,20 @@ namespace StriveCustomer.iOS.Views
                 Console.WriteLine("Scanned Barcode: " + result.Text);
 
                 _userDialog.Alert("Your coupon code is : " + result.Text);
-
+                if (result.Text == DealsViewModel.CouponName)
+                {
+                    DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
+                    DealsPageViewModel.clientID = CustomerInfo.ClientID;
+                    DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+                    await ViewModel.AddClientDeals();
+                }
+                
             }
-            DealsPageViewModel.clientID = CustomerInfo.ClientID;
-            DealsPageViewModel.dealId = 1;
-            DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
-
-            await ViewModel.AddClientDeals();
-            SetProgress();
+            else
+            {
+                _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
+            }
+            ValidateDeals();
             CouponValidity();
             //if (result.Text == "Buy 10, Get next FREE")
             //{
