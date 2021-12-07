@@ -112,23 +112,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             DeSelectMembershipcell();
             cell.BackgroundColor = UIColor.White;
             cell.UserInteractionEnabled = true;
-            if (list.Contains(item))
-            {
-                SelectMembershipcell();
-            }
+            
             if (MembershipData.MembershipDetailView != null)
             {
                 var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
-                //if ((SelectedMembership != null) && (SelectedMembership.Services == item.ServiceName))
-                //{
-                //    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                //    cell.UserInteractionEnabled = false;
-                //    SelectMembershipcell();
-                //}
-                //else
-                //{
-                //    DeSelectMembershipcell();
-                //}
+                
                 if (SelectedMembership != null)
                 {
                     string[] selectedServices = SelectedMembership.Services.Split(",");
@@ -140,7 +128,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                         if (selectedServices.Any(x => x.Replace(" ", "") == service)) //(service.Equals(itm))
                         {
                             cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                            cell.UserInteractionEnabled = true;
+                            cell.UserInteractionEnabled = false;
+                            SelectMembershipcell();
+                        }
+                        else if (list.Any(x => x.ServiceName.Replace(" ", "") == item.ServiceName.Replace(" ", "")))
+                        {
                             SelectMembershipcell();
                         }
                         else
@@ -152,35 +144,17 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             }
             else
             {
-                var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
-                if (SelectedMembership != null)
+                if (list.Any(x => x.ServiceName.Replace(" ", "") == item.ServiceName.Replace(" ", "")))
                 {
-                    string[] selectedServices = SelectedMembership.Services.Split(",");
+                    SelectMembershipcell();
+                }
+                else
+                {
+                    DeSelectMembershipcell();
 
-                    foreach(var itm in selectedServices)
-                    {
-                        string service = item.ServiceName.Replace(" ", "");
-                        if (service.Equals(itm))
-                        {
-                            cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                            cell.UserInteractionEnabled = true;
-                            SelectMembershipcell();
-                        }
-                        else
-                        {
-                            DeSelectMembershipcell();
-                        }
-                    }                   
                 }
             }
 
-            //var GrayedItem = GrayedList.Where(s => s.ServiceId == item.ServiceId).FirstOrDefault();
-            //if(GrayedItem != null)
-            //{
-            //    SelectMembershipcell();
-            //    cell.BackgroundColor = UIColor.Clear.FromHex(0xF9F9F9);
-            //    cell.UserInteractionEnabled = false;
-            //}
         }
 
         public void SetVehicleList(VehicleDetail vehicle)
