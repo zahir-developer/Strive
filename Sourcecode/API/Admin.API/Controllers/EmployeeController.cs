@@ -39,6 +39,9 @@ namespace Admin.Api.Controllers
         [Route("GetEmployeePayCheck")]
         public Result GetEmployeePayCheck([FromBody]EmployeePayCheckDto searchDto) => _bplManager.GetEmployeePayCheck(searchDto);
 
+        [HttpPost]
+        [Route("SendEmployeeEmail")]
+        public Result SendEmployeeEmail() => _bplManager.SendEmployeeEmail();
 
         #endregion
 

@@ -191,5 +191,17 @@ namespace Strive.ResourceAccess
         //    return db.Fetch<ClientStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
         //}
 
+        public List<ClientContactEmail> GetClientEmailList()
+        {
+            return db.Fetch<ClientContactEmail>(EnumSP.Client.USPGETCLIENTMAILLIST.ToString(), _prm);
+        }
+
+        public bool UpdateClientAddressIsNotified(int clientAddressId, bool IsNotified)
+        {
+            _prm.Add("@ClientAddressId", clientAddressId);
+            _prm.Add("@IsNotified", IsNotified);
+            db.Save(SPEnum.USPUPDATECLIENTADDRESSISNOTIFIED.ToString(), _prm);
+            return true;
+        }
     }
 }

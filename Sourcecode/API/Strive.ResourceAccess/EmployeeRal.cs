@@ -107,6 +107,13 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<EmployeePayCheckViewModel>(EnumSP.Employee.USPGETEMPLOYEEPAYCHECK.ToString(), _prm);
         }
 
+        public bool UpdateEmployeeAddressIsNotified(int employeeAddressId, bool IsNotified)
+        {
+            _prm.Add("@EmployeeAddressId", employeeAddressId);
+            _prm.Add("@IsNotified", IsNotified);
+            db.Save(SPEnum.USPUPDATEEMPLOYEEADDRESSISNOTIFIED.ToString(), _prm);
+            return true;
+        }
     }
 }
 

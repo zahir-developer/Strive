@@ -35,5 +35,6 @@ namespace Strive.BusinessEntities.DTO.Employee
         public string Zip { get; set; }
 
         public decimal? Salary { get; set; }
+        public bool IsNotified { get; set; }
     }
 }

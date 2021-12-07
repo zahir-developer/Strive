@@ -93,4 +93,8 @@ export class EmployeeService {
   validateEmail(id) {
     return this.http.get(`${UrlConfig.employee.validateEmail}` + id);
   }
+
+  sendEmployeeEmail() {
+    return this.http.post(`${UrlConfig.employee.sendEmployeeEmail}`);
+  }
 }
