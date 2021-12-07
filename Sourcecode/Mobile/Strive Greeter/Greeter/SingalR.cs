@@ -14,31 +14,41 @@ namespace Greeter
     {
         public static HubConnection hubConnection;
 
-        public static async Task StartConnection(long empId = -1, string connectionId = null)
+        public static async Task StartConnection(long empId = -1)
         {
             if (hubConnection == null)
             {
                 await ConnectHubAndSubscribeForEvents();
+                await SendEmployeeCommunicationId(empId.ToString(), hubConnection.ConnectionId);
+                _ = UpdateApi(empId);
             }
             else if (hubConnection.State == HubConnectionState.Disconnected)
             {
                 await hubConnection?.StartAsync();
+                await SubscribeChatEvent();
                 Debug.WriteLine("hubConnection.ConnectionId : " + hubConnection.ConnectionId);
                 await SendEmployeeCommunicationId(empId.ToString(), hubConnection.ConnectionId);
-                await SubscribeChatEvent();
-                var communicationData = new ChatCommunication()
-                {
-                    CommunicationID = hubConnection.ConnectionId,
-                    EmpID = empId
-                };
-
-                var response = await SingleTon.MessageApiService.ChatCommunication(communicationData);
+                _ = UpdateApi(empId);
             }
 
-            hubConnection.Closed += async (arg) => await ConnectHubAndSubscribeForEvents();
+            hubConnection.Closed += async (arg) => {
+                hubConnection = null;
+                await StartConnection(empId);
+            };
         }
 
-        public static async Task SendEmployeeCommunicationId(string empID, string commID)
+        static async Task UpdateApi(long empId)
+        {
+            var communicationData = new ChatCommunication()
+            {
+                CommunicationID = hubConnection.ConnectionId,
+                EmpID = empId
+            };
+
+            var response = await SingleTon.MessageApiService.ChatCommunication(communicationData);
+        }
+
+        static async Task SendEmployeeCommunicationId(string empID, string commID)
         {
             try
             {
