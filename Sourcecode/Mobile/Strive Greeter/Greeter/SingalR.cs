@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Foundation;
 using Greeter.Common;
@@ -21,7 +22,8 @@ namespace Greeter
             else if (hubConnection.State == HubConnectionState.Disconnected)
             {
                 await hubConnection?.StartAsync();
-                //await SendEmployeeCommunicationId(empId.ToString(), connectionId);
+                Debug.WriteLine("hubConnection.ConnectionId : " + hubConnection.ConnectionId);
+                await SendEmployeeCommunicationId(empId.ToString(), hubConnection.ConnectionId);
                 //await SubscribeChatEvent();
                 //var communicationData = new ChatCommunication()
                 //{
