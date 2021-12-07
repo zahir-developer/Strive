@@ -21,6 +21,7 @@ export class AssignDetailComponent implements OnInit {
   @Input() employeeList?: any;
   @Input() detailsJobServiceEmployee?: any;
   detailService: any = [];
+  detailServiceClone: any = [];
   assignForm: FormGroup;
   clonedServices: any = [];
   filteredEmployee: any = [];
@@ -34,6 +35,7 @@ export class AssignDetailComponent implements OnInit {
   collectionSize: number;
   @Output() cancelAssignModel = new EventEmitter();
   serviceType: any;
+  enableSave: boolean = true;
   constructor(
     private fb: FormBuilder, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -44,7 +46,18 @@ export class AssignDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.enableSave = !this.isView;
+    this.loadData();
+  }
+
+  loadData() {
+    this.deleteIds = [];
     this.detailService = this.detailsJobServiceEmployee;
+    
+    this.detailsJobServiceEmployee.forEach(s => {
+      this.detailServiceClone.push(s);
+    }); 
+
     this.getAllServiceType();
     if (this.detailService.length > 0) {
       this.detailService.forEach((item, index) => {
@@ -129,7 +142,22 @@ export class AssignDetailComponent implements OnInit {
     this.detailService.forEach((item, index) => {  // Adding Id to the grid
       item.detailServiceId = index + 1;
     });
-    this.collectionSize = Math.ceil(this.detailService.length / this.pageSize) * 10;
+
+    this.filterDeletedService();
+
+    this.collectionSize = Math.ceil(this.detailServiceClone.length / this.pageSize) * 10;
+
+    this.setSaveEnable();
+
+  }
+
+  setSaveEnable() {
+    if (this.detailService.length === 0 && this.deleteIds.length === 0)
+      this.enableSave = false;
+    else if (this.detailService.length > 0)
+      this.enableSave = true;
+    else if (this.deleteIds.length > 0)
+      this.enableSave = true;
   }
 
   onItemSelect(item: any) {
@@ -153,13 +181,16 @@ export class AssignDetailComponent implements OnInit {
       deleteService.forEach(s => {
         this.deleteIds.push(s);
         var i = this.detailService.indexOf(s)
-        this.detailService.splice(i, 1);
+        var service = this.detailService[i];
+        service.IsDeleted = true;
+        //this.detailService.splice(i, 1);
       });
+
     }
 
     this.detailService = this.detailService.filter(item => item.detailServiceId !== service.detailServiceId);
     const clonedDetailService = this.detailService.map(x => Object.assign({}, x));
-    
+
     this.clonedServices = [];
     this.details.forEach(x => {
       const count = this.clonedServices.filter(elem => elem.ServiceId === x.ServiceId)?.length;
@@ -175,7 +206,7 @@ export class AssignDetailComponent implements OnInit {
     if (this.detailService.length > 0) {
       this.clonedServices = [];
       this.details.forEach(item => {
-        const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId);
+        const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId && item.IsDeleted !== 1);
         const clonedServiceCount = this.clonedServices.filter(elem => elem.ServiceId === item.ServiceId)?.length;
         if (selectedService.length === 0 && clonedServiceCount === 0) {
           this.clonedServices.push({
@@ -184,12 +215,17 @@ export class AssignDetailComponent implements OnInit {
           });
         }
       });
+      
     }
+    
+    this.filterDeletedService();
+
+    this.setSaveEnable();
 
     //this.serviceByEmployeeId(service.ServiceId);
     //this.detailService = [];
     //this.clonedServices = [];
-    
+
     /*
     this.details.forEach(item => {
       const selectedService = clonedDetailService.filter(elem => elem.ServiceId === item.ServiceId);
@@ -213,6 +249,12 @@ export class AssignDetailComponent implements OnInit {
       }
     });
     */
+  }
+
+  filterDeletedService()
+  {
+    this.detailServiceClone = this.detailService.filter(s=>s.IsDeleted !== 1 || s.IsDeleted === undefined)
+
   }
 
   confirmDelete(service) {
@@ -314,6 +356,7 @@ export class AssignDetailComponent implements OnInit {
   }
 
   closeModel() {
+    this.detailService = this.detailServiceClone;
     this.closeAssignModel.emit();
   }
 

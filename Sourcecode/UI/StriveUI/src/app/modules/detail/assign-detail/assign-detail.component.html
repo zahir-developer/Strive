@@ -45,7 +45,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let detail of detailService | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        <tr *ngFor="let detail of detailServiceClone | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                             <td>
                                 {{detail.ServiceName}}
                             </td>
@@ -77,7 +77,7 @@
 <div class="m-t-12">
     <span class="mw-100 pull-right">
         <button type="button" class="btn theme-primary-button-color m-r-5" (click)="saveAssignedService()"
-            [disabled]="detailService.length === 0 || isView">Save</button>
+            [disabled]="isView">Save</button>
         <button type="button" class="btn theme-optional-button-color" (click)="closeModel()">Cancel</button>
     </span>
 </div>
