@@ -35,7 +35,7 @@ namespace Greeter.Modules.Message
                 });
             });
 
-            _ = SingalR.StartConnection();
+            _ = SingalR.StartConnection(AppSettings.UserID);
         }
 
         //void SendMsg()
@@ -66,7 +66,7 @@ namespace Greeter.Modules.Message
                 chatMessage.SenderFirstName = sendChatMessage.firstName;
                 chatMessage.SenderLastName = sendChatMessage.lastName;
                 chatMessage.MessageBody = sendChatMessage.chatMessage.messagebody;
-                chatMessage.CreatedDate = sendChatMessage.chatMessage.createdDate;
+                //chatMessage.CreatedDate = sendChatMessage.chatMessage.createdDate;
                 Chats.Add(chatMessage);
                 ReloadChatTableView();
             }
@@ -161,8 +161,7 @@ namespace Greeter.Modules.Message
         public string nextRemindDate { get; set; }
         public int? reminderFrequencyId { get; set; }
         public int? createdBy { get; set; }
-        public DateTime createdDate { get; set; }
-
+        public string createdDate { get; set; }
     }
 
     public class chatMessageRecipient
