@@ -281,7 +281,7 @@ namespace StriveCustomer.iOS.Views
         {
             //if (DealsPageViewModel.clientDeal != null)
             //{
-                DateTime startdate = DateTime.Parse(DealsViewModel.startdate);
+                DateTime startdate = DateTime.Now.Date;
                 DateTime enddate = DateTime.Parse(DealsViewModel.enddate);
                 NoOfDaysLabel.Text = (enddate.Date - startdate.Date).ToString("dd");
 

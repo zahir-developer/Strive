@@ -47,12 +47,15 @@ namespace Strive.Core.ViewModels.Customer
                 }
 
             }
+            _userDialog.ShowLoading();
             var result2 = await AdminService.GetClientDeal(CustomerInfo.ClientID, DateTime.Today.ToString("yyyy-MM-dd"), SelectedDealId);
+            //_userDialog.HideLoading();
             if (result2.ClientDeal.ClientDealDetail != null)
             {
                 DealsPageViewModel.clientDeal = result2;
                 CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
             }
+           
             await _navigationService.Navigate<DealsPageViewModel>();
 
         }
