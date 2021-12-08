@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CoreFoundation;
 using CoreGraphics;
@@ -95,7 +96,7 @@ namespace StriveEmployee.iOS.Views.Messenger
         //    }
         //}
 
-        public void SetData(Employee employee)
+        public void SetData(Employee employee, List<NSIndexPath> Rowselections, NSIndexPath indexpath)
         {
             if (!String.IsNullOrEmpty(employee.FirstName))
             {
@@ -124,6 +125,17 @@ namespace StriveEmployee.iOS.Views.Messenger
                     contactIntialLabel.Text = secondInitial.ElementAt(0).ToString() + secondInitial.ElementAt(1).ToString();
                 }
             }
+            if (Rowselections.Contains(indexpath))
+            {
+                selectionImageView.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+            }
+            else
+            {
+                selectionImageView.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            }
+
+
+
         }
 
         public void updateCell(NSIndexPath indexPath)

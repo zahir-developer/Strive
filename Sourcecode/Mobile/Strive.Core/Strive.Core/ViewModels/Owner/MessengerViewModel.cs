@@ -15,30 +15,30 @@ namespace Strive.Core.ViewModels.Owner
             return ConnectionID;
         }
 
-        //public async Task SetChatCommunicationDetails(string commID)
-        //{
-        //    var communicationData = new ChatCommunication()
-        //    {
-        //        communicationId = commID,
-        //        employeeId = EmployeeTempData.EmployeeID
-        //    };
-        //    var result = await MessengerService.ChatCommunication(communicationData);
-        //    if (result == null)
-        //    {
+        public async Task SetChatCommunicationDetails(string commID)
+        {
+            var communicationData = new ChatCommunication()
+            {
+                communicationId = commID,
+                employeeId = EmployeeTempData.EmployeeID
+            };
+            var result = await MessengerService.ChatCommunication(communicationData);
+            if (result == null)
+            {
+                _userDialog.Alert("Communication has not been established");
+            }
+            else
+            {
+                if (result.Status)
+                {
 
-        //    }
-        //    else
-        //    {
-        //        if (result.Status)
-        //        {
-
-        //        }
-        //        else
-        //        {
-        //            _userDialog.Alert("Communication has not been established");
-        //        }
-        //    }
-        //}
+                }
+                else
+                {
+                    _userDialog.Alert("Communication has not been established");
+                }
+            }
+        }
 
         public void navigateToCreateGroup()
         {

@@ -96,27 +96,6 @@ namespace StriveOwner.iOS.Views.Messenger
             }
         }
 
-        public void SetupData(ContactCellConfigureType configureType)
-        {
-            contactIntialLabel.Text = "WH";
-            contactNameLabel.Text = "William Hoeger";
-
-            //if (configureType == ContactCellConfigureType.CreateGroup)
-            //{
-            //    //TODO check selection condition and change background if is selected
-            //    ContentView.BackgroundColor = UIColor.FromRGB(225.0f / 255.0f, 255.0f / 255.0f, 251.0f / 255.0f);
-            //    selectionImageView.Image = UIImage.FromBundle(ImageNames.TICK);
-            //    selectionImageView.UserInteractionEnabled = false;
-            //}
-            //else if (configureType == ContactCellConfigureType.Participant)
-            //{
-            //    selectionImageView.Image = UIImage.FromBundle(ImageNames.CLOSE_SOLID);
-            //    selectionImageView.UserInteractionEnabled = true;
-            //}
-
-            selectionImageView.Hidden = configureType == ContactCellConfigureType.ContactList;
-        }
-
         public void SetData(NSIndexPath indexPath,Employee employee)
         {
             if (!String.IsNullOrEmpty(employee.FirstName))

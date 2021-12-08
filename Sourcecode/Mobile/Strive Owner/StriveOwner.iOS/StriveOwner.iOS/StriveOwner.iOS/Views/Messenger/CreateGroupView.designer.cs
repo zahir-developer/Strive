@@ -17,6 +17,9 @@ namespace StriveEmployee.iOS.Views.Messenger
 
 		[Outlet]
 		UIKit.UITableView CreateGroup_TableView { get; set; }
+
+		[Outlet]
+		UIKit.UISearchBar SearchContactBar { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -28,6 +31,11 @@ namespace StriveEmployee.iOS.Views.Messenger
 			if (CreateGroup_TableView != null) {
 				CreateGroup_TableView.Dispose ();
 				CreateGroup_TableView = null;
+			}
+
+			if (SearchContactBar != null) {
+				SearchContactBar.Dispose ();
+				SearchContactBar = null;
 			}
 		}
 	}

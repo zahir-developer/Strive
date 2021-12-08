@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MvvmCross.ViewModels;
+using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
@@ -34,9 +35,12 @@ namespace Strive.Core.ViewModels.Owner
         public string Message { get; set; }
 
         public bool SentSuccess { get; set; }
-        public PersonalChatMessages chatMessages { get; set; }
+        public PersonalChatMessages personalChatMessages { get; set; }
         public SendChatMessage sendChat { get; set; }
+        public MvxObservableCollection<ChatMessageDetail> ChatMessages = new MvxObservableCollection<ChatMessageDetail>();
 
+
+        ChatCommunication Chat = new ChatCommunication();
         #endregion Properties
 
         #region Commands
@@ -44,17 +48,18 @@ namespace Strive.Core.ViewModels.Owner
         public async Task GetAllMessages(ChatDataRequest chatData)
         {
             var result = await MessengerService.GetPersonalChatMessages(chatData);
-            if (result == null || result.ChatMessage == null || result.ChatMessage.ChatMessageDetail == null || result.ChatMessage.ChatMessageDetail.Count == 0)
-            {
-                chatMessages = null;
-            }
-            else
-            {
-                chatMessages = new PersonalChatMessages();
-                chatMessages.ChatMessage = new ChatMessage();
-                chatMessages.ChatMessage.ChatMessageDetail = new MvxObservableCollection<ChatMessageDetail>();
-                chatMessages = result;
-            }
+            //if (result == null || result.ChatMessage == null || result.ChatMessage.ChatMessageDetail == null || result.ChatMessage.ChatMessageDetail.Count == 0)
+            //{
+            //    chatMessages = null;
+            //}
+            //else
+            //{ }
+            personalChatMessages = new PersonalChatMessages();
+            personalChatMessages.ChatMessage = new ChatMessage();
+            personalChatMessages.ChatMessage.ChatMessageDetail = new MvxObservableCollection<ChatMessageDetail>();
+            personalChatMessages = result;
+            ChatMessages = personalChatMessages.ChatMessage.ChatMessageDetail;
+
         }
 
         public async Task SendMessage()
@@ -111,7 +116,6 @@ namespace Strive.Core.ViewModels.Owner
             sendChat.chatMessage.reminderFrequencyId = null;
             sendChat.chatMessage.createdBy = 0;
             sendChat.chatMessage.createdDate = DateUtils.ConvertDateTimeWithZ();
-
             sendChat.chatMessageRecipient.chatRecipientId = 0;
             sendChat.chatMessageRecipient.chatMessageId = 0;
             sendChat.chatMessageRecipient.senderId = EmployeeTempData.EmployeeID;
@@ -129,7 +133,19 @@ namespace Strive.Core.ViewModels.Owner
             {
                 sendChat.chatMessageRecipient.recipientId = MessengerTempData.RecipientID;
                 sendChat.firstName = MessengerTempData.RecipientName;
-                sendChat.connectionId = MessengerTempData.ConnectionID;
+                if (MessengerTempData.RecipientsConnectionID != null)
+                {
+                    if (MessengerTempData.RecipientsConnectionID.ContainsKey(MessengerTempData.RecipientID.ToString()))
+                    {
+                        sendChat.connectionId = MessengerTempData.RecipientsConnectionID[MessengerTempData.RecipientID.ToString()];
+                    }
+
+                }
+                else
+                {
+                    sendChat.connectionId = MessengerTempData.ConnectionID;
+                }
+
                 sendChat.chatMessageRecipient.recipientGroupId = null;
                 sendChat.groupId = null;
                 sendChat.fullName = MessengerTempData.FirstName;

@@ -290,11 +290,11 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 }
 
                 ViewModel.Message = messageTextView.Text;
-                
+                messageTextView.Text = "";
                 await ViewModel.SendMessage();
                 if (ViewModel.SentSuccess)
                 {
-                    messageTextView.Text = "";
+                   // messageTextView.Text = "";
                     getChatData();
                     //chatTableView.ReloadData();
                 }

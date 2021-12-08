@@ -13,6 +13,9 @@ namespace StriveEmployee.iOS.Views.Messenger
 	partial class CreateGroupView
 	{
 		[Outlet]
+		UIKit.UISearchBar ContactSearchBar { get; set; }
+
+		[Outlet]
 		UIKit.UIView CreateGroup_ParentView { get; set; }
 
 		[Outlet]
@@ -28,6 +31,11 @@ namespace StriveEmployee.iOS.Views.Messenger
 			if (CreateGroup_TableView != null) {
 				CreateGroup_TableView.Dispose ();
 				CreateGroup_TableView = null;
+			}
+
+			if (ContactSearchBar != null) {
+				ContactSearchBar.Dispose ();
+				ContactSearchBar = null;
 			}
 		}
 	}

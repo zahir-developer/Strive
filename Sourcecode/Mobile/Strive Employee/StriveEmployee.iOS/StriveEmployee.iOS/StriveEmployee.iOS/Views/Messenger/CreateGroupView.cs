@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoreGraphics;
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Models.Employee.Messenger.MessengerGroups;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.iOS.UIUtils;
 using UIKit;
@@ -60,10 +62,31 @@ namespace StriveEmployee.iOS.Views.Messenger
             CreateGroup_TableView.BackgroundColor = UIColor.Clear;
             CreateGroup_TableView.ReloadData();
 
+            ContactSearchBar.TextChanged += ContactSearchBar_TextChanged;
+
             getContacts();
 
             
 
+        }
+
+        private void ContactSearchBar_TextChanged(object sender, UISearchBarTextChangedEventArgs e)
+        {
+            if(!string.IsNullOrEmpty(e.SearchText) && MessengerTempData.employeeList_Contact != null)
+            {
+                var searchText = e.SearchText.ToLower();
+                var filteredList = MessengerTempData.employeeList_Contact.EmployeeList.Employee.Where(x => x.FirstName.ToLower().Contains(searchText)).ToList();
+
+                var contactSource = new CreateGroupDataSource(filteredList);
+                CreateGroup_TableView.Source = contactSource;
+                CreateGroup_TableView.TableFooterView = new UIView(CGRect.Empty);
+                CreateGroup_TableView.DelaysContentTouches = false;
+                CreateGroup_TableView.ReloadData();
+            }
+            else
+            {
+                getContacts();
+            }
         }
 
         async void getContacts()

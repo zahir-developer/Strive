@@ -103,7 +103,6 @@ namespace Strive.Core.ViewModels.Employee
             sendChat.chatMessage.reminderFrequencyId = null;
             sendChat.chatMessage.createdBy = 0;
             sendChat.chatMessage.createdDate = DateUtils.ConvertDateTimeWithZ();
-
             sendChat.chatMessageRecipient.chatRecipientId = 0;
             sendChat.chatMessageRecipient.chatMessageId = 0;
             sendChat.chatMessageRecipient.senderId = EmployeeTempData.EmployeeID;
