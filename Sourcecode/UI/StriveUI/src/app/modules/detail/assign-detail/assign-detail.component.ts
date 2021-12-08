@@ -183,11 +183,22 @@ export class AssignDetailComponent implements OnInit {
         var i = this.detailService.indexOf(s)
         var service = this.detailService[i];
         service.IsDeleted = true;
+        const count = this.clonedServices.filter(elem => elem.ServiceId === service.ServiceId)?.length;
+        if (count === 0) {
+        this.clonedServices.push({
+          item_id: service.ServiceId,
+          item_text: service.ServiceName
+        });
+      }
+
         //this.detailService.splice(i, 1);
       });
 
     }
 
+    this.getDetailService();
+
+    /*
     this.detailService = this.detailService.filter(item => item.detailServiceId !== service.detailServiceId);
     const clonedDetailService = this.detailService.map(x => Object.assign({}, x));
 
@@ -206,7 +217,7 @@ export class AssignDetailComponent implements OnInit {
     if (this.detailService.length > 0) {
       this.clonedServices = [];
       this.details.forEach(item => {
-        const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId && item.IsDeleted !== 1);
+        const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId && item.IsDeleted === true);
         const clonedServiceCount = this.clonedServices.filter(elem => elem.ServiceId === item.ServiceId)?.length;
         if (selectedService.length === 0 && clonedServiceCount === 0) {
           this.clonedServices.push({
@@ -217,6 +228,7 @@ export class AssignDetailComponent implements OnInit {
       });
       
     }
+    */
     
     this.filterDeletedService();
 
@@ -253,8 +265,8 @@ export class AssignDetailComponent implements OnInit {
 
   filterDeletedService()
   {
-    this.detailServiceClone = this.detailService.filter(s=>s.IsDeleted !== 1 || s.IsDeleted === undefined)
-
+    this.detailServiceClone = this.detailService.filter(s=>s.IsDeleted !== true || s.IsDeleted === undefined)
+    console.log(this.clonedServices);
   }
 
   confirmDelete(service) {
@@ -404,7 +416,7 @@ export class AssignDetailComponent implements OnInit {
     if (this.detailService.length > 0) {
       this.clonedServices = [];
       this.details.forEach(item => {
-        const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId);
+        const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId && (elem.IsDeleted !== true || elem.IsDeleted === undefined));
         const clonedServiceCount = this.clonedServices.filter(elem => elem.ServiceId === item.ServiceId)?.length;
         if (selectedService.length === 0 && clonedServiceCount === 0) {
           this.clonedServices.push({

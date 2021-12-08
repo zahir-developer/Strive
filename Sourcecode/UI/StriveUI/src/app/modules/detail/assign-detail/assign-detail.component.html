@@ -60,14 +60,14 @@
                                     (click)="delete(detail)"></em>
                             </td>
                         </tr>
-                        <tr *ngIf="detailService.length === 0">
+                        <tr *ngIf="detailServiceClone.length === 0">
                             <td colspan="4" class="text-center">
                                 No Records Found
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <ngb-pagination *ngIf="detailService.length > 0" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
+                <ngb-pagination *ngIf="detailServiceClone.length > 0" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [rotate]="true"
                     [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
                 </ngb-pagination>
             </div>
