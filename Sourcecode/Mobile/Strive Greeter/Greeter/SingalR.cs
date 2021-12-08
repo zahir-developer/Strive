@@ -58,7 +58,6 @@ namespace Greeter
             {
                 Console.WriteLine(ex.Message);
             }
-
         }
 
         static async Task<HubConnection> ConnectToHub()
@@ -107,7 +106,9 @@ namespace Greeter
                 {
                     //PrivateMessageList.Add(datas);
                     //var dict = new NSDictionary(new NSString("chatMsg"), new NSString(data.ToString()));
-                    var dict = new NSDictionary(new NSString("chatMsg"), new NSString(JsonConvert.SerializeObject(data.ToString())));
+                    //var json = JsonConvert.SerializeObject();
+
+                    var dict = new NSDictionary(new NSString("chatMsg"), new NSString(data.ToString()));
                     NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), null, dict);
                 }
                 catch (Exception ex)

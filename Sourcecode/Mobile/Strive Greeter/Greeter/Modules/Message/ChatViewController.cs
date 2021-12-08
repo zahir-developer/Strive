@@ -4,8 +4,10 @@ using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using Newtonsoft.Json;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace Greeter.Modules.Message
 {
@@ -97,6 +99,21 @@ namespace Greeter.Modules.Message
             sendImageView.BottomAnchor.ConstraintEqualTo(messageBoxContainer.BottomAnchor, constant: -10).Active = true;
             sendImageView.WidthAnchor.ConstraintEqualTo(40).Active = true;
             sendImageView.HeightAnchor.ConstraintEqualTo(40).Active = true;
+
+            //UILabel label = new UILabel(CGRect.Empty);
+            //label.MakecardView();
+            //label.TranslatesAutoresizingMaskIntoConstraints = false;
+            //label.BackgroundColor = Colors.MESSANGER_GREEN_COLOR.ToPlatformColor();
+            //label.Font = UIFont.SystemFontOfSize(22, UIFontWeight.Semibold);
+            //label.Text = "New Messages";
+            //label.TextColor = UIColor.White;
+            //label.WidthAnchor.ConstraintEqualTo(200).Active = true;
+            //label.HeightAnchor.ConstraintEqualTo(60).Active = true;
+            //label.TextAlignment = UITextAlignment.Center;
+            //View.Add(label);
+
+            //label.BottomAnchor.ConstraintEqualTo(messageBoxContainer.TopAnchor, constant: -35).Active = true;
+            //label.CenterXAnchor.ConstraintEqualTo(chatTableView.CenterXAnchor).Active = true;
         }
 
         void SendTapped()

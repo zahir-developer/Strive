@@ -404,8 +404,10 @@ namespace Greeter.Storyboards
                     if (ServiceType == ServiceType.Wash)
                     {
                         req.Job.JobStatusID = jobStatusResponse.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID;
-                        req.Job.TimeIn = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
-                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API); ;
+                        //req.Job.TimeIn = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
+                        req.Job.TimeIn = DateTime.Now;
+                        //req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API); ;
+                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins);
                         createServiceResponse = await apiService.CreateService(req);
                     }
                     else // Detail
@@ -422,7 +424,7 @@ namespace Greeter.Storyboards
                         var distinct = availableScheduleResponse.GetTimeInDetails.Distinct();
                         var datetime = DateTime.Now;
 #if DEBUG
-                        datetime = new DateTime(2021, 11, 26, 5, 15, 0);
+                        datetime = new DateTime(2021, 12, 08, 07, 0, 0);
 
                         for (int i = 0; i < availableScheduleResponse.GetTimeInDetails.Count; i++)
                         {
@@ -667,9 +669,11 @@ namespace Greeter.Storyboards
                         //req.Job.TimeIn = DateTime.Now.Date.AddHours(Convert.ToDouble(sdt[0])).AddMinutes(Convert.ToDouble(sdt[1])).AddSeconds(0);
 
                         //string[] edt = endTime.Split(":");
-                        req.Job.TimeIn = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
+                        //req.Job.TimeIn = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
+                        req.Job.TimeIn = datetime;
                         //req.Job.EstimatedTimeOut = DateTime.Now.Date.AddHours(Convert.ToDouble(edt[0])).AddMinutes(Convert.ToDouble(edt[1])).AddSeconds(0);
-                        req.Job.EstimatedTimeOut = DateTime.Parse(req.Job.TimeIn).AddMinutes(totalTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API);
+                        //req.Job.EstimatedTimeOut = DateTime.Parse(req.Job.TimeIn).AddMinutes(totalTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API);
+                        req.Job.EstimatedTimeOut = req.Job.TimeIn.AddMinutes(totalTimeMins);
                         createServiceResponse = await apiService.CreateDetailService(req);
                     }
 

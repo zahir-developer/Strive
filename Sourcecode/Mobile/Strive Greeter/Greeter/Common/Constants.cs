@@ -162,6 +162,7 @@ namespace Greeter.Common
     {
         internal static Color APP_BASE_COLOR = Color.FromArgb(29, 201, 183);
         internal static Color PRINT_COLOR = Color.FromArgb(36, 72, 154);
+        internal static Color MESSANGER_GREEN_COLOR = Color.FromArgb(14, 114, 104);
     }
 
     public class Messages

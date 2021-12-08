@@ -316,7 +316,7 @@ namespace Greeter.DTOs
         public DateTime CreatedDate { get; } = DateTime.Now;
 
         [JsonProperty("estimatedTimeOut")]
-        public string? EstimatedTimeOut { get; set; } = null;
+        public DateTime? EstimatedTimeOut { get; set; } = null;
 
         [JsonProperty("isActive")]
         public bool IsActive { get; } = true;
@@ -352,7 +352,7 @@ namespace Greeter.DTOs
         public long TicketNumber { get; set; }
 
         [JsonProperty("timeIn")]
-        public string TimeIn { get; set; }
+        public DateTime TimeIn { get; set; }
 
         [JsonProperty("updatedBy")]
         public long UpdatedByID { get; } = AppSettings.UserID;
