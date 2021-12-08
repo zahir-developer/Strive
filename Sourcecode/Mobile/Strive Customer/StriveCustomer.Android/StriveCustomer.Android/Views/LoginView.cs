@@ -65,8 +65,12 @@ namespace StriveCustomer.Android.Views
             bindingset.Apply();
             basicSetup();
             rememberMeCheck.Click += checkStoredCredentials;
-           // signUp.Click += navigateToSignUp;
-           // forgotPassword.Click += navigateToForgotPassword;
+            // signUp.Click += navigateToSignUp;
+            // forgotPassword.Click += navigateToForgotPassword;
+#if DEBUG
+            emailPhoneInput.Text = "ramtesting21@gmail.com";
+            passwordInput.Text = "pass@123";
+#endif
         }
 
         private void checkStoredCredentials(object o, EventArgs e)

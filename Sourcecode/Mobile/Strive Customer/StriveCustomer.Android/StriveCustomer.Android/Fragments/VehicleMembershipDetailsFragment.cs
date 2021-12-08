@@ -70,12 +70,12 @@ namespace StriveCustomer.Android.Fragments
             {
                 membershipName.Text = this.ViewModel.MembershipName;
             }
-            var CreatedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.CreatedDate.ToString());
+            var CreatedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.StartDate.ToString());
             var DeletedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.EndDate.ToString());
 
             createdDate.Text = CreatedDate;
             cancelledDate.Text = DeletedDate;
-            if ((bool)CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive)
+            if (!CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive.HasValue)
             {
                 status.Text = "Active";
             }

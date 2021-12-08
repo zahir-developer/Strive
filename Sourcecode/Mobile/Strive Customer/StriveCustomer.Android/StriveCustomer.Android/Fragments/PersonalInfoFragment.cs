@@ -69,14 +69,14 @@ namespace StriveCustomer.Android.Fragments
 
             if(ViewModel.customerInfo.Status.Count > 0)
             {
-                fullNameView.Text = ViewModel.customerInfo.Status.LastOrDefault().FirstName ;
+                fullNameView.Text = ViewModel.customerInfo.Status.LastOrDefault().FirstName + " " + ViewModel.customerInfo.Status.LastOrDefault().MiddleName + " " + ViewModel.customerInfo.Status.LastOrDefault().LastName;
                 contactNumberView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
                 addressView.Text = ViewModel.customerInfo.Status.LastOrDefault().Address1;
                 zipCodeView.Text = ViewModel.customerInfo.Status.LastOrDefault().Zip;
                 secPhoneView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
                 emailView.Text = ViewModel.customerInfo.Status.LastOrDefault().Email;
 
-                MyProfileCustomerInfo.FullName = ViewModel.customerInfo.Status.LastOrDefault().FirstName;
+                MyProfileCustomerInfo.FullName = ViewModel.customerInfo.Status.LastOrDefault().FirstName + " " + ViewModel.customerInfo.Status.LastOrDefault().MiddleName + " " + ViewModel.customerInfo.Status.LastOrDefault().LastName; 
                 MyProfileCustomerInfo.ContactNumber = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
                 MyProfileCustomerInfo.Email = ViewModel.customerInfo.Status.LastOrDefault().Email;
                 MyProfileCustomerInfo.SecondaryContactNumber = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;

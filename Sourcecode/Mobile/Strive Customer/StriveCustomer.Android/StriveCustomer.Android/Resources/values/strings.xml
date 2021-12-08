@@ -10,10 +10,10 @@
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="full_name">Full Name</string>
-    <string name="contact_no">Contact No#</string>
+    <string name="contact_no">Contact No#[(xxx) xxx-xxxx]</string>
     <string name="address">Address</string>
     <string name="zip_code">Zip Code</string>
-    <string name="sec_phone">Secondary Phone No#</string>
+    <string name="sec_phone">Secondary Phone No#[(xxx) xxx-xxxx]</string>
     <string name="email">Email</string>
     <string name="defaultScheduleText">**Vehicle up charges may apply** Hand wash Shampoo carpets, upholstery Clean leather Clean interior paneling Detail dash and console Treat condition all leather Clean windows, mirrors Shampoo headliner Degrease and clean all jams Silicone tires</string>
     <string name="defaultScheduleServiceText">Hand wash Shampoo carpets, upholstery Clean leather Clean interior paneling Detail dash and console Treat condition all leather Clean windows, mirrors Shampoo headliner Degrease and clean all jams Silicone tires</string>

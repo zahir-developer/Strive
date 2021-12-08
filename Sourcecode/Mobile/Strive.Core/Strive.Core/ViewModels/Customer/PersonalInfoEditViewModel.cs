@@ -43,8 +43,8 @@ namespace Strive.Core.ViewModels.Customer
                 InfoModel.clientAddress = new List<clientAddress>();
                 var clientVehicle = new clientVehicle();
                 var clientAddress = new clientAddress();
-                var names = FullName.Split(" ");
-
+                var names = FullName.TrimEnd().Split(" "); //FullName.Split(" ");
+                
                 if (names.Length == 1)
                 {
                     FirstName = names[0];
@@ -54,11 +54,11 @@ namespace Strive.Core.ViewModels.Customer
                 else if (names.Length == 2)
                 {
                     FirstName = names[0];
-                    MiddleName = names[1];
-                    LastName = "";
+                    MiddleName = "";
+                    LastName = names[1] ;
                 }
                 else
-                {
+                {   
                     FirstName = names[0];
                     MiddleName = names[1];
                     LastName = names[2];
