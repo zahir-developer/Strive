@@ -1130,8 +1130,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
-
           this.getDetailByID(this.jobID);
+          this.refreshDetailGrid.emit();
         } else {
           this.spinner.hide();
 
@@ -1150,11 +1150,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.isAssign = true;
           this.isStart = true;
           const jobID = JSON.parse(res.resultData);
-          this.getDetailByID(this.jobID);
+          
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
           this.toastr.success(MessageConfig.Detail.Add, 'Success!');
+
+          this.getDetailByID(this.jobID);
+          this.refreshDetailGrid.emit();
         } else {
           this.spinner.hide();
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -1180,7 +1183,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-    this.closeSchedules();
+    //this.closeSchedules();
   }
 
   getAllBayById() {

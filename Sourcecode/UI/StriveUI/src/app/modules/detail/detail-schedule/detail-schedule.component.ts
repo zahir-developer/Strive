@@ -200,13 +200,14 @@ export class DetailScheduleComponent implements OnInit {
     });
   }
 
-  closeModal() {
+  closeModal(refresh = false) {
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
-    //this.refreshDetailGrid();
+    if (refresh)
+      this.refreshDetailGrid();
   }
-  
+
   refreshDetailGrid() {
     this.getScheduleDetailsByDate();
     this.todayScheduleComponent.getTodayDateScheduleList();
@@ -260,15 +261,15 @@ export class DetailScheduleComponent implements OnInit {
               this.style.color = 'red';
               this.style.fontWeight = 'bold';
             }
-            else{ 
+            else {
+              this.style.color = '#333333';
+              this.style.fontWeight = 'normal';
+            }
+          });
+        } else {
+          $('td.ng-star-inserted a').each(function (index) {
             this.style.color = '#333333';
             this.style.fontWeight = 'normal';
-          }
-          });
-        }else{
-          $('td.ng-star-inserted a').each(function (index) {           
-              this.style.color = '#333333';
-              this.style.fontWeight = 'normal';            
           });
         }
       }

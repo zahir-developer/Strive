@@ -157,7 +157,7 @@ export class TodayScheduleComponent implements OnInit {
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
-    window.location.reload();
+    //window.location.reload();
   }
   closeDialog(event) {
     this.isEdit = event.isOpenPopup;

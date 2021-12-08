@@ -251,13 +251,12 @@
                     <div class="row m-t-5">
                         <span class="col-2"></span>
                         <span class="col-10">
-
                             <button type="button" class="btn theme-primary-button-color col-3"
-                                [disabled]="isStart || isView || isCompleted" (click)="start()">Start</button>&nbsp;
+                                [disabled]="isEdit ? (isStart || isView || isCompleted) : (!isEdit)" (click)="start()">Start</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3"
                                 (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-4"
-                                [disabled]="isCompleted || isView" (click)="completed()">Complete</button>
+                                [disabled]="(!isEdit || isCompleted || isView)" (click)="completed()">Complete</button>
                         </span>
                     </div>
 
@@ -278,7 +277,7 @@
                                 [disabled]="!isEdit" (click)="pay()" [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled col-3' : 'btn theme-primary-button-color col-3'">{{paidLabel}}</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3" (click)="saveDetail()"
                                 [disabled]="isView">Save</button>&nbsp;
-                            <button type="button" class="btn theme-primary-button-color col-3"
+                            <button type="button" class="btn theme-primary-button-color col-4"
                                 [disabled]="!isEdit && !isView" data-toggle="modal" data-target="#deleteModel"
                                 (click)="deleteDetail()">Delete</button>
                         </span>
