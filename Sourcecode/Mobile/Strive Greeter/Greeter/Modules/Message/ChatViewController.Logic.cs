@@ -23,7 +23,7 @@ namespace Greeter.Modules.Message
             this.chatInfo = chatInfo;
             _ = GetChatsAsync();
 
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.private_message_received"), notify: (notification) => {
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.message_received"), notify: (notification) => {
                 if (notification.UserInfo is null)
                     return;
 
@@ -35,17 +35,17 @@ namespace Greeter.Modules.Message
                 });
             });
 
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.group_message_received"), notify: (notification) => {
-                if (notification.UserInfo is null)
-                    return;
+            //NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.group_message_received"), notify: (notification) => {
+            //    if (notification.UserInfo is null)
+            //        return;
 
-                var chatMsgString = notification.UserInfo["chatMsg"] as NSString;
-                var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(chatMsgString);
+            //    var chatMsgString = notification.UserInfo["chatMsg"] as NSString;
+            //    var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(chatMsgString);
 
-                InvokeOnMainThread(() => {
-                    MessageReceived(chatMsg);
-                });
-            });
+            //    InvokeOnMainThread(() => {
+            //        MessageReceived(chatMsg);
+            //    });
+            //});
 
             _ = SingalR.StartConnection(AppSettings.UserID);
         }

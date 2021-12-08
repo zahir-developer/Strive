@@ -109,7 +109,7 @@ namespace Greeter
                     //var json = JsonConvert.SerializeObject();
 
                     var dict = new NSDictionary(new NSString("chatMsg"), new NSString(data.ToString()));
-                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.private_message_received"), null, dict);
+                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.message_received"), null, dict);
                 }
                 catch (Exception ex)
                 {
@@ -124,7 +124,7 @@ namespace Greeter
                 {
                     //var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
                     var dict = new NSDictionary(new NSString("groupChatMsg"), new NSString(data.ToString()));
-                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.group_message_received"), null, dict);
+                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.message_received"), null, dict);
                 }
                 catch (Exception ex)
                 {
@@ -135,7 +135,22 @@ namespace Greeter
 
             hubConnection?.On<object>("UserLogOutNotification", (data) =>
             {
-                //StopConnection(123);
+                StopConnection(AppSettings.UserID);
+            });
+
+            hubConnection?.On<object>("ReceiveEmployeeCommunicationId", (data) =>
+            {
+                Console.WriteLine("new communication id received", data);
+                try
+                {
+                    var datas = JsonConvert.DeserializeObject<string[]>(data.ToString());
+                    //RecipientsID.Add(new RecipientsCommunicationID() { employeeId = datas[0], communicationId = datas[1] });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
             });
         }
 
@@ -145,6 +160,7 @@ namespace Greeter
             {
                 await hubConnection.InvokeAsync("SendEmployeeCommunicationId", empId, "0");
                 await hubConnection.StopAsync();
+                hubConnection = null;
             }
             catch (Exception ex)
             {
