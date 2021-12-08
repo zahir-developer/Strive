@@ -35,6 +35,18 @@ namespace Greeter.Modules.Message
                 });
             });
 
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.group_message_received"), notify: (notification) => {
+                if (notification.UserInfo is null)
+                    return;
+
+                var chatMsgString = notification.UserInfo["chatMsg"] as NSString;
+                var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(chatMsgString);
+
+                InvokeOnMainThread(() => {
+                    MessageReceived(chatMsg);
+                });
+            });
+
             _ = SingalR.StartConnection(AppSettings.UserID);
         }
 
