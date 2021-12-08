@@ -107,7 +107,7 @@ namespace StriveEmployee.iOS.Views.Messenger
     public class CreateGroupDataSource : UITableViewSource
     {
         List<Employee> list;
-        public List<NSIndexPath> RowSelections = new List<NSIndexPath>();
+        //public List<NSIndexPath> RowSelections = new List<NSIndexPath>();
         chatUserGroup chatUser = new chatUserGroup();
         public CreateGroupDataSource(List<Employee> contactList)
         {
@@ -123,7 +123,7 @@ namespace StriveEmployee.iOS.Views.Messenger
         {
             var cell = tableView.DequeueReusableCell("SelectContactCell", indexPath) as SelectContactCell;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.SetData(list[indexPath.Row],RowSelections,indexPath);
+            cell.SetData(list[indexPath.Row],MessengerCreateGroupViewModel.chatUserGroups,indexPath);
             
             return cell;
         }
@@ -146,11 +146,12 @@ namespace StriveEmployee.iOS.Views.Messenger
             temp.userId = list[indexPath.Row].EmployeeId;
             temp.chatGroupUserId = 0;
             temp.chatGroupId = 0;
-            if (RowSelections.Contains(indexPath))
+            if (MessengerCreateGroupViewModel.chatUserGroups.Any(x => x.userId == list[indexPath.Row].EmployeeId))
             {
-                MessengerCreateGroupViewModel.chatUserGroups.RemoveAt(indexPath.Row);
-                var itemToRemove = RowSelections.FindIndex(r => r == indexPath);
-                RowSelections.RemoveAt(itemToRemove);
+                var itemToRemove = MessengerCreateGroupViewModel.chatUserGroups.FindIndex(r => r.userId == list[indexPath.Row].EmployeeId);
+                MessengerCreateGroupViewModel.chatUserGroups.RemoveAt(itemToRemove);
+                //var itemToRemove = RowSelections.FindIndex(r => r == indexPath);
+                //RowSelections.RemoveAt(itemToRemove);
                 cell.deselectRow(indexPath);
             }
             else
@@ -166,7 +167,7 @@ namespace StriveEmployee.iOS.Views.Messenger
                         MessengerCreateGroupViewModel.chatUserGroups.Add(temp);
                     }
                 }        
-                RowSelections.Add(indexPath);
+                //RowSelections.Add(indexPath);
                 cell.updateCell(indexPath);
             }
         }

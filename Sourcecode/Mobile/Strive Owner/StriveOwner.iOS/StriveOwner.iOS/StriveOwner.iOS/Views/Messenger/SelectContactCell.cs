@@ -6,7 +6,8 @@ using CoreGraphics;
 using Foundation;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using UIKit;
-
+using Strive.Core.Models.Employee.Messenger.MessengerGroups;
+using Strive.Core.ViewModels.Employee;
 namespace StriveEmployee.iOS.Views.Messenger
 {
     public interface IGroupCellDelegate
@@ -96,7 +97,7 @@ namespace StriveEmployee.iOS.Views.Messenger
         //    }
         //}
 
-        public void SetData(Employee employee, List<NSIndexPath> Rowselections, NSIndexPath indexpath)
+        public void SetData(Employee employee, List<chatUserGroup> Rowselections, NSIndexPath indexpath)
         {
             if (!String.IsNullOrEmpty(employee.FirstName))
             {
@@ -125,7 +126,7 @@ namespace StriveEmployee.iOS.Views.Messenger
                     contactIntialLabel.Text = secondInitial.ElementAt(0).ToString() + secondInitial.ElementAt(1).ToString();
                 }
             }
-            if (Rowselections.Contains(indexpath))
+            if (Rowselections.Any(x => x.userId == employee.EmployeeId))
             {
                 selectionImageView.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
             }
