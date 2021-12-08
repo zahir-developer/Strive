@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using MvvmCross;
@@ -15,6 +16,8 @@ namespace StriveCustomer.iOS.Views
 
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
+        public List<string> couponCodes = new List<string>();
+        
         public DealsPageViewController() : base("DealsPageViewController", null)
         {
         }
@@ -25,6 +28,8 @@ namespace StriveCustomer.iOS.Views
             InitialSetup();
             
             // Perform any additional setup after loading the view, typically from a nib.
+
+
         }
 
         public override void DidReceiveMemoryWarning()
@@ -55,25 +60,48 @@ namespace StriveCustomer.iOS.Views
             ThirdPriceLabel.Text = "$5";
             FourthPriceLabel.Text = "$10";
             FifthPriceLabel.Text = "$15";
+
+            couponCodes.Add("ONEWASH");
+            couponCodes.Add("BOUNCEBACK");
+
             ScanQrCodeButton.TouchUpInside += ScanQrCodeButton_TouchUpInsideAsync;
             //PriceView.Hidden = true;
             CouponValidity();
             //PriceStackView.Hidden = true;
-            ValidateDeals();
+            ValidateDeals(true);
             
         }
-        private void ValidateDeals()
+        private void ValidateDeals(bool firstcall)
         {
             if (DealsPageViewModel.clientDeal != null)
             {
                 if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 10 && DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId == 1)
                 {
-                    _userDialog.Alert("", DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName + " Sucess");
+                    if (!firstcall)
+                    {
+                        _userDialog.Alert("", DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName + " Sucess");
+                    }
+
                     FirstProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    SecondProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    ThirdProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    FourthProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    FifthProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    SixthProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    SeventhProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    EighthProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    NinthProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    TenthProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    PriceProgessBar.SetProgress(0.0f, false);
+
                 }
                 else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 5 && DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId == 2)
                 {
-                    _userDialog.Alert("You Save $15", DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName + " Success");
+                    if (!firstcall)
+                    {
+                        _userDialog.Alert("You Save $15", DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealName + " Success");
+                    }
+
                     FirstPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     SecondPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     ThirdPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
@@ -220,8 +248,8 @@ namespace StriveCustomer.iOS.Views
 
             if (result != null)
             {
-                Console.WriteLine("Scanned Barcode: " + result.Text);
-                if (DealsViewModel.CouponName.ToUpper().Replace(" ", "").Contains(result.Text.ToUpper().Replace(" ", "")))
+                Console.WriteLine("Scanned Barcode: " + result.Text); //ONEWASH
+                if (couponCodes[DealsViewModel.SelectedDealId - 1].ToUpper().Replace(" ", "") == result.Text.ToUpper().Replace(" ", ""))
                 {
                     DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
                     DealsPageViewModel.clientID = CustomerInfo.ClientID;
@@ -229,7 +257,7 @@ namespace StriveCustomer.iOS.Views
                     //_userDialog.Loading();
 
                     await ViewModel.AddClientDeals();
-                    ValidateDeals();
+                    ValidateDeals(false);
                     CouponValidity();
 
                     //_userDialog.HideLoading();
