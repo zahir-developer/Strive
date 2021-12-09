@@ -78,6 +78,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            ClientTableViewCell.SelectedCell.DeSelectMembershipcell();
             var cell = (ClientTableViewCell)tableView.CellAt(indexPath);
             Selectedindex = indexPath.Row;
             if (firstselected == null)
@@ -100,6 +101,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                     firstselected.DeSelectMembershipcell();
                     secondselected.SelectMembershipcell();
                     firstselected = secondselected;
+                    
                     secondselected = null;
                     MembershipData.SelectedMembership = ItemList[Selectedindex];
                 }

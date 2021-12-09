@@ -16,7 +16,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
     {
         public static readonly NSString Key = new NSString("ClientTableViewCell`");
         public static readonly UINib Nib;
-
+        public static ClientTableViewCell SelectedCell;
         static ClientTableViewCell()
         {
             Nib = UINib.FromName("ClientTableViewCell", NSBundle.MainBundle);
@@ -42,8 +42,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.MembershipDetailView.ClientVehicleMembership.MembershipId).FirstOrDefault();
                 if ((SelectedMembership != null) && (SelectedMembership == item))
                 {
-                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    cell.UserInteractionEnabled = false;
+                    SelectedCell = cell;
+                    //cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    ItemTitle.TextColor = UIColor.Clear.FromHex(0x1DC9B7);
+                    cell.UserInteractionEnabled = true;
+                    ItemIcon.Image = UIImage.FromBundle("icon-checked");
                 }
             }
         }

@@ -35,6 +35,8 @@ namespace Strive.Core.ViewModels.Customer
                     {
                         DealsPageViewModel.clientDeal = result2;
                         DealsViewModel.CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
+                        DealsViewModel.startdate = result2.ClientDeal.ClientDealDetail[0].StartDate;
+                        DealsViewModel.enddate = result2.ClientDeal.ClientDealDetail[0].EndDate;
          
                     }
                 }

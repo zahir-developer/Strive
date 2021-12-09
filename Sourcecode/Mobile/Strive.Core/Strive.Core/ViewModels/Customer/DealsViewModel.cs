@@ -42,8 +42,8 @@ namespace Strive.Core.ViewModels.Customer
                 if (element.DealId == SelectedDealId)
                 {
                     CouponName = element.DealName;
-                    startdate = element.StartDate;
-                    enddate = element.EndDate;
+                    //startdate = element.StartDate;
+                    //enddate = element.EndDate;
                 }
 
             }
@@ -54,6 +54,11 @@ namespace Strive.Core.ViewModels.Customer
             {
                 DealsPageViewModel.clientDeal = result2;
                 CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
+                DealsViewModel.enddate = result2.ClientDeal.ClientDealDetail[0].EndDate;
+            }
+            else
+            {
+                DealsViewModel.enddate = null;
             }
            
             await _navigationService.Navigate<DealsPageViewModel>();

@@ -43,7 +43,7 @@ namespace StriveCustomer.iOS.Views
             DealsLabel.Layer.CornerRadius = 30;
             DealsLabel.ClipsToBounds = true;
 
-            NoOfDaysLabel.Text = "30";
+            
             CouponLabel.Text = DealsViewModel.CouponName;
             if (DealsViewModel.SelectedDealId==1)
             {
@@ -245,33 +245,38 @@ namespace StriveCustomer.iOS.Views
             var scanner = new MobileBarcodeScanner();
 
             var result = await scanner.Scan();
+            DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
+            DealsPageViewModel.clientID = CustomerInfo.ClientID;
+            DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+            await ViewModel.AddClientDeals();
+            ValidateDeals(false);
+            CouponValidity();
+            //if (result != null)
+            //{
+            //    Console.WriteLine("Scanned Barcode: " + result.Text); //ONEWASH
+            //    if (couponCodes[DealsViewModel.SelectedDealId - 1].ToUpper().Replace(" ", "") == result.Text.ToUpper().Replace(" ", ""))
+            //    {
+            //        DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
+            //        DealsPageViewModel.clientID = CustomerInfo.ClientID;
+            //        DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+            //        //_userDialog.Loading();
 
-            if (result != null)
-            {
-                Console.WriteLine("Scanned Barcode: " + result.Text); //ONEWASH
-                if (couponCodes[DealsViewModel.SelectedDealId - 1].ToUpper().Replace(" ", "") == result.Text.ToUpper().Replace(" ", ""))
-                {
-                    DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
-                    DealsPageViewModel.clientID = CustomerInfo.ClientID;
-                    DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
-                    //_userDialog.Loading();
+            //        await ViewModel.AddClientDeals();
+            //        ValidateDeals(false);
+            //        CouponValidity();
 
-                    await ViewModel.AddClientDeals();
-                    ValidateDeals(false);
-                    CouponValidity();
+            //        //_userDialog.HideLoading();
+            //    }
+            //    else
+            //    {
+            //        _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
+            //    }
+            //}
+            //else
+            //{
+            //    _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
+            //}
 
-                    //_userDialog.HideLoading();
-                }
-                else
-                {
-                    _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
-                }
-            }
-            else
-            {
-                _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
-            }
-            
             //if (result.Text == "Buy 10, Get next FREE")
             //{
             //    ViewModel.AddClientDeals();
@@ -279,23 +284,22 @@ namespace StriveCustomer.iOS.Views
         }
         private void CouponValidity()
         {
-            //if (DealsPageViewModel.clientDeal != null)
-            //{
-                DateTime startdate = DateTime.Now.Date;
+            if (DealsViewModel.enddate!=null)
+            {
+                NoOfDaysLabel.Hidden = false;
+                DaysRemainingLabel.Hidden = false;
+                DateTime startdate = DateTime.Today;
                 DateTime enddate = DateTime.Parse(DealsViewModel.enddate);
                 NoOfDaysLabel.Text = (enddate.Date - startdate.Date).ToString("dd");
-
-            //}
-            //else
-            //{
-            //    NoOfDaysLabel.Text ="30";
-            //}
+            }
+            else
+            {
+                NoOfDaysLabel.Hidden = true;
+                DaysRemainingLabel.Hidden = true;
+            }
 
         }
 
- 
-       
-       
     }
 }
 
