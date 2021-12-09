@@ -123,15 +123,29 @@ namespace Greeter
                 try
                 {
                     //var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
-                    var dict = new NSDictionary(new NSString("groupChatMsg"), new NSString(data.ToString()));
+                    var dict = new NSDictionary(new NSString("chatMsg"), new NSString(data.ToString()));
                     NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.message_received"), null, dict);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-
             });
+
+            //hubConnection?.On<object>("GroupMessageReceive", (data) =>
+            //{
+            //    Console.WriteLine("Group Message Received", data);
+            //    try
+            //    {
+            //        var dict = new NSDictionary(new NSString("chatMsg"), new NSString(data.ToString()));
+            //        NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.message_received"), null, dict);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine(ex.Message);
+            //    }
+
+            //});
 
             hubConnection?.On<object>("UserLogOutNotification", (data) =>
             {
