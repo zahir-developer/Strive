@@ -57,7 +57,7 @@ export class VehicleService {
         return this.http.get(`${UrlConfig.vehicle.getVehicleImageById}` + id);
     }
 
-    GetMembershipDiscountStatus(clientId) {
-        return this.http.get(`${UrlConfig.vehicle.getMembershipDiscountStatus}` + clientId);
+    GetMembershipDiscountStatus(clientId, vehicleId) {
+        return this.http.get(`${UrlConfig.vehicle.getMembershipDiscountStatus}` + clientId + '/' + vehicleId);
     }
 }

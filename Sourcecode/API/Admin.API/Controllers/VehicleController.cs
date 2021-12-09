@@ -94,8 +94,8 @@ namespace Admin.API.Controllers
 
 
         [HttpGet]
-        [Route("GetMembershipDiscountStatus/{clientId}")]
-        public Result GetMembershipDiscountStatus(int clientId) => _bplManager.GetMembershipDiscountStatus(clientId);
+        [Route("GetMembershipDiscountStatus/{clientId}/{vehicleId}")]
+        public Result GetMembershipDiscountStatus(int clientId, int vehicleId) => _bplManager.GetMembershipDiscountStatus(clientId, vehicleId);
 
 
 
