@@ -10,6 +10,9 @@ import { ClientHistoryComponent } from '../client-history/client-history.compone
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { AddActivityComponent } from '../../gift-card/add-activity/add-activity.component';
+import { AddActivityAdditionalComponent } from '../../gift-card/add-activity-additional/add-activity-additional.component';
+
 
 @Component({
   selector: 'app-client-create-edit',
@@ -24,6 +27,7 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isView?: any;
   @Input() isAdd?: any;
   vehicleDetails = [];
+  activityDetails = [];
   vehicleDet = [];
   isTableEmpty: boolean;
   headerData: string;
@@ -54,12 +58,31 @@ export class ClientCreateEditComponent implements OnInit {
     this.vehicle.addVehicle = undefined;
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
+      this.getClientActivity(this.selectedData.ClientId);
     }
     else {
       this.vehicleNumber = 1;
     }
   }
+//Get Activity By ClientId
+getClientActivity(id) {
+  this.client.getActivityByClientId(id).subscribe(data => {
+    if (data.status === 'Success') {
+      const activityData = JSON.parse(data.resultData);
+      if(activityData.GiftCardHistoryViewModel)
+      {
+          this.activityDetails=activityData.GiftCardHistoryViewModel
+      }
+    } else {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+  }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+  );
 
+}
   // Get Vehicle By ClientId
   getClientVehicle(id) {
     this.vehicle.getVehicleByClientId(id).subscribe(data => {
@@ -234,6 +257,21 @@ export class ClientCreateEditComponent implements OnInit {
       });
     }
   }
+  // Add Activity Popup
+  addActivity() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(AddActivityAdditionalComponent, ngbModalOptions);
+    modalRef.result.then((result) => {
+      if (result) {
+        // add code here
+      }
+    });
+  }
+
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }

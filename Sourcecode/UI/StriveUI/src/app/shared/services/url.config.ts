@@ -87,7 +87,8 @@ export const UrlConfig = {
     getClientById: `Admin/Client/GetClientById/`,
     getClientList: `Admin/Client/EmailBlast/`,
     getCSVClientList: `Admin/Client/EmailBlastCSV/`,
-    sendClientEmail: `Admin/Client/SendClientEmail/`
+    sendClientEmail: `Admin/Client/SendClientEmail/`,
+    getActivityByClientId: `Admin/Client/GetCreditAccountBalanceHistory/`
   },
   details: {
     addDetail: `Admin/Details/AddDetails`,

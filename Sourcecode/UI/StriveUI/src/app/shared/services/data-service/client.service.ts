@@ -57,7 +57,9 @@ export class ClientService {
 
     return this.http.post(`${UrlConfig.client.getClientList}`, obj,{ responseType: 'arraybuffer', headers: headers } );
   }
-
+  getActivityByClientId(id) {
+    return this.http.get(`${UrlConfig.client.getActivityByClientId}` + id);
+  }
   
   getCSVClientList(obj) {
       return this.http.post(`${UrlConfig.client.getCSVClientList}` , obj);
