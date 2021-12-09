@@ -185,16 +185,16 @@ namespace Greeter
             }
         }
 
-        public static async void SendMessageToGroup(long groupId, long empId, string groupName, string msg)
-        {
-            try
-            {
-                await hubConnection.InvokeAsync("SendMessageToGroup", groupId, empId, groupName, msg);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+        //public static async void SendMessageToGroup(long groupId, long empId, string groupName, string msg)
+        //{
+        //    try
+        //    {
+        //        await hubConnection.InvokeAsync("SendMessageToGroup", groupId, empId, groupName, msg);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //}
     }
 }
