@@ -29,8 +29,8 @@ namespace StriveCustomer.Android.Fragments
         private TextView membershipInfo;
         private Button backButton;
         private Button saveButton;
-        private Dictionary<int, string> makeOptions,colorOptions,modelOptions;
-        private ArrayAdapter<string> makeAdapter,colorAdapter,modelAdapter;
+        private Dictionary<int, string> makeOptions, colorOptions, modelOptions;
+        private ArrayAdapter<string> makeAdapter, colorAdapter, modelAdapter;
         private List<string> makeList, colorList, modelList;
         private VehicleMembershipFragment membershipFragment;
         private MyProfileInfoFragment myProfile;
@@ -58,7 +58,7 @@ namespace StriveCustomer.Android.Fragments
             colorSpinner = rootview.FindViewById<Spinner>(Resource.Id.colorOptions);
             membershipInfo = rootview.FindViewById<TextView>(Resource.Id.membershipId);
             makeSpinner.ItemSelected += MakeSpinner_ItemSelected;
-            modelSpinner.ItemSelected += ModelSpinner_ItemSelected;         
+            modelSpinner.ItemSelected += ModelSpinner_ItemSelected;
             colorSpinner.ItemSelected += ColorSpinner_ItemSelected;
             membershipInfo.Click += MembershipInfo_Click;
             backButton.Click += BackButton_Click;
@@ -69,7 +69,7 @@ namespace StriveCustomer.Android.Fragments
 
         private async void SaveButton_Click(object sender, EventArgs e)
         {
-          await this.ViewModel.SaveVehicle();
+            await this.ViewModel.SaveVehicle();
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -104,80 +104,101 @@ namespace StriveCustomer.Android.Fragments
         private void ModelSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             MembershipDetails.selectedModel = e.Position;
-            var selected = this.ViewModel.modelName.ElementAt(e.Position);
-            MembershipDetails.modelNumber = selected.Key;
-            MembershipDetails.modelName = selected.Value;
+            var selected = this.ViewModel.modelList.Model[e.Position];//.ElementAt(e.Position);
+            MembershipDetails.modelNumber = selected.ModelId;
+            MembershipDetails.modelName = selected.ModelValue;
         }
 
         private void MakeSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
+            
             MembershipDetails.selectedMake = e.Position;
-            var selected = this.ViewModel.manufacturerName.ElementAt(e.Position);
-            MembershipDetails.vehicleMakeNumber = selected.Key;
-            MembershipDetails.vehicleMakeName = selected.Value;
+            var selected = this.ViewModel.makeList.Make.ElementAt(e.Position);
+            MembershipDetails.vehicleMakeNumber = selected.MakeId;
+            MembershipDetails.vehicleMakeName = selected.MakeValue;
+            GetModelList();
         }
 
         private async void LoadSpinner()
         {
             await ViewModel.getVehicleDetails();
-            makeOptions = ViewModel.manufacturerName;
-            colorOptions = ViewModel.colorName;
-            modelOptions = ViewModel.modelName;
+            await ViewModel.GetMakeList();
+           // makeOptions = ViewModel.manufacturerName;
+           // colorOptions = ViewModel.colorName;
+            // modelOptions = ViewModel.modelName;
             var preselectedManufacturer = 0;
-            foreach (var makeName in ViewModel.manufacturerName)
+            foreach (var makeName in ViewModel.makeList.Make)
             {
-                makeList.Add(makeName.Value);
-                if(MembershipDetails.vehicleMakeNumber == makeName.Key)
+                makeList.Add(makeName.MakeValue);
+                if (MembershipDetails.vehicleMakeNumber == makeName.MakeId)
                 {
                     MembershipDetails.selectedMake = preselectedManufacturer;
-                  
+
                 }
                 preselectedManufacturer++;
             }
-             var preselectedColor = 0;
+            var preselectedColor = 0;
             foreach (var colorName in ViewModel.colorName)
             {
                 colorList.Add(colorName.Value);
                 if (MembershipDetails.colorNumber == colorName.Key)
                 {
                     MembershipDetails.selectedColor = preselectedColor;
-                 
+
                 }
-                preselectedColor++; 
-            }
-            var preselectedModel = 0;
-            foreach (var modelName in ViewModel.modelName)
-            {
-                modelList.Add(modelName.Value);
-                if (MembershipDetails.modelNumber == modelName.Key)
-                {
-                    MembershipDetails.selectedModel = preselectedModel;
-                   
-                }
-                preselectedModel++;
-                
+                preselectedColor++;
             }
 
-            makeList.Insert(0, "Select Manufacturer");
-            makeList.RemoveAt(1);
-            colorList.Insert(0, "Select Color");
-            colorList.RemoveAt(1);
-            modelList.Insert(0, "Select Model");
-            modelList.RemoveAt(1);
+           
+
+           // makeList.Insert(0, "Select Manufacturer");
+           // makeList.RemoveAt(1);
+           // colorList.Insert(0, "Select Color");
+           // colorList.RemoveAt(1);
+            //modelList.Insert(0, "Select Model");
+           // modelList.RemoveAt(1);
 
             makeAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, makeList);
             makeAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
             colorAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, colorList);
             colorAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
-            modelAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, modelList);
-            modelAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
+            //modelAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, modelList);
+           // modelAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
             makeSpinner.Adapter = makeAdapter;
             colorSpinner.Adapter = colorAdapter;
-            modelSpinner.Adapter = modelAdapter;
+           // modelSpinner.Adapter = modelAdapter;
 
             makeSpinner.SetSelection(MembershipDetails.selectedMake);
-            modelSpinner.SetSelection(MembershipDetails.selectedModel);
+            //modelSpinner.SetSelection(MembershipDetails.selectedModel);
             colorSpinner.SetSelection(MembershipDetails.selectedColor);
-        } 
+        }
+        private async void GetModelList() 
+        {
+            
+            await ViewModel.GetModelList(MembershipDetails.vehicleMakeName);
+            if (ViewModel.modelList != null)
+            {
+                modelList = new List<string>();
+                var preselectedModel = 0;
+                foreach (var modelName in ViewModel.modelList.Model)
+                {
+                    modelList.Add(modelName.ModelValue);
+                    if (MembershipDetails.modelNumber == modelName.ModelId)
+                    {
+                        MembershipDetails.selectedModel = preselectedModel;
+
+                    }
+                    preselectedModel++;
+
+                }
+                //modelList.Insert(0, "Select Model");
+                //modelList.RemoveAt(1);
+            }
+           
+            modelAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, modelList);
+            modelAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
+            modelSpinner.Adapter = modelAdapter;
+            modelSpinner.SetSelection(MembershipDetails.selectedModel);
+        }
     }
 }
