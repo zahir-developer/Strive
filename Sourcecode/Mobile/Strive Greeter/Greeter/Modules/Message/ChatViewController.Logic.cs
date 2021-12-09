@@ -15,6 +15,9 @@ namespace Greeter.Modules.Message
     {
         List<ChatMessage> Chats = new();
 
+        List<RecipientsCommunicationID> RecepientsCommunicationDetailsList = new();
+        
+
         readonly ChatType chatType;
         readonly ChatInfo chatInfo;
         public ChatViewController(ChatType chatType, ChatInfo chatInfo)
@@ -35,17 +38,26 @@ namespace Greeter.Modules.Message
                 });
             });
 
-            //NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.group_message_received"), notify: (notification) => {
-            //    if (notification.UserInfo is null)
-            //        return;
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.recepient_received"), notify: (notification) =>
+            {
+                if (notification.UserInfo is null)
+                    return;
 
-            //    var chatMsgString = notification.UserInfo["chatMsg"] as NSString;
-            //    var chatMsg = JsonConvert.DeserializeObject<SendChatMessage>(chatMsgString);
+                var recepientSring = notification.UserInfo["recepient"] as NSString;
+                var recepient = JsonConvert.DeserializeObject<RecipientsCommunicationID>(recepientSring);
 
-            //    InvokeOnMainThread(() => {
-            //        MessageReceived(chatMsg);
-            //    });
-            //});
+                int index = RecepientsCommunicationDetailsList.FindIndex(c => c.employeeId == recepient.employeeId);
+
+                if (index != -1)
+                    RecepientsCommunicationDetailsList.RemoveAt(index);
+
+                RecepientsCommunicationDetailsList.Add(recepient);
+
+                InvokeOnMainThread(() =>
+                {
+                        //MessageReceived(chatMsg);
+                });
+            });
 
             _ = SingalR.StartConnection(AppSettings.UserID);
         }
@@ -139,6 +151,12 @@ namespace Greeter.Modules.Message
                 req.FirstName = req.FirstName;
                 req.LastName = req.LastName;
             }
+            else
+            {
+                var index = RecepientsCommunicationDetailsList.FindIndex(c => c.employeeId == chatInfo.RecipientId.ToString());
+                if (index != -1)
+                    req.ConnectionID = RecepientsCommunicationDetailsList[index].communicationId;
+            }
 
             Debug.WriteLine("Send Chat Msg Req : " + JsonConvert.SerializeObject(req));
 
@@ -209,5 +227,11 @@ namespace Greeter.Modules.Message
         public string groupName { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
+    }
+
+    public class RecipientsCommunicationID
+    {
+        public string employeeId { get; set; }
+        public string communicationId { get; set; }
     }
 }

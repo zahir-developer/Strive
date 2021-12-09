@@ -144,7 +144,10 @@ namespace Greeter
                 try
                 {
                     var datas = JsonConvert.DeserializeObject<string[]>(data.ToString());
-                    //RecipientsID.Add(new RecipientsCommunicationID() { employeeId = datas[0], communicationId = datas[1] });
+                    var recepient = new RecipientsCommunicationID() { employeeId = datas[0], communicationId = datas[1]};
+
+                    var dict = new NSDictionary(new NSString("recepient"), new NSString(JsonConvert.SerializeObject(recepient)));
+                    NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.recepient_received"), null, dict);
                 }
                 catch (Exception ex)
                 {
