@@ -15,6 +15,7 @@ namespace Strive.Core.ViewModels.Customer
         public static int SelectedDealId { get; set; }
         public static string startdate { get; set; }
         public static string enddate { get; set; }
+        public static int TimePeriod { get; set; }
         public static string CouponName;
         public async Task GetAllDealsCommand()
         {
@@ -43,7 +44,8 @@ namespace Strive.Core.ViewModels.Customer
                 {
                     CouponName = element.DealName;
                     //startdate = element.StartDate;
-                    //enddate = element.EndDate;
+                    enddate = element.EndDate;
+                    TimePeriod = element.TimePeriod;
                 }
 
             }
@@ -56,10 +58,10 @@ namespace Strive.Core.ViewModels.Customer
                 CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
                 DealsViewModel.enddate = result2.ClientDeal.ClientDealDetail[0].EndDate;
             }
-            else
-            {
-                DealsViewModel.enddate = null;
-            }
+            //else
+            //{
+            //    DealsViewModel.enddate = null;
+            //}
            
             await _navigationService.Navigate<DealsPageViewModel>();
 

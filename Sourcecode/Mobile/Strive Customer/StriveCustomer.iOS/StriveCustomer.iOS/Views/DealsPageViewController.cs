@@ -242,41 +242,79 @@ namespace StriveCustomer.iOS.Views
         }
         private async void ScanQrCodeButton_TouchUpInsideAsync(object sender, EventArgs e)
         {
-            var scanner = new MobileBarcodeScanner();
+            string CurrentDate = DateTime.Today.ToString("yyyy-MM-dd");
+            
+            if (DealsViewModel.TimePeriod==3)
+            {
+                if ((DateTime.Today.Date<=DateTime.Parse(DealsViewModel.enddate).Date))
+                {
+                    var scanner = new MobileBarcodeScanner();
 
-            var result = await scanner.Scan();
-            DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
-            DealsPageViewModel.clientID = CustomerInfo.ClientID;
-            DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
-            await ViewModel.AddClientDeals();
-            ValidateDeals(false);
-            CouponValidity();
-            //if (result != null)
-            //{
-            //    Console.WriteLine("Scanned Barcode: " + result.Text); //ONEWASH
-            //    if (couponCodes[DealsViewModel.SelectedDealId - 1].ToUpper().Replace(" ", "") == result.Text.ToUpper().Replace(" ", ""))
-            //    {
-            //        DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
-            //        DealsPageViewModel.clientID = CustomerInfo.ClientID;
-            //        DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
-            //        //_userDialog.Loading();
+                    var result = await scanner.Scan();
 
-            //        await ViewModel.AddClientDeals();
-            //        ValidateDeals(false);
-            //        CouponValidity();
+                    if (result != null)
+                    {
+                        Console.WriteLine("Scanned Barcode: " + result.Text); //ONEWASH
+                        if (couponCodes[DealsViewModel.SelectedDealId - 1].ToUpper().Replace(" ", "") == result.Text.ToUpper().Replace(" ", ""))
+                        {
+                            DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
+                            DealsPageViewModel.clientID = CustomerInfo.ClientID;
+                            DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+                            //_userDialog.Loading();
 
-            //        //_userDialog.HideLoading();
-            //    }
-            //    else
-            //    {
-            //        _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
-            //    }
-            //}
-            //else
-            //{
-            //    _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
-            //}
+                            await ViewModel.AddClientDeals();
+                            ValidateDeals(false);
+                            CouponValidity();
 
+                            //_userDialog.HideLoading();
+                        }
+                        else
+                        {
+                            _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
+                        }
+                    }
+                    else
+                    {
+                        _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
+                    }
+                }
+                else
+                {
+                    _userDialog.Alert("Deal not available");
+                }
+
+            }
+            else
+            {
+                var scanner = new MobileBarcodeScanner();
+
+                var result = await scanner.Scan();
+                if (result != null)
+                {
+                    Console.WriteLine("Scanned Barcode: " + result.Text); //ONEWASH
+                    if (couponCodes[DealsViewModel.SelectedDealId - 1].ToUpper().Replace(" ", "") == result.Text.ToUpper().Replace(" ", ""))
+                    {
+                        DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
+                        DealsPageViewModel.clientID = CustomerInfo.ClientID;
+                        DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+                        //_userDialog.Loading();
+
+                        await ViewModel.AddClientDeals();
+                        ValidateDeals(false);
+                        CouponValidity();
+
+                        //_userDialog.HideLoading();
+                    }
+                    else
+                    {
+                        _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
+                    }
+                }
+                else
+                {
+                    _userDialog.Alert("The Scanned Coupon not matched!,Try Again", "Invalid Coupon");
+                }
+            }
             //if (result.Text == "Buy 10, Get next FREE")
             //{
             //    ViewModel.AddClientDeals();
