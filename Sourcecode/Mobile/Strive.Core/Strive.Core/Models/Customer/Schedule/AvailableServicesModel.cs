@@ -7,6 +7,7 @@ namespace Strive.Core.Models.Customer.Schedule
     public class AvailableServicesModel
     {
         public List<AllServiceDetail> AllServiceDetail { get; set; }
+
     }
     public class AllServiceDetail
     {

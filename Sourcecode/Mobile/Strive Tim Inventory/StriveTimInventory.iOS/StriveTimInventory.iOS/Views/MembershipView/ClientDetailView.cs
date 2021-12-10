@@ -35,9 +35,13 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             VehicleTableView.SeparatorColor = UIColor.Gray;
             VehicleTableView.TableFooterView = new UIView(CGRect.Empty);
             VehicleTableView.DelaysContentTouches = false;
+            
             VehicleTableView.ReloadData();
         }
-
+        public override void ViewDidAppear(bool animated)
+        {
+            ViewDidLoad();
+        }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();

@@ -273,9 +273,12 @@ namespace StriveCustomer.iOS.Views
 
             var currentLocation = await Geolocation.GetLastKnownLocationAsync();           
             double dist = currentLocation.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles);
-
-            dict.Add(id, dist);
-            distanceList.Add(dist);
+            if (!dict.ContainsKey(id))
+            {
+                dict.Add(id, dist);
+                distanceList.Add(dist);
+            }
+            
         }
 
         [Export("mapView:viewForAnnotation:")]

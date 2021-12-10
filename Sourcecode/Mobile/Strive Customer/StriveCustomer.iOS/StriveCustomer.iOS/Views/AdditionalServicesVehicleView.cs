@@ -5,6 +5,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 using StriveCustomer.iOS.UIUtils;
+using System.Collections.Generic;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -13,7 +14,7 @@ namespace StriveCustomer.iOS.Views
         public AdditionalServicesVehicleView() : base("AdditionalServicesVehicleView", null)
         {
         }
-
+        
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();

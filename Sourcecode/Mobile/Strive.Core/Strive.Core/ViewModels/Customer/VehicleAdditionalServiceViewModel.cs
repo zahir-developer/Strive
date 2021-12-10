@@ -1,5 +1,6 @@
 ﻿using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils.TimInventory;
 using System;
@@ -13,7 +14,7 @@ namespace Strive.Core.ViewModels.Customer
     public class VehicleAdditionalServiceViewModel : BaseViewModel
     {
         public ObservableCollection<AllServiceDetail> serviceList { get; set; } = new ObservableCollection<AllServiceDetail>();
-
+        public List<ServiceDetail> DefaultServices { get; set; } = new List<ServiceDetail>();
         public VehicleAdditionalServiceViewModel()
         {           
             

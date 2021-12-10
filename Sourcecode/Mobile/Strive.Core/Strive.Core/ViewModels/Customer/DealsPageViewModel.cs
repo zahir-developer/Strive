@@ -9,6 +9,7 @@ namespace Strive.Core.ViewModels.Customer
         public static int  dealId;
         public static int clientID;
         public static string Date;
+        public static string Enddate;
         public static ClientDeals clientDeal;
         public DealsPageViewModel()
         {
@@ -35,9 +36,12 @@ namespace Strive.Core.ViewModels.Customer
                     {
                         DealsPageViewModel.clientDeal = result2;
                         DealsViewModel.CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
-                        DealsViewModel.startdate = result2.ClientDeal.ClientDealDetail[0].StartDate;
-                        DealsViewModel.enddate = result2.ClientDeal.ClientDealDetail[0].EndDate;
+                        Enddate = result2.ClientDeal.ClientDealDetail[0].EndDate;
          
+                    }
+                    else
+                    {
+                        Enddate = null;
                     }
                 }
                 //else

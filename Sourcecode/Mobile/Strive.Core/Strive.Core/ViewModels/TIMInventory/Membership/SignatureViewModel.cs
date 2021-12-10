@@ -5,13 +5,15 @@ using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
 using System.Collections.Generic;
 using MvvmCross.Plugin.Messenger;
+using System.Linq;
+using Strive.Core.Models.Customer.Schedule;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
     public class SignatureViewModel : BaseViewModel
     {
         private MvxSubscriptionToken _messageToken;
-
+        
         public SignatureViewModel()
         {
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
@@ -31,8 +33,18 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             await _navigationService.Close(this);
         }
 
+      
+
         public async void NextCommand()
         {
+            if (MembershipData.MembershipDetailView != null)
+            {
+                if (MembershipData.MembershipDetailView.ClientVehicleMembership!=null)
+                {
+                    var isDeleted = await AdminService.DeleteVehicleMembership(MembershipData.MembershipDetailView.ClientVehicleMembership.ClientMembershipId);
+                }
+                    
+            }
             var VehicleMembership = PrepareVehicleMembership();
             _userDialog.ShowLoading("Assigning membership to the vehicle...");
             var result = await AdminService.SaveVehicleMembership(VehicleMembership);
@@ -53,12 +65,40 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));
         }
 
+
         ClientVehicleRoot PrepareVehicleMembership()
         {
             int ClientMembership = 0;
             if (MembershipData.MembershipDetailView != null)
             {
                 ClientMembership = MembershipData.MembershipDetailView.ClientVehicleMembership.ClientMembershipId;
+            }
+            List<AllServiceDetail> serviceDetails = new List<AllServiceDetail>();
+            var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
+            string[] selectedServices = SelectedMembership.Services.Split(",");
+
+            foreach (var SelectedService in selectedServices)
+            {
+                var defaultservices =MembershipData.AllAdditionalServices.ToList().Find(x => x.ServiceName.Replace(" ", "") == SelectedService.Replace(" ", ""));
+                serviceDetails.Add(defaultservices);
+            }
+
+            foreach (var item in serviceDetails)
+            {
+                if(item!=null)
+                {
+                    MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
+                    {
+                        clientVehicleMembershipServiceId = 0,
+                        clientMembershipId = ClientMembership,
+                        serviceId = item.ServiceId,
+                        serviceTypeId = item.ServiceTypeId,
+                        isActive = true,
+                        isDeleted = false,
+
+                    });
+                }
+                
             }
             var model = new ClientVehicleRoot()
             {

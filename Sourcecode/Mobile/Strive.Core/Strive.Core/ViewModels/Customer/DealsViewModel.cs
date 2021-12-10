@@ -58,10 +58,10 @@ namespace Strive.Core.ViewModels.Customer
                 CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
                 DealsViewModel.enddate = result2.ClientDeal.ClientDealDetail[0].EndDate;
             }
-            //else
-            //{
-            //    DealsViewModel.enddate = null;
-            //}
+            else
+            {
+                DealsViewModel.enddate = null;
+            }
            
             await _navigationService.Navigate<DealsPageViewModel>();
 

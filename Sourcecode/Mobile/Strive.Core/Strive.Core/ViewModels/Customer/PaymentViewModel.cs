@@ -10,7 +10,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public List<ClientVehicleMembershipService> selectedmembershipServices = new List<ClientVehicleMembershipService>();
         public static string Base64ContractString;
-
+        private List<ServiceDetail> servicedetails;
         public PaymentViewModel()
         {
 
@@ -88,6 +88,25 @@ namespace Strive.Core.ViewModels.Customer
 
         private void PrepareAdditionalServices()
         {
+            string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");
+            List<ServiceDetail> serviceDetails = new List<ServiceDetail>();
+            
+            foreach (var SelectedService in selectedServices)
+            {
+                var defaultservices = MembershipDetails.completeList.ServicesWithPrice.Find(x => x.ServiceName.Replace(" ", "") == SelectedService.Replace(" ",""));
+                serviceDetails.Add(defaultservices);
+            }
+            foreach (var item in serviceDetails)
+            {
+                ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
+                clientVehicleMembershipService.serviceId = item.ServiceId;
+                clientVehicleMembershipService.serviceTypeId = item.ServiceTypeId;
+                clientVehicleMembershipService.createdDate = DateTime.Now.ToString();
+                clientVehicleMembershipService.updatedDate = DateTime.Now.ToString();
+                clientVehicleMembershipService.clientMembershipId = item.MembershipId;
+                clientVehicleMembershipService.clientVehicleMembershipServiceId = item.MembershipServiceId;
+                selectedmembershipServices.Add(clientVehicleMembershipService);
+            }
             var servicesDetails = MembershipDetails.completeList.ServicesWithPrice.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
             foreach(var service in servicesDetails)
             {
@@ -98,7 +117,7 @@ namespace Strive.Core.ViewModels.Customer
                 clientVehicleMembershipService.updatedDate = DateTime.Now.ToString();
                 clientVehicleMembershipService.clientMembershipId = service.MembershipId;
                 clientVehicleMembershipService.clientVehicleMembershipServiceId = service.MembershipServiceId;
-                selectedmembershipServices.Add(clientVehicleMembershipService);
+                selectedmembershipServices.Add(clientVehicleMembershipService);   
             }
 
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;

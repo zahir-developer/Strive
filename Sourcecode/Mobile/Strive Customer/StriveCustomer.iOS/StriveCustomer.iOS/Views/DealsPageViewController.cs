@@ -17,7 +17,7 @@ namespace StriveCustomer.iOS.Views
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         public List<string> couponCodes = new List<string>();
-        
+        private string EndDate;
         public DealsPageViewController() : base("DealsPageViewController", null)
         {
         }
@@ -322,12 +322,12 @@ namespace StriveCustomer.iOS.Views
         }
         private void CouponValidity()
         {
-            if (DealsViewModel.enddate!=null)
+            if (DealsPageViewModel.Enddate!=null)
             {
                 NoOfDaysLabel.Hidden = false;
                 DaysRemainingLabel.Hidden = false;
                 DateTime startdate = DateTime.Today;
-                DateTime enddate = DateTime.Parse(DealsViewModel.enddate);
+                DateTime enddate = DateTime.Parse(DealsPageViewModel.Enddate);
                 NoOfDaysLabel.Text = (enddate.Date - startdate.Date).ToString("dd");
             }
             else

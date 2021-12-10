@@ -1,6 +1,7 @@
 ﻿using System;
 using Strive.Core.Models.TimInventory;
 using System.Collections.Generic;
+using Strive.Core.Models.Customer.Schedule;
 
 namespace Strive.Core.Utils.TimInventory
 {
@@ -41,5 +42,6 @@ namespace Strive.Core.Utils.TimInventory
 
         public static List<ClientVehicleMembershipService> ExtraServices { get; set; }
 
+        public static List<AllServiceDetail> AllAdditionalServices { get; set; }
     }
 }

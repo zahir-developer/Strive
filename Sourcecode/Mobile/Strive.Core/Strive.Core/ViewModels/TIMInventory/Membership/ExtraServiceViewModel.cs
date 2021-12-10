@@ -22,7 +22,9 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public ObservableCollection<AllServiceDetail> ExtraServiceList { get; set; } = new ObservableCollection<AllServiceDetail>();
 
-        public ObservableCollection<AllServiceDetail> serviceList { get; set; } = new ObservableCollection<AllServiceDetail>();
+        public  ObservableCollection<AllServiceDetail> serviceList { get; set; } = new ObservableCollection<AllServiceDetail>();
+
+       
 
         public ExtraServiceViewModel()
         {
@@ -33,14 +35,19 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public async void GetAdditionalServices()
         {
+            MembershipData.AllAdditionalServices = new List<AllServiceDetail>();
+            MembershipData.AllAdditionalServices.Clear();
+
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.GetScheduleServices(EmployeeData.selectedLocationId);
 
             if(result != null)
             {
-                foreach(var item in result.AllServiceDetail)
+                
+                foreach (var item in result.AllServiceDetail)
                 {
-                    if(item.ServiceTypeName == "Additional Services")
+                    MembershipData.AllAdditionalServices.Add(item);
+                    if (item.ServiceTypeName == "Additional Services")
                     {
                         serviceList.Add(item);
                     }
