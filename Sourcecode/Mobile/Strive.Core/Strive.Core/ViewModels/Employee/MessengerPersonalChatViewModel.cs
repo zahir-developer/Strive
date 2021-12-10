@@ -32,6 +32,37 @@ namespace Strive.Core.ViewModels.Employee
 
         #region Commands
 
+        public async Task<string> StartCommunication()
+        {
+            var ConnectionID = await ChatHubMessagingService.StartConnection();
+            return ConnectionID;
+        }
+
+        public async Task SetChatCommunicationDetails(string commID)
+        {
+            var communicationData = new ChatCommunication()
+            {
+                communicationId = commID,
+                employeeId = EmployeeTempData.EmployeeID
+            };
+            var result = await MessengerService.ChatCommunication(communicationData);
+            if (result == null)
+            {
+                _userDialog.Alert("Communication has not been established");
+            }
+            else
+            {
+                if (result.Status)
+                {
+
+                }
+                else
+                {
+                    _userDialog.Alert("Communication has not been established");
+                }
+            }
+        }
+
         public async Task GetAllMessages(ChatDataRequest chatData)
         {
             var result = await MessengerService.GetPersonalChatMessages(chatData);

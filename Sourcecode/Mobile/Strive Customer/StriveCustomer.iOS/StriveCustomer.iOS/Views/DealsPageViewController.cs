@@ -237,8 +237,6 @@ namespace StriveCustomer.iOS.Views
                 PriceProgessBar.SetProgress(0.95f, false);
             }
 
-            DealsPageViewModel.clientDeal = null;
-
         }
         private async void ScanQrCodeButton_TouchUpInsideAsync(object sender, EventArgs e)
         {
@@ -257,9 +255,9 @@ namespace StriveCustomer.iOS.Views
                         Console.WriteLine("Scanned Barcode: " + result.Text); //ONEWASH
                         if (couponCodes[DealsViewModel.SelectedDealId - 1].ToUpper().Replace(" ", "") == result.Text.ToUpper().Replace(" ", ""))
                         {
-                            DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
-                            DealsPageViewModel.clientID = CustomerInfo.ClientID;
-                            DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+                            ViewModel.dealId = DealsViewModel.SelectedDealId;
+                            ViewModel.clientID = CustomerInfo.ClientID;
+                            ViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
                             //_userDialog.Loading();
 
                             await ViewModel.AddClientDeals();
@@ -294,9 +292,9 @@ namespace StriveCustomer.iOS.Views
                     Console.WriteLine("Scanned Barcode: " + result.Text); //ONEWASH
                     if (couponCodes[DealsViewModel.SelectedDealId - 1].ToUpper().Replace(" ", "") == result.Text.ToUpper().Replace(" ", ""))
                     {
-                        DealsPageViewModel.dealId = DealsViewModel.SelectedDealId;
-                        DealsPageViewModel.clientID = CustomerInfo.ClientID;
-                        DealsPageViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
+                        ViewModel.dealId = DealsViewModel.SelectedDealId;
+                        ViewModel.clientID = CustomerInfo.ClientID;
+                        ViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
                         //_userDialog.Loading();
 
                         await ViewModel.AddClientDeals();
@@ -322,12 +320,13 @@ namespace StriveCustomer.iOS.Views
         }
         private void CouponValidity()
         {
-            if (DealsPageViewModel.Enddate!=null)
+
+            if (DealsPageViewModel.clientDeal != null)
             {
                 NoOfDaysLabel.Hidden = false;
                 DaysRemainingLabel.Hidden = false;
                 DateTime startdate = DateTime.Today;
-                DateTime enddate = DateTime.Parse(DealsPageViewModel.Enddate);
+                DateTime enddate = DateTime.Parse(DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].EndDate);
                 NoOfDaysLabel.Text = (enddate.Date - startdate.Date).ToString("dd");
             }
             else

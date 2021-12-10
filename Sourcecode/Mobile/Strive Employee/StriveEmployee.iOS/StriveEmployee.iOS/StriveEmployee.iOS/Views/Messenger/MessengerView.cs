@@ -18,7 +18,6 @@ namespace StriveEmployee.iOS.Views.Messenger
         public MessengerContactViewModel contactSView;
         public MessengerRecentContactsViewModel recentViewModel;
         public MessengerGroupContactViewModel groupViewModel;
-        public static string ConnectionID;
         public nint index = 0;
         public Contact_DataSource contactSource;
 
@@ -75,14 +74,6 @@ namespace StriveEmployee.iOS.Views.Messenger
             Messenger_TableView.ReloadData();
 
             Messenger_SearchBar.TextChanged += SearchTextchanged;
-
-            if (ChatHubMessagingService.RecipientsID == null)
-            {
-                ChatHubMessagingService.RecipientsID = new ObservableCollection<RecipientsCommunicationID>();
-                ChatHubMessagingService.RecipientsID.CollectionChanged += RecipientsID_CollectionChanged;
-                
-            }
-            EstablishHubConnection();
 
             getRecentContacts();
         }
@@ -167,42 +158,6 @@ namespace StriveEmployee.iOS.Views.Messenger
                     setGroupData();
                 }
             }           
-        }
-
-        private async void RecipientsID_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-            {
-                if (MessengerTempData.RecipientsConnectionID == null)
-                {
-                    MessengerTempData.RecipientsConnectionID = new Dictionary<string, string>();
-                }
-                foreach (var item in e.NewItems)
-                {
-                    var datas = (RecipientsCommunicationID)item;
-                    if (MessengerTempData.RecipientsConnectionID.ContainsKey(datas.employeeId))
-                    {
-                        MessengerTempData.RecipientsConnectionID.Remove(datas.employeeId);
-                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
-                    }
-                    else
-                    {
-                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
-                    }
-                }
-            }
-        }
-
-        private async void EstablishHubConnection()
-        {
-            ConnectionID = await ViewModel.StartCommunication();
-
-            await ChatHubMessagingService.SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
-
-            MessengerTempData.ConnectionID = ConnectionID;
-
-            await ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
-            await ChatHubMessagingService.SubscribeChatEvent();    
         }
 
         private async void getRecentContacts()

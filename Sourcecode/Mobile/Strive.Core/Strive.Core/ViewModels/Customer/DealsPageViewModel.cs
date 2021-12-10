@@ -6,10 +6,11 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class DealsPageViewModel:BaseViewModel
     {
-        public static int  dealId;
-        public static int clientID;
-        public static string Date;
-        public static string Enddate;
+
+        public int  dealId;
+        public int clientID;
+        public string Date;
+
         public static ClientDeals clientDeal;
         public DealsPageViewModel()
         {
@@ -36,12 +37,6 @@ namespace Strive.Core.ViewModels.Customer
                     {
                         DealsPageViewModel.clientDeal = result2;
                         DealsViewModel.CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
-                        Enddate = result2.ClientDeal.ClientDealDetail[0].EndDate;
-         
-                    }
-                    else
-                    {
-                        Enddate = null;
                     }
                 }
                 //else

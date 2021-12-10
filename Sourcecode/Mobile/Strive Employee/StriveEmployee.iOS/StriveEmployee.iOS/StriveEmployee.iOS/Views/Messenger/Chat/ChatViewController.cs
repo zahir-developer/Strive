@@ -11,6 +11,8 @@ using Strive.Core.ViewModels.Employee;
 using MvvmCross.Binding.BindingContext;
 using UIKit;
 using System.Linq;
+using System.Collections.ObjectModel;
+using Strive.Core.Models.Employee.Messenger;
 
 namespace StriveEmployee.iOS.Views.Messenger.Chat
 {
@@ -22,7 +24,8 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
         UILabel chatMessagePlaceholderLabel;
         NSLayoutConstraint messageBoxContainerBottomConstraint;
         //MessengerPersonalChatViewModel ViewModel;
-        
+        public static string ConnectionID;
+
 
         public List<string> Chats = new List<string>();
 
@@ -35,11 +38,15 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             base.ViewDidLoad();
             //ViewModel = new MessengerPersonalChatViewModel();
 
-            getChatData();            
-            RegisterKeyboardObserver();
+
 
             //chatTableView.WeakDelegate = this;
             //chatTableView.WeakDataSource = this;
+            getChatData();
+
+            EstablishHubConnection();
+
+            RegisterKeyboardObserver();
 
         }
 
@@ -49,6 +56,53 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             // Release any cached data, images, etc that aren't in use.
         }
 
+        private void RecipientsID_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                if (MessengerTempData.RecipientsConnectionID == null)
+                {
+                    MessengerTempData.RecipientsConnectionID = new Dictionary<string, string>();
+                }
+                foreach (var item in e.NewItems)
+                {
+                    var datas = (RecipientsCommunicationID)item;
+                    if (MessengerTempData.RecipientsConnectionID.ContainsKey(datas.employeeId))
+                    {
+                        MessengerTempData.RecipientsConnectionID.Remove(datas.employeeId);
+                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
+                    }
+                    else
+                    {
+                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
+                    }
+                }
+            }
+        }
+
+        private async void EstablishHubConnection()
+        {
+            ConnectionID = await ViewModel.StartCommunication();
+
+            await ChatHubMessagingService.SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
+
+            MessengerTempData.ConnectionID = ConnectionID;
+
+            await ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
+            await ChatHubMessagingService.SubscribeChatEvent();
+
+            if (ChatHubMessagingService.RecipientsID == null)
+            {
+                ChatHubMessagingService.RecipientsID = new ObservableCollection<RecipientsCommunicationID>();
+                ChatHubMessagingService.RecipientsID.CollectionChanged += RecipientsID_CollectionChanged;
+
+            }
+
+            await ChatHubMessagingService.SubscribeChatEvent();
+            ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
+            ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
+            
+        }
         async void SetupView()
         {
             View.BackgroundColor = UIColor.White;
@@ -129,12 +183,10 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 chatTableView.ReloadData();
             }
 
-            await ChatHubMessagingService.SubscribeChatEvent();
-            ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
-            ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
+            
         }
 
-        private async  void GroupMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void GroupMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Console.WriteLine("GroupMessageList_CollectionChanged called");
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
@@ -170,7 +222,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             chatTableView.ReloadData();
         }
 
-        private async void PrivateMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void PrivateMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Console.WriteLine("PrivateMessageList_CollectionChanged called");
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
