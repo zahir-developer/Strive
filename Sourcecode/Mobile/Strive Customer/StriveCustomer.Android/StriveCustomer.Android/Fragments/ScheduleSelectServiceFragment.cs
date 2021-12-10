@@ -24,6 +24,7 @@ namespace StriveCustomer.Android.Fragments
         private Button ScheduleServices_FrontButton;
         private ScheduleFragment scheduleFragment;
         private ScheduleLocationsFragment locationsFragment;
+        private ScheduleAppointmentFragment appointmentFragment;
         private View[] layout;
         private CheckBox[] checkBoxes;
         private TextView[] serviceViewToggle;
@@ -60,9 +61,9 @@ namespace StriveCustomer.Android.Fragments
 
         private void ScheduleServices_BackButton_Click1(object sender, EventArgs e)
         {
-            scheduleFragment = new ScheduleFragment();
+            locationsFragment = new ScheduleLocationsFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationsFragment).Commit();
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)
@@ -76,9 +77,9 @@ namespace StriveCustomer.Android.Fragments
         {
             if(this.ViewModel.checkSelectedService())
             {
-                locationsFragment = new ScheduleLocationsFragment();
+                appointmentFragment = new ScheduleAppointmentFragment();
                 AppCompatActivity activity = (AppCompatActivity)this.Context;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationsFragment).Commit();
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, appointmentFragment).Commit();
             }
            
         }

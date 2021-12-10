@@ -44,7 +44,7 @@ namespace StriveCustomer.Android.Adapter
     {
 
         Context context;
-        private ScheduleSelectServiceFragment selectServicesFragment;
+        private ScheduleLocationsFragment selectLocationFragment;
         private VehicleList VehicleLists = new VehicleList();
         private ScheduleVehicleListViewHolder vehicleListViewHolder;
         public ScheduleVehicleListAdapter(VehicleList vehicleList)
@@ -71,10 +71,10 @@ namespace StriveCustomer.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-            selectServicesFragment = new ScheduleSelectServiceFragment();
+            selectLocationFragment = new ScheduleLocationsFragment();
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             CustomerScheduleInformation.ScheduledVehicleName = VehicleLists.Status[position].VehicleColor +" "+ VehicleLists.Status[position].VehicleMfr;          
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectServicesFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectLocationFragment).Commit();
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

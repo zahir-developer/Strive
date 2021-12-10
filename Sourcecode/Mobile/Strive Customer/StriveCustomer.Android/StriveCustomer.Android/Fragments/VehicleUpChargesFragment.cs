@@ -30,6 +30,8 @@ namespace StriveCustomer.Android.Fragments
         private Dictionary<int, int> upchargeRadio;
         LinearLayout.LayoutParams layoutParams;
         int someId = 12348880;
+        private string selectedRadioBtn ="";
+        RadioButton upChargeRadio;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -63,7 +65,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            if(ViewModel.VehicleUpchargeCheck())
+            if (ViewModel.VehicleUpchargeCheck())
             {
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
@@ -72,7 +74,18 @@ namespace StriveCustomer.Android.Fragments
 
         private void UpchargeOptions_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
-            MembershipDetails.selectedUpCharge = upchargeRadio.FirstOrDefault(x => x.Value == e.CheckedId).Key;
+            int radioButtonID = upchargeOptions.CheckedRadioButtonId;
+            RadioButton radioButton = (RadioButton)upchargeOptions.FindViewById(radioButtonID);
+            if (radioButton?.Text == "None")
+            {
+                MembershipDetails.isNoneSelected = true;
+                MembershipDetails.selectedUpCharge = 0;
+            }
+            else
+            {
+                MembershipDetails.selectedUpCharge = upchargeRadio.FirstOrDefault(x => x.Value == e.CheckedId).Key;
+
+            }
         }
 
         private async void ServiceDetails()
@@ -81,11 +94,13 @@ namespace StriveCustomer.Android.Fragments
             await this.ViewModel.getAllServiceList();
             if(MembershipDetails.filteredList != null)
             {
-                foreach(var result in MembershipDetails.filteredList.ServicesWithPrice)
+                ViewModel.upchargeFullList.ServicesWithPrice.Insert(0, new Strive.Core.Models.TimInventory.ServiceDetail() { Upcharges = "None"});
+                foreach (var result in this.ViewModel.upchargeFullList.ServicesWithPrice)
                 {
                     if(!string.IsNullOrEmpty(result.Upcharges))
                     {
-                        RadioButton upChargeRadio = new RadioButton(Context);
+
+                        upChargeRadio = new RadioButton(Context);
                         layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
                         layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
                         layoutParams.SetMargins(0, 20, 0, 20);
@@ -100,10 +115,37 @@ namespace StriveCustomer.Android.Fragments
                             upChargeRadio.SetTypeface(null, TypefaceStyle.Bold);
                             upChargeRadio.SetTextSize(ComplexUnitType.Sp, (float)16.5);
                             upChargeRadio.TextAlignment = TextAlignment.ViewEnd;
+                            selectedRadioBtn = upChargeRadio.Text;
                             if (result.ServiceId == MembershipDetails.selectedUpCharge)
                             {
                                 upChargeRadio.Checked = true;
                             }
+                            if (MembershipDetails.modelUpcharge.upcharge.Count == 0)
+                            {
+                                if (upChargeRadio.Text == "None")
+                                {
+                                    upChargeRadio.Checked = true;
+                                    MembershipDetails.isNoneSelected = true;
+                                    MembershipDetails.selectedUpCharge = 0;
+                                }
+                                else
+                                {
+                                    upChargeRadio.Checked = false;
+                                }
+                            }
+                            else
+                            {
+                                if (result.Upcharges == MembershipDetails.modelUpcharge.upcharge[0].Upcharges)
+                                {
+                                    MembershipDetails.isNoneSelected = true;
+                                    upChargeRadio.Checked = true;
+                                }
+                                else
+                                {
+                                    upChargeRadio.Checked = false;
+                                }
+                            }
+                            
                             someId++;
                             upchargeOptions.AddView(upChargeRadio);
                         }

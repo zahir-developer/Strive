@@ -21,10 +21,10 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Commands
         
-        public async void SignUpCommand()
-        {
-            //await _navigationService.Navigate<SignUpViewModel>();
-        }
+        //public async void SignUpCommand()
+        //{
+        //    //await _navigationService.Navigate<SignUpViewModel>();
+        //}
 
         public async void ForgotPasswordCommand()
         {

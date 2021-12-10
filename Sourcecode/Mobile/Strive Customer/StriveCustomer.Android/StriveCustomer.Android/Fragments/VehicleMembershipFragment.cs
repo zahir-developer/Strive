@@ -76,8 +76,33 @@ namespace StriveCustomer.Android.Fragments
         private void MembershipGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
             MembershipDetails.selectedMembership = checkedId.FirstOrDefault(x => x.Value == e.CheckedId).Key;
+            int index = membershipGroup.IndexOfChild(membershipGroup.FindViewById(membershipGroup.CheckedRadioButtonId));
+            if(index!=-1)
+            UpdatePrice(index);
         }
+        public void UpdatePrice(int index)
+        {
+            if (MembershipDetails.selectedMembershipDetail != null)
+            {
+                if (MembershipDetails.selectedMembershipDetail.Price > this.ViewModel.membershipList.Membership[index].Price)
+                {
+                    CustomerInfo.MembershipFee = 20;
+                    MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[index];
 
+                }
+                else
+                {
+                    CustomerInfo.MembershipFee = 0;
+                    MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[index];
+                }
+            }
+            else
+            {
+                MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[index];
+            }
+
+
+        }
         public async void getMembershipData()
         {
             await this.ViewModel.getMembershipDetails();
@@ -98,6 +123,8 @@ namespace StriveCustomer.Android.Fragments
                 if(data.MembershipId == MembershipDetails.selectedMembership)
                 {
                     radioButton.Checked = true;
+                    
+                    MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[ViewModel.membershipList.Membership.IndexOf(data)];
                 }
                 someId++;
                 membershipGroup.AddView(radioButton);

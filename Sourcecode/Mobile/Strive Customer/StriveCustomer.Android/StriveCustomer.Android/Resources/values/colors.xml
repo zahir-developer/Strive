@@ -19,4 +19,5 @@
     <color name="secondaryTextColor">#333333</color>
     <color name="vehicleInfoCardColor">#F2F2F2</color>
    <color name="scheduleTextColor">#27446E</color>
+    <color name="additionalServiceColor">#DCDCDC</color>
 </resources>

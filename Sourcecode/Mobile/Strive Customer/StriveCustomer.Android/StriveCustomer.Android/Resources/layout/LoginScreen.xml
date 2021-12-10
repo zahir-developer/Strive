@@ -105,12 +105,22 @@
             android:layout_marginRight="@dimen/twenty"
             android:background="@drawable/primarybutton"
             android:fontFamily="@font/opensans_bold" />
+        <TextView
+            android:id="@+id/forgotPasswordLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty"
+            android:layout_marginLeft="@dimen/twenty"  
+            android:layout_marginRight="@dimen/seven"
+            android:textColor="@color/defaultButtonColor"
+            android:fontFamily="@font/opensans_regular"/>
+        
     </LinearLayout>
-   <!-- <LinearLayout
+  <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/fifty"
+        android:layout_marginTop="@dimen/sixty"
         android:gravity="center">
         <TextView
             android:id="@+id/newAccount"
@@ -125,8 +135,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five"    
-            android:fontFamily="@font/opensans_bold"
-            android:textColor="@color/defaultLinkColor"
+            android:fontFamily="@font/opensans_regular"
+            android:textColor="@color/defaultButtonColor"
             android:gravity="right"/>
-    </LinearLayout>-->
+    </LinearLayout>
 </LinearLayout>

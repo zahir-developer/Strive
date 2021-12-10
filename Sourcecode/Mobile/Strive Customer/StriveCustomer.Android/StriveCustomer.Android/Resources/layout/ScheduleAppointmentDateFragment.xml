@@ -65,7 +65,8 @@
                         android:layout_height="130dp"
                         android:columnWidth="90dp"
                         android:numColumns="4"
-                        android:verticalSpacing="10dp"
+                       android:layout_marginTop="@dimen/ten"
+                        android:verticalSpacing="15dp"
                         android:horizontalSpacing="10dp"
                         android:stretchMode="columnWidth"
                         android:gravity="center" />

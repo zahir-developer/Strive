@@ -12,8 +12,10 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.Models.Customer;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Services;
+using Xamarin.Essentials;
 using static Android.Manifest;
 
 namespace StriveCustomer.Android.Views
@@ -43,12 +45,12 @@ namespace StriveCustomer.Android.Views
             emailPhoneInput = FindViewById<EditText>(Resource.Id.emailPhoneInputs);
             passwordInput = FindViewById<EditText>(Resource.Id.passwordInputs);
             loginButton = FindViewById<Button>(Resource.Id.loginButton);
-            //signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
-            //signUp.PaintFlags = PaintFlags.UnderlineText;
+            signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
+            signUp.PaintFlags = PaintFlags.UnderlineText;
             rememberMe = FindViewById<TextView>(Resource.Id.rememberMeLabel);
-            //forgotPassword = FindViewById<TextView>(Resource.Id.forgotPasswordLink);
-            //forgotPassword.PaintFlags = PaintFlags.UnderlineText;
-            //newAccount = FindViewById<TextView>(Resource.Id.newAccount);
+            forgotPassword = FindViewById<TextView>(Resource.Id.forgotPasswordLink);
+            forgotPassword.PaintFlags = PaintFlags.UnderlineText;
+            newAccount = FindViewById<TextView>(Resource.Id.newAccount);
             rememberMeCheck = FindViewById<CheckBox>(Resource.Id.rememberMeCheck);
 
             var bindingset = this.CreateBindingSet<LoginView, LoginViewModel>();
@@ -60,17 +62,22 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(loginButton).To(lvm => lvm.Commands["DoLogin"]);
             bindingset.Bind(rememberMe).To(lvm => lvm.RememberPassword);
             bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
-           // bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
-           // bindingset.Bind(signUp).To(lvm => lvm.SignUp);
+            bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
+            bindingset.Bind(signUp).To(lvm => lvm.SignUp);
             bindingset.Apply();
             basicSetup();
             rememberMeCheck.Click += checkStoredCredentials;
+
             // signUp.Click += navigateToSignUp;
             // forgotPassword.Click += navigateToForgotPassword;
 #if DEBUG
             emailPhoneInput.Text = "ramtesting21@gmail.com";
             passwordInput.Text = "pass@123";
 #endif
+
+            signUp.Click += navigateToSignUp;
+           forgotPassword.Click += navigateToForgotPassword;
+
         }
 
         private void checkStoredCredentials(object o, EventArgs e)
@@ -105,12 +112,14 @@ namespace StriveCustomer.Android.Views
 
         private void navigateToSignUp(object o, EventArgs e)
         {
-            ViewModel.SignUpCommand();
+            //ViewModel.SignUpCommand();
+            Browser.OpenAsync(ApiUtils.URL_CUSTOMER_SIGNUP, BrowserLaunchMode.SystemPreferred);
+
         }
 
         private void navigateToForgotPassword(object o, EventArgs e)
         {
-            //ViewModel.ForgotPasswordCommand();
+            ViewModel.ForgotPasswordCommand();
         }
 
         private void basicSetup()

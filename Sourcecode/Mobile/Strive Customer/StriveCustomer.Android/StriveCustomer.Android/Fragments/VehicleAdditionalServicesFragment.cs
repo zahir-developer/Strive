@@ -38,6 +38,7 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.VehicleAdditionalServicesFragment, null);
+            this.ViewModel = new VehicleAdditionalServiceViewModel();
             upChargesFragment = new VehicleUpChargesFragment();
             membershipSignature = new MembershipSignatureFragment();
             additionalService = rootview.FindViewById<ListView>(Resource.Id.additionalOptions);
@@ -45,8 +46,8 @@ namespace StriveCustomer.Android.Fragments
             nextButton = rootview.FindViewById<Button>(Resource.Id.serviceNext);
             backButton.Click += BackButton_Click;
             nextButton.Click += NextButton_Click;
-            additionalServicesAdapter = new AdditionalServicesAdapter(Context,MembershipDetails.filteredList.ServicesWithPrice);
-            additionalService.SetAdapter(additionalServicesAdapter);
+            getAdditionalServices();
+            
             return rootview;
         }
         private void NextButton_Click(object sender, EventArgs e)
@@ -54,7 +55,13 @@ namespace StriveCustomer.Android.Fragments
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipSignature).Commit();
         }
+        private async void getAdditionalServices()
+        {
+            await this.ViewModel.AddUpchargesToServiceList();
 
+            additionalServicesAdapter = new AdditionalServicesAdapter(Context, ViewModel.serviceList);
+            additionalService.SetAdapter(additionalServicesAdapter);
+        }
         private void BackButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;

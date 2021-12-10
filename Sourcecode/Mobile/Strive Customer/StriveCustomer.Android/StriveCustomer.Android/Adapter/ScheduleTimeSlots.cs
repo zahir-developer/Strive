@@ -57,7 +57,7 @@ namespace StriveCustomer.Android.Adapter
             if (convertView == null)
             {
                 slotSelection[position] = new Button(context);
-                slotSelection[position].LayoutParameters = new GridView.LayoutParams(100, 85);
+                slotSelection[position].LayoutParameters = new GridView.LayoutParams(150, 85);
                 
                 slotSelection[position].SetPadding(8, 8, 8, 8);
             }
@@ -305,7 +305,7 @@ namespace StriveCustomer.Android.Adapter
             {
                 slotSelection[position].SetBackgroundResource(Resource.Drawable.TimeSlotSelected);
             }
-
+            NotifyDataSetChanged();
             return slotSelection[position];
         }
 

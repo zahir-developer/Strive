@@ -26,7 +26,7 @@ namespace StriveCustomer.Android.Fragments
         private Button scheduleLocations_BackButton;
         private Button scheduleLocations_NextButton;
         private ScheduleSelectServiceFragment selectServiceFragment;
-        private ScheduleAppointmentFragment appointmentFragment;
+        private ScheduleFragment scheduleragment;
         LinearLayout.LayoutParams layoutParams;
         private RadioGroup scheduleLocationsGroup;
         int someId = 2114119900;
@@ -66,17 +66,17 @@ namespace StriveCustomer.Android.Fragments
         {
             if(this.ViewModel.checkSelectedLocation())
             {
-                appointmentFragment = new ScheduleAppointmentFragment();
+                selectServiceFragment = new ScheduleSelectServiceFragment();
                 AppCompatActivity activity = (AppCompatActivity)this.Context;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, appointmentFragment).Commit();
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectServiceFragment).Commit();
             }         
         }
 
         private void ScheduleLocations_BackButton_Click(object sender, EventArgs e)
         {
-            selectServiceFragment = new ScheduleSelectServiceFragment();
+            scheduleragment = new ScheduleFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectServiceFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleragment).Commit();
         }
 
         private async void GetAllLocations()

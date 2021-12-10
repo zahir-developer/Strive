@@ -11,6 +11,7 @@ using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Java.Util;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
@@ -27,8 +28,11 @@ namespace StriveCustomer.Android.Fragments
         private Button Next_Button;
         private Button Back_Button;
         private ScheduleFragment scheduleFragment;
-        private ScheduleLocationsFragment locationFragment;
+        private ScheduleSelectServiceFragment selectServiceFragment;
         private SchedulePreviewFragment previewFragment;
+        private int day, year, month;
+        private Calendar calendar;
+        private DateTime dt;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -50,17 +54,21 @@ namespace StriveCustomer.Android.Fragments
             Back_Button.Click += Back_Button_Click;
             schedule_CalendarView.DateChange += Schedule_CalendarView_DateChange1;
             Cancel_Button.Click += Cancel_Button_Click;
-
+            calendar = Calendar.GetInstance(Java.Util.TimeZone.Default);
+            day = calendar.Get(CalendarField.DayOfMonth);
+            year = calendar.Get(CalendarField.Year);
+            month = calendar.Get(CalendarField.Month);
+            schedule_CalendarView.MinDate = calendar.TimeInMillis;
             CurrentDateSlots();
-
+            
             return rootView;
         }
 
         private void Back_Button_Click(object sender, EventArgs e)
         {
-            locationFragment = new ScheduleLocationsFragment();
+            selectServiceFragment = new ScheduleSelectServiceFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectServiceFragment).Commit();
         }
 
         private void Next_Button_Click(object sender, EventArgs e)
@@ -83,19 +91,21 @@ namespace StriveCustomer.Android.Fragments
 
         private async void CurrentDateSlots()
         {
-            var dt = DateTime.Now;
+             dt = DateTime.Now;
             GetAvailableSlot(dt.Month, dt.Year, dt.Day);
         }
 
         private async void Schedule_CalendarView_DateChange1(object sender, CalendarView.DateChangeEventArgs e)
         {
+            var str = e.Month+1 + "-" + e.DayOfMonth + "-" + e.Year + " " + DateTime.Now.ToString("HH:mm:ss"); ;
+            
+            dt = Convert.ToDateTime(str);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
             GetAvailableSlot(e.Month, e.Year, e.DayOfMonth);
         }
 
        private async void GetAvailableSlot(int month, int year, int day)
         {
             string date = "";
-           
             switch (month)
             {
                 case 0:
@@ -171,10 +181,14 @@ namespace StriveCustomer.Android.Fragments
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
             }
-            date = date + "T00:00:00.000Z";
+            //date = date + "T00:00:00.000Z";
+            CustomerScheduleInformation.ScheduleFullDate = (dt.ToString()).Substring(0, 10);
+            //CustomerScheduleInformation.ScheduleFullDate = date.Year + "-" + date.Month + "-" + date.Day;
+            //DateTime local = date1.d;
+            var dateToServer = dt.ToString("yyy/MM/dd HH:mm:ss");
             this.ViewModel.checkDate = CustomerScheduleInformation.ScheduleDate + "/" + CustomerScheduleInformation.ScheduleMonth + "/" + CustomerScheduleInformation.ScheduleYear;
-            //await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date);
-            await this.ViewModel.GetSlotAvailability(8, date);
+            await ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, dateToServer);
+            //await this.ViewModel.GetSlotAvailability(8, date);
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
             {
                 TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, this.ViewModel.ScheduleSlotInfo);

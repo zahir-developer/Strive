@@ -86,6 +86,9 @@ namespace StriveCustomer.Android.Fragments
             {
                 pastInfo.GetPastDetails();
             }
+
+            
+
         }
     }
     public static class MyProfileInfoNeeds
