@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Foundation;
 using Greeter.Common;
@@ -16,20 +15,20 @@ namespace Greeter
 
         public static async Task StartConnection(long empId = -1)
         {
-            if (hubConnection == null)
-            {
+            //if (hubConnection == null)
+            //{
                 await ConnectHubAndSubscribeForEvents();
                 await SendEmployeeCommunicationId(empId.ToString(), hubConnection.ConnectionId);
                 _ = UpdateApi(empId);
-            }
-            else if (hubConnection.State == HubConnectionState.Disconnected)
-            {
-                await hubConnection?.StartAsync();
-                await SubscribeChatEvent();
-                Debug.WriteLine("hubConnection.ConnectionId : " + hubConnection.ConnectionId);
-                await SendEmployeeCommunicationId(empId.ToString(), hubConnection.ConnectionId);
-                _ = UpdateApi(empId);
-            }
+            //}
+            //else if (hubConnection.State == HubConnectionState.Disconnected)
+            //{
+            //    await hubConnection?.StartAsync();
+            //    await SubscribeChatEvent();
+            //    Debug.WriteLine("hubConnection.ConnectionId : " + hubConnection.ConnectionId);
+            //    await SendEmployeeCommunicationId(empId.ToString(), hubConnection.ConnectionId);
+            //    _ = UpdateApi(empId);
+            //}
 
             hubConnection.Closed += async (arg) => {
                 hubConnection = null;

@@ -33,15 +33,7 @@ namespace Greeter.Storyboards
         //public bool IsMembershipService;
         public string CardNumber;
 
-        //const string HTML_TEMPLATE = "<!DOCTYPE html><html><head><link href=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css\" rel=\"stylesheet\" /></head><body><div id = \"print-section\" >< div class=\"row\"><div class=\"col-12\"><p>Client: &nbsp;&nbsp;{{ClientName}}</ p ></ div ></ div >< div class= \"row\" >< div class= \"col-4\" > Vehicle: &nbsp;{ { VehicleModel} }</ div >< div class= \"col-4 text-center\" >{ { VehicleMake} }</ div >< div class= \"col-4 text-right\" >{ { VehicleColor} }</ div ></ div >< div class= \"row\" >< div class= \"col-6\" ></ div >< div class= \"col-6 text-right\" >< div class= \"row\" >< div class= \"col-12\" >< P class= \"text-center\" >< strong > Detail Packages </ strong ></ P >< div * ngFor = \"let addService of detailService\" >< p class= \"text-center\" >{ { addService} }</ p ></ div </ div ></ div >< br />< div class= \"row\" >< div class= \"col-12\" >< P class= \"text-center\" >< strong > Vehicle Upcharge </ strong ></ P >< p class= \"text-center\" >{ { upchargeService} }</ p ></ div ></ div >< br />< br />< div class= \"row\" >< div class= \"col-12\" >< P class= \"text-center\" >< strong > Air Fresheners </ strong ></ P >< p class= \"text-center\" >{ { airfreshService} }</ p ></ div ></ div ></ div ></ div >< div class= \"row\" >< div class= \"col-12\" >< div > In: &nbsp;{ { TimeIn} }</ div ></ div ></ div >< br />< div class= \"row\" >< div class= \"col-12\" >< div > Out: &nbsp;{ { EstimatedTimeOut } }</ div ></ div ></ div >< br />< div class= \"row\" >< div class= \"col-12\" >< div > Est: &nbsp;{ { minutes} }&nbsp; Min </ div ></ div ></ div >< br />< div class= \"row\" >< div class= \"col-12 text-center\" >< strong > New Customer Info</strong></div></div><br/><br/><div class= \"row\" >    < div class= \"col-12\" >< div > Name: &nbsp;{ { ClientName} }</ div ></ div ></ div >< br />< div class= \"row\" >< div class= \"col-12\" >< div > Phone: &nbsp;{ { PhoneNumber} }</ div ></ div ></ div >< br />< div class= \"row\" >< div class= \"col-12\" >< div > Email: &nbsp;{ { Email} }</ div ></ div ></ div >< br />< br />< div >< div class= \"col-12\" >< div > Note: { { Notes} }</ div ></ div ></ div ></ div ></ body ></ html >";
-
-        //const string HTML_TEMPLATE = "<!DOCTYPE html><html><head> <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/> </head><body><div id="print-section"> <div class="row"> <div class="col-12"> <p>Client: &nbsp;&nbsp;{{ClientName}}</p></div></div><div class="row"> <div class="col-4">Vehicle: &nbsp;{{VehicleModel}}</div><div class="col-4 text-center">{{VehicleMake}}</div><div class="col-4 text-right">{{VehicleColor}}</div></div><div class="row"> <div class="col-6"> </div><div class="col-6 text-right"> <div class="row"> <div class="col-12"> <P class="text-center"><strong>Detail Packages</strong></P> <div *ngFor="let addService of detailService"> <p class="text-center">{{addService}}</p></div></div></div><br/> <div class="row"> <div class="col-12"> <P class="text-center"><strong>Vehicle Upcharge</strong></P> <p class="text-center">{{upchargeService}}</p></div></div><br/> <br/> <div class="row"> <div class="col-12"> <P class="text-center"><strong>Air Fresheners</strong></P> <p class="text-center">{{airfreshService}}</p></div></div></div></div><div class="row"> <div class="col-12"> <div>In: &nbsp;{{TimeIn}}</div></div></div><br/> <div class="row"> <div class="col-12"> <div>Out: &nbsp;{{EstimatedTimeOut}}</div></div></div><br/> <div class="row"> <div class="col-12"> <div>Est: &nbsp;{{minutes}}&nbsp;Min</div></div></div><br/> <div class="row"> <div class="col-12 text-center"> <strong>New Customer Info</strong> </div></div><br/> <br/> <div class="row"> <div class="col-12"> <div> Name: &nbsp;{{ClientName}}</div></div></div><br/> <div class="row"> <div class="col-12"> <div> Phone: &nbsp;{{PhoneNumber}}</div></div></div><br/> <div class="row"> <div class="col-12"> <div> Email: &nbsp;{{Email}}</div></div></div><br/> <br/> <div > <div class="col-12"> <div>Note:{{Notes}}</div></div></div></div></body></html>";
-
-        //const string HTML_TEMPLATE = "<!DOCTYPE html><html><head> <link href=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css\" rel=\"stylesheet\"/> </head><body><div id=\"print-section\"> <div class=\"row\"> <div class=\"col-12\"> <p>Client: &nbsp;&nbsp;{{ClientName}}</p></div></div><div class=\"row\"> <div class=\"col-4\">Vehicle: &nbsp;{{VehicleModel}}</div><div class=\"col-4 text-center\">{{VehicleMake}}</div><div class=\"col-4 text-right\">{{VehicleColor}}</div></div><div class=\"row\"> <div class=\"col-6\"> </div><div class=\"col-6 text-right\"> <div class=\"row\"> <div class=\"col-12\"> <P class=\"text-center\"><strong>Detail Packages</strong></P> <div *ngFor=\"let addService of detailService\"> <p class=\"text-center\">{{addService}}</p></div></div></div><br/> <div class=\"row\"> <div class=\"col-12\"> <P class=\"text-center\"><strong>Vehicle Upcharge</strong></P> <p class=\"text-center\">{{upchargeService}}</p></div></div><br/> <br/> <div class=\"row\"> <div class=\"col-12\"> <P class=\"text-center\"><strong>Air Fresheners</strong></P> <p class=\"text-center\">{{airfreshService}}</p></div></div></div></div><div class=\"row\"> <div class=\"col-12\"> <div>In: &nbsp;{{TimeIn}}</div></div></div><br/> <div class=\"row\"> <div class=\"col-12\"> <div>Out: &nbsp;{{EstimatedTimeOut}}</div></div></div><br/> <div class=\"row\"> <div class=\"col-12\"> <div>Est: &nbsp;{{minutes}}&nbsp;Min</div></div></div><br/> <div class=\"row\"> <div class=\"col-12 text-center\"> <strong>New Customer Info</strong> </div></div><br/> <br/> <div class=\"row\"> <div class=\"col-12\"> <div> Name: &nbsp;{{ClientName}}</div></div></div><br/> <div class=\"row\"> <div class=\"col-12\"> <div> Phone: &nbsp;{{PhoneNumber}}</div></div></div><br/> <div class=\"row\"> <div class=\"col-12\"> <div> Email: &nbsp;{{Email}}</div></div></div><br/> <br/> <div > <div class=\"col-12\"> <div>Note:{{Notes}}</div></div></div></div></body></html>";
-
-        //const string dsa = "< p > Client: {{ClientName}}</ p >< p > &nbsp;</ p >< table style = "border-collapse: collapse; width: 100%; height: 54px;" border = "0" >< tbody >< tr style = "height: 36px;" >< td style = "width: 33.3333%; height: 36px;" > Vehicle: { { VehicleModel} }&nbsp;</ td >< td style = "width: 33.3333%; height: 36px;" >{ { VehicleMake} }</ td >< td style = "width: 33.3333%; height: 36px;" >{ { VehicleColor} }</ td ></ tr >< tr >< td > &nbsp;</ td >< td > Detail Packages </ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td >{ { addService} }</ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td > Vehicle Upcharge </ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td >{ { upchargeService} }</ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td > Air Fresheners </ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td >{ { airfreshService} }</ td >< td > &nbsp;</ td ></ tr ></ tbody ></ table >< p > In: { { TimeIn} }</ p >< p > Out: { { EstimatedTimeOut } }</ p >< p > Est: { { minutes} }Min </ p >< p style = "text-align: center;" > New Customer Info</p><p><br />Name: { { ClientName} }</ p >< p > Phone: { { PhoneNumber} }</ p >< p > Email: { { Email} }</ p >< p >< br /> Note: { { Notes} }</ p > ";
-
-        //const string HTML_TEMPLATE = "< p > Client: {{ClientName}}</ p >< p > &nbsp;</ p >< table style = \"border-collapse: collapse; width: 100%; height: 54px;\" border = \"0\" >< tbody >< tr style = \"height: 36px;\" >< td style = \"width: 33.3333%; height: 36px;\" > Vehicle: { { VehicleModel} }&nbsp;</ td >< td style = \"width: 33.3333%; height: 36px;\" >{ { VehicleMake} }</ td >< td style = \"width: 33.3333%; height: 36px;\" >{ { VehicleColor} }</ td ></ tr >< tr >< td > &nbsp;</ td >< td > Detail Packages </ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td >{ { addService} }</ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td > Vehicle Upcharge </ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td >{ { upchargeService} }</ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td > Air Fresheners </ td >< td > &nbsp;</ td ></ tr >< tr >< td > &nbsp;</ td >< td >{ { airfreshService} }</ td >< td > &nbsp;</ td ></ tr ></ tbody ></ table >< p > In: { { TimeIn} }</ p >< p > Out: { { EstimatedTimeOut } }</ p >< p > Est: { { minutes} }Min </ p >< p style = \"text-align: center;\" > New Customer Info</p><p><br />Name: { { ClientName} }</ p >< p > Phone: { { PhoneNumber} }</ p >< p > Email: { { Email} }</ p >< p >< br /> Note: { { Notes} }</ p >";
+        //const string HTML_TEMPLATE = "\n\n<table style=\"border-collapse: collapse; width: 100%; height: 90px;\" border=\"0\">\n<tbody>\n<tr style=\"height: 18px;\">\n<td>{serviceTime}</td>\n<td style=\"text-align: center;\">{title}</td>\n<td></td>\n</tr>\n<tr style=\"height: 18px;\">\n<td >In: &nbsp; {{date}}</td>\n<td ></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">{Barcode}</td>\n</tr>\n\n<tr>\n<td>\n<div><strong>Out: {date}</strong>\n</div>\n</td>\n<td></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\"><span style=\"text-align: right;\">&nbsp;</span></td>\n</tr>\n<tr>\n<td >Client</td>\n<td ></td>\n<td ></td>\n</tr>\n<tr>\n<td >Vehicle</td>\n<td >{VehicleMake}</td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">\n{VehicleColor}</td>\n</tr>\n</tbody>\n</table>\n<br/>\n<table border=\"1\" width=\"100%\">\n</table>\n\n<br/>\n\n<input type=\"checkbox\" /> Shampoo Carpets\n<br/>\n\nQA Code:\n";
 
         public PaymentSucessViewController(IntPtr handle) : base(handle)
         {
@@ -63,6 +55,11 @@ namespace Greeter.Storyboards
                 PrintReceipt();
             };
 
+            btnVehicleTicket.TouchUpInside += delegate
+            {
+                //chckdataUpdateinHtml();
+            };
+
             btnEmail.TouchUpInside += delegate
             {
                 EmailPopupViewController vc = (EmailPopupViewController)GetViewController(GetHomeStorybpard(), nameof(EmailPopupViewController));
@@ -72,6 +69,35 @@ namespace Greeter.Storyboards
                 //TestEmailTemplate();
             };
         }
+
+        //async Task chckdataUpdateinHtml()
+        //{
+        //    string date = "11-12-2021";
+        //    string title = "something";
+        //    string barcode = "123456";
+        //    string check_in = "10:11";
+        //    string check_out = "11:11";
+        //    string make = "ds";
+        //    string model = "dsp";
+        //    string color = "red";
+        //    string clientName = "karthik";
+        //    string t_no = "654321";
+
+        //    var html = HTML_TEMPLATE.Replace("{serviceTime}", date).Replace("{title}", title).Replace("{barcode}", barcode)
+        //        .Replace("{check_in}", check_in).Replace("{check_out}", check_out).Replace("{}", make).Replace("{model}", model).Replace("{color}", color)
+        //        .Replace("{}", clientName).Replace("{}", t_no)
+
+        //    ShowActivityIndicator();
+
+        //    //string email = "";
+
+        //    var response = await SingleTon.WashApiService.SendEmail("karthiknever16@gmail.com", "something", html);
+
+        //    HideActivityIndicator();
+
+        //    //HTML_TEMPLATE.Replace("serviceTime", date);
+
+        //}
 
         async Task SendEmailReceipt(string email)
         {
@@ -244,6 +270,12 @@ namespace Greeter.Storyboards
         }
 
         void PrintReceipt()
+        {
+            string printContentHtml = MakeServiceReceipt();
+            Print(printContentHtml);
+        }
+
+        void PrintVehicleReceipt()
         {
             string printContentHtml = MakeServiceReceipt();
             Print(printContentHtml);

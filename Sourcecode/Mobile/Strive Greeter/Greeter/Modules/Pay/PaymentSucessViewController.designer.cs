@@ -22,6 +22,9 @@ namespace Greeter.Storyboards
 		UIKit.UIButton btnPrintAndEmail { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnVehicleTicket { get; set; }
+
+		[Outlet]
 		UIKit.UILabel lblAmount { get; set; }
 
 		[Outlet]
@@ -86,9 +89,9 @@ namespace Greeter.Storyboards
 				lblVehicle = null;
 			}
 
-			if (lblService != null) {
-				lblService.Dispose ();
-				lblService = null;
+			if (btnVehicleTicket != null) {
+				btnVehicleTicket.Dispose ();
+				btnVehicleTicket = null;
 			}
 		}
 	}

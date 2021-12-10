@@ -669,8 +669,8 @@ namespace Greeter.Storyboards
                         //req.Job.TimeIn = DateTime.Now.Date.AddHours(Convert.ToDouble(sdt[0])).AddMinutes(Convert.ToDouble(sdt[1])).AddSeconds(0);
 
                         //string[] edt = endTime.Split(":");
-                        //req.Job.TimeIn = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
-                        req.Job.TimeIn = datetime;
+                        req.Job.TimeIn = DateTime.Parse(timeIn);
+                        //req.Job.TimeIn = datetime;
                         //req.Job.EstimatedTimeOut = DateTime.Now.Date.AddHours(Convert.ToDouble(edt[0])).AddMinutes(Convert.ToDouble(edt[1])).AddSeconds(0);
                         //req.Job.EstimatedTimeOut = DateTime.Parse(req.Job.TimeIn).AddMinutes(totalTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API);
                         req.Job.EstimatedTimeOut = req.Job.TimeIn.AddMinutes(totalTimeMins);
