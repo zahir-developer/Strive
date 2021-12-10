@@ -21,7 +21,7 @@ using StriveCustomer.Android.Adapter;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class MyProfileInfoFragment : MvxFragment<MyProfileInfoViewModel>
+    public class MyProfileInfoFragment : MvxFragment<MyProfileInfoViewModel>,ViewPager.IOnPageChangeListener
     {
         TabLayout profileTabs;
         ViewPager profilePager;
@@ -59,6 +59,33 @@ namespace StriveCustomer.Android.Fragments
             profilePager.Adapter = profileAdapter;
             profileTabs.SetupWithViewPager(profilePager);
             profilePager.SetCurrentItem(MyProfileInfoNeeds.selectedTab, false);
+            profilePager.SetOnPageChangeListener(this);
+        }
+
+        public void OnPageScrollStateChanged(int state)
+        {
+
+        }
+
+        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+
+        }
+
+        public void OnPageSelected(int position)
+        {
+            if (position == 0)
+            {
+                personalInfo.GetClientInfo();
+            }
+            else if (position == 1)
+            {
+                vehicleInfo.GetVehicleList();
+            }
+            else if (position == 3)
+            {
+                pastInfo.GetPastDetails();
+            }
         }
     }
     public static class MyProfileInfoNeeds
