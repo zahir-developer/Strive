@@ -32,8 +32,15 @@ namespace Greeter.Storyboards
         public CreateServiceRequest Service;
         //public bool IsMembershipService;
         public string CardNumber;
+        public string Barcode;
+        public string CheckInTime;
+        public string CheckOutTime;
 
-        //const string HTML_TEMPLATE = "\n\n<table style=\"border-collapse: collapse; width: 100%; height: 90px;\" border=\"0\">\n<tbody>\n<tr style=\"height: 18px;\">\n<td>{serviceTime}</td>\n<td style=\"text-align: center;\">{title}</td>\n<td></td>\n</tr>\n<tr style=\"height: 18px;\">\n<td >In: &nbsp; {{date}}</td>\n<td ></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">{Barcode}</td>\n</tr>\n\n<tr>\n<td>\n<div><strong>Out: {date}</strong>\n</div>\n</td>\n<td></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\"><span style=\"text-align: right;\">&nbsp;</span></td>\n</tr>\n<tr>\n<td >Client</td>\n<td ></td>\n<td ></td>\n</tr>\n<tr>\n<td >Vehicle</td>\n<td >{VehicleMake}</td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">\n{VehicleColor}</td>\n</tr>\n</tbody>\n</table>\n<br/>\n<table border=\"1\" width=\"100%\">\n</table>\n\n<br/>\n\n<input type=\"checkbox\" /> Shampoo Carpets\n<br/>\n\nQA Code:\n";
+        const string HTML_TEMPLATE = "\n\n<table style=\"border-collapse: collapse; width: 100%; height: 90px;\" border=\"0\">\n<tbody>\n<tr style=\"height: 18px;\">\n<td></td>\n<td style=\"text-align: center;\">{title}</td>\n<td></td>\n</tr>\n<tr style=\"height: 18px;\">\n<td >In: &nbsp; {check_in}</td>\n<td ></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">{Barcode}</td>\n</tr>\n\n<tr>\n<td>\n<div><strong>Out: {check_out}</strong>\n</div>\n</td>\n<td></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\"><span style=\"text-align: right;\">&nbsp;</span></td>\n</tr>\n<tr>\n<td >Client Name: {Client Name}</td>\n<td ></td>\n<td ></td>\n</tr>\n<tr>\n<td >{Vehicle Make}</td>\n<td > {Vehicle Model}</td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">\n{Vehicle Color}</td>\n</tr>\n</tbody>\n</table>\n<br/>\n<table border=\"1\" width=\"100%\">\n</table>\n\n<br/>\n\n";
+
+        const string SERVICE_NAME_HTML = "<input type=\"checkbox\" /> {Service Name}\n<br/>\n";
+
+        const string TICKET_NO_HTML = "\nTicket Number: {Ticket No}\n";
 
         public PaymentSucessViewController(IntPtr handle) : base(handle)
         {
@@ -57,7 +64,7 @@ namespace Greeter.Storyboards
 
             btnVehicleTicket.TouchUpInside += delegate
             {
-                //chckdataUpdateinHtml();
+                _ = PrintVehicleTicket();
             };
 
             btnEmail.TouchUpInside += delegate
@@ -70,34 +77,74 @@ namespace Greeter.Storyboards
             };
         }
 
-        //async Task chckdataUpdateinHtml()
-        //{
-        //    string date = "11-12-2021";
-        //    string title = "something";
-        //    string barcode = "123456";
-        //    string check_in = "10:11";
-        //    string check_out = "11:11";
-        //    string make = "ds";
-        //    string model = "dsp";
-        //    string color = "red";
-        //    string clientName = "karthik";
-        //    string t_no = "654321";
+        async Task PrintVehicleTicket()
+        {
+            //string date = "11-12-2021";
+            //string title = "something";
+            //string barcode = "123456";
+            //string check_in = "10:11";
+            //string check_out = "11:11";
+            //string make = "ds";
+            //string model = "dsp";
+            //string color = "red";
+            //string clientName = "karthik";
+            //string t_no = "654321";
 
-        //    var html = HTML_TEMPLATE.Replace("{serviceTime}", date).Replace("{title}", title).Replace("{barcode}", barcode)
-        //        .Replace("{check_in}", check_in).Replace("{check_out}", check_out).Replace("{}", make).Replace("{model}", model).Replace("{color}", color)
-        //        .Replace("{}", clientName).Replace("{}", t_no)
+            //var html = HTML_TEMPLATE.Replace("{serviceTime}", date).Replace("{title}", title).Replace("{Barcode}", barcode)
+            //    .Replace("{check_in}", check_in).Replace("{check_out}", check_out).Replace("{Vehicle Make}", make).Replace("{Vehicle Model}", model).Replace("{Vehicle Color}", color)
+            //    .Replace("{Client Name}", clientName).Replace("{Ticket No}", t_no);
 
-        //    ShowActivityIndicator();
+            string title = Common.Messages.SERVICE_RECEIPT_SUBJECT;
 
-        //    //string email = "";
+            if (ServiceType == ServiceType.Detail)
+            {
+                title = Common.Messages.DETAIL_RECEIPT_SUBJECT;
+            }
 
-        //    var response = await SingleTon.WashApiService.SendEmail("karthiknever16@gmail.com", "something", html);
+            var html = HTML_TEMPLATE.Replace("{serviceTime}", "date").Replace("{title}", title).Replace("{Barcode}", Barcode)
+                .Replace("{check_in}", CheckInTime).Replace("{check_out}", CheckOutTime).Replace("{Vehicle Make}", Make).Replace("{Vehicle Model}", Model).Replace("{Vehicle Color}", Color)
+                .Replace("{Client Name}", CustomerName);
 
-        //    HideActivityIndicator();
+            var serviceHtml = string.Empty;
 
-        //    //HTML_TEMPLATE.Replace("serviceTime", date);
+            if (Service is not null)
+            {
+                //var totalAmt = 0f;
+                for (int i = 0; i < Service.JobItems.Count; i++)
+                {
+                    var job = Service.JobItems[i];
 
-        //}
+                    serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", job.SeriveName);
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(ServiceName))
+                {
+                    serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", ServiceName);
+                }
+
+                if (!string.IsNullOrEmpty(AdditionalServiceName) && !AdditionalServiceName.Equals("none", StringComparison.OrdinalIgnoreCase))
+                {
+                    serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", AdditionalServiceName);
+                }
+            }
+
+            var ticketHtml = TICKET_NO_HTML.Replace("{Ticket No}", TicketID.ToString());
+
+            html += serviceHtml;
+            html += ticketHtml;
+
+            Print(html);
+
+            //ShowActivityIndicator();
+
+            //string email = "";
+
+            //var response = await SingleTon.WashApiService.SendEmail("karthiknever16@gmail.com", "something", html);
+
+            //HideActivityIndicator();
+        }
 
         async Task SendEmailReceipt(string email)
         {
@@ -275,11 +322,20 @@ namespace Greeter.Storyboards
             Print(printContentHtml);
         }
 
-        void PrintVehicleReceipt()
-        {
-            string printContentHtml = MakeServiceReceipt();
-            Print(printContentHtml);
-        }
+        //void PrintVehicleReceipt()
+        //{
+        //    string title = Common.Messages.SERVICE_RECEIPT_SUBJECT;
+
+        //    if (ServiceType == ServiceType.Detail)
+        //    {
+        //        title = Common.Messages.DETAIL_RECEIPT_SUBJECT;
+        //    }
+
+        //    var html = HTML_TEMPLATE.Replace("{serviceTime}", "date").Replace("{title}", title).Replace("{Barcode}", "barcode")
+        //        .Replace("{check_in}", "check_in").Replace("{check_out}", "check_out").Replace("{Vehicle Make}", Make).Replace("{Vehicle Model}", Model).Replace("{Vehicle Color}", Color)
+        //        .Replace("{Client Name}", CustomerName).Replace("{Ticket No}", TicketID.ToString());
+        //    Print(html);
+        //}
 
         public void SendEmailClicked(string email)
         {

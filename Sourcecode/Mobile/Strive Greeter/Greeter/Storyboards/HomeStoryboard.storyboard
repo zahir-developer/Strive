@@ -1345,7 +1345,7 @@
                                                     <constraint firstItem="gR2-xG-caW" firstAttribute="height" secondItem="Aal-dl-pVn" secondAttribute="height" id="WJ4-eJ-qer"/>
                                                     <constraint firstAttribute="trailing" secondItem="Aal-dl-pVn" secondAttribute="trailing" constant="5" id="Zow-Dc-2cL"/>
                                                     <constraint firstItem="HLN-K0-ujY" firstAttribute="centerY" secondItem="gR2-xG-caW" secondAttribute="centerY" id="bL1-wL-Qok"/>
-                                                    <constraint firstItem="HLN-K0-ujY" firstAttribute="width" secondItem="gR2-xG-caW" secondAttribute="width" id="g9Y-GV-2y5"/>
+                                                    <constraint firstItem="HLN-K0-ujY" firstAttribute="width" secondItem="gR2-xG-caW" secondAttribute="width" id="nWY-iu-dCd"/>
                                                     <constraint firstAttribute="bottom" secondItem="gR2-xG-caW" secondAttribute="bottom" constant="5" id="vdX-cV-Wi9"/>
                                                     <constraint firstItem="Aal-dl-pVn" firstAttribute="leading" secondItem="HLN-K0-ujY" secondAttribute="trailing" constant="6" id="x2l-MJ-IRy"/>
                                                 </constraints>

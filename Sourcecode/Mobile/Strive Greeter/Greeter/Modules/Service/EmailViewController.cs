@@ -30,6 +30,9 @@ namespace Greeter.Storyboards
         public string Model;
         public string Color;
         public string CustName;
+        public string Barcode;
+        public string CheckInTime;
+        public string CheckOutTime;
         public CreateServiceRequest Service;
         public ServiceType ServiceType;
         public bool IsMembershipService;
@@ -547,6 +550,9 @@ async Task SendEmail(string email)
             var vc = new PaymentViewController();
             vc.JobID = Service.Job.JobID;
             vc.Make = Make;
+            vc.Barcode = Barcode;
+            vc.CheckInTime = CheckInTime;
+            vc.CheckOutTime = CheckOutTime;
             vc.Model = Model;
             vc.Color = Color;
             vc.CustName = CustName;

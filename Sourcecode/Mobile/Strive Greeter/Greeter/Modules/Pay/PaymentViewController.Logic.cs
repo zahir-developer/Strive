@@ -22,6 +22,9 @@ namespace Greeter.Modules.Pay
         public string AdditionalServiceName;
         public float Amount;
         public string CustName;
+        public string Barcode;
+        public string CheckInTime;
+        public string CheckOutTime;
         public ServiceType ServiceType;
         //public bool IsFromNewService = true;
         public CreateServiceRequest Service;
@@ -152,6 +155,9 @@ namespace Greeter.Modules.Pay
                             vc.Make = Make;
                             vc.Model = Model;
                             vc.Color = Color;
+                            vc.Barcode = Barcode;
+                            vc.CheckInTime = CheckInTime;
+                            vc.CheckOutTime = CheckOutTime;
                             vc.ServiceName = ServiceName;
                             vc.Amount = totalAmnt;
                             vc.CustomerName = CustName;

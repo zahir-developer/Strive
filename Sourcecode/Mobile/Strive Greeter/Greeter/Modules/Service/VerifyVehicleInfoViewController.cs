@@ -35,6 +35,8 @@ namespace Greeter.Storyboards
         public string Color = string.Empty;
         public string Barcode;
         public string CustName;
+        //public string CheckInTime;
+        //public string CheckOutTime;
         public string UpchargeTypeName;
         public ServiceType ServiceType;
         public bool IsMembershipService;
@@ -703,6 +705,9 @@ namespace Greeter.Storyboards
                             vc.Color = Color;
                             vc.CustName = CustName;
                             vc.Service = req;
+                            vc.Barcode = Barcode;
+                            vc.CheckInTime = req.Job.TimeIn.ToString("dd/MM/yyyy, hh:mm tt");
+                            vc.CheckOutTime = req.Job.EstimatedTimeOut.GetValueOrDefault().ToString("hh:mm tt");
                             vc.ServiceType = ServiceType;
                             vc.IsMembershipService = IsMembershipService;
                             nc.PushViewController(vc, true);
