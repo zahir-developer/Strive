@@ -2,6 +2,7 @@
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Details;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -22,6 +23,80 @@ namespace Strive.BusinessLogic.Details
 
         public Result AddDetails(DetailsDto details)
         {
+            //If barcode is not empty, check whether vehicle details is available.                        
+            if (!string.IsNullOrEmpty(details.Job.BarCode))
+            {
+                BusinessEntities.Model.ClientVehicle clientVehicle = null;
+                if (details.Job.VehicleId != null && details.Job.VehicleId != 0)
+                {
+                    VehicleDetailViewModel VehicleDet = new VehicleRal(_tenant).GetVehicleId(details.Job.VehicleId ?? 0);
+                    if (VehicleDet != null)
+                    {
+                        //If available check whether any changes in vehicle make, model and color.
+                        //If any changes are there update in client vehicle.
+                        if ((VehicleDet.VehicleMakeId ?? 0) != details.Job.Make || (VehicleDet.VehicleModelId ?? 0) != details.Job.Model || (VehicleDet.ColorId ?? 0) != details.Job.Color)
+                        {
+                            clientVehicle = new BusinessEntities.Model.ClientVehicle();
+                            clientVehicle.VehicleId = VehicleDet.ClientVehicleId;
+                            clientVehicle.ClientId = VehicleDet.ClientId;
+                            clientVehicle.LocationId = VehicleDet.LocationId;
+                            clientVehicle.VehicleNumber = VehicleDet.VehicleNumber;
+                            clientVehicle.VehicleMfr = details.Job.Make;
+                            clientVehicle.VehicleModel = details.Job.Model;
+                            clientVehicle.VehicleModelNo = VehicleDet.VehicleModelNo;
+                            clientVehicle.VehicleColor = details.Job.Color;
+                            clientVehicle.VehicleYear = VehicleDet.VehicleYear;
+                            clientVehicle.Upcharge = VehicleDet.Upcharge;
+                            clientVehicle.Barcode = details.Job.BarCode;
+                            clientVehicle.Notes = VehicleDet.Notes;
+                            clientVehicle.IsActive = true;
+                            clientVehicle.IsDeleted = false;
+                            clientVehicle.MonthlyCharge = VehicleDet.MonthlyCharge;
+                            clientVehicle.UpdatedDate = DateTime.Now;
+                            clientVehicle.UpdatedBy = details.Job.UpdatedBy;
+
+                        }
+                    }
+                }
+                else
+                {
+                    List<ClientVehicleViewModel> vehicleVm = new WashesRal(_tenant).GetByBarCode(details.Job.BarCode);
+                    if (vehicleVm != null && vehicleVm.FirstOrDefault() != null)
+                    {
+                        if (vehicleVm.First().VehicleMfr != details.Job.Make || (vehicleVm?.First().VehicleModelId ?? 0) != details.Job.Model || vehicleVm.First().VehicleColor != details.Job.Color)
+                        {
+                            clientVehicle = new BusinessEntities.Model.ClientVehicle();
+                            clientVehicle.VehicleId = vehicleVm.First().VehicleId;
+                            //clientVehicle.ClientId = vehicleVm.First().ClientId;
+                            clientVehicle.LocationId = details.Job.LocationId;
+                            clientVehicle.VehicleNumber = vehicleVm.First().VehicleNumber;
+                            clientVehicle.VehicleMfr = details.Job.Make;
+                            clientVehicle.VehicleModel = details.Job.Model;
+                            //clientVehicle.VehicleModelNo = vehicleVm.First().VehicleModelNo;
+                            clientVehicle.VehicleColor = details.Job.Color;
+                            clientVehicle.VehicleYear = vehicleVm.First().VehicleYear;
+                            clientVehicle.Upcharge = vehicleVm.First().Upcharge;
+                            clientVehicle.Barcode = details.Job.BarCode;
+                            clientVehicle.Notes = vehicleVm.First().Notes;
+                            clientVehicle.IsActive = true;
+                            clientVehicle.IsDeleted = false;
+                            //clientVehicle.MonthlyCharge = vehicleVm.First().MonthlyCharge;
+                            clientVehicle.UpdatedDate = DateTime.Now;
+                            clientVehicle.UpdatedBy = details.Job.UpdatedBy;
+                        }
+                    }
+                }
+                if (clientVehicle != null)
+                {
+                    BusinessEntities.Model.ClientVehicleModel ClientVehicleModel = new BusinessEntities.Model.ClientVehicleModel();
+                    ClientVehicleModel.ClientVehicle = clientVehicle;
+
+                    var saveVehicle = new VehicleRal(_tenant).SaveVehicle(ClientVehicleModel);
+                    if (!saveVehicle)
+                        return ResultWrap<BusinessEntities.Model.ClientVehicle>(false, "Result", "Failed to save vehicle details.");
+                }
+            }
+
             if (!string.IsNullOrEmpty(details.DeletedJobItemId))
             {
                 var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(details.DeletedJobItemId);
@@ -248,6 +323,79 @@ namespace Strive.BusinessLogic.Details
 
         public Result UpdateDetails(DetailsDto details)
         {
+            //If barcode is not empty, check whether vehicle details is available.                        
+            if (!string.IsNullOrEmpty(details.Job.BarCode))
+            {
+                BusinessEntities.Model.ClientVehicle clientVehicle = null;
+                if (details.Job.VehicleId != null && details.Job.VehicleId != 0)
+                {
+                    VehicleDetailViewModel VehicleDet = new VehicleRal(_tenant).GetVehicleId(details.Job.VehicleId ?? 0);
+                    if (VehicleDet != null)
+                    {
+                        //If available check whether any changes in vehicle make, model and color.
+                        //If any changes are there update in client vehicle.
+                        if ((VehicleDet.VehicleMakeId ?? 0) != details.Job.Make || (VehicleDet.VehicleModelId ?? 0) != details.Job.Model || (VehicleDet.ColorId ?? 0) != details.Job.Color)
+                        {
+                            clientVehicle = new BusinessEntities.Model.ClientVehicle();
+                            clientVehicle.VehicleId = VehicleDet.ClientVehicleId;
+                            clientVehicle.ClientId = VehicleDet.ClientId;
+                            clientVehicle.LocationId = VehicleDet.LocationId;
+                            clientVehicle.VehicleNumber = VehicleDet.VehicleNumber;
+                            clientVehicle.VehicleMfr = details.Job.Make;
+                            clientVehicle.VehicleModel = details.Job.Model;
+                            clientVehicle.VehicleModelNo = VehicleDet.VehicleModelNo;
+                            clientVehicle.VehicleColor = details.Job.Color;
+                            clientVehicle.VehicleYear = VehicleDet.VehicleYear;
+                            clientVehicle.Upcharge = VehicleDet.Upcharge;
+                            clientVehicle.Barcode = details.Job.BarCode;
+                            clientVehicle.Notes = VehicleDet.Notes;
+                            clientVehicle.IsActive = true;
+                            clientVehicle.IsDeleted = false;
+                            clientVehicle.MonthlyCharge = VehicleDet.MonthlyCharge;
+                            clientVehicle.UpdatedDate = DateTime.Now;
+                            clientVehicle.UpdatedBy = details.Job.UpdatedBy;
+
+                        }
+                    }
+                }
+                else
+                {
+                    List<ClientVehicleViewModel> vehicleVm = new WashesRal(_tenant).GetByBarCode(details.Job.BarCode);
+                    if (vehicleVm != null && vehicleVm.FirstOrDefault() != null)
+                    {
+                        if (vehicleVm.First().VehicleMfr != details.Job.Make || (vehicleVm?.First().VehicleModelId ?? 0) != details.Job.Model || vehicleVm.First().VehicleColor != details.Job.Color)
+                        {
+                            clientVehicle = new BusinessEntities.Model.ClientVehicle();
+                            clientVehicle.VehicleId = vehicleVm.First().VehicleId;
+                            //clientVehicle.ClientId = vehicleVm.First().ClientId;
+                            clientVehicle.LocationId = details.Job.LocationId;
+                            clientVehicle.VehicleNumber = vehicleVm.First().VehicleNumber;
+                            clientVehicle.VehicleMfr = details.Job.Make;
+                            clientVehicle.VehicleModel = details.Job.Model;
+                            //clientVehicle.VehicleModelNo = vehicleVm.First().VehicleModelNo;
+                            clientVehicle.VehicleColor = details.Job.Color;
+                            clientVehicle.VehicleYear = vehicleVm.First().VehicleYear;
+                            clientVehicle.Upcharge = vehicleVm.First().Upcharge;
+                            clientVehicle.Barcode = details.Job.BarCode;
+                            clientVehicle.Notes = vehicleVm.First().Notes;
+                            clientVehicle.IsActive = true;
+                            clientVehicle.IsDeleted = false;
+                            //clientVehicle.MonthlyCharge = vehicleVm.First().MonthlyCharge;
+                            clientVehicle.UpdatedDate = DateTime.Now;
+                            clientVehicle.UpdatedBy = details.Job.UpdatedBy;
+                        }
+                    }
+                }
+                if (clientVehicle != null)
+                {
+                    BusinessEntities.Model.ClientVehicleModel ClientVehicleModel = new BusinessEntities.Model.ClientVehicleModel();
+                    ClientVehicleModel.ClientVehicle = clientVehicle;
+
+                    var saveVehicle = new VehicleRal(_tenant).SaveVehicle(ClientVehicleModel);
+                    if (!saveVehicle)
+                        return ResultWrap<BusinessEntities.Model.ClientVehicle>(false, "Result", "Failed to save vehicle details.");
+                }
+            }
 
             if (!string.IsNullOrEmpty(details.DeletedJobItemId))
             {
