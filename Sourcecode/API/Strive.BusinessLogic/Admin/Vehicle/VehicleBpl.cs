@@ -98,8 +98,19 @@ namespace Strive.BusinessLogic.Vehicle
 
             if(vehicleMembership.DeletedClientMembershipId != null && vehicleMembership.DeletedClientMembershipId.GetValueOrDefault(0) > 0)
             {
+                
+                if (vehicleMembership.ClientVehicleMembershipModel == null)
+                {
+                    var membershipVehicleDiscount = new VehicleRal(_tenant).updateMembershipVehicleDiscount(
+                        vehicleMembership.ClientVehicle.ClientVehicle.ClientId.GetValueOrDefault(),
+                        vehicleMembership.ClientVehicle.ClientVehicle.VehicleId, "ChangeMembership");
+                }
+
                 var clientMembershipDelete = new MembershipSetupRal(_tenant).DeleteVehicleMembershipById(vehicleMembership.DeletedClientMembershipId.GetValueOrDefault());
+
             }
+
+
 
             var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
             if (!saveVehicle)

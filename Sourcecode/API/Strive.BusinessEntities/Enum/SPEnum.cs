@@ -262,6 +262,7 @@ namespace Strive.BusinessEntities
             USPGETALLCOLOR,
             USPGETUPCHARGEBYTYPE,
             USPADDDRIVEUPVEHICLE,
+            USPUPDATEMEMBERSHIPVEHICLEDISCOUNT
         }
         public enum Vendor
         {

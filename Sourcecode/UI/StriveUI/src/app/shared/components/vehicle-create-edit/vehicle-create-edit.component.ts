@@ -156,7 +156,7 @@ export class VehicleCreateEditComponent implements OnInit {
       make: { id: this.selectedData.VehicleMakeId, name: this.selectedData.VehicleMake },
       upchargeType: this.selectedData.Upcharge === 0 ? "" : this.selectedData.Upcharge,
       upcharge: this.selectedData.Upcharge === 0 ? "" : this.selectedData.Upcharge,
-      monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2),
+      //monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2),
       membership: '',
       wash: ''
     });
@@ -250,7 +250,8 @@ export class VehicleCreateEditComponent implements OnInit {
           this.memberServiceId = vehicle?.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
           //this.getMemberServices(this.memberServiceId);
           this.vehicleForm.patchValue({
-            membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
+            membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId,
+            monthlyCharge: vehicle?.VehicleMembershipDetails?.ClientVehicleMembership.TotalPrice.toFixed(2)
           });
           this.clientMembershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.ClientMembershipId;
           this.membershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;

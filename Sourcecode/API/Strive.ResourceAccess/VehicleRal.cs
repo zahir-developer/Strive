@@ -135,7 +135,14 @@ namespace Strive.ResourceAccess
            
         }
 
-
+        public bool updateMembershipVehicleDiscount(int clientId, int vehicleId, string action)
+        {
+            _prm.Add("clientId", clientId);
+            _prm.Add("vehicleId", vehicleId);
+            _prm.Add("Action", action);
+            db.Save(EnumSP.Vehicle.USPUPDATEMEMBERSHIPVEHICLEDISCOUNT.ToString(), _prm);
+            return true;
+        }
 
     }
 }
