@@ -15,6 +15,7 @@ using static Strive.Core.ViewModels.Customer.PaymentViewModel;
 using System.Collections.Generic;
 using Acr.UserDialogs;
 using MvvmCross;
+using Strive.Core.Models.TimInventory;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -81,7 +82,10 @@ namespace StriveCustomer.iOS.Views
                 MembershipAmount += MembershipDetails.modelUpcharge.upcharge[0].Price;
             }
             Amount += (float)MembershipAmount;
-           
+            ViewModel.finalmonthlycharge = Amount;
+            
+            //MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.monthlyCharge = Amount;
+
         }
        
        

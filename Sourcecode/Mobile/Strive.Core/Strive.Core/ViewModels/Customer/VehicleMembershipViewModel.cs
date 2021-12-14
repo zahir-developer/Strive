@@ -41,6 +41,7 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.locationId = 1;
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.createdDate = DateTime.Now;
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.updatedDate = DateTime.Now;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.monthlyCharge = 0;
             
         }
         public async Task getMembershipDetails()

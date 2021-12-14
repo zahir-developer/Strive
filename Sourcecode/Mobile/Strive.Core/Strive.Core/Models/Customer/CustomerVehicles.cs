@@ -30,7 +30,7 @@ namespace Strive.Core.Models.Customer
         public string createdDate { get; set; } = DateUtils.ConvertDateTimeWithZ();
         public int updatedBy { get; set; }
         public string updatedDate { get; set; } = DateUtils.ConvertDateTimeWithZ();
-        public double monthlyCharge { get; set; }
+        public float monthlyCharge { get; set; }
     }
 
     public class vehicleImage

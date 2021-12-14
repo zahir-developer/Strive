@@ -9,7 +9,9 @@ namespace Strive.Core.ViewModels.Customer
     public class PaymentViewModel : BaseViewModel
     {
         public List<ClientVehicleMembershipService> selectedmembershipServices = new List<ClientVehicleMembershipService>();
+        ClientVehicle ClientVehicless;
         public static string Base64ContractString;
+        public float finalmonthlycharge;
         private List<ServiceDetail> servicedetails;
         public PaymentViewModel()
         {
@@ -90,10 +92,10 @@ namespace Strive.Core.ViewModels.Customer
         {
             string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");
             List<ServiceDetail> serviceDetails = new List<ServiceDetail>();
-            
+
             foreach (var SelectedService in selectedServices)
             {
-                var defaultservices = MembershipDetails.completeList.ServicesWithPrice.Find(x => x.ServiceName.Replace(" ", "") == SelectedService.Replace(" ",""));
+                var defaultservices = MembershipDetails.completeList.ServicesWithPrice.Find(x => x.ServiceName.Replace(" ", "") == SelectedService.Replace(" ", ""));
                 serviceDetails.Add(defaultservices);
             }
             foreach (var item in serviceDetails)
@@ -108,7 +110,7 @@ namespace Strive.Core.ViewModels.Customer
                 selectedmembershipServices.Add(clientVehicleMembershipService);
             }
             var servicesDetails = MembershipDetails.completeList.ServicesWithPrice.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
-            foreach(var service in servicesDetails)
+            foreach (var service in servicesDetails)
             {
                 ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
                 clientVehicleMembershipService.serviceId = service.ServiceId;
@@ -117,11 +119,25 @@ namespace Strive.Core.ViewModels.Customer
                 clientVehicleMembershipService.updatedDate = DateTime.Now.ToString();
                 clientVehicleMembershipService.clientMembershipId = service.MembershipId;
                 clientVehicleMembershipService.clientVehicleMembershipServiceId = service.MembershipServiceId;
-                selectedmembershipServices.Add(clientVehicleMembershipService);   
+                selectedmembershipServices.Add(clientVehicleMembershipService);
             }
 
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;
+            ClientVehicless = new ClientVehicle();
+            ClientVehicless.clientVehicle = new ClientVehicleDetail();
+            ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
+            ClientVehicless.clientVehicle.isActive = true;
+            ClientVehicless.clientVehicle.isDeleted = false;
+            ClientVehicless.clientVehicle.clientId = CustomerInfo.ClientID;
+            ClientVehicless.clientVehicle.createdDate = DateTime.Now;
+            ClientVehicless.clientVehicle.updatedDate = DateTime.Now;
+            ClientVehicless.clientVehicle.vehicleId = MembershipDetails.clientVehicleID;
+            ClientVehicless.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+            ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
+            ClientVehicless.clientVehicle.vehicleModelNo = MembershipDetails.modelNumber;
+            MembershipDetails.customerVehicleDetails.clientVehicle = ClientVehicless;
         }
+            
         public enum PaymentStatus
         {
             Success

@@ -102,7 +102,11 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             }
             var model = new ClientVehicleRoot()
             {
-                clientVehicle = new ClientVehicle() { clientVehicle = null },
+                clientVehicle = new ClientVehicle()
+                {
+                    //clientVehicle = null
+                    
+                },
                 clientVehicleMembershipModel = new ClientVehicleMembershipModel()
                 {
                     clientVehicleMembershipDetails = new ClientVehicleMembershipDetails()

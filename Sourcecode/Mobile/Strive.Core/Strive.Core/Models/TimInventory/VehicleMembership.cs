@@ -23,7 +23,7 @@ namespace Strive.Core.Models.TimInventory
         public DateTime createdDate { get; set; }
         public int updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
-        public int monthlyCharge { get; set; }
+        public float monthlyCharge { get; set; }
     }
 
     public class ClientVehicle
