@@ -121,7 +121,12 @@ namespace Greeter.Storyboards
             {
                 if (!string.IsNullOrEmpty(ServiceName))
                 {
-                    serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", ServiceName);
+                    var list = ServiceName.Split(",");
+
+                    for (int i = 0; i < list.Length; i++)
+                    {
+                        serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", list[i]);
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(AdditionalServiceName) && !AdditionalServiceName.Equals("none", StringComparison.OrdinalIgnoreCase))

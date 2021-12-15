@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Foundation;
@@ -83,12 +84,15 @@ namespace Greeter.Modules.Message
 
         void MessageReceived(SendChatMessage sendChatMessage)
         {
-            if (sendChatMessage is not null)
+            var chat = Chats.Find(x => x.ChatMsgId == sendChatMessage.chatMessageRecipient.chatMessageId);
+
+            if (sendChatMessage is not null && chat is null)
             {
                 var chatMessage = new ChatMessage();
                 chatMessage.ReceipientID = sendChatMessage.chatMessageRecipient.chatRecipientId;
                 chatMessage.SenderFirstName = sendChatMessage.firstName;
                 chatMessage.SenderLastName = sendChatMessage.lastName;
+                chatMessage.ChatMsgId = sendChatMessage.chatMessageRecipient.chatMessageId;
                 chatMessage.MessageBody = sendChatMessage.chatMessage.messagebody;
                 chatMessage.CreatedDate = sendChatMessage.chatMessage.createdDate;
                 Chats.Add(chatMessage);
@@ -147,7 +151,9 @@ namespace Greeter.Modules.Message
             if (chatType == ChatType.Group)
             {
                 req.ChatMessageRecipient.RecipientGroupID = chatInfo.GroupId;
-                req.ConnectionID = req.GroupID = chatInfo.CommunicationId.ToString();
+                req.ChatMessageRecipient.RecipientID = null;
+                req.ConnectionID = null;
+                req.GroupID = chatInfo.CommunicationId.ToString();
                 req.FirstName = req.FirstName;
                 req.LastName = req.LastName;
             }
@@ -182,7 +188,7 @@ namespace Greeter.Modules.Message
 
     public class chatMessage
     {
-        public int chatMessageId { get; set; }
+        public int? chatMessageId { get; set; }
         public string subject { get; set; }
         public string messagebody { get; set; }
         public int? parentChatMessageId { get; set; }

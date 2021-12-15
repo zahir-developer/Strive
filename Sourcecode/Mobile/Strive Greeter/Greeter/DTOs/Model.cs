@@ -1116,10 +1116,10 @@ namespace Greeter.DTOs
     public class ChatMessageRequest
     {
         [JsonProperty("SenderId")]
-        public long SenderID { get; set; }
+        public long? SenderID { get; set; }
 
         [JsonProperty("RecipientId")]
-        public long RecipientID { get; set; }
+        public long? RecipientID { get; set; }
 
         [JsonProperty("GroupId")]
         public long GroupID { get; set; }
@@ -1162,6 +1162,8 @@ namespace Greeter.DTOs
 
         [JsonProperty("CreatedDate")]
         public DateTime? CreatedDate { get; set; }
+
+        public long? ChatMsgId { get; set; }
     }
 
     public class SendChatMessageReq
@@ -1239,7 +1241,7 @@ namespace Greeter.DTOs
         public long SenderID { get; } = AppSettings.UserID;
 
         [JsonProperty("recipientId")]
-        public long RecipientID { get; set; }
+        public long? RecipientID { get; set; } = null;
 
         [JsonProperty("recipientGroupId")]
         public long? RecipientGroupID { get; set; } = null;

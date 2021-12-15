@@ -85,7 +85,7 @@ namespace Greeter.Modules.Pay
             vc.Model = checkout.VehicleModel;
             vc.Color = checkout.VehicleColor;
             vc.CheckInTime = checkout.CheckinTime;
-            vc.CheckInTime = checkout.CheckoutTime;
+            vc.CheckOutTime = checkout.CheckoutTime;
             vc.ServiceName = checkout.Services;
             vc.CustName = checkout.CustomerFirstName + " "+ checkout.CustomerLastName;
             vc.Amount = checkout.Cost;
