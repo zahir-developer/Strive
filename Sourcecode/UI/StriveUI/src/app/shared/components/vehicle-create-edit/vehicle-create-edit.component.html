@@ -31,7 +31,7 @@
                         <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.make.errors }">
                             <p-autoComplete field="name" [suggestions]="filteredMake" (onBlur)="checkValue('make')"
                                 (completeMethod)="filterMake($event)" [size]="10" formControlName="make"
-                                (onSelect)="selectedModel($event)" placeholder="Make">
+                                (onSelect)="selectedMake($event)" placeholder="Make">
                             </p-autoComplete>
                         </div>
                     </div>

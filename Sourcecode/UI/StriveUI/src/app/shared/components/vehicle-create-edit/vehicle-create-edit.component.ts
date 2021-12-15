@@ -64,6 +64,8 @@ export class VehicleCreateEditComponent implements OnInit {
   membershipId: number = 0;
   clientMembershipId: number = 0;
   locationId: number = 0;
+  upchargePrice: number = 0;
+  isEditLoad: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
     private spinner: NgxSpinnerService, private employeeService: EmployeeService,
     private modelService: ModelService,
@@ -76,13 +78,15 @@ export class VehicleCreateEditComponent implements OnInit {
     }
     this.getServiceType();
     if (this.isEdit === true) {
+      this.isEditLoad = true;
       this.isClientVehicle = false;
       this.vehicleForm.reset();
 
-      
+
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
       this.getMembershipService();
+
     }
     else {
       this.locationId = +localStorage.getItem('empLocationId');
@@ -162,15 +166,15 @@ export class VehicleCreateEditComponent implements OnInit {
     });
 
     this.locationId = this.selectedData.LocationId;
-    
+
     this.getVehicleMembership(this.locationId);
     //this.getUpcharge();
 
     this.selectedData.LocationId
 
-    this.getModel(this.selectedData.VehicleMakeId);
+    this.getModel(this.selectedData.VehicleMakeId, false);
 
-    
+
     this.getVehicleCodes();
   }
 
@@ -338,23 +342,34 @@ export class VehicleCreateEditComponent implements OnInit {
         if (res.status === 'Success') {
           this.memberOnchangePatchedService = [];
           const membership = JSON.parse(res.resultData);
+          var monthlyCharge = 0;
           if (membership.MembershipAndServiceDetail.Membership !== null) {
-
+            var upchargePrice = 0;
             if (this.MembershipDiscount) {
               if (membership.MembershipAndServiceDetail.Membership.DiscountedPrice !== null) {
-                this.vehicleForm.patchValue({
-                  monthlyCharge: membership.MembershipAndServiceDetail.Membership?.DiscountedPrice?.toFixed(2)
-                });
+                monthlyCharge = membership.MembershipAndServiceDetail.Membership?.Price;
               }
               else {
                 this.toastr.warning(MessageConfig.Admin.Vehicle.membershipDiscountNotUpdated, 'Warning!');
               }
             }
             else {
-              this.vehicleForm.patchValue({
-                monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
-              });
+              monthlyCharge = membership.MembershipAndServiceDetail.Membership?.Price;
             }
+
+            if (this.vehicleForm.value.upcharge !== undefined) {
+              if (this.upchargeList?.length > 0) {
+                var service = this.upchargeList[this.upchargeList.length - 1];
+                upchargePrice = +service.Price;
+              }
+            }
+            monthlyCharge = +monthlyCharge + upchargePrice;
+            
+            this.vehicleForm.patchValue({
+              monthlyCharge: monthlyCharge?.toFixed(2)
+            });
+
+
           }
 
           if (membership.MembershipAndServiceDetail.MembershipService !== null) {
@@ -396,6 +411,16 @@ export class VehicleCreateEditComponent implements OnInit {
                 this.selectedservice.push(element);
               }
             });
+
+            //Upcharge
+            var upcharge = this.membershipServices.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+            if (upcharge?.length > 0) {
+              var upchargeService = this.selectedservice.filter(i => i.ServiceId === upcharge[0].ServiceId)[0] !== undefined
+              if (upchargeService !== undefined) {
+                console.log(upchargeService);
+              }
+            }
+
             const serviceIds = this.selectedservice.map(item => item.ServiceId);
             const memberService = serviceIds.map((e) => {
               const f = this.additionalService.find(a => a.ServiceId === e);
@@ -416,6 +441,7 @@ export class VehicleCreateEditComponent implements OnInit {
                 }
               });
             }
+
           } else {
             this.vehicleForm.patchValue({
               upcharge: '',
@@ -516,6 +542,14 @@ export class VehicleCreateEditComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+
+  selectedMake(event) {
+    const id = event.id;
+    if (id !== null) {
+      this.getModel(id);
+    }
+  }
+
   selectedModel(event) {
     const id = event.id;
     if (id !== null) {
@@ -523,7 +557,7 @@ export class VehicleCreateEditComponent implements OnInit {
     }
   }
 
-  getModel(id) {
+  getModel(id, applyUpcharge = true) {
     if (id !== null) {
       this.modelService.getModelByMakeId(id).subscribe(res => {
         if (res.status === 'Success') {
@@ -535,7 +569,8 @@ export class VehicleCreateEditComponent implements OnInit {
               name: item.ModelValue
             };
           });
-          this.getUpcharge();
+
+          this.getUpcharge(applyUpcharge);
         }
       }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -1025,13 +1060,13 @@ export class VehicleCreateEditComponent implements OnInit {
     }
   }
 
-  getUpcharge() {
+  getUpcharge(applyUpcharge = true) {
     if (this.isEdit) {
       if (!this.upchargeTypeId || !this.vehicleForm.value.model?.id) {
         return;
       }
       const obj = {
-        upchargeServiceType : this.upchargeTypeId,
+        upchargeServiceType: this.upchargeTypeId,
         modelId: this.vehicleForm.value.model?.id,
         locationId: this.locationId
       };
@@ -1042,18 +1077,38 @@ export class VehicleCreateEditComponent implements OnInit {
           this.upchargeList = jobtype.upcharge;
           var serviceId = 0
           if (this.upchargeList?.length > 0) {
-            serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
+            var service = this.upchargeList[this.upchargeList.length - 1];
+            serviceId = service?.ServiceId;
             this.vehicleForm.patchValue({
               "upcharge": serviceId,
               "upchargeType": serviceId
             });
+
+            if (applyUpcharge) {
+              var newCharge = parseFloat(this.vehicleForm.value.monthlyCharge) + parseFloat(service?.Price) - this.upchargePrice;
+
+              this.upchargePrice = service?.Price;
+
+              this.vehicleForm.patchValue({ monthlyCharge: newCharge.toFixed(2) });
+            }
+            else {
+              this.upchargePrice = service?.Price;
+            }
+
             this.toastr.success(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
           }
           else {
+
+            var newCharge = parseFloat(this.vehicleForm.value.monthlyCharge) - this.upchargePrice;
+
+            this.upchargePrice = 0;
+
             this.vehicleForm.patchValue({
               "upcharge": '',
-              "upchargeType": ''
+              "upchargeType": '',
+              "monthlyCharge": newCharge
             });
+
             this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeNotAvailable, 'Upcharge!');
           }
         }
