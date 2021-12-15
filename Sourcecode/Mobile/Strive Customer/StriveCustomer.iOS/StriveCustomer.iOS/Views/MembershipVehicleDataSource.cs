@@ -75,6 +75,7 @@ namespace StriveCustomer.iOS.Views
             }
             else
             {
+                CustomerInfo.MembershipFee = 0;
                 MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
             }
 

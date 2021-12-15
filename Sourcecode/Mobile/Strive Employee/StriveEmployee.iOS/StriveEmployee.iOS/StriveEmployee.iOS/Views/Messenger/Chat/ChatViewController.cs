@@ -88,7 +88,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
 
             MessengerTempData.ConnectionID = ConnectionID;
 
-            await ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
+            //await ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
             await ChatHubMessagingService.SubscribeChatEvent();
 
             if (ChatHubMessagingService.RecipientsID == null)
@@ -98,7 +98,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
 
             }
 
-            await ChatHubMessagingService.SubscribeChatEvent();
+            //await ChatHubMessagingService.SubscribeChatEvent();
             ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
             ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
             

@@ -147,10 +147,11 @@ namespace Strive.Core.Services.HubServices
 
             connection?.On<object>("ReceiveEmployeeCommunicationId", (data) =>
             {
-                Console.WriteLine("new communication id received", data);
                 try
                 {
                     var datas = JsonConvert.DeserializeObject<string[]>(data.ToString());
+                    Console.WriteLine("new communication id received" + JsonConvert.SerializeObject(datas));
+
                     RecipientsID.Add(new RecipientsCommunicationID() { employeeId = datas[0], communicationId = datas[1] });
                 }
                 catch (Exception ex)

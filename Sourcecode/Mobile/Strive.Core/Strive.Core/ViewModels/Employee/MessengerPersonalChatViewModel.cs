@@ -38,30 +38,30 @@ namespace Strive.Core.ViewModels.Employee
             return ConnectionID;
         }
 
-        public async Task SetChatCommunicationDetails(string commID)
-        {
-            var communicationData = new ChatCommunication()
-            {
-                communicationId = commID,
-                employeeId = EmployeeTempData.EmployeeID
-            };
-            var result = await MessengerService.ChatCommunication(communicationData);
-            if (result == null)
-            {
-                _userDialog.Alert("Communication has not been established");
-            }
-            else
-            {
-                if (result.Status)
-                {
+        //public async Task SetChatCommunicationDetails(string commID)
+        //{
+        //    var communicationData = new ChatCommunication()
+        //    {
+        //        communicationId = commID,
+        //        employeeId = EmployeeTempData.EmployeeID
+        //    };
+        //    var result = await MessengerService.ChatCommunication(communicationData);
+        //    if (result == null)
+        //    {
+        //        _userDialog.Alert("Communication has not been established");
+        //    }
+        //    else
+        //    {
+        //        if (result.Status)
+        //        {
 
-                }
-                else
-                {
-                    _userDialog.Alert("Communication has not been established");
-                }
-            }
-        }
+        //        }
+        //        else
+        //        {
+        //            _userDialog.Alert("Communication has not been established");
+        //        }
+        //    }
+        //}
 
         public async Task GetAllMessages(ChatDataRequest chatData)
         {
@@ -151,7 +151,7 @@ namespace Strive.Core.ViewModels.Employee
             {
                 sendChat.chatMessageRecipient.recipientId = MessengerTempData.RecipientID;
                 sendChat.firstName = MessengerTempData.RecipientName;
-                if (MessengerTempData.RecipientsConnectionID!=null)
+                if (MessengerTempData.RecipientsConnectionID != null)
                 {
                     if (MessengerTempData.RecipientsConnectionID.ContainsKey(MessengerTempData.RecipientID.ToString()))
                     {
