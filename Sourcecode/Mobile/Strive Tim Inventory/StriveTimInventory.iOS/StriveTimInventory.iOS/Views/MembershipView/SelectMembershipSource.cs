@@ -110,15 +110,30 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 }
             }
             //Adding 20$ if the selected membership price is less than previous membership
+            
             if (MembershipData.SelectedMembership != null)
             {
                 if (MembershipData.SelectedVehicle.MembershipName != null)
                 {
                     var previousmembership = MembershipData.MembershipServiceList.Membership.FindAll(x => x.MembershipName == MembershipData.SelectedVehicle.MembershipName);
-                    if (MembershipData.SelectedMembership.Price < previousmembership[0].Price)
+                    if (ViewModel.isDiscoutAvailable == true)
                     {
-                        MembershipData.SelectedMembership.Price += 20;
+                        if (MembershipData.SelectedMembership.DiscountedPrice < previousmembership[0].DiscountedPrice)
+                        {
+                            MembershipData.CalculatedPrice = MembershipData.SelectedMembership.DiscountedPrice;
+                            MembershipData.CalculatedPrice += 20;
+                        }
                     }
+                    else
+                    {
+                        if (MembershipData.SelectedMembership.Price < previousmembership[0].Price)
+                        {
+                            MembershipData.CalculatedPrice = MembershipData.SelectedMembership.Price;
+                            MembershipData.CalculatedPrice += 20;
+                           
+                        }
+                    }
+                    
                 }
             }
             //

@@ -34,7 +34,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         }
         private void GetTotal()
         {
-             MonthlyCharge = MembershipData.SelectedMembership.Price;
+             MonthlyCharge = MembershipData.CalculatedPrice;
              
         }
       

@@ -43,5 +43,7 @@ namespace Strive.Core.Utils.TimInventory
         public static List<ClientVehicleMembershipService> ExtraServices { get; set; }
 
         public static List<AllServiceDetail> AllAdditionalServices { get; set; }
+
+        public static double CalculatedPrice { get; set; }
     }
 }

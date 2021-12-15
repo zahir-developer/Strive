@@ -17,6 +17,8 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
     {
         private MvxSubscriptionToken _messageToken;
 
+        public bool isDiscoutAvailable { get; set; }
+
         public ObservableCollection<MembershipServices> MembershipServiceList { get; set; } = new ObservableCollection<MembershipServices>();
 
         public SelectMembershipViewModel()
@@ -60,6 +62,8 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         }
         public async Task getMembershipDetails()
         {
+            await PreviousMembership(MembershipData.SelectedClient.ClientId,MembershipData.SelectedVehicle.VehicleId);
+            
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.GetCommonCodes("SERVICETYPE");
             var washId = result.Codes.Find(x => x.CodeValue == "Wash-Upcharge");
@@ -75,7 +79,23 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
             _userDialog.HideLoading();
         }
+        public async Task<bool> PreviousMembership(int ClientId, int VehicleId)
+        {
+            var result = await AdminService.GetVehicleDiscountDetail(ClientId, VehicleId);
+            if (result.Status == "true")
+            {
+                isDiscoutAvailable = true;
+                _userDialog.Alert("Membership Discount Available !");
+                return isDiscoutAvailable;
+            }
+            else
+            {
+                isDiscoutAvailable = false;
 
+                return isDiscoutAvailable;
+            }
+
+        }
         public void NextCommand()
         {
             if(MembershipData.SelectedMembership == null)

@@ -145,7 +145,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                 });
                 if (service.Price != 0)
                 {
-                    MembershipData.SelectedMembership.Price += service.Price;
+                    MembershipData.CalculatedPrice += service.Price;
                 }
                
             }
