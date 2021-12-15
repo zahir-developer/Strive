@@ -59,7 +59,8 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         {
             if (MembershipDetails.modelUpcharge != null)
             {
-                MembershipData.CalculatedPrice += MembershipDetails.modelUpcharge.upcharge[0].Price;
+                if (MembershipDetails.modelUpcharge.upcharge.Count > 0)
+                    MembershipData.CalculatedPrice += MembershipDetails.modelUpcharge.upcharge[0].Price;
             }
             _navigationService.Navigate<ExtraServiceViewModel>();
         }
