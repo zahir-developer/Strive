@@ -143,6 +143,11 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     isDeleted = false,
                     services = selectedServices.Count() > 0 ? selectedServices.Last() : ""
                 });
+                if (service.Price != 0)
+                {
+                    MembershipData.SelectedMembership.Price += service.Price;
+                }
+               
             }
             _navigationService.Navigate<TermsViewModel>();
             //}           

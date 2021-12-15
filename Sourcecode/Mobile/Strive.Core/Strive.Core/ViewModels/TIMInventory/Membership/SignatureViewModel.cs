@@ -13,7 +13,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
     public class SignatureViewModel : BaseViewModel
     {
         private MvxSubscriptionToken _messageToken;
-        
+        private double MonthlyCharge;
         public SignatureViewModel()
         {
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
@@ -32,7 +32,11 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         {
             await _navigationService.Close(this);
         }
-
+        private void GetTotal()
+        {
+             MonthlyCharge = MembershipData.SelectedMembership.Price;
+             
+        }
       
 
         public async void NextCommand()
@@ -69,6 +73,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         ClientVehicleRoot PrepareVehicleMembership()
         {
             int ClientMembership = 0;
+            GetTotal();
             if (MembershipData.MembershipDetailView != null)
             {
                 ClientMembership = MembershipData.MembershipDetailView.ClientVehicleMembership.ClientMembershipId;
@@ -120,6 +125,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                         status = true,
                         notes = "",
                         isActive = true,
+                        totalPrice = (float)Convert.ToDouble(MonthlyCharge) ,
                         isDeleted = false
                     },
                     clientVehicleMembershipService = MembershipData.ExtraServices

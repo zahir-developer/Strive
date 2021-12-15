@@ -20,9 +20,9 @@ namespace Strive.Core.Models.TimInventory
         public bool isActive { get; set; }
         public bool isDeleted { get; set; }
         public int createdBy { get; set; }
-        public DateTime createdDate { get; set; }
+        public string createdDate { get; set; }
         public int updatedBy { get; set; }
-        public DateTime updatedDate { get; set; }
+        public string updatedDate { get; set; }
         public float monthlyCharge { get; set; }
     }
 
@@ -35,7 +35,7 @@ namespace Strive.Core.Models.TimInventory
     {
         public int clientMembershipId { get; set; }
         public int clientVehicleId { get; set; }
-        public int locationId { get; set; }
+        public int? locationId { get; set; }
         public int membershipId { get; set; }
         public string startDate { get; set; }
         public string endDate { get; set; }
@@ -47,6 +47,7 @@ namespace Strive.Core.Models.TimInventory
         public string createdDate { get; set; }
         public int updatedBy { get; set; }
         public string updatedDate { get; set; }
+        public float totalPrice { get; set; }
     }
 
     public class ClientVehicleMembershipService

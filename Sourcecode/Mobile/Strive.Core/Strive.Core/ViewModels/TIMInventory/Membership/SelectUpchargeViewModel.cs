@@ -6,6 +6,7 @@ using MvvmCross.Plugin.Messenger;
 using Strive.Core.Resources;
 using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Utils.TimInventory;
+using Strive.Core.Models.Customer;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
@@ -56,6 +57,10 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public void NextCommand()
         {
+            if (MembershipDetails.modelUpcharge != null)
+            {
+                MembershipData.SelectedMembership.Price += MembershipDetails.modelUpcharge.upcharge[0].Price;
+            }
             _navigationService.Navigate<ExtraServiceViewModel>();
         }
     }

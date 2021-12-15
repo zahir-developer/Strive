@@ -39,8 +39,8 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.isDeleted = false;
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.isActive = true;
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.locationId = 1;
-            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.createdDate = DateTime.Now;
-            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.updatedDate = DateTime.Now;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.createdDate = DateTime.Now.ToString("yyyy-MM-d");
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.monthlyCharge = 0;
             
         }

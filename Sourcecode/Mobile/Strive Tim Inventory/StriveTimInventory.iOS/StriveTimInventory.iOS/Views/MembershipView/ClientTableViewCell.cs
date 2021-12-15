@@ -79,6 +79,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             }
             else
             {
+                
                 if (MembershipDetails.modelUpcharge.upcharge.Count == 0)
                 {
                     if ("None" == item)

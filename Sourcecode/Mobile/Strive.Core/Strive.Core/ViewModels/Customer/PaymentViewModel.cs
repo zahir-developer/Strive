@@ -90,52 +90,60 @@ namespace Strive.Core.ViewModels.Customer
 
         private void PrepareAdditionalServices()
         {
-            string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");
-            List<ServiceDetail> serviceDetails = new List<ServiceDetail>();
+            
+            if (MembershipDetails.selectedMembershipDetail.Services != null)
+            {
+                string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");
+                List<ServiceDetail> serviceDetails = new List<ServiceDetail>();
+                foreach (var SelectedService in selectedServices)
+                {
+                    var defaultservices = MembershipDetails.completeList.ServicesWithPrice.Find(x => x.ServiceName.Replace(" ", "") == SelectedService.Replace(" ", ""));
+                    serviceDetails.Add(defaultservices);
+                }
+                foreach (var item in serviceDetails)
+                {
+                    ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
+                    clientVehicleMembershipService.serviceId = item.ServiceId;
+                    clientVehicleMembershipService.serviceTypeId = item.ServiceTypeId;
+                    clientVehicleMembershipService.createdDate = DateTime.Now.ToString("yyyy-MM-d");
+                    clientVehicleMembershipService.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
+                    clientVehicleMembershipService.clientMembershipId = item.MembershipId;
+                    clientVehicleMembershipService.clientVehicleMembershipServiceId = item.MembershipServiceId;
+                    selectedmembershipServices.Add(clientVehicleMembershipService);
+                }
+                var servicesDetails = MembershipDetails.completeList.ServicesWithPrice.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
+                foreach (var service in servicesDetails)
+                {
+                    ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
+                    clientVehicleMembershipService.serviceId = service.ServiceId;
+                    clientVehicleMembershipService.serviceTypeId = service.ServiceTypeId;
+                    clientVehicleMembershipService.createdDate = DateTime.Now.ToString("yyyy-MM-d");
+                    clientVehicleMembershipService.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
+                    clientVehicleMembershipService.clientMembershipId = service.MembershipId;
+                    clientVehicleMembershipService.clientVehicleMembershipServiceId = service.MembershipServiceId;
+                    selectedmembershipServices.Add(clientVehicleMembershipService);
+                }
 
-            foreach (var SelectedService in selectedServices)
-            {
-                var defaultservices = MembershipDetails.completeList.ServicesWithPrice.Find(x => x.ServiceName.Replace(" ", "") == SelectedService.Replace(" ", ""));
-                serviceDetails.Add(defaultservices);
+                MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;
             }
-            foreach (var item in serviceDetails)
-            {
-                ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
-                clientVehicleMembershipService.serviceId = item.ServiceId;
-                clientVehicleMembershipService.serviceTypeId = item.ServiceTypeId;
-                clientVehicleMembershipService.createdDate = DateTime.Now.ToString();
-                clientVehicleMembershipService.updatedDate = DateTime.Now.ToString();
-                clientVehicleMembershipService.clientMembershipId = item.MembershipId;
-                clientVehicleMembershipService.clientVehicleMembershipServiceId = item.MembershipServiceId;
-                selectedmembershipServices.Add(clientVehicleMembershipService);
-            }
-            var servicesDetails = MembershipDetails.completeList.ServicesWithPrice.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
-            foreach (var service in servicesDetails)
-            {
-                ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
-                clientVehicleMembershipService.serviceId = service.ServiceId;
-                clientVehicleMembershipService.serviceTypeId = service.ServiceTypeId;
-                clientVehicleMembershipService.createdDate = DateTime.Now.ToString();
-                clientVehicleMembershipService.updatedDate = DateTime.Now.ToString();
-                clientVehicleMembershipService.clientMembershipId = service.MembershipId;
-                clientVehicleMembershipService.clientVehicleMembershipServiceId = service.MembershipServiceId;
-                selectedmembershipServices.Add(clientVehicleMembershipService);
-            }
-
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;
-            ClientVehicless = new ClientVehicle();
-            ClientVehicless.clientVehicle = new ClientVehicleDetail();
-            ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
-            ClientVehicless.clientVehicle.isActive = true;
-            ClientVehicless.clientVehicle.isDeleted = false;
-            ClientVehicless.clientVehicle.clientId = CustomerInfo.ClientID;
-            ClientVehicless.clientVehicle.createdDate = DateTime.Now;
-            ClientVehicless.clientVehicle.updatedDate = DateTime.Now;
-            ClientVehicless.clientVehicle.vehicleId = MembershipDetails.clientVehicleID;
-            ClientVehicless.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
-            ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
-            ClientVehicless.clientVehicle.vehicleModelNo = MembershipDetails.modelNumber;
-            MembershipDetails.customerVehicleDetails.clientVehicle = ClientVehicless;
+            MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.totalPrice = finalmonthlycharge;
+            //ClientVehicless = new ClientVehicle();
+            //ClientVehicless.clientVehicle = new ClientVehicleDetail();
+            //ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
+            //ClientVehicless.clientVehicle.isActive = true;
+            //ClientVehicless.clientVehicle.isDeleted = false;
+            //ClientVehicless.clientVehicle.clientId = CustomerInfo.ClientID;
+            //ClientVehicless.clientVehicle.createdDate = DateTime.Now.ToString("yyyy-MM-d");
+            //ClientVehicless.clientVehicle.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
+            //ClientVehicless.clientVehicle.vehicleId = MembershipDetails.clientVehicleID;
+            //ClientVehicless.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+            //ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
+            //ClientVehicless.clientVehicle.vehicleModelNo = MembershipDetails.modelNumber;
+            //ClientVehicless.clientVehicle.upcharge = 0;
+            //ClientVehicless.clientVehicle.barcode = "";
+            //ClientVehicless.clientVehicle.locationId = 1;
+            //MembershipDetails.customerVehicleDetails.clientVehicle = ClientVehicless;
         }
             
         public enum PaymentStatus
