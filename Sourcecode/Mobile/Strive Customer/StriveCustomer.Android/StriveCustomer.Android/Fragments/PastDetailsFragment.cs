@@ -63,6 +63,10 @@ namespace StriveCustomer.Android.Fragments
             totalCost = 0;
             int previousID = 0;
             string previousVehicle;
+            if (this.ViewModel == null)
+            {
+                ViewModel = new PastDetailViewModel();
+            }
             var result = await this.ViewModel.GetPastDetailsServices();
             PastDetailsCompleteDetails.pastClientServices = result;
             if (result != null && result.PastClientDetails.Count != 0)

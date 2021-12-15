@@ -164,13 +164,13 @@
                 android:src="@drawable/icon_twitter"
                 android:background="@android:color/transparent"
                 android:layout_marginLeft="@dimen/thirty"/>
-            <ImageButton
+            <!--<ImageButton
                 android:id="@+id/mailIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_email"
                 android:background="@android:color/transparent"
-                android:layout_marginLeft="@dimen/thirty"/>
+                android:layout_marginLeft="@dimen/thirty"/>-->
         </LinearLayout>
     </LinearLayout>
  </LinearLayout>

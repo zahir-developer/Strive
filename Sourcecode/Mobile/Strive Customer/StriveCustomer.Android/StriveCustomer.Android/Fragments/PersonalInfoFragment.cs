@@ -65,6 +65,10 @@ namespace StriveCustomer.Android.Fragments
 
         public async void GetClientInfo()
         {
+            if (this.ViewModel == null)
+            {
+                ViewModel = new PersonalInfoViewModel();
+            }
             await this.ViewModel.GetClientById();
 
             if(ViewModel.customerInfo.Status.Count > 0)

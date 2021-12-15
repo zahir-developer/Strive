@@ -21,6 +21,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Services;
+using Xamarin.Essentials;
 using static Android.Gms.Common.Apis.GoogleApiClient;
 
 namespace StriveCustomer.Android.Fragments
@@ -28,7 +29,9 @@ namespace StriveCustomer.Android.Fragments
     public class ContactUsFragment : MvxFragment<ContactUsViewModel>, IOnMapReadyCallback, IOnSuccessListener, IConnectionCallbacks, IOnConnectionFailedListener
     {
         private GoogleMap Googlemap;
-        private Locations locations;
+        private Locations Locations;
+       // public washLocations locations;
+        //public static washLocations washlocations;
         private GoogleApiClient googleAPI;
         private SupportMapFragment gmaps;
         private int carWashLocationsCount;
@@ -40,6 +43,10 @@ namespace StriveCustomer.Android.Fragments
         private TextView mailDetails;
         private TextView clockDetails;
         private TextView locationName;
+        private ImageButton facebookIcon;
+        private ImageButton instagramIcon;
+        private ImageButton twitterIcon;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -50,7 +57,7 @@ namespace StriveCustomer.Android.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             this.ViewModel = new ContactUsViewModel();
-            locations = new Locations();
+            Locations = new Locations();
             if (rootView != null)
             {
                 ViewGroup parent = (ViewGroup)rootView.Parent;
@@ -69,12 +76,19 @@ namespace StriveCustomer.Android.Fragments
                     phoneDetails = rootView.FindViewById<TextView>(Resource.Id.phoneDetails);
                     mailDetails = rootView.FindViewById<TextView>(Resource.Id.mailDetails);
                     clockDetails = rootView.FindViewById<TextView>(Resource.Id.storeClockDetails);
+                    facebookIcon = rootView.FindViewById<ImageButton>(Resource.Id.facebookIcon);
+                    instagramIcon = rootView.FindViewById<ImageButton>(Resource.Id.instagramIcon);
+                    twitterIcon = rootView.FindViewById<ImageButton>(Resource.Id.twitterIcon);
                     setupMaps();
+                   
                 }
                 else
                 {
                     return rootView;
-                }    
+                }
+                facebookIcon.Click += FacebookIcon_Click;
+                twitterIcon.Click += TwitterIcon_Click;
+                instagramIcon.Click += InstagramIcon_Click;
 
             }
             catch(InflateException e)
@@ -82,6 +96,45 @@ namespace StriveCustomer.Android.Fragments
                 return rootView;
             }           
             return rootView;
+        }
+
+        private void InstagramIcon_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Browser.OpenAsync(new Uri("https://www.instagram.com/mammothdetailsalons/"), BrowserLaunchMode.SystemPreferred);
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("unable to open ");
+                //  An unexpected error occured. No browser may be installed on the device.
+            }
+        }
+
+        private void TwitterIcon_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Browser.OpenAsync(new Uri("https://twitter.com/mammoth_detail"), BrowserLaunchMode.SystemPreferred);
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("unable to open ");
+              //  An unexpected error occured. No browser may be installed on the device.
+            }
+        }
+
+        private void FacebookIcon_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Browser.OpenAsync(new Uri("https://www.facebook.com/MammothDetailSalon"), BrowserLaunchMode.SystemPreferred);
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("unable to open ");
+                //  An unexpected error occured. No browser may be installed on the device.
+            }
         }
 
         public async void OnMapReady(GoogleMap googleMap)
@@ -96,9 +149,9 @@ namespace StriveCustomer.Android.Fragments
         private void setUpMarkers()
         {
             carWashLocationsCount = 0;
-            carWashLatLng = new LatLng[locations.Location.Count];
-            carWashMarkerOptions = new MarkerOptions[locations.Location.Count];
-            foreach (var carWashLocation in locations.Location)
+            carWashLatLng = new LatLng[Locations.Location.Count];
+            carWashMarkerOptions = new MarkerOptions[Locations.Location.Count];
+            foreach (var carWashLocation in Locations.Location)
             {
                 carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
                 carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
@@ -111,12 +164,22 @@ namespace StriveCustomer.Android.Fragments
             var allLocations = await this.ViewModel.GetAllLocationsCommand();
             if (allLocations.Location.Count == 0)
             {
-                locations = null;
+                Locations = null;
             }
             else
             {
-                locations = allLocations;
+                Locations = allLocations;
             }
+            //var allLocations = await ViewModel.GetAllLocationStatus();
+            //if (allLocations.Washes.Count == 0)
+            //{
+            //    locations = null;
+            //}
+            //else
+            //{
+            //    locations = allLocations;
+            //    washlocations = allLocations;
+            //}
             gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.contactUsMaps);
             if (gmaps != null)
             {
@@ -126,7 +189,7 @@ namespace StriveCustomer.Android.Fragments
         }
         private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
         {
-           var data = locations.Location.Find(x => (double)x.Latitude == e.Marker.Position.Latitude);
+           var data = Locations.Location.Find(x => (double)x.Latitude == e.Marker.Position.Latitude);
             locationName.Text = data.LocationName;
             locationDetails.Text = data.Address1;
             phoneDetails.Text = data.PhoneNumber;
@@ -135,11 +198,11 @@ namespace StriveCustomer.Android.Fragments
         }
         private void loadFirstMarkerData()
         {
-            locationName.Text = locations.Location[0].LocationName;
-            locationDetails.Text = locations.Location[0].Address1;
-            phoneDetails.Text = locations.Location[0].PhoneNumber;
-            mailDetails.Text = locations.Location[0].Email;
-            clockDetails.Text = locations.Location[0].StartTime + "to" + locations.Location[0].EndTime;
+            locationName.Text = Locations.Location[0].LocationName;
+            locationDetails.Text = Locations.Location[0].Address1;
+            phoneDetails.Text = Locations.Location[0].PhoneNumber;
+            mailDetails.Text = Locations.Location[0].Email;
+            clockDetails.Text = Locations.Location[0].StartTime + "to" + Locations.Location[0].EndTime;
         }
 
         public void OnConnected(Bundle connectionHint)

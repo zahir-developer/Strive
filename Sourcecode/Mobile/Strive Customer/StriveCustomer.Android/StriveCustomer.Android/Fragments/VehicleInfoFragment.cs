@@ -59,6 +59,10 @@ namespace StriveCustomer.Android.Fragments
         }
         public async void GetVehicleList()
         {
+            if (this.ViewModel == null)
+            {
+                ViewModel = new VehicleInfoViewModel();
+            }
             await this.ViewModel.GetCustomerVehicleList();
             if(!(this.ViewModel.vehicleLists.Status.Count == 0) || !(this.ViewModel.vehicleLists == null))
             {
