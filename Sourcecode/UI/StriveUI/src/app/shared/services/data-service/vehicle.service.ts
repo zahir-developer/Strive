@@ -36,13 +36,10 @@ export class VehicleService {
     getVehicleCodes() {
         return this.http.post(`${UrlConfig.vehicle.getVehicleCodes}`);
     }
-    getMembershipService(): Observable<any> {
-        return this.http.get(`${UrlConfig.MembershipSetup.getMembershipService}`);
-    }
     getMembershipById(id: number) {
         return this.http.get(`${UrlConfig.MembershipSetup.getMembershipById}` + id);
     }
-    getAllServiceDetail(locationId): Observable<any> {
+    getAllServiceDetail(locationId = 0): Observable<any> {
         return this.http.get(`${UrlConfig.ServiceSetup.getAllServiceDetail}`, { params: { locationId } });
     }
     getVehicleMembershipDetailsByVehicleId(id) {

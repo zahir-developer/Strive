@@ -424,10 +424,10 @@ getClientActivity(id) {
   }
 
   getService() {
-    this.vehicle.getMembershipService().subscribe(res => {
+    this.vehicle.getAllServiceDetail().subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
-        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
+        this.additionalService = membership.AllServiceDetail.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     }
       , (err) => {

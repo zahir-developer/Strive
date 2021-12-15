@@ -292,11 +292,11 @@ export class VehicleListComponent implements OnInit {
   }
 
   getService() {
-    this.vehicle.getMembershipService().subscribe(res => {
+    this.vehicle.getAllServiceDetail().subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
-        this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
-        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
+        this.upchargeServices = membership.AllServiceDetail.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+        this.additionalService = membership.AllServiceDetail.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

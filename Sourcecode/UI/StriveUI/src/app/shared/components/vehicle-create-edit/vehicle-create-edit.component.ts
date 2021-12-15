@@ -347,7 +347,7 @@ export class VehicleCreateEditComponent implements OnInit {
             var upchargePrice = 0;
             if (this.MembershipDiscount) {
               if (membership.MembershipAndServiceDetail.Membership.DiscountedPrice !== null) {
-                monthlyCharge = membership.MembershipAndServiceDetail.Membership?.Price;
+                monthlyCharge = membership.MembershipAndServiceDetail.Membership?.DiscountedPrice;
               }
               else {
                 this.toastr.warning(MessageConfig.Admin.Vehicle.membershipDiscountNotUpdated, 'Warning!');
@@ -1076,6 +1076,9 @@ export class VehicleCreateEditComponent implements OnInit {
           const jobtype = JSON.parse(res.resultData);
           this.upchargeList = jobtype.upcharge;
           var serviceId = 0
+          
+          var membership = this.vehicleForm.value.membership;
+
           if (this.upchargeList?.length > 0) {
             var service = this.upchargeList[this.upchargeList.length - 1];
             serviceId = service?.ServiceId;
@@ -1084,8 +1087,11 @@ export class VehicleCreateEditComponent implements OnInit {
               "upchargeType": serviceId
             });
 
-            if (applyUpcharge) {
-              var newCharge = parseFloat(this.vehicleForm.value.monthlyCharge) + parseFloat(service?.Price) - this.upchargePrice;
+
+            var newCharge = 0;
+
+            if (applyUpcharge && (membership !== "" && membership !== undefined)) {
+              newCharge = parseFloat(this.vehicleForm.value.monthlyCharge) + parseFloat(service?.Price) - this.upchargePrice;
 
               this.upchargePrice = service?.Price;
 
@@ -1099,14 +1105,18 @@ export class VehicleCreateEditComponent implements OnInit {
           }
           else {
 
-            var newCharge = parseFloat(this.vehicleForm.value.monthlyCharge) - this.upchargePrice;
+            var newCharge = 0;
+            if(membership !== undefined && membership !== "")
+            {
+              newCharge = parseFloat(this.vehicleForm.value.monthlyCharge) - this.upchargePrice;
+            }
 
             this.upchargePrice = 0;
 
             this.vehicleForm.patchValue({
               "upcharge": '',
               "upchargeType": '',
-              "monthlyCharge": newCharge
+              "monthlyCharge": newCharge.toFixed(2)
             });
 
             this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeNotAvailable, 'Upcharge!');
