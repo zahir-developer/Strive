@@ -148,9 +148,7 @@ namespace Strive.BusinessLogic.Vehicle
         {
             var vehicleImage = new VehicleRal(_tenant).GetVehicleImageById(vehicleImageId);
             
-          
             vehicleImage.Base64Thumbnail= new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.ImageName);
-            
 
             return ResultWrap(vehicleImage, "VehicleThumbnails");
         }
@@ -159,9 +157,22 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).DeleteVehicleImage, vehicleImageId, "Status");
         }
+
         public Result GetMembershipDiscountStatus(int clientId, int vehicleId)
         {
             return ResultWrap(new VehicleRal(_tenant).GetMembershipDiscountStatus, clientId, vehicleId, "Status");
+        }
+
+        public Result DeleteVehicleMembership(VehicleMembershipDeleteDto deleteDto)
+        {
+            if (deleteDto != null)
+            {
+                var membershipVehicleDiscount = new VehicleRal(_tenant).updateMembershipVehicleDiscount(
+                    deleteDto.ClientId,
+                    deleteDto.VehicleId, "ChangeMembership");
+            }
+
+            return ResultWrap(new VehicleRal(_tenant).VehicleMembershipDelete, deleteDto, "Status");
         }
     }
 }

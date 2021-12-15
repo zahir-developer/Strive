@@ -43,11 +43,10 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Membership.USPDELETEMEMBERSHIP.ToString(), _prm);
             return true;
         }
-
         public bool DeleteVehicleMembershipById(int ClientMembershipid)
         {
             _prm.Add("ClientMembershipId", ClientMembershipid);
-            db.Save(EnumSP.Membership.USPDELETEVEHICLEMEMBERSHIP.ToString(), _prm);
+            db.Save(EnumSP.Vehicle.USPDELETEVEHICLEMEMBERSHIP.ToString(), _prm);
             return true;
         }
 

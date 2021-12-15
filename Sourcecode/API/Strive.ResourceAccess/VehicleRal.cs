@@ -144,5 +144,14 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public bool VehicleMembershipDelete(VehicleMembershipDeleteDto deleteDto)
+        {
+            _prm.Add("ClientMembershipId", deleteDto.ClientMembershipId);
+            db.Save(EnumSP.Vehicle.USPDELETEVEHICLEMEMBERSHIP.ToString(), _prm);
+
+            return true;
+        }
+
+        
     }
 }
