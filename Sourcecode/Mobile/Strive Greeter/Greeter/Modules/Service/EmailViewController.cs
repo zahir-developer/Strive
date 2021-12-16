@@ -130,6 +130,11 @@ namespace Greeter.Storyboards
 
                 NavigateToPayScreen();
             };
+
+            btnVehicleTicket.TouchUpInside += delegate
+            {
+                _ = PrintVehicleTicket();
+            };
         }
 
         [Export("textFieldShouldReturn:")]
@@ -346,9 +351,7 @@ namespace Greeter.Storyboards
             }
         }
 
-      
-
-async Task SendEmail(string email)
+        async Task SendEmail(string email)
         {
             try
             {
@@ -422,6 +425,80 @@ async Task SendEmail(string email)
             }
 
             HideActivityIndicator();
+        }
+
+        async Task PrintVehicleTicket()
+        {
+            //string date = "11-12-2021";
+            //string title = "something";
+            //string barcode = "123456";
+            //string check_in = "10:11";
+            //string check_out = "11:11";
+            //string make = "ds";
+            //string model = "dsp";
+            //string color = "red";
+            //string clientName = "karthik";
+            //string t_no = "654321";
+
+            //var html = HTML_TEMPLATE.Replace("{serviceTime}", date).Replace("{title}", title).Replace("{Barcode}", barcode)
+            //    .Replace("{check_in}", check_in).Replace("{check_out}", check_out).Replace("{Vehicle Make}", make).Replace("{Vehicle Model}", model).Replace("{Vehicle Color}", color)
+            //    .Replace("{Client Name}", clientName).Replace("{Ticket No}", t_no);
+
+            string title = Common.Messages.SERVICE_RECEIPT_SUBJECT;
+
+            if (ServiceType == ServiceType.Detail)
+            {
+                title = Common.Messages.DETAIL_RECEIPT_SUBJECT;
+            }
+
+            var html = Constants.HTML_TEMPLATE.Replace("{serviceTime}", "date").Replace("{title}", title).Replace("{Barcode}", Barcode)
+                .Replace("{check_in}", CheckInTime).Replace("{check_out}", CheckOutTime).Replace("{Vehicle Make}", Make).Replace("{Vehicle Model}", Model).Replace("{Vehicle Color}", Color)
+                .Replace("{Client Name}", CustName);
+
+            var serviceHtml = string.Empty;
+
+            if (Service is not null)
+            {
+                //var totalAmt = 0f;
+                for (int i = 0; i < Service.JobItems.Count; i++)
+                {
+                    var job = Service.JobItems[i];
+
+                    serviceHtml += Constants.SERVICE_NAME_HTML.Replace("{Service Name}", job.SeriveName);
+                }
+            }
+            //else
+            //{
+            //    if (!string.IsNullOrEmpty(ServiceName))
+            //    {
+            //        var list = ServiceName.Split(",");
+
+            //        for (int i = 0; i < list.Length; i++)
+            //        {
+            //            serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", list[i]);
+            //        }
+            //    }
+
+            //    if (!string.IsNullOrEmpty(AdditionalServiceName) && !AdditionalServiceName.Equals("none", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", AdditionalServiceName);
+            //    }
+            //}
+
+            var ticketHtml = Constants.TICKET_NO_HTML.Replace("{Ticket No}", Service.Job.JobID.ToString());
+
+            html += serviceHtml;
+            html += ticketHtml;
+
+            Print(html);
+
+            //ShowActivityIndicator();
+
+            //string email = "";
+
+            //var response = await SingleTon.WashApiService.SendEmail("karthiknever16@gmail.com", "something", html);
+
+            //HideActivityIndicator();
         }
 
         void PrintReceipt()

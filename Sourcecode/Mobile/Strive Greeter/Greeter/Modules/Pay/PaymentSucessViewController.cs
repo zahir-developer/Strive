@@ -36,12 +36,6 @@ namespace Greeter.Storyboards
         public string CheckInTime;
         public string CheckOutTime;
 
-        const string HTML_TEMPLATE = "\n\n<table style=\"border-collapse: collapse; width: 100%; height: 90px;\" border=\"0\">\n<tbody>\n<tr style=\"height: 18px;\">\n<td></td>\n<td style=\"text-align: center;\">{title}</td>\n<td></td>\n</tr>\n<tr style=\"height: 18px;\">\n<td >In: &nbsp; {check_in}</td>\n<td ></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">{Barcode}</td>\n</tr>\n\n<tr>\n<td>\n<div><strong>Out: {check_out}</strong>\n</div>\n</td>\n<td></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\"><span style=\"text-align: right;\">&nbsp;</span></td>\n</tr>\n<tr>\n<td >Client Name: {Client Name}</td>\n<td ></td>\n<td ></td>\n</tr>\n<tr>\n<td >{Vehicle Make}</td>\n<td > {Vehicle Model}</td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">\n{Vehicle Color}</td>\n</tr>\n</tbody>\n</table>\n<br/>\n<table border=\"1\" width=\"100%\">\n</table>\n\n<br/>\n\n";
-
-        const string SERVICE_NAME_HTML = "<input type=\"checkbox\" /> {Service Name}\n<br/>\n";
-
-        const string TICKET_NO_HTML = "\nTicket Number: {Ticket No}\n";
-
         public PaymentSucessViewController(IntPtr handle) : base(handle)
         {
         }
@@ -101,7 +95,7 @@ namespace Greeter.Storyboards
                 title = Common.Messages.DETAIL_RECEIPT_SUBJECT;
             }
 
-            var html = HTML_TEMPLATE.Replace("{serviceTime}", "date").Replace("{title}", title).Replace("{Barcode}", Barcode)
+            var html = Constants.HTML_TEMPLATE.Replace("{serviceTime}", "date").Replace("{title}", title).Replace("{Barcode}", Barcode)
                 .Replace("{check_in}", CheckInTime).Replace("{check_out}", CheckOutTime).Replace("{Vehicle Make}", Make).Replace("{Vehicle Model}", Model).Replace("{Vehicle Color}", Color)
                 .Replace("{Client Name}", CustomerName);
 
@@ -114,7 +108,7 @@ namespace Greeter.Storyboards
                 {
                     var job = Service.JobItems[i];
 
-                    serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", job.SeriveName);
+                    serviceHtml += Constants.SERVICE_NAME_HTML.Replace("{Service Name}", job.SeriveName);
                 }
             }
             else
@@ -125,17 +119,17 @@ namespace Greeter.Storyboards
 
                     for (int i = 0; i < list.Length; i++)
                     {
-                        serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", list[i]);
+                        serviceHtml += Constants.SERVICE_NAME_HTML.Replace("{Service Name}", list[i]);
                     }
                 }
 
                 if (!string.IsNullOrEmpty(AdditionalServiceName) && !AdditionalServiceName.Equals("none", StringComparison.OrdinalIgnoreCase))
                 {
-                    serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", AdditionalServiceName);
+                    serviceHtml += Constants.SERVICE_NAME_HTML.Replace("{Service Name}", AdditionalServiceName);
                 }
             }
 
-            var ticketHtml = TICKET_NO_HTML.Replace("{Ticket No}", TicketID.ToString());
+            var ticketHtml = Constants.TICKET_NO_HTML.Replace("{Ticket No}", TicketID.ToString());
 
             html += serviceHtml;
             html += ticketHtml;
@@ -213,18 +207,18 @@ namespace Greeter.Storyboards
                 }
             }
 
-           // var mutableAttributedString = new NSMutableAttributedString(
-           //"Services: ",
-           //UIFont.SystemFontOfSize(18));
-           // var attributedString = new NSAttributedString(
-           //    ServiceName,
-           //    font: UIFont.SystemFontOfSize(18, UIFontWeight.Semibold)
-           //);
+            var mutableAttributedString = new NSMutableAttributedString(
+           "Services: ",
+           UIFont.SystemFontOfSize(18));
+            var attributedString = new NSAttributedString(
+               ServiceName,
+               font: UIFont.SystemFontOfSize(18, UIFontWeight.Semibold)
+           );
 
-           // mutableAttributedString.Append(attributedString);
-           // lblService.AttributedText = mutableAttributedString;
+            mutableAttributedString.Append(attributedString);
+            lblService.AttributedText = mutableAttributedString;
 
-           // lblAmount.Text = $"${Amount}";
+            lblAmount.Text = $"${Amount}";
         }
 
         void Initialise()
@@ -288,10 +282,19 @@ namespace Greeter.Storyboards
             }
             else
             {
-                if (!string.IsNullOrEmpty(ServiceName))
+
+                var list = ServiceName.Split(",");
+
+                for (int i = 0; i < list.Length; i++)
                 {
-                    body += "<p>" + ServiceName + "</p>";
+                    //serviceHtml += SERVICE_NAME_HTML.Replace("{Service Name}", list[i]);
+                    body += "<p>" + list[i] + "</p>";
                 }
+
+                //if (!string.IsNullOrEmpty(ServiceName))
+                //{
+                //    body += "<p>" + ServiceName + "</p>";
+                //}
 
                 if (!string.IsNullOrEmpty(AdditionalServiceName) && !AdditionalServiceName.Equals("none", StringComparison.OrdinalIgnoreCase))
                 {

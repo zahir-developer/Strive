@@ -31,6 +31,9 @@ namespace Greeter.Storyboards
 		UIKit.UIButton btnPrint { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnVehicleTicket { get; set; }
+
+		[Outlet]
 		UIKit.UITextField tfCust { get; set; }
 
 		[Outlet]
@@ -41,6 +44,11 @@ namespace Greeter.Storyboards
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnVehicleTicket != null) {
+				btnVehicleTicket.Dispose ();
+				btnVehicleTicket = null;
+			}
+
 			if (btnCustomerSend != null) {
 				btnCustomerSend.Dispose ();
 				btnCustomerSend = null;
@@ -84,11 +92,6 @@ namespace Greeter.Storyboards
 			if (viewDetailer != null) {
 				viewDetailer.Dispose ();
 				viewDetailer = null;
-			}
-
-			if (btnPrint != null) {
-				btnPrint.Dispose ();
-				btnPrint = null;
 			}
 		}
 	}

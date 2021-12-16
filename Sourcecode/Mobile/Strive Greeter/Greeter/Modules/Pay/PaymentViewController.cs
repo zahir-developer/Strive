@@ -185,24 +185,50 @@ namespace Greeter.Modules.Pay
             return numberMatch.Groups[1].Value;
         }
 
-        string ParseExpiryData(string rawData)
-        {
-            string BEFORE_EXPIRY_MONTH_YEAR = "/^";
+        //string ParseExpiryData(string rawData)
+        //{
+        //    string BEFORE_EXPIRY_MONTH_YEAR = "/^";
 
-            int pos = rawData.IndexOf("/^");
+        //    int pos = rawData.IndexOf("/^");
 
-            string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
+        //    string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
 
-            return yearMonth;
-        }
+        //    return yearMonth;
+        //}
+
+        //string ParseExpiryYear(string rawData)
+        //{
+        //    string BEFORE_EXPIRY_MONTH_YEAR = "/^";
+
+        //    int pos = rawData.IndexOf("/^");
+
+        //    string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
+
+        //    string year = yearMonth.Substring(0, 2);
+
+        //    return year;
+        //}
+
+        //string ParseExpiryMonth(string rawData)
+        //{
+        //    string BEFORE_EXPIRY_MONTH_YEAR = "/^";
+
+        //    int pos = rawData.IndexOf("/^");
+
+        //    string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
+
+        //    string month = yearMonth.Substring(2, 2);
+
+        //    return month;
+        //}
 
         string ParseExpiryYear(string rawData)
         {
-            string BEFORE_EXPIRY_MONTH_YEAR = "/^";
+            //string BEFORE_EXPIRY_MONTH_YEAR = "/^";
 
-            int pos = rawData.IndexOf("/^");
+            int pos = rawData.LastIndexOf("^");
 
-            string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
+            string yearMonth = rawData.Substring(pos + 1, 4);
 
             string year = yearMonth.Substring(0, 2);
 
@@ -211,11 +237,11 @@ namespace Greeter.Modules.Pay
 
         string ParseExpiryMonth(string rawData)
         {
-            string BEFORE_EXPIRY_MONTH_YEAR = "/^";
+            //string BEFORE_EXPIRY_MONTH_YEAR = "/^";
 
-            int pos = rawData.IndexOf("/^");
+            int pos = rawData.LastIndexOf("^");
 
-            string yearMonth = rawData.Substring(pos + BEFORE_EXPIRY_MONTH_YEAR.Length, 4);
+            string yearMonth = rawData.Substring(pos + 1, 4);
 
             string month = yearMonth.Substring(2, 2);
 

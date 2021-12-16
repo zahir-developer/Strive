@@ -12,6 +12,10 @@ namespace Greeter.Common
 
         internal const short PAGINATION_LIMIT = 10;
 
+        internal const string HTML_TEMPLATE = "\n\n<table style=\"border-collapse: collapse; width: 100%; height: 90px;\" border=\"0\">\n<tbody>\n<tr style=\"height: 18px;\">\n<td></td>\n<td style=\"text-align: center;\">{title}</td>\n<td></td>\n</tr>\n<tr style=\"height: 18px;\">\n<td >In: &nbsp; {check_in}</td>\n<td ></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">{Barcode}</td>\n</tr>\n\n<tr>\n<td>\n<div><strong>Out: {check_out}</strong>\n</div>\n</td>\n<td></td>\n<td style=\"width: 25%; text-align: right; height: 18px;\"><span style=\"text-align: right;\">&nbsp;</span></td>\n</tr>\n<tr>\n<td >Client Name: {Client Name}</td>\n<td ></td>\n<td ></td>\n</tr>\n<tr>\n<td >{Vehicle Make}</td>\n<td > {Vehicle Model}</td>\n<td style=\"width: 25%; text-align: right; height: 18px;\">\n{Vehicle Color}</td>\n</tr>\n</tbody>\n</table>\n<br/>\n<table border=\"1\" width=\"100%\">\n</table>\n\n<br/>\n\n";
+        internal const string SERVICE_NAME_HTML = "<input type=\"checkbox\" /> {Service Name}\n<br/>\n";
+        internal const string TICKET_NO_HTML = "\nTicket Number: {Ticket No}\n";
+
         internal const string APP_CENTER_SECTRET_KEY = "4e8a243b-8318-4735-980d-439d2ba8ecd4";
         internal const string INFEA_DEVELOPER_KEY = "lkAfY0qI6092/y9YWsMZCeHshSjZK6QMo2z8Hqx6HU+SeLVCMILsSKK9JX+33hqkm6HKBVosqMTGi4YRkXPODg==";
     }

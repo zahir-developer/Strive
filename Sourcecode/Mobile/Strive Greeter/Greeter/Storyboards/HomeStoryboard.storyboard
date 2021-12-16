@@ -560,14 +560,14 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uj5-Td-Ll2">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uj5-Td-Ll2">
                                         <rect key="frame" x="220" y="810" width="250" height="54"/>
                                         <color key="backgroundColor" red="0.1137254902" green="0.78823529410000004" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="250" id="ATQ-Qt-fgz"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                        <state key="normal" title="Vehicle Ticket">
+                                        <state key="normal" title="VEHICLE TICKET">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
@@ -612,6 +612,7 @@
                         <outlet property="btnPay" destination="GFm-L5-LXy" id="99W-1a-9Xe"/>
                         <outlet property="btnPayLater" destination="vSb-OS-dhV" id="VPj-10-JqI"/>
                         <outlet property="btnPrint" destination="SBO-yq-WRr" id="h2o-aJ-Acw"/>
+                        <outlet property="btnVehicleTicket" destination="uj5-Td-Ll2" id="KK2-V3-QJK"/>
                         <outlet property="tfCust" destination="pha-Qz-cja" id="Q1Y-xY-3It"/>
                         <outlet property="tfEmp" destination="xCX-dO-UVl" id="3wh-Zs-Ruq"/>
                         <outlet property="viewDetailer" destination="L5c-wY-Et1" id="wAA-PD-9zR"/>
