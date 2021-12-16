@@ -19,6 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ClientStatementComponent implements OnInit {
   @Input() clientId?: any;
+  @Input() statementData?: any;
   statementGrid: any = [];
   page = 1;
   pageSize = 5;
@@ -34,7 +35,8 @@ private toastr : ToastrService,
   ) { }
 
   ngOnInit(): void {
-    this.getStatement();
+    this.statementGrid = this.statementData;
+    // this.getStatement();
   }
 
   closeDocumentModel() {

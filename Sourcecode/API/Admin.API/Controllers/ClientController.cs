@@ -29,14 +29,14 @@ namespace Admin.API.Controllers
         [Route("InsertCreditDetails")]
         public Result InsertCreditDetails([FromBody] CreditDTO credit) => _bplManager.SaveCreditDetails(credit);
 
-        [HttpPost]
-        [Route("AddCreditAccountHistory")]
-        public Result AddCreditAccountHistory([FromBody] CreditHistoryDTO addCreditAccountHistory) => _bplManager.AddCreditAccountHistory(addCreditAccountHistory);
+        //[HttpPost]
+        //[Route("AddCreditAccountHistory")]
+        //public Result AddCreditAccountHistory([FromBody] CreditHistoryDTO addCreditAccountHistory) => _bplManager.AddCreditAccountHistory(addCreditAccountHistory);
 
-        [HttpPost]
-        [Route("UpdateCreditAccountHistory")]
-        public Result UpdateCreditAccountHistory([FromBody] CreditHistoryDTO updateCreditAccountHistory) => _bplManager.UpdateCreditAccountHistory(updateCreditAccountHistory);
-
+        //[HttpPost]
+        //[Route("UpdateCreditAccountHistory")]
+        //public Result UpdateCreditAccountHistory([FromBody] CreditHistoryDTO updateCreditAccountHistory) => _bplManager.UpdateCreditAccountHistory(updateCreditAccountHistory);
+        
         [HttpPost]
         [Route("GetAll")]
         public Result GetAllClient([FromBody] SearchDto  searchDto) =>_bplManager.GetAllClient(searchDto);
@@ -49,9 +49,9 @@ namespace Admin.API.Controllers
             return _bplManager.DeleteClient(clientId);
         }
 
-        [HttpPost]
-        [Route("UpdateAccountBalance")]
-        public Result UpdateAccountBalance([FromBody] ClientAmountUpdateDto clientAmountUpdate) => _bplManager.UpdateAccountBalance(clientAmountUpdate);
+        //[HttpPost]
+        //[Route("UpdateAccountBalance")]
+        //public Result UpdateAccountBalance([FromBody] ClientAmountUpdateDto clientAmountUpdate) => _bplManager.UpdateAccountBalance(clientAmountUpdate);
 
         [HttpGet]
         [Route("GetClientById/{clientId}")]

@@ -28,9 +28,12 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isAdd?: any;
   vehicleDetails = [];
   activityDetails = [];
+  historyData = [];
+  statementData = [];
   vehicleDet = [];
   isTableEmpty: boolean;
   headerData: string;
+  headerActivity: string;
   selectedVehicle: any;
   showVehicleDialog: boolean;
   clientId: number = 0;
@@ -47,6 +50,7 @@ export class ClientCreateEditComponent implements OnInit {
   vehicleDetail: any;
   isVehicleEdit: boolean;
   clonedVehicleDetails = [];
+  clonedAccountDetails = [];
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
@@ -69,9 +73,20 @@ getClientActivity(id) {
   this.client.getActivityByClientId(id).subscribe(data => {
     if (data.status === 'Success') {
       const activityData = JSON.parse(data.resultData);
-      if(activityData.GiftCardHistoryViewModel)
+      if(activityData.CreditAccountDetail.ClientActivityHistoryViewModel)
       {
-          this.activityDetails=activityData.GiftCardHistoryViewModel
+          this.activityDetails=activityData.CreditAccountDetail.ClientActivityHistoryViewModel;
+
+          this.clonedAccountDetails.push(this.activityDetails);
+      }
+      if(activityData.CreditAccountDetail.ClientActivityStatementViewModel)
+      {
+          this.statementData = activityData.CreditAccountDetail.ClientActivityStatementViewModel;
+      }
+      if(activityData.CreditAccountDetail.ClientActivityPaymentHistoryViewModel)
+      {
+          this.historyData = activityData.CreditAccountDetail.ClientActivityPaymentHistoryViewModel;
+
       }
     } else {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -186,6 +201,7 @@ getClientActivity(id) {
       client: formObj,
       clientVehicle: this.vehicleDet.length === 0 ? null : this.vehicleDet,
       clientAddress: this.address,
+      CreditAccountHistory:  this.clonedAccountDetails.length > 0 ? this.clonedAccountDetails[0] : null,
       token: null,
       password: ''
     }
@@ -265,11 +281,31 @@ getClientActivity(id) {
       size: 'lg'
     };
     const modalRef = this.modalService.open(AddActivityAdditionalComponent, ngbModalOptions);
-    modalRef.result.then((result) => {
-      if (result) {
-        // add code here
+    modalRef.componentInstance.clientId = this.selectedData.ClientId;    
+    modalRef.componentInstance.header = "Add Activity";
+
+    modalRef.componentInstance.userActivity.subscribe((receivedEntry) => {
+      const activityObj = {
+        clientId: this.isEdit ? this.selectedData.ClientId : 0,
+        CreditAccountHistoryId: receivedEntry.CreditAccountHistoryId == undefined ? 0 : receivedEntry.CreditAccountHistoryId,
+        Amount:receivedEntry.amount,
+        Comments:receivedEntry.notes,
+        IsActive: true,
+        isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: new Date(),
+      };     
+      
+      this.clonedAccountDetails.length>0 ? this.clonedAccountDetails[0].push(activityObj) : this.clonedAccountDetails.push([activityObj]);
+      if (this.clonedAccountDetails.length > 0) {
+        this.activityDetails = [];
+        this.clonedAccountDetails[0].forEach(item => {
+          this.activityDetails.push(item);
+        });
       }
-    });
+      modalRef.close();
+     
+      })
   }
 
   cancel() {
@@ -367,7 +403,89 @@ getClientActivity(id) {
       this.deleteIds.push(data);
     }
   }
+  deleteActivity(data) {
+    if (this.isView) {
+      return;
+    }
+    this.confirmationService.confirm('Delete Activity', `Are you sure you want to delete this Activity? All related 
+    information will be deleted and the Activity cannot be retrieved?`, 'Yes', 'No')
+      .then((confirmed) => {
+        if (confirmed === true) {
+          this.confirmDeleteActivity(data);
+        }
+      })
+      .catch(() => { });
+  }
 
+  // Delete Vehicle 
+  confirmDeleteActivity(receivedEntry) {
+    if(this.clonedAccountDetails.length > 0){ 
+      var oExists = this.clonedAccountDetails[0].findIndex(x => x.CreditAccountHistoryId === receivedEntry.CreditAccountHistoryId);
+     
+      this.clonedAccountDetails[0][oExists].IsActive  = false;
+      this.clonedAccountDetails[0][oExists].isDeleted = true;
+      this.clonedAccountDetails[0][oExists].updatedBy = this.employeeId;
+      this.clonedAccountDetails[0][oExists].updatedDate =  new Date();
+    }
+  }
+  editActivity(activity) {
+    console.log(activity, 'activity');
+    if (!activity.hasOwnProperty('CreditAccountHistoryId')) {
+      return;
+    }
+
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    
+    const modalRef = this.modalService.open(AddActivityAdditionalComponent, ngbModalOptions);
+    modalRef.componentInstance.clientId = this.selectedData.ClientId;
+    modalRef.componentInstance.CreditAccountHistoryId = activity.CreditAccountHistoryId;
+    modalRef.componentInstance.amount = activity.Amount;
+    modalRef.componentInstance.comments = activity.Comments;
+    modalRef.componentInstance.header = "Edit Activity";
+
+    modalRef.componentInstance.userActivity.subscribe((receivedEntry) => {
+      const activityObj = {
+        clientId:this.selectedData.ClientId,
+        CreditAccountHistoryId: receivedEntry.CreditAccountHistoryId == undefined ? 0 : receivedEntry.CreditAccountHistoryId,
+        Amount:receivedEntry.amount,
+        Comments:receivedEntry.notes,
+        IsActive: true,
+        isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: new Date(),
+      };
+      if(this.clonedAccountDetails.length > 0){ 
+        var oExists = this.clonedAccountDetails[0].findIndex(x => x.CreditAccountHistoryId === receivedEntry.CreditAccountHistoryId);
+        this.clonedAccountDetails[0][oExists].Amount = receivedEntry.amount;
+        this.clonedAccountDetails[0][oExists].Comments = receivedEntry.notes;
+        this.clonedAccountDetails[0][oExists].IsActive  = true;
+        this.clonedAccountDetails[0][oExists].isDeleted = false;
+        this.clonedAccountDetails[0][oExists].updatedBy = this.employeeId;
+        this.clonedAccountDetails[0][oExists].updatedDate =  new Date();
+        if (this.clonedAccountDetails.length > 0) {
+          this.activityDetails = [];
+          this.clonedAccountDetails[0].forEach(item => {
+            this.activityDetails.push(item);
+          });
+        }
+      }else{ 
+        this.clonedAccountDetails.push([activityObj]);
+        if (this.clonedAccountDetails.length > 0) {
+          this.activityDetails = [];
+          this.clonedAccountDetails[0].forEach(item => {
+            this.activityDetails.push(item);
+          });
+        }
+      }
+     
+      modalRef.close();
+    });
+  }
+  
   editVehicle(vehicle) {
     console.log(vehicle, 'vehicle');
     if (!vehicle.hasOwnProperty('VehicleId')) {
@@ -411,6 +529,7 @@ getClientActivity(id) {
     };
     const modalRef = this.modalService.open(ClientStatementComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
+    modalRef.componentInstance.statementData = this.statementData;
   }
 
   openHistory() {
@@ -421,6 +540,7 @@ getClientActivity(id) {
     };
     const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
+    modalRef.componentInstance.historyData = this.historyData;
   }
 
   getService() {

@@ -22,7 +22,7 @@ namespace Strive.BusinessLogic.Client
         Result GetClientById(int? clientId);
         Result GetClientVehicleById(int clientId);
         Result UpdateClientVehicle(ClientDto vehicle);
-        Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate);
+        //Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate);
         Result GetClientSearch(ClientSearchDto search);
         Result GetClientCodes();
         Result GetStatementByClientId(int id);
@@ -37,8 +37,8 @@ namespace Strive.BusinessLogic.Client
         Result ClientCSVExport(EmailBlastDto emailBlast);
         Result SaveCreditDetails(CreditDTO client);
         Result GetCreditAccountBalanceHistory(string clientId);
-        Result AddCreditAccountHistory(CreditHistoryDTO addGiftCardHistory);
-        Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory);
+        //Result AddCreditAccountHistory(CreditHistoryDTO addGiftCardHistory);
+        //Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory);
         Result SendClientEmail();
     }
 }

@@ -11,9 +11,10 @@
                         <th scope="col">Ticket#&nbsp;</th>
                         <th scope="col">Date&nbsp;</th>
                         <th scope="col">Service Type&nbsp;</th>
-                        <th scope="col">Total Amount&nbsp;</th>
-                        <!-- <th scope="col">Price&nbsp;</th>
-                        <th scope="col">Comm&nbsp;</th> -->
+                        <th scope="col">Total Amount&nbsp;</th>                        
+                        <th scope="col">Detailer&nbsp;</th>
+                        <th scope="col">Price&nbsp;</th>
+                        <th scope="col">Commission&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,11 +22,12 @@
                         *ngFor="let history of historyGrid |slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                         <td><span class="text-underline theme-primary-color font-size--9" style="cursor: pointer;"
                                 (click)="openHistory(history)">{{history.TicketNumber}}</span></td>
-                        <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
+                        <td>{{history.TransactionDate | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
                         <td>{{history.Amount | currency}}</td>
-                        <!-- <td>{{history.Price | currency}}</td>
-                        <td>{{history.Comm | currency}}</td> -->
+                        <td class="table-ellipsis">{{history.Detailer}}</td>
+                        <td>{{history.Price | currency}}</td>
+                        <td>{{history.CommissionAmount | currency}}</td>
                     </tr>
                     <tr *ngIf="historyGrid.length === 0">
                         <td colspan="12" class="text-center">
