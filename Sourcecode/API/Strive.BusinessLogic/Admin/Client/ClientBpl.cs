@@ -218,7 +218,7 @@ namespace Strive.BusinessLogic
             return ResultWrap(new ClientRal(_tenant).UpdateGiftCardHistory, updateGiftCardHistory, "Status");
         }
 
-        public Result SendClientEmail()
+        public bool SendClientEmail()
         {
             var commonBpl = new CommonBpl(_cache, _tenant);
             var subject = EmailSubject.WelcomeEmail;
@@ -245,14 +245,14 @@ namespace Strive.BusinessLogic
 
                             commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
                             var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
-                            return null;
+                           // return false;
                         }
                     }
                 }
 
             }
 
-            return ResultWrap(true, "Send Client Mail");
+            return true;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Strive.BusinessLogic
 
         Result GetEmployeeHourlyRateById(int employeeId);
         Result GetEmployeePayCheck(EmployeePayCheckDto searchDto);
-        Result SendEmployeeEmail();
+        bool SendEmployeeEmail();
 
     }
 }

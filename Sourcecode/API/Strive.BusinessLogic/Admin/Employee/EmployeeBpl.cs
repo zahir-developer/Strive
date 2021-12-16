@@ -231,7 +231,7 @@ namespace Strive.BusinessLogic
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeePayCheck, checkDto, "EmployeePayCheck");
         }
 
-        public Result SendEmployeeEmail()
+        public bool SendEmployeeEmail()
         {
             var allEmployeeList = new EmployeeRal(_tenant).GetEmployeeList();
             foreach (var emp in allEmployeeList.Employee)
@@ -246,13 +246,14 @@ namespace Strive.BusinessLogic
                         {
                             SendEmployeeMail(empDetail.EmployeeInfo, email, empDetail.EmployeeLocations, empDetail.EmployeeRoles, emp.EmployeeId);
                             new EmployeeRal(_tenant).UpdateEmployeeAddressIsNotified(empDetail.EmployeeInfo.EmployeeAddressId, true);
+                            //return false;
                         }
                     }
                 }
 
             }
 
-            return ResultWrap(true, "Send Employee Mail");
+            return true;
         }
 
         private void SendEmployeeMail(EmployeeInfoDto employee, string email, List<EmployeeLocationDto> employeeLocations, List<EmployeeRoleDto> employeeRoles, int employeeId)
