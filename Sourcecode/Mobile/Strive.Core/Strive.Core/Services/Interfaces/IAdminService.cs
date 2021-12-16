@@ -75,7 +75,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<PostResponseBool> SaveVehicleMembership(ClientVehicleRoot clientVehicle);
 
-        Task<PostResponse> DeleteVehicleMembership(int clientMembershipId);
+        Task<PostResponse> DeleteVehicleMembership(deleteMembership deleteMembership);
 
         Task<ClientStatus> GetClientDetail(int ClientId);
 

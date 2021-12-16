@@ -167,7 +167,9 @@ namespace Strive.Core.Models.Customer
         public static int ScheduleServiceSelectedNumber { get; set; } = -1;
         public static int ScheduleServiceLocationNumber { get; set; } = -1;
         public static int OldScheduleServiceLocationNumber { get; set; } = -1;
+        public static string ServiceTypeName { get; set; }
         public static VehicleDetail ScheduleSelectedVehicle { get; set; }
+        public static bool IsCeramic { get; set; }
         #endregion Properties
 
 

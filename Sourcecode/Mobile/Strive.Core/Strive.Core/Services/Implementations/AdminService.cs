@@ -204,9 +204,9 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_SAVE_VEHICLE_MEMBERSHIP, HttpMethod.Post, clientVehicle);
         }
 
-        public async Task<PostResponse> DeleteVehicleMembership(int clientMembershipId)
+        public async Task<PostResponse> DeleteVehicleMembership(deleteMembership deleteMembership)
         {
-            return await _restClient.MakeApiCall<PostResponse>(string.Format(ApiUtils.URL_DELETE_VEHICLE_MEMBERSHIP, clientMembershipId), HttpMethod.Delete, clientMembershipId);
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_DELETE_VEHICLE_MEMBERSHIP, HttpMethod.Post, deleteMembership);
         }
 
         public async Task<ClientStatus> GetClientDetail(int ClientId)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using MvvmCross.Plugin.Messenger;
 using System.Linq;
 using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Models.Customer;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
@@ -45,7 +46,12 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             {
                 if (MembershipData.MembershipDetailView.ClientVehicleMembership!=null)
                 {
-                    var isDeleted = await AdminService.DeleteVehicleMembership(MembershipData.MembershipDetailView.ClientVehicleMembership.ClientMembershipId);
+                    deleteMembership Membershipdelete = new deleteMembership();
+                    Membershipdelete.clientId = MembershipData.MembershipDetailView.ClientVehicle.ClientId;
+                    Membershipdelete.clientMembershipId = MembershipData.MembershipDetailView.ClientVehicleMembership.ClientMembershipId;
+                    Membershipdelete.vehicleId = MembershipData.MembershipDetailView.ClientVehicle.VehicleId;
+
+                    var isDeleted = await AdminService.DeleteVehicleMembership(Membershipdelete);
                 }
                     
             }

@@ -69,7 +69,7 @@ namespace Strive.Core.Utils
 
         public const string URL_SAVE_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/SaveClientVehicleMembership";
 
-        public const string URL_DELETE_VEHICLE_MEMBERSHIP = "/Admin/MembershipSetup/DeleteVehicleMembershipById/{0}";
+        public const string URL_DELETE_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/DeleteVehicleMembership";
 
         public const string URL_GET_CLIENT_DETAIL = "/Admin/Client/GetClientById/";
 

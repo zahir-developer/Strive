@@ -52,6 +52,18 @@ namespace StriveCustomer.iOS.Views.Schedule
                         viewModel.scheduleServices.AllServiceDetail[indexPath.Row].Price;
                     CustomerScheduleInformation.ScheduleServiceName = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceName;
                     CustomerScheduleInformation.ScheduleServiceEstimatedTime = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].EstimatedTime ?? 0;
+                    CustomerScheduleInformation.ServiceTypeName = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceTypeName;
+                    CustomerScheduleInformation.IsCeramic = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].IsCeramic;
+                    //if (viewModel.scheduleServices.AllServiceDetail[indexPath.Row].Upcharges != null)
+                    //{
+                    //    CustomerScheduleInformation.Upcharge = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].Upcharges;
+                    //}
+                    //else
+                    //{
+                    //    CustomerScheduleInformation.Upcharge = "";
+                    //}
+
+
                 }
             }            
         }

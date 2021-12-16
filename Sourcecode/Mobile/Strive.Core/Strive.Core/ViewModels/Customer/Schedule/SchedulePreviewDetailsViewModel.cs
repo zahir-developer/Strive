@@ -110,7 +110,28 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 updatedBy = 0,
                 notes = null
             };
+            List<JobItem> jobList = new List<JobItem>();
+            if (MembershipDetails.modelUpcharge != null)
+            {
+                foreach (var item in MembershipDetails.modelUpcharge.upcharge )
+                {
+                    JobItem servicejobItem = new JobItem()
+                    {
+                        jobItemId = 0,
+                        jobId = ticketNumber.JobId,
+                        serviceId = item.ServiceId,
+                        isActive = true,
+                        isDeleted = false,
+                        commission = 0,
+                        price = item.Price,
+                        quantity = 1,
+                        createdBy = 0,
+                        updatedBy = 0
+                    };
 
+                    jobList.Add(servicejobItem);
+                }
+            }
             JobDetail jobDetail = new JobDetail()
             {
                 jobDetailId = 0,
@@ -135,7 +156,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 createdBy = 0,
                 updatedBy = 0
             };
-            List<JobItem> jobList = new List<JobItem>();
+            
             jobList.Add(jobItem);
 
             List<BaySchedule> bayList = new List<BaySchedule>();

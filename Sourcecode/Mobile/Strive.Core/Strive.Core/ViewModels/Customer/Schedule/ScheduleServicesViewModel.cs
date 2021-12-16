@@ -11,7 +11,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
 {
     public class ScheduleServicesViewModel : BaseViewModel
     {
-
+        private List<string> upcharges = new List<string>();
         #region Properties
         
         public AvailableServicesModel scheduleServices { get; set; }
@@ -43,12 +43,24 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                         scheduleServices.AllServiceDetail.Add(data);
                     }
                     uniqueServiceID = data.ServiceId;
+                    
                 }
             }
             _userDialog.HideLoading();
         }
         public async void NavToSelect_Appoitment()
         {
+
+            var upchargeRequest = new modelUpcharge()
+            {
+                upchargeServiceType = CustomerScheduleInformation.IsCeramic ? 11778 : 11780,
+                modelId = CustomerScheduleInformation.ScheduleSelectedVehicle.VehicleModelId
+            };
+                var modelUpcharge = new modelUpchargeResponse();
+                modelUpcharge = await AdminService.GetModelUpcharge(upchargeRequest);
+                MembershipDetails.modelUpcharge = modelUpcharge;
+
+
             if (checkSelectedService())
             {
                 await _navigationService.Navigate<ScheduleAppointmentDateViewModel>();

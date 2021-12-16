@@ -20,6 +20,7 @@ namespace Strive.Core.Models.Customer.Schedule
         public float Price { get; set; }
         public string DiscountType { get; set; }
         public double? EstimatedTime { get; set; }
+        public bool IsCeramic { get; set; }
     }
 
 }

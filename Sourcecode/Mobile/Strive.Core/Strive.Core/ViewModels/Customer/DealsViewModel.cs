@@ -60,6 +60,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
+                DealsPageViewModel.clientDeal = null;
                 DealsViewModel.enddate = null;
             }
            

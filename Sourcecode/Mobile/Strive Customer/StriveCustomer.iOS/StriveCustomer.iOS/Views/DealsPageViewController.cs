@@ -66,10 +66,11 @@ namespace StriveCustomer.iOS.Views
 
             ScanQrCodeButton.TouchUpInside += ScanQrCodeButton_TouchUpInsideAsync;
             //PriceView.Hidden = true;
-            CouponValidity();
+            
             //PriceStackView.Hidden = true;
             ValidateDeals(true);
-            
+           
+
         }
         private void ValidateDeals(bool firstcall)
         {
@@ -93,6 +94,9 @@ namespace StriveCustomer.iOS.Views
                     NinthProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     TenthProgressBarButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     PriceProgessBar.SetProgress(0.0f, false);
+                    NoOfDaysLabel.Hidden = true;
+                    DaysRemainingLabel.Hidden = true;
+
 
                 }
                 else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 5 && DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId == 2)
@@ -107,10 +111,13 @@ namespace StriveCustomer.iOS.Views
                     ThirdPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     FourthPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                     FifthPriceButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    NoOfDaysLabel.Hidden = true;
+                    DaysRemainingLabel.Hidden = true;
                 }
                 else
                 {
                     SetProgress();
+                    CouponValidity();
                 }
             }
             else
@@ -241,10 +248,11 @@ namespace StriveCustomer.iOS.Views
         private async void ScanQrCodeButton_TouchUpInsideAsync(object sender, EventArgs e)
         {
             string CurrentDate = DateTime.Today.ToString("yyyy-MM-dd");
-            
-            if (DealsViewModel.TimePeriod==3)
+
+
+            if (DealsViewModel.TimePeriod == 3)
             {
-                if ((DateTime.Today.Date<=DateTime.Parse(DealsViewModel.enddate).Date))
+                if ((DateTime.Today.Date <= DateTime.Parse(DealsViewModel.enddate).Date))
                 {
                     var scanner = new MobileBarcodeScanner();
 

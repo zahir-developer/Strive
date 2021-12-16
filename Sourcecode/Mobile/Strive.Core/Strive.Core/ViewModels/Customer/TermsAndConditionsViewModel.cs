@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
 using System;
 using System.Collections.Generic;
@@ -140,7 +141,11 @@ namespace Strive.Core.ViewModels.Customer
             {
                 if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
                 {
-                    var isDeleted = await AdminService.DeleteVehicleMembership(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
+                    deleteMembership Membershipdelete = new deleteMembership();
+                    Membershipdelete.clientId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicle.ClientId;
+                    Membershipdelete.clientMembershipId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId;
+                    Membershipdelete.vehicleId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicle.VehicleId;
+                    var isDeleted = await AdminService.DeleteVehicleMembership(Membershipdelete);
                 }
                 var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
                 if (data.Status == true)
