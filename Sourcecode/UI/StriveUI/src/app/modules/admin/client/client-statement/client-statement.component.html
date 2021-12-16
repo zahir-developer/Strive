@@ -17,9 +17,9 @@
                 <tbody>
                     <tr *ngFor="let statement of statementGrid">
                         <td>{{statement.TicketNumber}}</td>
-                        <td>{{statement.Date | date: 'MM/dd/yyyy'}}</td>
+                        <td>{{statement.TransactionDate | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{statement.ServiceCompleted}}</td>
-                        <td>{{statement.TotalAmount | currency}}</td>
+                        <td>{{statement.Amount | currency}}</td>
                     </tr>
                     <tr *ngIf="statementGrid.length === 0">
                         <td colspan="12" class="text-center">

@@ -96,6 +96,9 @@
                                                         aria-hidden="true"></i></th>
                                                     <th scope="col" >Amount&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
                                                         aria-hidden="true"></i></th>
+                                                    <th scope="col" >Comments&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
+                                                        aria-hidden="true"></i></th>
+                                                        
                                                     <th scope="col" >Credited Date&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleMfr')"
                                                         aria-hidden="true"></i></th>
                                                     <th scope="col">Action</th>
@@ -103,11 +106,20 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let activity of activityDetails | orderBy:sort.column:'GiftCardHistoryId':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                    <td>{{activity.GiftCardHistoryId}}</td>
-                                                    <td>{{activity.TransactionAmount }}</td>
-                                                    <td>{{activity.TransactionDate}}</td>
-                                                    <td>{{activity.Status}}</td>
+                                                    *ngFor="let activity of activityDetails | orderBy:sort.column:'CreditAccountId':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    <td>{{activity.CreditAccountHistoryId}}</td>
+                                                    <td>{{activity.Amount }}</td>
+                                                    <td>{{activity.Comments }}</td>
+                                                    <td>{{activity.TransactionDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>
+                                                        <em class="fa fa-pencil-square edit-list  m-r-10"
+                                                            [ngClass]="{'theme-disabled-icon-color': !activity.Status, 'theme-secondary-icon-color': activity.Status  }"
+                                                            pTooltip="Edit" tooltipPosition="bottom"
+                                                            (click)="editActivity(activity)"></em>
+                                                        <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                            style="color:red" pTooltip="Delete"
+                                                            (click)="deleteActivity(activity)" tooltipPosition="bottom"></em>
+                                                    </td>
                                                     
                                                 </tr>
                                                 <tr *ngIf="activityDetails.length === 0">

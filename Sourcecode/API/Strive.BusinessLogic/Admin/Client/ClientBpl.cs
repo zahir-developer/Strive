@@ -128,18 +128,18 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
-        {
-            try
-            {
-                return ResultWrap(new ClientRal(_tenant).UpdateAccountBalance, clientAmountUpdate, "Status");
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
+        //public Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
+        //{
+        //    try
+        //    {
+        //        return ResultWrap(new ClientRal(_tenant).UpdateAccountBalance, clientAmountUpdate, "Status");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+        //    }
+        //    return _result;
+        //}
 
         public Result GetAllClient(SearchDto searchDto)
         {
@@ -213,10 +213,10 @@ namespace Strive.BusinessLogic
             return ResultWrap(new ClientRal(_tenant).AddCreditAccountHistory, addGiftCardHistory, "Status");
         }
 
-        public Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory)
-        {
-            return ResultWrap(new ClientRal(_tenant).UpdateGiftCardHistory, updateGiftCardHistory, "Status");
-        }
+        //public Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory)
+        //{
+        //    return ResultWrap(new ClientRal(_tenant).UpdateAccountHistory, updateGiftCardHistory, "Status");
+        //}
 
         public bool SendClientEmail()
         {

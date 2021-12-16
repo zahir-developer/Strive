@@ -10,7 +10,7 @@ namespace Strive.BusinessEntities.Model
         public int CreditAccountHistoryId { get; set; }
 
         [Column,PrimaryKey]
-        public int CreditAccountId { get; set; }
+        public int? CreditAccountId { get; set; }
 
         [Column]
         public decimal? Amount { get; set; }
@@ -41,5 +41,8 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public bool? TransactionType { get; set; }
+
+        [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
+        public int ClientId { get; set; }
     }
 }

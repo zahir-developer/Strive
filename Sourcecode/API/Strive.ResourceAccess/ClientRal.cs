@@ -44,17 +44,17 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(creditAccountHistoryDto, "CreditAccountHistoryId");
         }
-        public bool UpdateGiftCardHistory(CreditHistoryDTO creditAccountHistoryDto)
-        {
-            return dbRepo.SavePc(creditAccountHistoryDto, "CreditAccountHistoryId");
-        }
-        public bool UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
-        {
-            _prm.Add("@ClientId", clientAmountUpdate.ClientId);
-            _prm.Add("@Amount", clientAmountUpdate.Amount);
-            db.Save(SPEnum.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
-            return true;
-        }
+        //public bool UpdateAccountHistory(CreditHistoryDTO creditAccountHistoryDto)
+        //{
+        //    return dbRepo.SavePc(creditAccountHistoryDto, "CreditAccountHistoryId");
+        //}
+        //public bool UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
+        //{
+        //    _prm.Add("@ClientId", clientAmountUpdate.ClientId);
+        //    _prm.Add("@Amount", clientAmountUpdate.Amount);
+        //    db.Save(SPEnum.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
+        //    return true;
+        //}
         public ClientListViewModel GetAllClient(SearchDto searchDto)
         {
 
@@ -178,10 +178,10 @@ namespace Strive.ResourceAccess
 
         }
 
-        public GiftCardBalanceHistoryViewModel GetCreditAccountBalanceHistory(string clientId)
+        public ClientActivityBalanceHistoryViewModel GetCreditAccountBalanceHistory(string clientId)
         {
             _prm.Add("@ClientId", clientId);
-            var result = db.FetchMultiResult<GiftCardBalanceHistoryViewModel>(EnumSP.Client.USPGETCREDITACCOUNTBALANCEHISTORY.ToString(), _prm);
+            var result = db.FetchMultiResult<ClientActivityBalanceHistoryViewModel>(EnumSP.Client.USPGETCREDITACCOUNTBALANCEHISTORY.ToString(), _prm);
             return result;
         }
 

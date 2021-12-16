@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add Activity</h5>
+        <h5 class="modal-title">{{header}}</h5>
     </div>
     <div class="modal-body">
         <form [formGroup]="giftCardForm">
@@ -39,6 +39,37 @@
                                                             value="minus" id="option2" autocomplete="off"> -
                                                     </label>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            
+            <div class="form-row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <div class="form-row">
+                        <div class="col-sm-4">
+                            <label class="float-left" style="font-size: 25px;">Notes:</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div >
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" 
+                                                    [ngClass]="{ 'is-invalid': submitted && f.txtNotes.errors }"
+                                                    formControlName="txtNotes">
+                                                <div *ngIf="submitted && f.txtNotes.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.txtNotes.errors.required">Notes is required</div>
+                                                </div>
+                                               
                                             </div>
                                         </div>
                                     </div>

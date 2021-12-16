@@ -422,7 +422,7 @@ export class SalesComponent implements OnInit {
           const accountDetails = JSON.parse(data.resultData);
           this.vehicleIds = accountDetails.Account.SalesAccountViewModel?.VehicleId
           this.accountDetails = accountDetails.Account;
-          this.clientId = this.accountDetails.SalesAccountViewModel?.ClientId ? this.accountDetails.SalesAccountViewModel?.ClientId : 0;
+          this.clientId = this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0;
           if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount && this.accountDetails.SalesAccountViewModel?.MembershipId !== 0 &&
             this.accountDetails.SalesAccountViewModel?.MembershipId !== null) {
             this.serviceGroup = true;
@@ -1373,6 +1373,7 @@ export class SalesComponent implements OnInit {
 
     let giftcard = null;
     let discount = null;
+    let creditAccountHistory = null;
     giftcard = this.giftcards.map(item => {
       return {
         giftCardHistoryId: 0,
@@ -1491,6 +1492,21 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       };
       paymentDetailObj.push(accountDet);
+
+      creditAccountHistory = {
+        CreditAccountHistoryId :0,
+        CreditAccountId : null,
+        Amount : (-1 * this.account) ,
+        IsActive : true,
+        IsDeleted : false,
+        CreatedBy : null,
+        CreatedDate: new Date(),
+        UpdatedBy : null,
+        UpdatedDate: new Date(),
+        JobPaymentId : 0,
+        TransactionType : this.accountPayType,
+        ClientId : this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
+        }
     }
     if (this.credit !== 0) {
       const creditPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Card)[0].CodeId;
@@ -1528,7 +1544,7 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(gift);
     }
-
+   
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -1551,6 +1567,7 @@ export class SalesComponent implements OnInit {
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
+      creditAccountHistory : creditAccountHistory,
       jobPaymentCreditCard: null
     };
 
@@ -1582,7 +1599,7 @@ export class SalesComponent implements OnInit {
         if (this.accountDetails !== null && this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp) {
           const amt = (+this.accountDetails?.SalesAccountViewModel?.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
           const obj = {
-            clientId: this.accountDetails?.SalesAccountViewModel?.ClientId,
+            clientId: this.accountDetails?.SalesAccountCreditViewModel?.ClientId,
             amount: amt
           };
           this.salesService.updateAccountBalance(obj).subscribe(res => {
