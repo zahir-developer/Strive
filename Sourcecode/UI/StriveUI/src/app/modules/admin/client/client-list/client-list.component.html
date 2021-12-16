@@ -8,7 +8,6 @@
                 </ol>
             </nav>
             <div class="col-lg-12 p-l-0 p-r-0">
-                <app-dashboard-statics [jobTypeId]="jobTypeId"></app-dashboard-statics>
                 <div class="row no-gutter">
                     <div class="col-12">
                         <div class="card">
@@ -16,6 +15,8 @@
                                 <div class="title-border p-b-20 m-b-15">
                                     <h5 class="d-inline-block font-weight-600">Client List</h5>&nbsp;
                                     <div class="pull-right card-widgets">
+                                        <button type="button" class="btn theme-primary-button-color btn-md"
+                                            (click)="sendClientMail()">Send Client Email</button>&nbsp;&nbsp;
                                         <button type="button" class="btn theme-primary-button-color btn-md"
                                             (click)="add('add',[])">Add New Client</button>&nbsp;&nbsp;
                                         <a data-toggle="collapse" href="#Clientlist" role="button" aria-expanded="false"
@@ -38,7 +39,7 @@
                                                         <div class="form-group col-sm m-l-5">
                                                             <button type="button"
                                                                 class="btn theme-primary-button-color btn-sm m-l-10"
-                                                                (click)="getAllClientDetails()">Search</button>
+                                                                (click)="newgetAllClientDetails()">Search</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -150,13 +151,13 @@
 
     .headerfix thead,
     .header tr {
-        display: table;
+        /* display: table; */
         width: 100%;
         table-layout: fixed;
     }
 
     .header tr {
-        display: table;
+        /* display: table; */
         width: 100%;
         table-layout: fixed;
         overflow: hidden;

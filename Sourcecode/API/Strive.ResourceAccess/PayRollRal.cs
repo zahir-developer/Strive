@@ -39,6 +39,8 @@ namespace Strive.ResourceAccess
             {
                 _prm.Add("@EmployeeId", item.id);
                 _prm.Add("@Adjustment", item.adjustment);
+                _prm.Add("@LocationId", item.LocationId);
+                
                 db.Save(EnumSP.Payroll.USPUPDATEEMPLOYEEADJUSTMENT.ToString(), _prm);
             }
             return true;
@@ -54,6 +56,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@FromDate", payRollProcess.StartDate);
             _prm.Add("@ToDate", payRollProcess.EndDate);
             _prm.Add("@employeeId", payRollProcess.EmpId);
+            _prm.Add("@locationId", payRollProcess.LocationId);
             var res = db.Fetch<PayrollProcessViewModel>(EnumSP.Payroll.USPGETPAYROLLPROCESS.ToString(), _prm);
            if(res.Count>0)
             {

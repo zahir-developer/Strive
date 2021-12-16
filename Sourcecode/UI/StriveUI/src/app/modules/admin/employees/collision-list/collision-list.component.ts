@@ -10,8 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-collision-list',
-  templateUrl: './collision-list.component.html',
-  styleUrls: ['./collision-list.component.css']
+  templateUrl: './collision-list.component.html'
 })
 export class CollisionListComponent implements OnInit {
   @Input() employeeId?: any;

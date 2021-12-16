@@ -3,7 +3,7 @@
     <div class="date d-inline-block datepicker-view" data-date-format="mm/dd/yyyy">
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
-            bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+            bsDatepicker (focus)="dp.show()" [outsideClick]="true"><span class="input-group-addon">
             <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
     </div>
 
@@ -17,7 +17,8 @@
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
                 <div class="col-lg-2 m-t-31">
-                    <button type="button" class="btn theme-primary-button-color" (click)="getDailySalesReport()">View</button>
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="getDailySalesReport()">View</button>
                 </div>
             </div>
             <div class="card m-t-10">
@@ -35,12 +36,12 @@
                                 <div class="d-inline-block">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"  [disabled] = "!fileTypeEvent"
+                                <button type="button" class="btn theme-primary-button-color" [disabled]="!fileTypeEvent"
                                     (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    printSectionId="dailySalesReport" ngxPrint>Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="getDailySalesReport()">Refresh</button>&nbsp;
+                                    (click)="print()">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="refresh()">Refresh</button>&nbsp;
                             </div>
                         </div>
                     </div>
@@ -56,50 +57,51 @@
                                     <th scope="col">Ticket #</th>
                                     <th scope="col">Time In</th>
                                     <th scope="col">Time Out</th>
-                                    <th scope="col">Est</th>
-                                    <th scope="col">+/- Deviation</th>
+                                    <th scope="col">Est. Time</th>
+                                    <th scope="col">+/-</th>
 
                                     <th scope="col">Service
-                                        <br>Name</th>
+                                        <br>Name
+                                    </th>
                                     <th scope="col">Service
-                                        <br> Type</th>
-                                    <th scope="col">Merchandise
-                                        <br>Items purchased</th>
-                                    <th scope="col">Barcode</th>
-                                    <th scope="col">Make</th>
-
-                                    <th scope="col">Color</th>
-                                    <th scope="col">Model</th>
-                                    <th scope="col">Customer
-                                        <br> Name</th>
-                                    <th scope="col">Phone</th>
+                                        <br> Type
+                                    </th>
+                                    <th scope="col">Merch.
+                                        <br>Items
+                                    </th>
                                     <th scope="col">Amount</th>
+                                    <th scope="col">Payment</th>
+                                    <th scope="col">Barcode</th>
+                                    <th scope="col">Make/Model/Color</th>
+                                    <th scope="col">Customer
+                                        <br> Name
+                                    </th>
+                                    <th scope="col">Phone</th>
                                     <th scope="col">Type</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr
                                     *ngFor="let dailySales of dailySalesReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                     <th scope="row">{{dailySales.TicketNumber}}</th>
-                                    <td>{{dailySales.TimeIn |date:'mediumTime'}}</td>
-                                    <td>{{dailySales.TimeOut|date:'mediumTime'}}</td>
-                                    <td>{{dailySales.Est|date:'mediumTime'}} </td>
+                                    <td>{{dailySales.TimeIn |date:'shortTime'}}</td>
+                                    <td>{{dailySales.TimeOut|date:'shortTime'}}</td>
+                                    <td>{{dailySales.EstTime}} </td>
                                     <td class="theme-optional-icon-color">{{dailySales.Deviation}}</td>
                                     <td>{{dailySales.ServiceName}}</td>
                                     <td>{{dailySales.ServiceType}}</td>
                                     <td>{{dailySales.MerchandiseItemsPurchased}}</td>
+                                    <td>{{dailySales.Amount | currency}}</td>
+                                    <td>{{dailySales.PaymentType}}</td>
                                     <td>{{dailySales.Barcode}}</td>
-                                    <td>{{dailySales.Make}}</td>
-
-                                    <td>{{dailySales.Color}}</td>
-                                    <td>{{dailySales.Model}}</td>
+                                    <td>{{dailySales.Make}} {{"/ "}} {{dailySales.Model}} {{"/ "}} {{dailySales.Color}}</td>
                                     <td>{{dailySales.CustomerName}} </td>
                                     <td>{{dailySales.PhoneNumber}}</td>
-                                    <td>{{dailySales.Amount | currency}}</td>
                                     <td>{{dailySales.Type}}</td>
                                 </tr>
                                 <tr *ngIf="dailySalesReport.length === 0">
-                                    <td colspan="10" class="text-center">
+                                    <td colspan="14" class="text-center">
                                         No Record Found
                                     </td>
                                 </tr>
@@ -108,8 +110,8 @@
                     </div>
                 </div>
                 <ul class="pagination justify-content-end">
-                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize"
-                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page"
+                        [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
                         class="d-flex justify-content-end">
                     </ngb-pagination>
                 </ul>

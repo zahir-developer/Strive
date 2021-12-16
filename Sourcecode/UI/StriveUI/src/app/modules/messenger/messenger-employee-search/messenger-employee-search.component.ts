@@ -46,7 +46,12 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     this.getAllEmployees();
   }
   clearSelectAllFlag() {
-    (document.getElementById('selectAll') as HTMLInputElement).checked = false;
+    var selectAll = (document.getElementById('selectAll') as HTMLInputElement)
+    
+    if(selectAll !== null)
+    {
+      selectAll.checked = false;
+    }
   }
   getAllEmployees() {
     this.clearSelectAllFlag();
@@ -61,12 +66,17 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    this.empService.getAllEmployeeList(empObj).subscribe(data => {
+    this.messengerService.getAllEmployeeName(empObj).subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
         if (empList.EmployeeList.Employee !== null) {
           this.empList = empList.EmployeeList.Employee;
         }
+        else
+        {
+          this.empList = null;
+        }
+
         this.setDefaultBoolean(false);
         this.setName();
       }
@@ -112,7 +122,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       } else {
         this.showPopup();
       }
-      this.emitFirstMessage.emit(selectedEmp);
+      // this.emitFirstMessage.emit(selectedEmp);
     } else if (this.selectedEmployee?.IsGroup === false) {
       const emp = this.checkDuplicate();
       if (emp.length > 1) {

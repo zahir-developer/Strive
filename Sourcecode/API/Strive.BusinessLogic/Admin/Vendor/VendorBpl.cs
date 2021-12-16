@@ -50,5 +50,10 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new VendorRal(_tenant).GetAllVendorName, "Vendor");
         }
+
+        public Result GetVendorByProductId(int id)
+        {
+            return ResultWrap(new VendorRal(_tenant).GetVendorByProductId,id, "VendorProduct");
+        }
     }
 }

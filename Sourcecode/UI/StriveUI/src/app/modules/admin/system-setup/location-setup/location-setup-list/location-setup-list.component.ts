@@ -8,11 +8,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { TenantSetupService } from 'src/app/shared/services/data-service/tenant-setup.service';
 
 @Component({
   selector: 'app-location-setup-list',
-  templateUrl: './location-setup-list.component.html',
-  styleUrls: ['./location-setup-list.component.css']
+  templateUrl: './location-setup-list.component.html'
 })
 export class LocationSetupListComponent implements OnInit {
   locationSetupDetails = [];
@@ -32,10 +32,13 @@ export class LocationSetupListComponent implements OnInit {
   isLoading: boolean;
   sortColumn: { sortBy: string; sortOrder: string; };
   searchUpdate = new Subject<string>();
+  maxLocation = 0;
+  ReachedMaxLimit = false;
   constructor(
     private locationService: LocationService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) {
+    private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService,
+    private tenantSetupService: TenantSetupService,) {
     // Debounce search.
     this.searchUpdate.pipe(
       debounceTime(ApplicationConfig.debounceTime.sec),
@@ -57,6 +60,24 @@ export class LocationSetupListComponent implements OnInit {
     this.getAllLocationSetupDetails();
   }
 
+
+  getMaxLocation() {
+      this.tenantSetupService.getMaxLocationCount().subscribe(res => {
+        if (res.status === 'Success') {
+          const tenantDetail = JSON.parse(res.resultData);
+          this.maxLocation = tenantDetail?.maxCount?.LocationMaxLimit;
+          this.ReachedMaxLimit = tenantDetail?.maxCount?.ReachedMaxLimit;
+          if(!tenantDetail?.ReachedMaxCount)
+          {
+            this.showDialog = true;
+          }
+          else {
+            this.toastr.warning(MessageConfig.Admin.SystemSetup.BasicSetup.LocationLimit, 'Warning!');
+          }
+        }
+      });
+  }
+
   // get all location
   getAllLocationSetupDetails() {
     this.isLoading = true;
@@ -65,7 +86,7 @@ export class LocationSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location;
-        console.log(this.locationSetupDetails )
+        console.log(this.locationSetupDetails)
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -131,7 +152,7 @@ export class LocationSetupListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllLocationSetupDetails();
   }
   // Get Location Search
@@ -204,14 +225,15 @@ export class LocationSetupListComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
   add(data, locationDetails?) {
-    if (data === 'add') {
-      this.headerData = 'Add New Location';
-      this.selectedData = locationDetails;
-      this.isEdit = false;
-      this.showDialog = true;
-    } else {
-      this.getLocationById(locationDetails);
-    }
+      if (data === 'add') {
+        this.getMaxLocation();
+        this.headerData = 'Add New Location';
+        this.selectedData = locationDetails;
+        this.isEdit = false;
+        
+      } else {
+        this.getLocationById(locationDetails);
+      }
   }
 
 

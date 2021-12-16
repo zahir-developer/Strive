@@ -17,6 +17,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int ClientMembershipId { get; set; }
         public int ClientVehicleId { get; set; }
         public DateTime StartDate { get; set; }
+        public decimal? DiscountedPrice { get; set; }
         public DateTime EndDate { get; set; }
         public bool Status { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Weather;
 using Strive.BusinessEntities.Weather;
 using Strive.Common;
 using System;
@@ -12,7 +13,7 @@ namespace Strive.BusinessLogic.Weather
     {
         Result GetWeatherPrediction(int locationId, DateTime date);
 
-        Result AddWeatherPrediction(WeatherPrediction weatherPrediction);
+        Result AddWeatherPrediction(WeatherDTO weatherPrediction);
 
         Task<WeatherView> GetWeather(string baseUrl, string apiKey, string apiMethod, int locationId);
 

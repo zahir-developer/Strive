@@ -13,11 +13,11 @@
                 </div>
                 <div class="col-sm-5" style="padding-right: 0 !important;">
                     <input type="text" placeholder="From" formControlName="fromDate" appCalendarMask
-                        class="form-control" bsDatepicker [bsConfig]="{ showWeekNumbers: false }">
+                        class="form-control" bsDatepicker #dp="bsDatepicker" (focus)="dp.show()" [bsConfig]="{ showWeekNumbers: false }">
                 </div>
                 <div class="col-sm-5" style="padding-right: 3px !important;">
                     <input type="text" placeholder="To" formControlName="toDate" appCalendarMask class="form-control"
-                        bsDatepicker [bsConfig]="{ showWeekNumbers: false }">
+                        bsDatepicker #pd="bsDatepicker" (focus)="dp.hide()" (focus)="pd.show()" [bsConfig]="{ showWeekNumbers: false }">
                 </div>
             </div>
         </form>

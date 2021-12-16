@@ -25,6 +25,11 @@ namespace Admin.API.Controllers
         public Result GetWashTimeDetail(int id) => _bplManager.GetWashTimeDetail(id);
 
         [HttpGet]
+        [Route("GetLastServiceVisit")]
+        public Result GetLastServiceVisit(SearchDto searchDto) => _bplManager.GetLastServiceVisit(searchDto);
+
+
+        [HttpGet]
         [Route("GetByBarCode/{barcode}")]
         public Result GetByBarCode(string barcode) => _bplManager.GetByBarCode(barcode);
 
@@ -34,9 +39,8 @@ namespace Admin.API.Controllers
 
 
         [HttpGet]
-        [Route("GetAllLocationWashTime/{id}")]
-        public Result GetAllLocationWashTime(int id) => _bplManager.GetAllLocationWashTime(id);
-
+        [Route("GetAllLocationWashTime")]
+        public Result GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatusDto) => _bplManager.GetAllLocationWashTime(locationStoreStatusDto);
 
         #endregion
 

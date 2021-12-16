@@ -17,7 +17,7 @@ export class DetailService {
   getDetailById(id) {
     return this.http.get(`${UrlConfig.details.getDetailById}` + id);
   }
-  
+
   updateDetail(obj) {
     return this.http.post(`${UrlConfig.details.updateDetail}`, obj);
   }
@@ -31,7 +31,7 @@ export class DetailService {
   }
 
   deleteDetail(id) {
-    return this.http.delete(`${UrlConfig.details.deleteDetail}`, { params : { id } } );
+    return this.http.delete(`${UrlConfig.details.deleteDetail}`, { params: { id } });
   }
 
   getJobType() {
@@ -39,15 +39,16 @@ export class DetailService {
   }
 
   getTodayDateScheduleList(JobDate, LocationId, ClientId) {
-    return this.http.get(`${UrlConfig.details.getTodayDateScheduleList}`, { params: { JobDate, LocationId, ClientId}});
+    return this.http.get(`${UrlConfig.details.getTodayDateScheduleList}`, { params: { JobDate, LocationId, ClientId } });
   }
 
   getAllEmployeeList() {
     return this.http.get(`${UrlConfig.employee.getEmployees}`);
   }
 
-  getWashTimeByLocationId(washTimeDto) {
-    return this.http.post(`${UrlConfig.washes.getWashTimeByLocationId}`, washTimeDto);
+  getWashTimeByLocationId(locationID, Date) {
+    return this.http.get(`${UrlConfig.washes.getWashTimeByLocationId}`, { params: { locationID, Date }});
+    
   }
 
   getPastClientNotesById(id) {
@@ -71,11 +72,20 @@ export class DetailService {
   }
 
   getDetailScheduleStatus(LocationId, date) {
-    return this.http.get(`${UrlConfig.details.getDetailScheduleStatus}`, { params: { LocationId , Date: date } });
+    return this.http.get(`${UrlConfig.details.getDetailScheduleStatus}`, { params: { LocationId, Date: date } });
   }
 
   getClockedInDetailer(obj) {
-    return this.http.post(`${UrlConfig.timeClock.getClockedInDetailer}` , obj);
+    return this.http.post(`${UrlConfig.timeClock.getClockedInDetailer}`, obj);
+  }
+
+  getTicketNumber(): Observable<any> {
+    const locationId = 0;
+    return this.http.get(`${UrlConfig.common.getTicketNumber}` + locationId);
+  }
+
+  updateJobStatus(obj) {
+    return this.http.post(`${UrlConfig.details.updateJobStatus}`, obj);
   }
 
 }

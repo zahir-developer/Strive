@@ -17,7 +17,7 @@ namespace Strive.BusinessEntities.ViewModel
 
         public string Color { get; set; }
 
-        public DateTimeOffset TimeIn { get; set; }
+        public DateTimeOffset? TimeIn { get; set; }
         public DateTimeOffset? EstimatedTimeOut { get; set; }
         public string ServiceName { get; set; }
 

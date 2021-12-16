@@ -6,17 +6,20 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-picker.component';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 @Component({
   selector: 'app-monthly-customer-summary',
-  templateUrl: './monthly-customer-summary.component.html',
-  styleUrls: ['./monthly-customer-summary.component.css']
+  templateUrl: './monthly-customer-summary.component.html'
 })
 export class MonthlyCustomerSummaryComponent implements OnInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
-date = new Date();
-customerSummaryReport = [];
-originaldata = [];
-locationId = +localStorage.getItem('empLocationId');
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
+  @ViewChild(YearPickerComponent) yearPickerComponent: YearPickerComponent;
+  date = new Date();
+  customerSummaryReport = [];
+  originaldata = [];
+  locationId = +localStorage.getItem('empLocationId');
   fileType: number;
   selectedDate: any;
   page = 1;
@@ -24,7 +27,7 @@ locationId = +localStorage.getItem('empLocationId');
   collectionSize: number;
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService,
-    private toastr :ToastrService, private excelService: ExcelService, private spinner: NgxSpinnerService) { }
+    private toastr: ToastrService, private excelService: ExcelService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.setMonth();
@@ -43,18 +46,17 @@ locationId = +localStorage.getItem('empLocationId');
     this.reportService.getCustomerSummaryReport(obj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
         this.selectedDate = this.date;
         const customerSummaryReport = JSON.parse(data.resultData);
         if (customerSummaryReport?.GetCustomerSummaryReport !== null) {
           const sumReport = customerSummaryReport?.GetCustomerSummaryReport ?
-          customerSummaryReport?.GetCustomerSummaryReport : [];
+            customerSummaryReport?.GetCustomerSummaryReport : [];
           this.customerSummaryReport = sumReport;
-          this.originaldata =  sumReport;
+          this.originaldata = sumReport;
           this.collectionSize = Math.ceil(this.customerSummaryReport.length / this.pageSize) * 10;
         }
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -64,6 +66,17 @@ locationId = +localStorage.getItem('empLocationId');
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+
+  refresh() {
+    this.page = 1;
+    this.date = new Date();
+    this.locationId = +localStorage.getItem('empLocationId');
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId')
+    this.exportFiletypeComponent.type = '';
+    this.yearPickerComponent.getYear();
+    this.getCustomerSummaryReport();
+  }
+
   onYearChange(event) {
     this.date = event;
   }
@@ -105,18 +118,18 @@ locationId = +localStorage.getItem('empLocationId');
   }
   customizeObj(customerSummaryReport) {
     if (customerSummaryReport.length > 0) {
-const customerSummary = customerSummaryReport.map(item => {
-  return {
-    Month: item.Month,
-    NumberOfMembershipAccountCustomers: item.NumberOfMembershipAccounts,
-    NumberOfCustomer: item.CustomerCount,
-    NumberOfWashes: item.WashesCompletedCount,
-    AverageNumberOfWashesPerCustomer: item.AverageNumberOfWashesPerCustomer,
-    TotalNumberOfWashesPerCustomer: item.TotalNumberOfWashesPerCustomer,
-    PercentageOfCustomersThatTurnedUp: item.PercentageOfCustomersThatTurnedUp
-  };
-});
-return customerSummary;
+      const customerSummary = customerSummaryReport.map(item => {
+        return {
+          Month: item.Month,
+          NumberOfMembershipAccountCustomers: item.NumberOfMembershipAccounts,
+          NumberOfCustomer: item.CustomerCount,
+          NumberOfWashes: item.WashesCompletedCount,
+          AverageNumberOfWashesPerCustomer: item.AverageNumberOfWashesPerCustomer,
+          TotalNumberOfWashesPerCustomer: item.TotalNumberOfWashesPerCustomer,
+          PercentageOfCustomersThatTurnedUp: item.PercentageOfCustomersThatTurnedUp
+        };
+      });
+      return customerSummary;
     }
   }
 }

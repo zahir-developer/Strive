@@ -16,14 +16,14 @@ namespace Strive.ResourceAccess
     {
         public DetailsRal(ITenantHelper tenant) : base(tenant) { }
 
-        public int AddDetails(DetailsDto details)
+        public bool AddDetails(DetailsDto details)
         {
-            return dbRepo.InsertPK<DetailsDto>(details, "JobId");    
+            return dbRepo.UpdatePc<DetailsDto>(details, "JobId");    
         }
         
         public bool UpdateDetails(DetailsDto details)
         {
-            return dbRepo.UpdatePc(details);
+            return dbRepo.UpdatePc(details, "Job");
         }
         public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
@@ -85,5 +85,14 @@ namespace Strive.ResourceAccess
             return result;
         }
 
+        public bool UpdateJobStatus(JobStatusDto jobStatus)
+        {
+            _prm.Add("@Date", jobStatus.ActualTimeOut);
+            _prm.Add("@JobId", jobStatus.JobId);
+            _prm.Add("@JobStatus", jobStatus.JobStatus);
+            _prm.Add("@JobStatusId", jobStatus.JobStatusId);
+            db.Save(EnumSP.Details.USPUPDATEJOBSTATUS.ToString(), _prm);
+            return true;
+        }
     }
 }

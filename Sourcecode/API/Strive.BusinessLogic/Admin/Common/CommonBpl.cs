@@ -21,6 +21,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Mail;
+
+using Azure.Storage.Blobs;
+using System.Security.Authentication;
+using Strive.BusinessLogic.EmailHelper.Dto;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -71,8 +76,11 @@ namespace Strive.BusinessLogic.Common
             try
             {
                 var lstCode = new CommonRal(_tenant, false).GetCodeByCategory(codeCategory);
+
                 _resultContent.Add(lstCode.WithName("Codes"));
+
                 _result = Helper.BindSuccessResult(_resultContent);
+
             }
             catch (Exception ex)
             {
@@ -82,23 +90,32 @@ namespace Strive.BusinessLogic.Common
             return _result;
         }
 
-        internal object GetGeocode(LocationAddress locationAddress)
+        internal List<Geocode> GetGeocode(LocationAddress locationAddress)
         {
-            string osmUri = "https://nominatim.openstreetmap.org/search?q=255+South%20Main%20Street,+Alpharetta+GA+30009&format=json";
+            string osmUri = _tenant.OSMUri + locationAddress.Address1 + "," + locationAddress.CityName + "+" + locationAddress.StateName + "+" + locationAddress.Zip
+                + "&format=json";
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(osmUri);
             request.Method = "GET";
+            request.UserAgent = _tenant.UserAgent;
             string apiResponse = String.Empty;
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            try
             {
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                apiResponse = reader.ReadToEnd();
-                reader.Close();
-                dataStream.Close();
-            }
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    Stream dataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    apiResponse = reader.ReadToEnd();
+                    reader.Close();
+                    dataStream.Close();
+                }
 
-            List<Geocode> lstGeocode = JsonConvert.DeserializeObject<List<Geocode>>(apiResponse);
-            return lstGeocode;
+                List<Geocode> lstGeocode = JsonConvert.DeserializeObject<List<Geocode>>(apiResponse);
+                return lstGeocode;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public void DeleteUser(int authId)
@@ -279,9 +296,12 @@ namespace Strive.BusinessLogic.Common
             return true;
         }
 
-        public (int authId, string password) CreateLogin(UserType userType, string emailId, string mobileNo)
+        public (int authId, string password) CreateLogin(UserType userType, string emailId, string mobileNo, string password = "")
         {
-            string randomPassword = RandomString(6);
+            string randomPassword = password;
+
+            if (randomPassword == string.Empty)
+                randomPassword = RandomString(6);
 
             string passwordHash = Pass.Hash(randomPassword);
 
@@ -297,8 +317,6 @@ namespace Strive.BusinessLogic.Common
                 CreatedDate = DateTime.Now
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
-
-
 
             return (authId, randomPassword);
         }
@@ -329,7 +347,7 @@ namespace Strive.BusinessLogic.Common
 
         public string GetUserSignupInviteCode(UserType userType, bool TenantHasClientData = false, int clientId = 0)
         {
-            string invitationCode = $"{_tenant.TenatId},{userType},{TenantHasClientData.toInt()},{clientId}{DateTime.Today.ToString()}";
+            string invitationCode = $"{_tenant.TenantId},{userType},{TenantHasClientData.toInt()},{clientId}{DateTime.Today.ToString()}";
             string encryptedInvitationCode = Crypt.Encrypt(invitationCode);
             return encryptedInvitationCode;
         }
@@ -378,9 +396,9 @@ namespace Strive.BusinessLogic.Common
 
             string emailContent = GetMailContent(htmlTemplate, keyValues);
 
-            if(emailContent == string.Empty)
+            if (emailContent == string.Empty)
             {
-                foreach(var key in keyValues)
+                foreach (var key in keyValues)
                 {
                     emailContent += key.Key + ": " + key.Value + ";";
                 }
@@ -389,19 +407,29 @@ namespace Strive.BusinessLogic.Common
             SendMail(emailId, emailContent, "Welcome to Strive !!!");
         }
 
-        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues,string sub)
+        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues, string sub)
         {
             try
             {
+
+                EmailSettingDto emailSettingDto = new EmailSettingDto();
+                emailSettingDto.FromEmail = _tenant.FromMailAddress;
+                emailSettingDto.UsernameEmail = _tenant.FromMailAddress;
+                emailSettingDto.UsernamePassword = _tenant.SMTPPassword;
+                emailSettingDto.PrimaryPort = _tenant.Port.toInt();
+                emailSettingDto.PrimaryDomain = _tenant.SMTPClient;
+
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
-                SendMail(emailId, emailContent, sub);
+
+                EmailHelper.EmailSender emailSender = new EmailHelper.EmailSender(emailSettingDto);
+                emailSender.Initialize(sub, emailId, emailContent);
 
                 //SendMail(emailId, emailContent, "Welcome to Strive !!!");
 
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
         }
 
@@ -435,7 +463,34 @@ namespace Strive.BusinessLogic.Common
             _result = Helper.BindSuccessResult(_resultContent);
             return _result;
         }
+        public void SendMultipleMail(string email, string body, string subject)
+        {
 
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(_tenant.FromMailAddress); //From Email Id  
+            mailMessage.Subject = subject; //Subject of Email  
+            mailMessage.Body = body; //body or message of Email  
+            mailMessage.IsBodyHtml = true;
+
+
+            string[] BCCId = email.Split(',');
+            foreach (string BCCEmail in BCCId)
+            {
+                mailMessage.Bcc.Add(new MailAddress(BCCEmail)); //Adding Multiple BCC email Id  
+            }
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();  // creating object of smptpclient  
+            smtp.Host = _tenant.SMTPClient;
+            NetworkCredential NetworkCred = new NetworkCredential();
+            NetworkCred.UserName = _tenant.FromMailAddress;
+            NetworkCred.Password = _tenant.SMTPPassword;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = NetworkCred;
+            smtp.EnableSsl = true;
+
+            smtp.Port = _tenant.Port.toInt();
+
+            smtp.Send(mailMessage); //sending Email  
+        }
         public void SendMail(string email, string body, string subject)
         {
             var message = new MimeMessage();
@@ -448,20 +503,22 @@ namespace Strive.BusinessLogic.Common
                 Text = body
             };
 
-            using (var client = new SmtpClient())
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
-                client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
-
                 // Note: only needed if the SMTP server requires authentication
                 try
                 {
+                    client.SslProtocols |= SslProtocols.Tls;
+                    client.CheckCertificateRevocation = false;
+                    client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
                     client.Authenticate(_tenant.FromMailAddress, _tenant.SMTPPassword);
                 }
                 catch (Exception ex)
                 {
-
+                    throw ex;
                 }
-                
+
                 client.Send(message);
                 client.Disconnect(true);
             }
@@ -479,22 +536,60 @@ namespace Strive.BusinessLogic.Common
 
         public string GetMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
         {
+            return GetBlobMailContent(module, keyValues);
+        }
+
+        public string GetBlobMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
+        {
+            string blobName = _tenant.AzureBlobHtmlTemplate + module.ToString() + ".html";
+
+            string MailText = string.Empty;
+
+            BlobContainerClient container = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
+            //container.Create();
+
+            // Get a reference to a blob named "sample-file" in a container named "sample-container"
+            BlobClient blob = container.GetBlobClient(blobName);
+
+
+            if (blob != null)
+            {
+                Stream stream = new System.IO.MemoryStream();
+
+                stream = blob.OpenRead();
+
+                StreamReader str = new StreamReader(stream);
+
+                MailText = str.ReadToEnd();
+
+                foreach (var item in keyValues)
+                {
+                    MailText = MailText.Replace(item.Key, item.Value);
+                }
+                str.Close();
+            }
+
+            return MailText;
+        }
+
+        public string MailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
+        {
+            //string subPath = _tenant.AppRootPath + "\\wwwroot\\Template\\" + module.ToString() + ".html";
+
             string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
 
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
             string MailText = string.Empty;
-            if (File.Exists(subPath))
+
+            StreamReader str = new StreamReader(subPath);
+            MailText = str.ReadToEnd();
+
+            str.Close();
+
+            foreach (var item in keyValues)
             {
-                StreamReader str = new StreamReader(subPath);
-                MailText = str.ReadToEnd();
-
-                foreach (var item in keyValues)
-                {
-
-                    MailText = MailText.Replace(item.Key, item.Value);
-                }
-                str.Close();
+                MailText = MailText.Replace(item.Key, item.Value);
             }
 
             return MailText;
@@ -524,5 +619,26 @@ namespace Strive.BusinessLogic.Common
             return ResultWrap(new CommonRal(_tenant, false).GetUpchargeByType, upchargeDto, "upcharge");
 
         }
+
+
+        public string Template(string templateName)
+        {
+            //string subPath = _tenant.AppRootPath + "\\wwwroot\\Template\\" + module.ToString() + ".html";
+
+            string subPath = _tenant.HtmlTemplates + templateName.ToString() + ".html";
+
+            subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
+
+            string MailText = string.Empty;
+
+            StreamReader str = new StreamReader(subPath);
+            MailText = str.ReadToEnd();
+
+
+            str.Close();
+
+            return MailText;
+        }
+
     }
 }

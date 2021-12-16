@@ -20,7 +20,7 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public string ServiceName { get; set; }
         public decimal? Cost { get; set; }
         public decimal? Price { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
 
         public bool? IsActive { get; set; }
         public string Description { get; set; }
@@ -28,6 +28,9 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public string DiscountServiceType { get; set; }
         public bool? IsCeramic { get; set; }
         public int? ServiceCategory { get; set; }
+
+        public decimal? EstimatedTime { get; set; }
+
 
     }
 }

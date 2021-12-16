@@ -11,5 +11,6 @@ namespace Strive.BusinessEntities.ViewModel
         public DetailsJobViewModel Details { get; set; }
         public List<DetailsJobItemViewModel> DetailsItem { get; set; }
         public List<DetailsJobServiceEmployeeViewModel> DetailsJobServiceEmployee { get; set; }
+        public EmailViewModel Email { get; set; }
     }
 }

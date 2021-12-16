@@ -15,14 +15,14 @@ export class AuthGuard implements CanActivate {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       if (next.data.authorization) {
         if (!this.authorizeService.routingLevelAccess(next.data.authorization)) {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/unauthorized']);
           return false;
         } else {
           return true;
         }
       }
     }else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/unauthorized']);
       return false;
     }
    

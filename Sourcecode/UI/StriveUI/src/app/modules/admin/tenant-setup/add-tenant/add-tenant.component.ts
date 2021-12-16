@@ -8,11 +8,14 @@ import { TenantSetupService } from 'src/app/shared/services/data-service/tenant-
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RecurringPaymentComponent } from 'src/app/shared/components/recurring-payment/recurring-payment.component';
 
 @Component({
   selector: 'app-add-tenant',
-  templateUrl: './add-tenant.component.html',
-  styleUrls: ['./add-tenant.component.css']
+  templateUrl: './add-tenant.component.html'
 })
 export class AddTenantComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
@@ -31,19 +34,28 @@ export class AddTenantComponent implements OnInit {
   errorMessage: boolean;
   newModuleChanges = [];
   isSelectAll: boolean;
+  isMobileAppSelectAll: boolean;
   stateList = [];
   cityList = [];
   stateId: any;
   cityId: any;
+  adminModuleList = [];
+  reportModuleList = [];
+  isEmailAvailable: boolean;
+  moduleScreenList = [];
+  mobileAppList = [];
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
     private tenantSetupService: TenantSetupService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private client: ClientService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
     this.submitted = false;
+    this.isEmailAvailable = false;
     this.personalform = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -60,7 +72,7 @@ export class AddTenantComponent implements OnInit {
       dateOfSubscription: ['', Validators.required],
       noOfLocation: [''],
       paymentDate: ['', Validators.required],
-      deactivation: ['', Validators.required]
+      deactivation: ['']
     });
     this.getStateList();
     // this.getModuleList();
@@ -85,35 +97,59 @@ export class AddTenantComponent implements OnInit {
   }
 
   selectAll(event) {
-    if (this.isEdit) {
-      if (event.target.checked) {
-
-      }
+    if (event.target.checked) {
+      this.moduleList.forEach(item => {
+        item.IsChecked = true;
+      });
+      this.adminModuleList.forEach(item => {
+        item.IsChecked = true;
+      });
+      this.reportModuleList.forEach(item => {
+        item.IsChecked = true;
+      });
     } else {
-      if (event.target.checked) {
-        this.moduleList.forEach(item => {
-          item.IsChecked = true;
-        });
-      } else {
-        this.moduleList.forEach(item => {
-          item.IsChecked = false;
-        });
-      }
+      this.moduleList.forEach(item => {
+        item.IsChecked = false;
+      });
+      this.adminModuleList.forEach(item => {
+        item.IsChecked = false;
+      });
+      this.reportModuleList.forEach(item => {
+        item.IsChecked = false;
+      });
+    }
+  }
+
+  selectAllMobileApp(event) {
+    if (event.target.checked) {
+      this.mobileAppList.forEach(item => {
+        item.IsChecked = true;
+      });
+    } else {
+      this.mobileAppList.forEach(item => {
+        item.IsChecked = false;
+      });
     }
   }
 
   selectModule(module) {
     if (this.isEdit) {
-      const modules = this.moduleList.filter(item => item.ModuleId === module.ModuleId);
-      if (modules.length > 0) {
-        modules[0].IsChecked = modules[0].IsChecked ? false : true;
-        this.newModuleChanges.push(modules[0]);
-      } else {
-        module.IsChecked = module.IsChecked ? false : true;
-        this.newModuleChanges.push(modules[0]);
-      }
+      module.IsChecked = module.IsChecked ? false : true;
     } else {
       module.IsChecked = module.IsChecked ? false : true;
+    }
+    if (module.IsChecked) {
+      this.moduleScreenList.forEach(item => {
+        if (item.ModuleId === module.ModuleId) {
+          item.IsChecked = true;
+        }
+      });
+    } else {
+      this.moduleScreenList.forEach(item => {
+        if (item.ModuleId === module.ModuleId) {
+          item.IsChecked = false;
+        }
+      });
     }
     const isAllModuleSelect = this.moduleList.filter(item => !item.IsChecked);
     if (isAllModuleSelect.length === 0) {
@@ -123,17 +159,41 @@ export class AddTenantComponent implements OnInit {
     }
   }
 
+  selectMobileApp(app) {
+    app.IsChecked = app.IsChecked ? false : true;
+    const isAllModuleSelect = this.mobileAppList.filter(item => !item.IsChecked);
+    if (isAllModuleSelect.length === 0) {
+      this.isMobileAppSelectAll = true;
+    } else {
+      this.isMobileAppSelectAll = false;
+    }
+  }
+
+  selectModuleScreen(module) {
+    module.IsChecked = module.IsChecked ? false : true;
+  }
+
   getModuleList() {
-    this.spinner.show();
     this.tenantSetupService.getModuleList().subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
         const modules = JSON.parse(res.resultData);
         console.log(modules, 'module');
         if (modules.AllModule !== null) {
-          this.moduleList = modules.AllModule;
+          this.moduleList = modules.AllModule.Module;
           this.isSelectAll = true;
           this.moduleList.forEach(item => {
+            item.IsChecked = true;
+          });
+          const modulesScreen = modules.AllModule.ModuleScreen;
+          this.moduleScreenList = modulesScreen;
+
+          console.log(modulesScreen);
+          this.moduleScreenList.forEach(item => {
+            item.IsChecked = true;
+          });
+          this.mobileAppList = modules.AllModule.MobileApp;
+          this.isMobileAppSelectAll = true;
+          this.mobileAppList.forEach(item => {
             item.IsChecked = true;
           });
         }
@@ -161,19 +221,19 @@ export class AddTenantComponent implements OnInit {
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
       company: detail.companyName,
       noOfLocation: +detail.maxLocation,
-      dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : '',
-      paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : '',
-      deactivation: detail.expiryDate ? moment(detail.expiryDate).toDate() : ''
+      dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : null,
+      paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : null,
+      deactivation: detail.expiryDate !== '' ? moment(detail.expiryDate).toDate() : null
     });
 
-    const selectedState = this.stateList.filter( item => item.StateId === detail.state );
+    const selectedState = this.stateList.filter(item => item.StateId === detail.state);
     if (selectedState.length > 0) {
       this.personalform.patchValue({
         stateId: selectedState[0]
       });
       this.selectedCity(selectedState[0]);
     }
-    this.tenantModule.forEach(item => {
+    this.tenantModule.module.forEach(item => {
       if (item.isActive) {
         item.IsChecked = true;
       } else {
@@ -181,45 +241,104 @@ export class AddTenantComponent implements OnInit {
       }
     });
     const modules = [];
-    this.tenantModule.forEach(item => {
+    this.tenantModule.module.forEach(item => {
       modules.push({
         ModuleId: item.moduleId,
         ModuleName: item.moduleName,
         IsActive: item.isActive,
-        IsChecked: item.IsChecked
+        IsChecked: item.IsChecked,
+        Description: item.description
       });
     });
-    const isAllModuleSelect = this.tenantModule.filter(item => !item.IsChecked);
+    const isAllModuleSelect = this.tenantModule.module.filter(item => !item.IsChecked);
     if (isAllModuleSelect.length === 0) {
       this.isSelectAll = true;
     } else {
       this.isSelectAll = false;
     }
     this.moduleList = modules;
-    // this.tenantModule.forEach( item => {
-    //   this.moduleList.forEach( mod => {
-    //     if (mod.ModuleId === item.moduleId && item.isActive) {
-    //       mod.IsChecked = true;
-    //     } else if (mod.ModuleId === item.moduleId && !item.isActive) {
-    //       mod.IsChecked = false;
-    //     }
-    //   });
+    this.tenantModule.moduleScreen.forEach(item => {
+      if (item.isActive) {
+        item.IsChecked = true;
+      } else {
+        item.IsChecked = false;
+      }
+    });
+    const moduleScreen = [];
+    this.tenantModule.moduleScreen.forEach(item => {
+      moduleScreen.push({
+        IsActive: item.isActive,
+        ModuleId: item.moduleId,
+        ModuleScreenId: item.moduleScreenId,
+        ViewName: item.viewName,
+        IsChecked: item.IsChecked,
+        Description: item.description
+      });
+    });
+    this.moduleScreenList = moduleScreen;
+    const mobileApp = [];
+    this.tenantModule.mobileApp.forEach(item => {
+      if (item.isActive) {
+        item.IsChecked = true;
+      } else {
+        item.IsChecked = false;
+      }
+    });
+    this.tenantModule.mobileApp.forEach(item => {
+      mobileApp.push({
+        Description: item.description,
+        IsActive: item.isActive,
+        IsChecked: item.IsChecked,
+        MobileAppId: item.mobileAppId,
+        MobileAppName: item.mobileAppName
+      });
+    });
+    const isAllMobileAppSelect = this.tenantModule.mobileApp.filter(item => !item.IsChecked);
+    if (isAllMobileAppSelect.length === 0) {
+      this.isMobileAppSelectAll = true;
+    } else {
+      this.isMobileAppSelectAll = false;
+    }
+    this.mobileAppList = mobileApp;
+    // const adminScreen = [];
+    // const reportScreen = [];
+    // this.tenantModule.moduleScreen.forEach(item => {
+    //   if (item.moduleId === adminId) {
+    //     adminScreen.push({
+    //       IsActive: item.isActive,
+    //       ModuleId: item.moduleId,
+    //       ModuleScreenId: item.moduleScreenId,
+    //       ViewName: item.viewName,
+    //       IsChecked: item.IsChecked
+    //     });
+    //   }
+    //   if (item.moduleId === reportId) {
+    //     reportScreen.push({
+    //       IsActive: item.isActive,
+    //       ModuleId: item.moduleId,
+    //       ModuleScreenId: item.moduleScreenId,
+    //       ViewName: item.viewName,
+    //       IsChecked: item.IsChecked
+    //     });
+    //   }
     // });
+    // this.adminModuleList = adminScreen;
+    // this.reportModuleList = reportScreen;
   }
 
   selectedCity(event) {
     const stateId = event.StateId;
-    this.tenantSetupService.getCityByStateId(stateId).subscribe( res => {
+    this.tenantSetupService.getCityByStateId(stateId).subscribe(res => {
       if (res.status === 'Success') {
         const cites = JSON.parse(res.resultData);
         this.cityList = cites.cities;
-        this.cityList = this.cityList.map( item => {
+        this.cityList = this.cityList.map(item => {
           return {
             CityId: item.CityId,
             CityName: item.CityName
           };
         });
-        const selectedState = this.cityList.filter( item => item.CityId === this.tenantDetail.city);
+        const selectedState = this.cityList.filter(item => item.CityId === this.tenantDetail.city);
         if (selectedState.length > 0) {
           const city: any = {
             CityId: selectedState[0].CityId,
@@ -251,33 +370,63 @@ export class AddTenantComponent implements OnInit {
 
 
     const moduleObj = [];
-    if (this.isEdit) {
-      this.newModuleChanges.forEach(item => {
-        if (item.IsChecked) {
-          moduleObj.push({
-            moduleId: item.ModuleId,
-            moduleName: item.ModuleName,
-            isActive: true
-          });
-        } else {
-          moduleObj.push({
-            moduleId: item.ModuleId,
-            moduleName: item.ModuleName,
-            isActive: false
+    // if (this.isEdit) {  // 
+    // this.newModuleChanges.forEach(item => {
+    //   if (item.IsChecked) {
+    //     moduleObj.push({
+    //       moduleId: item.ModuleId,
+    //       moduleName: item.ModuleName,
+    //       isActive: true
+    //     });
+    //   } else {
+    //     moduleObj.push({
+    //       moduleId: item.ModuleId,
+    //       moduleName: item.ModuleName,
+    //       isActive: false
+    //     });
+    //   }
+    // });
+    // } else {
+    const mobileApp = [];
+    this.mobileAppList.forEach(item => {
+      mobileApp.push({
+        mobileAppId: item.MobileAppId,
+        mobileAppName: item.MobileAppName,
+        description: item.Description,
+        isActive: item.IsChecked
+      });
+    });
+    this.moduleList.forEach(item => {
+      const moduleScreen = [];
+      console.log(this.moduleScreenList);
+
+      this.moduleScreenList.forEach(screen => {
+        console.log(screen, 'screen');
+
+        // if (adminscreen.IsChecked) {
+        if (item.ModuleId === screen.ModuleId) {
+          moduleScreen.push({
+            moduleScreenId: screen.ModuleScreenId,
+            moduleId: screen.ModuleId,
+            viewName: screen.ViewName,
+            isActive: screen.IsChecked,
+            description: screen.Description
           });
         }
+        // }
       });
-    } else {
-      this.moduleList.forEach(item => {
-        if (item.IsChecked) {
-          moduleObj.push({
-            moduleId: item.ModuleId,
-            moduleName: item.ModuleName,
-            isActive: true
-          });
-        }
+      const obj: any = {};
+      obj.moduleId = item.ModuleId;
+      obj.moduleName = item.ModuleName;
+      obj.isActive = item.IsChecked;
+      obj.description = item.Description;
+      moduleObj.push({
+        module: obj,
+        moduleScreen,
+        mobileApp
       });
-    }
+    });
+    // }
 
     const module = {
       module: moduleObj
@@ -298,7 +447,7 @@ export class AddTenantComponent implements OnInit {
       subscriptionId: 0,
       tenantName: this.companyform.value.company,
       passwordHash: '',
-      expiryDate: moment(this.companyform.value.deactivation).format(),
+      expiryDate: this.companyform.value.deactivation !== '' ? moment(this.companyform.value.deactivation).format() : null,
       subscriptionDate: moment(this.companyform.value.dateOfSubscription).format(),
       paymentDate: moment(this.companyform.value.paymentDate).format(),
       locations: +this.companyform.value.noOfLocation,
@@ -306,14 +455,15 @@ export class AddTenantComponent implements OnInit {
     };
     const finalObj = {
       tenantViewModel: tenantObj,
-      tenantModuleViewModel: module
+      module: moduleObj
     };
+    console.log(finalObj, 'final');
     if (this.isEdit) {
       this.spinner.show();
       this.tenantSetupService.updateTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
+          this.toastr.success(MessageConfig.Admin.Tenant.Update, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -325,7 +475,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.addTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
+          this.toastr.success(MessageConfig.Admin.Tenant.Add, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -358,7 +508,7 @@ export class AddTenantComponent implements OnInit {
   }
 
   getStateList() {
-    this.tenantSetupService.getStateList().subscribe( res => {
+    this.tenantSetupService.getStateList().subscribe(res => {
       if (res.status === 'Success') {
         const states = JSON.parse(res.resultData);
         this.stateList = states.Allstate;
@@ -370,12 +520,12 @@ export class AddTenantComponent implements OnInit {
   stateSelection(event) {
     console.log(event);
     const stateId = event.value.StateId;
-    this.tenantSetupService.getCityByStateId(stateId).subscribe( res => {
+    this.tenantSetupService.getCityByStateId(stateId).subscribe(res => {
       if (res.status === 'Success') {
         const cites = JSON.parse(res.resultData);
         this.cityList = cites.cities;
         console.log(cites);
-        this.cityList = this.cityList.map( item => {
+        this.cityList = this.cityList.map(item => {
           return {
             CityId: item.CityId,
             CityName: item.CityName
@@ -383,6 +533,38 @@ export class AddTenantComponent implements OnInit {
         });
       }
     });
+  }
+
+  clientEmailExist() {
+    if (this.personalform.controls.email.errors !== null) {
+      return;
+    }
+    this.client.ValidateTenantEmail(this.personalform.controls.email.value).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameEmail = JSON.parse(res.resultData);
+        if (sameEmail.EmailIdExist === true) {
+          this.isEmailAvailable = true;
+          this.toastr.warning(MessageConfig.Admin.Tenant.EmailAlreadyExists, 'Warning!');
+        } else {
+          this.isEmailAvailable = false;
+          this.toastr.info(MessageConfig.Admin.Tenant.EmailAvailable, 'Info!');
+
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
+  creditProcess() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(RecurringPaymentComponent, ngbModalOptions);
+    modalRef.componentInstance.tenantName = this.personalform.value.firstName + " " + this.personalform.value.lastName;
+   
   }
 
 

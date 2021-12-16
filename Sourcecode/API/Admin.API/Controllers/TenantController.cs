@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Strive.BusinessLogic.SuperAdmin.Tenant;
 using Strive.Common;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO;
 
 namespace Admin.API.Controllers
 {
@@ -42,11 +43,11 @@ namespace Admin.API.Controllers
         /// <summary>
         /// GetAllTenant
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         [Route("AllTenant")]
-        public Result GetAllTenant()
+        public Result GetAllTenant([FromBody] SearchDto searchDto)
         {
-            return _bplManager.GetAllTenant();
+            return _bplManager.GetAllTenant(searchDto);
         }
 
         /// <summary>
@@ -79,6 +80,12 @@ namespace Admin.API.Controllers
         public Result GetCityByStateId(int stateId)
         {
             return _bplManager.GetCityByStateId(stateId);
+        }
+        [HttpGet]
+        [Route("GetLocationMaxLimit")]
+        public Result GetLocationMaxLimit()
+        {
+            return _bplManager.GetLocationMaxLimit();
         }
 
         #endregion

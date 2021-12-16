@@ -35,6 +35,19 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(ClientVehicle,"VehicleId");
         }
+        public bool AddDriveUpVehicle(int? locationId, string barcode, int? make, int? model, int? color, int? createdBy)
+        {
+            _prm.Add("Locationid", locationId);
+            _prm.Add("Barcode", barcode);
+            _prm.Add("Make", make);
+            _prm.Add("Model", model);
+            _prm.Add("Color", color);
+            _prm.Add("CreatedBy", createdBy);
+
+            db.Save(EnumSP.Vehicle.USPADDDRIVEUPVEHICLE.ToString(), _prm);
+
+            return true;
+        }
 
         public bool SaveClientVehicle(VehicleDto client)
         {
@@ -110,5 +123,35 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public bool GetMembershipDiscountStatus(int clientId, int vehicleId)
+        {
+            _prm.Add("ClientId", clientId);
+            _prm.Add("VehicleId", vehicleId);
+            var result = db.FetchSingle<MembershipDiscountViewModel>(SPEnum.USPGETMEMBERSHIPDISCOUNT.ToString(), _prm);
+            if(result.IsDiscount == true)
+                return true;
+            else
+                return false;
+           
+        }
+
+        public bool updateMembershipVehicleDiscount(int clientId, int vehicleId, string action)
+        {
+            _prm.Add("clientId", clientId);
+            _prm.Add("vehicleId", vehicleId);
+            _prm.Add("Action", action);
+            db.Save(EnumSP.Vehicle.USPUPDATEMEMBERSHIPVEHICLEDISCOUNT.ToString(), _prm);
+            return true;
+        }
+
+        public bool VehicleMembershipDelete(VehicleMembershipDeleteDto deleteDto)
+        {
+            _prm.Add("ClientMembershipId", deleteDto.ClientMembershipId);
+            db.Save(EnumSP.Vehicle.USPDELETEVEHICLEMEMBERSHIP.ToString(), _prm);
+
+            return true;
+        }
+
+        
     }
 }

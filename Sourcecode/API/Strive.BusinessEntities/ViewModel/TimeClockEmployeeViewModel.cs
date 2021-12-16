@@ -14,5 +14,6 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal WashHours { get; set; }
         public decimal DetailHours { get; set; }
         public decimal OtherHours { get; set; }
+        public decimal TotalHours { get; set; }
     }
 }

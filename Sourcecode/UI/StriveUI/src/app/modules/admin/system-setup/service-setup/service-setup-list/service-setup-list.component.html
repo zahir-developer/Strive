@@ -27,7 +27,7 @@
                                                     {{status.Value}}</option>
                                             </select> </div>
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button" (click)="getAllserviceSetup()"
+                                            <button type="button" (click)="searchService()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
                                         </div>
                                     </div>
@@ -46,6 +46,7 @@
                                                     class="fa" [ngClass]="selectedCls('ServiceType')"></i></th>
                                             <th class="pointer" (click)="changeSorting('Price')">Price&nbsp; <i
                                                     class="fa" [ngClass]="selectedCls('Price')"></i></th>
+                                            <!-- <th>Location</th> -->
                                             <th class="pointer" (click)="changeSorting('IsActive')">Status&nbsp; <i
                                                     class="fa" [ngClass]="selectedCls('IsActive')"></i></th>
                                             <th>Action</th>
@@ -56,6 +57,7 @@
                                             <td scope="row">{{serviceSetup.ServiceName}}</td>
                                             <td>{{serviceSetup.ServiceType}}</td>
                                             <td>{{serviceSetup.Price | currency}}</td>
+                                            <!-- <td>{{serviceSetup.LocationName}}</td> -->
                                             <td>{{serviceSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"

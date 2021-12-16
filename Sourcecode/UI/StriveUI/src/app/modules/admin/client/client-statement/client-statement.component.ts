@@ -8,10 +8,18 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-client-statement',
   templateUrl: './client-statement.component.html',
-  styleUrls: ['./client-statement.component.css']
+  styles: [`
+  .table-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+  `]
 })
 export class ClientStatementComponent implements OnInit {
   @Input() clientId?: any;
+  @Input() statementData?: any;
   statementGrid: any = [];
   page = 1;
   pageSize = 5;
@@ -27,7 +35,8 @@ private toastr : ToastrService,
   ) { }
 
   ngOnInit(): void {
-    this.getStatement();
+    this.statementGrid = this.statementData;
+    // this.getStatement();
   }
 
   closeDocumentModel() {

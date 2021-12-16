@@ -15,5 +15,6 @@ namespace Strive.BusinessLogic
         Result GetVendorByIds(string ids);
         Result GetVendorSearch(VendorSearchDto search);
         Result GetAllVendorName();
+        Result GetVendorByProductId(int id);
     }
 }

@@ -35,6 +35,13 @@ namespace Admin.Api.Controllers
         [Route("GetAllEmployeeDetail")]
         public Result GetAllEmployee([FromBody]SearchDto searchDto) => _bplManager.GetAllEmployeeDetail(searchDto);
 
+        [HttpPost]
+        [Route("GetEmployeePayCheck")]
+        public Result GetEmployeePayCheck([FromBody]EmployeePayCheckDto searchDto) => _bplManager.GetEmployeePayCheck(searchDto);
+
+        [HttpPost]
+        [Route("SendEmployeeEmail")]
+        public Result SendEmployeeEmail() => _bplManager.SendEmployeeEmail();
 
         #endregion
 

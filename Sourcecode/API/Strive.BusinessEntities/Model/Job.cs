@@ -11,7 +11,7 @@ namespace Strive.BusinessEntities.Model
         public int JobId { get; set; }
 
         [Column]
-        public string TicketNumber { get; set; }
+        public Int64 TicketNumber { get; set; }
 
         [Column]
         public int LocationId { get; set; }
@@ -71,13 +71,7 @@ namespace Strive.BusinessEntities.Model
         public string Notes { get; set; }
 
         [Column]
-        public DateTime? CheckOutTime { get; set; }
-
-        [Column]
-        public int? JobPaymentId { get; set; }
-
-        [Column]
-        public bool? IsHold { get; set; }
+        public string BarCode { get; set; }
 
     }
 }

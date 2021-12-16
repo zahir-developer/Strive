@@ -25,6 +25,7 @@ import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.comp
 import { AdSetupComponent } from './system-setup/ad-setup/ad-setup.component';
 import { DealSetupComponent } from './system-setup/deal-setup/deal-setup.component';
 import { TenantSetupComponent } from './tenant-setup/tenant-setup.component';
+import { EmailBlastComponent } from './system-setup/email-blast/email-blast.component';
 
 
 const adminRoutes: Routes = [
@@ -57,6 +58,7 @@ const adminRoutes: Routes = [
         { path: 'bonus', component: BonusSetupComponent },
         { path: 'adSetup', component: AdSetupComponent },
         { path: 'dealSetup', component: DealSetupComponent },
+        { path: 'emailBlast', component: EmailBlastComponent },
 
 
       ]

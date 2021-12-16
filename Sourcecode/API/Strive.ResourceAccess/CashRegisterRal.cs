@@ -22,7 +22,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@CashRegisterType", cashRegisterType);
             _prm.Add("@CashRegisterDate", dateTime.ToString("yyy-MM-dd"));
             var result = db.FetchMultiResult<CashRegisterDto>(EnumSP.CashRegister.USPGETCASHREGISTER.ToString(), _prm);
-            CashRegisterDto cash = new CashRegisterDto();
+            //CashRegisterDto cash = new CashRegisterDto();
             return result;
         }
         public CashRegisterDetailViewModel GetCloseOutRegisterDetails(string cashRegisterType, int locationId, DateTime dateTime)

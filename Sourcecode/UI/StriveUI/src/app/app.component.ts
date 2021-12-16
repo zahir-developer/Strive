@@ -33,6 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
   intervalId: any;
   subscriptionAuthenticate: Subscription;
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
+  sessionRefresh = []
+  RefreshTokenLog: any;
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -89,6 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   subscribeTheIdle(idle, seconds) {
+    console.log('step');
     // console.log(seconds);
     //  const idleTimeoutPeriod = seconds - this.TimeoutPeriod;
     const idleTimeoutPeriod = seconds;
@@ -102,43 +105,48 @@ export class AppComponent implements OnInit, OnDestroy {
     idle.setTimeout(timer);  // 60
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
-    idle.onIdleEnd.subscribe(() => {
-      // console.log('onIdle');
-      this.sessionLogoutComponent.idleClear();
-      this.sessionLogoutComponent.dialogDisplay = false;
-      this.dialogDisplay = false;
-      this.sessionLogoutComponent.header = '';
-      this.header = '';
-      this.sessionLogoutComponent.dialogType = 'noIdle';
-      clearInterval(this.intervalId);
-    });
+
+    // idle.onIdleEnd.subscribe(() => {
+    //   console.log('step1');
+    //   this.sessionLogoutComponent.idleClear();
+    //   this.sessionLogoutComponent.dialogDisplay = false;
+    //   this.dialogDisplay = false;
+    //   this.sessionLogoutComponent.header = '';
+    //   this.header = '';
+    //   this.sessionLogoutComponent.dialogType = 'noIdle';
+    //   clearInterval(this.intervalId);
+    // });
+
     idle.onTimeoutWarning.subscribe((countdown) => {
-      // console.log('onTimeoutWarning');
+      console.log('step2');
       this.dialogDisplay = true;
       this.sessionLogoutComponent.dialogDisplay = true;
-      // this.idleState = 'You will time out in ' + countdown + ' seconds!'
       this.sessionLogoutComponent.countdown = countdown;
       this.sessionLogoutComponent.dialogType = 'idle';
       this.sessionLogoutComponent.header = 'Session Timeout';
       this.header = 'Session Timeout Warning';
-    }
-    );
+    });
+
+
+
     idle.onTimeout.subscribe(() => {
-      // console.log('onTimeout');
-      this.dialogDisplay = true;
-      this.sessionLogoutComponent.dialogType = 'timeout';
-      this.sessionLogoutComponent.dialogDisplay = true;
-      this.sessionLogoutComponent.header = 'Locked Out';
-      this.header = 'Session Expired';
+      console.log('step3');
+      this.router.navigate(['/session-expired']);
+      this.sessionLogoutComponent.dialogType = 'noIdles';
+      this.dialogDisplay = false;
       this.authService.refreshLogout();
       clearInterval(this.intervalId);
     });
+
+
+
     idle.onIdleStart.subscribe(() => {
-      //  console.log('onIdleStart');
+      console.log('step4');
       clearInterval(this.intervalId);
       this.timeCounter(timer);
-    }
-    );
+    });
+
+
     this.reset();
   }
 
@@ -159,8 +167,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.dialogType = 'idle';
       this.dialogDisplay = true;
       this.sessionLogoutComponent.dialogDisplay = true;
-      this.sessionLogoutComponent.header = 'Idle Warning.';
-      this.header = 'Idle Warning.';
+      // this.sessionLogoutComponent.header = 'Idle Warning.';
+      // this.header = 'Idle Warning.';
       if (counter <= 0) {
         clearInterval(this.intervalId);
       }
@@ -186,6 +194,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const base64 = 'data:image/png;base64,';
           const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
           this.favIcon.href = logoBase64;
+
           if (label.WhiteLabelling.Theme !== null) {
             label.WhiteLabelling.Theme.forEach(item => {
               if (label.WhiteLabelling.WhiteLabel?.ThemeId === item.ThemeId) {
@@ -202,4 +211,15 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+
+  continueSession() {
+    this.sessionLogoutComponent.dialogType = 'noIdle';
+    clearInterval(this.intervalId);
+    this.header = 'Session Timeout Warning';
+  }
+
+
+
+
 }

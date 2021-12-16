@@ -10,8 +10,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vendor-setup-list',
-  templateUrl: './vendor-setup-list.component.html',
-  styleUrls: ['./vendor-setup-list.component.css']
+  templateUrl: './vendor-setup-list.component.html'
 })
 export class VendorSetupListComponent implements OnInit {
   vendorSetupDetails = [];
@@ -154,7 +153,7 @@ export class VendorSetupListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllvendorSetupDetails();
   }
   edit(data) {

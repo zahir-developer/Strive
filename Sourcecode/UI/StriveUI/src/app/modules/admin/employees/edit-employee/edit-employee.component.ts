@@ -12,11 +12,11 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-edit-employee',
-  templateUrl: './edit-employee.component.html',
-  styleUrls: ['./edit-employee.component.css']
+  templateUrl: './edit-employee.component.html'
 })
 export class EditEmployeeComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
@@ -76,13 +76,15 @@ export class EditEmployeeComponent implements OnInit {
   selectedLocationHour = '';
   isRateAllLocation: boolean;
   errorMessage: boolean;
+  dellocationRateList = [];
   constructor(
     private spinner: NgxSpinnerService,
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
-    private getCode: GetCodeService
+    private getCode: GetCodeService,
+    private codeValueService: CodeValueService
   ) { }
 
   ngOnInit(): void {
@@ -100,6 +102,7 @@ export class EditEmployeeComponent implements OnInit {
       gender: [''],
       address: ['', Validators.required],
       mobile: ['', Validators.required],
+      Zip: [''],
       immigrationStatus: ['', Validators.required],
       ssn: [''],
       alienNumber: [''],
@@ -118,7 +121,8 @@ export class EditEmployeeComponent implements OnInit {
       exemptions: [''],
       roles: [[]],
       location: [[]],
-      employeeCode: ['']
+      employeeCode: [''],
+      salary: ['']
     });
     this.roleId = localStorage.getItem('roleId');
     this.locationId = localStorage.getItem('empLocationId');
@@ -140,31 +144,43 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   getImmigrationStatus() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
-      if (data.status === "Success") {
-        const cType = JSON.parse(data.resultData);
-        this.imigirationStatus = cType.Codes;
-        this.dropdownSetting();
-        this.employeeDetail();
-      } else {
+    const imigirationStatusVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.immigrationStatus);
+    console.log(imigirationStatusVaue, 'cached value ');
+    // if (imigirationStatusVaue.length > 0) {
+    //   this.imigirationStatus = imigirationStatusVaue;
+    // } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
+        if (data.status === "Success") {
+          const cType = JSON.parse(data.resultData);
+          this.imigirationStatus = cType.Codes;
+          this.dropdownSetting();
+          this.employeeDetail();
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    // }
   }
 
   getGenderDropdownValue() {
-    this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      if (res.status === 'Success') {
-        const gender = JSON.parse(res.resultData);
-        this.gender = gender.Codes;
-      } else {
+    const genderVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.gender);
+    console.log(genderVaue, 'cached Value');
+    if (genderVaue.length > 0) {
+      this.gender = genderVaue;
+    } else {
+      this.employeeService.getDropdownValue('GENDER').subscribe(res => {
+        if (res.status === 'Success') {
+          const gender = JSON.parse(res.resultData);
+          this.gender = gender.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    }
   }
   getSelectedStateId(event) {
     this.State = event;
@@ -222,6 +238,7 @@ export class EditEmployeeComponent implements OnInit {
 
   setValue() {
     const employee = this.employeeData;
+    this.dellocationRateList = [];
     this.dropdownSetting();
     const employeeInfo = employee.EmployeeInfo;
     this.selectedStateId = employeeInfo?.State;
@@ -241,7 +258,7 @@ export class EditEmployeeComponent implements OnInit {
       this.selectedRole = employee.EmployeeRoles;
       this.employeeRole = employee.EmployeeRoles?.map(item => {
         return {
-          item_id: item.Roleid,
+          item_id: item.RoleId,
           item_text: item.RoleName
         };
       });
@@ -255,7 +272,7 @@ export class EditEmployeeComponent implements OnInit {
       });
       this.locationList = this.employeeLocation.map(x => Object.assign({}, x));
     }
-
+    
     if (employee.EmployeeHourlyRate !== null) {
       const locationHourlyWash = [];
       employee.EmployeeHourlyRate.forEach(item => {
@@ -295,6 +312,7 @@ export class EditEmployeeComponent implements OnInit {
       gender: employeeInfo.Gender ? employeeInfo.Gender : '',
       address: employeeInfo.Address1 ? employeeInfo.Address1 : '',
       mobile: employeeInfo.PhoneNumber ? employeeInfo.PhoneNumber : '',
+      Zip: employeeInfo.Zip ? employeeInfo.Zip : '',
       immigrationStatus: employeeInfo.ImmigrationStatus ? employeeInfo.ImmigrationStatus : '',
       ssn: employeeInfo.SSNo ? employeeInfo.SSNo : '',
       Tips: employeeInfo?.Tips,
@@ -311,6 +329,7 @@ export class EditEmployeeComponent implements OnInit {
       status: employeeInfo.Status ? 'Active' : 'Inactive',
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
+      salary: employeeInfo.Salary ? employeeInfo.Salary : '',
       roles: this.employeeRole,
       location: this.employeeLocation
     });
@@ -349,7 +368,7 @@ export class EditEmployeeComponent implements OnInit {
 
   getLocation() {
     this.employeeService.getLocation().subscribe(res => {
-      if (res.status === 'Success') {
+      if (res.status === 'Success') { 
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
         this.location = this.location.map(item => {
@@ -456,9 +475,14 @@ export class EditEmployeeComponent implements OnInit {
         location: this.employeeLocation
       });
     } else {
+      this.locationList = this.locationList.filter( item => item.item_id !== event.item_id);
       this.deSelectLocation.push(event);
     }
 
+  }
+
+  onSelectedLocation(event) {
+    this.locationList.push(event);
   }
 
   updateEmployee() {
@@ -489,19 +513,20 @@ export class EditEmployeeComponent implements OnInit {
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: null,
+      zip: this.personalform.value.Zip,
       country: null
     };
     const newlyAddedRole = [];
     this.emplistform.value.roles.forEach(item => {
-      const isData = _.where(this.selectedRole, { Roleid: item.item_id });
+      const isData = _.where(this.selectedRole, { RoleId: item.item_id });
       if (isData.length === 0) {
         newlyAddedRole.push({
           employeeRoleId: 0,
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
-          isDeleted: false
+          isDeleted: false,
+          roleName: item.item_text
         });
       } else {
         newlyAddedRole.push({
@@ -509,19 +534,21 @@ export class EditEmployeeComponent implements OnInit {
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
-          isDeleted: false
+          isDeleted: false,
+          roleName: item.item_text
         });
       }
     });
     this.deSelectRole.forEach(item => {
-      const isData = _.where(this.selectedRole, { Roleid: item.item_id });
+      const isData = _.where(this.selectedRole, { RoleId: item.item_id });
       if (isData.length !== 0) {
         newlyAddedRole.push({
           employeeRoleId: isData[0].EmployeeRoleId,
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
-          isDeleted: true
+          isDeleted: true,
+          roleName: item.item_text
         });
       }
     });
@@ -537,6 +564,7 @@ export class EditEmployeeComponent implements OnInit {
       ComType: +this.emplistform.value.comType,
       lrt: null,
       exemptions: +this.emplistform.value.exemptions,
+      salary: +this.emplistform.value.salary,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
     };
@@ -550,7 +578,8 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: false,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0,
+          locationName: item.item_text
         });
       } else {
         newlyAddedLocation.push({
@@ -559,7 +588,8 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: false,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0,
+          locationName: item.item_text
         });
       }
     });
@@ -572,7 +602,8 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: true,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0,
+          locationName: item.item_text
         });
       }
     });
@@ -604,6 +635,9 @@ export class EditEmployeeComponent implements OnInit {
         isActive: true,
         isDeleted: false,
       });
+    });
+    this.dellocationRateList.forEach( item => {
+      locHour.push(item);
     });
     const finalObj = {
       employee: employeeObj,
@@ -641,6 +675,17 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   deleteLocationHour(loc) {
+    if (loc.employeeHourlyRate !== 0) {
+      this.dellocationRateList.push({
+        employeeHourlyRateId: loc.employeeHourlyRateId,
+        employeeId: loc.employeeId,
+        roleId: null,
+        locationId: loc.locationId,
+        hourlyRate: loc.ratePerHour,
+        isActive: true,
+        isDeleted: true,
+      });
+    }
     this.locationRateList = this.locationRateList.filter(item => item.locationId !== loc.locationId);
     this.locationList.unshift({
       item_id: loc.locationId,

@@ -26,7 +26,8 @@
                 <option value="8">Check List</option>
                 <option value="9">Deals</option>
                 <option value="10">Employee Handbook</option>
-                <option value="11">Terms & Conditions</option>
+                <option value="11">Email Blast</option>
+                <option value="12">Terms & Conditions</option>
               </select>
             </div>
             <ul class="nav nav-pills flex-column web-display" id="myTab" role="tablist" >
@@ -66,6 +67,10 @@
               <li class="nav-item"> <a class="nav-link" id="v-pills-empHandBook-tab" data-toggle="pill"
                   [routerLink]="'/admin/setup/empHandBook'" [routerLinkActive]='["link-active"]' role="tab"
                   aria-controls="v-pills-empHandBook" aria-selected="true" (click)="subMenuClick('Employee Handbook')">Employee Handbook</a>
+              </li>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-terms-tab" data-toggle="pill"
+                  [routerLink]="'/admin/setup/emailBlast'" [routerLinkActive]='["link-active"]' role="tab"
+                  aria-controls="v-pills-terms" aria-selected="true" (click)="subMenuClick('Email Blast')">Email Blast</a>
               </li>
               <li class="nav-item"> <a class="nav-link" id="v-pills-terms-tab" data-toggle="pill"
                   [routerLink]="'/admin/setup/terms&condition'" [routerLinkActive]='["link-active"]' role="tab"

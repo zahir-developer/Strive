@@ -3,8 +3,7 @@ import { CountryService } from '../../services/common-service/country.service';
 
 @Component({
   selector: 'app-country-dropdown',
-  templateUrl: './country-dropdown.component.html',
-  styleUrls: ['./country-dropdown.component.css']
+  templateUrl: './country-dropdown.component.html'
 })
 export class CountryDropdownComponent implements OnInit, AfterViewChecked {
   countryList = [];

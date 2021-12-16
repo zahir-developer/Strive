@@ -136,7 +136,7 @@ namespace Strive.ResourceAccess
         public bool GetEmailIdExist(string email)
         {
             _prm.Add("@Email", email);
-            var result = db.FetchSingle<bool>(EnumSP.Employee.USPEMAILEXIST.ToString(), _prm);
+            var result = db.FetchSingle<bool>(EnumSP.Authentication.USPEMAILEXIST.ToString(), _prm);
             return result;
         }
         public List<CityDto> GetCityByStateId(int stateId)
@@ -152,9 +152,12 @@ namespace Strive.ResourceAccess
 
         }
 
-        public List<EmailListViewModel> GetEmailIdByRole(int locationId)
+        public List<EmailListViewModel> GetEmailIdByRole(string locationId, DateTime? startDate = null, DateTime? endDate = null)
         {
             _prm.Add("@locationId", locationId);
+            _prm.Add("@startDate", startDate == null ? DateTime.Now.ToString("yyy-MM-dd") : startDate.ToString());
+            _prm.Add("@endDate", endDate == null ? DateTime.Now.ToString("yyy-MM-dd") : endDate.ToString());
+
             return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
 
         }
@@ -163,21 +166,34 @@ namespace Strive.ResourceAccess
         public List<ModelDto> GetModelByMakeId(int makeId)
         {
             _prm.Add("makeId", makeId);
-            return db.Fetch<ModelDto>(EnumSP.Employee.USPGETMODELBYMAKE.ToString(), _prm);
+            return db.Fetch<ModelDto>(EnumSP.Vehicle.USPGETMODELBYMAKE.ToString(), _prm);
         }
 
         public List<MakeDto> GetAllMake()
         {
-            return db.Fetch<MakeDto>(EnumSP.Employee.USPGETALLMAKE.ToString(), _prm);
+            return db.Fetch<MakeDto>(EnumSP.Vehicle.USPGETALLMAKE.ToString(), _prm);
         }
 
         public List<UpchargeViewModel> GetUpchargeByType(UpchargeDto upchargeDto)
         {
             _prm.Add("ModelId", upchargeDto.ModelId);
             _prm.Add("ServiceType", upchargeDto.UpchargeServiceType);
-            return db.Fetch<UpchargeViewModel>(EnumSP.Employee.USPGETUPCHARGEBYTYPE.ToString(), _prm);
+            _prm.Add("LocationId", upchargeDto.LocationId);
+            return db.Fetch<UpchargeViewModel>(EnumSP.Vehicle.USPGETUPCHARGEBYTYPE.ToString(), _prm);
         }
 
+        public MaxLocationViewModel GetLoationMaxLimit(int tenantId)
+        {
+            _prm.Add("tenantId", tenantId);
+            return db.FetchSingle<MaxLocationViewModel>(EnumSP.Tenant.USPGETLOCATIONLIMIT.ToString(), _prm);
+        }
+
+        public bool DeleteJobItem(string jobItemId)
+        {
+            _prm.Add("@jobItemId", jobItemId);
+            db.Save(EnumSP.Job.USPDELETEJOBITEMBYID.ToString(), _prm);
+            return true;
+        }
 
     }
 }

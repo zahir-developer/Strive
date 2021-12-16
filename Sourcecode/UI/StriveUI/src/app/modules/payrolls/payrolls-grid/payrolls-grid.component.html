@@ -16,40 +16,61 @@
                             <div class="row p-b-10 m-b-15">
                                 <div class="col-2">
                                     <div class="form-row">
-                                        <select class="form-control col-12" [(ngModel)]="locationId" [ngModelOptions]="{standalone: true}">
+                                        <!-- <select class="form-control col-12" [(ngModel)]="locationId" [ngModelOptions]="{standalone: true}">
                                             <option value='0' selected>Select Location</option>
                                             <option *ngFor="let location of location" value="{{location.LocationId}}">
                                                 {{location.LocationName}}</option>
-                                        </select>
+                                        </select> -->
+                                        <app-location-dropdown (emitLocation)="onLocationChange($event)">
+                                        </app-location-dropdown>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="form-row">
                                         <label class="col-sm-4 col-form-label" for="inTime">From:</label>
-                                        <input type="text" class="form-control col-sm-8" formControlName="fromDate" [maxDate]="MaxDate" bsDatepicker [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
+                                        <input type="text" class="form-control col-sm-8" formControlName="fromDate"
+                                            [maxDate]="MaxDate" bsDatepicker #dp="bsDatepicker" (focus)="dp.show()"
+                                            [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="form-row">
                                         <label class="col-sm-3 col-form-label" for="inTime">To:</label>
-                                        <input type="text" class="form-control col-sm-9" formControlName="toDate" bsDatepicker [bsConfig]="{ minDate: minDate, maxDate: maxDate, showWeekNumbers: false }" name="inTime" id="inTime" />
+                                        <input type="text" class="form-control col-sm-9" formControlName="toDate"
+                                            bsDatepicker #pd="bsDatepicker" (focus)="dp.hide()" (focus)="pd.show()"
+                                            [bsConfig]="{ minDate: minDate, maxDate: maxDate, showWeekNumbers: false }"
+                                            name="inTime" id="inTime" />
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-row">
 
-                                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10" [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
+                                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                            [disabled]="!payrollDateForm.valid" (click)="newRunReport()">Run
                                             Report</button>
-                                        <button type="button" *ngIf="!isEditRestriction" [disabled]="isPayrollEmpty " class="btn theme-primary-button-color btn-md m-l-5" (click)="editAdjustemt();">Edit</button>
-                                        <button type="button" *ngIf="isEditAdjustment" class="btn theme-primary-button-color btn-md m-l-5" (click)="CancelAdjustemt()">Cancel</button>
-                                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10" [disabled]="!isEditAdjustment" (click)="updateAdjustment()">Update</button>
-                                        <button type="button" [disabled]="isPayrollEmpty || isEditRestriction" class="btn theme-primary-button-color btn-md m-l-10" (click)="addPayrollProcess()">{{processLabel}}</button>
-                                        <select class="form-control col-2 m-l-10" *ngIf="!fileTypeEvent || isEditAdjustment || isPayrollEmpty || !payrollDateForm.valid" (change)="getFileType($event)">
+                                        <button type="button" [disabled]="isPayrollEmpty "
+                                            class="btn theme-primary-button-color btn-md m-l-5"
+                                            (click)="editAdjustemt();">Edit</button>
+                                        <!-- *ngIf="!isEditRestriction" -->
+                                        <button type="button" *ngIf="isEditAdjustment"
+                                            class="btn theme-primary-button-color btn-md m-l-5"
+                                            (click)="CancelAdjustemt()">Cancel</button>
+                                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                            [disabled]="!isEditAdjustment" (click)="updateAdjustment()">Update</button>
+                                        <button type="button" [disabled]="isPayrollEmpty "
+                                            class="btn theme-primary-button-color btn-md m-l-10"
+                                            (click)="addPayrollProcess()">{{processLabel}}</button>
+                                        <!-- || isEditRestriction -->
+                                        <select class="form-control col-2 m-l-10" (change)="getFileType($event)">
                                             <option value='' selected hidden>Select</option>
                                             <option *ngFor="let filetype of fileExportType" value="{{filetype.id}}">
                                                 {{filetype.name}}</option>
                                         </select>
-                                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10" [disabled]="!fileTypeEvent || isEditAdjustment || isPayrollEmpty || !payrollDateForm.valid" (click)="export()">Export</button>
+                                        <!-- || isEditAdjustment -->
+                                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                            [disabled]="!fileTypeEvent  || isPayrollEmpty || !payrollDateForm.valid"
+                                            (click)="export()">Export</button>
+                                        <!-- || isEditAdjustment -->
                                     </div>
 
                                 </div>
@@ -59,57 +80,102 @@
                             <table class="table border table-hover" id="payrollPDF" aria-describedby="payroll-list">
                                 <thead>
                                     <tr>
-                                        <th *ngIf="false" scope="col" class="pointer" (click)="changeSorting('EmployeeId')">Emp. ID&nbsp;
+                                        <th *ngIf="false" scope="col" class="pointer"
+                                            (click)="changeSorting('EmployeeId')">Emp. ID&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('EmployeeId')" aria-hidden="true"></i>
                                         </th>
                                         <th scope="col" class="pointer" (click)="changeSorting('PayeeName')">
-                                            Payee Name&nbsp;<i class="fa" [ngClass]="selectedCls('PayeeName')" aria-hidden="true"></i></th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('TotalWashHours')">Wash Hrs.&nbsp;
-                                            <i class="fa" [ngClass]="selectedCls('TotalWashHours')" aria-hidden="true"></i>
+                                            Payee Name&nbsp;<i class="fa" [ngClass]="selectedCls('PayeeName')"
+                                                aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('TotalWashHours')">Wash
+                                            Hrs.&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('TotalWashHours')"
+                                                aria-hidden="true"></i>
                                         </th>
                                         <th scope="col" class="pointer" (click)="changeSorting('TotalDetailHours')">
-                                            Detail Hrs.&nbsp;<i class="fa" [ngClass]="selectedCls('TotalDetailHours')" aria-hidden="true"></i></th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('WashRate')">Wash Rate&nbsp;
+                                            Detail Hrs.&nbsp;<i class="fa" [ngClass]="selectedCls('TotalDetailHours')"
+                                                aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('WashRate')">Wash
+                                            Rate&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('WashRate')" aria-hidden="true"></i>
                                         </th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Reg. Pay&nbsp;
+                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Reg.
+                                            Pay&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('WashAmount')" aria-hidden="true"></i>
                                         </th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('OverTimeHours')">OT Hrs.&nbsp;
-                                            <i class="fa" [ngClass]="selectedCls('OverTimeHours')" aria-hidden="true"></i>
+                                        <th scope="col" class="pointer" (click)="changeSorting('OverTimeHours')">OT
+                                            Hrs.&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('OverTimeHours')"
+                                                aria-hidden="true"></i>
                                         </th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('OverTimePay')">OT Pay&nbsp;
+                                        <th scope="col" class="pointer" (click)="changeSorting('OverTimePay')">OT
+                                            Pay&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('OverTimePay')" aria-hidden="true"></i>
                                         </th>
                                         <th scope="col" class="pointer" (click)="changeSorting('Collision')">
-                                            Collision&nbsp;<i class="fa" [ngClass]="selectedCls('Collision')" aria-hidden="true"></i></th>
+                                            Collision&nbsp;<i class="fa" [ngClass]="selectedCls('Collision')"
+                                                aria-hidden="true"></i></th>
                                         <th scope="col" class="pointer" (click)="changeSorting('Adjustment')">
-                                            Adjustment&nbsp;<i class="fa" [ngClass]="selectedCls('Adjustment')" aria-hidden="true"></i></th>
-                                        <th scope="col" class="pointer" ToolTip="Detail Commision" (click)="changeSorting('DetailCommission')">
-                                            Commission&nbsp;<i class="fa" [ngClass]="selectedCls('DetailCommission')" aria-hidden="true"></i></th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('PayeeTotal')">Total&nbsp;
+                                            Adjustment&nbsp;<i class="fa" [ngClass]="selectedCls('Adjustment')"
+                                                aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" ToolTip="Detail Commision"
+                                            (click)="changeSorting('DetailCommission')">
+                                            Commission&nbsp;<i class="fa" [ngClass]="selectedCls('DetailCommission')"
+                                                aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" ToolTip="Cash Tips"
+                                            (click)="changeSorting('CashTip')">
+                                            Cash Tips&nbsp;<i class="fa" [ngClass]="selectedCls('CashTip')"
+                                                aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" ToolTip="Card Tips"
+                                            (click)="changeSorting('CardTip')">
+                                            Card Tips&nbsp;<i class="fa" [ngClass]="selectedCls('CardTip')"
+                                                aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" ToolTip="Wash Tips"
+                                            (click)="changeSorting('WashTip')">
+                                            Wash Tips&nbsp;<i class="fa" [ngClass]="selectedCls('WashTip')"
+                                                aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" ToolTip="Detail Tips"
+                                            (click)="changeSorting('DetailTip')">
+                                            Detail Tips&nbsp;<i class="fa" [ngClass]="selectedCls('DetailTip')"
+                                                aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" ToolTip="Bonus"
+                                                    (click)="changeSorting('Bonus')">
+                                                    Bonus&nbsp;<i class="fa" [ngClass]="selectedCls('Bonus')"
+                                                        aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('PayeeTotal')">
+                                            Total&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('PayeeTotal')" aria-hidden="true"></i>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let payroll of payRollList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                    <tr
+                                        *ngFor="let payroll of payRollList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                         <td *ngIf="false">{{payroll.EmployeeId}}</td>
-                                        <td ToolTip="payroll.PayeeName">{{payroll.PayeeName | slice:0:15}}{{(payroll.PayeeName !== null) ? payroll.PayeeName.length
-                                            <=15 ? '' : '...' : ''}}</td>
-                                                <td>{{payroll.TotalWashHours}}</td>
-                                                <td>{{payroll.TotalDetailHours}}</td>
-                                                <td>{{payroll.WashRate}}</td>
-                                                <td>{{payroll.WashAmount | currency}}</td>
-                                                <td>{{payroll.OverTimeHours}}{{' Hrs'}}</td>
-                                                <td>{{payroll.OverTimePay | currency}}</td>
-                                                <td pTooltip="{{payroll.Notes}}" tooltipPosition="bottom">
-                                                    {{payroll.Collision | currency}}</td>
-                                                <td><span *ngIf="!isEditAdjustment">{{payroll.Adjustment | currency}}</span>
-                                                    <input type="text" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment" name="adjustment" class="form-control" appTwoDecimalPositiveNegativeNumber (change)="_keyUp($event.target.value,payroll)" placeholder="$0.00">
-                                                </td>
-                                                <td>{{payroll.DetailCommission | currency}}</td>
-                                                <td>{{payroll.PayeeTotal | currency}}</td>
+                                        <td ToolTip="payroll.PayeeName">{{payroll.PayeeName |
+                                            slice:0:15}}{{(payroll.PayeeName !== null) ? payroll.PayeeName.length
+                                            <=15 ? '' : '...' : '' }}</td>
+                                        <td>{{payroll.TotalWashHours}}</td>
+                                        <td>{{payroll.TotalDetailHours}}</td>
+                                        <td>{{payroll.WashRate | currency}}</td>
+                                        <td>{{payroll.WashAmount | currency}}</td>
+                                        <td>{{payroll.OverTimeHours}}{{' Hrs'}}</td>
+                                        <td>{{payroll.OverTimePay | currency}}</td>
+                                        <td pTooltip="{{payroll.Notes}}" tooltipPosition="bottom">
+                                            {{payroll.Collision | currency}}</td>
+                                        <td><span *ngIf="!isEditAdjustment">{{payroll.Adjustment | currency}}</span>
+                                            <input type="text" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment"
+                                                name="adjustment" class="form-control"
+                                                appTwoDecimalPositiveNegativeNumber
+                                                (change)="_keyUp($event.target.value,payroll)" placeholder="$0.00">
+                                        </td>
+                                        <td>{{payroll.DetailCommission | currency}}</td>
+                                        <td>{{payroll.CashTip | currency}}</td>      
+                                        <td>{{payroll.CardTip | currency}}</td>           
+                                        <td>{{payroll.WashTip | currency}}</td>           
+                                        <td>{{payroll.DetailTip | currency}}</td>           
+                                        <td>{{payroll.Bonus | currency}}</td>                                                               
+                                        <td>{{payroll.PayeeTotal | currency}}</td>
 
                                     </tr>
                                     <tr *ngIf="isPayrollEmpty === true">
@@ -121,10 +187,13 @@
                             </table>
                             <div *ngIf="!isPayrollEmpty" class="row pull-right">
                                 <div class="col-6">
-                                    <ngb-pagination *ngIf="payRollList?.length > 0" [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                    <ngb-pagination *ngIf="payRollList?.length > 0" [collectionSize]="collectionSize"
+                                        (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true"
+                                        [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
                                     </ngb-pagination>
                                 </div>
-                                <select *ngIf="payRollList?.length > 0" class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                <select *ngIf="payRollList?.length > 0" class="form-control col-4" name="paginate"
+                                    [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                     <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
 
                                 </select>

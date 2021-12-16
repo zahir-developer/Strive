@@ -14,8 +14,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string EmployeeName { get; set; }
         public int RoleId { get; set; }
         public string RoleDescription { get; set; }
-        public int TotalHours { get; set; }
-        public int HoursPerDay { get; set; }
-        public int Tip { get; set; }
+        public decimal TotalHours { get; set; }
+        public decimal HoursPerDay { get; set; }
+        public decimal Tip { get; set; }
     }
 }

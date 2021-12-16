@@ -15,4 +15,12 @@ export class LoginService {
   refreshToken(paramsObj): Observable<any> {
     return this.http.post(`${UrlConfig.Auth.refreshToken}`, {params: {token: paramsObj.token, refreshToken: paramsObj.refreshToken}});
   }
+  createAccount(customerObj): Observable<any> {
+    return this.http.post(`${UrlConfig.Auth.customerSignup}`, customerObj );
+  }
+
+  emailIdExists(email) {
+    return this.http.get(`${UrlConfig.Auth.emailIdExists}` + email );
+  }
+  
 }

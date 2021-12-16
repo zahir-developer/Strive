@@ -8,11 +8,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-terms-and-conditions',
-  templateUrl: './terms-and-conditions.component.html',
-  styleUrls: ['./terms-and-conditions.component.css']
+  templateUrl: './terms-and-conditions.component.html'
 })
 export class TermsAndConditionsComponent implements OnInit {
   fileName: any = null;
@@ -26,7 +26,7 @@ export class TermsAndConditionsComponent implements OnInit {
 
   constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
+    private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService, private codeService: CodeValueService) { }
 
   ngOnInit() {
     this.sortColumn = {
@@ -37,15 +37,21 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   getDocumentType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
-      if (data.status === "Success") {
-        const dType = JSON.parse(data.resultData);
-        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.TermsAndCondition)[0].CodeId;
-        this.getDocument();
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    });
+    const documentTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.documentType);
+    if (documentTypeValue.length > 0) {
+      this.documentTypeId = documentTypeValue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.TermsAndCondition)[0].CodeId;
+      this.getDocument();
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
+        if (data.status === "Success") {
+          const dType = JSON.parse(data.resultData);
+          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.TermsAndCondition)[0].CodeId;
+          this.getDocument();
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      });
+    }
   }
 
   getDocument() {

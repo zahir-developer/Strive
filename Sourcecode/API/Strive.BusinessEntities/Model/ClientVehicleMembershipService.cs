@@ -19,6 +19,9 @@ namespace Strive.BusinessEntities.Model
         [Ignore]
         public int? ServiceTypeId { get; set; }
 
+        [Ignore]
+        public string ServiceType { get; set; }
+
         [Column]
         public bool? IsActive { get; set; }
 

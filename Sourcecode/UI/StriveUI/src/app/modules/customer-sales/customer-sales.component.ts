@@ -23,8 +23,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 @Component({
   selector: 'app-customer-sales',
-  templateUrl: './customer-sales.component.html',
-  styleUrls: ['./customer-sales.component.css']
+  templateUrl: './customer-sales.component.html'
 })
 export class CustomerSalesComponent implements OnInit {
   services: any;
@@ -120,7 +119,7 @@ export class CustomerSalesComponent implements OnInit {
 
   getAllServiceandProduct() {
     const locID = +localStorage.getItem('empLocationId');
-    this.salesService.getServiceAndProduct(locID).subscribe(data => {
+    this.salesService.getServiceAndProduct(locID, '').subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {

@@ -31,5 +31,10 @@ namespace Strive.BusinessEntities.DTO.Employee
         public int? State { get; set; }
 
         public bool? Tips { get; set; }
+
+        public string Zip { get; set; }
+
+        public decimal? Salary { get; set; }
+        public bool IsNotified { get; set; }
     }
 }

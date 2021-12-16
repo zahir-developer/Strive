@@ -18,6 +18,8 @@ namespace Strive.BusinessEntities
             USPTENANTADMINLOGIN,
             USPGETCITYBYSTATEID,
             USPGETSTATE,
+            USPGETLOCATIONLIMIT,
+            USPGETLOCATIONCOUNT
         }
 
         public enum Authentication
@@ -37,7 +39,8 @@ namespace Strive.BusinessEntities
             USPRESETPASSWORD,
             USPVERIFYOTP,
             USPDELETEUSER,
-            USPGETCLIENTUSERBYAUTHID
+            USPGETCLIENTUSERBYAUTHID,
+            USPEMAILEXIST
         }
 
 
@@ -63,10 +66,12 @@ namespace Strive.BusinessEntities
             uspGetDailyStatusInfo,
             uspGetDailyClockDetail,
             USPGETMONTHLYMONEYOWNEDREPORT,
+            USPGETMONEYOWEDREPORTDETAIL,
             USPGETEODSALESREPORT,
             USPGETDAILYSALESREPORT,
             USPGETHOURLYWASHREPORT,
-            USPGETHOURLYWASHSALESREPORT
+            USPGETHOURLYWASHSALESREPORT,
+            USPGETIRREGULARITIESREPORT
         }
 
         public enum WhiteLabelling
@@ -87,14 +92,11 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEBYEMPID,
             USPGETEMPLOYEEROLES,
             USPGETALLEMPLOYEEDETAIL,
-            USPEMAILEXIST,
             USPGETEMPLOYEEROLEBYID,
             USPGETCITYBYSTATE,
             USPGETEMPLOYEEBYID,
-            USPGETMODELBYMAKE,
-            USPGETALLMAKE,
-            USPGETUPCHARGEBYTYPE,
-            uspGetEmployeeHourlyRateById,
+            USPGETEMPLOYEEHOURLYRATEBYID,
+            USPGETEMPLOYEEPAYCHECK
         }
 
         public enum DashboardStatistics
@@ -104,7 +106,8 @@ namespace Strive.BusinessEntities
         }
         public enum Messenger
         {
-            USPGETChatEMPLOYEELIST,
+            USPGETALLEMPLOYEENAME,
+            USPGETCHATEMPLOYEELIST,
             UPDATECHATCOMMUNICATIONDETAIL,
             USPGETCHATMESSAGE,
             USPGETEMPLOYEERECENTCHATHISTORY,
@@ -152,7 +155,11 @@ namespace Strive.BusinessEntities
             USPGETALLCLIENTNAME,
             uspGetClientCodes,
             uspGetClientAndVehicle,
-            USPISCLIENTAVAILABLE
+            USPISCLIENTAVAILABLE,
+            USPGETCLIENTLIST,
+            USPGETCREDITACCOUNTBALANCE,
+            USPGETCREDITACCOUNTBALANCEHISTORY,
+            USPGETCLIENTMAILLIST
         }
         public enum GiftCard
         {
@@ -182,7 +189,8 @@ namespace Strive.BusinessEntities
             USPGETALLLOCATIONOFFSET,
             USPDELETELOCATIONOFFSET,
             USPADDBAYSLOT,
-            USPGETALLLOCATIONNAME
+            USPGETALLLOCATIONNAME,
+            USPGETMERCHANTDETAIL,
         }
         public enum ServiceSetup
         {
@@ -202,7 +210,7 @@ namespace Strive.BusinessEntities
             USPDELETEPRODUCT,
             USPGETAllPRODUCT,
             USPGETPRODUCTBYID,
-            USPGETPRODUCTDETAILBYID
+            USPGETPRODUCTDETAILBYID,
         }
         public enum CashRegister
         {
@@ -248,6 +256,13 @@ namespace Strive.BusinessEntities
             uspGetVehicleCodes,
             USPGETVEHICLEMEMBERSHIPBYVEHICLEID,
             USPGETMEMBERSHIPBYVEHICLEID,
+            USPGETMODELBYMAKE,
+            USPGETALLMAKE,
+            USPGETALLCOLOR,
+            USPGETUPCHARGEBYTYPE,
+            USPADDDRIVEUPVEHICLE,
+            USPUPDATEMEMBERSHIPVEHICLEDISCOUNT,
+            USPDELETEVEHICLEMEMBERSHIP
         }
         public enum Vendor
         {
@@ -258,11 +273,15 @@ namespace Strive.BusinessEntities
         public enum Washes
         {
             //Washes
-            USPGETJOBBYID,
+            USPGETWASHBYJOBID,
             USPGETALLJOB,
             USPGETWASHDASHBOARD,
             USPGETCLIENTANDVEHICLEDETAIL,
-            USPDELETEWASHES
+            USPDELETEWASHES,
+            USPGETWASHTIMEBYLOCATIONID,
+            USPGETALLLOCATIONWASHTIME,
+            USPDELETEJOBITEM,
+            USPGETLASTSERVICEVISIT
         }
         public enum Details
         {
@@ -277,6 +296,7 @@ namespace Strive.BusinessEntities
             USPGETALLDETAILS,
 
             USPGETDETAILSCHEDULESTATUS,
+            USPUPDATEJOBSTATUS
         }
         public enum Schedule
         {
@@ -302,6 +322,9 @@ namespace Strive.BusinessEntities
             USPROLLBACKPAYMENT,
             USPUPDATEPRODUCTQUANTITY,
             USPGETEMAILID,
+            USPGETJOBBYID,
+            USPGETJOBDETAILBYID,
+            USPGETTICKETSBYPAYMENTID
         }
 
         public enum Payroll
@@ -346,7 +369,14 @@ namespace Strive.BusinessEntities
         {
             USPGETALLADSETUP,
             USPGETADSETUPBYID,
-            USPDELETEADSETUP
+            USPDELETEADSETUP,
+            USPADDCLIENTDEAL,
+            USPGETCLIENTDEAL
+        }
+
+        public enum Job
+        {
+            USPDELETEJOBITEMBYID
         }
     }
     
@@ -378,6 +408,7 @@ namespace Strive.BusinessEntities
         USPEMAILEXIST,
         USPGETEMPLOYEEROLEBYID,
         USPGETCITYBYSTATE,
+        USPUPDATEEMPLOYEEADDRESSISNOTIFIED,
 
         //Client
         USPGETALLCLIENT,
@@ -387,6 +418,8 @@ namespace Strive.BusinessEntities
         USPGETCLIENTBYID,
         USPISCLIENTAVAILABLE,
         USPGETALLCLIENTNAME,
+        USPUPDATECLIENTADDRESSISNOTIFIED,
+        
         //GiftCard
         USPGETALLGIFTCARD,
         USPGETGIFTCARDHISTORY,
@@ -412,6 +445,7 @@ namespace Strive.BusinessEntities
         USPDELETESERVICEBYID,
         USPGETSERVICES,
         USPGETALLSERVICE,
+        USPGETSERVICEBYID,
         //Cash Register
         USPSAVETODAYCASHREGISTER,
         USPGETCASHREGISTERDETAILS,
@@ -464,16 +498,14 @@ namespace Strive.BusinessEntities
         USPGETALLVEHICLEIMAGEBYID,
         USPGETVEHICLEIMAGEBYID,
         USPDELETECLIENTVEHICLEIMAGE,
+        USPGETMEMBERSHIPDISCOUNT,
         //Vendor
         USPGETALLVENDOR,
         USPGETVENDORBYID,
         USPDELETEVENDOR,
         USPGETALLVENDORNAME,
-        //Washes
-        USPGETJOBBYID,
-        USPGETALLJOB,
-        USPGETWASHDASHBOARD,
-        USPGETCLIENTANDVEHICLEDETAIL,
+        USPGETVENDORBYPRODUCTID,
+
         //Details
         USPGETALLDETAILJOB,
         USPGETDETAILJOBBYID,
@@ -495,11 +527,7 @@ namespace Strive.BusinessEntities
         uspGetClientCodes,
         uspGetGiftCardBalance,
         uspGetClientAndVehicle,
-        uspGetMembershipListByVehicleId,
-        USPGETWASHTIMEBYLOCATIONID,
-        uspGetAllLocationWashTime,
-
-
+        USPGETMEMBERSHIPLISTBYVEHICLEID,
         USPGETTICKETNUMBER,
         
         uspGetServiceByItemList,

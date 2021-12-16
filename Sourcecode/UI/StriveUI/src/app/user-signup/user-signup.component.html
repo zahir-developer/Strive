@@ -1,0 +1,144 @@
+<section id="login">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-lg-7 web-display"> </div>
+            <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 d-flex vh-100 login-panel theme-wrapper-color"> -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 login-panel theme-wrapper-color panelfixheight">
+                <div class="login-panel-container my-auto w-100" style="padding-top: 26px;">
+                    <div class="login-form">
+                        <h1 class="form-title p-b-20"> SignUp </h1>
+                        <form [formGroup]="userSignupForm">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="firstName">First Name<span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="firstName" formControlName="firstName"
+                                        placeholder="First Name" (keydown.space)="$event.preventDefault()"
+                                        (change)="validateGroup($event.target.value,'first')">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="lastName">Last Name<span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" formControlName="lastName"
+                                        placeholder="Last Name" (keydown.space)="$event.preventDefault()"
+                                        (change)="validateGroup($event.target.value,'last')">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="emailId">Email address<span class="required">*</span></label>
+                                    <input type="email" class="form-control" id="emailId" formControlName="userEmail"
+                                        [pKeyFilter]="emailregex" placeholder="Email"
+                                        (keydown.space)="$event.preventDefault()"
+                                        (change)="validateGroup($event.target.value,'email')">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="phoneNumber">Phone Number<span class="required">*</span></label>
+                                    <input type="text" appPhoneMask maxlength="14" class="form-control" id="phoneNumber"
+                                        formControlName="phoneNumber" placeholder="Phone Number"
+                                        (keydown.space)="$event.preventDefault()"
+                                        (change)="validateGroup($event.target.value,'phone')">
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="passwords">Password<span class="required">*</span></label>
+                                    <input type="password" class="form-control" id="passwords"
+                                        formControlName="password" placeholder="Password"
+                                        (keydown.space)="$event.preventDefault()"
+                                        (change)="validateGroup($event.target.value,'password')">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="confirms">Confirm Password<span class="required">*</span></label>
+                                    <input type="password" class="form-control" id="confirms"
+                                        formControlName="confirmPassword" placeholder="Confirm Password"
+                                        (keydown.space)="$event.preventDefault()"
+                                        (change)="validateGroup($event.target.value,'confirm')">
+                                </div>
+                            </div>
+
+                        </form>
+
+
+                        <h1 class="form-title p-b-20 p-t-20">Vehicle information &nbsp;<i (click)="addVehicleRow()"
+                                class="fa fa-plus fa-1x"
+                                style="color:var(--navigation-color) !important;cursor: pointer;"></i></h1>
+                        <form [formGroup]="vehicleForm">
+                            <div formArrayName="items" *ngFor="let item of aliasesArrayControl; let i = index;">
+                                <span style="float: right;" [ngClass]="i === 0 ? 'firstBoxs' : 'secondBoxs'">
+                                    <i class="fa fa-times" aria-hidden="true" (click)="deleteAddressGroup(i)"></i>
+                                </span>
+
+                                <div [formGroupName]="i">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label *ngIf="i === 0" for="inputType">Make<span
+                                                    class="required">*</span></label>
+                                            <div class="ui-fluid">
+                                                <div class="p-fluid p-grid p-formgrid">
+                                                    <div class="p-col-3 p-md-6">
+                                                        <p-autoComplete field="name" (onSelect)="selectMake($event)"
+                                                            [suggestions]="filteredMake" [size]="10"
+                                                            (completeMethod)="filterType($event)"
+                                                            formControlName="vehicleType" placeholder="Make">
+                                                        </p-autoComplete>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label *ngIf="i === 0" for="inputModel">Model<span
+                                                    class="required">*</span></label>
+                                            <div class="ui-fluid">
+                                                <div class="p-grid forms-grid p-fluid p-grid p-formgrid">
+                                                    <div class="p-col-3 p-md-6">
+                                                        <p-autoComplete field="name" [suggestions]="filteredModel"
+                                                            [size]="10" (completeMethod)="filterModel($event)"
+                                                            formControlName="vehicleModel" placeholder="Model">
+                                                        </p-autoComplete>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label *ngIf="i === 0" for="inputColor">Color<span
+                                                    class="required">*</span></label>
+                                            <div class="ui-fluid">
+                                                <div class="p-grid forms-grid">
+                                                    <div class="p-col-3 p-md-6">
+                                                        <p-autoComplete field="name" [suggestions]="filteredColor"
+                                                            [size]="10" (completeMethod)="filterColor($event)"
+                                                            formControlName="vehicleColor" placeholder="Color">
+                                                        </p-autoComplete>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
+                        <div class="form-group">
+                            <p *ngIf="formVal" class="alert alert-danger">{{errorText}}</p>
+                            <button type="submit" class="btn theme-primary-button-color w-100 btn-sm"
+                                (click)="userSignupSubmit()">Create
+                                Account</button>
+                        </div>
+                        <div class="form-group" style="cursor: pointer;"> <a class="theme-primary-color"
+                                (click)="loginPage()">Return to
+                                Login</a> </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

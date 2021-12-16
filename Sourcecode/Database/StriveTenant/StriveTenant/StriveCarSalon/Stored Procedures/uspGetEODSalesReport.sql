@@ -2,7 +2,11 @@
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- [StriveCarSalon].[uspGetEODSalesReport] 1,'2021-06-02','2021-06-03'
+-- [StriveCarSalon].[uspGetEODSalesReport] 0
+/*
+2021-06-03 - Vetriselvi Gift card value should show only todays gift card purchased or used amount ( showing yesterday's data)
+Total paid Paid shows wrong amount value and if we change date it shows same value. please refer screenshots
+*/
 -- =============================================
 CREATE PROCEDURE [StriveCarSalon].[uspGetEODSalesReport] 
 	@LocationId INT,

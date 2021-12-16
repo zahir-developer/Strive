@@ -43,7 +43,7 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public int? ClientType { get; set; }
 
-        [Column]
+        [Column, IgnoreOnUpdate]
         public int? AuthId { get; set; }
 
         [Column]

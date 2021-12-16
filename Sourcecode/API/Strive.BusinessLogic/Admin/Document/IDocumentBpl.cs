@@ -25,7 +25,7 @@ namespace Strive.BusinessLogic.Document
         string ValidateEmployeeFiles(List<EmployeeDocument> employeeDocument);
         int AddDocument(DocumentDto documentModel);
         Result UpdateDocument(DocumentDto documentModel);
-        Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
+        Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType, int? documentSubType);
         Result DeleteDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
         void ArchiveFile(GlobalUpload.DocumentType uploadFolder, string fileName);
         DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType);

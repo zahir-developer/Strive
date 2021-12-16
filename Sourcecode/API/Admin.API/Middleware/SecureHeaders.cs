@@ -15,7 +15,7 @@ namespace Admin.API.Middleware
             return SecureHeadersMiddlewareBuilder
                 .CreateBuilder()
                 .UseHsts(1200, false)
-                .UseXSSProtection(XssMode.oneReport, "https://reporturi.com/some-report-url")
+                 .UseXSSProtection(XssMode.oneReport, "https://reporturi.com/some-report-url")
                 .UseContentDefaultSecurityPolicy()
                 .UsePermittedCrossDomainPolicies(XPermittedCrossDomainOptionValue.masterOnly)
                 .UseReferrerPolicy(ReferrerPolicyOptions.sameOrigin)

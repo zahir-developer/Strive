@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE  [StriveCarSalon].[uspGetEmployeeById] 
+﻿ALTER PROCEDURE  [StriveCarSalon].[uspGetEmployeeById] 
 (@EmployeeId int)
 AS
 BEGIN

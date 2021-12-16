@@ -10,10 +10,18 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 @Component({
   selector: 'app-client-history',
   templateUrl: './client-history.component.html',
-  styleUrls: ['./client-history.component.css']
+  styles: [`
+  .table-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+  `]
 })
 export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;
+  @Input() historyData?: any;
   historyGrid: any = [];
   page: number;
   pageSize: number;
@@ -32,7 +40,8 @@ export class ClientHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
-    this.getHistory();
+    // this.getHistory();
+    this.historyGrid = this.historyData;
   }
 
   closeHistoryModel() {
@@ -40,18 +49,18 @@ export class ClientHistoryComponent implements OnInit {
   }
 
   getHistory() {
-    this.client.getHistoryByClientId(this.clientId).subscribe(res => {
-      if (res.status === 'Success') {
-        const history = JSON.parse(res.resultData);
-        this.historyGrid = history.VehicleHistory;
-        this.clonedHistoryGrid = this.historyGrid.map(x => Object.assign({}, x));
-        this.historyGrid = this.historyGrid.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage ||
-          item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage);
-        this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+    // this.client.getHistoryByClientId(this.clientId).subscribe(res => {
+    //   if (res.status === 'Success') {
+    //     const history = JSON.parse(res.resultData);
+    //     this.historyGrid = history.VehicleHistory;
+    //     this.clonedHistoryGrid = this.historyGrid.map(x => Object.assign({}, x));
+    //     this.historyGrid = this.historyGrid.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage ||
+    //       item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage);
+    //     this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
+    //   }
+    // }, (err) => {
+    //   this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    // });
   }
 
   paginate(event) {

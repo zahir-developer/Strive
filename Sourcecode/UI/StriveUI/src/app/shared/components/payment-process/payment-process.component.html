@@ -1,7 +1,7 @@
 <div class="modal-content">
     <div class="modal-body">
         <tabset #staticTabs>
-            <tab heading="Payment Detail" id="tab1">
+            <tab heading="Payment Detail" id="tab1" (selectTab)="onSelect($event)">
                 <br>
                 <form [formGroup]="paymentForm">
                     <div class="row">
@@ -11,19 +11,18 @@
                         </div>
                         <div class="col-4">
                             <input type="text" name="customerName" class="form-control" formControlName="customerName">
-
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-1"></div>
                         <div class="col-4 form-group">
-                            Tip Amount<span class="required">*</span>
+                            Tip Amount
                         </div>
-                        <div class="col-4">
-                            <input type="text" name="tipAmount" class="form-control"
+                        <div class="col-2">
+                            <input type="number" name="tipAmount" class="form-control"
                                 [ngClass]="{ 'is-invalid': submitted  && payment.tipAmount.errors }"
-                                formControlName="tipAmount">
+                                formControlName="tipAmount" (change)="tipAmountAdded()">
                             <div *ngIf="submitted  && payment.tipAmount.errors" class="invalid-feedback">
                                 <div *ngIf="payment.tipAmount.errors.required">Tip Amount is required</div>
                             </div>
@@ -35,7 +34,19 @@
                         <div class="col-4 form-group">
                             Total Amount Due:
                         </div>
-                        <div class="col-5">
+                        <div class="col-2">
+                            <input type="number" class="form-control" placeholder='$0.00' name="totalAmount" formControlName="totalAmount" (change)="tipAmountAdded()">
+                        
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Total Credit card Amount:
+                        </div>
+                        <div class="col-2">
+                            
                             <strong>{{totalAmount | currency}}</strong>
                         </div>
                     </div>
@@ -84,10 +95,10 @@
                         <div class="col-4 form-group">
                             Expiration Date<span class="required">*</span>
                         </div>
-                        <div class="col-4">
-                            <p-inputMask mask="99/99/9999" size="26" name="expiryDate"
+                        <div class="col-2">
+                            <p-inputMask mask="99/99" size="9" name="expiryDate"
                                 [ngClass]="{ 'is-invalid': submitted  && payment.expiryDate.errors }"
-                                formControlName="expiryDate" placeholder="99/99/9999" slotChar="mm/dd/yyyy">
+                                formControlName="expiryDate" placeholder="99/99" slotChar="mm/yy">
                             </p-inputMask>
 
                             <div *ngIf="submitted  && payment.expiryDate.errors" class="invalid-feedback">
@@ -101,7 +112,7 @@
                         <div class="col-4 form-group">
                             Security Code(CVV)<span class="required">*</span>
                         </div>
-                        <div class="col-4">
+                        <div class="col-2">
                             <input type="text" maxlength="5" name="ccv" class="form-control"
                                 [ngClass]="{ 'is-invalid': submitted  && payment.ccv.errors }" formControlName="ccv">
                             <div *ngIf="submitted  && payment.ccv.errors" class="invalid-feedback">
@@ -110,11 +121,15 @@
                         </div>
                     </div>
                 </form>
+                <!-- <p class="text-center text-danger m-t-15">{{errorMessage}}</p> -->
+                <div class="alert alert-danger text-center m-t-15 m-l-60 m-r-160" role="alert" *ngIf="errorMessage">
+                    {{errorMessage}}
+                </div>
             </tab>
-            <tab heading="Billing Detail">
+            <tab heading="Billing Detail" (selectTab)="onSelect($event)">
                 <br>
                 <form [formGroup]="billingForm">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-4 form-group">
                             Company Name
                         </div>
@@ -127,7 +142,7 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> -->
                     <br>
                     <div class="row">
                         <div class="col-6">
@@ -289,6 +304,8 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn theme-optional-button-color" (click)="process()">Process</button>
+    <button type="button" class="btn theme-optional-button-color" *ngIf="!isBillingpage" (click)="processWithoutBillingDetail()">Process</button>
+    <button type="button" class="btn theme-optional-button-color" *ngIf="isBillingpage"
+        (click)="process()">Process</button>
     <button type="button" class="btn theme-optional-button-color" (click)="closeModal()">Cancel</button>
 </div>

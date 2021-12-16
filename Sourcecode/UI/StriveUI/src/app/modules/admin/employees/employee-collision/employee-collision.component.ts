@@ -11,11 +11,11 @@ import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-employee-collision',
-  templateUrl: './employee-collision.component.html',
-  styleUrls: ['./employee-collision.component.css']
+  templateUrl: './employee-collision.component.html'
 })
 export class EmployeeCollisionComponent implements OnInit {
   submitted: boolean;
@@ -27,7 +27,8 @@ export class EmployeeCollisionComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private getCode: GetCodeService,
     private wash: WashService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private codeValueService: CodeValueService
   ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
@@ -99,38 +100,51 @@ export class EmployeeCollisionComponent implements OnInit {
     //     client: clientName[0]
     //   });
     // }
-    const clientName = detail.ClientFirstName + '' + detail.ClientLastName;
+    const clientName = detail.ClientFirstName + ' ' + detail.ClientLastName;
     this.collisionForm.patchValue({
       dateOfCollision: moment(detail.CreatedDate).toDate(),
       amount: this.liabilityDetail.Amount.toFixed(2),
       reason: this.liabilityDetail.Description,
       client: { id: detail.ClientId , name: clientName }
     });
-    this.selectedClient(detail.ClientId);
+    const clientId = {id: detail.ClientId}
+    this.selectedClient(clientId);
   }
 
   getLiabilityType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.liablityType).subscribe(data => {
-      if (data.status === 'Success') {
-        const dType = JSON.parse(data.resultData);
-        this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Collision)[0].CodeId;
+    const liabilityTypeVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.liablityType);
+    console.log(liabilityTypeVaue, 'cached value ');
+    if (liabilityTypeVaue.length > 0) {
+      this.liabilityTypeId = liabilityTypeVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Collision)[0].CodeId;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.liablityType).subscribe(data => {
+        if (data.status === 'Success') {
+          const dType = JSON.parse(data.resultData);
+          this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Collision)[0].CodeId;
+        }
       }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
   }
 
   getLiabilityDetailType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.LiablityDetailType).subscribe(data => {
-      if (data.status === 'Success') {
-        const dType = JSON.parse(data.resultData);
-        this.liabilityDetailTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.adjustment)[0].CodeId;
+    const liabilityDetailTypeVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.liablityDetailType);
+    console.log(liabilityDetailTypeVaue, 'cached value ');
+    if (liabilityDetailTypeVaue.length > 0) {
+      this.liabilityDetailTypeId = liabilityDetailTypeVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.adjustment)[0].CodeId;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.LiablityDetailType).subscribe(data => {
+        if (data.status === 'Success') {
+          const dType = JSON.parse(data.resultData);
+          this.liabilityDetailTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.adjustment)[0].CodeId;
+        }
       }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
   }
 
   get f() {
@@ -178,7 +192,8 @@ export class EmployeeCollisionComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: this.collisionForm.value.dateOfCollision,
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+      locationId : localStorage.getItem('empLocationId')
     };
     const finalObj = {
       employeeLiability: liabilityObj,
@@ -262,13 +277,13 @@ export class EmployeeCollisionComponent implements OnInit {
   
   }
 
-  selectedClient(clientId) {
-    this.employeeService.getVehicleByClientId(clientId).subscribe(res => {
+  selectedClient(client) {
+    this.employeeService.getVehicleByClientId(client.id).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.vehicleList = vehicle.Status;
         if (this.vehicleList.length !== 0) {
-          this.collisionForm.patchValue({ vehicle: this.vehicleList[0].VehicleId });
+          this.collisionForm.patchValue({ vehicle: this.vehicleList[this.vehicleList.length - 1].VehicleId });
         }
       }
     }
@@ -278,38 +293,56 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   getAllMake() {
-    this.employeeService.getDropdownValue('MAKE').subscribe(res => {
-      if (res.status === 'Success') {
-        const make = JSON.parse(res.resultData);
-        this.makeDropdownList = make.Codes;
+    const makeVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.vehcileMake);
+    console.log(makeVaue, 'cached value ');
+    if (makeVaue.length > 0) {
+      this.makeDropdownList = makeVaue;
+    } else {
+      this.employeeService.getDropdownValue('MAKE').subscribe(res => {
+        if (res.status === 'Success') {
+          const make = JSON.parse(res.resultData);
+          this.makeDropdownList = make.Codes;
+        }
       }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
   }
 
   getAllModel() {
-    this.employeeService.getDropdownValue('VEHICLEMODEL').subscribe(res => {
-      if (res.status === 'Success') {
-        const model = JSON.parse(res.resultData);
-        this.modelDropdownList = model.Codes;
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+    const modelVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.vehicleModel);
+    console.log(modelVaue, 'cached value ');
+    if (modelVaue.length > 0) {
+      this.modelDropdownList = modelVaue;
+    } else {
+      this.employeeService.getDropdownValue('VEHICLEMODEL').subscribe(res => {
+        if (res.status === 'Success') {
+          const model = JSON.parse(res.resultData);
+          this.modelDropdownList = model.Codes;
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
 
   getAllColor() {
-    this.employeeService.getDropdownValue('VEHICLECOLOR').subscribe(res => {
-      if (res.status === 'Success') {
-        const color = JSON.parse(res.resultData);
-        this.colorDropdownList = color.Codes;
+    const colorVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.vehcileColor);
+    console.log(colorVaue, 'cached value ');
+    if (colorVaue.length > 0) {
+      this.colorDropdownList = colorVaue;
+    } else {
+      this.employeeService.getDropdownValue('VEHICLECOLOR').subscribe(res => {
+        if (res.status === 'Success') {
+          const color = JSON.parse(res.resultData);
+          this.colorDropdownList = color.Codes;
+        }
       }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
   }
 
 }

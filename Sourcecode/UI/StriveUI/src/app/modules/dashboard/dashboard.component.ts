@@ -13,8 +13,7 @@ declare var $: any;
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
   noOfWashes: any = 0;
@@ -76,7 +75,7 @@ export class DashboardComponent implements OnInit {
   getDashboardCount() {
     const obj = {
       id: localStorage.getItem('empLocationId'),
-      date: new Date()
+      date: new Date() 
     };
     this.dashboardService.getDetailCount(obj).subscribe(res => {
       const dashboardCount = JSON.parse(res.resultData);
@@ -98,7 +97,8 @@ export class DashboardComponent implements OnInit {
     const finalObj = {
       locationId: locationID,
       fromDate: this.datePipe.transform(this.fromDate, 'yyyy-MM-dd'),
-      toDate: this.datePipe.transform(this.toDate, 'yyyy-MM-dd') 
+      toDate: this.datePipe.transform(this.toDate, 'yyyy-MM-dd') ,
+      CurrentDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss') 
     };
     this.spinner.show();
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
@@ -111,7 +111,7 @@ export class DashboardComponent implements OnInit {
           this.washesCount = this.washesCount + item.WashesCount;
           this.detailCount = this.detailCount + item.DetailCount;
           this.employeeCount = this.employeeCount + item.EmployeeCount;
-          this.washTime = item.WashTime;
+          this.washTime =  this.washTime + item.WashTime;
           this.score = this.score + item.Score;
           this.currents = this.currents + item.Currents;
           this.forecastedCar = this.forecastedCar + item.ForecastedCar;
@@ -128,6 +128,7 @@ export class DashboardComponent implements OnInit {
           this.labourCostPerCarMinusDetail = this.labourCostPerCarMinusDetail + item.LabourCostPerCarMinusDetail;
           this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
         });
+        this.washTime = this.washTime / this.dashboardStatistics.length;
       } else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -158,12 +159,13 @@ export class DashboardComponent implements OnInit {
     this.averageTotalPerCar = 0;
     this.labourCostPerCarMinusDetail = 0;
     this.detailCostPerCar = 0;
+    this.washTime = 0;
   }
 
   // Get All Location
   getLocationList() {
     const locID = 0;
-    this.dashboardService.getAllLocationWashTime(locID).subscribe(res => {
+    this.dashboardService.getAllLocationWashTime(locID,this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')).subscribe(res => {
             if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;

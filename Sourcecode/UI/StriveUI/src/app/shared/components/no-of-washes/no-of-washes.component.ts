@@ -6,8 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-no-of-washes',
-  templateUrl: './no-of-washes.component.html',
-  styleUrls: ['./no-of-washes.component.css']
+  templateUrl: './no-of-washes.component.html'
 })
 export class NoOfWashesComponent implements OnInit {
   washCount: any;

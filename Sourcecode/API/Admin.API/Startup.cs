@@ -51,14 +51,23 @@ using Strive.BusinessLogic.AdSetup;
 using Strive.BusinessLogic.DealSetup;
 using Strive.BusinessLogic.PaymentGateway;
 using Strive.BusinessLogic.SuperAdmin.Tenant;
+using Microsoft.Extensions.Logging;
+using Strive.BusinessLogic.Logger;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Serilog;
+using Serilog.AspNetCore;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace Admin.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly Microsoft.Extensions.Logging.ILogger _logger;
+        private readonly string allowSpecificOrigins = "_allowSpecificOrigins";
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            _logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -84,14 +93,14 @@ namespace Admin.API
             services.AddTransient<IClientBpl, ClientBpl>();
             services.AddTransient<IGiftCardBpl, GiftCardBpl>();
             services.AddTransient<IWeatherBpl, WeatherBpl>();
-            services.AddTransient<IVendorBpl,VendorBpl>();
-            services.AddTransient<IVehicleBpl,VehicleBpl>();
+            services.AddTransient<IVendorBpl, VendorBpl>();
+            services.AddTransient<IVehicleBpl, VehicleBpl>();
             services.AddTransient<ITimeClockBpl, TimeClockBpl>();
             services.AddTransient<IDetailsBpl, DetailsBpl>();
             services.AddTransient<IScheduleBpl, ScheduleBpl>();
             services.AddTransient<ISalesBpl, SalesBpl>();
             services.AddTransient<IExternalApiBpl, ExternalApiBpl>();
-            services.AddTransient<IPayRollBpl,PayRollBpl>();
+            services.AddTransient<IPayRollBpl, PayRollBpl>();
             services.AddTransient<IMessengerBpl, MessengerBpl>();
             services.AddTransient<IWhiteLabelBpl, WhiteLabelBpl>();
             services.AddTransient<ICheckoutBpl, CheckoutBpl>();
@@ -103,14 +112,48 @@ namespace Admin.API
             services.AddTransient<IdealSetupBpl, DealSetupBpl>();
             services.AddTransient<IPaymentGatewayBpl, PaymentGatewayBpl>();
             services.AddTransient<ITenantBpl, TenantBpl>();
+            services.AddTransient<ILogBpl, LogBpl>();
+
+            Serilog.Log.Logger = new LoggerConfiguration()
+           .MinimumLevel.Information()
+           //.MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Verbose)
+           .MinimumLevel.Override("Microsoft", (Serilog.Events.LogEventLevel)Convert.ToInt32(Configuration.GetSection("StriveAdminSettings:LogEvent")["Level"]))
+           .Enrich.FromLogContext()
+           .WriteTo.File(Configuration.GetSection("StriveAdminSettings:Logs")["Error"] + "Errorlog.txt")
+           .CreateLogger();
+
+            Serilog.Log.Information("Strive Starting host");
+
+            services.AddSingleton<ILoggerFactory>(new SerilogLoggerFactory(Serilog.Log.Logger, false));
+
+            services.AddMvcCore(
+            opt =>  // or AddMvc()
+            {
+                // remove formatter that turns nulls into 204 - No Content responses
+                // this formatter breaks Angular's Http response JSON parsing
+                opt.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+            });
+
+            _logger.LogInformation("Test log Strive");
 
             #region Add CORS
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            services.AddCors(options =>
             {
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-                builder.AllowAnyOrigin();
-            }));
+                options.AddPolicy(allowSpecificOrigins,
+
+                builder =>
+
+                {
+
+                    builder.WithOrigins("http://localhost:4200", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net","https://mammothuat.azurewebsites.net")
+
+                            .AllowAnyHeader()
+
+                            .AllowAnyMethod();
+
+                });
+
+            });
             #endregion
 
             #region Add MVC
@@ -204,17 +247,23 @@ namespace Admin.API
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-    IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings, IAntiforgery antiforgery)
+    IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings, IAntiforgery antiforgery, ILoggerFactory logger)
         {
             app.UseSwagger();
             //app.UseSwaggerUI(options => { options.SwaggerEndpoint(Configuration["StriveAdminSettings:VirtualDirectory"] + "swagger.json", "Strive-Admin - v1"); });
             app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "StriveAdminApi"); });
+
+            var fileExists = Directory.Exists(Configuration["StriveAdminSettings:Logs:Error"]);
+
+            logger.AddFile(Configuration["StriveAdminSettings:Logs:Error"] + "mylog-{Date}.txt");
+
+
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000","http://14.141.185.75:5003","http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5003", "http://40.114.79.101:5000").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
-            //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
-
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "https://mammothuat.azurewebsites.net","https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            
             // global cors policy
             //app.UseCors(x => x
             //    .AllowAnyMethod()

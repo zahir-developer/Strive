@@ -7,11 +7,11 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-create-edit-terms-and-conditions',
-  templateUrl: './create-edit-terms-and-conditions.component.html',
-  styleUrls: ['./create-edit-terms-and-conditions.component.css']
+  templateUrl: './create-edit-terms-and-conditions.component.html'
 })
 export class CreateEditTermsAndConditionsComponent implements OnInit {
 
@@ -25,18 +25,20 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   submitted: any;
   employeeId: any;
   subdocumentType: any;
+  documentSubTypeValue: any;
   fileType: string[];
   fileTypes: string;
   fileSize: number;
   localFileSize: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
-    private document: DocumentService, private getCode: GetCodeService, private spinner: NgxSpinnerService) { }
+    private document: DocumentService, private getCode: GetCodeService, private spinner: NgxSpinnerService,
+    private codeService: CodeValueService) { }
 
   ngOnInit(): void {
     this.fileType = ApplicationConfig.UploadFileType.TermsAndCondition;
     this.fileSize = ApplicationConfig.UploadSize.TermsAndCondition;
     this.fileTypes = this.fileType.toString();
-    
+
     if (localStorage.getItem('employeeName') !== undefined) {
       this.employeeId = +localStorage.getItem('empId');
     }
@@ -48,6 +50,10 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   }
 
   getDocumentType() {
+    // this.documentSubTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.documentSubType);
+    // if (this.documentSubTypeValue.length !== 0) {
+    //   this.subdocumentType = this.documentSubTypeValue.Codes;
+    // }
     this.getCode.getCodeByCategory(ApplicationConfig.Category.documentSubType).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
@@ -59,6 +65,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+
   formInitialize() {
     this.termsForm = this.fb.group({
       createdDate: [''],
@@ -81,7 +88,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
 
       if (this.fileThumb.toLowerCase() !== this.fileType[0]) {
         this.toastr.warning(MessageConfig.Admin.SystemSetup.TermsCondition.FileType + 'Allowed file types: ' + ApplicationConfig.UploadFileType.TermsAndCondition.toString(), 'Warning!');
-        
+
         this.clearDocument();
       }
 
@@ -98,7 +105,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
         let fileTosaveName: any;
         fileTosaveName = fileReader.result?.split(',')[1];
 
-       
+
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
 
@@ -125,7 +132,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.error(MessageConfig.Admin.SystemSetup.TermsCondition.FileSize, 'Error!' );
+      this.toastr.error(MessageConfig.Admin.SystemSetup.TermsCondition.FileSize, 'Error!');
 
       return;
     }
@@ -143,7 +150,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      DocumentName:this.termsForm.controls['name'].value,
+      DocumentName: this.termsForm.controls['name'].value,
       DocumentSubType: this.termsForm.controls['subDocumentId'].value
     };
     const finalObj = {
@@ -155,7 +162,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       if (data.status === 'Success') {
         this.spinner.hide();
 
-        this.toastr.success( MessageConfig.Admin.SystemSetup.TermsCondition.Add, 'Success!');
+        this.toastr.success(MessageConfig.Admin.SystemSetup.TermsCondition.Add, 'Success!');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
         this.spinner.hide();

@@ -22,10 +22,10 @@
                             <div class="col-lg-2">
                                 <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
                             </div>
-                            <div class="col-lg-2">
+                            <!-- <div class="col-lg-2">
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="preview()">Preview</button>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="card m-t-10">
                             <div class="card-body">
@@ -36,13 +36,16 @@
                                     <div class="search-container  pull-right">
                                         <form>
                                             <div class="form-row">
+                                                <label class="m-t-7">Drive up</label>
                                                 <div class="form-group col-sm-1 m-r-10 m-t-10">
                                                     <p-inputSwitch [style]="{'font-size':'10px'}" name="driveup"
-                                                        [(ngModel)]="offset1"></p-inputSwitch>
+                                                        [(ngModel)]="isDriveup" (onChange)="handleChange($event)"></p-inputSwitch>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group m-l-10">
                                                     <input type="search" class="form-control" name="search"
-                                                        id="inputSearch" [(ngModel)]="searchQery" placeholder="Search">
+                                                        id="inputSearch" [(ngModel)]="searchQery"
+                                                        (ngModelChange)="this.searchUpdate.next($event)"
+                                                        placeholder="Search">
                                                 </div>
                                                 <div class="form-group col-sm m-l-5">
                                                     <button type="button"
@@ -59,42 +62,45 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th> Service
+                                                    <th scope="col"> Service
                                                         Date&nbsp;
                                                     </th>
                                                     <!-- 
                                                     <th class="pointer" (click)="changeSorting('ClientId')"> Customer
                                                         ID&nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('ClientId')"></i></th> -->
-                                                    <th class="pointer" (click)="changeSorting('FirstName')"> Customer
+                                                    <th scope="col" class="pointer"
+                                                        (click)="changeSorting('FirstName')"> Customer
                                                         Name&nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('FirstName')"></i>
                                                     </th>
-                                                    <th class="pointer" (click)="changeSorting('VehicleId')">
+                                                    <th scope="col" class="pointer"
+                                                        (click)="changeSorting('VehicleId')">
                                                         Vehicle ID
                                                         &nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('VehicleId')"></i>
                                                     </th>
 
-                                                    <th class="pointer" (click)="changeSorting('BarCode')">
+                                                    <th scope="col" class="pointer" (click)="changeSorting('BarCode')">
                                                         Barcode
                                                         &nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('BarCode')"></i>
                                                     </th>
-                                                    <th class="pointer" (click)="changeSorting('MembershipName')">
+                                                    <th scope="col" class="pointer"
+                                                        (click)="changeSorting('MembershipName')">
                                                         Membership
                                                         &nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('MembershipName')"></i>
                                                     </th>
-                                                    <th class="pointer" (click)="changeSorting('TicketNumber')">
+                                                    <th scope="col" class="pointer"
+                                                        (click)="changeSorting('TicketNumber')">
                                                         Ticket No
                                                         &nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('TicketNumber')"></i>
                                                     </th>
-                                                    <th>
+                                                    <th scope="col">
                                                         Service
                                                         &nbsp;
-
 
                                                         <!-- <th scope="col" class="pointer">Additional Services
                                                     </th>

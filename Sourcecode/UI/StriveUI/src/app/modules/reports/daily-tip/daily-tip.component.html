@@ -2,7 +2,7 @@
     <h3 class="d-inline-block">Daily Tip Report - </h3>
     <div class="date d-inline-block datepicker-view" data-date-format="dd/mm/yyyy">
 
-        <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
+        <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (focus)="dp.show()"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
             bsDatepicker [outsideClick]="true"><span class="input-group-addon">
             <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
@@ -37,7 +37,7 @@
                                 [printStyle]="{input: {'visibility': 'hidden'}, button: {'visibility': 'hidden'}}"
                                 printTitle="Daily Tip Report"  printSectionId="dailyreport" ngxPrint >Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="getDailyTipReport()">Refresh</button>
+                                    (click)="refresh()">Refresh</button>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                                                     : '..' :''}} </span>
                                            </td>
                                         <td>{{dailytip?.HoursPerDay}}</td>
-                                        <td>{{dailytip?.Tip}}</td>
+                                        <td>{{dailytip?.Tip | currency}}</td>
                                     </tr>
                                     <tr *ngIf="dailyTip?.length === 0">
                                         <td colspan="3" class="text-center" >No Records Found</td>

@@ -8,12 +8,17 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { SelectLocationComponent } from './select-location/select-location.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { UserSignupComponent } from './user-signup/user-signup.component';
+import { SessionExpiredComponent } from './shared/components/session-expired/session-expired.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
+  { path: 'login/:token', component: LoginComponent, data: { label: 'login', title: 'login' } },
   { path: 'forgot-password', component: ForgotPasswordComponent, data: { label: 'forgot-password', title: 'forgot-password' } },
   { path: 'location', component: SelectLocationComponent, data: { label: 'select-location', title: 'select-location' } },
-  { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
+  // { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
+  { path: 'signup', component: UserSignupComponent, data: { label: 'signup', title: 'signup' } },
+  { path: 'signup/:token', component: UserSignupComponent, data: { label: 'signup', title: 'signup' } },
   { path: 'helps', component: HelpsComponent },
   { path: 'side-nav', component: SidenavComponent },
 
@@ -68,6 +73,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/customer-sales/customer-sales.module').then(mod => mod.CustomerSalesModule)
   },
   { path: 'unauthorized', component: UnauthorizedComponent, data: { label: 'unauthorized', title: 'unauthorized' } },
+
+  { path: 'session-expired' , component: SessionExpiredComponent, data: { label: 'session', title: 'session' }},
   {
     path: '',
     redirectTo: '',

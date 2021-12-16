@@ -12,8 +12,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-service-list',
-  templateUrl: './service-list.component.html',
-  styleUrls: ['./service-list.component.css']
+  templateUrl: './service-list.component.html'
 })
 export class ServiceListComponent implements OnInit {
   @Input() historyGrid?: any;

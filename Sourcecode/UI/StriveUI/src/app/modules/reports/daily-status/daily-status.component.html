@@ -1,5 +1,5 @@
 <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-    <h3 class="d-inline-block">Daily Status Screen - </h3>
+    <h3 class="d-inline-block">Daily Status Screen Report- </h3>
     <div class="date d-inline-block datepicker-view" data-date-format="dd/mm/yyyy">
 
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig" bsDatepicker [outsideClick]="true"><span class="input-group-addon">
@@ -29,27 +29,27 @@
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [disabled]="!fileTypeEvent" (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="dailyStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="print()">Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" (click)="preview()">Refresh</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="dailyStatusReport">
+            <div >
                 <div class="card m-t-10">
-                    <div class="card-body">
-                        <div class="row no-gutter">
+                    <div class="card-body" id="dailyStatusReport">
+                        <div class="row no-gutter" >
                             <div class="col-12 text-left  font-weight-700 font-size-1-5">
                                 Report Date - {{date | date: 'MM/dd/yyyy'}}
                             </div>
-                            <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2" style="display: none;">Daily Stats Report</div>
+                            <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2" style="display: none;">Daily Status Screen Report</div>
                             <div class="col-lg-6">
                                 <!-- end card-->
                                 <div class="card m-t-10">
                                     <div class="card-body p-t-10">
                                         <div class="table-responsive scroll">
-                                            <table class="table table-striped m-b-0 dailyreport">
+                                            <table class="table  m-b-0 dailyreport">
                                                 <thead *ngIf="washes?.length === 0 && details?.length=== 0">
                                                     <tr>
                                                         <th scope="col" colspan="2" class="font-size-1-5 font-weight-700">Washes</th>
@@ -102,116 +102,112 @@
                                 <div class="card m-t-10">
                                     <div class="card-body p-t-10">
                                         <div class="table-responsive scroll">
-                                            <table class="table table-striped m-b-0 dailyreport">
+                                            <table class="table m-b-0 dailyreport">
                                                 <thead>
                                                     <tr>
                                                         <td colspan="2" class="font-weight-700 bg-white font-size-1-5">
                                                             Washes Info </td>
 
                                                     </tr>
-                                                    <tr  *ngIf="dailyStatusWashInfo?.length > 0 || dailyStatusWashInfo?.WashEmployeeCount !=0" class="bg-white">
+                                                    <tr  *ngIf="dailyStatusWashInfo?.WashEmployeeCount !== 0" class="bg-white">
                                                         <th scope="col">Total no. of employee’s</th>
                                                         <th scope="col" class="font-weight-1200"></th>
-
                                                         <th scope="col" class="font-weight-1200">Amount</th>
                                                     </tr>
-                                                    <tr *ngIf="dailyStatusWashInfo?.length > 0 || dailyStatusWashInfo?.WashEmployeeCount !=0">
-                                                        <td style="margin-left: 120px;">
-                                                            {{dailyStatusWashInfo?.WashEmployeeCount}}</td>
-                                                        <td></td>
-                                                        <td style="text-align: left;" class="m-l-120">
-                                                            {{dailyStatusWashInfo?.WashExpense}}</td>
+                                                    <tr *ngFor="let washInfo of dailyStatusWashInfo">
+                                                        
+                                                                <td style="margin-left: 120px;">{{washInfo?.WashEmployeeCount}}</td>
+                                                                <td></td>
+                                                                <td  style="text-align: left;" class="m-l-120">{{washInfo?.WashExpense | currency}}</td>
                                                     </tr>
-                                                    <div *ngIf="(dailyStatusWashInfo?.WashEmployeeCount === 0)" style="text-align: center;" class="m-t-30">
+                                                    <tr *ngIf="dailyStatusWashInfo == null">
+                                                        <td colspan="3" class="text-center">
+                                                            No records found
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <div *ngIf="(dailyStatusWashInfo?.WashEmployeeCount === 0)" style="text-align: center;" class="m-t-30">
                                                         <span>No Records Found</span>
-                                                    </div>
+                                                    </div> -->
                                                     <br><br>
                                                 </thead>
                                                 <thead>
-
-
                                                     <tr>
                                                         <th colspan="3" class="font-weight-700 bg-white font-size-1-5 border-bottom-1">
                                                             Detail Info</th>
-
                                                     </tr>
-
-                                                    <tr class="bg-white" *ngIf="dailyStatusDetailInfo?.length > 0">
+                                                    <tr class="bg-white" >
                                                         <th scope="col" class="font-weight-700">Name</th>
                                                         <th scope="col" class="font-weight-700">Ticket</th>
                                                         <th scope="col" class="font-weight-700 ">Commission</th>
                                                     </tr>
-
                                                 </thead>
-
-
-
-
                                                 <tbody>
-
                                                     <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
                                                         <td class="pointer" title="{{detailInfo?.ServiceName}}">
                                                             {{detailInfo?.EmployeeName | slice:0:15}} {{(detailInfo?.EmployeeName !== null) ?detailInfo?.EmployeeName?.length
                                                             <=15 ? '' : '...' : '' }} </td>
                                                                 <td>{{detailInfo?.TicketNumber}}</td>
-                                                                <td>{{detailInfo?.Commission}}</td>
+                                                                <td>{{detailInfo?.Commission | currency}}</td>
                                                     </tr>
-
+                                                    <tr *ngIf="dailyStatusDetailInfo?.length === 0 || dailyStatusDetailInfo?.length === null">
+                                                        <td colspan="3" class="text-center">
+                                                            No Records Found
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                                 <tfoot class="font-weight-700" *ngIf="dailyStatusDetailInfo?.length > 0">
                                                     <tr>
                                                         <td colspan="2" class="text-right"> Total Expenses:</td>
                                                         <td> {{detailInfoTotal?.toFixed(2)}} </td>
-
                                                     </tr>
                                                 </tfoot>
                                             </table>
 											
-                                            <div *ngIf="dailyStatusDetailInfo?.length === 0 || dailyStatusDetailInfo?.length === null" class="noRecords m-t-49">
-                                                <span> No Records Found</span>
-                                            </div>
+                                            <!-- <div *ngIf="dailyStatusDetailInfo?.length === 0 || dailyStatusDetailInfo?.length === null" class="noRecords m-t-49">
+                                                <span> </span>
+                                            </div> -->
                                         </div>
 
                                     </div>
                                     <!-- end card-body -->
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="card m-t-10">
-                            <div class="card-body">
-                                <div class="p-b-5 m-b-8">
-                                    <h4 class="d-inline-block align-middle"><span class="resp-title">Employee's Time
-                                            Clock
-                                        </span>
-                                    </h4>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="table">
-                                        <thead>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                        <tfoot class="font-weight-700" *ngIf="clockDetail?.length > 0">
-                                            <tr>
-                                                <td colspan="1" class="text-right">Total: </td>
-                                                <td>{{washHours}}</td>
-                                                <td>{{detailHours}}</td>
-                                                <td colspan="9"></td>
-                                            </tr>
-                                        </tfoot>
-
-                                    </table>
-                                    <div class="noRecords" *ngIf="clockDetail?.length === 0">
-                                        <span> No Records Found</span>
+                            <div class="card m-t-10 col-12">
+                                <div class="card-body">
+                                    <div class="p-b-5 m-b-8">
+                                        <h4 class="d-inline-block align-middle"><span class="resp-title">Employee's Time
+                                                Clock
+                                            </span>
+                                        </h4>
                                     </div>
-
+    
+                                    <div class="table-responsive">
+                                        <table class="table " id="table">
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot class="font-weight-700" *ngIf="clockDetail?.length > 0">
+                                                <tr>
+                                                    <td colspan="1" class="text-right">Total: </td>
+                                                    <td>{{totalWashHours}}</td>
+                                                    <td>{{totalDetailHours}}</td>
+                                                    <td colspan="9"></td>
+                                                </tr>
+                                            </tfoot>
+    
+                                        </table>
+                                        <div class="noRecords" *ngIf="clockDetail?.length === 0">
+                                            <span> No Records Found</span>
+                                        </div>
+    
+                                    </div>
+    
                                 </div>
-
+                                <!-- end card-body -->
                             </div>
-                            <!-- end card-body -->
                         </div>
+                        
                     </div>
                 </div>
 

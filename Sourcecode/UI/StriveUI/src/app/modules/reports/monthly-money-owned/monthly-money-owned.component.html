@@ -1,6 +1,6 @@
 <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
     <h3 class="d-inline-block">Monthly Money Owed </h3>
-   </div>
+</div>
 <div class="col-lg-12 p-l-0 p-r-0">
     <div class="row no-gutter">
         <div class="col-12">
@@ -32,9 +32,10 @@
                                 </div>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     [disabled]="fileType === ''" (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    printSectionId="monthlyMoneyreport" ngxPrint>Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="print()">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="refresh()">Refresh</button>
                             </div>
                         </div>
                     </div>
@@ -42,8 +43,8 @@
             </div>
             <!-- end card-->
             <div class="card m-t-10">
-                <div class="card-body">
-                    <div id="monthlyMoneyreport">
+                <div class="card-body" id="monthlyMoneyowedreport">
+                    <div>
                         <div class="p-b-5 m-b-8">
                             <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Money Owed
                                     Report </span>
@@ -53,55 +54,65 @@
                                         class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
                             </div>
                         </div>
-                        <div id="MonthlyMoneyreport" class="collapse show">
+                        <div id="MonthlyMoneyreport" class="collapse show" class="card-body">
                             <div class="table-responsive" id='print-section'>
-                                <table class="table table-striped">
+
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Date of service </th>
-                                            <th scope="col">Account <br>amount</th>
-                                            <th scope="col">No of<br> Customers</th>
-                                            <th scope="col">Customer Name</th>
-                                            <th scope="col" *ngFor="let location of uniqLocationName">
-                                                {{location.ShortName}}</th>
+                                            <th scope="col">FirstName</th>
+                                            <th scope="col">LastName</th>
+                                            <th scope="col">Barcode</th>
+                                            <th scope="col">Membership<br>Amount</th>
+                                            <th>Drive Up<br> Rate</th>
+                                            <th *ngFor="let item of headerShortGroup">{{item}}</th>
                                             <th scope="col">Total</th>
-                                            <th scope="col">Average<br> Wash Rate</th>
-                                            <th scope="col" *ngFor="let location of owedLocationName">Total Owed <br>for
-                                                {{location.ShortName}}</th>
+                                            <th scope="col">Average</th>
+                                            <th *ngFor="let item of headerOwned">{{item}}</th>
                                         </tr>
                                     </thead>
-                                    <tbody *ngIf="ownedReportList.length > 0">
-                                        <tr *ngFor="let report of ownedReportList">
-                                            <th scope="row">{{report.JobDate | date : 'MM-dd-yyyy'}}</th>
-                                            <td>{{report.AccountAmount | number:'.2'}}</td>
-                                            <td>{{report.CustomerCount}}</td>
-                                            <td>{{report.CustomerName}} </td>
-                                            <td *ngFor="let loc of report.location">{{loc.locationCount}}</td>
-                                            <td>{{report.Total}}</td>
-                                            <td>{{report.WashesAmount| number:'.2'}}</td>
-                                            <td *ngFor="let loc of report.LocationAmount">
-                                                {{loc.locationAmount | number:'.2'}}</td>
+
+                                    <tbody *ngIf="newMoneyOwnedReports.length > 0">
+                                        <tr *ngFor="let report of newMoneyOwnedReports">
+                                            <td title="{{report.FirstName}}">
+                                                {{report.FirstName | slice:0:13}}
+                                                {{(report.FirstName !== null) ? report.FirstName.length >=
+                                                    13 ? '' : '...' :''}} </td>
+                                                    <td title="{{report.LastName}}">
+                                                        {{report.LastName | slice:0:13}}
+                                                        {{(report.LastName !== null) ? report.LastName.length >=
+                                                            13 ? '' : '...' :''}} </td>
+                                            <td>{{report.Barcode}}</td>
+                                            <td>{{report.MembershipAmount | number:'.2'}}</td>
+                                            <td>{{report.TotalJobAmount | number:'.2'}}</td>
+                                            <td *ngFor="let value of report.mulipleLocWash">{{value}}</td>
+                                            <td>{{report.total}}</td>
+                                            <td>{{report.Average}}</td>
+                                            <td *ngFor="let value of report.ownedValue">
+                                                {{value | number:'.2'}}</td>
                                         </tr>
                                     </tbody>
-                                    <tbody *ngIf="ownedReportList.length === 0">
+
+
+                                    <tbody *ngIf="newMoneyOwnedReports.length === 0">
                                         <tr>
-                                            <td colspan="6" class="text-center">No Record Found</td>
+                                            <td colspan="8" class="text-center">No Record Found</td>
                                         </tr>
                                     </tbody>
-                                    <tfoot class="table-foot font-weight-700" *ngIf="ownedReportList.length > 0">
+
+                                    <tfoot class="table-foot font-weight-700" *ngIf="newMoneyOwnedReports.length > 0">
                                         <tr>
-                                            <td>Total </td>
-                                            <td> {{accountAmount | number:'.2'}}</td>
-                                            <td colspan="2"> </td>
-                                            <td *ngFor="let value of locationTotalValue">{{value.totalValue}} </td>
-                                            <td>{{total}}</td>
-                                            <td>{{averageWashRate | number:'.2'}}</td>
-                                            <td *ngFor="let value of totalOwnedValue">
-                                                {{value.totalOwnedValue | number:'.2'}}</td>
+                                            <td colspan="3">Total</td>
+                                            <td>{{membership | number:'.2'}}</td>
+                                            <td>{{driveUp | number:'.2'}}</td>
+                                            <td *ngFor="let item of shortCharValue">{{item | number:'.2'}}</td>
+                                            <td>{{totalAmount}}</td>
+                                            <td>{{totalAverage}}</td>
+                                            <td *ngFor="let item of ownedCharValue">{{item | number:'.2'}}</td>
                                         </tr>
                                     </tfoot>
+
                                 </table>
-                               
                             </div>
                         </div>
                     </div>

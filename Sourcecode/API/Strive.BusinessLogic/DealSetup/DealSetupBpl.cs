@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.AdSetup;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -28,5 +29,16 @@ namespace Strive.BusinessLogic.DealSetup
         {
             return ResultWrap(new DealSetupRal(_tenant).UpdateToggledeal, status, "Status");
         }
+
+        public Result AddClientDeal(ClientDealDto addClientDeal)
+        {
+            return ResultWrap(new DealSetupRal(_tenant).AddClientDeal, addClientDeal, "Status");
+        }
+
+        public Result GetClientDeal(ClientDealDto addClientDeal)
+        {
+            return ResultWrap(new DealSetupRal(_tenant).GetClientDeal, addClientDeal, "ClientDeal");
+        }
+        
     }
 }

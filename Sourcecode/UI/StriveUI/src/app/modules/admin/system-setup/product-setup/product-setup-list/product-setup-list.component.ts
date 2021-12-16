@@ -10,8 +10,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-setup-list',
-  templateUrl: './product-setup-list.component.html',
-  styleUrls: ['./product-setup-list.component.css']
+  templateUrl: './product-setup-list.component.html'
 })
 export class ProductSetupListComponent implements OnInit {
   productSetupDetails = [];
@@ -31,6 +30,8 @@ export class ProductSetupListComponent implements OnInit {
   sortBy: string;
   sortColumn: { sortBy: any; sortOrder: string; };
   searchUpdate = new Subject<string>();
+  Status: any;
+  searchStatus: any;
   constructor(
     private productService: ProductService,
     private spinner: NgxSpinnerService,
@@ -45,6 +46,8 @@ export class ProductSetupListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
+    this.searchStatus = true;
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.ProductSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order
     };
@@ -87,7 +90,8 @@ export class ProductSetupListComponent implements OnInit {
   // Get All Product
   getAllproductSetupDetails() {
     const obj = {
-      productSearch: this.search
+      productSearch: this.search,    
+      status: this.searchStatus === '' ? null : this.searchStatus
     };
     this.isLoading = true;
     this.productService.getProduct(obj).subscribe(data => {
@@ -160,7 +164,7 @@ export class ProductSetupListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllproductSetupDetails();
   }
   edit(data) {
@@ -186,6 +190,7 @@ export class ProductSetupListComponent implements OnInit {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Delete, 'Success!');
+        this.page = 1;
         this.getAllproductSetupDetails();
       } else {
         this.spinner.hide();

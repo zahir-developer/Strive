@@ -90,7 +90,8 @@
                 <div class="form-row border-bottom m-b-8">
                     <div class="form-group col-lg-2 col-md-2 col-xl-3">
                         <label for="inputBarcode">Barcode</label>
-                        <input type="text" maxlength="100" class="form-control" formControlName="barcode" placeholder="BarCode" (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
+                        <input type="text" maxlength="50" class="form-control" formControlName="barcode" placeholder="Barcode"
+                        (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputClient">Client<span class="required">*</span></label>
@@ -111,8 +112,8 @@
                         <label for="inputVehicle">Vehicle<span class="required">*</span></label>
                         <select class="form-control" formControlName="vehicle" [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }" (change)="vehicleChange($event.target.value)">
                             <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
-                                {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
+                            <option *ngFor="let v of vehicle" value="{{v.VehicleId}}">
+                                {{v.VehicleMfr}}, {{v.VehicleModel}}, {{v.VehicleColor}}
                             </option>
                         </select>
                         <div *ngIf="submitted && f.vehicle.errors" class="invalid-feedback">
@@ -183,8 +184,7 @@
                     <div class="form-group col-md-3">
                         <label for="inputUpchargeType">Upcharge Type</label>
                         <select class="form-control" formControlName="upchargeType" (change)="upchargeService($event.target.value);">
-                          
-                            <option hidden selected value="">Choose</option>
+                            <option selected value="">None</option>
                             <option *ngFor="let score of  UpchargeType" value="{{score.ServiceId}}">
                                 {{score.ServiceName}}
                             </option>
@@ -194,8 +194,7 @@
                     <div class="form-group col-md-3">
                         <label for="inputUpcharges">Upcharges</label>
                         <select class="form-control" formControlName="upcharges" (change)="upchargeService($event.target.value)">
-                          
-                             <option hidden selected value="">Choose</option>
+                             <option selected value="">None</option>
                             <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
                                 {{score.Upcharges}}
                             </option>
@@ -233,7 +232,7 @@
                             <div class="col-md-3" *ngFor="let addService of additional">
                                 <div class="custom-control custom-checkbox m-t-10">
                                     <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}" (change)="change(addService)" [checked]="addService.IsChecked" [disabled]="isView" />
-                                    <label class="custom-control-label" for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+                                    <label class="custom-control-label text-capital" for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                                 </div>
                             </div>
                         </div>
@@ -252,13 +251,12 @@
                     <div class="row m-t-5">
                         <span class="col-2"></span>
                         <span class="col-10">
-
                             <button type="button" class="btn theme-primary-button-color col-3"
-                                [disabled]="!isStart || isView" (click)="start()">Start</button>&nbsp;
+                                [disabled]="isEdit ? (isStart || isView || isCompleted) : (!isEdit)" (click)="start()">Start</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3"
-                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit || isView">Assign</button>&nbsp;
+                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-4"
-                                [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
+                                [disabled]="(!isEdit || isCompleted || isView)" (click)="completed()">Complete</button>
                         </span>
                     </div>
 
@@ -279,7 +277,7 @@
                                 [disabled]="!isEdit" (click)="pay()" [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled col-3' : 'btn theme-primary-button-color col-3'">{{paidLabel}}</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3" (click)="saveDetail()"
                                 [disabled]="isView">Save</button>&nbsp;
-                            <button type="button" class="btn theme-primary-button-color col-3"
+                            <button type="button" class="btn theme-primary-button-color col-4"
                                 [disabled]="!isEdit && !isView" data-toggle="modal" data-target="#deleteModel"
                                 (click)="deleteDetail()">Delete</button>
                         </span>
@@ -298,7 +296,7 @@
         <app-print-customer-copy *ngIf="isEdit" [selectedData]="selectedData"></app-print-customer-copy>
     </div>
 </div>
-<p-dialog [(visible)]="showDialog" header="Assign" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
+<p-dialog [(visible)]="showDialog" header="Assign" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '70vw'}" [baseZIndex]="10000" appendTo="body">
     <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)" [isView]="isView" (closeAssignModel)="closeAssignModel()" [details]="detailItems" [detailsJobServiceEmployee]="detailsJobServiceEmployee" [employeeList]="employeeList" (cancelAssignModel)="cancelAssignModel()"></app-assign-detail>
 </p-dialog>
 

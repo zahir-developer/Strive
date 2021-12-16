@@ -9,7 +9,6 @@ using Strive.BusinessEntities.Code;
 using System;
 using Strive.BusinessEntities.DTO.Employee;
 using System.Reflection;
-//using FastDeepCloner;
 using Newtonsoft.Json;
 using System.Collections;
 using Strive.BusinessEntities.Model;
@@ -43,6 +42,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@Status", searchDto.Status);
             return db.FetchMultiResult<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
         }
 
@@ -95,10 +95,25 @@ namespace Strive.ResourceAccess
         public List<EmployeeHourlyRateDto> GetEmployeeHourlyRateById(int employeeId)
         {
             _prm.Add("EmployeeId", employeeId);
-            var lstResult = db.Fetch<EmployeeHourlyRateDto>(EnumSP.Employee.uspGetEmployeeHourlyRateById.ToString(), _prm);
+            var lstResult = db.Fetch<EmployeeHourlyRateDto>(EnumSP.Employee.USPGETEMPLOYEEHOURLYRATEBYID.ToString(), _prm);
             return lstResult;
         }
+        public EmployeePayCheckViewModel GetEmployeePayCheck(EmployeePayCheckDto searchDto)
+        {
 
+            _prm.Add("@EmployeeId", searchDto.EmployeeId);
+            _prm.Add("@Month", searchDto.Month);
+            _prm.Add("@Year", searchDto.Year);
+            return db.FetchMultiResult<EmployeePayCheckViewModel>(EnumSP.Employee.USPGETEMPLOYEEPAYCHECK.ToString(), _prm);
+        }
+
+        public bool UpdateEmployeeAddressIsNotified(int employeeAddressId, bool IsNotified)
+        {
+            _prm.Add("@EmployeeAddressId", employeeAddressId);
+            _prm.Add("@IsNotified", IsNotified);
+            db.Save(SPEnum.USPUPDATEEMPLOYEEADDRESSISNOTIFIED.ToString(), _prm);
+            return true;
+        }
     }
 }
 

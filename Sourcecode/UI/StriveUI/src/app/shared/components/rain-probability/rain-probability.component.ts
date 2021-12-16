@@ -5,8 +5,7 @@ import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-rain-probability',
-  templateUrl: './rain-probability.component.html',
-  styleUrls: ['./rain-probability.component.css']
+  templateUrl: './rain-probability.component.html'
 })
 export class RainProbabilityComponent implements OnInit {
   rainPrediction: any;

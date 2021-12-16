@@ -11,5 +11,7 @@ namespace Strive.BusinessEntities.DTO
         public Drawer Drawer { get; set; }
         public List<Bay> Bay { get; set; }
         public LocationOffset LocationOffset { get; set; }
+        public MerchantDetail MerchantDetail { get; set; }
+
     }
 }

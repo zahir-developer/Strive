@@ -5,8 +5,7 @@ import * as _ from 'underscore';
 
 @Component({
   selector: 'app-graph-dashboard',
-  templateUrl: './graph-dashboard.component.html',
-  styleUrls: ['./graph-dashboard.component.css']
+  templateUrl: './graph-dashboard.component.html'
 })
 export class GraphDashboardComponent implements OnInit {
   public barChartOptions: ChartOptions = {
@@ -285,10 +284,10 @@ export class GraphDashboardComponent implements OnInit {
       },
       {
         id: 11,
-        name: 'MonthlyClientSales',
+        name: 'MembershipClientSales',
         color: '#5968DD',
         isSelected: false,
-        displayName: 'Monthly Client Sales'
+        displayName: 'Membership Client Sales'
       },
       {
         id: 12,

@@ -9,11 +9,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-list',
-  templateUrl: './vehicle-list.component.html',
-  styleUrls: ['./vehicle-list.component.css']
+  templateUrl: './vehicle-list.component.html'
 })
 export class VehicleListComponent implements OnInit {
   vehicleDetails = [];
@@ -43,6 +44,8 @@ export class VehicleListComponent implements OnInit {
   isOpenImage: boolean;
   originalImage = '';
   sortColumn: { sortBy: string; sortOrder: string; };
+  searchUpdate = new Subject<string>();
+
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
@@ -51,7 +54,15 @@ export class VehicleListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private memberService: MembershipService,
     private route: ActivatedRoute
-  ) { }
+  ) { 
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.page = 1;
+        this.getAllVehicleDetails();
+      });
+  }
 
   ngOnInit() {
     this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
@@ -229,7 +240,7 @@ export class VehicleListComponent implements OnInit {
 
         this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
-
+        this.page = 1;
         this.getAllVehicleDetails();
       } else {
         this.spinner.hide();
@@ -281,11 +292,11 @@ export class VehicleListComponent implements OnInit {
   }
 
   getService() {
-    this.vehicle.getMembershipService().subscribe(res => {
+    this.vehicle.getAllServiceDetail().subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
-        this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
-        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
+        this.upchargeServices = membership.AllServiceDetail.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+        this.additionalService = membership.AllServiceDetail.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -303,6 +314,11 @@ export class VehicleListComponent implements OnInit {
  }
 
  
+newgetAllVehicleDetails()
+{
+  this.page = 1;
+  this.getAllVehicleDetails();
+}
 
  selectedCls(column) {
    if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {

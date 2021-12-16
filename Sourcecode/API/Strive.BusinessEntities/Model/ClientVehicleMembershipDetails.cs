@@ -50,6 +50,8 @@ namespace Strive.BusinessEntities.Model
         public DateTimeOffset? UpdatedDate { get; set; }
         [Column]
         public decimal? TotalPrice { get; set; }
+        [Column]
+        public bool? IsDiscount { get; set; }
 
 
     }

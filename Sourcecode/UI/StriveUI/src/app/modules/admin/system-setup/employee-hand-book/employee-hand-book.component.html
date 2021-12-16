@@ -28,7 +28,7 @@
                                         <tr *ngIf="document.length === 0">
                                             <td colspan="12" class="text-center"> No Records Found</td>
                                         </tr>
-                                        <tr *ngFor="let doc of document">
+                                        <tr *ngFor="let doc of document | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td scope="row">{{doc.DocumentName}}</td>
                                             <td scope="row">{{doc.RoleName}}</td>
                                             <td scope="row">{{doc.OriginalFileName | slice:0:35}} {{ (doc.OriginalFileName !== undefined && doc.OriginalFileName !== null) ? (doc.OriginalFileName.length > 35 ? '...' : '') : '' }}</td>
@@ -45,6 +45,23 @@
                                 <div class="loadingDiv" *ngIf="isLoading">
                                     <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                                 </div>
+
+                                <div class="row pull-right">
+                                    <div class="col-6">
+                                        <ngb-pagination *ngIf="document?.length > 0"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                    <select *ngIf="document?.length > 0" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -53,10 +70,7 @@
         </div>
     </div>
 
-
-
-
-    <p-dialog styleClass="MyDialog" header="{{header}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+    <p-dialog styleClass="MyDialog" header="{{header}}" [(visible)]="showDialog" [resizable]="true" [blockScroll]="true" [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
         <app-create-edit-employee-hand-book *ngIf="showDialog" [documentTypeId]="documentTypeId"  [actionType] = "actionType" [selectedData]="selectedData" [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)" (getDocumentType)="getDocumentType()">
         </app-create-edit-employee-hand-book>
     </p-dialog>

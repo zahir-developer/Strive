@@ -8,8 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-today-schedule',
-  templateUrl: './today-schedule.component.html',
-  styleUrls: ['./today-schedule.component.css']
+  templateUrl: './today-schedule.component.html'
 })
 export class TodayScheduleComponent implements OnInit {
   bayDetail: any = [];
@@ -41,7 +40,7 @@ export class TodayScheduleComponent implements OnInit {
   getTodayDateScheduleList() {
     const todayDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
     const locationId = localStorage.getItem('empLocationId');
-    const clientID = 0;
+    const clientID = null;
     const finalObj = {
       jobDate: todayDate,
       locationId
@@ -158,7 +157,7 @@ export class TodayScheduleComponent implements OnInit {
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
-    this.getTodayDateScheduleList();
+    //window.location.reload();
   }
   closeDialog(event) {
     this.isEdit = event.isOpenPopup;

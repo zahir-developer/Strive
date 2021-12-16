@@ -78,47 +78,50 @@ namespace Strive.BusinessLogic.Sales
         {
             try
             {
-                var jobPaymnetId = new SalesRal(_tenant).AddPayment(salesPayment.SalesPaymentDto);
+                var jobPaymentId = new SalesRal(_tenant).AddPayment(salesPayment.SalesPaymentDto);
 
-                if (jobPaymnetId > 0)
+                if (jobPaymentId > 0)
                 {
-                    var result = new SalesRal(_tenant).UpdateJobPayement(salesPayment.SalesPaymentDto.JobPayment.JobId, jobPaymnetId);
+                    var result = new SalesRal(_tenant).UpdateJobPayment(salesPayment.JobId, jobPaymentId);
 
                     if (salesPayment.SalesProductItemDto != null)
                     {
                         foreach (var prod in salesPayment.SalesProductItemDto.JobProductItem)
                         {
-                            var productUpdate = new SalesRal(_tenant).UpdateProductQuantity(prod.Quantity, prod.ProductId);
 
                             var product = new ProductRal(_tenant).GetProductById(prod.ProductId);
-
                             string roles = Roles.Manager.ToString() + ',' + Roles.Operator;
 
                             //var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId, roles);
 
-                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId);
-
-                            if (product != null && product.Quantity != null)
+                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId.ToString());
+                            char[] charToTrim = { ',' };
+                            string emailList = string.Empty;
+                            foreach (var email in emailId)
                             {
+                                emailList += email.Email + ",";
+                            }
+                            emailList = emailList.TrimEnd(charToTrim);
+
+                            if (product != null)
+                            {
+                                var productUpdate = new SalesRal(_tenant).UpdateProductQuantity(Convert.ToInt16(product.Quantity) - prod.Quantity, prod.ProductId);
+
                                 if ((product.Quantity - prod.Quantity) < product.ThresholdLimit)
                                 {
-                                    foreach (var item in emailId)
-                                    {
-                                        var subject = "Product threshold limit";
-                                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                                        keyValues.Add("{{managerName}}", item.FirstName);
-                                        keyValues.Add("{{productName}}", product.ProductName);
-                                        keyValues.Add("{{locationName}}", product.LocationName);
-                                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, item.Email, keyValues, subject);
-                                    }
 
+                                    var subject = EmailSubject.ProductThreshold;
+                                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                                    keyValues.Add("{{productName}}", product.ProductName);
+                                    keyValues.Add("{{locationName}}", product.LocationName);
+                                    new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, emailList, keyValues, subject);
                                 }
                             }
                         }
                     }
                 }
 
-                return ResultWrap(jobPaymnetId > 0, "Status");
+                return ResultWrap(jobPaymentId > 0, "Status");
             }
             catch (Exception ex)
             {
@@ -180,9 +183,13 @@ namespace Strive.BusinessLogic.Sales
             return ResultWrap(new SalesRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
         }
 
-        public Result GetServicesAndProduct(int id)
+        public Result GetServicesAndProduct(int id, string query)
         {
-            return ResultWrap(new SalesRal(_tenant).GetServicesAndProduct,id, "ServiceAndProductList");
+            return ResultWrap(new SalesRal(_tenant).GetServicesAndProduct, id, query, "ServiceAndProductList");
+        }
+        public Result GetTicketsByPaymentId(int id)
+        {
+            return ResultWrap(new SalesRal(_tenant).GetTicketsByPaymentId, id, "TicketsbyJobPaymentId");
         }
     }
 }

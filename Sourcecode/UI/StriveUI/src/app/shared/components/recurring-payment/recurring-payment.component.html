@@ -1,0 +1,99 @@
+<div class="modal-content">
+    <div class="modal-body">
+        <tabset #staticTabs>
+            <tab heading="Payment Detail" id="tab1" (selectTab)="onSelect($event)">
+                <br>
+                <form [formGroup]="paymentForm">
+                   
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Card Number<span class="required">*</span>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" name="cardNumber" maxlength="16" placeholder="1234-1234-1234-1234"
+                                class="form-control" (change)="getCardType($event.target.value)"
+                                [ngClass]="{ 'is-invalid': submitted  && payment.cardNumber.errors }"
+                                formControlName="cardNumber">
+                            <div *ngIf="submitted  && payment.cardNumber.errors" class="invalid-feedback">
+                                <div *ngIf="payment.cardNumber.errors.required">Card Number is required</div>
+                            </div>
+                        </div>
+                        <div class="col-3" *ngIf="card == 'AMEX'"><i class="fa  fa-cc-amex"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'Discover'"><i class="fa fa-cc-discover"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'Diners'"><i class="fa fa-cc-diners"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'Diners - Carte Blanche'"><i class="fa fa-cc-diners-club"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'JCB'"><i class="fa fa-cc-jcb"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'Mastercard'"><i class="fa fa-cc-mastercard"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+
+                        <div class="col-3" *ngIf="card == 'Visa'"><i class="fa fa-cc-visa"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Expiration Date<span class="required">*</span>
+                        </div>
+                        <div class="col-2">
+                            <p-inputMask mask="99/99" size="9" name="expiryDate"
+                                [ngClass]="{ 'is-invalid': submitted  && payment.expiryDate.errors }"
+                                formControlName="expiryDate" placeholder="99/99" slotChar="mm/yy">
+                            </p-inputMask>
+
+                            <div *ngIf="submitted  && payment.expiryDate.errors" class="invalid-feedback">
+                                <div *ngIf="payment.expiryDate.errors.required">Expiration Date is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Security Code(CVV)<span class="required">*</span>
+                        </div>
+                        <div class="col-2">
+                            <input type="text" maxlength="5" name="ccv" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted  && payment.ccv.errors }" formControlName="ccv">
+                            <div *ngIf="submitted  && payment.ccv.errors" class="invalid-feedback">
+                                <div *ngIf="payment.ccv.errors.required">Security Code(CVV) is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>                    
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                             Amount
+                        </div>
+                        <div class="col-2">
+                            <input type="text" name="Amount" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted  && payment.Amount.errors }"
+                                formControlName="Amount" >
+                            <div *ngIf="submitted  && payment.Amount.errors" class="invalid-feedback">
+                                <div *ngIf="payment.Amount.errors.required">Amount is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- <p class="text-center text-danger m-t-15">{{errorMessage}}</p> -->
+                <div class="alert alert-danger text-center m-t-15 m-l-60 m-r-160" role="alert" *ngIf="errorMessage">
+                    {{errorMessage}}
+                </div>
+            </tab>
+        </tabset>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn theme-optional-button-color" (click)="processWithoutBillingDetail()">Process</button>
+    <!-- <button type="button" class="btn theme-optional-button-color" *ngIf="isBillingpage"
+        (click)="process()">Process</button> -->
+    <button type="button" class="btn theme-optional-button-color" (click)="closeModal()">Cancel</button>
+</div>

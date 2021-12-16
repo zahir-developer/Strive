@@ -3,13 +3,12 @@ import { WeatherService } from '../../services/common-service/weather.service';
 
 @Component({
   selector: 'app-last-three-month',
-  templateUrl: './last-three-month.component.html',
-  styleUrls: ['./last-three-month.component.css']
+  templateUrl: './last-three-month.component.html'
 })
 export class LastThreeMonthComponent implements OnInit {
 
   weatherThreeMonth: any;
-@Input() targetBusiness : any;
+@Input() targetBusiness?: any;
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
@@ -17,8 +16,5 @@ export class LastThreeMonthComponent implements OnInit {
   }
   getWeatherDetails()  {
       this.weatherThreeMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionLastThirdMonth;
-  
-
-
   }
 }

@@ -10,6 +10,103 @@ namespace Strive.BusinessLogic.PaymentGateway
 
         public PaymentGatewayBpl(IDistributedCache distributedCache, ITenantHelper tenantHelper) : base(tenantHelper, distributedCache) { }
 
+        /**
+        * Authorize Transaction
+        * @return
+        */
+        public JObject AuthTransaction(CardPaymentDto cardPaymentDto)
+        {
+
+            Result result = new Result();
+
+            // Create Authorization Transaction request
+            JObject request = new JObject();
+            // Merchant ID
+            request.Add("merchid", _tenant.MID);
+            // Order ID
+            request.Add("orderid", cardPaymentDto.PaymentDetail.OrderId);
+            // Card Number
+            request.Add("account", cardPaymentDto.PaymentDetail.Account);
+            // Card Expiry
+            request.Add("expiry", cardPaymentDto.PaymentDetail.Expiry);
+            // Card CCV2
+            request.Add("cvv2", cardPaymentDto.PaymentDetail.CCV);
+            // Transaction amount
+            request.Add("amount", cardPaymentDto.PaymentDetail.Amount);
+
+            // Cardholder Name
+            request.Add("name", cardPaymentDto.BillingDetail.Name);
+            // Cardholder Address
+            request.Add("address", cardPaymentDto.BillingDetail.Address);
+            // Cardholder City
+            request.Add("city", cardPaymentDto.BillingDetail.City);
+            // Cardholder Country
+            request.Add("country", cardPaymentDto.BillingDetail.Country);
+            // Cardholder State
+            request.Add("region", cardPaymentDto.BillingDetail.Region);
+            // Cardholder Zip-Code
+            request.Add("postal", cardPaymentDto.BillingDetail.Postal);
+            
+
+            if(cardPaymentDto.IsRepeatTransaction)
+            {
+                // Profile
+                request.Add("profile", cardPaymentDto.CardConnect.Profile);
+                
+                // flag these authorizations as recurring billing
+                request.Add("ecomind", cardPaymentDto.CardConnect.EcomInd);
+
+                //to identify these authorizations as merchant-initiated stored credential transactions
+                request.Add("cof", "M");
+
+                //cofscheduled
+                request.Add("cofscheduled", "Y");
+            }
+            request.Add("track", cardPaymentDto.CardConnect.Track);
+            request.Add("capture", cardPaymentDto.CardConnect.Capture);
+            request.Add("bin", cardPaymentDto.CardConnect.Bin);
+
+         
+            var ccRestClient = new CardConnectRestClient(_tenant.CCUrl, _tenant.CCUserName, _tenant.CCPassword);
+
+            // Send an AuthTransaction request
+            JObject response = ccRestClient.authorizeTransaction(request);
+
+            return response;
+
+        }
+
+        /**
+       * Authorize Transaction
+       * @return
+       */
+        public JObject CaptureTransaction(CaptureDetail captureDetail)
+        {
+
+            // Create Authorization Transaction request
+            JObject request = new JObject();
+            // Merchant ID
+            request.Add("merchid", _tenant.MID);
+            // Transaction amount
+            request.Add("amount", captureDetail.Amount);
+            // Transaction currency
+            request.Add("authcode", captureDetail.AuthCode);
+            // Order ID
+            request.Add("retref", captureDetail.RetRef);
+            // Invoice ID
+            request.Add("invoiceid", captureDetail.InvoiceId);
+
+
+            // Create the CardConnect REST client
+            var ccRestClient = new CardConnectRestClient(_tenant.CCUrl, _tenant.CCUserName, _tenant.CCPassword);
+
+            // Send a captureTransaction request
+            JObject response = ccRestClient.captureTransaction(request);
+
+            return response;
+
+        }
+
         public Result VoidTrasaction(CreditCardDto cardDto)
         {
 
@@ -35,64 +132,6 @@ namespace Strive.BusinessLogic.PaymentGateway
             var response = ccRestClient.voidTransaction(request);
 
             return Helper.BindSuccessResult(response);
-        }
-
-        /**
-    * Authorize Transaction with User Fields REST Example
-    * @return
-    */
-        public Result authTransactionWithUserFields(PaymentDto paymentDto)
-        {
-
-            Result result = new Result();
-
-            var ccRestClient = new CardConnectRestClient(_tenant.CCUrl, _tenant.CCUserName, _tenant.CCPassword);
-
-            // Create Authorization Transaction request
-            JObject request = new JObject();
-            // Merchant ID
-            request.Add("merchid", _tenant.MID);
-            // Card Type
-            request.Add("accttype", "ZI");
-            // Card Number
-            request.Add("account", paymentDto.Account);
-            // Card Expiry
-            request.Add("expiry", paymentDto.Expiry);
-            // Card CCV2
-            request.Add("cvv2", paymentDto.CCV);
-            // Transaction amount
-            request.Add("amount", paymentDto.Amount);
-            // Transaction currency
-            request.Add("currency", paymentDto.Currency);
-            // Order ID
-            request.Add("orderid", paymentDto.OrderId);
-            // Cardholder Name
-            request.Add("name", paymentDto.Name);
-            // Cardholder Address
-            request.Add("Street", "123 Test St");
-            // Cardholder City
-            request.Add("city", "TestCity");
-            // Cardholder State
-            request.Add("region", "TestState");
-            // Cardholder Country
-            request.Add("country", "US");
-            // Cardholder Zip-Code
-            request.Add("postal", "11111");
-            // Return a token for this card number
-            request.Add("tokenize", "N");
-
-            // Create user fields
-            JArray fields = new JArray();
-            JObject field = new JObject();
-            field.Add("Tips", 11);
-            fields.Add(field);
-            request.Add("userfields", fields);
-
-            // Send an AuthTransaction request
-            JObject response = ccRestClient.authorizeTransaction(request);
-
-            return Helper.BindSuccessResult(response);
-
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO.Location;
 using Strive.BusinessEntities.DTO.MembershipSetup;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessEntities.ViewModel;
@@ -42,6 +43,12 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Membership.USPDELETEMEMBERSHIP.ToString(), _prm);
             return true;
         }
+        public bool DeleteVehicleMembershipById(int ClientMembershipid)
+        {
+            _prm.Add("ClientMembershipId", ClientMembershipid);
+            db.Save(EnumSP.Vehicle.USPDELETEVEHICLEMEMBERSHIP.ToString(), _prm);
+            return true;
+        }
 
         public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
@@ -56,9 +63,12 @@ namespace Strive.ResourceAccess
         public List<AllMembershipViewModel> GetMembershipSearch(MembershipSearchDto search)
         {
             _prm.Add("@MembershipSearch", search.MembershipSearch);
+            _prm.Add("@LocationId", search.LocationId);
             var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
             return result;
         }
+
+
         public bool GetVehicleMembershipByMembershipId(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);
@@ -73,9 +83,10 @@ namespace Strive.ResourceAccess
             }
         }
 
-        public List<MembershipNameViewModel> GetAllMembershipName()
+        public List<MembershipNameViewModel> GetAllMembershipName(int locationId)
         {
-            return db.Fetch<MembershipNameViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIPNAME.ToString(), null);
+            _prm.Add("@LocationId", locationId);
+            return db.Fetch<MembershipNameViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIPNAME.ToString(), _prm);
         }
 
     }

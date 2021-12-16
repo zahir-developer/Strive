@@ -16,6 +16,8 @@ Description         : To Get Employee PayRoll for Last Two Week
 FRS					: Payroll
 -----------------------------------------------------------------------------------------
 --[StriveCarSalon].[uspGetPayrollList] 20,'2021-04-08','2021-04-23'
+03-06-2021 - Vetriselvi OverTime Pay calculation and excluded overtime hours in total wash hours
+  4  |  2021-June-08  | Vetriselvi  | Added Location filter in Collision  
 */
 as begin
   

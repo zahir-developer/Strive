@@ -10,7 +10,7 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public List<DailyStatusDetailInfoViewModel> DailyStatusDetailInfo { get; set; }
 
-        public DailyStatusWashInfoViewModel DailyStatusWashInfo { get; set; }
+        public List<DailyStatusWashInfoViewModel> DailyStatusWashInfo { get; set; }
 
     }
 }
