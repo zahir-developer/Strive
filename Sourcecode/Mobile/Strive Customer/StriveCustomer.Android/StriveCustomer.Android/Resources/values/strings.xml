@@ -17,4 +17,19 @@
     <string name="email">Email</string>
     <string name="defaultScheduleText">**Vehicle up charges may apply** Hand wash Shampoo carpets, upholstery Clean leather Clean interior paneling Detail dash and console Treat condition all leather Clean windows, mirrors Shampoo headliner Degrease and clean all jams Silicone tires</string>
     <string name="defaultScheduleServiceText">Hand wash Shampoo carpets, upholstery Clean leather Clean interior paneling Detail dash and console Treat condition all leather Clean windows, mirrors Shampoo headliner Degrease and clean all jams Silicone tires</string>
+    <string name="termsStringHeader">I authorize: NEW MAMMOTH DETAIL SALON</string>
+    <string name="termsStringOne">To keep my signature on file and to charge my Credit Card Account on file for:</string>
+    <string name="termsStringTwo">Switch Membership Fee: $20.00</string>
+    <string name="termsStringThree">Split into monthly recurring charges of</string>
+    <string name="terms">
+• In consideration of first month as a discounted/prorated price point, next month MUST BE PAID. Cancel any time after 1st month is paid.
+• I understand this form is valid for an undetermined time period month to month. Cancellation must be given, in person, by the 25th of any month in order to avoid being charged on the first of the next month. Cancellation is INVALID unless signed AND approved by a manager of our management team. You must come in to one of our stores and sign a Cancellation Form in order for the request to be processed. (Only by filling out cancellation form) 
+• Agreement is by each vehicle. Vehicles may be switched or exchanged for another vehicle with a $20.00 service charge. New vehicle will be placed under a new contract and the old vehicle will be taken off any contractual agreement previously in place.
+• All returned or NSF payments will be assessed an additional $20.00 if payment of contract is not collected after the 5th day of the due date. Mammoth will not serve clients with more than 1 NSF.
+• Payment amounts may change during the contract agreement depending on cancellations and/ or additional contracts of any other vehicle under the contract. Variations of 1st, 2nd and 3rd vehicles can/will cause a price increase or decrease.
+• Additional services outside of Monthly contract agreement will be paid at time of service rendered. If for some reason payment was not made at time of service, the credit card information NEW MAMMOTH DETAIL SALON has on file will be used to pay for the additional services rendered.
+•  NEW MAMMOTH DETAIL SALON has normal business hours posted; however, weather will dictate if the business will be closed from time to time. Store hours change throughout the year due to Daylight Savings Time.
+• Normal wash times are 30 to 80 minutes, although longer wash times may occur during uncommon rushes.
+• Please Note: Prices May change without notice. Please keep in mind the two Alpharetta Locations are billed separately from Holcomb Bridge Location. 
+</string>
 </resources>

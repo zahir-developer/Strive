@@ -1,0 +1,231 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mobile_portrait_bg">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2FCFE">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Vehicle"
+            android:textSize="16sp"
+            android:textColor="@color/profileInfoColor"
+            android:fontFamily="@font/opensans_bold"/>
+        <Button
+            android:id="@+id/paymentBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Back" 
+        />
+        
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:text="Pay"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/ten"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/opensans_bold"   
+     />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/twenty"
+        android:layout_marginLeft="@dimen/twenty"
+        android:layout_marginRight="@dimen/twenty"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/secondarylinearlayout">
+     
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"            
+            android:weightSum="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Customer Name"
+                android:paddingTop="@dimen/twenty"
+                android:paddingLeft="@dimen/twelve"
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@color/profileQColor"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_regular"               
+                android:layout_weight="0.5"
+            />            
+            <TextView
+                android:id="@+id/customerName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/twenty"
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@color/profileQColor"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_weight="0.5"
+            />
+          </LinearLayout>
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Total Amount"
+                android:paddingLeft="@dimen/twelve"
+                android:paddingTop="@dimen/twelve"                
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@color/profileQColor"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_regular"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/totalAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/twelve"                
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@color/profileQColor"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_weight="1"
+            />
+          </LinearLayout>
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Info"
+            android:paddingTop="@dimen/twelve"
+            android:paddingLeft="@dimen/twelve"
+            android:paddingBottom="@dimen/twelve"
+            android:textSize ="@dimen/textSixteen"
+            android:fontFamily="@font/opensans_bold"
+            android:textColor="@color/profileInfoColor"
+          />
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Card Number"
+                android:paddingTop="@dimen/twelve"
+                android:paddingLeft="@dimen/twelve"
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@color/profileQColor"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_regular"
+                android:layout_weight="0.5"/>
+            <EditText
+                android:id="@+id/cardNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/twelve"                
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@android:color/black"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_weight="0.5"
+                android:inputType="number"
+                android:maxLength="16"
+                android:hint="XXXX-XXXX-XXXX-XXXX"
+                android:textColorHint="@color/material_grey_600"
+            />
+          </LinearLayout>
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Expiration Date"
+                android:paddingTop="@dimen/twelve"
+                android:paddingLeft="@dimen/twelve"
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@color/profileQColor"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_regular"
+                android:layout_weight="1"/>
+            <EditText
+                android:id="@+id/expirationDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/twelve"               
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@android:color/black"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_weight="1"
+                android:inputType="date"
+                android:maxLength="5"
+                android:hint="Expiration Date"
+                android:textColorHint="@color/material_grey_600"
+            />
+          </LinearLayout>
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Security Code(CVV)"                
+                android:paddingTop="@dimen/twelve"
+                android:paddingLeft="@dimen/twelve"
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@color/profileQColor"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_regular"
+                android:layout_weight="1"/>
+            <EditText
+                android:id="@+id/CVV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/twelve"                
+                android:paddingBottom="@dimen/twelve"
+                android:textColor="@android:color/black"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_weight="1"
+                android:inputType="numberPassword"
+                android:maxLength="3"
+                android:hint="CVV"
+                android:textColorHint="@color/material_grey_600"
+            />
+          </LinearLayout>
+          <Button
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/payButton"
+             android:layout_marginLeft="@dimen/twenty"
+             android:layout_marginRight="@dimen/twenty"
+             android:layout_marginBottom="@dimen/twenty"
+             android:layout_marginTop="@dimen/thirty"
+             android:text="Pay"
+             android:textColor="@android:color/white" 
+             android:background="@color/profileInfoColor"
+          />
+    </LinearLayout>
+      
+</LinearLayout>

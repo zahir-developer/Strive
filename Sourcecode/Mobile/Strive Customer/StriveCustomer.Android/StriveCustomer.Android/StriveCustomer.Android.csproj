@@ -91,6 +91,7 @@
     <Compile Include="Fragments\PastDetailsFragment.cs" />
     <Compile Include="Fragments\PastDetailsInfoFragment.cs" />
     <Compile Include="Fragments\PastDetailsPageFragment.cs" />
+    <Compile Include="Fragments\PaymentScreenFragment.cs" />
     <Compile Include="Fragments\PersonalInfoEditFragment.cs" />
     <Compile Include="Fragments\PersonalInfoFragment.cs" />
     <Compile Include="Fragments\ScheduleAppointmentFragment.cs" />
@@ -966,6 +967,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ScheduleConfirmationFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PaymentScreenFragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
