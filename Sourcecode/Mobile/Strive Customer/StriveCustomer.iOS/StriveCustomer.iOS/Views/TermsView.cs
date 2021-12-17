@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
@@ -15,6 +17,7 @@ namespace StriveCustomer.iOS.Views
         public TermsView() : base("TermsView", null)
         {
         }
+       
         public double Total = 0;
         public List<string> SelectedAdditionalServices = new List<string>();
         public static UIImage contract;
@@ -70,10 +73,11 @@ namespace StriveCustomer.iOS.Views
         public void GetTotal ()
         {
             double MembershipAmount = VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price;
-            var SelectedServices = MembershipDetails.completeList.ServicesWithPrice.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
+            
+            var SelectedServices = VehicleAdditionalServiceViewModel.serviceList.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
             foreach (var Service in SelectedServices)
             {
-                if (Service.Price != null)
+                if (Service.Price != 0)
                 {
                     
                     //Console.WriteLine(Service.Upcharges.Split("-")[1].Substring(3));

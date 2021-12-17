@@ -13,7 +13,7 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class VehicleAdditionalServiceViewModel : BaseViewModel
     {
-        public ObservableCollection<AllServiceDetail> serviceList { get; set; } = new ObservableCollection<AllServiceDetail>();
+        public static ObservableCollection<AllServiceDetail> serviceList { get; set; } = new ObservableCollection<AllServiceDetail>();
         public List<ServiceDetail> DefaultServices { get; set; } = new List<ServiceDetail>();
         public VehicleAdditionalServiceViewModel()
         {           
@@ -31,9 +31,10 @@ namespace Strive.Core.ViewModels.Customer
         {
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.GetScheduleServices(1);
-
+            serviceList.Clear();
             if (result != null)
             {
+
                 foreach (var item in result.AllServiceDetail)
                 {
                     if (item.ServiceTypeName == "Additional Services")
@@ -42,6 +43,7 @@ namespace Strive.Core.ViewModels.Customer
                     }
                 }
             }
+           
         }
         public async void NavtoTermsCondition()
         {

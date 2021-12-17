@@ -135,6 +135,18 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                     }
                     
                 }
+                else
+                {
+                    if (ViewModel.isDiscoutAvailable == true)
+                    {
+                        MembershipData.CalculatedPrice = MembershipData.SelectedMembership.DiscountedPrice;
+                    }
+                    else
+                    {
+                        MembershipData.CalculatedPrice = MembershipData.SelectedMembership.Price;
+                    }
+                }
+
             }
             //
 

@@ -101,6 +101,7 @@ namespace Strive.Core.ViewModels.Customer
         }
         public async Task BackCommand()
         {
+            CustomerInfo.MembershipFee = 0;
             await _navigationService.Navigate<VehicleMembershipViewModel>();
         }
 

@@ -63,7 +63,7 @@ namespace StriveCustomer.iOS.Views
         {
             await this.ViewModel.AddUpchargesToServiceList();
 
-            var source = new AdditionalServicesDataSource(ViewModel.serviceList);
+            var source = new AdditionalServicesDataSource(VehicleAdditionalServiceViewModel.serviceList);
             AdditionalServicesTableView.Source = source;
             AdditionalServicesTableView.TableFooterView = new UIView(CGRect.Empty);
             AdditionalServicesTableView.DelaysContentTouches = false;

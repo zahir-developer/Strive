@@ -248,8 +248,6 @@ namespace StriveCustomer.iOS.Views
         private async void ScanQrCodeButton_TouchUpInsideAsync(object sender, EventArgs e)
         {
             string CurrentDate = DateTime.Today.ToString("yyyy-MM-dd");
-
-
             if (DealsViewModel.TimePeriod == 3)
             {
                 if ((DateTime.Today.Date <= DateTime.Parse(DealsViewModel.enddate).Date))
@@ -270,7 +268,7 @@ namespace StriveCustomer.iOS.Views
 
                             await ViewModel.AddClientDeals();
                             ValidateDeals(false);
-                            CouponValidity();
+                            
 
                             //_userDialog.HideLoading();
                         }
@@ -307,7 +305,7 @@ namespace StriveCustomer.iOS.Views
 
                         await ViewModel.AddClientDeals();
                         ValidateDeals(false);
-                        CouponValidity();
+                        
 
                         //_userDialog.HideLoading();
                     }
