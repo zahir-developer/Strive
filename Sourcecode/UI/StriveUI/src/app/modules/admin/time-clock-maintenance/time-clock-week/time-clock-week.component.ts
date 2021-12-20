@@ -258,8 +258,8 @@ export class TimeClockWeekComponent implements OnInit {
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(time => {
-        const inEventDate = new Date(time.EventDate);
-        const outEventDate = new Date(time.EventDate);
+        const inEventDate = new Date(time.EventDate + 'T00:00:00');
+        const outEventDate = new Date(time.EventDate + 'T00:00:00');
         const inTime = time.InTime.split(':');
         const outTime = time.OutTime.split(':');
         const inTimeHours = +inTime[0];

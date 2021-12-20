@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input,Output, EventEmitter } from '@angular/core';
 import { StateDropdownComponent } from '../state-dropdown/state-dropdown.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -21,6 +21,7 @@ export class ClientFormComponent implements OnInit {
   Status: any;
   State: any;
   Score: any;
+  @Output() isCreditAccount: EventEmitter<any> = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
@@ -150,6 +151,7 @@ export class ClientFormComponent implements OnInit {
     this.selectedCityId = this.selectedData.City;
     this.city = this.selectedCityId;
     this.creditCheck = this.selectedData.IsCreditAccount
+    this.isCreditAccount.emit(this.selectedData.IsCreditAccount);      
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
       lName: this.selectedData.LastName,
@@ -187,10 +189,12 @@ export class ClientFormComponent implements OnInit {
       this.isAmount = true;
       this.clientForm.get('amount').setValidators([Validators.required]);
       this.clientForm.controls.amount.enable();
+      this.isCreditAccount.emit(true);      
     } else {
       this.isAmount = false;
       this.clientForm.get('amount').clearValidators();
       this.clientForm.controls.amount.disable();
+      this.isCreditAccount.emit(false);
     }
   }
 

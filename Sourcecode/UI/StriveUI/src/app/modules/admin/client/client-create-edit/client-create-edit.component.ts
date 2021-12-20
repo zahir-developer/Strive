@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { AddActivityComponent } from '../../gift-card/add-activity/add-activity.component';
 import { AddActivityAdditionalComponent } from '../../gift-card/add-activity-additional/add-activity-additional.component';
+import { duration } from 'moment';
 
 
 @Component({
@@ -51,11 +52,13 @@ export class ClientCreateEditComponent implements OnInit {
   isVehicleEdit: boolean;
   clonedVehicleDetails = [];
   clonedAccountDetails = [];
+  showActivity : boolean;
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
 
   ngOnInit() {
+    this.showActivity = true;
     this.employeeId = +localStorage.getItem('empId');
     this.isVehicleEdit = false;
     this.getService();
@@ -68,6 +71,11 @@ export class ClientCreateEditComponent implements OnInit {
       this.vehicleNumber = 1;
     }
   }
+  
+  change(data) {
+    this.showActivity = data;
+  }
+
 //Get Activity By ClientId
 getClientActivity(id) {
   this.client.getActivityByClientId(id).subscribe(data => {
@@ -281,11 +289,11 @@ getClientActivity(id) {
       size: 'lg'
     };
     const modalRef = this.modalService.open(AddActivityAdditionalComponent, ngbModalOptions);
-    modalRef.componentInstance.clientId = this.selectedData.ClientId;    
+    modalRef.componentInstance.clientId = this.selectedData.ClientId; 
     modalRef.componentInstance.header = "Add Activity";
-
+  
     modalRef.componentInstance.userActivity.subscribe((receivedEntry) => {
-      const activityObj = {
+     const activityObj = {
         clientId: this.isEdit ? this.selectedData.ClientId : 0,
         CreditAccountHistoryId: receivedEntry.CreditAccountHistoryId == undefined ? 0 : receivedEntry.CreditAccountHistoryId,
         Amount:receivedEntry.amount,
