@@ -249,6 +249,15 @@ namespace Admin.API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
     IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings, IAntiforgery antiforgery, ILoggerFactory logger)
         {
+            //if(env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Error");
+            //}
+
             app.UseSwagger();
             //app.UseSwaggerUI(options => { options.SwaggerEndpoint(Configuration["StriveAdminSettings:VirtualDirectory"] + "swagger.json", "Strive-Admin - v1"); });
             app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "StriveAdminApi"); });

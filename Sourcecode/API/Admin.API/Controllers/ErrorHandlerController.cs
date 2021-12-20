@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,9 +26,40 @@ namespace Admin.API.Controllers
             _logger = logger;
         }
 
+        
         [HttpGet]
-        [Route("Log")]
+        [AllowAnonymous]
+        [Route("ThrowError")]
+        public Result ThrowError()
+        {
+            var ex = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            var exDetails = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            _logger.LogInformation("Throwing Error.!");
+
+            throw new Exception();
+
+        }
+
+
+        [Route("Error")]
+        [HttpGet]
+        [AllowAnonymous]
         public Result Error()
+        {
+            //var ex = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            //var exDetails = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            _logger.LogInformation("Error log called...!");
+
+            return Helper.BindValidationErrorResult("testing");
+
+        }
+
+        [Route("Log")]
+        [AllowAnonymous]
+        [HttpGet]
+        public Result Log()
         {
             //var ex = HttpContext.Features.Get<IExceptionHandlerFeature>();
 

@@ -7,6 +7,7 @@ using Strive.Common;
 using System;
 using System.Linq;
 using Strive.BusinessLogic.Auth;
+using Microsoft.Extensions.Logging;
 
 namespace Admin.API.Filters
 {
@@ -14,14 +15,17 @@ namespace Admin.API.Filters
     {
         private readonly IConfiguration _config;
         private readonly IDistributedCache _cache;
+        private readonly ILogger _logger;
         readonly ITenantHelper _tenant;
         readonly GData _gdata = new GData();
 
-        public AdminPayloadFilter(IConfiguration conf, IDistributedCache cache, ITenantHelper tenantHelper)
+
+        public AdminPayloadFilter(IConfiguration conf, IDistributedCache cache, ITenantHelper tenantHelper, ILogger<AdminPayloadFilter> logger)
         {
             _config = conf;
             _cache = cache;
             _tenant = tenantHelper;
+            _logger = logger;
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -32,6 +36,12 @@ namespace Admin.API.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
+
+            if(context.Exception != null)
+            {
+                _logger.LogError($"Error Message:  {context.Exception.Message}, Stack Info:  { context.Exception.StackTrace } ");
+            }
+
         }
 
         private string Pick(string section, string name)
