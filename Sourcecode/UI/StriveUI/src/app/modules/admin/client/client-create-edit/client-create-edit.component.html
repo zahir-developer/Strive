@@ -106,7 +106,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let activity of activityDetails | orderBy:sort.column:'CreditAccountId':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let activity of activityDetails | orderBy:sort.column:'CreditAccountId':sort.descending | slice: (activityPage-1) * activityPageSize : (activityPage-1) * activityPageSize + activityPageSize">
                                                     <td>{{activity.CreditAccountHistoryId}}</td>
                                                     <td>{{activity.Amount }}</td>
                                                     <td>{{activity.Comments }}</td>
@@ -127,8 +127,8 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
-                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                        <ngb-pagination *ngIf="activityCollectionSize > 10" [collectionSize]="activityCollectionSize"
+                                            [(page)]="activityPage" [maxSize]="3" [rotate]="true" [ellipses]="false"
                                             [boundaryLinks]="true" class="d-flex justify-content-end">
                                         </ngb-pagination>
                                     </div>

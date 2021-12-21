@@ -40,7 +40,10 @@ export class ClientCreateEditComponent implements OnInit {
   clientId: number = 0;
   page = 1;
   pageSize = 3;
+  activityPage = 1;
+  activityPageSize = 3;
   collectionSize: number = 0;
+  activityCollectionSize: number = 0;
   deleteIds = [];
   additionalService: any = [];
   vehicleNumber: number;
@@ -86,6 +89,7 @@ getClientActivity(id) {
           this.activityDetails=activityData.CreditAccountDetail.ClientActivityHistoryViewModel;
 
           this.clonedAccountDetails.push(this.activityDetails);
+          this.activityCollectionSize = Math.ceil(this.activityDetails.length / this.activityPageSize) * 10;
       }
       if(activityData.CreditAccountDetail.ClientActivityStatementViewModel)
       {
@@ -311,6 +315,8 @@ getClientActivity(id) {
           this.activityDetails.push(item);
         });
       }
+
+      this.activityCollectionSize = Math.ceil(this.activityDetails.length / this.activityPageSize) * 10;
       modalRef.close();
      
       })
