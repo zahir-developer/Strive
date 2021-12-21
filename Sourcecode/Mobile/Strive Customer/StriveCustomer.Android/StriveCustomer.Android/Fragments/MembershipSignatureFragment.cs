@@ -27,9 +27,14 @@ namespace StriveCustomer.Android.Fragments
         private Button doneButton;
         private Button cancelButton;
         private TermsAndConditionsFragment termsFragment;
-        private VehicleAdditionalServicesFragment additionalServicesFragment;
+        private PaymentScreenFragment paymentScreenFragment;
         private VehicleMembershipFragment membershipFragment;
         private MyProfileInfoFragment myProfileInfoFragment;
+        private ImageView signatureImage;
+        private ImageView contractView;
+        private ImageView termsAndConditions;
+        private LinearLayout finalTermsView;
+        private LinearLayout signatureLayout;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,15 +47,20 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater,container,savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.MembershipSignatureFragment,null);
             termsFragment = new TermsAndConditionsFragment();
-            myProfileInfoFragment = new MyProfileInfoFragment();
-            additionalServicesFragment = new VehicleAdditionalServicesFragment();
+            paymentScreenFragment = new PaymentScreenFragment();
+            myProfileInfoFragment = new MyProfileInfoFragment();            
             membershipFragment = new VehicleMembershipFragment();
             this.ViewModel = new MembershipSignatureViewModel();
             nextButton = rootview.FindViewById<Button>(Resource.Id.signatureNext);
             backButton = rootview.FindViewById<Button>(Resource.Id.signatureBack);
             doneButton = rootview.FindViewById<Button>(Resource.Id.doneSignature);
             cancelButton = rootview.FindViewById<Button>(Resource.Id.cancelSignature);
-            signatuerPad = rootview.FindViewById<SignaturePadView>(Resource.Id.signatureView);
+            signatuerPad = rootview.FindViewById<SignaturePadView>(Resource.Id.signaturePadView);
+            signatureImage = rootview.FindViewById<ImageView>(Resource.Id.signatureView);
+            contractView = rootview.FindViewById<ImageView>(Resource.Id.contractPriceView);
+            termsAndConditions = rootview.FindViewById<ImageView>(Resource.Id.termsConditionView);
+            finalTermsView = rootview.FindViewById<LinearLayout>(Resource.Id.finalTermsView);
+            signatureLayout = rootview.FindViewById<LinearLayout>(Resource.Id.signatureLayout);
             signatuerPad.CaptionText = "";
             signatuerPad.SignaturePromptText = "";
             nextButton.Click += NextButton_Click;
@@ -97,20 +107,32 @@ namespace StriveCustomer.Android.Fragments
             }
             else
             {
+                contractView.SetImageBitmap(TermsAndConditionsFragment.contractImage);
+                signatureImage.SetImageBitmap(signatuerPad.GetImage());
+                signatureLayout.Visibility = ViewStates.Gone;
+                finalTermsView.Visibility = ViewStates.Visible;                
                 nextButton.Visibility = ViewStates.Visible;
             }
         }
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
+            if (finalTermsView.Visibility == ViewStates.Gone)
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
+            }
+            else 
+            {
+                finalTermsView.Visibility = ViewStates.Gone;
+                signatureLayout.Visibility = ViewStates.Visible; 
+            }
         }
 
         private void NextButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, paymentScreenFragment).Commit();
         }
     }
 

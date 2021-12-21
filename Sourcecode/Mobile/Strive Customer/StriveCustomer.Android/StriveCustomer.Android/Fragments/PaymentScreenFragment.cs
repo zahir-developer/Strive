@@ -34,7 +34,7 @@ namespace StriveCustomer.Android.Fragments
         private Button payButton;
         private Button paymentBackButton;
         PaymentViewModel paymentVM;
-        TermsAndConditionsFragment termsFragment;
+        MembershipSignatureFragment signatureFragment;
         MyProfileInfoFragment infoFragment;
         public float Amount;
         public long JobID;
@@ -61,7 +61,7 @@ namespace StriveCustomer.Android.Fragments
             paymentBackButton = rootView.FindViewById<Button>(Resource.Id.paymentBackButton);
             paymentVM = new PaymentViewModel();
             infoFragment = new MyProfileInfoFragment();
-            termsFragment = new TermsAndConditionsFragment();            
+            signatureFragment = new MembershipSignatureFragment();            
 #if DEBUG
             cardNo.Text = "6011000995500000";
             expirationDate.Text = "12/21";
@@ -77,10 +77,9 @@ namespace StriveCustomer.Android.Fragments
         }
 
         private void PaymentBackButton_Click(object sender, EventArgs e)
-        {
-            //MyProfileInfoNeeds.selectedTab = 2;
+        {           
             AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, signatureFragment).Commit();
         }
 
         public void GetTotal()

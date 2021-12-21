@@ -26,7 +26,7 @@ namespace StriveCustomer.Android.Fragments
         private ListView additionalService;
         private AdditionalServicesAdapter additionalServicesAdapter;
         private VehicleUpChargesFragment upChargesFragment;
-        private MembershipSignatureFragment membershipSignature;
+        private TermsAndConditionsFragment termsAndConditionsFragment;
         private Button backButton;
         private Button nextButton;
         public override void OnCreate(Bundle savedInstanceState)
@@ -40,7 +40,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.VehicleAdditionalServicesFragment, null);
             this.ViewModel = new VehicleAdditionalServiceViewModel();
             upChargesFragment = new VehicleUpChargesFragment();
-            membershipSignature = new MembershipSignatureFragment();
+            termsAndConditionsFragment = new TermsAndConditionsFragment();
             additionalService = rootview.FindViewById<ListView>(Resource.Id.additionalOptions);
             backButton = rootview.FindViewById<Button>(Resource.Id.serviceBack);
             nextButton = rootview.FindViewById<Button>(Resource.Id.serviceNext);
@@ -53,13 +53,13 @@ namespace StriveCustomer.Android.Fragments
         private void NextButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipSignature).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsAndConditionsFragment).Commit();
         }
         private async void getAdditionalServices()
         {
             await this.ViewModel.AddUpchargesToServiceList();
 
-            additionalServicesAdapter = new AdditionalServicesAdapter(Context, ViewModel.serviceList);
+            additionalServicesAdapter = new AdditionalServicesAdapter(Context, VehicleAdditionalServiceViewModel.serviceList);
             additionalService.SetAdapter(additionalServicesAdapter);
         }
         private void BackButton_Click(object sender, EventArgs e)

@@ -6,9 +6,12 @@ using System.Text;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
+using Android.Text;
+using Android.Text.Style;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -23,9 +26,10 @@ namespace StriveCustomer.Android.Fragments
     {
         private TextView AgreeTextView;
         private TextView DisagreeTextView;
-        private TextView termsandconditionsTextView;
+        private ImageView termsandconditionsImage;
         private Button backButton;
         private VehicleMembershipDetailsViewModel vehicleMembershipVM;
+        VehicleAdditionalServicesFragment additionalServicesFragment;
         MyProfileInfoFragment infoFragment;
         MembershipSignatureFragment signatureFragment;
         PaymentScreenFragment paymentScreenFragment;
@@ -44,6 +48,9 @@ namespace StriveCustomer.Android.Fragments
         private TextView MonthlyCharges;
         private TextView StartingDate;
         private TextView EndingDate;
+        private TextView MonthlyRecurString;
+        private LinearLayout parentView;
+        public static Bitmap contractImage;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -53,11 +60,11 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.TermsAndConditionsFragment, null);
-            infoFragment = new MyProfileInfoFragment();
-            paymentScreenFragment = new PaymentScreenFragment();
+            infoFragment = new MyProfileInfoFragment();           
+            additionalServicesFragment = new VehicleAdditionalServicesFragment();
             signatureFragment = new MembershipSignatureFragment();
             vehicleMembershipVM = new VehicleMembershipDetailsViewModel();
-            termsandconditionsTextView = rootview.FindViewById<TextView>(Resource.Id.termsandconditionsDetail);
+            termsandconditionsImage = rootview.FindViewById<ImageView>(Resource.Id.termsandconditionsDetail);
             AgreeTextView = rootview.FindViewById<TextView>(Resource.Id.textAgree);
             DisagreeTextView = rootview.FindViewById<TextView>(Resource.Id.textDisagree);
             backButton = rootview.FindViewById<Button>(Resource.Id.signatureBack);
@@ -79,6 +86,9 @@ namespace StriveCustomer.Android.Fragments
             MonthlyCharges = rootview.FindViewById<TextView>(Resource.Id.monthlyCharges);
             StartingDate = rootview.FindViewById<TextView>(Resource.Id.startingDate);
             EndingDate = rootview.FindViewById<TextView>(Resource.Id.endingDate);
+            MonthlyRecurString = rootview.FindViewById<TextView>(Resource.Id.monthlyRecurString);
+            parentView = rootview.FindViewById<LinearLayout>(Resource.Id.parentView);
+            TermsDocument();
 
             string Datenow = DateTime.Now.Date.ToString("yyyy-MM-dd");
             StartingDate.Text = new DateTime(DateTime.Now.Date.AddMonths(1).Year, DateTime.Now.Date.AddMonths(1).Month, 1).ToString("yyyy-MM-dd");
@@ -101,10 +111,17 @@ namespace StriveCustomer.Android.Fragments
             AgreeTextView.Click += AgreeTextView_Click;
             DisagreeTextView.Click += DisagreeTextView_Click;
             backButton.Click += BackButton_Click;
-            //termsandconditionsTextView.Text = "In consideration of first month as a discounted/prorated price point,next month MUST BE PAID . Cancel any time after 1st month is paid.To understand this form is valid for an undetermined time period month to month.Cancellation must be given, in person, by the 25 of any month in order to avoid being charged on the first of the next month. Cancellation is INVALID unless signed AND approved by a manager of our management team. You must come in to one of our stores and sign a Cancellation Form in order for the request to be processed. (Only by filling out cancellation form). Agreement is by each vehicle.Vehicles may be switched or exchanged for another vehicle with a $20.00 service charge.New vehicle will be placed under a new contract and the old vehicle will be taken off any contractual agreement previously in place.All returned or NSF payments will be assessed an additional $20.00 if payment of contract is not collected after the 5 day of the due date. Mammoth will not serve clients with more than one NSF or chargeback from bad card.";
-           // termsandconditionsTextView.Text = "• In consideration of first month as a discounted/prorated price point, next month MUST BE PAID. Cancel any time after 1st month is paid. • I understand this form is valid for an undetermined time period month to month.Cancellation must be given, in person, by the 25th of any month in order to avoid being charged on the first of the next month.Cancellation is INVALID unless signed AND approved by a manager of our management team.You must come in to one of our stores and sign a Cancellation Form in order for the request to be processed. (Only by filling out cancellation form)  • Agreement is by each vehicle.Vehicles may be switched or exchanged for another vehicle with a $20.00 service charge.New vehicle will be placed under a new contract and the old vehicle will be taken off any contractual agreement previously in place. • All returned or NSF payments will be assessed an additional $20.00 if payment of contract is not collected after the 5th day of the due date. Mammoth will not serve clients with more than 1 NSF. • Payment amounts may change during the contract agreement depending on cancellations and/ or additional contracts of any other vehicle under the contract.Variations of 1st, 2nd and 3rd vehicles can / will cause a price increase or decrease. • Additional services outside of Monthly contract agreement will be paid at time of service rendered.If for some reason payment was not made at time of service, the credit card information NEW MAMMOTH DETAIL SALON has on file will be used to pay for the additional services rendered. • NEW MAMMOTH DETAIL SALON has normal business hours posted, however, weather will dictate if the business will be closed from time to time.Store hours change throughout the year due to Daylight Savings Time. • Normal wash times are 30 to 80 minutes, although longer wash times may occur during uncommon rushes. • Please Note: Prices May change without notice.Please keep in mind the two Alpharetta Locations are billed separately from Holcomb Bridge Location";
+            
             return rootview;
         }
+        void TermsDocument() 
+        {
+            SpannableString s1 = new SpannableString("Split into monthly recurring charges of");           
+            s1.SetSpan(new BackgroundColorSpan(Color.Yellow), 11, 28, SpanTypes.ExclusiveExclusive);
+            MonthlyRecurString.TextFormatted = s1;           
+            
+        }
+
         public void GetTotal()
         {
             double MembershipAmount = VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price;
@@ -146,7 +163,7 @@ namespace StriveCustomer.Android.Fragments
         private void BackButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, signatureFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
         }
 
         private async void DisagreeTextView_Click(object sender, EventArgs e)
@@ -163,23 +180,33 @@ namespace StriveCustomer.Android.Fragments
 
         private void AgreeTextView_Click(object sender, EventArgs e)
         {
-            // MyProfileInfoNeeds.selectedTab = 2;
+            contractImage = GetBitmapFromView(parentView);                       
             AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, paymentScreenFragment).Commit();
-            //if (CheckMembership.hasExistingMembership && CustomerVehiclesInformation.membershipDetails == null)
-            //{
-            //    await vehicleMembershipVM.CancelMembership();
-            //    CheckMembership.hasExistingMembership = false;
-            //}
-            //var result = await ViewModel.AgreeMembership();
-            //if(result)
-            //{
-            //    SignatureClass.signaturePoints = null;
-            //    MyProfileInfoNeeds.selectedTab = 1;
-            //    AppCompatActivity activity = (AppCompatActivity)Context;
-            //    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
-            //}
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, signatureFragment).Commit();         
 
+        }
+        private Bitmap GetBitmapFromView(View view)
+        {
+            //Define a bitmap with the same size as the view
+            Bitmap returnedBitmap = Bitmap.CreateBitmap(view.Width, view.Height, Bitmap.Config.Argb8888);
+            //Bind a canvas to it
+            Canvas canvas = new Canvas(returnedBitmap);
+            //Get the view's background
+            Drawable bgDrawable = view.Background;
+            if (bgDrawable != null)
+            {
+                //has background drawable, then draw it on the canvas
+                bgDrawable.Draw(canvas);
+            }
+            else
+            {
+                //does not have background drawable, then draw white background on the canvas
+                canvas.DrawColor(Color.White);
+            }
+            // draw the view on the canvas
+            view.Draw(canvas);
+            //return the bitmap
+            return returnedBitmap;
         }
     }
 }
