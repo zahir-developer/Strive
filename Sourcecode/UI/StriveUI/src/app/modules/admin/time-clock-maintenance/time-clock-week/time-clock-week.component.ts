@@ -258,8 +258,14 @@ export class TimeClockWeekComponent implements OnInit {
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(time => {
-        const inEventDate = this.getUTCTime(new Date(time.EventDate));
-        const outEventDate = this.getUTCTime(new Date(time.EventDate));
+        var oDate = "";
+        if(time.EventDate.includes('T00:00:00')){
+          oDate = time.EventDate;
+        }else{
+          oDate = time.EventDate + 'T00:00:00';
+        }
+        const inEventDate = new Date(oDate);
+        const outEventDate = new Date(oDate);
         const inTime = time.InTime.split(':');
         const outTime = time.OutTime.split(':');
         const inTimeHours = +inTime[0];
@@ -468,13 +474,6 @@ export class TimeClockWeekComponent implements OnInit {
 
   }
 
-  getUTCTime(date)
-  {
-    return new Date(date.getUTCFullYear(),
-                                            date.getUTCMonth(),
-                                            date.getUTCMonth(),
-                                            date.getUTCDate());
-  }
 
 
 
