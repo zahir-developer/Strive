@@ -15,6 +15,7 @@ using Java.Util;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.Android.Adapter;
 
@@ -23,6 +24,7 @@ namespace StriveCustomer.Android.Fragments
     public class ScheduleAppointmentFragment : MvxFragment<ScheduleAppointmentDateViewModel>
     {
         private GridView TimeSlot_GridView;
+        private TextView SlotTxtView;
         private CalendarView schedule_CalendarView;
         private Button Cancel_Button;
         private Button Next_Button;
@@ -33,6 +35,8 @@ namespace StriveCustomer.Android.Fragments
         private int day, year, month;
         private Calendar calendar;
         private DateTime dt;
+        public AvailableScheduleSlots updatedScheduleSlotInfo { get; set; }
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -50,7 +54,8 @@ namespace StriveCustomer.Android.Fragments
             Cancel_Button = rootView.FindViewById<Button>(Resource.Id.cancelAppointment_Button);
             Next_Button = rootView.FindViewById<Button>(Resource.Id.scheduleAppointment_NextButton);
             Next_Button.Click += Next_Button_Click;
-            Back_Button = rootView.FindViewById<Button>(Resource.Id.scheduleAppoitment_BackButton); 
+            Back_Button = rootView.FindViewById<Button>(Resource.Id.scheduleAppoitment_BackButton);
+            SlotTxtView = rootView.FindViewById<TextView>(Resource.Id.slotTextView);
             Back_Button.Click += Back_Button_Click;
             schedule_CalendarView.DateChange += Schedule_CalendarView_DateChange1;
             Cancel_Button.Click += Cancel_Button_Click;
@@ -100,81 +105,83 @@ namespace StriveCustomer.Android.Fragments
             var str = e.Month+1 + "-" + e.DayOfMonth + "-" + e.Year + " " + DateTime.Now.ToString("HH:mm:ss"); ;
             
             dt = Convert.ToDateTime(str);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
-            GetAvailableSlot(e.Month, e.Year, e.DayOfMonth);
+            GetAvailableSlot(e.Month + 1, e.Year, e.DayOfMonth);
         }
 
        private async void GetAvailableSlot(int month, int year, int day)
         {
+            updatedScheduleSlotInfo = new AvailableScheduleSlots();
+            updatedScheduleSlotInfo.GetTimeInDetails = new List<GetTimeInDetails>();
             string date = "";
             switch (month)
             {
-                case 0:
+                case 01:
                     date = year + "-" + "01" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "January";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 1:
+                case 02:
                     date = year + "-" + "02" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "February";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 2:
+                case 03:
                     date = year + "-" + "03" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "March";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 3:
+                case 04:
                     date = year + "-" + "04" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "April";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 4:
+                case 05:
                     date = year + "-" + "05" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "May";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 5:
+                case 06:
                     date = year + "-" + "06" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "June";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 6:
+                case 07:
                     date = year + "-" + "07" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "July";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 7:
+                case 08:
                     date = year + "-" + "08" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "August";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 8:
+                case 09:
                     date = year + "-" + "09" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "September";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 9:
+                case 10:
                     date = year + "-" + "10" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "October";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 10:
+                case 11:
                     date = year + "-" + "11" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "November";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
                     CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
-                case 11:
+                case 12:
                     date = year + "-" + "12" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "December";
                     CustomerScheduleInformation.ScheduleDate = day.ToString();
@@ -182,17 +189,55 @@ namespace StriveCustomer.Android.Fragments
                     break;
             }
             //date = date + "T00:00:00.000Z";
-            CustomerScheduleInformation.ScheduleFullDate = (dt.ToString()).Substring(0, 10);
+            CustomerScheduleInformation.ScheduleFullDate = (dt.ToString("yyyy-MM-dd HH:mm:ss")).Substring(0, 10);
             //CustomerScheduleInformation.ScheduleFullDate = date.Year + "-" + date.Month + "-" + date.Day;
             //DateTime local = date1.d;
             var dateToServer = dt.ToString("yyy/MM/dd HH:mm:ss");
             this.ViewModel.checkDate = CustomerScheduleInformation.ScheduleDate + "/" + CustomerScheduleInformation.ScheduleMonth + "/" + CustomerScheduleInformation.ScheduleYear;
             await ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, dateToServer);
             //await this.ViewModel.GetSlotAvailability(8, date);
+            var datenow = DateTime.Now.TimeOfDay;
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
             {
-                TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, this.ViewModel.ScheduleSlotInfo);
+                foreach (var item in this.ViewModel.ScheduleSlotInfo.GetTimeInDetails)
+                {
+                    DateTime availabletime = DateTime.Parse(item.TimeIn, System.Globalization.CultureInfo.CurrentCulture);
+                    if (dt.Date == DateTime.Now.Date)
+                    {
+                        if (availabletime.TimeOfDay > datenow)
+                        {
+                            updatedScheduleSlotInfo.GetTimeInDetails.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        updatedScheduleSlotInfo.GetTimeInDetails.Add(item);
+                    }
+                }
+                if (updatedScheduleSlotInfo.GetTimeInDetails.Count > 0)
+                {
+                    SlotTxtView.Text = "Available Times Slots";
+                }
+                else
+                {
+                    SlotTxtView.Text = "No Available Time Slots";
+                }
+               // TimeSlot_GridView.Visibility = ViewStates.Visible;    
+                TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, updatedScheduleSlotInfo);
             }
-        }
+
+            if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
+            {
+                //TimeSlot_GridView.Visibility = ViewStates.Invisible;
+                TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, updatedScheduleSlotInfo);
+
+            }
+            else
+            {
+                //TimeSlot_GridView.Visibility = ViewStates.Invisible;
+
+            }
+            }
+        
     }
 }

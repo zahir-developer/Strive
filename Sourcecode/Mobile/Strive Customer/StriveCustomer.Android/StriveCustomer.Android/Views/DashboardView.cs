@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Acr.UserDialogs;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -48,7 +49,8 @@ namespace StriveCustomer.Android.Views
             dashActionButton = FindViewById<FloatingActionButton>(Resource.Id.dashActionButton);
             dashActionButton.Click += DashActionButton_Click;
             setInitialFrag();
-            
+
+
         }
 
         private void DashActionButton_Click(object sender, EventArgs e)

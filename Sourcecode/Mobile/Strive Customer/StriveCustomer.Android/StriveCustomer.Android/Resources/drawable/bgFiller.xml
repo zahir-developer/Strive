@@ -1,0 +1,5 @@
+﻿<clip
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:drawable="@drawable/horizontalline"
+android:clipOrientation="horizontal"
+android:gravity="left|clip_horizontal|fill_vertical"/>

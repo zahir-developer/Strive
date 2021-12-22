@@ -1,61 +1,76 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+	android:id="@+id/markerView"
+	android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="80dp"
     android:background="@drawable/bubblepopwindow">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2">
-        <TextView
-            android:id="@+id/markerWashTimes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="@dimen/textTen"
-            android:text="Alpharetta"
-            android:gravity="center"
-            android:textColor="@color/infoTextColor"
-            android:fontFamily="@font/opensans_bold"
-            android:layout_weight="0.7"/>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:orientation="horizontal"
-            android:layout_height="50dp"
-            android:layout_weight="1.2"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/ten"
-            android:layout_marginBottom="@dimen/fifteen"
-            android:background="@drawable/mapwashinfo">
-            <ImageView
-                android:id="@+id/markerWindowIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"/>
-             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="80dp">
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="wrap_content"
+		android:layout_height="80dp">
+		<TextView
+			android:id="@+id/markerWashTimes"
+			android:layout_width="80dp"
+			android:layout_height="wrap_content"
+		    android:layout_marginTop="@dimen/ten"
+			android:layout_marginLeft="@dimen/five"
+			android:textSize="@dimen/textTen"
+			android:text="Test location"
+			android:gravity="center"
+			android:scrollHorizontally="true"
+	        android:ellipsize="end" 
+            android:maxLines="2"
+			android:textColor="@color/infoTextColor"
+			android:fontFamily="@font/opensans_bold"/>
+			<TextView
                     android:id="@+id/openTitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="Opens at"
+                    android:text="Closed"
+				    android:layout_marginTop="@dimen/five"
                     android:textSize="@dimen/textTen"
                     android:gravity="center"
+				    android:textColor="@android:color/white"
                     android:fontFamily="@font/opensans_regular"/>
-                <TextView
-                    android:id="@+id/washTiming"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="10 AM"
-                    android:textSize="@dimen/textTen"
-                    android:gravity="center"
-                    android:fontFamily="@font/opensans_bold"/>
-             </LinearLayout>
-        </LinearLayout>     
-        
-    </LinearLayout>            
+			</LinearLayout>
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:orientation="horizontal"
+			android:layout_height="40dp"
+			android:layout_marginTop="@dimen/ten"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:background="@drawable/mapwashinfo">
+			<ImageView
+				android:id="@+id/markerWindowIcon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="@dimen/ten"
+				android:layout_gravity="left|center_vertical"
+				android:background="@drawable/icon_car_wash"/>
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="@dimen/ten"
+				android:layout_gravity="center">
+
+				<TextView
+					android:id="@+id/washTiming"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="0 Mins"
+					android:textSize="@dimen/textFifteen"
+					android:gravity="center"
+					android:fontFamily="@font/opensans_bold"/>
+				
+			</LinearLayout>
+		</LinearLayout>
+	
+	</LinearLayout>            
 </LinearLayout>

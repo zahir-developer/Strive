@@ -23,9 +23,12 @@ namespace Strive.Core.ViewModels.Customer
             if(Deals.Count == 0)
             {
                 var result = await AdminService.GetAllDeals();
-                foreach (var item in result.GetAllDeals)
+                if (result != null)
                 {
-                    Deals.Add(item);
+                    foreach (var item in result.GetAllDeals)
+                    {
+                        Deals.Add(item);
+                    }
                 }
             }
             _userDialog.HideLoading();
@@ -37,6 +40,36 @@ namespace Strive.Core.ViewModels.Customer
             await _navigationService.Navigate<DealsDetailViewModel>();
         }
         public async Task NavigateToDealsPageCommand()
+        {
+            //foreach (var element in Deals)
+            //{
+            //    if (element.DealId == SelectedDealId)
+            //    {
+            //        CouponName = element.DealName;
+            //        //startdate = element.StartDate;
+            //        enddate = element.EndDate;
+            //        TimePeriod = element.TimePeriod;
+            //    }
+
+            //}
+            //_userDialog.ShowLoading();
+            //var result2 = await AdminService.GetClientDeal(CustomerInfo.ClientID, DateTime.Today.ToString("yyyy-MM-dd"), SelectedDealId);
+            ////_userDialog.HideLoading();
+            //if (result2.ClientDeal.ClientDealDetail != null)
+            //{
+            //    DealsPageViewModel.clientDeal = result2;
+            //    CouponName = result2.ClientDeal.ClientDealDetail[0].DealName;
+            //    enddate = result2.ClientDeal.ClientDealDetail[0].EndDate;
+            //}
+            //else
+            //{
+            //    DealsViewModel.enddate = null;
+            //}
+            await GetClientDeals(); 
+            await _navigationService.Navigate<DealsPageViewModel>();
+
+        }
+        public async Task GetClientDeals()
         {
             foreach (var element in Deals)
             {
@@ -63,11 +96,7 @@ namespace Strive.Core.ViewModels.Customer
                 DealsPageViewModel.clientDeal = null;
                 DealsViewModel.enddate = null;
             }
-           
-            await _navigationService.Navigate<DealsPageViewModel>();
-
-        }
-
+        } 
         public void LogoutCommand()
         {
             var confirmconfig = new ConfirmConfig

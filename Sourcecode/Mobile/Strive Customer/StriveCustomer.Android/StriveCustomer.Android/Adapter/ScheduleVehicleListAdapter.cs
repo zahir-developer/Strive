@@ -73,7 +73,8 @@ namespace StriveCustomer.Android.Adapter
         {
             selectLocationFragment = new ScheduleLocationsFragment();
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
-            CustomerScheduleInformation.ScheduledVehicleName = VehicleLists.Status[position].VehicleColor +" "+ VehicleLists.Status[position].VehicleMfr;          
+            CustomerScheduleInformation.ScheduledVehicleName = VehicleLists.Status[position].VehicleColor +" "+ VehicleLists.Status[position].VehicleMfr;
+            CustomerScheduleInformation.ScheduleSelectedVehicle = VehicleLists.Status[position];
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectLocationFragment).Commit();
         }
 

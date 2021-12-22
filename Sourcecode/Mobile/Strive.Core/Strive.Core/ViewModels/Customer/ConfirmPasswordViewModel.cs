@@ -26,8 +26,9 @@ namespace Strive.Core.ViewModels.Customer
                  if(resetPasswordResponse.Status == "true")
                  {
 
-                    await _navigationService.Close(this);
-                 }
+                    // await _navigationService.Close(this);
+                    await _navigationService.Navigate<LoginViewModel>();
+                }
             }
             else if(string.IsNullOrEmpty(NewPassword) || string.IsNullOrEmpty(ConfirmPassword))
             {

@@ -132,162 +132,212 @@ namespace StriveCustomer.Android.Fragments
         }
         public void assignListeners(int position)
         {
-           switch(position)
+            checkBoxes[position].Tag = position;
+            serviceViewToggle[position].Tag = position;
+            checkBoxes[position].CheckedChange += ScheduleSelectServiceFragment_CheckedChange;
+            serviceViewToggle[position].Click += ServiceViewToggle_Click;
+
+        }
+
+        private void ServiceViewToggle_Click(object sender, EventArgs e)
+        {
+            var serviceView = (TextView)sender;
+            int position = (int)serviceView.Tag;
+            if (serviceDetailPassage[position].Visibility == ViewStates.Gone)
             {
-                case 0:
-                    serviceViewToggle[0].Click += ServiceViewToggle_Click0;
-                    checkBoxes[0].CheckedChange += ScheduleSelectServiceFragment_CheckedChange0;
-                    break;
-                case 1:
-                    serviceViewToggle[1].Click += ServiceViewToggle_Click1;
-                    checkBoxes[1].CheckedChange += ScheduleSelectServiceFragment_CheckedChange1;
-                    break;
-                case 2:
-                    serviceViewToggle[2].Click += ServiceViewToggle_Click2;
-                    checkBoxes[2].CheckedChange += ScheduleSelectServiceFragment_CheckedChange2;
-                    break;
-                case 3:
-                    serviceViewToggle[3].Click += ServiceViewToggle_Click3;
-                    checkBoxes[3].CheckedChange += ScheduleSelectServiceFragment_CheckedChange3;
-                    break;
-                case 4:
-                    serviceViewToggle[4].Click += ServiceViewToggle_Click4;
-                    checkBoxes[4].CheckedChange += ScheduleSelectServiceFragment_CheckedChange4;
-                    break;
-                case 5:
-                    serviceViewToggle[5].Click += ServiceViewToggle_Click5;
-                    checkBoxes[5].CheckedChange += ScheduleSelectServiceFragment_CheckedChange5;
-                    break;
-                case 6:
-                    serviceViewToggle[6].Click += ServiceViewToggle_Click6;
-                    checkBoxes[6].CheckedChange += ScheduleSelectServiceFragment_CheckedChange6;
-                    break;
-                case 7:
-                    serviceViewToggle[7].Click += ServiceViewToggle_Click7;
-                    checkBoxes[7].CheckedChange += ScheduleSelectServiceFragment_CheckedChange7;
-                    break;
-                case 8:
-                    serviceViewToggle[8].Click += ServiceViewToggle_Click8;
-                    checkBoxes[8].CheckedChange += ScheduleSelectServiceFragment_CheckedChange8;
-                    break;
-                case 9:
-                    serviceViewToggle[9].Click += ServiceViewToggle_Click9;
-                    checkBoxes[9].CheckedChange += ScheduleSelectServiceFragment_CheckedChange9;
-                    break;
-                case 10:
-                    serviceViewToggle[10].Click += ServiceViewToggle_Click10;
-                    checkBoxes[10].CheckedChange += ScheduleSelectServiceFragment_CheckedChange10;
-                    break;
-                case 11:
-                    serviceViewToggle[11].Click += ServiceViewToggle_Click11;
-                    checkBoxes[11].CheckedChange += ScheduleSelectServiceFragment_CheckedChange11;
-                    break;
-                case 12:
-                    serviceViewToggle[12].Click += ServiceViewToggle_Click12;
-                    checkBoxes[12].CheckedChange += ScheduleSelectServiceFragment_CheckedChange12;
-                    break;
-                case 13:
-                    serviceViewToggle[13].Click += ServiceViewToggle_Click13;
-                    checkBoxes[13].CheckedChange += ScheduleSelectServiceFragment_CheckedChange13;
-                    break;
-                case 14:
-                    serviceViewToggle[14].Click += ServiceViewToggle_Click14;
-                    checkBoxes[14].CheckedChange += ScheduleSelectServiceFragment_CheckedChange14;
-                    break;
-                case 15:
-                    serviceViewToggle[15].Click += ServiceViewToggle_Click15;
-                    checkBoxes[15].CheckedChange += ScheduleSelectServiceFragment_CheckedChange15;
-                    break;
-                case 16:
-                    serviceViewToggle[16].Click += ServiceViewToggle_Click16;
-                    checkBoxes[16].CheckedChange += ScheduleSelectServiceFragment_CheckedChange16;
-                    break;
-                case 17:
-                    serviceViewToggle[17].Click += ServiceViewToggle_Click17;
-                    checkBoxes[17].CheckedChange += ScheduleSelectServiceFragment_CheckedChange17;
-                    break;
-                case 18:
-                    serviceViewToggle[18].Click += ServiceViewToggle_Click18;
-                    checkBoxes[18].CheckedChange += ScheduleSelectServiceFragment_CheckedChange18;
-                    break;
-                case 19:
-                    serviceViewToggle[19].Click += ServiceViewToggle_Click19;
-                    checkBoxes[19].CheckedChange += ScheduleSelectServiceFragment_CheckedChange19;
-                    break;
-                case 20:
-                    serviceViewToggle[20].Click += ServiceViewToggle_Click20;
-                    checkBoxes[20].CheckedChange += ScheduleSelectServiceFragment_CheckedChange20;
-                    break;
-                case 21:
-                    serviceViewToggle[21].Click += ServiceViewToggle_Click21;
-                    checkBoxes[21].CheckedChange += ScheduleSelectServiceFragment_CheckedChange21;
-                    break;
-                case 22:
-                    serviceViewToggle[22].Click += ServiceViewToggle_Click22;
-                    checkBoxes[22].CheckedChange += ScheduleSelectServiceFragment_CheckedChange22;
-                    break;
-                case 23:
-                    serviceViewToggle[23].Click += ServiceViewToggle_Click23;
-                    checkBoxes[23].CheckedChange += ScheduleSelectServiceFragment_CheckedChange23;
-                    break;
-                case 24:
-                    serviceViewToggle[24].Click += ServiceViewToggle_Click24;
-                    checkBoxes[24].CheckedChange += ScheduleSelectServiceFragment_CheckedChange24;
-                    break;
-                case 25:
-                    serviceViewToggle[25].Click += ServiceViewToggle_Click25;
-                    checkBoxes[25].CheckedChange += ScheduleSelectServiceFragment_CheckedChange25;
-                    break;
-                case 26:
-                    serviceViewToggle[26].Click += ServiceViewToggle_Click26;
-                    checkBoxes[26].CheckedChange += ScheduleSelectServiceFragment_CheckedChange26;
-                    break;
-                case 27:
-                    serviceViewToggle[27].Click += ServiceViewToggle_Click27;
-                    checkBoxes[27].CheckedChange += ScheduleSelectServiceFragment_CheckedChange27;
-                    break;
-                case 28:
-                    serviceViewToggle[28].Click += ServiceViewToggle_Click28;
-                    checkBoxes[28].CheckedChange += ScheduleSelectServiceFragment_CheckedChange28;
-                    break;
-                case 29:
-                    serviceViewToggle[29].Click += ServiceViewToggle_Click29;
-                    checkBoxes[29].CheckedChange += ScheduleSelectServiceFragment_CheckedChange29;
-                    break;
-                case 30:
-                    serviceViewToggle[30].Click += ServiceViewToggle_Click30;
-                    checkBoxes[30].CheckedChange += ScheduleSelectServiceFragment_CheckedChange30;
-                    break;
-                case 31:
-                    serviceViewToggle[31].Click += ServiceViewToggle_Click31;
-                    checkBoxes[31].CheckedChange += ScheduleSelectServiceFragment_CheckedChange31;
-                    break;
-                case 32:
-                    serviceViewToggle[32].Click += ServiceViewToggle_Click32;
-                    checkBoxes[32].CheckedChange += ScheduleSelectServiceFragment_CheckedChange32;
-                    break;
-                case 33:
-                    serviceViewToggle[33].Click += ServiceViewToggle_Click33;
-                    checkBoxes[33].CheckedChange += ScheduleSelectServiceFragment_CheckedChange33;
-                    break;
-                case 34:
-                    serviceViewToggle[34].Click += ServiceViewToggle_Click34;
-                    checkBoxes[34].CheckedChange += ScheduleSelectServiceFragment_CheckedChange34;
-                    break;
-                case 35:
-                    serviceViewToggle[35].Click += ServiceViewToggle_Click35;
-                    checkBoxes[35].CheckedChange += ScheduleSelectServiceFragment_CheckedChange35;
-                    break;
-                case 36:
-                    serviceViewToggle[36].Click += ServiceViewToggle_Click36;
-                    checkBoxes[36].CheckedChange += ScheduleSelectServiceFragment_CheckedChange36;
-                    break;
-                case 37:
-                    serviceViewToggle[37].Click += ServiceViewToggle_Click37;
-                    checkBoxes[37].CheckedChange += ScheduleSelectServiceFragment_CheckedChange37;
-                    break;
+                serviceViewToggle[position].Text = "View Less";
+                serviceViewToggle[position].PaintFlags = PaintFlags.UnderlineText;
+                serviceDetailPassage[position].Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                serviceViewToggle[position].Text = "View More";
+                serviceViewToggle[position].PaintFlags = PaintFlags.UnderlineText;
+                serviceDetailPassage[position].Visibility = ViewStates.Gone;
             }
         }
+
+        private void ScheduleSelectServiceFragment_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
+            int position = (int)checkBox.Tag;
+            ResetOldSelection(oldSelection);
+            if (!e.IsChecked)
+            {
+                checkBoxes[position].Checked = false;
+            }
+            else
+            {
+                checkBoxes[position].Checked = true;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[position].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[position].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[position].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[position].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceEstimatedTime = this.ViewModel.scheduleServices.AllServiceDetail[position].EstimatedTime ?? 0;
+
+            }
+            oldSelection = position;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
+        }
+
+        //public void assignListeners(int position)
+        //{
+        //   switch(position)
+        //    {
+        //        case 0:
+        //            serviceViewToggle[0].Click += ServiceViewToggle_Click0;
+        //            checkBoxes[0].CheckedChange += ScheduleSelectServiceFragment_CheckedChange0;
+        //            break;
+        //        case 1:
+        //            serviceViewToggle[1].Click += ServiceViewToggle_Click1;
+        //            checkBoxes[1].CheckedChange += ScheduleSelectServiceFragment_CheckedChange1;
+        //            break;
+        //        case 2:
+        //            serviceViewToggle[2].Click += ServiceViewToggle_Click2;
+        //            checkBoxes[2].CheckedChange += ScheduleSelectServiceFragment_CheckedChange2;
+        //            break;
+        //        case 3:
+        //            serviceViewToggle[3].Click += ServiceViewToggle_Click3;
+        //            checkBoxes[3].CheckedChange += ScheduleSelectServiceFragment_CheckedChange3;
+        //            break;
+        //        case 4:
+        //            serviceViewToggle[4].Click += ServiceViewToggle_Click4;
+        //            checkBoxes[4].CheckedChange += ScheduleSelectServiceFragment_CheckedChange4;
+        //            break;
+        //        case 5:
+        //            serviceViewToggle[5].Click += ServiceViewToggle_Click5;
+        //            checkBoxes[5].CheckedChange += ScheduleSelectServiceFragment_CheckedChange5;
+        //            break;
+        //        case 6:
+        //            serviceViewToggle[6].Click += ServiceViewToggle_Click6;
+        //            checkBoxes[6].CheckedChange += ScheduleSelectServiceFragment_CheckedChange6;
+        //            break;
+        //        case 7:
+        //            serviceViewToggle[7].Click += ServiceViewToggle_Click7;
+        //            checkBoxes[7].CheckedChange += ScheduleSelectServiceFragment_CheckedChange7;
+        //            break;
+        //        case 8:
+        //            serviceViewToggle[8].Click += ServiceViewToggle_Click8;
+        //            checkBoxes[8].CheckedChange += ScheduleSelectServiceFragment_CheckedChange8;
+        //            break;
+        //        case 9:
+        //            serviceViewToggle[9].Click += ServiceViewToggle_Click9;
+        //            checkBoxes[9].CheckedChange += ScheduleSelectServiceFragment_CheckedChange9;
+        //            break;
+        //        case 10:
+        //            serviceViewToggle[10].Click += ServiceViewToggle_Click10;
+        //            checkBoxes[10].CheckedChange += ScheduleSelectServiceFragment_CheckedChange10;
+        //            break;
+        //        case 11:
+        //            serviceViewToggle[11].Click += ServiceViewToggle_Click11;
+        //            checkBoxes[11].CheckedChange += ScheduleSelectServiceFragment_CheckedChange11;
+        //            break;
+        //        case 12:
+        //            serviceViewToggle[12].Click += ServiceViewToggle_Click12;
+        //            checkBoxes[12].CheckedChange += ScheduleSelectServiceFragment_CheckedChange12;
+        //            break;
+        //        case 13:
+        //            serviceViewToggle[13].Click += ServiceViewToggle_Click13;
+        //            checkBoxes[13].CheckedChange += ScheduleSelectServiceFragment_CheckedChange13;
+        //            break;
+        //        case 14:
+        //            serviceViewToggle[14].Click += ServiceViewToggle_Click14;
+        //            checkBoxes[14].CheckedChange += ScheduleSelectServiceFragment_CheckedChange14;
+        //            break;
+        //        case 15:
+        //            serviceViewToggle[15].Click += ServiceViewToggle_Click15;
+        //            checkBoxes[15].CheckedChange += ScheduleSelectServiceFragment_CheckedChange15;
+        //            break;
+        //        case 16:
+        //            serviceViewToggle[16].Click += ServiceViewToggle_Click16;
+        //            checkBoxes[16].CheckedChange += ScheduleSelectServiceFragment_CheckedChange16;
+        //            break;
+        //        case 17:
+        //            serviceViewToggle[17].Click += ServiceViewToggle_Click17;
+        //            checkBoxes[17].CheckedChange += ScheduleSelectServiceFragment_CheckedChange17;
+        //            break;
+        //        case 18:
+        //            serviceViewToggle[18].Click += ServiceViewToggle_Click18;
+        //            checkBoxes[18].CheckedChange += ScheduleSelectServiceFragment_CheckedChange18;
+        //            break;
+        //        case 19:
+        //            serviceViewToggle[19].Click += ServiceViewToggle_Click19;
+        //            checkBoxes[19].CheckedChange += ScheduleSelectServiceFragment_CheckedChange19;
+        //            break;
+        //        case 20:
+        //            serviceViewToggle[20].Click += ServiceViewToggle_Click20;
+        //            checkBoxes[20].CheckedChange += ScheduleSelectServiceFragment_CheckedChange20;
+        //            break;
+        //        case 21:
+        //            serviceViewToggle[21].Click += ServiceViewToggle_Click21;
+        //            checkBoxes[21].CheckedChange += ScheduleSelectServiceFragment_CheckedChange21;
+        //            break;
+        //        case 22:
+        //            serviceViewToggle[22].Click += ServiceViewToggle_Click22;
+        //            checkBoxes[22].CheckedChange += ScheduleSelectServiceFragment_CheckedChange22;
+        //            break;
+        //        case 23:
+        //            serviceViewToggle[23].Click += ServiceViewToggle_Click23;
+        //            checkBoxes[23].CheckedChange += ScheduleSelectServiceFragment_CheckedChange23;
+        //            break;
+        //        case 24:
+        //            serviceViewToggle[24].Click += ServiceViewToggle_Click24;
+        //            checkBoxes[24].CheckedChange += ScheduleSelectServiceFragment_CheckedChange24;
+        //            break;
+        //        case 25:
+        //            serviceViewToggle[25].Click += ServiceViewToggle_Click25;
+        //            checkBoxes[25].CheckedChange += ScheduleSelectServiceFragment_CheckedChange25;
+        //            break;
+        //        case 26:
+        //            serviceViewToggle[26].Click += ServiceViewToggle_Click26;
+        //            checkBoxes[26].CheckedChange += ScheduleSelectServiceFragment_CheckedChange26;
+        //            break;
+        //        case 27:
+        //            serviceViewToggle[27].Click += ServiceViewToggle_Click27;
+        //            checkBoxes[27].CheckedChange += ScheduleSelectServiceFragment_CheckedChange27;
+        //            break;
+        //        case 28:
+        //            serviceViewToggle[28].Click += ServiceViewToggle_Click28;
+        //            checkBoxes[28].CheckedChange += ScheduleSelectServiceFragment_CheckedChange28;
+        //            break;
+        //        case 29:
+        //            serviceViewToggle[29].Click += ServiceViewToggle_Click29;
+        //            checkBoxes[29].CheckedChange += ScheduleSelectServiceFragment_CheckedChange29;
+        //            break;
+        //        case 30:
+        //            serviceViewToggle[30].Click += ServiceViewToggle_Click30;
+        //            checkBoxes[30].CheckedChange += ScheduleSelectServiceFragment_CheckedChange30;
+        //            break;
+        //        case 31:
+        //            serviceViewToggle[31].Click += ServiceViewToggle_Click31;
+        //            checkBoxes[31].CheckedChange += ScheduleSelectServiceFragment_CheckedChange31;
+        //            break;
+        //        case 32:
+        //            serviceViewToggle[32].Click += ServiceViewToggle_Click32;
+        //            checkBoxes[32].CheckedChange += ScheduleSelectServiceFragment_CheckedChange32;
+        //            break;
+        //        case 33:
+        //            serviceViewToggle[33].Click += ServiceViewToggle_Click33;
+        //            checkBoxes[33].CheckedChange += ScheduleSelectServiceFragment_CheckedChange33;
+        //            break;
+        //        case 34:
+        //            serviceViewToggle[34].Click += ServiceViewToggle_Click34;
+        //            checkBoxes[34].CheckedChange += ScheduleSelectServiceFragment_CheckedChange34;
+        //            break;
+        //        case 35:
+        //            serviceViewToggle[35].Click += ServiceViewToggle_Click35;
+        //            checkBoxes[35].CheckedChange += ScheduleSelectServiceFragment_CheckedChange35;
+        //            break;
+        //        case 36:
+        //            serviceViewToggle[36].Click += ServiceViewToggle_Click36;
+        //            checkBoxes[36].CheckedChange += ScheduleSelectServiceFragment_CheckedChange36;
+        //            break;
+        //        case 37:
+        //            serviceViewToggle[37].Click += ServiceViewToggle_Click37;
+        //            checkBoxes[37].CheckedChange += ScheduleSelectServiceFragment_CheckedChange37;
+        //            break;
+        //    }
+        //}
 
         private void ResetOldSelection(int position)
         {
@@ -309,10 +359,12 @@ namespace StriveCustomer.Android.Fragments
                 {
                     checkBoxes[0].Checked = true;
                     CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[0].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[0].ServiceTypeId;
+                    CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[0].ServiceTypeId;
                     CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[0].Price;
                     CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[0].ServiceName;
-                }
+                    CustomerScheduleInformation.ScheduleServiceEstimatedTime = this.ViewModel.scheduleServices.AllServiceDetail[0].EstimatedTime ?? 0;
+
+            }
             oldSelection = 0;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
@@ -348,6 +400,8 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[1].ServiceTypeId;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[1].Price;
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[1].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceEstimatedTime = this.ViewModel.scheduleServices.AllServiceDetail[1].EstimatedTime ?? 0;
+
             }
             oldSelection = 1;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -381,6 +435,8 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[2].ServiceTypeId;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[2].Price;
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[2].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceEstimatedTime = this.ViewModel.scheduleServices.AllServiceDetail[2].EstimatedTime ?? 0;
+
             }
             oldSelection = 2;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -414,6 +470,8 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[3].ServiceTypeId;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[3].Price;
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[3].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceEstimatedTime = this.ViewModel.scheduleServices.AllServiceDetail[3].EstimatedTime ?? 0;
+
             }
             oldSelection = 3;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -447,6 +505,8 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[4].ServiceTypeId;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[4].Price;
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[4].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceEstimatedTime = this.ViewModel.scheduleServices.AllServiceDetail[4].EstimatedTime ?? 0;
+
             }
             oldSelection = 4;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;

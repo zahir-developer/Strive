@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-
-using Android.App;
+﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Customer;
-using StriveCustomer.Android.DemoData;
+using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Fragments;
 
 namespace StriveCustomer.Android.Adapter
@@ -22,14 +15,14 @@ namespace StriveCustomer.Android.Adapter
     {
         public TextView dealsText;
         public TextView dealsValidity;
-        public CheckBox dealCheckBox;
+       // public CheckBox dealCheckBox;
         public IItemClickListener itemClickListener;
         public RecyclerViewHolder(View dealItem) : base(dealItem)
         {
             dealsText = dealItem.FindViewById<TextView>(Resource.Id.dealOptionHeading);
             dealsValidity = dealItem.FindViewById<TextView>(Resource.Id.dealsValidity);
-            dealCheckBox = dealItem.FindViewById<CheckBox>(Resource.Id.dealsCheck);
-            dealCheckBox.SetOnClickListener(this);
+          //  dealCheckBox = dealItem.FindViewById<CheckBox>(Resource.Id.dealsCheck);
+          //  dealCheckBox.SetOnClickListener(this);
             dealItem.SetOnClickListener(this);
         }
         public void SetItemClickListener(IItemClickListener itemClickListener)
@@ -51,6 +44,7 @@ namespace StriveCustomer.Android.Adapter
         public ObservableCollection<GetAllDeal> dealsData = new ObservableCollection<GetAllDeal>();
         RecyclerViewHolder recyclerViewHolder;
         public Context context;
+        public DealsViewModel dealsViewModel;
         private int  match;
         private CheckBox dealCheckBox;
         public override int ItemCount
@@ -60,10 +54,11 @@ namespace StriveCustomer.Android.Adapter
                 return dealsData.Count;
             } 
         }
-        public DealsAdapter(ObservableCollection<GetAllDeal> dealsData, Context context)
+        public DealsAdapter(ObservableCollection<GetAllDeal> dealsData, Context context, DealsViewModel viewModel)
         {
             this.dealsData = dealsData;
             this.context = context;
+            this.dealsViewModel = viewModel;
         }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -71,7 +66,7 @@ namespace StriveCustomer.Android.Adapter
             recyclerViewHolder.dealsText.Text = dealsData[position].DealName;
             recyclerViewHolder.dealsValidity.Text = "Validity: "+ dealsData[position].StartDate.ToString() +" to "+ dealsData[position].EndDate.ToString();
             match = position;
-            checkForSelected();
+            //checkForSelected();
             recyclerViewHolder.SetItemClickListener(this);
         }
 
@@ -79,11 +74,26 @@ namespace StriveCustomer.Android.Adapter
         {
             if(CustomerInfo.selectedDeal == match)
             {
-                recyclerViewHolder.dealCheckBox.Checked = true;
+                //recyclerViewHolder.dealCheckBox.Checked = true;
             }
         }
-        public void OnClick(View itemView, int position, bool isLongClick)
-        {          
+        public  void OnClick(View itemView, int position, bool isLongClick)
+        {
+            DealsViewModel.SelectedDealId = dealsViewModel.Deals[position].DealId;
+            Task t = Task.Run(async () => await dealsViewModel.GetClientDeals());
+            t.ContinueWith((t1) =>
+            {
+                AppCompatActivity activity = (AppCompatActivity)itemView.Context;
+                DealsPageFragment dealsDetailsFragment = new DealsPageFragment();
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, dealsDetailsFragment).Commit();
+            });
+            
+        }
+        public Task Navigate_DealDeails(AppCompatActivity activity, int position)
+        {
+            DealsPageFragment dealsDetailsFragment = new DealsPageFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, dealsDetailsFragment).Commit();
+            return Task.CompletedTask;
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

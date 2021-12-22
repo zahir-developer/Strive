@@ -16,8 +16,7 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
-using AlertDialog = Android.App.AlertDialog;
-
+using StriveCustomer.Android.Adapter;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
@@ -30,7 +29,8 @@ namespace StriveCustomer.Android.Fragments
         private Button backButton;
         private Button saveButton;
         private Dictionary<int, string> makeOptions, colorOptions, modelOptions;
-        private ArrayAdapter<string> makeAdapter, colorAdapter, modelAdapter;
+        private ArrayAdapter<string>  colorAdapter;
+        private VehicleAdapter<string> makeAdapter, modelAdapter;
         private List<string> makeList, colorList, modelList;
         private VehicleMembershipFragment membershipFragment;
         private MyProfileInfoFragment myProfile;
@@ -103,20 +103,42 @@ namespace StriveCustomer.Android.Fragments
 
         private void ModelSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            MembershipDetails.selectedModel = e.Position;
-            var selected = this.ViewModel.modelList.Model[e.Position];//.ElementAt(e.Position);
-            MembershipDetails.modelNumber = selected.ModelId;
-            MembershipDetails.modelName = selected.ModelValue;
+            if (e.Position > 0)
+            {
+                MembershipDetails.selectedModel = e.Position-1;
+                var selected = this.ViewModel.modelList.Model[e.Position-1];//.ElementAt(e.Position);
+                MembershipDetails.modelNumber = selected.ModelId;
+                MembershipDetails.modelName = selected.ModelValue;
+            }
+            else
+            {
+                MembershipDetails.selectedModel = e.Position;
+                
+            }
+               
         }
 
         private void MakeSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            
-            MembershipDetails.selectedMake = e.Position;
-            var selected = this.ViewModel.makeList.Make.ElementAt(e.Position);
-            MembershipDetails.vehicleMakeNumber = selected.MakeId;
-            MembershipDetails.vehicleMakeName = selected.MakeValue;
+            if (e.Position > 0){
+                MembershipDetails.selectedMake = e.Position-1;
+                var selected = this.ViewModel.makeList.Make.ElementAt(e.Position-1);
+                MembershipDetails.vehicleMakeNumber = selected.MakeId;
+                MembershipDetails.vehicleMakeName = selected.MakeValue;
+                MembershipDetails.selectedModel = 0;
+                
+
+            }
+            else
+            {
+                MembershipDetails.selectedMake = e.Position;
+                var selected = this.ViewModel.makeList.Make.ElementAt(e.Position);
+                MembershipDetails.vehicleMakeNumber = selected.MakeId;
+                MembershipDetails.vehicleMakeName = selected.MakeValue;
+                
+            }
             GetModelList();
+
         }
 
         private async void LoadSpinner()
@@ -140,7 +162,14 @@ namespace StriveCustomer.Android.Fragments
             var preselectedColor = 0;
             foreach (var colorName in ViewModel.colorName)
             {
-                colorList.Add(colorName.Value);
+                if (colorName.Value.Contains("Unknown"))
+                {
+                    colorList.Add("Color");
+                }
+                else
+                {
+                    colorList.Add(colorName.Value);
+                }
                 if (MembershipDetails.colorNumber == colorName.Key)
                 {
                     MembershipDetails.selectedColor = preselectedColor;
@@ -149,16 +178,12 @@ namespace StriveCustomer.Android.Fragments
                 preselectedColor++;
             }
 
-           
 
-           // makeList.Insert(0, "Select Manufacturer");
-           // makeList.RemoveAt(1);
-           // colorList.Insert(0, "Select Color");
-           // colorList.RemoveAt(1);
-            //modelList.Insert(0, "Select Model");
-           // modelList.RemoveAt(1);
 
-            makeAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, makeList);
+            makeList.Insert(0, "Vehicle Make");
+            //modelList.Insert(0, "Model");
+
+            makeAdapter = new VehicleAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, makeList);
             makeAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
             colorAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, colorList);
             colorAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
@@ -167,7 +192,6 @@ namespace StriveCustomer.Android.Fragments
             makeSpinner.Adapter = makeAdapter;
             colorSpinner.Adapter = colorAdapter;
            // modelSpinner.Adapter = modelAdapter;
-
             makeSpinner.SetSelection(MembershipDetails.selectedMake);
             //modelSpinner.SetSelection(MembershipDetails.selectedModel);
             colorSpinner.SetSelection(MembershipDetails.selectedColor);
@@ -175,27 +199,27 @@ namespace StriveCustomer.Android.Fragments
         private async void GetModelList() 
         {
             
-            await ViewModel.GetModelList(MembershipDetails.vehicleMakeName);
-            if (ViewModel.modelList != null)
-            {
-                modelList = new List<string>();
-                var preselectedModel = 0;
-                foreach (var modelName in ViewModel.modelList.Model)
+                await ViewModel.GetModelList(MembershipDetails.vehicleMakeName);
+                if (ViewModel.modelList != null)
                 {
-                    modelList.Add(modelName.ModelValue);
-                    if (MembershipDetails.modelNumber == modelName.ModelId)
+                    modelList = new List<string>();
+                    var preselectedModel = 0;
+                    foreach (var modelName in ViewModel.modelList.Model)
                     {
-                        MembershipDetails.selectedModel = preselectedModel;
+                        modelList.Add(modelName.ModelValue);
+                        if (MembershipDetails.modelNumber == modelName.ModelId)
+                        {
+                            MembershipDetails.selectedModel = preselectedModel;
+
+                        }
+                        preselectedModel++;
 
                     }
-                    preselectedModel++;
 
                 }
-                //modelList.Insert(0, "Select Model");
-                //modelList.RemoveAt(1);
-            }
-           
-            modelAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, modelList);
+             
+            modelList.Insert(0, "Model");
+            modelAdapter = new VehicleAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, modelList);
             modelAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
             modelSpinner.Adapter = modelAdapter;
             modelSpinner.SetSelection(MembershipDetails.selectedModel);

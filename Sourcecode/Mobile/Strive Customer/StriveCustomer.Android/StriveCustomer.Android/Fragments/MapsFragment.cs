@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content;
@@ -13,17 +10,10 @@ using Android.Gms.Location;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.V13.App;
 using Android.Support.V4.Content;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Java.Lang;
 using MvvmCross.Droid.Support.V4;
-using MvvmCross.Droid.Support.V7.AppCompat;
-using MvvmCross.Platforms.Android.Binding.BindingContext;
-using Locations = Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Services;
 using Android.Locations;
@@ -33,12 +23,13 @@ using Xamarin.Essentials;
 using static Android.Gms.Common.Apis.GoogleApiClient;
 using Location = Android.Locations.Location;
 using ILocationListener = Android.Gms.Location.ILocationListener;
-using CarWashLocation = Strive.Core.Models.Customer.Locations;
 using System.Timers;
 using Task = System.Threading.Tasks.Task;
 using Provider = Android.Provider;
 using static Android.Gms.Maps.GoogleMap;
 using Strive.Core.Models.Customer;
+using Double = System.Double;
+using Android.Graphics.Drawables;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -48,14 +39,14 @@ namespace StriveCustomer.Android.Fragments
         string GeofenceID = "LatLng";
         bool locationEnabled, networkEnabled;
         string[] GeofenceIDS;
-        private int carWashLocationsCount , geofencesCount, geofenceCirclesCount;
+        private int carWashLocationsCount, geofencesCount, geofenceCirclesCount, latLngCount;
         IList<IGeofence> carWashGeofences;
         private GoogleMap Googlemap;
         private GeofencingClient geofencingClient;
         private GoogleApiClient googleAPI;
         private Location lastLocation;
         private LocationManager locationManager;
-        private LatLng userLatLng,prevSelectedMarker;
+        private LatLng userLatLng, prevSelectedMarker;
         private LatLng[] carWashLatLng;
         private MarkerOptions userMarkerOption;
         private MarkerOptions[] carWashMarkerOptions;
@@ -64,29 +55,36 @@ namespace StriveCustomer.Android.Fragments
         private GeofencingRequest geofencingRequests;
         private GeofenceHelper geofenceHelper;
         private SupportMapFragment gmaps;
-        private CarWashLocation carWashLocations;
+        //private CarWashLocation carWashLocations;
         private PendingIntent geoPendingIntent;
         private Timer refreshWashTimer;
-        private static View rootView,markerInfoWindow;
+        private static View rootView, markerInfoWindow;
+        private washLocations carWashLocations = new washLocations();
+        private List<Double> distanceList;
+        private Dictionary<int, double> dict = new Dictionary<int, double>();
+        private Dictionary<string, object> markerDic;
+        private Marker[] marker;
+        private float preZIndex;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            if(googleAPI == null)
+            if (googleAPI == null)
             {
                 googleAPI = new GoogleApiClient.Builder(this.Context)
                         .AddApi(LocationServices.API)
                         .AddConnectionCallbacks(this)
                         .AddOnConnectionFailedListener(this)
                         .Build();
-               googleAPI.Connect();
+                googleAPI.Connect();
             }
 
             locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
             checkLocationEnabled();
-            
+
             CustomerInfo.setMapInfo();
             geofencingClient = LocationServices.GetGeofencingClient(this.Context);
             geofenceHelper = new GeofenceHelper(this.Context);
+
         }
 
         public override void OnStart()
@@ -103,14 +101,14 @@ namespace StriveCustomer.Android.Fragments
         {
             locationEnabled = locationManager.IsProviderEnabled(LocationManager.GpsProvider);
             networkEnabled = locationManager.IsProviderEnabled(LocationManager.NetworkProvider);
-            if(!locationEnabled || !networkEnabled)
+            if (!locationEnabled || !networkEnabled)
             {
                 new AlertDialog.Builder(Context)
                     .SetMessage("To use this functionality, enable location services from settings in your device")
                     .SetPositiveButton("Enable", (a, ev) => { Context.StartActivity(new Intent(Provider.Settings.ActionLocationSourceSettings)); })
                     .Show();
             }
-                
+
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -131,11 +129,11 @@ namespace StriveCustomer.Android.Fragments
                     rootView = inflater.Inflate(Resource.Layout.MapScreenFragment, container, false);
                 }
                 else
-                {      
+                {
                     return rootView;
                 }
             }
-            catch(InflateException e)
+            catch (InflateException e)
             {
                 return rootView;
             }
@@ -158,8 +156,10 @@ namespace StriveCustomer.Android.Fragments
         public async void OnMapReady(GoogleMap googleMap)
         {
             Googlemap = googleMap;
+            Googlemap.UiSettings.CompassEnabled = false;
             await AndroidPermissions.checkLocationPermission(this);
-            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted )// && googleAPI.IsConnected)
+            Googlemap.SetInfoWindowAdapter(this);
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted)// && googleAPI.IsConnected)
             {
                 enableUserLocation();
                 lastUserLocation();
@@ -172,10 +172,21 @@ namespace StriveCustomer.Android.Fragments
             if (carWashLocations != null)
             {
                 Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
+                setUpMarkers(); 
+                _ = setLocationsOnMapAsync();
+                //RefreshWashTimes();
+            }
+        }
+        private async Task setLocationsOnMapAsync()
+        {
+            int seconds = 60000;
+            while (seconds != 0)
+            {
+                await Task.Delay(seconds);
                 setUpMarkers();
-                addCarwashGeoFence(carWashLatLng, CustomerInfo.notifyRadius);
-                RefreshWashTimes();
-            }  
+                
+
+            }
         }
         private void Googlemap_MyLocationButtonClick(object sender, GoogleMap.MyLocationButtonClickEventArgs e)
         {
@@ -190,179 +201,312 @@ namespace StriveCustomer.Android.Fragments
         }
         private async void setUpMaps()
         {
-            var locations = await ViewModel.GetAllLocationsCommand();
-            if (locations.Location.Count == 0)
+            //var locations = await ViewModel.GetAllLocationsCommand();
+            var locations = await ViewModel.GetAllLocationStatus();
+            if (locations != null)
             {
-                carWashLocations = null;
+                if (locations?.Washes.Count == 0)
+                {
+                    carWashLocations = null;
+                }
+                else
+                {
+                    carWashLocations = locations;
+                }
             }
-            else
-            {
-                carWashLocations = locations;
-            }
+            if (!IsAdded)
+                return;
             gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
             if (gmaps != null)
             {
-               gmaps.GetMapAsync(this);
+                gmaps.GetMapAsync(this);
             }
         }
         private void enableUserLocation()
         {
-            if(ContextCompat.CheckSelfPermission(Context,Manifest.Permission.AccessFineLocation) == Permission.Granted)
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted)
             {
                 Googlemap.MyLocationEnabled = true;
                 Googlemap.UiSettings.MyLocationButtonEnabled = true;
-                Googlemap.SetInfoWindowAdapter(this);
                 Googlemap.MarkerClick += Googlemap_MarkerClick;
+
             }
             else
             {
                 RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
             }
         }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            if (requestCode ==  10001 || requestCode ==99)
+            {
+                // Check if the only required permission has been granted
+                if ((grantResults.Length == 1) && (grantResults[0] == Permission.Granted))
+                {
+                    setUpMarkers();
+                    Console.WriteLine("Map location");
+                } 
+            }
+            else
+            {
+                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        }
         private void setUpMarkers()
         {
             carWashLocationsCount = 0;
-            carWashLatLng = new LatLng[carWashLocations.Location.Count];
-            carWashMarkerOptions = new MarkerOptions[carWashLocations.Location.Count];
-            foreach (var carWashLocation in carWashLocations.Location)
+
+            distanceList = new List<double>();
+            dict.Clear();
+            foreach (var carWashLocation in carWashLocations.Washes)
             {
-                if (!string.IsNullOrEmpty(carWashLocation.Latitude.ToString()) && !string.IsNullOrEmpty(carWashLocation.Longitude.ToString()))
+                if (carWashLocation.Latitude != 0 && carWashLocation.Longitude != 0)
                 {
-                    carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
-                    carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
+                    getDistance((double)carWashLocation.Latitude, (double)carWashLocation.Longitude, carWashLocation.LocationId);
 
-                    //if (carWashLocationsCount == 1)
-                    //{
-                    //    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
-                    //    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                    //}
-
-                    Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]).ShowInfoWindow();
                 }
                 carWashLocationsCount++;
             }
+            carWashLatLng = new LatLng[distanceList.Count];
+            markerDic = new Dictionary<string, object>();
+            marker = new Marker[distanceList.Count];
+            distanceList.Sort();
+            Googlemap.Clear();
+            latLngCount = 0;
+            preZIndex = 2;
+            foreach (var item in dict)
+            {
+                var shortLoc = carWashLocations.Washes.Find(location => location.LocationId == item.Key);
+                carWashLatLng[latLngCount] = new LatLng((double)shortLoc.Latitude, (double)shortLoc.Longitude);
+                marker[latLngCount] = Googlemap.AddMarker(new MarkerOptions().SetPosition(carWashLatLng[latLngCount]).InvokeZIndex(dict.Count-1-latLngCount)
+                         .SetIcon(BitmapDescriptorFactory.FromBitmap(getMarkerBitmapFromView(shortLoc, Resource.Drawable.bubblePopWindow))));
+                marker[latLngCount].Tag = carWashLatLng[latLngCount];
+                Googlemap.AnimateCamera(CameraUpdateFactory.ZoomTo(10.0f));
+                Googlemap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(carWashLatLng[latLngCount], 16));
+                //Googlemap.MoveCamera(CameraUpdateFactory.NewLatLng(carWashLatLng[latLngCount]));
+                if (!markerDic.ContainsKey(marker[latLngCount].Id))
+                {
+                    markerDic.Add(marker[latLngCount].Id, marker[latLngCount].Tag);
+                }
+                latLngCount++;
+
+            }
+            addCarwashGeoFence(carWashLatLng,280f);
         }
+
+       async void getDistance(double lat, double lon, int id)
+        {
+            double latEnd = lat;
+            double lngEnd = lon;
+
+            try
+            {
+                var currentLocation = await Geolocation.GetLastKnownLocationAsync();
+                double dist = (double)(currentLocation?.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles));
+                if (!dict.ContainsKey(id))
+                {
+                    dict.Add(id, dist);
+                    distanceList.Add(dist);
+                }
+               
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+            }
+            catch (System.Exception ex)
+            {
+                // Unable to get location
+            }
+        }
+        async Task GetCurrentLocation()
+        {
+            try
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                CancellationTokenSource cts = new CancellationTokenSource();
+                var location = await Geolocation.GetLocationAsync(request);
+
+                if (location != null)
+                {
+                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+            }
+        }
+        private Bitmap getMarkerBitmapFromView(LocationStatus locationStatus, int resId)
+        {
+
+            View customMarkerView = LayoutInflater.Inflate(Resource.Layout.MarkerInfoWindow, null, false);//((LayoutInflater)getSystemService(Context.LayoutInflaterService)).inflate(Resource.Layout.MarkerInfoWindow, null);
+            LinearLayout markerView = (LinearLayout)customMarkerView.FindViewById(Resource.Id.markerView);
+            TextView markerWashTimes = (TextView)customMarkerView.FindViewById(Resource.Id.markerWashTimes);
+            TextView openTitle = (TextView)customMarkerView.FindViewById(Resource.Id.openTitle);
+            ImageView markerWindowIcon = (ImageView)customMarkerView.FindViewById(Resource.Id.markerWindowIcon);
+            TextView washTiming = (TextView)customMarkerView.FindViewById(Resource.Id.washTiming);
+
+            markerWashTimes.Text = locationStatus.LocationName.ToString();
+            if (locationStatus.StoreStatus == "Open")
+            {
+                openTitle.Text = locationStatus.StoreStatus.ToString();
+                washTiming.Text = locationStatus.WashtimeMinutes.ToString() + " " + "Mins";
+            }
+            else if (locationStatus.StoreStatus == null)
+            {
+                washTiming.Text = "0 Mins";
+                openTitle.Text = "closed";
+
+            }
+            else
+            {
+                washTiming.Text = "0 Mins";
+                openTitle.Text = locationStatus.StoreStatus.ToString();
+            }
+
+            markerView.SetBackgroundResource(resId);
+            markerWindowIcon.SetBackgroundResource(Resource.Drawable.Icon_car_wash);
+            customMarkerView.Measure((int)View.MeasureSpec.GetMode(0), (int)View.MeasureSpec.GetMode(0));
+            customMarkerView.Layout(0, 0, customMarkerView.MeasuredWidth, customMarkerView.MeasuredHeight);
+            customMarkerView.BuildDrawingCache();
+            Bitmap returnedBitmap = Bitmap.CreateBitmap(customMarkerView.MeasuredWidth, customMarkerView.MeasuredHeight,
+                    Bitmap.Config.Argb8888);
+            Canvas canvas = new Canvas(returnedBitmap);
+            canvas.DrawColor(Color.Red, PorterDuff.Mode.SrcIn);
+            Drawable drawable = customMarkerView.Background;
+            if (drawable != null)
+                drawable.Draw(canvas);
+            customMarkerView.Draw(canvas);
+           
+            return returnedBitmap;
+        }
+
+        
+
         private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
         {
-            markerClickCount++;
-            if (markerClickCount == 1)
+            try
             {
-                prevSelectedMarker = e.Marker.Position;
-                e.Marker.ShowInfoWindow();
-            }
-            if (markerClickCount == 2 && ( prevSelectedMarker.Latitude == e.Marker.Position.Latitude && prevSelectedMarker.Longitude == e.Marker.Position.Longitude))
-            {
-                LatLng markerlatlng = e.Marker.Position;
-                markerClickCount = 0;
+                var latLngValues = markerDic[(e.Marker.Id)] ?? "default";
+                e.Marker.ZIndex = e.Marker.ZIndex + preZIndex;
+                preZIndex++;
+                LatLng markerlatlng = (LatLng)latLngValues;
                 await Map.OpenAsync(markerlatlng.Latitude, markerlatlng.Longitude);
             }
-            if(prevSelectedMarker.Latitude != e.Marker.Position.Latitude && prevSelectedMarker.Longitude != e.Marker.Position.Longitude)
+            catch(KeyNotFoundException ex)
             {
-                markerClickCount = 0;
-                e.Marker.ShowInfoWindow();
+                Console.WriteLine(ex.Message);
             }
+            
+
         }
         private void addCarwashGeoFence(LatLng[] latlngs, float Radius)
         {
             geofencesCount = 0;
             carWashGeofences = new List<IGeofence>();
-            foreach(var latlng in latlngs)
+            foreach (var latlng in latlngs)
             {
-                if(latlng != null)
+                if (latlng != null)
                 {
                     carWashGeofences.Add(geofenceHelper.getGeofence(GeofenceID + geofencesCount, latlng, Radius, Geofence.GeofenceTransitionEnter | Geofence.GeofenceTransitionDwell | Geofence.GeofenceTransitionExit));
                 }
                 geofencesCount++;
             }
-            geofencingRequests = geofenceHelper.GetGeofencingRequests(carWashGeofences);
+            if (carWashGeofences.Count > 0)
+            {
+                geofencingRequests = geofenceHelper.GetGeofencingRequests(carWashGeofences);
+
+            }
             geoPendingIntent = geofenceHelper.getPendingIntent();
-            geofencingClient.AddGeofences(geofencingRequests,geoPendingIntent);
-            addGeoCircles(latlngs,Radius);
+            geofencingClient.AddGeofences(geofencingRequests, geoPendingIntent);
+            addGeoCircles(latlngs, Radius);
         }
         private void addGeoCircles(LatLng[] latLngs, float Radius)
         {
             geofenceCirclesCount = 0;
             geofenceCircles = new CircleOptions[latLngs.Length];
-            foreach (var latlng in latLngs )
+            foreach (var latlng in latLngs)
             {
                 if (latlng != null)
                 {
                     geofenceCircles[geofenceCirclesCount] = new CircleOptions();
                     geofenceCircles[geofenceCirclesCount].InvokeCenter(latlng);
                     geofenceCircles[geofenceCirclesCount].InvokeRadius(Radius);
-                    geofenceCircles[geofenceCirclesCount].InvokeStrokeColor(Color.Argb(255, 255, 0, 0));
-                    geofenceCircles[geofenceCirclesCount].InvokeFillColor(Color.Argb(64, 255, 0, 0));
+                    geofenceCircles[geofenceCirclesCount].InvokeStrokeColor(Color.Argb(255, 144, 224, 221));
+                    geofenceCircles[geofenceCirclesCount].InvokeFillColor(Color.Argb(255, 198, 223, 221));
                     geofenceCircles[geofenceCirclesCount].InvokeStrokeWidth(4);
                     Googlemap.AddCircle(geofenceCircles[geofenceCirclesCount]);
                 }
             }
+
+      
+
         }
+
+
         private void lastUserLocation()
         {
-             lastLocation = LocationServices.FusedLocationApi.GetLastLocation(googleAPI);
-           
-            if(lastLocation != null)
+            lastLocation = LocationServices.FusedLocationApi.GetLastLocation(googleAPI);
+
+            if (lastLocation != null)
             {
                 userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
                 userMarkerOption = new MarkerOptions();
-                userMarkerOption.SetPosition(userLatLng);   
+                userMarkerOption.SetPosition(userLatLng);
                 //userMarker = Googlemap.AddMarker(userMarkerOption);
-                Googlemap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(userLatLng,15));
-                
+                Googlemap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(userLatLng, 15));
+
             }
             userLocationRequest = new LocationRequest();
             userLocationRequest.SetInterval(5000);
             userLocationRequest.SetFastestInterval(3000);
             userLocationRequest.SetPriority(LocationRequest.PriorityBalancedPowerAccuracy);
-
-            LocationServices.FusedLocationApi.RequestLocationUpdates(googleAPI,userLocationRequest,this);
+            if(googleAPI.IsConnected)
+            LocationServices.FusedLocationApi.RequestLocationUpdates(googleAPI, userLocationRequest, this);
         }
         public void OnLocationChanged(Location location)
         {
-            if(lastLocation != null)
+            if (lastLocation != null)
             {
                 userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
                 userMarkerOption = new MarkerOptions();
                 userMarkerOption.SetPosition(userLatLng);
             }
         }
-        private void RefreshWashTimes()
-        {
-            refreshWashTimer = new Timer(10000);
-            refreshWashTimer.AutoReset = true;
-            refreshWashTimer.Elapsed += RefreshWashTimer_Elapsed;
-            refreshWashTimer.Start();
-        }
-        private async void RefreshWashTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            carWashLocationsCount = 0;
-            carWashLocations = await ViewModel.GetAllLocationsCommand();
-        }
+       
         public View GetInfoContents(Marker marker)
         {
             return null;
         }
         public View GetInfoWindow(Marker marker)
         {
-            markerInfoWindow = LayoutInflater.Inflate(Resource.Layout.MarkerInfoWindow, null, false);
-            foreach(var locationAddress in carWashLocations.Location)
-            {
-                if(!string.IsNullOrEmpty(locationAddress.Latitude.ToString()) && !string.IsNullOrEmpty(locationAddress.Longitude.ToString()))
-                {
-                    if ((double)locationAddress.Latitude == marker.Position.Latitude && (double)locationAddress.Longitude == marker.Position.Longitude)
-                    {
-                        markerInfoWindow.FindViewById<TextView>(Resource.Id.markerWashTimes).Text = locationAddress.LocationName;
-                        markerInfoWindow.FindViewById<TextView>(Resource.Id.openTitle).Text = "";
-                        markerInfoWindow.FindViewById<ImageView>(Resource.Id.markerWindowIcon).SetBackgroundResource(Resource.Drawable.Icon_car_wash);
-                        markerInfoWindow.FindViewById<TextView>(Resource.Id.washTiming).Text = locationAddress.WashTimeMinutes.ToString() + "Mins";
-                    }
-                }
-             
-            }
-            return markerInfoWindow;
+            
+            return null;
         }
         public void OnConnected(Bundle connectionHint)
         {
+            if(googleAPI.IsConnected)
             setUpMaps();
         }
         public void OnConnectionSuspended(int cause)
@@ -376,6 +520,11 @@ namespace StriveCustomer.Android.Fragments
         public void OnSuccess(Java.Lang.Object result)
         {
             //
-        } 
+        }
+
+        public bool OnMarkerClick(Marker marker)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

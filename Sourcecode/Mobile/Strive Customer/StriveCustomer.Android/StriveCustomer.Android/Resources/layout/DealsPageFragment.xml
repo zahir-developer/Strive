@@ -1,0 +1,343 @@
+﻿<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mobile_portrait_bg"
+>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2FCFE">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Deals"
+            android:textSize="16sp"
+            android:textColor="@color/profileInfoColor"
+            android:fontFamily="@font/opensans_bold"/>
+        <Button
+            android:id="@+id/dealsBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Back" />
+    </RelativeLayout>
+
+
+	<LinearLayout
+		android:id="@+id/linearLayout1"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/colorPrimary"
+		android:orientation="vertical"
+		android:weightSum="4">
+		<TextView
+			android:id="@+id/NoOfDaysTxt"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:layout_marginRight="@dimen/forty"
+			android:gravity="center|right|bottom"
+			android:text="364"
+			android:textColor="@android:color/holo_red_light" />
+		<TextView
+			android:id="@+id/daysRemainTxt"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_marginRight="@dimen/ten"
+			android:layout_marginTop="5dp"
+			android:layout_weight="0.4"
+			android:gravity="right"
+			android:text="days remaining  "
+			android:textColor="@android:color/white" />
+
+		<Button
+			android:id="@+id/btnCoupon"
+			android:layout_width="240dp"
+			android:layout_weight="0.4"
+			android:layout_height="0dp"
+			android:layout_marginTop="@dimen/fifty"
+			android:layout_gravity="center"
+			android:layout_marginLeft="@dimen/twentyFive"
+			android:layout_marginRight="@dimen/twentyFive"
+			android:background="@color/dealsCouponColor"
+			android:textColor="@android:color/black"
+			android:text="Button" />
+	<HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+			android:scrollbars="horizontal"
+			android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+			android:visibility="visible"
+			android:fillViewport="true">
+
+			<LinearLayout
+				android:id="@+id/bounce_couponLayout"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_marginTop="5dp"
+				android:weightSum="11"
+			    android:layout_gravity="center"
+				android:background="@drawable/bgfiller">
+			
+				<CheckBox
+					android:id="@+id/checkCoupon1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="1"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+				<CheckBox
+					android:id="@+id/checkCoupon2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="2"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+				<CheckBox
+					android:id="@+id/checkCoupon3"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="3"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+				<CheckBox
+					android:id="@+id/checkCoupon4"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="4"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+
+				<CheckBox
+					android:id="@+id/checkCoupon5"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="5"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+				<CheckBox
+					android:id="@+id/checkCoupon6"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="6"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+				<CheckBox
+					android:id="@+id/checkCoupon7"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="7"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+				<CheckBox
+					android:id="@+id/checkCoupon8"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="8"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+				<CheckBox
+					android:id="@+id/checkCoupon9"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="9"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+				<CheckBox
+					android:id="@+id/checkCoupon10"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:drawableTop="@drawable/radiobutton"
+					android:gravity="center_horizontal"
+					android:button="@null"
+					android:layout_weight="1"
+					android:textColor="@color/dealsCouponColor"
+					android:text="10"
+					android:textSize="@dimen/twenty"
+					android:drawablePadding="@dimen/ten"
+					android:textAlignment="gravity"/>
+
+
+			</LinearLayout>
+			 </HorizontalScrollView>
+
+		<LinearLayout
+			android:id="@+id/buy10_Layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_marginTop="15dp"
+			android:weightSum="5"
+			android:layout_marginStart="@dimen/ten"
+			android:layout_marginEnd="@dimen/ten"
+			android:layout_gravity="center"
+			android:visibility="visible">
+
+			<CheckBox
+				android:id="@+id/checkPrice1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_weight="1"
+				android:drawableTop="@drawable/radiobutton"
+				android:gravity="center_horizontal"
+				android:button="@null"
+				android:text="1"
+				android:drawablePadding="10dp"
+				android:textAlignment="gravity"/>
+
+
+			<CheckBox
+				android:id="@+id/checkPrice2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_weight="1"
+				android:drawableTop="@drawable/radiobutton"
+				android:gravity="center_horizontal"
+				android:button="@null"
+				android:text="2"
+				android:drawablePadding="10dp"
+				android:textAlignment="gravity"/>
+
+			<CheckBox
+				android:id="@+id/checkPrice3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_weight="1"
+				android:drawableTop="@drawable/radiobutton"
+				android:gravity="center_horizontal"
+				android:button="@null"
+				android:text="2"
+				android:drawablePadding="10dp"
+				android:textAlignment="gravity"/>
+
+			<CheckBox
+				android:id="@+id/checkPrice4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_weight="1"
+				android:drawableTop="@drawable/radiobutton"
+				android:gravity="center_horizontal"
+				android:button="@null"
+				android:text="3"
+				android:drawablePadding="10dp"
+				android:textAlignment="gravity"/>
+
+
+			<CheckBox
+				android:id="@+id/checkPrice5"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_weight="1"
+				android:drawableTop="@drawable/radiobutton"
+				android:gravity="center_horizontal"
+				android:button="@null"
+				android:text="2"
+				android:drawablePadding="10dp"
+				android:textAlignment="gravity"/>
+
+			
+		</LinearLayout>
+		<Button
+			android:id="@+id/qrCodeScan"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Scan Qr code"
+			android:textColor="@color/defaultLabelColor"
+			android:layout_marginLeft="@dimen/twentyFive"
+			android:layout_marginRight="@dimen/twentyFive"
+			android:layout_marginTop="@dimen/twentyFive"
+			android:layout_marginBottom="-0dp"
+			android:background="@drawable/primaryButton"
+			android:fontFamily="@font/opensans_bold"/>
+	</LinearLayout>
+
+
+
+</LinearLayout>

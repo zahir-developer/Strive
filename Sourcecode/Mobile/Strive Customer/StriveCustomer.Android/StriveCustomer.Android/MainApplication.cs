@@ -20,6 +20,8 @@ namespace StriveCustomer.Android
             : base(javaReference, transfer)
         {
             UserDialogs.Init(() => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
+            Xamarin.Essentials.Platform.Init(this);
+
         }
     }
 }

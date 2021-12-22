@@ -1,0 +1,15 @@
+﻿
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+     <item
+        android:left="14dp"
+        android:right="40dp"
+        android:bottom="40dp"
+        android:top="2dp"
+       >
+        <shape android:shape="line">
+            <stroke
+                android:width="2dp"
+                android:color="@color/defaultButtonColor" />
+        </shape>
+    </item>
+</layer-list>
