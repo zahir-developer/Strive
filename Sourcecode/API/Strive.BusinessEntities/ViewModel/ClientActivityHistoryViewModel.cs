@@ -17,6 +17,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string Comments { get; set; }
         public string TicketNumber { get; set; }
         public int? ClientId { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
 
     }
 }
