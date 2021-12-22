@@ -16,8 +16,7 @@ namespace Greeter.Modules.Message
     {
         List<ChatMessage> Chats = new();
 
-        List<RecipientsCommunicationID> RecepientsCommunicationDetailsList = new();
-        
+        public static List<RecipientsCommunicationID> RecepientsCommunicationDetailsList = new();
 
         readonly ChatType chatType;
         readonly ChatInfo chatInfo;

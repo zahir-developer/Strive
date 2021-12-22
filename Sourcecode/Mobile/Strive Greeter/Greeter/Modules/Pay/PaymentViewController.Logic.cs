@@ -47,9 +47,9 @@ namespace Greeter.Modules.Pay
                 return;
             }
 
-            if (cardNo.Length < 16)
+            if (cardNo.Length < 15)
             {
-                ShowAlertMsg(Common.Messages.CARD_NUMBER_16_DIGIT_WARNING_MSG);
+                ShowAlertMsg(Common.Messages.CARD_NUMBER_LENGTH_WARNING_MSG);
                 return;
             }
 

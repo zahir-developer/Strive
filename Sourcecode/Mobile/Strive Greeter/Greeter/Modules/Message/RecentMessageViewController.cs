@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
@@ -87,6 +88,18 @@ namespace Greeter.Modules.Message
             if (chatType == ChatType.Group)
             {
                 chatInfo.SenderId = chatInfo.RecipientId = 0;
+            }
+            else
+            {
+                if (!ChatViewController.RecepientsCommunicationDetailsList.Any(x => x.employeeId == recentChat.ID.ToString()))
+                {
+                    var communicationdata = new RecipientsCommunicationID
+                    {
+                        communicationId = recentChat.CommunicationID,
+                        employeeId = recentChat.ID.ToString()
+                    };
+                    ChatViewController.RecepientsCommunicationDetailsList.Add(communicationdata);
+                }
             }
 
             NavigationController.PushViewController(new ChatViewController(chatType, chatInfo), animated: true);

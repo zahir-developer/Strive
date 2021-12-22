@@ -194,6 +194,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("CommissionCost")]
         public float CommissionCost { get; set; }
+
+        [JsonProperty("IsCeramic")]
+        public bool IsCeramic { get; set; }
     }
 
     public class GlobalDataResponse : BaseResponse
@@ -416,6 +419,9 @@ namespace Greeter.DTOs
 
         [JsonIgnore]
         public bool IsCommission { get; set; }
+
+        [JsonIgnore]
+        public bool IsCeramic { get; set; }
 
         [JsonIgnore]
         public string CommissionType { get; set; }

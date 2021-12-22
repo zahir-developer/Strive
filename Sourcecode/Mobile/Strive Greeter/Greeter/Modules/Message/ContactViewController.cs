@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
@@ -153,6 +154,17 @@ namespace Greeter.Modules.Message
                     SenderId = AppSettings.UserID,
                     RecipientId = contact.EmployeeID
                 };
+
+                if (!ChatViewController.RecepientsCommunicationDetailsList.Any(x => x.employeeId == contact.EmployeeID.ToString()))
+                {
+                    var communicationdata = new RecipientsCommunicationID
+                    {
+                        communicationId = contact.CommunicationID,
+                        employeeId = contact.EmployeeID.ToString()
+                    };
+                    ChatViewController.RecepientsCommunicationDetailsList.Add(communicationdata);
+                }
+
                 NavigationController.PushViewController(new ChatViewController(ChatType.Indivisual, chatInfo), animated: true);
             }
             else if(configureType == ContactConfigureType.CreateGroup)

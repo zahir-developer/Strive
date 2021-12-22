@@ -345,7 +345,7 @@ namespace Greeter.Storyboards
                 {
                     var response = await GetVehicleMembershipDetails(VehicleID);
 
-                    UpdateMembershipUpcharge(response);
+                    //UpdateMembershipUpcharge(response);
 
                     UpdateMembershipServices(response);
 
@@ -492,10 +492,16 @@ namespace Greeter.Storyboards
             tfAirFreshner.Text = airFreshners[0];
         }
 
-        async Task UpdateUpchargeForDetailAndModel(long modelId)
+        async Task UpdateUpchargeForDetailAndModel(long modelId, bool isCeramic)
         {
             var serviceTypeResponse = await SingleTon.GeneralApiService.GetGlobalData("SERVICETYPE");
-            var upchargeServiceTypeId = serviceTypeResponse?.Codes?.Where(x => x.Name.Equals(ServiceTypes.DETAIL_UPCHARGE.ToString())).FirstOrDefault().ID ?? -1;
+
+            long upchargeServiceTypeId = -1;
+
+            if (!isCeramic)
+                upchargeServiceTypeId = serviceTypeResponse?.Codes?.Where(x => x.Name.Equals(ServiceTypes.DETAIL_UPCHARGE.ToString())).FirstOrDefault().ID ?? -1;
+            else
+                upchargeServiceTypeId = serviceTypeResponse?.Codes?.Where(x => x.Name.Equals(ServiceTypes.DETAIL_CERAMIC_UPCHARGE.ToString())).FirstOrDefault().ID ?? -1;
 
             if (upchargeServiceTypeId != -1)
             {
@@ -515,6 +521,10 @@ namespace Greeter.Storyboards
                     //upcharge.CommissionAmount = selectedUpcharge.;
 
                     tfUpcharge.Text = upcharge?.SeriveName;
+                }
+                else
+                {
+                    UpdateUpchargeAsNone();
                 }
             }
             else
@@ -537,13 +547,13 @@ namespace Greeter.Storyboards
             return response;
         }
 
-        void UpdateMembershipUpcharge(MembershipResponse membershipResponse)
-        {
-            if (membershipResponse.VehicleMembershipDetail?.ClientVehicle?.UpchargeID is not 0)
-            {
-                UpdateUpchargeByID(membershipResponse.VehicleMembershipDetail.ClientVehicle.UpchargeID);
-            }
-        }
+        //void UpdateMembershipUpcharge(MembershipResponse membershipResponse)
+        //{
+        //    if (membershipResponse.VehicleMembershipDetail?.ClientVehicle?.UpchargeID is not 0)
+        //    {
+        //        UpdateUpchargeByID(membershipResponse.VehicleMembershipDetail.ClientVehicle.UpchargeID);
+        //    }
+        //}
 
         void UpdateUpchargeByID(long id)
         {
@@ -583,6 +593,10 @@ namespace Greeter.Storyboards
                     upcharge.Price = selectedUpcharge.Price;
                     //upcharge.Time = upchargeResponse.Upcharge.;
                     tfUpcharge.Text = upcharge?.SeriveName + " - $" + upcharge.Price;
+                }
+                else
+                {
+                    UpdateUpchargeAsNone();
                 }
             }
             else
@@ -758,7 +772,7 @@ namespace Greeter.Storyboards
                         else if (mainService == null)
                             return;
                         else
-                            _ = UpdateUpchargeForDetailAndModel(ModelID);
+                            _ = UpdateUpchargeForDetailAndModel(ModelID, mainService.IsCeramic);
                         break;
                     case ChoiceType.Color:
                         tfColor.Text = data[pos];
@@ -829,10 +843,11 @@ namespace Greeter.Storyboards
                         mainService.Price = DetailPackages[pos].Price;
                         mainService.Time = DetailPackages[pos].Time;
                         mainService.IsCommission = DetailPackages[pos].Commission;
+                        mainService.IsCeramic = DetailPackages[pos].IsCeramic;
                         mainService.CommissionType = DetailPackages[pos].CommissionType;
                         mainService.CommissionAmount = DetailPackages[pos].CommissionCost;
                         if (ModelID != 0)
-                            _ = UpdateUpchargeForDetailAndModel(ModelID);
+                            _ = UpdateUpchargeForDetailAndModel(ModelID, mainService.IsCeramic);
                         break;
                 }
         }
@@ -1018,6 +1033,7 @@ namespace Greeter.Storyboards
         public const string DETAIL_PACKAGE = "Detail Package";
         public const string WASH_UPCHARGE = "Wash-Upcharge";
         public const string DETAIL_UPCHARGE = "Detail-Upcharge";
+        public const string DETAIL_CERAMIC_UPCHARGE = "Detail-CeramicUpcharge";
     }
 
     public enum ServiceType

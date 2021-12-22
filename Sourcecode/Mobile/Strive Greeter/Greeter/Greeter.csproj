@@ -304,7 +304,7 @@
 		</Compile>
 		<Compile Include="Extensions\StringExtension.cs" />
 		<Compile Include="Extensions\UIExtension.cs" />
-		<Compile Include="Modules\Service\LastVisitViewController.Logic.cs" />
+
 		<Compile Include="Modules\Service\LastVisitViewController.Logic.cs">
 			<DependentUpon>Modules\Service\LastVisitViewController.cs</DependentUpon>
 		</Compile>

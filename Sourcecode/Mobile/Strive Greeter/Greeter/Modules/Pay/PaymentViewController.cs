@@ -668,7 +668,7 @@ namespace Greeter.Modules.Pay
                     CardNumber = replacedNo;
                 }
 
-                if (replacedString.Length > 12)
+                if (replacedString.Length > 11)
                 {
                     string stars = string.Empty;
 
