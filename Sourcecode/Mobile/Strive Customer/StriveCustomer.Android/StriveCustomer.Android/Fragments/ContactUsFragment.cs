@@ -171,14 +171,10 @@ namespace StriveCustomer.Android.Fragments
             Googlemap.MarkerClick += Googlemap_MarkerClick; 
         }
 
-       
+
         private void setUpMarkers()
         {
             carWashLocationsCount = 0;
-            carWashLatLng = new LatLng[Locations.Location.Count];
-            carWashMarkerOptions = new MarkerOptions[Locations.Location.Count];
-            foreach (var carWashLocation in Locations.Location)
-
 
             distanceList = new List<double>();
             dict.Clear();
@@ -245,6 +241,43 @@ namespace StriveCustomer.Android.Fragments
                 // Unable to get location
             }
         }
+     
+        public async void setupMaps()
+        {
+            var allLocations = await this.ViewModel.GetAllLocationStatus();
+            if (allLocations.Washes.Count == 0)
+            {
+                Locations = null;
+            }
+            else
+            {
+
+                washlocations = allLocations;
+            }
+            
+            gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.contactUsMaps);
+            if (gmaps != null)
+            {
+                gmaps.GetMapAsync(this);
+            }
+            
+        }
+        private void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+        {
+            e.Marker.ZIndex = e.Marker.ZIndex + 2;
+            var data = washlocations.Washes.Find(x => (double)x.Latitude == e.Marker.Position.Latitude);
+            locationName.Text = data.LocationName;
+            locationDetails.Text = data.Address1;
+            phoneDetails.Text = data.PhoneNumber;
+            mailDetails.Text = data.Email;
+            if (washlocations.Washes[0].StoreTimeIn != null)
+            {
+                DateTime StartTime = DateTime.Parse(washlocations.Washes[0].StoreTimeIn);
+                DateTime EndTime = DateTime.Parse(washlocations.Washes[0].StoreTimeOut);
+                clockDetails.Text = StartTime.TimeOfDay.ToString() + " to " + EndTime.TimeOfDay.ToString();
+            }
+            //clockDetails.Text = "11 am to 8 pm"; //data.StartTime +" "+"to"+ " " +data.EndTime;
+        }
         private Bitmap getMarkerBitmapFromView(LocationStatus locationStatus, int resId)
         {
 
@@ -287,7 +320,7 @@ namespace StriveCustomer.Android.Fragments
                 drawable.Draw(canvas);
             customMarkerView.Draw(canvas);
 
-             return returnedBitmap;
+            return returnedBitmap;
         }
         private void addCarwashGeoFence(LatLng[] latlngs, float Radius)
         {
@@ -331,53 +364,9 @@ namespace StriveCustomer.Android.Fragments
 
 
         }
-
-        public async void setupMaps()
-        {
-            var allLocations = await this.ViewModel.GetAllLocationStatus();
-            if (allLocations.Washes.Count == 0)
-            {
-                Locations = null;
-            }
-            else
-            {
-
-                washlocations = allLocations;
-            }
-            
-            gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.contactUsMaps);
-            if (gmaps != null)
-            {
-                gmaps.GetMapAsync(this);
-            }
-            
-        }
-        private  void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
-        {
-
-            e.Marker.ZIndex = e.Marker.ZIndex + 2;
-            var data = washlocations.Washes.Find(x => (double)x.Latitude == e.Marker.Position.Latitude);
-            locationName.Text = data.LocationName;
-            locationDetails.Text = data.Address1;
-            phoneDetails.Text = data.PhoneNumber;
-            mailDetails.Text = data.Email;
-            if (washlocations.Washes[0].StoreTimeIn != null)
-            {
-                DateTime StartTime = DateTime.Parse(washlocations.Washes[0].StoreTimeIn);
-                DateTime EndTime = DateTime.Parse(washlocations.Washes[0].StoreTimeOut);
-                clockDetails.Text = StartTime.TimeOfDay.ToString() + " to " + EndTime.TimeOfDay.ToString();
-            }
-            //clockDetails.Text = "11 am to 8 pm"; //data.StartTime +" "+"to"+ " " +data.EndTime;
-        }
         private void loadFirstMarkerData()
         {
-
-            locationName.Text = Locations.Location[0].LocationName;
-            locationDetails.Text = Locations.Location[0].Address1;
-            phoneDetails.Text = Locations.Location[0].PhoneNumber;
-            mailDetails.Text = Locations.Location[0].Email;
-            clockDetails.Text = Locations.Location[0].StartTime + "to" + Locations.Location[0].EndTime;
-           locationName.Text = washlocations.Washes[0].LocationName;
+            locationName.Text = washlocations.Washes[0].LocationName;
             locationDetails.Text = washlocations.Washes[0].Address1;
             phoneDetails.Text = washlocations.Washes[0].PhoneNumber;
             mailDetails.Text = washlocations.Washes[0].Email;
@@ -388,6 +377,7 @@ namespace StriveCustomer.Android.Fragments
                 clockDetails.Text = StartTime.TimeOfDay.ToString() + " to " + EndTime.TimeOfDay.ToString();
             }
         }
+
 
         public void OnConnected(Bundle connectionHint)
         {

@@ -522,9 +522,6 @@ namespace StriveCustomer.Android.Fragments
             //
         }
 
-        public bool OnMarkerClick(Marker marker)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
