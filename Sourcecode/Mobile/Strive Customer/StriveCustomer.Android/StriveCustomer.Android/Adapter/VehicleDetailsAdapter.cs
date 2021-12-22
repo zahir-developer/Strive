@@ -42,11 +42,15 @@ namespace StriveCustomer.Android.Adapter
 
         private void EditButton_Click(object sender, EventArgs e)
         {
-            var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
-            AppCompatActivity activity = (AppCompatActivity)this.ItemView.Context;
-            CustomerVehiclesInformation.selectedVehicleInfo = data.VehicleId;
-            MembershipDetails.clientVehicleID = data.VehicleId;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, InfoFragment).Commit();
+            if (CustomerVehiclesInformation.vehiclesList.Status.Count > 0)
+            {
+                var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
+                AppCompatActivity activity = (AppCompatActivity)this.ItemView.Context;
+                CustomerVehiclesInformation.selectedVehicleInfo = data.VehicleId;
+                MembershipDetails.clientVehicleID = data.VehicleId;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, InfoFragment).Commit();
+            }
+
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)

@@ -55,7 +55,7 @@ namespace StriveCustomer.Android.Fragments
             profileAdapter = new ViewPagerAdapter(ChildFragmentManager);
             profileAdapter.AddFragment(personalInfo, "Personal Info");
             profileAdapter.AddFragment(vehicleInfo, "Vehicle List");
-            profileAdapter.AddFragment(pastInfo, "Past Details");
+           // profileAdapter.AddFragment(pastInfo, "Past Details");
             profilePager.Adapter = profileAdapter;
             profileTabs.SetupWithViewPager(profilePager);
             profilePager.SetCurrentItem(MyProfileInfoNeeds.selectedTab, false);
@@ -82,10 +82,10 @@ namespace StriveCustomer.Android.Fragments
             {
                 vehicleInfo.GetVehicleList();
             }
-            else if (position == 3)
-            {
-                pastInfo.GetPastDetails();
-            }
+            //else if (position == 2)
+            //{
+            //    pastInfo.GetPastDetails();
+            //}
 
             
 

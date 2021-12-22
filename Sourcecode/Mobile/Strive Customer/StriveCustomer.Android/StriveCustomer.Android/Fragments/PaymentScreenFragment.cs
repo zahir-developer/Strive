@@ -35,7 +35,7 @@ namespace StriveCustomer.Android.Fragments
         private Button paymentBackButton;
         PaymentViewModel paymentVM;
         MembershipSignatureFragment signatureFragment;
-        MyProfileInfoFragment infoFragment;
+        MyProfileInfoFragment infoFragment;        
         public float Amount;
         public long JobID;
 
@@ -224,11 +224,14 @@ namespace StriveCustomer.Android.Fragments
                         var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
                         //Debug.WriteLine(JsonConvert.SerializeObject(paymentResponse));
 
-
                         if (paymentResponse.Message == "true")
                         {
+                            paymentVM.isAndroid = true;
                             paymentVM.MembershipAgree();
-
+                            AppCompatActivity activity = (AppCompatActivity)Context;                            
+                            MyProfileInfoNeeds.selectedTab = 0;                            
+                            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();                          
+                            
                         }
                         else
                         {
@@ -254,9 +257,7 @@ namespace StriveCustomer.Android.Fragments
                 System.Diagnostics.Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
 
             }
-            MyProfileInfoNeeds.selectedTab = 1;
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
+           
         }
 
         private void GetPaymentDetails()

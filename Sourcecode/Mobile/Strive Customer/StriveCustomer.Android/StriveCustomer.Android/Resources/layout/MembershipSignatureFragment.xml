@@ -38,36 +38,37 @@
             android:background="@color/mtrl_btn_transparent_bg_color"
             android:text="Next" />
     </RelativeLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="350dp"
         android:layout_height="match_parent"
-        android:weightSum="15"
+        android:weightSum="18"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/ten"
         android:id="@+id/finalTermsView"
         android:visibility="gone"
-        >
+>
         <ImageView
             android:id="@+id/contractPriceView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_weight="5"           
             android:background="@android:color/white"
             android:contentDescription="" />
 
         <ImageView
             android:id="@+id/termsConditionView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:adjustViewBounds="true"
+            android:maxHeight="230dp"
             android:scaleType="fitXY"
             android:background="@android:color/white"
             android:src="@drawable/mammothterms"
-            android:adjustViewBounds="true"
-            android:contentDescription="" 
+            android:contentDescription=""
         />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -81,13 +82,15 @@
             android:textColor="@android:color/black"
             android:text="Customer Signature"
             android:gravity="center_horizontal"/>
+
         <ImageView
             android:id="@+id/signatureView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_weight="7"
             android:background="@android:color/white"
             android:contentDescription="" />
+
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"

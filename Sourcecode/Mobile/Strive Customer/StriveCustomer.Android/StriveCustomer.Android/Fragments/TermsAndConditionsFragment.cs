@@ -185,7 +185,7 @@ namespace StriveCustomer.Android.Fragments
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, signatureFragment).Commit();         
 
         }
-        private Bitmap GetBitmapFromView(View view)
+        public static Bitmap GetBitmapFromView(View view)
         {
             //Define a bitmap with the same size as the view
             Bitmap returnedBitmap = Bitmap.CreateBitmap(view.Width, view.Height, Bitmap.Config.Argb8888);

@@ -18,7 +18,7 @@ using static Android.Widget.CompoundButton;
 
 namespace StriveCustomer.Android.Adapter
 {
-    class AdditionalServicesAdapter : BaseAdapter, IOnCheckedChangeListener 
+    class AdditionalServicesAdapter : BaseAdapter 
     {
 
         Context context;
@@ -76,15 +76,15 @@ namespace StriveCustomer.Android.Adapter
             holder.additionalCheck = view.FindViewById<CheckBox>(Resource.Id.additionalServiceCheck);
             holder.additionalCheck.SetTypeface(null,TypefaceStyle.Bold);
             holder.additionalCheck.Tag = "Check" + position;
-            if(!checkedCheck.ContainsKey(services[position].ServiceId))
-            {
-                checkedCheck.Add(services[position].ServiceId, holder.additionalCheck.Tag.ToString());
-            }
+            //if(!checkedCheck.ContainsKey(services[position].ServiceId))
+            //{
+            //    checkedCheck.Add(services[position].ServiceId, holder.additionalCheck.Tag.ToString());
+            //}
             if(MembershipDetails.selectedAdditionalServices.Contains(services[position].ServiceId))
             {
                 holder.additionalCheck.Checked = true;
             }
-            holder.additionalCheck.SetOnCheckedChangeListener(this);
+            holder.additionalCheck.Click += CheckedChanged;
             setServicesData(this.services,position,holder);
             return view;
         }
@@ -126,22 +126,29 @@ namespace StriveCustomer.Android.Adapter
                 }
             }
 
-        }
-
-        public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
+        }      
+        
+        public void CheckedChanged(object sender, EventArgs e)
         {
-            foreach(var data in checkedCheck)
+            var compoundBtn = (CompoundButton)sender;
+            int position = (int)compoundBtn.Tag;
+            if (MembershipDetails.selectedAdditionalServices.Count != 0)
             {
-                if(isChecked && string.Equals(data.Value.ToString(),buttonView.Tag.ToString()))
+                if (MembershipDetails.selectedAdditionalServices.Contains(services[position].ServiceId))
                 {
-                    MembershipDetails.selectedAdditionalServices.Add(data.Key);
+                    MembershipDetails.selectedAdditionalServices.Remove(services[position].ServiceId);
                 }
- 
-                if(!isChecked && string.Equals(data.Value.ToString(), buttonView.Tag.ToString()))
+                else
                 {
-                    MembershipDetails.selectedAdditionalServices.Remove(data.Key);
+                    MembershipDetails.selectedAdditionalServices.Add(services[position].ServiceId);
                 }
             }
+            else
+            {
+                MembershipDetails.selectedAdditionalServices.Add(services[position].ServiceId);
+            }
+
+            
         }
 
         //Fill in cound here, currently 0

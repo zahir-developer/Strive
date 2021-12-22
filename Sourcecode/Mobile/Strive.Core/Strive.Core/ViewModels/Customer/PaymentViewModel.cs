@@ -14,14 +14,16 @@ namespace Strive.Core.ViewModels.Customer
         public static string Base64ContractString;
         public float finalmonthlycharge;
         private List<ServiceDetail> servicedetails;
+        public bool isAndroid = false;
         public PaymentViewModel()
         {
 
         }
-        
 
+        
         public async void MembershipAgree()
         {
+
             _userDialog.ShowLoading();
             if (CustomerVehiclesInformation.completeVehicleDetails != null)
             {
@@ -78,7 +80,10 @@ namespace Strive.Core.ViewModels.Customer
                 {
                     _userDialog.Toast("Membership has been created successfully");
                     MembershipDetails.clearMembershipData();
-                    await _navigationService.Navigate<MyProfileInfoViewModel>();
+                    if (!isAndroid) 
+                    { 
+                        await _navigationService.Navigate<MyProfileInfoViewModel>(); 
+                    }                   
                   
                 }
                 else
