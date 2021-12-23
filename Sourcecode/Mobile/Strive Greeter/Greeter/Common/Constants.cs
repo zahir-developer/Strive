@@ -50,10 +50,10 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
-        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         // Mammoth QA
-        internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
         // Client Url by Zahir - not working - don't use this one as of now
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";

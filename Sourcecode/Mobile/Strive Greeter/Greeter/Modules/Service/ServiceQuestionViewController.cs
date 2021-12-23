@@ -509,18 +509,22 @@ namespace Greeter.Storyboards
                 var upchargeResponse = await SingleTon.WashApiService.GetUpcharge(req);
                 if (upchargeResponse is not null && upchargeResponse.Upcharges is not null && upchargeResponse.Upcharges.Length == 1)
                 {
-                    var selectedUpcharge = upchargeResponse.Upcharges[0];
+                    var selectedUpcharge = Upcharges.Find(x => x.ID == upchargeResponse.Upcharges[0].ServiceID);
+
+                    if (selectedUpcharge is null)
+                        return;
+
+                    //var selectedUpcharge = upchargeResponse.Upcharges[0];
                     upcharge = upcharge ?? new JobItem();
-                    upcharge.ServiceId = selectedUpcharge.ServiceID;
-                    upcharge.SeriveName = selectedUpcharge.ServiceName;
+                    upcharge.ServiceId = selectedUpcharge.ID;
+                    upcharge.SeriveName = selectedUpcharge.Name;
                     upcharge.Price = selectedUpcharge.Price;
+                    upcharge.Time = selectedUpcharge.Time;
+                    upcharge.IsCommission = selectedUpcharge.Commission;
+                    upcharge.CommissionType = selectedUpcharge.CommissionType;
+                    upcharge.CommissionAmount = selectedUpcharge.CommissionCost;
 
-                    //upcharge.Time = selectedUpcharge.Time;
-                    //upcharge.IsCommission = selectedUpcharge.;
-                    //upcharge.CommissionType = selectedUpcharge.;
-                    //upcharge.CommissionAmount = selectedUpcharge.;
-
-                    tfUpcharge.Text = upcharge?.SeriveName;
+                    tfUpcharge.Text = selectedUpcharge?.Name + " - $" + selectedUpcharge.Price;
                 }
                 else
                 {
@@ -555,25 +559,24 @@ namespace Greeter.Storyboards
         //    }
         //}
 
-        void UpdateUpchargeByID(long id)
-        {
-            var membershipUpcharge = Upcharges.Find(x => x.ID == id);
+        //void UpdateUpchargeByID(long id)
+        //{
+        //    var membershipUpcharge = Upcharges.Find(x => x.ID == id);
 
-            if (membershipUpcharge is not null)
-            {
-                upcharge = upcharge ?? new JobItem();
-                upcharge.ServiceId = id;
-                upcharge.SeriveName = membershipUpcharge.Name;
-                upcharge.Price = membershipUpcharge.Price;
-                upcharge.Time = membershipUpcharge.Time;
-                upcharge.IsCommission = membershipUpcharge.Commission;
-                upcharge.CommissionType = membershipUpcharge.CommissionType;
-                upcharge.CommissionAmount = membershipUpcharge.CommissionCost;
+        //    if (membershipUpcharge is not null)
+        //    {
+        //        upcharge = upcharge ?? new JobItem();
+        //        upcharge.ServiceId = id;
+        //        upcharge.SeriveName = membershipUpcharge.Name;
+        //        upcharge.Price = membershipUpcharge.Price;
+        //        upcharge.Time = membershipUpcharge.Time;
+        //        upcharge.IsCommission = membershipUpcharge.Commission;
+        //        upcharge.CommissionType = membershipUpcharge.CommissionType;
+        //        upcharge.CommissionAmount = membershipUpcharge.CommissionCost;
 
-                tfUpcharge.Text = upcharge?.SeriveName + " - $" + upcharge.Price;
-            }
-
-        }
+        //        tfUpcharge.Text = upcharge?.SeriveName + " - $" + upcharge.Price;
+        //    }
+        //}
 
         async Task UpdateUpchargeForModel(long modelId)
         {
@@ -586,13 +589,22 @@ namespace Greeter.Storyboards
                 var upchargeResponse = await SingleTon.WashApiService.GetUpcharge(req);
                 if (upchargeResponse is not null && upchargeResponse.Upcharges is not null && upchargeResponse.Upcharges.Length == 1)
                 {
-                    var selectedUpcharge = upchargeResponse.Upcharges[0];
+                    var selectedUpcharge = Upcharges.Find(x => x.ID == upchargeResponse.Upcharges[0].ServiceID);
+
+                    if (selectedUpcharge is null)
+                        return;
+
+                    //var selectedUpcharge = upchargeResponse.Upcharges[0];
                     upcharge = upcharge ?? new JobItem();
-                    upcharge.ServiceId = selectedUpcharge.ServiceID;
-                    upcharge.SeriveName = selectedUpcharge.ServiceName;
+                    upcharge.ServiceId = selectedUpcharge.ID;
+                    upcharge.SeriveName = selectedUpcharge.Name;
                     upcharge.Price = selectedUpcharge.Price;
-                    //upcharge.Time = upchargeResponse.Upcharge.;
-                    tfUpcharge.Text = upcharge?.SeriveName + " - $" + upcharge.Price;
+                    upcharge.Time = selectedUpcharge.Time;
+                    upcharge.IsCommission = selectedUpcharge.Commission;
+                    upcharge.CommissionType = selectedUpcharge.CommissionType;
+                    upcharge.CommissionAmount = selectedUpcharge.CommissionCost;
+
+                    tfUpcharge.Text = selectedUpcharge?.Name + " - $" + selectedUpcharge.Price;
                 }
                 else
                 {
