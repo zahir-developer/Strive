@@ -47,14 +47,16 @@ namespace StriveCustomer.Android.Fragments
         public async void GetScheduleVehicleList()
         {
            await this.ViewModel.GetScheduleVehicleList();
-
-            if(this.ViewModel.scheduleVehicleList != null || this.ViewModel.scheduleVehicleList.Status.Count > 0)
+            if (this.ViewModel != null)
             {
-                scheduleListAdapter = new ScheduleVehicleListAdapter(this.ViewModel.scheduleVehicleList);
+             if (this.ViewModel.scheduleVehicleList != null || this.ViewModel.scheduleVehicleList.Status.Count > 0)
+                {
+                    scheduleListAdapter = new ScheduleVehicleListAdapter(this.ViewModel.scheduleVehicleList);
 
-                LinearLayoutManager layoutManager = new LinearLayoutManager(Context);
-                ScheduleVehicleList_RecyclerView.SetLayoutManager(layoutManager);
-                ScheduleVehicleList_RecyclerView.SetAdapter(scheduleListAdapter);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(Context);
+                    ScheduleVehicleList_RecyclerView.SetLayoutManager(layoutManager);
+                    ScheduleVehicleList_RecyclerView.SetAdapter(scheduleListAdapter);
+                }
             }
         }
     }

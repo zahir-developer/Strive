@@ -94,21 +94,28 @@ namespace StriveCustomer.Android.Fragments
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }
 
-        private async void CurrentDateSlots()
+        private void CurrentDateSlots()
         {
-             dt = DateTime.Now;
+            dt = DateTime.Now;
             GetAvailableSlot(dt.Month, dt.Year, dt.Day);
         }
 
-        private async void Schedule_CalendarView_DateChange1(object sender, CalendarView.DateChangeEventArgs e)
+        private void Schedule_CalendarView_DateChange1(object sender, CalendarView.DateChangeEventArgs e)
         {
-            var str = e.Month+1 + "-" + e.DayOfMonth + "-" + e.Year + " " + DateTime.Now.ToString("HH:mm:ss"); ;
-            
-            dt = Convert.ToDateTime(str);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
+            var str = e.Month + 1 + "-" + e.DayOfMonth + "-" + e.Year+ " " + DateTime.Now.ToString("HH:mm:ss");
+            try
+            {
+              
+                dt = DateTime.ParseExact(str, "MM/dd/yyyy", System.Globalization.CultureInfo.CurrentUICulture);//Convert.ToDateTime(str);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
             GetAvailableSlot(e.Month + 1, e.Year, e.DayOfMonth);
         }
 
-       private async void GetAvailableSlot(int month, int year, int day)
+        private async void GetAvailableSlot(int month, int year, int day)
         {
             updatedScheduleSlotInfo = new AvailableScheduleSlots();
             updatedScheduleSlotInfo.GetTimeInDetails = new List<GetTimeInDetails>();

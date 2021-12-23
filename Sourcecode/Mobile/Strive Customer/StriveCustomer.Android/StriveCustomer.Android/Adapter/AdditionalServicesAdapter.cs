@@ -75,12 +75,13 @@ namespace StriveCustomer.Android.Adapter
             holder.linearLayout = view.FindViewById<LinearLayout>(Resource.Id.linearlayout);
             holder.additionalCheck = view.FindViewById<CheckBox>(Resource.Id.additionalServiceCheck);
             holder.additionalCheck.SetTypeface(null,TypefaceStyle.Bold);
-            holder.additionalCheck.Tag = "Check" + position;
+            holder.additionalCheck.Tag = position;
+            //holder.additionalCheck.Tag = "Check" + position;
             //if(!checkedCheck.ContainsKey(services[position].ServiceId))
             //{
             //    checkedCheck.Add(services[position].ServiceId, holder.additionalCheck.Tag.ToString());
             //}
-            if(MembershipDetails.selectedAdditionalServices.Contains(services[position].ServiceId))
+            if (MembershipDetails.selectedAdditionalServices.Contains(services[position].ServiceId))
             {
                 holder.additionalCheck.Checked = true;
             }

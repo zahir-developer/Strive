@@ -302,12 +302,27 @@ namespace StriveCustomer.Android.Fragments
             try
             {
                 var currentLocation = await Geolocation.GetLastKnownLocationAsync();
-                double dist = (double)(currentLocation?.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles));
-                if (!dict.ContainsKey(id))
+                if (currentLocation == null)
                 {
-                    dict.Add(id, dist);
-                    distanceList.Add(dist);
+                    var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                    var location = await Geolocation.GetLocationAsync(request);
+                    double dist = (double)(location?.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles));
+                    if (!dict.ContainsKey(id))
+                    {
+                        dict.Add(id, dist);
+                        distanceList.Add(dist);
+                    }
                 }
+                else
+                {
+                    double dist = (double)(currentLocation?.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles));
+                    if (!dict.ContainsKey(id))
+                    {
+                        dict.Add(id, dist);
+                        distanceList.Add(dist);
+                    }
+                }
+                
                
             }
             catch (FeatureNotSupportedException fnsEx)
@@ -332,7 +347,6 @@ namespace StriveCustomer.Android.Fragments
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-                CancellationTokenSource cts = new CancellationTokenSource();
                 var location = await Geolocation.GetLocationAsync(request);
 
                 if (location != null)
