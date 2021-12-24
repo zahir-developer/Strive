@@ -38,9 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperAdmin.API", "SuperAdmi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messenger.API", "Messenger.API\Messenger.API.csproj", "{69D0C679-B0AF-48B6-99E2-7BCA489861F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDN.Static", "CDN.Static\CDN.Static.csproj", "{2836F025-A33E-4378-B034-341ED7F61CEA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StriveEmailScheduler", "StriveEmailScheduler\StriveEmailScheduler.csproj", "{381B247C-816C-43A6-B51F-A45A7CFCB24D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDN.Static", "CDN.Static\CDN.Static.csproj", "{2836F025-A33E-4378-B034-341ED7F61CEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

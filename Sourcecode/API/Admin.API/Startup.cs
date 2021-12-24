@@ -57,6 +57,11 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Serilog;
 using Serilog.AspNetCore;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Admin.API.Scheduler.Quartz;
+using Admin.API.Scheduler;
+using Quartz.Spi;
+using Quartz;
+using Quartz.Impl;
 
 namespace Admin.API
 {
@@ -227,6 +232,15 @@ namespace Admin.API
             services.Configure<SecureHeadersMiddlewareConfiguration>(Configuration.GetSection("SecureHeadersMiddlewareConfiguration"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton<IJobFactory, JobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddHostedService<QuartzHostedService>();
+
+            services.AddSingleton<EmailScheduler>();
+            string cronExp = Configuration.GetSection("EmailScheduler")["CRON"];
+            services.AddSingleton(new JobSchedule(jobType: typeof(EmailScheduler), cronExpression: cronExp));
+
             services.AddSwagger();
 
             services.AddSignalR();

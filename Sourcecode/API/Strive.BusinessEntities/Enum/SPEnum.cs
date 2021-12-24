@@ -376,7 +376,8 @@ namespace Strive.BusinessEntities
 
         public enum Job
         {
-            USPDELETEJOBITEMBYID
+            USPDELETEJOBITEMBYID,
+            USPGETCLIENTMAIL
         }
     }
     
