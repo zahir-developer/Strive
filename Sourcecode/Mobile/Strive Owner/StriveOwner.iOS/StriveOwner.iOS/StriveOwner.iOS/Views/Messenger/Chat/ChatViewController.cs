@@ -24,6 +24,8 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
         NSLayoutConstraint messageBoxContainerBottomConstraint;
         Msg_PersonalChatViewModel ViewModel;
 
+        public static string ConnectionID;
+
         public List<string> Chats = new List<string>();
 
         public ChatViewController() : base("ChatViewController", null)
@@ -127,10 +129,18 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
                 chatTableView.DelaysContentTouches = false;
                 chatTableView.ReloadData();
             }
+
+            ConnectionID = await ViewModel.StartCommunication();
+
+            await ChatHubMessagingService.SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
+
+            MessengerTempData.ConnectionID = ConnectionID;
+
             await ChatHubMessagingService.SubscribeChatEvent();
             ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
             ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
         }
+       
 
         private void GroupMessageList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

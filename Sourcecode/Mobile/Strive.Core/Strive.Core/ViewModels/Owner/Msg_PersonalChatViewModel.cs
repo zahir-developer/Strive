@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MvvmCross.ViewModels;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
+using Strive.Core.Services.HubServices;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 
@@ -86,6 +87,12 @@ namespace Strive.Core.ViewModels.Owner
                     //}
                 }
             }
+        }
+
+        public async Task<string> StartCommunication()
+        {
+            var ConnectionID = await ChatHubMessagingService.StartConnection();
+            return ConnectionID;
         }
 
         public void EmptyChatMessageError()

@@ -134,29 +134,39 @@ namespace Strive.Core.ViewModels.Customer
                     clientVehicleMembershipService.clientVehicleMembershipServiceId = service.MembershipServiceId;
                     selectedmembershipServices.Add(clientVehicleMembershipService);
                 }
-
+                if (MembershipDetails.modelUpcharge!=null)
+                {
+                    ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
+                    clientVehicleMembershipService.serviceId = MembershipDetails.modelUpcharge.upcharge[0].ServiceId;
+                    clientVehicleMembershipService.serviceTypeId = MembershipDetails.modelUpcharge.upcharge[0].ServiceTypeId;
+                    clientVehicleMembershipService.createdDate = DateTime.Now.ToString("yyyy-MM-d");
+                    clientVehicleMembershipService.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
+                    clientVehicleMembershipService.clientMembershipId = 0;
+                    clientVehicleMembershipService.clientVehicleMembershipServiceId = 0;
+                    selectedmembershipServices.Add(clientVehicleMembershipService);
+                }
                 MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;
             }
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.totalPrice = finalmonthlycharge;
-            ClientVehicless = new ClientVehicle();
-            ClientVehicless.clientVehicle = new ClientVehicleDetail();
-            ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
-            ClientVehicless.clientVehicle.isActive = true;
-            ClientVehicless.clientVehicle.isDeleted = false;
-            ClientVehicless.clientVehicle.clientId = CustomerInfo.ClientID;
-            ClientVehicless.clientVehicle.createdDate = DateTime.Now.ToString("yyyy-MM-d");
-            ClientVehicless.clientVehicle.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
-            ClientVehicless.clientVehicle.vehicleId = MembershipDetails.clientVehicleID;
-            ClientVehicless.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
-            ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
-            ClientVehicless.clientVehicle.vehicleModel = MembershipDetails.modelNumber;
-            ClientVehicless.clientVehicle.vehicleMfr = MembershipDetails.vehicleMfr;
+            //ClientVehicless = new ClientVehicle();
+            //ClientVehicless.clientVehicle = new ClientVehicleDetail();
+            //ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
+            //ClientVehicless.clientVehicle.isActive = true;
+            //ClientVehicless.clientVehicle.isDeleted = false;
+            //ClientVehicless.clientVehicle.clientId = CustomerInfo.ClientID;
+            //ClientVehicless.clientVehicle.createdDate = DateTime.Now.ToString("yyyy-MM-d");
+            //ClientVehicless.clientVehicle.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
+            //ClientVehicless.clientVehicle.vehicleId = MembershipDetails.clientVehicleID;
+            //ClientVehicless.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+            //ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
+            //ClientVehicless.clientVehicle.vehicleModel = MembershipDetails.modelNumber;
+            //ClientVehicless.clientVehicle.vehicleMfr = MembershipDetails.vehicleMfr;
 
-            ClientVehicless.clientVehicle.upcharge = (int)MembershipDetails.modelUpcharge.upcharge[0].Price;
-            ClientVehicless.clientVehicle.barcode = MembershipDetails.barCode;
-            ClientVehicless.clientVehicle.locationId = null;
-            MembershipDetails.customerVehicleDetails.clientVehicle = ClientVehicless;
+            //ClientVehicless.clientVehicle.upcharge = (int)MembershipDetails.modelUpcharge.upcharge[0].Price;
+            //ClientVehicless.clientVehicle.barcode = MembershipDetails.barCode;
+            //ClientVehicless.clientVehicle.locationId = null;
+            //MembershipDetails.customerVehicleDetails.clientVehicle = ClientVehicless;
         }
             
         public enum PaymentStatus
