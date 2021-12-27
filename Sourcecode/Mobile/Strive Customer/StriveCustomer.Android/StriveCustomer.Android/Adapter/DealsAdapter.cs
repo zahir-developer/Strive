@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Support.V7.App;
@@ -64,10 +65,33 @@ namespace StriveCustomer.Android.Adapter
         {
             recyclerViewHolder = holder as RecyclerViewHolder;
             recyclerViewHolder.dealsText.Text = dealsData[position].DealName;
-            recyclerViewHolder.dealsValidity.Text = "Validity: "+ dealsData[position].StartDate.ToString() +" to "+ dealsData[position].EndDate.ToString();
+            showValidity(dealsData[position], recyclerViewHolder.dealsValidity);
+            //recyclerViewHolder.dealsValidity.Text = "Validity: "+ dealsData[position].StartDate.ToString() +" to "+ dealsData[position].EndDate.ToString();
             match = position;
             //checkForSelected();
             recyclerViewHolder.SetItemClickListener(this);
+        }
+        private void showValidity(GetAllDeal item, TextView dealsValidity)
+        {
+            var date1 = item.StartDate;
+            var FullSplitDates = date1.Split("-");
+            var fullDateInfo = FullSplitDates[0].Substring(0, 4);
+            var month1 = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(int.Parse(FullSplitDates[1]));
+            var shortMon1 = month1.Substring(0, 3);
+
+            var date2 = item.EndDate;
+            var FullSplitDates2 = date2.Split("-");
+            var fullDateInfo2 = FullSplitDates[0].Substring(0, 4);
+            var month2 = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(int.Parse(FullSplitDates2[1]));
+            var shortMon2 = month2.Substring(0, 3);
+            if ((int.Parse(fullDateInfo) < 2000) && (int.Parse(fullDateInfo2) < 2000))
+            {
+                dealsValidity.Text = "Validity: None";
+            }
+            else
+            {
+                dealsValidity.Text = "Validity: " + FullSplitDates[2].Substring(0, 2) + " " + shortMon1 + " " + fullDateInfo + " to " + FullSplitDates2[2].Substring(0, 2) + " " + shortMon2 + " " + fullDateInfo2;
+            }
         }
 
         private void checkForSelected()

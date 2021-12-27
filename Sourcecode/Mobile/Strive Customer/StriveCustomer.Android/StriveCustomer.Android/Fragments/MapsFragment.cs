@@ -183,6 +183,18 @@ namespace StriveCustomer.Android.Fragments
             while (seconds != 0)
             {
                 await Task.Delay(seconds);
+                var locations = await ViewModel.GetAllLocationStatus();
+                if (locations != null)
+                {
+                    if (locations?.Washes.Count == 0)
+                    {
+                        carWashLocations = null;
+                    }
+                    else
+                    {
+                        carWashLocations = locations;
+                    }
+                }
                 setUpMarkers();
                 
 

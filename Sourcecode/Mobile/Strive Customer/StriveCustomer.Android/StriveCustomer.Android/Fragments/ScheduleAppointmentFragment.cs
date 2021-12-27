@@ -21,7 +21,7 @@ using StriveCustomer.Android.Adapter;
 
 namespace StriveCustomer.Android.Fragments
 {
-    public class ScheduleAppointmentFragment : MvxFragment<ScheduleAppointmentDateViewModel>
+    public class ScheduleAppointmentFragment : MvxFragment<ScheduleAppointmentDateViewModel> 
     {
         private GridView TimeSlot_GridView;
         private TextView SlotTxtView;
@@ -65,8 +65,23 @@ namespace StriveCustomer.Android.Fragments
             month = calendar.Get(CalendarField.Month);
             schedule_CalendarView.MinDate = calendar.TimeInMillis;
             CurrentDateSlots();
-            
+            TimeSlot_GridView.ScrollStateChanged += OnGridViewScrollStateChanged;
+       
             return rootView;
+        }
+
+        private void OnGridViewScrollStateChanged(object sender, AbsListView.ScrollStateChangedEventArgs e)
+        {
+            var adapter = (ScheduleTimeSlots)TimeSlot_GridView.Adapter;
+            if (e.ScrollState != ScrollState.Idle)
+            {
+                adapter.IsScrolling = true;
+            }
+            else
+            {
+                adapter.IsScrolling = false;
+                adapter.NotifyDataSetChanged();
+            }
         }
 
         private void Back_Button_Click(object sender, EventArgs e)
@@ -229,22 +244,18 @@ namespace StriveCustomer.Android.Fragments
                 {
                     SlotTxtView.Text = "No Available Time Slots";
                 }
-               // TimeSlot_GridView.Visibility = ViewStates.Visible;    
                 TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, updatedScheduleSlotInfo);
             }
 
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
             {
-                //TimeSlot_GridView.Visibility = ViewStates.Invisible;
                 TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, updatedScheduleSlotInfo);
 
             }
             else
             {
-                //TimeSlot_GridView.Visibility = ViewStates.Invisible;
 
             }
             }
-        
     }
 }

@@ -174,7 +174,8 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[position].Price;
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[position].ServiceName;
                 CustomerScheduleInformation.ScheduleServiceEstimatedTime = this.ViewModel.scheduleServices.AllServiceDetail[position].EstimatedTime ?? 0;
-
+                CustomerScheduleInformation.ServiceTypeName = this.ViewModel.scheduleServices.AllServiceDetail[position].ServiceTypeName;
+                CustomerScheduleInformation.IsCeramic = this.ViewModel.scheduleServices.AllServiceDetail[position].IsCeramic;
             }
             oldSelection = position;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;

@@ -23,7 +23,7 @@ namespace StriveCustomer.Android.Adapter
         int slotsAvailable { get; set; }
         Button[] slotSelection;
         int oldSelection { get; set; } = -1;
-
+       public bool IsScrolling;
         AvailableScheduleSlots availableScheduleSlots = new AvailableScheduleSlots();
         List<int> Selected;
 
@@ -54,262 +54,28 @@ namespace StriveCustomer.Android.Adapter
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-
             if (convertView == null)
             {
                 slotSelection[position] = new Button(context);
                 slotSelection[position].LayoutParameters = new GridView.LayoutParams(150, 85);
-                
                 slotSelection[position].SetPadding(8, 8, 8, 8);
             }
             else
             {
                 slotSelection[position] = (Button)convertView;
-                
+
             }
             slotSelection[position].SetBackgroundResource(Resource.Drawable.TimeSlots);
             slotSelection[position].Text = availableScheduleSlots.GetTimeInDetails[position].TimeIn;
             Selected.Add(0);
             slotSelection[position].Tag = position;
             slotSelection[position].Click += ScheduleTimeSlots_Click;
-            //switch(position)
-            //{
-            //    case 0:
-            //        slotSelection[0].Click += ScheduleTimeSlots_Click0; 
-            //        break;
-            //    case 1:
-            //        slotSelection[1].Click += ScheduleTimeSlots_Click1;
-            //        break;
-            //    case 2:
-            //        slotSelection[2].Click += ScheduleTimeSlots_Click2;
-            //        break;
-            //    case 3:
-            //        slotSelection[3].Click += ScheduleTimeSlots_Click3;
-            //        break;
-            //    case 4:
-            //        slotSelection[4].Click += ScheduleTimeSlots_Click4;
-            //        break;
-            //    case 5:
-            //        slotSelection[5].Click += ScheduleTimeSlots_Click5;
-            //        break;
-            //    case 6:
-            //        slotSelection[6].Click += ScheduleTimeSlots_Click6;
-            //        break;
-            //    case 7:
-            //        slotSelection[7].Click += ScheduleTimeSlots_Click7;
-            //        break;
-            //    case 8:
-            //        slotSelection[8].Click += ScheduleTimeSlots_Click8;
-            //        break;
-            //    case 9:
-            //        slotSelection[9].Click += ScheduleTimeSlots_Click9;
-            //        break;
-            //    case 10:
-            //        slotSelection[10].Click += ScheduleTimeSlots_Click10;
-            //        break;
-            //    case 11:
-            //        slotSelection[11].Click += ScheduleTimeSlots_Click11;
-            //        break;
-            //    case 12:
-            //        slotSelection[12].Click += ScheduleTimeSlots_Click12;
-            //        break;
-            //    case 13:
-            //        slotSelection[13].Click += ScheduleTimeSlots_Click13;
-            //        break;
-            //    case 14:
-            //        slotSelection[14].Click += ScheduleTimeSlots_Click14;
-            //        break;
-            //    case 15:
-            //        slotSelection[15].Click += ScheduleTimeSlots_Click15;
-            //        break;
-            //    case 16:
-            //        slotSelection[16].Click += ScheduleTimeSlots_Click16;
-            //        break;
-            //    case 17:
-            //        slotSelection[17].Click += ScheduleTimeSlots_Click17;
-            //        break;
-            //    case 18:
-            //        slotSelection[18].Click += ScheduleTimeSlots_Click18;
-            //        break;
-            //    case 19:
-            //        slotSelection[19].Click += ScheduleTimeSlots_Click19;
-            //        break;
-            //    case 20:
-            //        slotSelection[20].Click += ScheduleTimeSlots_Click20;
-            //        break;
-            //    case 21:
-            //        slotSelection[21].Click += ScheduleTimeSlots_Click21;
-            //        break;
-            //    case 22:
-            //        slotSelection[22].Click += ScheduleTimeSlots_Click22;
-            //        break;
-            //    case 23:
-            //        slotSelection[23].Click += ScheduleTimeSlots_Click23;
-            //        break;
-            //    case 24:
-            //        slotSelection[24].Click += ScheduleTimeSlots_Click24;
-            //        break;
-            //    case 25:
-            //        slotSelection[25].Click += ScheduleTimeSlots_Click25;
-            //        break;
-            //    case 26:
-            //        slotSelection[26].Click += ScheduleTimeSlots_Click26;
-            //        break;
-            //    case 27:
-            //        slotSelection[27].Click += ScheduleTimeSlots_Click27;
-            //        break;
-            //    case 28:
-            //        slotSelection[28].Click += ScheduleTimeSlots_Click28;
-            //        break;
-            //    case 29:
-            //        slotSelection[29].Click += ScheduleTimeSlots_Click29;
-            //        break;
-            //    case 30:
-            //        slotSelection[30].Click += ScheduleTimeSlots_Click30;
-            //        break;
-            //    case 31:
-            //        slotSelection[31].Click += ScheduleTimeSlots_Click31;
-            //        break;
-            //    case 32:
-            //        slotSelection[32].Click += ScheduleTimeSlots_Click32;
-            //        break;
-            //    case 33:
-            //        slotSelection[33].Click += ScheduleTimeSlots_Click33;
-            //        break;
-            //    case 34:
-            //        slotSelection[34].Click += ScheduleTimeSlots_Click34;
-            //        break;
-            //    case 35:
-            //        slotSelection[35].Click += ScheduleTimeSlots_Click35;
-            //        break;
-            //    case 36:
-            //        slotSelection[36].Click += ScheduleTimeSlots_Click36;
-            //        break;
-            //    case 37:
-            //        slotSelection[37].Click += ScheduleTimeSlots_Click37;
-            //        break;
-            //    case 38:
-            //        slotSelection[38].Click += ScheduleTimeSlots_Click38;
-            //        break;
-            //    case 39:
-            //        slotSelection[39].Click += ScheduleTimeSlots_Click39;
-            //        break;
-            //    case 40:
-            //        slotSelection[40].Click += ScheduleTimeSlots_Click40;
-            //        break;
-            //    case 41:
-            //        slotSelection[41].Click += ScheduleTimeSlots_Click41;
-            //        break;
-            //    case 42:
-            //        slotSelection[42].Click += ScheduleTimeSlots_Click42;
-            //        break;
-            //    case 43:
-            //        slotSelection[43].Click += ScheduleTimeSlots_Click43;
-            //        break;
-            //    case 44:
-            //        slotSelection[44].Click += ScheduleTimeSlots_Click44;
-            //        break;
-            //    case 45:
-            //        slotSelection[45].Click += ScheduleTimeSlots_Click45;
-            //        break;
-            //    case 46:
-            //        slotSelection[46].Click += ScheduleTimeSlots_Click46;
-            //        break;
-            //    case 47:
-            //        slotSelection[47].Click += ScheduleTimeSlots_Click47;
-            //        break;
-            //    case 48:
-            //        slotSelection[48].Click += ScheduleTimeSlots_Click48;
-            //        break;
-            //    case 49:
-            //        slotSelection[49].Click += ScheduleTimeSlots_Click49;
-            //        break;
-            //    case 50:
-            //        slotSelection[50].Click += ScheduleTimeSlots_Click50;
-            //        break;
-            //    case 51:
-            //        slotSelection[51].Click += ScheduleTimeSlots_Click51;
-            //        break;
-            //    case 52:
-            //        slotSelection[52].Click += ScheduleTimeSlots_Click52;
-            //        break;
-            //    case 53:
-            //        slotSelection[53].Click += ScheduleTimeSlots_Click53;
-            //        break;
-            //    case 54:
-            //        slotSelection[54].Click += ScheduleTimeSlots_Click54;
-            //        break;
-            //    case 55:
-            //        slotSelection[55].Click += ScheduleTimeSlots_Click55;
-            //        break;
-            //    case 56:
-            //        slotSelection[56].Click += ScheduleTimeSlots_Click56;
-            //        break;
-            //    case 57:
-            //        slotSelection[57].Click += ScheduleTimeSlots_Click57;
-            //        break;
-            //    case 58:
-            //        slotSelection[58].Click += ScheduleTimeSlots_Click58;
-            //        break;
-            //    case 59:
-            //        slotSelection[59].Click += ScheduleTimeSlots_Click59;
-            //        break;
-            //    case 60:
-            //        slotSelection[60].Click += ScheduleTimeSlots_Click60;
-            //        break;
-            //    case 61:
-            //        slotSelection[61].Click += ScheduleTimeSlots_Click61;
-            //        break;
-            //    case 62:
-            //        slotSelection[62].Click += ScheduleTimeSlots_Click62;
-            //        break;
-            //    case 63:
-            //        slotSelection[63].Click += ScheduleTimeSlots_Click63;
-            //        break;
-            //    case 64:
-            //        slotSelection[64].Click += ScheduleTimeSlots_Click64;
-            //        break;
-            //    case 65:
-            //        slotSelection[65].Click += ScheduleTimeSlots_Click65;
-            //        break;
-            //    case 66:
-            //        slotSelection[66].Click += ScheduleTimeSlots_Click66;
-            //        break;
-            //    case 67:
-            //        slotSelection[67].Click += ScheduleTimeSlots_Click67;
-            //        break;
-            //    case 68:
-            //        slotSelection[68].Click += ScheduleTimeSlots_Click68;
-            //        break;
-            //    case 69:
-            //        slotSelection[69].Click += ScheduleTimeSlots_Click69;
-            //        break;
-            //    case 70:
-            //        slotSelection[70].Click += ScheduleTimeSlots_Click70;
-            //        break;
-            //    case 71:
-            //        slotSelection[71].Click += ScheduleTimeSlots_Click71;
-            //        break;
-            //    case 72:
-            //        slotSelection[72].Click += ScheduleTimeSlots_Click72;
-            //        break;
-            //    case 73:
-            //        slotSelection[73].Click += ScheduleTimeSlots_Click73;
-            //        break;
-            //    case 74:
-            //        slotSelection[74].Click += ScheduleTimeSlots_Click74;
-            //        break;
-            //    case 75:
-            //        slotSelection[75].Click += ScheduleTimeSlots_Click75;
-            //        break;
-            //}
-
             if (CustomerScheduleInformation.ScheduleServiceSlotNumber == position)
             {
-                if(Selected[position]!=0)
-                slotSelection[position].SetBackgroundResource(Resource.Drawable.TimeSlotSelected);
+                if (Selected[position] != 0)
+                    slotSelection[position].SetBackgroundResource(Resource.Drawable.TimeSlotSelected);
             }
-            NotifyDataSetChanged();
+            //NotifyDataSetChanged();
             return slotSelection[position];
         }
 
@@ -2083,6 +1849,8 @@ namespace StriveCustomer.Android.Adapter
             CustomerScheduleInformation.ScheduledBayId = availableScheduleSlots.GetTimeInDetails[position].BayId; 
         }
 
+       
+
 
         //Fill in cound here, currently 0
         public override int Count
@@ -2098,6 +1866,7 @@ namespace StriveCustomer.Android.Adapter
     class ScheduleTimeSlotsViewHolder : Java.Lang.Object
     {
         //Your adapter views to re-use
-        //public TextView Title { get; set; }
+        //public Button button { get; set; }
+        public Button slotSelectionBtn;
     }
 }
