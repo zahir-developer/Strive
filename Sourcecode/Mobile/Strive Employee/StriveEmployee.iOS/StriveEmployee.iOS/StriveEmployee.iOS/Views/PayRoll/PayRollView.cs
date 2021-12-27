@@ -25,8 +25,6 @@ namespace StriveEmployee.iOS.Views.PayRoll
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
-            InitialSetup();
             
             // Perform any additional setup after loading the view, typically from a nib.
         }
@@ -34,6 +32,8 @@ namespace StriveEmployee.iOS.Views.PayRoll
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+
+            ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
             InitialSetup();
         }
 
@@ -69,22 +69,44 @@ namespace StriveEmployee.iOS.Views.PayRoll
             }
             
             //Setting Data
-            EmployeeName.Text = ViewModel.PayRoll.PayeeName;
-            WashHrs.Text = ViewModel.PayRoll.TotalWashHours;
-            DetailHrs.Text = ViewModel.PayRoll.TotalDetailHours;
-            WashRate.Text = "$"+ SetTwoDecimel(ViewModel.PayRoll.WashRate);
-            RegPay.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashAmount);
-            OtHrs.Text = ViewModel.PayRoll.OverTimeHours;
-            OtPay.Text = "$"+ SetTwoDecimel(ViewModel.PayRoll.OverTimePay);
-            Cols.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Collision);
-            Adjs.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Adjustment);
-            Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
-            Cashtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
-            Cardtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
-            Washtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
-            Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
-            Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
-            Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
+            if(ViewModel.PayRoll != null)
+            {
+                EmployeeName.Text = ViewModel.PayRoll.PayeeName;
+                WashHrs.Text = ViewModel.PayRoll.TotalWashHours;
+                DetailHrs.Text = ViewModel.PayRoll.TotalDetailHours;
+                WashRate.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashRate);
+                RegPay.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashAmount);
+                OtHrs.Text = ViewModel.PayRoll.OverTimeHours;
+                OtPay.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.OverTimePay);
+                Cols.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Collision);
+                Adjs.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Adjustment);
+                Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
+                Cashtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
+                Cardtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
+                Washtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
+                Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
+                Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
+                Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
+            }
+            else
+            {
+                WashHrs.Text = "0.00";
+                DetailHrs.Text = "0.00";
+                WashRate.Text = "$" + "0.00";
+                RegPay.Text = "$" + "0.00";
+                OtHrs.Text = "0.00";
+                OtPay.Text = "$" + "0.00";
+                Cols.Text = "$" + "0.00";
+                Adjs.Text = "$" + "0.00";
+                Commission.Text = "$" + "0.00";
+                Cashtip.Text = "$" + "0.00";
+                Cardtip.Text = "$" + "0.00";
+                Washtip.Text = "$" + "0.00";
+                Detailtip.Text = "$" + "0.00";
+                Bonus.Text = "$" + "0.00";
+                Total.Text = "$" + "0.00";
+            }
+            
            
             FindPayRoll.TouchUpInside += (sender, e) =>
             {  
@@ -130,24 +152,48 @@ namespace StriveEmployee.iOS.Views.PayRoll
             if (ViewModel.employeeid != 0)
             {
                 await ViewModel.GetPayRollProcess();
+                
+            }
+
+            if (ViewModel.PayRoll != null)
+            {
                 EmployeeName.Text = ViewModel.PayRoll.PayeeName;
                 WashHrs.Text = ViewModel.PayRoll.TotalWashHours;
                 DetailHrs.Text = ViewModel.PayRoll.TotalDetailHours;
-                WashRate.Text = "$" + ViewModel.PayRoll.WashRate.ToString();
-                RegPay.Text = "$" + ViewModel.PayRoll.WashAmount.ToString();
+                WashRate.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashRate);
+                RegPay.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashAmount);
                 OtHrs.Text = ViewModel.PayRoll.OverTimeHours;
-                OtPay.Text = "$" + ViewModel.PayRoll.OverTimePay.ToString();
-                Cols.Text = "$" + ViewModel.PayRoll.Collision;
-                Adjs.Text = "$" + ViewModel.PayRoll.Adjustment;
-                Commission.Text = "$" + ViewModel.PayRoll.DetailCommission;
-                Cashtip.Text = "$" + ViewModel.PayRoll.CashTip;
-                Cardtip.Text = "$" + ViewModel.PayRoll.CardTip;
-                Washtip.Text = "$" + ViewModel.PayRoll.WashTip;
-                Detailtip.Text = "$" + ViewModel.PayRoll.DetailTip;
-                Bonus.Text = "$" + ViewModel.PayRoll.Bonus;
-                Total.Text = "$" + ViewModel.PayRoll.PayeeTotal;
+                OtPay.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.OverTimePay);
+                Cols.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Collision);
+                Adjs.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Adjustment);
+                Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
+                Cashtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
+                Cardtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
+                Washtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
+                Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
+                Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
+                Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
             }
-        
+            else
+            {
+                WashHrs.Text = "0.00";
+                DetailHrs.Text = "0.00";
+                WashRate.Text = "$" + "0.00";
+                RegPay.Text = "$" + "0.00";
+                OtHrs.Text = "0.00";
+                OtPay.Text = "$" + "0.00";
+                Cols.Text = "$" + "0.00";
+                Adjs.Text = "$" + "0.00";
+                Commission.Text = "$" + "0.00";
+                Cashtip.Text = "$" + "0.00";
+                Cardtip.Text = "$" + "0.00";
+                Washtip.Text = "$" + "0.00";
+                Detailtip.Text = "$" + "0.00";
+                Bonus.Text = "$" + "0.00";
+                Total.Text = "$" + "0.00";
+            }
+
+
         }
 
         void PickerDone()

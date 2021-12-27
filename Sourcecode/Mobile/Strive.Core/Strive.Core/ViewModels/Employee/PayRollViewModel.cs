@@ -46,8 +46,18 @@ namespace Strive.Core.ViewModels.Employee
         {
             _userDialog.ShowLoading();
             var result = await AdminService.GetPayRoll(Fromdate,Todate,employeeid,Location);
-            PayRoll = result.Result.PayRollRateViewModel.First(x => x.EmployeeId == employeeid);
+
+            if (result.Result.PayRollRateViewModel.Any(x => x.EmployeeId == employeeid))
+                PayRoll = result.Result.PayRollRateViewModel.First(x => x.EmployeeId == employeeid);
+            else
+            {
+                PayRoll = null;
+                _userDialog.Alert("No payroll information found for this location / date");
+            }
+                
+
             _userDialog.HideLoading();
+
             
         }
 

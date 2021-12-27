@@ -139,22 +139,24 @@ namespace Strive.Core.ViewModels.Customer
             }
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.totalPrice = finalmonthlycharge;
-            //ClientVehicless = new ClientVehicle();
-            //ClientVehicless.clientVehicle = new ClientVehicleDetail();
-            //ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
-            //ClientVehicless.clientVehicle.isActive = true;
-            //ClientVehicless.clientVehicle.isDeleted = false;
-            //ClientVehicless.clientVehicle.clientId = CustomerInfo.ClientID;
-            //ClientVehicless.clientVehicle.createdDate = DateTime.Now.ToString("yyyy-MM-d");
-            //ClientVehicless.clientVehicle.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
-            //ClientVehicless.clientVehicle.vehicleId = MembershipDetails.clientVehicleID;
-            //ClientVehicless.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
-            //ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
-            //ClientVehicless.clientVehicle.vehicleModelNo = MembershipDetails.modelNumber;
-            //ClientVehicless.clientVehicle.upcharge = 0;
-            //ClientVehicless.clientVehicle.barcode = "";
-            //ClientVehicless.clientVehicle.locationId = 1;
-            //MembershipDetails.customerVehicleDetails.clientVehicle = ClientVehicless;
+            ClientVehicless = new ClientVehicle();
+            ClientVehicless.clientVehicle = new ClientVehicleDetail();
+            ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
+            ClientVehicless.clientVehicle.isActive = true;
+            ClientVehicless.clientVehicle.isDeleted = false;
+            ClientVehicless.clientVehicle.clientId = CustomerInfo.ClientID;
+            ClientVehicless.clientVehicle.createdDate = DateTime.Now.ToString("yyyy-MM-d");
+            ClientVehicless.clientVehicle.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
+            ClientVehicless.clientVehicle.vehicleId = MembershipDetails.clientVehicleID;
+            ClientVehicless.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+            ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
+            ClientVehicless.clientVehicle.vehicleModel = MembershipDetails.modelNumber;
+            ClientVehicless.clientVehicle.vehicleMfr = MembershipDetails.vehicleMfr;
+
+            ClientVehicless.clientVehicle.upcharge = (int)MembershipDetails.modelUpcharge.upcharge[0].Price;
+            ClientVehicless.clientVehicle.barcode = MembershipDetails.barCode;
+            ClientVehicless.clientVehicle.locationId = null;
+            MembershipDetails.customerVehicleDetails.clientVehicle = ClientVehicless;
         }
             
         public enum PaymentStatus

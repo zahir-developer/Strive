@@ -52,6 +52,8 @@ namespace StriveCustomer.iOS.Views
             MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;
             MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId ?? 0;
             MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
+            MembershipDetails.barCode = this.ViewModel.clientVehicleDetail.Status.Barcode;
+            MembershipDetails.vehicleMfr = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
 
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
             {

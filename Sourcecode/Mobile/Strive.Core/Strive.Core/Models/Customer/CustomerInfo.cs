@@ -84,11 +84,13 @@ namespace Strive.Core.Models.Customer
         public static bool isNoneSelected { get; set; }
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
+        public static string barCode { get; set; }
         public static int colorNumber { get; set; }
         public static string colorName { get; set; }
         public static int? modelNumber { get; set; }
         public static string modelName { get; set; }
         public static string vehicleNumber { get; set; }
+        public static int vehicleMfr { get; set; }
         public static List<int> selectedAdditionalServices;
         public static ServiceList filteredList { get; set; }
         public static ServiceList completeList { get; set; }
