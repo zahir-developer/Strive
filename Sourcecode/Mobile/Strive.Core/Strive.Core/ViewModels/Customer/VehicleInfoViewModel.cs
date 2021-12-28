@@ -69,6 +69,7 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void NavToAddVehicle()
         {
+            MembershipDetails.clientVehicleID = 0;
             await _navigationService.Navigate<VehicleInfoEditViewModel>();
         }
 

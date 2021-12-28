@@ -123,16 +123,16 @@ namespace StriveCustomer.iOS.Views
 
         public void setServicesData(ObservableCollection<AllServiceDetail> services, NSIndexPath indexPath, MembershipVehicle_ViewCell cell)
         {
-            Membership_VehicleLbl.Text = services[indexPath.Row].ServiceName;
+            Membership_VehicleLbl.Text = services[indexPath.Row].ServiceName.Trim() + " - $" + services[indexPath.Row].Price;
             MembershipCell_ViewHeight.Constant = 0;
             Membership_Discount.Hidden = true;
             MonthlyCharge_lbl.Hidden = true;
-            string service = Membership_VehicleLbl.Text.Replace(" ", "");
+            string service = services[indexPath.Row].ServiceName.Trim().Replace(" ", "");
             if (MembershipDetails.selectedMembershipDetail.Services != null)
             {
                 string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");
 
-                if(selectedServices.Any(x => x.Replace(" ", "") == service))
+                if(selectedServices.Any(x => x.Trim().Replace(" ", "") == service))
                 {
                     Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
                     cell.UserInteractionEnabled = false;
