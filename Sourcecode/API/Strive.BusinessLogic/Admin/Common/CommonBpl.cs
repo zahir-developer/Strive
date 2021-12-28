@@ -26,6 +26,7 @@ using System.Net.Mail;
 using Azure.Storage.Blobs;
 using System.Security.Authentication;
 using Strive.BusinessLogic.EmailHelper.Dto;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -319,6 +320,12 @@ namespace Strive.BusinessLogic.Common
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
             return (authId, randomPassword);
+        }
+
+        public UserDetailsViewModel GetUserPassword(string email, UserType userType)
+        {
+            var commonRal = new CommonRal(_tenant, true);
+            return  commonRal.GetUserPassword(email,userType); 
         }
 
         public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)

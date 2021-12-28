@@ -194,6 +194,11 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Job.USPDELETEJOBITEMBYID.ToString(), _prm);
             return true;
         }
-
+        public UserDetailsViewModel GetUserPassword(string email, UserType userType)
+        {
+            _prm.Add("@email", email);
+            _prm.Add("@userType", userType);
+            return db.FetchSingle<UserDetailsViewModel>(EnumSP.Job.USPGETCLIENTMAIL.ToString(), _prm);
+        }
     }
 }

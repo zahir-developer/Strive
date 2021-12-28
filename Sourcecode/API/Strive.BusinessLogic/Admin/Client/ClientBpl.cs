@@ -20,6 +20,7 @@ using Strive.BusinessEntities.DTO.User;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.ViewModel;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Strive.BusinessLogic
 {
@@ -87,18 +88,18 @@ namespace Strive.BusinessLogic
                             {
                                 var subject = EmailSubject.WelcomeEmail;
                                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                                keyValues.Add("{{emailId}}",item.Email);
-                                keyValues.Add("{{password}}",password);
+                                keyValues.Add("{{emailId}}", item.Email);
+                                keyValues.Add("{{password}}", password);
                                 keyValues.Add("{{employeeName}}", client.Client.FirstName);
                                 keyValues.Add("{{url}}", _tenant.ApplicationUrl);
                                 keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
 
-                                
-                                comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues,subject);
-                               // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
+
+                                comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email, keyValues, subject);
+                                // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
                                 clientId.Add(clientSignup);
                             }
-                            else if(client.Client.AuthId > 0)
+                            else if (client.Client.AuthId > 0)
                             {
                                 //Delete AuthMaster record from AuthDatabase in case client add failed.
                                 comBpl.DeleteUser(client.Client.AuthId.GetValueOrDefault());
@@ -107,7 +108,7 @@ namespace Strive.BusinessLogic
                     }
 
                 }
-               
+
                 return ResultWrap(clientId, "Status");
             }
             catch (Exception ex)
@@ -187,10 +188,10 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).ClientEmailExist, email, "emailExist");
         }
-        public List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto  emailBlast)
+        public List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto emailBlast)
         {
             List<ClientEmailBlastViewModel> client = new List<ClientEmailBlastViewModel>();
-            client =new ClientRal(_tenant).GetClientList(emailBlast);
+            client = new ClientRal(_tenant).GetClientList(emailBlast);
             return client;
         }
         public Result ClientCSVExport(EmailBlastDto emailBlast)
@@ -199,7 +200,7 @@ namespace Strive.BusinessLogic
         }
 
         public Result SaveCreditDetails(CreditDTO credit)
-        {            
+        {
             return ResultWrap(new ClientRal(_tenant).InsertCreditDetails, credit, "Status");
         }
 
@@ -233,19 +234,39 @@ namespace Strive.BusinessLogic
                         if (new EmailAddressAttribute().IsValid(email))
                         {
                             string password = string.Empty;
-                            var clientLogin = commonBpl.CreateLogin(UserType.Client, email, client.PhoneNumber, password);
+                            var isExist = new CommonRal(_tenant, true).GetEmailIdExist(email);
 
-                            password = clientLogin.password;
-                            Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                            keyValues.Add("{{emailId}}", email);
-                            keyValues.Add("{{password}}", password);
-                            keyValues.Add("{{employeeName}}", client.FirstName);
-                            keyValues.Add("{{url}}", _tenant.ApplicationUrl);
-                            keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+                            if (!isExist)
+                            {
+                                var clientLogin = commonBpl.CreateLogin(UserType.Client, email, client.PhoneNumber, password);
 
-                            commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
-                            var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
-                           // return false;
+                                password = clientLogin.password;
+                                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                                keyValues.Add("{{emailId}}", email);
+                                keyValues.Add("{{password}}", password);
+                                keyValues.Add("{{employeeName}}", client.FirstName);
+                                keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+                                commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
+                                var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
+                            }
+                            else
+                            {
+                                var clientLogin = commonBpl.GetUserPassword(email, UserType.Client);
+                                password = clientLogin.Password;
+                                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                                keyValues.Add("{{emailId}}", email);
+                                keyValues.Add("{{password}}", password);
+                                keyValues.Add("{{employeeName}}", client.FirstName);
+                                keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+                                commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
+                                var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
+                            }
+
+                            return false;
                         }
                     }
                 }

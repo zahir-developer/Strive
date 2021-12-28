@@ -1740,6 +1740,9 @@ export class SalesComponent implements OnInit {
       if(this.totalPaid > 0){
         this.totalAmount = this.totalAmount - this.totalPaid;
       }
+      if(this.discountAmount > 0){
+        this.totalAmount = this.totalAmount - this.discountAmount;
+      }
       this.account = this.totalAmount;
       this.calculateTotalpaid(this.totalAmount);
       this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.CreditAccountApplied });
