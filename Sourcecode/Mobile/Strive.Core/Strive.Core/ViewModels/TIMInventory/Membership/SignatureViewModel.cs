@@ -111,6 +111,20 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                 }
                 
             }
+            if (MembershipDetails.modelUpcharge.upcharge.Count!=0)
+            {
+                MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
+                {
+                    clientVehicleMembershipServiceId = 0,
+                    clientMembershipId = ClientMembership,
+                    serviceId = MembershipDetails.modelUpcharge.upcharge[0].ServiceId,
+                    serviceTypeId = MembershipDetails.modelUpcharge.upcharge[0].ServiceTypeId,
+                    isActive = true,
+                    isDeleted = false,
+
+                });
+            }
+
             var model = new ClientVehicleRoot()
             {
                 clientVehicle = new ClientVehicle()
