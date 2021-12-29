@@ -134,7 +134,7 @@ namespace Strive.Core.ViewModels.Customer
                     clientVehicleMembershipService.clientVehicleMembershipServiceId = service.MembershipServiceId;
                     selectedmembershipServices.Add(clientVehicleMembershipService);
                 }
-                if (MembershipDetails.modelUpcharge!=null)
+                if (MembershipDetails.modelUpcharge.upcharge.Count!=0)
                 {
                     ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
                     clientVehicleMembershipService.serviceId = MembershipDetails.modelUpcharge.upcharge[0].ServiceId;

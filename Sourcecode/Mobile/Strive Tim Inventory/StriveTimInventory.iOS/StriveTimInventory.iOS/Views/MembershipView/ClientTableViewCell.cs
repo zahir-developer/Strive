@@ -118,6 +118,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             cell.UserInteractionEnabled = true;
 
             var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
+
             string[] selectedServices = SelectedMembership.Services.Split(",");
 
             if (MembershipData.MembershipDetailView != null)
