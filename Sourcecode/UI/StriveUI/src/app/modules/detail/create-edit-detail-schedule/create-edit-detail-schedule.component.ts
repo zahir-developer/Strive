@@ -148,10 +148,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.formInitialize();
     this.getJobStatus();
     this.getAllMake();
-    this.getEmployeeList();
+    //this.getEmployeeList();
     this.getAllBayById();
     this.getTicketNumber();
     this.getJobType();
+    if(this.isEdit)
+    {
+      this.getEmployeeList();
+    }
   }
 
   formInitialize() {
@@ -572,7 +576,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   }
 
-  getWashById() {
+  resetActions()
+  {
     const isJobStatus = _.where(this.jobStatus, { CodeId: this.selectedData?.Details?.JobStatus });
     if (isJobStatus.length > 0) {
       if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.inProgress) {
@@ -589,6 +594,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.jobStatusID = isJobStatus[0].CodeId;
       }
     }
+  }
+
+  getWashById() {
+    this.resetActions();
     if (this.selectedData?.Details?.ClientId !== null) {
       this.getVehicleList(this.selectedData?.Details?.ClientId);
       this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
@@ -938,6 +947,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailForm.controls.inTime.disable();
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
+        this.jobStatusID = jobStatusId;
       } else {
         this.spinner.hide();
 
@@ -1133,6 +1143,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
           this.getDetailByID(this.jobID);
+          this.getEmployeeList();
           this.refreshDetailGrid.emit();
         } else {
           this.spinner.hide();
@@ -1181,6 +1192,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailItems = this.selectedData.DetailsItem;
         this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
           this.selectedData.DetailsJobServiceEmployee : [];
+          this.resetActions();
+
+          
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
