@@ -44,7 +44,9 @@ export class EodComponent implements OnInit, AfterViewInit {
   fileTypeEvent: boolean = false;
   in = 0;
   out = 0;
-  difference = 0;
+  difference = 0;  
+  totalWashHours:number = 0;
+  totalDetailHours:number  = 0;
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
@@ -329,6 +331,8 @@ export class EodComponent implements OnInit, AfterViewInit {
         if (clockDetail.Result.TimeClockEmployeeDetails !== null) {
 
           this.clockDetail = clockDetail.Result.TimeClockEmployeeDetails;
+          this.totalWashHours = 0;
+          this.totalDetailHours = 0;
           this.clockDetail.forEach(item => {
             this.empTotalHours = this.empTotalHours + item.HoursPerDay;
     
@@ -336,7 +340,10 @@ export class EodComponent implements OnInit, AfterViewInit {
             
             item.WashHours =  item.WashHours;
             item.DetailHours = item.DetailHours;
-          });
+            
+          this.totalWashHours  += item.WashHours;
+          this.totalDetailHours  += item.DetailHours;
+          });         
         }
       }
     }, (err) => {

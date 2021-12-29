@@ -21,8 +21,8 @@
                 <div class="d-flex w-100 justify-content-between">
                     <h6 class="font-weight-600">
                         <em class="mdi mdi-account-outline font-size-1-5 theme-primary-color align-mid"></em>
-                        <span *ngIf="type === 'Wash'">Wash Employees</span>
-                        <span *ngIf="type === 'Detail'">Detail Employees</span>
+                        <span *ngIf="type === 'Wash'">Current Wash Employees</span>
+                        <span *ngIf="type === 'Detail'">Current Detail Employees</span>
                     </h6> <span *ngIf="type === 'Wash'" class="font-size-1 font-weight-bold">{{washerCount}}</span>
                     <span *ngIf="type === 'Detail'" class="font-size-1 font-weight-bold">{{detailerCount}}</span>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="d-flex w-100 justify-content-between">
                     <h6 class="font-weight-600">
                         <em class="mdi mdi-car-back font-size-1-5 theme-voilet-color align-mid"></em>
-                        Average Car Wash Time
+                        Estimated Car Wash Time
                     </h6> <span class="font-size-1 font-weight-bold">{{averageTime}}</span>
                 </div>
             </a>
@@ -84,8 +84,8 @@
         <div class="card weather rounded-0">
             <div class="card-body p-0">
                 <h6 class="weather-title border-0">
-                    <span *ngIf="type === 'Wash'">Wash Employees</span>
-                    <span *ngIf="type === 'Detail'">Detail Employees</span>
+                    <span *ngIf="type === 'Wash'">Current Wash Employees</span>
+                    <span *ngIf="type === 'Detail'">Current Detail Employees</span>
                 </h6>
                 <div class="p-l-r-10 m-t-5"> <i class="mdi mdi-account-outline font-size-1-7 theme-primary-color"></i>
                     <div class="float-right">
@@ -123,7 +123,7 @@
     <div class="col-lg-6 col-xl-2">
         <div class="card weather rounded-0">
             <div class="card-body p-0">
-                <h6 class="weather-title border-0">Average Car Wash Time </h6>
+                <h6 class="weather-title border-0">Estimated Car Wash Time </h6>
                 <div class="p-l-r-10 m-t-5"> <i class="mdi mdi-car-back font-size-1-7 theme-voilet-color"></i>
                     <div class="float-right">
                         <h2 class="font-weight-bold">{{averageTime}}</h2>
