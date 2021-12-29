@@ -78,13 +78,14 @@ namespace Strive.Core.ViewModels.Customer
 
                 if (document != null)
                 {
-                    _userDialog.Toast("Membership has been created successfully");
+                    //_userDialog.Toast("Membership has been created successfully");
                     MembershipDetails.clearMembershipData();
-                    if (!isAndroid) 
-                    { 
-                        await _navigationService.Navigate<MyProfileInfoViewModel>(); 
-                    }                   
-                  
+                    if (!isAndroid)
+                    {
+                        _userDialog.Toast("Membership has been created successfully");
+                        await _navigationService.Navigate<MyProfileInfoViewModel>();
+                    }
+                    else return;
                 }
                 else
                 {

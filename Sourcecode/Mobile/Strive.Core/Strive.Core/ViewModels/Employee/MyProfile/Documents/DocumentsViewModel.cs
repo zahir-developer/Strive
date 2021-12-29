@@ -15,8 +15,9 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
 
         public PersonalDetails DocumentDetails { get; set; }
 
-        #endregion Properties
 
+        #endregion Properties
+        public bool isAndroid = false;
         #region Commands
 
         public async Task GetDocumentInfo()
@@ -26,7 +27,12 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
             if (result == null || result.Employee.EmployeeDocument == null)
             {
                 DocumentDetails = null;
-                _userDialog.Toast("No relatable data");
+                if (!isAndroid)
+                {
+                    _userDialog.Toast("No relatable data");
+                }
+                else return;
+                
             }
             else
             {

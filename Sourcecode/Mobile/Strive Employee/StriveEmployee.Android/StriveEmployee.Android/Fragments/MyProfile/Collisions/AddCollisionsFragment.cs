@@ -69,6 +69,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         {
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             profileFragment = new MyProfileFragment();
+            MyProfileInfoNeeds.selectedTab = 1;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profileFragment).Commit();
         }
 

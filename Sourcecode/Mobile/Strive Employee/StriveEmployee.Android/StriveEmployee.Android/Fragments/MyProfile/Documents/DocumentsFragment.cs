@@ -13,12 +13,14 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
+using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
 using StriveEmployee.Android.Adapter.MyProfile.Documents;
 
 namespace StriveEmployee.Android.Fragments.MyProfile.Documents
 {
+    [MvxUnconventionalAttribute]
     public class DocumentsFragment : MvxFragment<DocumentsViewModel>
     {
         private ImageButton addDocument_ImageButton;
@@ -43,7 +45,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             addDocument_ImageButton.Click += AddDocument_ImageButton_Click;
             GetDocumentDetails();
             return rootView;
-        }
+        }       
 
         private void AddDocument_ImageButton_Click(object sender, EventArgs e)
         {
@@ -52,9 +54,14 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             acitivity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, addDocuments_Fragment).Commit();
         }
 
-        private async void GetDocumentDetails()
+        public async void GetDocumentDetails()
         {
-           await this.ViewModel.GetDocumentInfo();
+            if (this.ViewModel == null) 
+            {
+                ViewModel = new DocumentsViewModel();
+            }
+            ViewModel.isAndroid = true;
+            await this.ViewModel.GetDocumentInfo();
             if(this.ViewModel.DocumentDetails != null && this.ViewModel.DocumentDetails.Employee.EmployeeDocument != null)
             {
                 documents_Adapter = new DocumentsAdapter(Context, this.ViewModel.DocumentDetails.Employee.EmployeeDocument);

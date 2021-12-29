@@ -106,6 +106,7 @@
     <Compile Include="Fragments\MyTicket\CompletedTicketsFragment.cs" />
     <Compile Include="Fragments\MyTicket\MyTicketFragment.cs" />
     <Compile Include="Fragments\MyTicket\PendingTicketsFragment.cs" />
+    <Compile Include="Fragments\PayRoll\PayRollFragment.cs" />
     <Compile Include="Fragments\Schedule\ScheduleFragment.cs" />
     <Compile Include="Helper\MyButton.cs" />
     <Compile Include="Helper\MyButtonClickListener.cs" />
@@ -968,6 +969,23 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\DocumentView.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PayRoll_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\payroll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\payroll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\payroll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\payroll.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

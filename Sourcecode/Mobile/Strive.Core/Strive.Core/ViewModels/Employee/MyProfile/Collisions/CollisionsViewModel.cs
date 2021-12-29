@@ -17,6 +17,8 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
 
         #endregion Properties
 
+        public bool isAndroid = false;
+
         #region Commands
 
         public async Task GetCollisionInfo()
@@ -26,7 +28,11 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
             if (result == null || result.Employee.EmployeeCollision == null)
             {
                 CollisionDetails = null;
-                _userDialog.Toast("No relatable data");
+                if (!isAndroid)
+                {
+                    _userDialog.Toast("No relatable data");
+                }
+                else return;
             }
             else
             {

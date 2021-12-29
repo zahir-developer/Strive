@@ -12930,140 +12930,143 @@ namespace StriveOwner.Android
 			// aapt resource value: 0x7F09014D
 			public const int supplier_name = 2131296589;
 			
+			// aapt resource value: 0x7F09014E
+			public const int swipeRefreshLayout = 2131296590;
+			
 			// aapt resource value: 0x7F09000D
 			public const int SYM = 2131296269;
 			
-			// aapt resource value: 0x7F09014E
-			public const int tabMode = 2131296590;
-			
 			// aapt resource value: 0x7F09014F
-			public const int tag_transition_group = 2131296591;
+			public const int tabMode = 2131296591;
 			
 			// aapt resource value: 0x7F090150
-			public const int tag_unhandled_key_event_manager = 2131296592;
+			public const int tag_transition_group = 2131296592;
 			
 			// aapt resource value: 0x7F090151
-			public const int tag_unhandled_key_listeners = 2131296593;
+			public const int tag_unhandled_key_event_manager = 2131296593;
 			
 			// aapt resource value: 0x7F090152
-			public const int text = 2131296594;
+			public const int tag_unhandled_key_listeners = 2131296594;
 			
 			// aapt resource value: 0x7F090153
-			public const int text2 = 2131296595;
-			
-			// aapt resource value: 0x7F090159
-			public const int textinput_counter = 2131296601;
-			
-			// aapt resource value: 0x7F09015A
-			public const int textinput_error = 2131296602;
-			
-			// aapt resource value: 0x7F09015B
-			public const int textinput_helper_text = 2131296603;
+			public const int text = 2131296595;
 			
 			// aapt resource value: 0x7F090154
-			public const int textSpacerNoButtons = 2131296596;
+			public const int text2 = 2131296596;
 			
-			// aapt resource value: 0x7F090155
-			public const int textSpacerNoTitle = 2131296597;
+			// aapt resource value: 0x7F09015A
+			public const int textinput_counter = 2131296602;
 			
-			// aapt resource value: 0x7F090156
-			public const int textStart = 2131296598;
-			
-			// aapt resource value: 0x7F090157
-			public const int textViewStatus = 2131296599;
-			
-			// aapt resource value: 0x7F090158
-			public const int text_input_password_toggle = 2131296600;
+			// aapt resource value: 0x7F09015B
+			public const int textinput_error = 2131296603;
 			
 			// aapt resource value: 0x7F09015C
-			public const int ticket_number = 2131296604;
+			public const int textinput_helper_text = 2131296604;
+			
+			// aapt resource value: 0x7F090155
+			public const int textSpacerNoButtons = 2131296597;
+			
+			// aapt resource value: 0x7F090156
+			public const int textSpacerNoTitle = 2131296598;
+			
+			// aapt resource value: 0x7F090157
+			public const int textStart = 2131296599;
+			
+			// aapt resource value: 0x7F090158
+			public const int textViewStatus = 2131296600;
+			
+			// aapt resource value: 0x7F090159
+			public const int text_input_password_toggle = 2131296601;
 			
 			// aapt resource value: 0x7F09015D
-			public const int ticket_number_2 = 2131296605;
+			public const int ticket_number = 2131296605;
 			
 			// aapt resource value: 0x7F09015E
-			public const int ticket_number_3 = 2131296606;
+			public const int ticket_number_2 = 2131296606;
 			
 			// aapt resource value: 0x7F09015F
-			public const int time = 2131296607;
+			public const int ticket_number_3 = 2131296607;
 			
 			// aapt resource value: 0x7F090160
-			public const int timein_TextView_1 = 2131296608;
+			public const int time = 2131296608;
 			
 			// aapt resource value: 0x7F090161
-			public const int timein_TextView_2 = 2131296609;
+			public const int timein_TextView_1 = 2131296609;
 			
 			// aapt resource value: 0x7F090162
-			public const int timein_TextView_3 = 2131296610;
+			public const int timein_TextView_2 = 2131296610;
 			
 			// aapt resource value: 0x7F090163
-			public const int timeout_TextView_1 = 2131296611;
+			public const int timein_TextView_3 = 2131296611;
 			
 			// aapt resource value: 0x7F090164
-			public const int timeout_TextView_2 = 2131296612;
+			public const int timeout_TextView_1 = 2131296612;
 			
 			// aapt resource value: 0x7F090165
-			public const int timeout_TextView_3 = 2131296613;
+			public const int timeout_TextView_2 = 2131296613;
 			
 			// aapt resource value: 0x7F090166
-			public const int title = 2131296614;
+			public const int timeout_TextView_3 = 2131296614;
 			
 			// aapt resource value: 0x7F090167
-			public const int titleDividerNoCustom = 2131296615;
+			public const int title = 2131296615;
 			
 			// aapt resource value: 0x7F090168
-			public const int title_template = 2131296616;
+			public const int titleDividerNoCustom = 2131296616;
 			
 			// aapt resource value: 0x7F090169
-			public const int top = 2131296617;
+			public const int title_template = 2131296617;
 			
 			// aapt resource value: 0x7F09016A
-			public const int topPanel = 2131296618;
+			public const int top = 2131296618;
 			
 			// aapt resource value: 0x7F09016B
-			public const int totalsales = 2131296619;
+			public const int topPanel = 2131296619;
 			
 			// aapt resource value: 0x7F09016C
-			public const int touch_outside = 2131296620;
+			public const int totalsales = 2131296620;
 			
 			// aapt resource value: 0x7F09016D
-			public const int transition_current_scene = 2131296621;
+			public const int touch_outside = 2131296621;
 			
 			// aapt resource value: 0x7F09016E
-			public const int transition_layout_save = 2131296622;
+			public const int transition_current_scene = 2131296622;
 			
 			// aapt resource value: 0x7F09016F
-			public const int transition_position = 2131296623;
+			public const int transition_layout_save = 2131296623;
 			
 			// aapt resource value: 0x7F090170
-			public const int transition_scene_layoutid_cache = 2131296624;
+			public const int transition_position = 2131296624;
 			
 			// aapt resource value: 0x7F090171
-			public const int transition_transform = 2131296625;
+			public const int transition_scene_layoutid_cache = 2131296625;
 			
 			// aapt resource value: 0x7F090172
-			public const int uniform = 2131296626;
+			public const int transition_transform = 2131296626;
 			
 			// aapt resource value: 0x7F090173
-			public const int unlabeled = 2131296627;
+			public const int uniform = 2131296627;
 			
 			// aapt resource value: 0x7F090174
-			public const int up = 2131296628;
+			public const int unlabeled = 2131296628;
 			
 			// aapt resource value: 0x7F090175
-			public const int upchargeshome_TextView_1 = 2131296629;
+			public const int up = 2131296629;
 			
 			// aapt resource value: 0x7F090176
-			public const int upchargeshome_TextView_2 = 2131296630;
+			public const int upchargeshome_TextView_1 = 2131296630;
 			
 			// aapt resource value: 0x7F090177
-			public const int upchargeshome_TextView_3 = 2131296631;
+			public const int upchargeshome_TextView_2 = 2131296631;
 			
 			// aapt resource value: 0x7F090178
-			public const int useLogo = 2131296632;
+			public const int upchargeshome_TextView_3 = 2131296632;
 			
 			// aapt resource value: 0x7F090179
-			public const int verticalLine_LinearLayout = 2131296633;
+			public const int useLogo = 2131296633;
+			
+			// aapt resource value: 0x7F09017A
+			public const int verticalLine_LinearLayout = 2131296634;
 			
 			// aapt resource value: 0x7F09000E
 			public const int ViewParticipantsBack_Button = 2131296270;
@@ -13071,26 +13074,26 @@ namespace StriveOwner.Android
 			// aapt resource value: 0x7F09000F
 			public const int ViewParticipantsSave_Button = 2131296271;
 			
-			// aapt resource value: 0x7F09017A
-			public const int view_offset_helper = 2131296634;
-			
 			// aapt resource value: 0x7F09017B
-			public const int visible = 2131296635;
+			public const int view_offset_helper = 2131296635;
 			
 			// aapt resource value: 0x7F09017C
-			public const int washemployees = 2131296636;
+			public const int visible = 2131296636;
 			
 			// aapt resource value: 0x7F09017D
-			public const int washsales = 2131296637;
+			public const int washemployees = 2131296637;
 			
 			// aapt resource value: 0x7F09017E
-			public const int weather_Temperature = 2131296638;
+			public const int washsales = 2131296638;
 			
 			// aapt resource value: 0x7F09017F
-			public const int withText = 2131296639;
+			public const int weather_Temperature = 2131296639;
 			
 			// aapt resource value: 0x7F090180
-			public const int wrap_content = 2131296640;
+			public const int withText = 2131296640;
+			
+			// aapt resource value: 0x7F090181
+			public const int wrap_content = 2131296641;
 			
 			static Id()
 			{

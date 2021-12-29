@@ -20,6 +20,7 @@ using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Fragments.CheckOut;
 using StriveEmployee.Android.Fragments.MyProfile;
 using StriveEmployee.Android.Fragments.MyTicket;
+using StriveEmployee.Android.Fragments.Payroll;
 using StriveEmployee.Android.Fragments.Schedule;
 
 namespace StriveEmployee.Android.Views
@@ -36,6 +37,8 @@ namespace StriveEmployee.Android.Views
         private ScheduleFragment schedule_Fragment;
         private MyTicketFragment myTicket_Fragment;
         private CheckOutFragment checkOut_Fragment;
+        private PayRollFragment payRoll_Fragment;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -46,6 +49,7 @@ namespace StriveEmployee.Android.Views
             schedule_Fragment = new ScheduleFragment();
             myTicket_Fragment = new MyTicketFragment();
             checkOut_Fragment = new CheckOutFragment(this);
+            payRoll_Fragment = new PayRollFragment();
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;
@@ -75,6 +79,9 @@ namespace StriveEmployee.Android.Views
 
                 case Resource.Id.menu_checkOut:
                     selected_MvxFragment = checkOut_Fragment;
+                    break;
+                case Resource.Id.menu_payRoll:
+                    selected_MvxFragment = payRoll_Fragment;
                     break;
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();

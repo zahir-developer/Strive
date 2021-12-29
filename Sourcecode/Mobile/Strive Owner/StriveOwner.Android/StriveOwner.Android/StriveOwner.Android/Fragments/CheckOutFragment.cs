@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -18,10 +19,11 @@ using StriveOwner.Android.Adapter.CheckOut;
 
 namespace StriveOwner.Android.Fragments.CheckOut
 {
-    public class CheckOutFragment : MvxFragment<CheckOutViewModel>
+    public class CheckOutFragment : MvxFragment<CheckOutViewModel>,SwipeRefreshLayout.IOnRefreshListener
     {
         private RecyclerView Checkout_RecyclerView;
         private CheckOutDetailsAdapter checkOutDetailsAdapter;
+        SwipeRefreshLayout swipeRefreshLayout;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,8 +38,15 @@ namespace StriveOwner.Android.Fragments.CheckOut
             this.ViewModel = new CheckOutViewModel();
 
             Checkout_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.checkout_RecyclerView);
+            swipeRefreshLayout = rootView.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             GetCheckoutDetails();
             return rootView;
+        }
+
+        public void OnRefresh()
+        {
+            GetCheckoutDetails();
+            swipeRefreshLayout.Refreshing = false;
         }
 
         private async void GetCheckoutDetails()

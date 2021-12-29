@@ -96,6 +96,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             {
                 EmployeeLoginDetails.clearData();
                 EmployeePersonalDetails.clearData();
+                MyProfileInfoNeeds.selectedTab = 0;
                 FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
             }
         }
@@ -113,7 +114,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile
         }
 
         private void Back_Button_Click(object sender, EventArgs e)
-        {
+        {   
+            MyProfileInfoNeeds.selectedTab = 0;
             FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
         }
     }

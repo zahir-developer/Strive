@@ -13,6 +13,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
+using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
@@ -20,12 +21,14 @@ using StriveEmployee.Android.Adapter.MyProfile.Collision;
 
 namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 {
-    [MvxFragmentPresentationAttribute]
+    [MvxUnconventionalAttribute]
     public class CollisionsFragment : MvxFragment<CollisionsViewModel>
     {
         private RecyclerView collison_RecyclerView;
         private CollisionAdapter collision_Adapter;
         private MvxFragment selected_Fragment;
+        private AddCollisionsFragment addCollisionsFragment;        
+        private ImageButton addCollision_ImageButton;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,15 +39,29 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.Collisions_Fragment, null);
-            this.ViewModel = new CollisionsViewModel();
-
+            this.ViewModel = new CollisionsViewModel();           
+            addCollisionsFragment = new AddCollisionsFragment();
+            addCollision_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.addCollision_ImageButton);
             collison_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.collison_RecyclerView);
             GetCollisionInfo();
+            addCollision_ImageButton.Click += AddCollision_ImageButton_Click;
             return rootView;
         }
 
-        private async void GetCollisionInfo()
+        private void AddCollision_ImageButton_Click(object sender, EventArgs e)
         {
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            addCollisionsFragment = new AddCollisionsFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame,addCollisionsFragment).Commit();
+        }
+
+        public async void GetCollisionInfo()
+        {
+            if (this.ViewModel == null)
+            {
+                ViewModel = new CollisionsViewModel();            
+            }
+            ViewModel.isAndroid = true;
             await this.ViewModel.GetCollisionInfo();
             if(this.ViewModel.CollisionDetails != null && this.ViewModel.CollisionDetails.Employee.EmployeeCollision != null)
             {

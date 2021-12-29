@@ -29,7 +29,7 @@ namespace StriveEmployee.Android.Fragments
 {
     [MvxFragmentPresentationAttribute]
     [MvxUnconventionalAttribute]
-    public class MessengerFragment : MvxFragment<MessengerViewModel>
+    public class MessengerFragment : MvxFragment<MessengerPersonalChatViewModel>
     {
         private ImageButton messenger_ImageButton;
         private TabLayout messenger_TabLayout;
@@ -56,7 +56,7 @@ namespace StriveEmployee.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.Messenger_Fragment, null);
-            this.ViewModel = new MessengerViewModel();
+            this.ViewModel = new MessengerPersonalChatViewModel();
             contactFragment = new MessengerContactFragment();
             recentContactFragment = new MessengerRecentContactFragment();
             groupContactFragment = new MessengerGroupContactFragment();
@@ -113,7 +113,7 @@ namespace StriveEmployee.Android.Fragments
           
             MessengerTempData.ConnectionID = ConnectionID;
             
-            await this.ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
+            //await this.ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
             await ChatHubMessagingService.SubscribeChatEvent();
 
         }

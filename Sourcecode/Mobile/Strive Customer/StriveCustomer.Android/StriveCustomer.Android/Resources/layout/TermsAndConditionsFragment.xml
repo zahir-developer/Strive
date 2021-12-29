@@ -50,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/white"
             android:id="@+id/parentView"
       >
         <LinearLayout
@@ -105,7 +106,7 @@
                 android:id="@+id/additionalServicesCost"
                 android:textSize="@dimen/textTen"
                 android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/twenty"           
+                android:paddingLeft="@dimen/ten"           
             />
             <TextView
                 android:layout_width="wrap_content"
@@ -168,7 +169,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:textSize="@dimen/textTen"
                 android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/twenty"
+                android:paddingLeft="@dimen/ten"
                           
             />
             <TextView
@@ -187,7 +188,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:textSize="@dimen/textTen"
                 android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/twenty"
+                android:paddingLeft="@dimen/ten"
             />
             <TextView
                 android:layout_width="wrap_content"
@@ -195,7 +196,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:textSize="@dimen/textTen"
                 android:textColor="@android:color/black"
-                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginLeft="@dimen/ten"
                 android:text="Total:"
                 android:background="#ffff00"
             />
@@ -206,7 +207,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/textTen"
-                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginLeft="@dimen/ten"
                 android:background="#ffff00"
             />
         </LinearLayout>
@@ -231,7 +232,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:textSize="@dimen/textTen"
                 android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/twenty"                  
+                android:paddingLeft="@dimen/ten"                  
              />
         </LinearLayout>
         <LinearLayout
@@ -331,7 +332,7 @@
                 android:layout_weight="1.8" />-->
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="280dp"
             >
                 <ImageView
                     android:id="@+id/termsandconditionsDetail"
@@ -356,8 +357,8 @@
             <TextView
                 android:id="@+id/textDisagree"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Disagree"
+                android:layout_height="match_parent"
+                android:text="Disagree"                
                 android:gravity="left"
                 android:layout_weight="1"
                 android:fontFamily="@font/opensans_semibold"
@@ -367,7 +368,7 @@
             <TextView
                 android:id="@+id/textAgree"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Agree"
                 android:textAlignment="textEnd"
                 android:layout_weight="1"

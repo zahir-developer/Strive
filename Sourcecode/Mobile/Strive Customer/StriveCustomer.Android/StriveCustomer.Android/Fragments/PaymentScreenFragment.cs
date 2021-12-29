@@ -21,6 +21,7 @@ using Strive.Core.Utils;
 using Android.Support.V7.App;
 using Android.Text;
 using System.Text.RegularExpressions;
+using Android.Support.Design.Widget;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -38,6 +39,8 @@ namespace StriveCustomer.Android.Fragments
         MyProfileInfoFragment infoFragment;        
         public float Amount;
         public long JobID;
+        private View rootView;
+        
 
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
         public override void OnCreate(Bundle savedInstanceState)
@@ -51,7 +54,7 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             // Use this to return your custom view for this Fragment
-            var rootView = inflater.Inflate(Resource.Layout.PaymentScreenFragment, container, false);
+            rootView = inflater.Inflate(Resource.Layout.PaymentScreenFragment, container, false);
             customerName = rootView.FindViewById<TextView>(Resource.Id.customerName);
             totalAmount = rootView.FindViewById<TextView>(Resource.Id.totalAmount);
             cardNo = rootView.FindViewById<EditText>(Resource.Id.cardNo);
@@ -227,11 +230,12 @@ namespace StriveCustomer.Android.Fragments
                         if (paymentResponse.Message == "true")
                         {
                             paymentVM.isAndroid = true;
-                            paymentVM.MembershipAgree();
-                            AppCompatActivity activity = (AppCompatActivity)Context;                            
-                            MyProfileInfoNeeds.selectedTab = 0;                            
-                            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();                          
-                            
+                            paymentVM.MembershipAgree();                            
+                            Snackbar.Make(rootView, "Membership has been created successfully", Snackbar.LengthShort).Show();
+                            AppCompatActivity activity = (AppCompatActivity)Context;
+                            MyProfileInfoNeeds.selectedTab = 0;
+                            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
+
                         }
                         else
                         {
@@ -257,7 +261,7 @@ namespace StriveCustomer.Android.Fragments
                 System.Diagnostics.Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
 
             }
-           
+
         }
 
         private void GetPaymentDetails()

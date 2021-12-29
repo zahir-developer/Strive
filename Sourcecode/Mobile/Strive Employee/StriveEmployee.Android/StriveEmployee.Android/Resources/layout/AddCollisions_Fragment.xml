@@ -132,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
-                    android:hint="Reason"
+                    android:hint="Note"
                     android:textColorHint="@color/defaultHintColor"
                     android:background="@drawable/edit_text"
                     android:inputType="text"
