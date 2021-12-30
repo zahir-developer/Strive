@@ -302,7 +302,7 @@ getClientActivity(id) {
      const activityObj = {
         clientId: this.isEdit ? this.selectedData.ClientId : 0,
         CreditAccountHistoryId: receivedEntry.CreditAccountHistoryId == undefined ? 0 : receivedEntry.CreditAccountHistoryId,
-        Amount:receivedEntry.amount,
+        Amount: parseFloat(receivedEntry.amount),
         Comments:receivedEntry.notes,
         IsActive: true,
         isDeleted: false,
@@ -319,7 +319,7 @@ getClientActivity(id) {
       }
 
       this.activityCollectionSize = Math.ceil(this.activityDetails.length / this.activityPageSize) * 10;
-      this.TotalAmount = this.TotalAmount + parseFloat(receivedEntry.amount); 
+      this.TotalAmount = parseFloat((this.TotalAmount + parseFloat(receivedEntry.amount)).toFixed(2)); 
       modalRef.close();
      
       })
@@ -444,7 +444,7 @@ getClientActivity(id) {
       this.clonedAccountDetails[0][oExists].updatedBy = this.employeeId;
       this.clonedAccountDetails[0][oExists].updatedDate =  new Date();
     }
-    this.TotalAmount = this.TotalAmount - parseFloat(receivedEntry.amount);
+    this.TotalAmount = parseFloat((this.TotalAmount - parseFloat(receivedEntry.amount)).toFixed(2));
   }
   editActivity(activity) {
     console.log(activity, 'activity');
@@ -461,6 +461,7 @@ getClientActivity(id) {
     const modalRef = this.modalService.open(AddActivityAdditionalComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
     modalRef.componentInstance.CreditAccountHistoryId = activity.CreditAccountHistoryId;
+    modalRef.componentInstance.amount = activity.Amount;
     modalRef.componentInstance.amount = activity.Amount;
     modalRef.componentInstance.comments = activity.Comments;
     modalRef.componentInstance.header = "Edit Activity";

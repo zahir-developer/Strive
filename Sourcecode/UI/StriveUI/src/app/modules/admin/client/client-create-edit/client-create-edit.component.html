@@ -107,11 +107,11 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let activity of activityDetails | orderBy:sort.column:'CreditAccountId':sort.descending | slice: (activityPage-1) * activityPageSize : (activityPage-1) * activityPageSize + activityPageSize">
+                                                    *ngFor="let activity of activityDetails | orderBy:sort.column:'CreditAccountHistoryId':sort.descending | slice: (activityPage-1) * activityPageSize : (activityPage-1) * activityPageSize + activityPageSize">
                                                     <td>{{activity.CreditAccountHistoryId}}</td>
                                                     <td>{{activity.Amount }}</td>
                                                     <td>{{activity.Comments }}</td>
-                                                    <td>{{activity.TransactionDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>{{activity.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                                                     <td>
                                                         <em class="fa fa-pencil-square edit-list  m-r-10"
                                                             [ngClass]="{'theme-disabled-icon-color': !activity.Status, 'theme-secondary-icon-color': activity.Status  }"

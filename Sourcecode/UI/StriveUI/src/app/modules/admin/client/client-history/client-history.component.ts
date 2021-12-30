@@ -103,6 +103,6 @@ export class ClientHistoryComponent implements OnInit {
   }
   FilterRecords(){  
     this.historyCloned = this.historyGrid
-    .filter(x => new Date(x.TransactionDate).getMonth() == this.fromDate.getMonth() && new Date(x.TransactionDate).getFullYear() == this.fromDate.getFullYear())
+    .filter(x => new Date(x.CreatedDate).getMonth() == this.fromDate.getMonth() && new Date(x.CreatedDate).getFullYear() == this.fromDate.getFullYear())
   }
 }

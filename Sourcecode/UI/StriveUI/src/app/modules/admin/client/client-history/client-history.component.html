@@ -41,7 +41,7 @@
                         <td>{{activity.CreditAccountHistoryId}}</td>
                         <td>{{activity.Amount }}</td>
                         <td>{{activity.Comments }}</td>
-                        <td>{{activity.TransactionDate | date: 'MM/dd/yyyy'}}</td>
+                        <td>{{activity.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                        
                     </tr>
                     <tr *ngIf="historyCloned.length === 0">

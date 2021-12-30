@@ -8,10 +8,7 @@ namespace Strive.BusinessEntities.Model
     {
         [Column,PrimaryKey,IgnoreOnInsert,IgnoreOnUpdate]
         public int CreditAccountHistoryId { get; set; }
-
-        [Column,PrimaryKey]
-        public int? CreditAccountId { get; set; }
-
+        
         [Column]
         public decimal? Amount { get; set; }
 

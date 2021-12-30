@@ -1495,7 +1495,6 @@ export class SalesComponent implements OnInit {
 
       creditAccountHistory = {
         CreditAccountHistoryId :0,
-        CreditAccountId : null,
         Amount : (-1 * this.account) ,
         IsActive : true,
         IsDeleted : false,
