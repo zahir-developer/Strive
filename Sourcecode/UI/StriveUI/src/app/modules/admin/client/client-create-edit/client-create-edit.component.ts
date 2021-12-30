@@ -55,7 +55,8 @@ export class ClientCreateEditComponent implements OnInit {
   isVehicleEdit: boolean;
   clonedVehicleDetails = [];
   clonedAccountDetails = [];
-  showActivity : boolean;
+  showActivity : boolean;  
+  TotalAmount:number = 0;
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
@@ -84,6 +85,7 @@ getClientActivity(id) {
   this.client.getActivityByClientId(id).subscribe(data => {
     if (data.status === 'Success') {
       const activityData = JSON.parse(data.resultData);
+      this.TotalAmount = activityData.CreditAccountDetail?.CreditAmount[0]?.CreditAmount;
       if(activityData.CreditAccountDetail.ClientActivityHistoryViewModel)
       {
           this.activityDetails=activityData.CreditAccountDetail.ClientActivityHistoryViewModel;
@@ -317,6 +319,7 @@ getClientActivity(id) {
       }
 
       this.activityCollectionSize = Math.ceil(this.activityDetails.length / this.activityPageSize) * 10;
+      this.TotalAmount = this.TotalAmount + parseFloat(receivedEntry.amount); 
       modalRef.close();
      
       })
@@ -441,6 +444,7 @@ getClientActivity(id) {
       this.clonedAccountDetails[0][oExists].updatedBy = this.employeeId;
       this.clonedAccountDetails[0][oExists].updatedDate =  new Date();
     }
+    this.TotalAmount = this.TotalAmount - parseFloat(receivedEntry.amount);
   }
   editActivity(activity) {
     console.log(activity, 'activity');
@@ -554,7 +558,8 @@ getClientActivity(id) {
     };
     const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
-    modalRef.componentInstance.historyData = this.historyData;
+    // modalRef.componentInstance.historyData = this.historyData;
+    modalRef.componentInstance.historyData = this.activityDetails;
   }
 
   getService() {

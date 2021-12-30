@@ -76,10 +76,10 @@ export class ClientFormComponent implements OnInit {
       notes: ['',],
       checkOut: ['',],
       type: ['', Validators.required],
-      amount: ['',]
+      // amount: ['',]
     });
     this.clientForm.get('status').patchValue(0);
-    this.clientForm.controls.amount.disable();
+    // this.clientForm.controls.amount.disable();
     this.getClientType();
     this.getScore();
   }
@@ -171,11 +171,11 @@ export class ClientFormComponent implements OnInit {
     this.clientId = this.selectedData.ClientId;
     if (this.selectedData.IsCreditAccount) {
       this.isAmount = true;
-      this.clientForm.get('amount').setValidators([Validators.required]);
-      this.clientForm.controls.amount.enable();
+      // this.clientForm.get('amount').setValidators([Validators.required]);
+      // this.clientForm.controls.amount.enable();
     } else {
       this.isAmount = false;
-      this.clientForm.get('amount').clearValidators();
+      // this.clientForm.get('amount').clearValidators();
     }
   }
 
@@ -187,13 +187,13 @@ export class ClientFormComponent implements OnInit {
     this.clientForm.value.creditAccount = data;
     if (data) {
       this.isAmount = true;
-      this.clientForm.get('amount').setValidators([Validators.required]);
-      this.clientForm.controls.amount.enable();
+      // this.clientForm.get('amount').setValidators([Validators.required]);
+      // this.clientForm.controls.amount.enable();
       this.isCreditAccount.emit(true);      
     } else {
       this.isAmount = false;
-      this.clientForm.get('amount').clearValidators();
-      this.clientForm.controls.amount.disable();
+      // this.clientForm.get('amount').clearValidators();
+      // this.clientForm.controls.amount.disable();
       this.isCreditAccount.emit(false);
     }
   }

@@ -28,7 +28,9 @@ export class ClientHistoryComponent implements OnInit {
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
-  clonedHistoryGrid = [];
+  clonedHistoryGrid = [];  
+  historyCloned =[];
+  fromDate = new Date();
   constructor(
     private activeModal: NgbActiveModal,
     private client: ClientService,
@@ -42,6 +44,8 @@ export class ClientHistoryComponent implements OnInit {
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     // this.getHistory();
     this.historyGrid = this.historyData;
+    
+    this.historyCloned = this.historyData;
   }
 
   closeHistoryModel() {
@@ -80,5 +84,25 @@ export class ClientHistoryComponent implements OnInit {
     modalRef.componentInstance.ticketNumber = data.TicketNumber;
   }
 
+  onMonthChange(event) {
+    const date = new Date();
+    date.setMonth(event - 1);
+    this.fromDate = new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+  onYearChange(event) {
+    this.fromDate.setFullYear(event);
+  }
 
+  Print(){
+    const printContent = document.getElementById("clientHistory");
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+  }
+  FilterRecords(){  
+    this.historyCloned = this.historyGrid
+    .filter(x => new Date(x.TransactionDate).getMonth() == this.fromDate.getMonth() && new Date(x.TransactionDate).getFullYear() == this.fromDate.getFullYear())
+  }
 }
