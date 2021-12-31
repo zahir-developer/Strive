@@ -26,11 +26,15 @@ using System.Collections.ObjectModel;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using MvvmCross.ViewModels;
+using Android.Support.V4.Content;
+using Android.Graphics;
+using StriveEmployee.Android.Views;
+using Strive.Core.Models.Employee.Messenger;
 
 namespace StriveEmployee.Android.Fragments
 {
     [Activity (WindowSoftInputMode = SoftInput.AdjustResize)]
-    public class MessengerPersonalChatFragment : MvxFragment<MessengerPersonalChatViewModel>
+    public class MessengerPersonalChatFragment : MvxFragment<MessengerPersonalChatViewModel> , ViewTreeObserver.IOnGlobalLayoutListener
     {
         private Button personalChat_Button;
         private EditText chatMessage_EditText;
@@ -46,6 +50,10 @@ namespace StriveEmployee.Android.Fragments
         private static ObservableCollection<SendChatMessage> messages { get; set; }
         private static List<SendChatMessage> privateMessages { get; set; }
         private static List<SendChatMessage> groupMessages { get; set; }
+        private bool keyboardListenersAttached = false;
+        private ViewGroup rootLayout;
+        private LinearLayout listLayout;
+        public static string ConnectionID;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -74,49 +82,126 @@ namespace StriveEmployee.Android.Fragments
             chat_PopupMenu.MenuInflater.Inflate(Resource.Menu.chat_menu, chat_Menu);
             chat_PopupMenu.MenuItemClick += Chat_PopupMenu_MenuItemClick;
             chatMenu_ImageButton.Visibility = MessengerTempData.IsGroup ? ViewStates.Visible : ViewStates.Gone;
-            ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
-            ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
+            //ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
+            //ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
+            
             getChatData();
-            getCommunicationID();
+            //getCommunicationID();
+            EstablishHubConnection();
+            rootLayout = (ViewGroup)rootView.FindViewById(Resource.Id.layout);
+            listLayout = rootView.FindViewById<LinearLayout>(Resource.Id.listLayout);
             return rootView;
         }
 
+        public override void OnResume()
+        {
+            attachKeyboardListeners();
+            base.OnResume();
+            
+
+        }
+        public override void OnPause()
+        {
+            
+            if (Activity != null && Activity.GetType() == typeof(DashboardView))
+            {
+                ((DashboardView)Activity).getBottomNavView().Visibility = ViewStates.Visible;
+
+            }
+            removeKeyboardListeners();
+            base.OnPause();
+        }
+        public override void OnDestroy()
+        {
+          
+            if (Activity != null && Activity.GetType() == typeof(DashboardView))
+            {
+                ((DashboardView)Activity).getBottomNavView().Visibility = ViewStates.Visible;
+
+            }
+            removeKeyboardListeners();
+            base.OnDestroy();
+        }
+        private async void EstablishHubConnection()
+        {
+            ConnectionID = await ViewModel.StartCommunication();
+
+            await ChatHubMessagingService.SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
+
+            MessengerTempData.ConnectionID = ConnectionID;
+
+            //await ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
+            await ChatHubMessagingService.SubscribeChatEvent();
+
+            if (ChatHubMessagingService.RecipientsID == null)
+            {
+                ChatHubMessagingService.RecipientsID = new ObservableCollection<RecipientsCommunicationID>();
+                ChatHubMessagingService.RecipientsID.CollectionChanged += RecipientsID_CollectionChanged;
+
+            }
+
+            //await ChatHubMessagingService.SubscribeChatEvent();
+            ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
+            ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
+
+        }
+        private void RecipientsID_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                if (MessengerTempData.RecipientsConnectionID == null)
+                {
+                    MessengerTempData.RecipientsConnectionID = new Dictionary<string, string>();
+                }
+                foreach (var item in e.NewItems)
+                {
+                    var datas = (RecipientsCommunicationID)item;
+                    if (MessengerTempData.RecipientsConnectionID.ContainsKey(datas.employeeId))
+                    {
+                        MessengerTempData.RecipientsConnectionID.Remove(datas.employeeId);
+                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
+                    }
+                    else
+                    {
+                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
+                    }
+                }
+            }
+        }
         private void GroupMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                if (groupMessages == null)
-                {
-                    groupMessages = new List<SendChatMessage>();
-                }
                 foreach (var item in e.NewItems)
                 {
-                    var datas = (SendChatMessage)item;
-                    groupMessages.Add(datas);
-                }
-                var lastMessage = groupMessages.Last();
-                if (MessengerTempData.IsGroup && lastMessage.chatMessageRecipient.recipientGroupId == MessengerTempData.GroupID)
-                {
-                    var message = new ChatMessageDetail()
+                    Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(item));
+                    var newChatItem = (SendChatMessage)item;
+
+                    ChatMessageDetail chatMessageDetail = new ChatMessageDetail();
+                    chatMessageDetail.CreatedDate = DateTime.Parse(newChatItem.chatMessage.createdDate);
+                    chatMessageDetail.MessageBody = newChatItem.chatMessage.messagebody;
+                    chatMessageDetail.ReceipientId = (int)newChatItem.chatMessageRecipient.chatRecipientId;
+                    chatMessageDetail.RecipientFirstName = newChatItem.firstName;
+                    chatMessageDetail.RecipientLastName = newChatItem.lastName;
+
+                    //Sender 1st name, last name is not coming in the outpu
+                    chatMessageDetail.SenderId = (int)newChatItem.chatMessageRecipient.senderId;
+                    chatMessageDetail.SenderFirstName = newChatItem.firstName;
+                    chatMessageDetail.SenderLastName = newChatItem.lastName;
+
+                    chatMessageDetail.chatMessageId = newChatItem.chatMessageRecipient.chatMessageId;
+
+                    if (!ViewModel.ChatMessages.Any(x => x.chatMessageId == chatMessageDetail.chatMessageId))
                     {
-                        MessageBody = lastMessage.chatMessage.messagebody,
-                        ReceipientId = EmployeeTempData.EmployeeID,
-                        RecipientFirstName = "",
-                        RecipientLastName = "",
-                        SenderFirstName = lastMessage.fullName,
-                        SenderLastName = "",
-                        SenderId = (int)lastMessage.chatMessageRecipient.senderId,
-                        CreatedDate = DateTime.UtcNow
-                    };
-                    if(MessengerTempData.GroupUniqueID == lastMessage.groupId && EmployeeTempData.EmployeeID != message.SenderId)
-                    {
-                        ViewModel.ChatMessages.Add(message);
-                        messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
-                        chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count);
+                         ViewModel.ChatMessages.Add(chatMessageDetail);
+
                     }
-                   
+                    messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
+                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count);
+                    messengerChat_Adapter.NotifyDataSetChanged();
                 }
                
+
             }
         }
 
@@ -124,36 +209,36 @@ namespace StriveEmployee.Android.Fragments
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                if(privateMessages == null)
+                foreach (var item in e.NewItems)
                 {
-                    privateMessages = new List<SendChatMessage>();
-                }
-                foreach(var item in e.NewItems)
-                {
-                    var datas = (SendChatMessage)item;
-                    privateMessages.Add(datas);
-                }
+                    Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(item));
+                    var newChatItem = (SendChatMessage)item;
 
-                var lastMessage = privateMessages.Last();
+                    ChatMessageDetail chatMessageDetail = new ChatMessageDetail();
+                    chatMessageDetail.CreatedDate = DateTime.Parse(newChatItem.chatMessage.createdDate);
+                    chatMessageDetail.MessageBody = newChatItem.chatMessage.messagebody;
+                    chatMessageDetail.ReceipientId = (int)newChatItem.chatMessageRecipient.recipientId;
+                    chatMessageDetail.RecipientFirstName = newChatItem.firstName;
+                    chatMessageDetail.RecipientLastName = newChatItem.lastName;
 
-                var message = new ChatMessageDetail()
-                {
-                    MessageBody = lastMessage.chatMessage.messagebody,
-                    ReceipientId = EmployeeTempData.EmployeeID,
-                    RecipientFirstName = "",
-                    RecipientLastName = "",
-                    SenderFirstName = lastMessage.fullName ?? lastMessage.firstName,
-                    SenderLastName = "",
-                    SenderId = (int)lastMessage.chatMessageRecipient.senderId,
-                    CreatedDate = DateTime.UtcNow
-                };
-                if (MessengerTempData.RecipientID == message.SenderId || MessengerTempData.GroupID == message.ReceipientId)
-                {
-                    ViewModel.ChatMessages.Add(message);
+                    //Sender 1st name, last name is not coming in the outpu
+                    chatMessageDetail.SenderId = (int)newChatItem.chatMessageRecipient.senderId;
+                    chatMessageDetail.SenderFirstName = newChatItem.firstName;
+                    chatMessageDetail.SenderLastName = newChatItem.lastName;
+
+                    chatMessageDetail.chatMessageId = newChatItem.chatMessageRecipient.chatMessageId;
+
+                    if (!ViewModel.ChatMessages.Any(x => x.chatMessageId == chatMessageDetail.chatMessageId))
+                    {
+                            ViewModel.ChatMessages.Add(chatMessageDetail);
+                      
+                    }
                     messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
                     chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count + 1);
+                    messengerChat_Adapter.NotifyDataSetChanged();
                 }
-                
+
+
             }
         }
 
@@ -189,7 +274,7 @@ namespace StriveEmployee.Android.Fragments
                     SenderFirstName = "",
                     SenderLastName = "",
                     SenderId = EmployeeTempData.EmployeeID,
-                    CreatedDate = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow.ToLocalTime()
                 };
                 if (ViewModel.ChatMessages == null)
                 {
@@ -214,6 +299,7 @@ namespace StriveEmployee.Android.Fragments
                 if (this.ViewModel.SentSuccess)
                 {
                     chatMessage_EditText.Text = "";
+                    getChatData();
                 }
             }
             else
@@ -270,6 +356,88 @@ namespace StriveEmployee.Android.Fragments
             {
                 MessengerTempData.ConnectionID = "0";
             }
+        }
+
+        public void OnGlobalLayout()
+        {
+
+            int heightDiff = rootLayout.RootView.Height -
+        rootLayout.Height;
+            if (this.Activity != null)
+            {
+                int contentViewTop =
+              this.Activity.Window.FindViewById(Window.IdAndroidContent).Top;
+                LocalBroadcastManager broadcastManager =
+                LocalBroadcastManager.GetInstance(this.Context);
+                Rect r = new Rect();
+                rootLayout.GetWindowVisibleDisplayFrame(r);
+                int screenHeight = rootLayout.RootView.Height;
+
+                // r.bottom is the position above soft keypad or device button.
+                // if keypad is shown, the r.bottom is smaller than that before.
+                int keypadHeight = screenHeight - r.Bottom;
+                if (keypadHeight > screenHeight * 0.15)
+                {
+                    onHideKeyboard();
+
+                    Intent intent = new Intent("KeyboardWillHide");
+                    broadcastManager.SendBroadcast(intent);
+                }
+                else
+                {
+                    int keyboardHeight = heightDiff - contentViewTop;
+                    onShowKeyboard(keyboardHeight);
+
+                    Intent intent = new Intent("KeyboardWillShow");
+                    intent.PutExtra("KeyboardHeight", keyboardHeight);
+                    broadcastManager.SendBroadcast(intent);
+                }
+            }
+            else
+            {
+
+            }
+        }
+        protected void onShowKeyboard(int keyboardHeight)
+        {
+            if (Activity != null && Activity.GetType() == typeof(DashboardView))
+            {
+                ((DashboardView)Activity).getBottomNavView().Visibility = ViewStates.Visible;
+
+            }
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)listLayout.LayoutParameters;
+            layoutParams.BottomMargin = 60;
+            listLayout.LayoutParameters = layoutParams;
+
+        }
+        protected void onHideKeyboard()
+        {
+            if(Activity!=null && Activity.GetType() == typeof(DashboardView))
+            {
+              ((DashboardView)Activity).getBottomNavView().Visibility = ViewStates.Gone;
+ 
+            }
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)listLayout.LayoutParameters;
+            layoutParams.BottomMargin = 0;
+            listLayout.LayoutParameters = layoutParams;
+
+        }
+
+        protected void attachKeyboardListeners()
+        {
+            if (keyboardListenersAttached)
+            {
+                return;
+            }
+
+            rootLayout.ViewTreeObserver.AddOnGlobalLayoutListener(this);
+            keyboardListenersAttached = true;
+        }
+        protected void removeKeyboardListeners()
+        {
+           
+            rootLayout.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
+            keyboardListenersAttached = false;
         }
     }
 }

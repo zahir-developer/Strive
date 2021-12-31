@@ -18,14 +18,14 @@
             <TextView
                 android:id="@+id/documentName_TextView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.6"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.1"
                 android:textColor="@color/profileQColor"
                 android:textSize="@dimen/fourteen"/>
             <TextView
                 android:id="@+id/documentDate_TextView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.4"
                 android:layout_marginTop="@dimen/five"
                 android:textColor="@color/documentDate"

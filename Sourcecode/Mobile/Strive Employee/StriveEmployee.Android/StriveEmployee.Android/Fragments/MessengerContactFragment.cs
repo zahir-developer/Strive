@@ -13,7 +13,6 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
@@ -49,28 +48,30 @@ namespace StriveEmployee.Android.Fragments
             return rootView;
         }
 
-        private async void Contact_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
+        private  void Contact_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
-            //if (!string.IsNullOrEmpty(e.NewText) && ViewModel.EmployeeLists != null)
-            //{
-            //   // getContacts(e.NewText);
-            //    var sortedResult = searchAdapter.SearchContacts(ViewModel.EmployeeLists.Employee, e.NewText);
-            //    if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
-            //    {
-            //        messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, sortedResult);
-            //        var layoutManager = new LinearLayoutManager(Context);
-            //        contacts_RecyclerView.SetLayoutManager(layoutManager);
-            //        contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
-            //    }
-            //}
-            //else
-            //{
-            //   // getContacts("%20");
-            //    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList);
-            //    var layoutManager = new LinearLayoutManager(Context);
-            //    contacts_RecyclerView.SetLayoutManager(layoutManager);
-            //    contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
-            //}
+            if (!string.IsNullOrEmpty(e.NewText) && ViewModel.EmployeeLists != null)
+            {
+                // getContacts(e.NewText);
+                var sortedResult = searchAdapter.SearchContacts(ViewModel.EmployeeLists.EmployeeList.Employee, e.NewText);
+                if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
+                {
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, sortedResult);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    contacts_RecyclerView.SetLayoutManager(layoutManager);
+                    contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+                }
+            }
+            else
+            {
+                if (ViewModel.EmployeeLists != null)
+                {
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList.Employee);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    contacts_RecyclerView.SetLayoutManager(layoutManager);
+                    contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+                }
+            }
         }
 
         private async void getContacts()

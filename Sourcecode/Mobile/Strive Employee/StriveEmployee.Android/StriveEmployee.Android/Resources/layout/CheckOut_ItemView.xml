@@ -37,12 +37,14 @@
                         android:layout_marginRight="@dimen/seven" />                    
                     <TextView
                         android:id="@+id/checkoutPayment_TextView"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:layout_weight="0.5"
                         android:textColor="#02143D"
+                        android:text="completed"
                         android:fontFamily="@font/opensans_bold"
+                        android:layout_marginTop="@dimen/five"
                         android:layout_marginRight="@dimen/twenty"/>
                 </LinearLayout>               
             </LinearLayout>

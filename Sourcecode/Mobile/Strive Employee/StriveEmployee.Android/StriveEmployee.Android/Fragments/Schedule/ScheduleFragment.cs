@@ -22,6 +22,8 @@ namespace StriveEmployee.Android.Fragments.Schedule
     {
         private RecyclerView scheduleInfo;
         private ScheduleAdapter scheduleAdapter;
+        private Button backButton;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -33,9 +35,18 @@ namespace StriveEmployee.Android.Fragments.Schedule
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.Schedule_Fragment, null);
             scheduleInfo = rootView.FindViewById<RecyclerView>(Resource.Id.scheduleInfo);
+            backButton = rootView.FindViewById<Button>(Resource.Id.schedule_BackButton);
             this.ViewModel = new ScheduleViewModel();
+
+            backButton.Click += BackButton_Click;
             GetScheduleList();
             return rootView;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            MessengerFragment messengerFragment = new MessengerFragment();
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
         }
 
         public async Task GetScheduleList()

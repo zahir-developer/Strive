@@ -12,12 +12,10 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using MvvmCross;
-using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Fragments;
-using StriveEmployee.Android.Listeners;
 
 namespace StriveEmployee.Android.Adapter
 {

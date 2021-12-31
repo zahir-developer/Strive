@@ -30,6 +30,8 @@ namespace StriveEmployee.Android.Helper
         GestureDetector gestureDetector;
         CheckoutDetails CheckoutDetails;
         public abstract void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
+        public abstract void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
+
 
         public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth,CheckoutDetails checkoutDetails) : base(0, ItemTouchHelper.Left)
         {
@@ -176,7 +178,14 @@ namespace StriveEmployee.Android.Helper
                     List<MyButton> buffer = new List<MyButton>();
                     if (!buttonBuffer.ContainsKey(pos))
                     {
-                        InstantiateMyButton(viewHolder, buffer);
+                        if (CheckoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                        {
+                            InstantiateMyButton(viewHolder, buffer);
+                        }
+                        else
+                        {
+                            InstantiateUpdatedMyButton(viewHolder, buffer);
+                        }
                         buttonBuffer.Add(pos, buffer);
                     }
                     else

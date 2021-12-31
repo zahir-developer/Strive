@@ -22,15 +22,16 @@ using StriveEmployee.Android.Fragments.MyProfile;
 using StriveEmployee.Android.Fragments.MyTicket;
 using StriveEmployee.Android.Fragments.Payroll;
 using StriveEmployee.Android.Fragments.Schedule;
+using StriveEmployee.Android.Helper;
 
 namespace StriveEmployee.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "Dashboard View", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Dashboard View", ScreenOrientation = ScreenOrientation.Portrait , WindowSoftInputMode = SoftInput.AdjustResize)]
     public class DashboardView : MvxAppCompatActivity<DashboardViewModel>
     {
 
-        private BottomNavigationView bottom_NavigationView;
+        public static BottomNavigationView bottom_NavigationView;
         private MvxFragment selected_MvxFragment;
         private MessengerFragment messenger_Fragment;
         private MyProfileFragment profile_Fragment;
@@ -109,6 +110,9 @@ namespace StriveEmployee.Android.Views
             return true;
         }
 
-
+        public BottomNavigationView getBottomNavView()
+        {
+            return bottom_NavigationView;
+        }
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -29,6 +29,7 @@
                 <outlet property="ClockoutView" destination="ihM-GA-J4n" id="name-outlet-ihM-GA-J4n"/>
                 <outlet property="DateLabel" destination="48q-zd-U9g" id="name-outlet-48q-zd-U9g"/>
                 <outlet property="LogoutButton" destination="fVp-0s-9Wm" id="name-outlet-fVp-0s-9Wm"/>
+                <outlet property="Return" destination="zi9-Hx-0h3" id="qhm-Nu-FVe"/>
                 <outlet property="RoleLabel" destination="i7U-ih-WjJ" id="name-outlet-i7U-ih-WjJ"/>
                 <outlet property="TitleLabel" destination="G0x-GA-Dep" id="name-outlet-G0x-GA-Dep"/>
                 <outlet property="WelcomeLabel" destination="jdD-3S-4TG" id="name-outlet-jdD-3S-4TG"/>
@@ -43,7 +44,7 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="gIp-bD-gHv">
                     <rect key="frame" x="-10" y="-10" width="854" height="1214"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvc-Vw-gkh">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvc-Vw-gkh">
                     <rect key="frame" x="254.5" y="807" width="325" height="55"/>
                     <color key="backgroundColor" red="0.3717451692" green="0.77695614099999999" blue="0.71768742799999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
@@ -64,7 +65,7 @@
                             <color key="textColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVp-0s-9Wm">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVp-0s-9Wm">
                             <rect key="frame" x="25" y="27" width="56" height="36"/>
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <state key="normal" title="Logout">
@@ -183,14 +184,28 @@
                     <color key="textColor" red="0.69258880619999996" green="0.98452872039999995" blue="0.95296400790000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zi9-Hx-0h3">
+                    <rect key="frame" x="254.5" y="870" width="325" height="55"/>
+                    <color key="backgroundColor" red="0.3717451692" green="0.77695614099999999" blue="0.71768742799999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="55" id="YRy-g2-U9H"/>
+                        <constraint firstAttribute="width" constant="325" id="odd-tK-Jy9"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                    <state key="normal" title="RETURN">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="ihM-GA-J4n" firstAttribute="centerY" secondItem="gIp-bD-gHv" secondAttribute="centerY" id="6CM-Rh-8K5"/>
                 <constraint firstAttribute="bottom" secondItem="gIp-bD-gHv" secondAttribute="bottom" constant="-10" id="8OS-b3-vBs"/>
+                <constraint firstItem="zi9-Hx-0h3" firstAttribute="top" secondItem="yvc-Vw-gkh" secondAttribute="bottom" constant="8" id="BFu-t2-5LT"/>
                 <constraint firstItem="VEo-dW-CIM" firstAttribute="centerY" secondItem="gIp-bD-gHv" secondAttribute="centerY" id="BWc-Ts-vg1"/>
                 <constraint firstItem="gIp-bD-gHv" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="GQH-fW-bkl"/>
                 <constraint firstItem="48q-zd-U9g" firstAttribute="top" secondItem="i7U-ih-WjJ" secondAttribute="bottom" constant="50" id="Mh7-Tz-WTe"/>
+                <constraint firstItem="zi9-Hx-0h3" firstAttribute="centerX" secondItem="yvc-Vw-gkh" secondAttribute="centerX" id="Pdu-LX-djD"/>
                 <constraint firstItem="48q-zd-U9g" firstAttribute="leading" secondItem="bwe-q5-TuR" secondAttribute="trailing" constant="6" id="SWa-q8-bgp"/>
                 <constraint firstItem="bwe-q5-TuR" firstAttribute="centerY" secondItem="48q-zd-U9g" secondAttribute="centerY" id="Sve-CF-NjP"/>
                 <constraint firstItem="jdD-3S-4TG" firstAttribute="centerX" secondItem="iyT-7P-Aza" secondAttribute="centerX" id="WcA-QP-pOM"/>
