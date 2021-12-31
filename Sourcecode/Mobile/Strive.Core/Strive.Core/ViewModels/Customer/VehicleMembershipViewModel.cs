@@ -48,7 +48,7 @@ namespace Strive.Core.ViewModels.Customer
         {
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.GetCommonCodes("SERVICETYPE");
-            var washId = result.Codes.Find(x => x.CodeValue == "Wash-Upcharge");
+            var washId = result?.Codes.Find(x => x.CodeValue == "Wash-Upcharge");
             var upchargeRequest = new modelUpcharge()
             {
                 upchargeServiceType = washId.CodeId ,

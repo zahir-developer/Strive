@@ -23,6 +23,8 @@ namespace StriveEmployee.Android.Adapter
 
         private List<Fragment> FragmentList = new List<Fragment>();
         private List<string> FragmentTitleList = new List<string>();
+        private View mCurrentView;
+
         public ViewPagerAdapter(FragmentManager manager) : base(manager)
         {
             //;
@@ -49,5 +51,11 @@ namespace StriveEmployee.Android.Adapter
             FragmentTitleList.Add(title);
         }
 
+        [Obsolete]
+        public override void SetPrimaryItem(View container, int position, Java.Lang.Object @object)
+        {
+            base.SetPrimaryItem(container, position, @object);
+            mCurrentView = (View)@object;
+        }
     }
 }

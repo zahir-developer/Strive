@@ -24,7 +24,7 @@
             android:gravity="center"
             android:textColor="@color/profileQColor"
             android:background="@color/mtrl_btn_transparent_bg_color"
-            android:text="" />
+            android:text="Back" />
 
         </RelativeLayout>
         <ScrollView

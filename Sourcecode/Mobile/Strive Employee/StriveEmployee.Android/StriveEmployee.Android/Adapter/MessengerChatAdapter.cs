@@ -32,7 +32,7 @@ namespace StriveEmployee.Android.Adapter
             chatMessage_TextView.Text = Message;
             var date = MessageTime.Split("T");
             DateTime localMessageTime = DateTime.Parse(date[0]);
-            chatMessageTime_TextView.Text = localMessageTime.ToString("HH:mm tt", CultureInfo.CurrentCulture) + " | " + localMessageTime.ToString("MMM");
+            chatMessageTime_TextView.Text = MessageTime;//localMessageTime.ToString("HH:mm tt", CultureInfo.CurrentCulture) + " | " + localMessageTime.ToString("MMM");
         }
     }
     public class RecipientChatViewHolder : RecyclerView.ViewHolder
@@ -51,7 +51,7 @@ namespace StriveEmployee.Android.Adapter
             chatMessage_TextView.Text = Message;
             var date = MessageTime.Split("T");
             DateTime localMessageTime = DateTime.Parse(date[0]);
-            chatMessageTime_TextView.Text = localMessageTime.ToString("HH:mm tt", CultureInfo.CurrentCulture)+ " | "+ localMessageTime.ToString("MMM");
+            chatMessageTime_TextView.Text = MessageTime; //localMessageTime.ToString("HH:mm tt", CultureInfo.CurrentCulture)+ " | "+ localMessageTime.ToString("MMM");
             chatRecipientName_TextView.Text = ContactName;
         }
     }
