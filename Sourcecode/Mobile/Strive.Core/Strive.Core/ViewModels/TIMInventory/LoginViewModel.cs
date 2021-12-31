@@ -29,7 +29,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        private string _UserId = "caradmin@strive.com";
+        private string _UserId;
 
         public string UserId
         {
@@ -43,7 +43,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        private string _Password = "pass@123";
+        private string _Password;
 
         public string Password
         {
@@ -98,6 +98,8 @@ namespace Strive.Core.ViewModels.TIMInventory
                 {
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;
                     ApiUtils.Token = response.Token;
+                    UserId = "";
+                    Password = "";
                     //var request = new TimeClockRequest()
                     //{
                     //    locationId = 1,
