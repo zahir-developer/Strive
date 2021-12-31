@@ -50,6 +50,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
             this.ViewModel = new CheckOutViewModel();
 
             Checkout_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.checkout_RecyclerView);
+            swipeRefreshLayout = rootView.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             GetCheckoutDetails();
             swipeRefreshLayout.SetOnRefreshListener(this);
             return rootView;

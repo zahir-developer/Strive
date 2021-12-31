@@ -117,9 +117,22 @@
             android:textSize="15sp"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/opensans_bold"/>
+        <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/norecord"
+             android:gravity="center"
+             android:text="No Schedule Records Found!"
+             android:textSize="15sp"
+             android:layout_marginLeft="10dp"
+             android:fontFamily="@font/opensans_bold"
+             android:visibility="gone"
+        />
         <android.support.v4.widget.NestedScrollView
            android:layout_width="match_parent"
-           android:layout_height="300dp">
+           android:layout_height="300dp"
+           android:visibility="visible"
+           android:id="@+id/BayDetails_ScrollView">
           <LinearLayout
             android:id="@+id/BayDetails_LinearLayout"
             android:layout_width="match_parent"
@@ -808,7 +821,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/chartpie"/>
                  <ImageView
-                    android:id="@+id/filterTemp"
+                    android:id="@+id/filterTemp3"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -817,7 +830,7 @@
             </LinearLayout>
             <LinearLayout
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
+                 android:layout_height="300dp"
                  android:orientation="vertical">
                 <com.github.mikephil.charting.charts.LineChart
                        android:id="@+id/linechart"

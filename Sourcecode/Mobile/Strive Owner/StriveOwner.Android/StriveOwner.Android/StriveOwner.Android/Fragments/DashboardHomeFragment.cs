@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,16 @@ using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using MikePhil.Charting.Charts;
+using MikePhil.Charting.Data;
+using MikePhil.Charting.Interfaces.Datasets;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Owner;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
+using static MikePhil.Charting.Components.YAxis;
+using Android.Support.V4.Widget;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -56,6 +62,9 @@ namespace StriveOwner.Android.Resources.Fragments
         private TextView bay3_services;
         private TextView bay3_upcharges;
         private LinearLayout bay_layout;
+        private LineChart lineChart;
+        private TextView NoRecord;
+        private NestedScrollView BayDetailsScrollView; 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -102,13 +111,37 @@ namespace StriveOwner.Android.Resources.Fragments
             //bay3_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_3);
             //bay3_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_3);
             bay_layout = rootView.FindViewById<LinearLayout>(Resource.Id.BayDetails_LinearLayout);
-            OwnerTempData.LocationID = 1;
+            NoRecord = rootView.FindViewById<TextView>(Resource.Id.norecord);
+            BayDetailsScrollView = rootView.FindViewById<NestedScrollView>(Resource.Id.BayDetails_ScrollView);
+            lineChart = rootView.FindViewById<LineChart>(Resource.Id.linechart);
+            OwnerTempData.LocationID = 14;
             GetStatistics(OwnerTempData.LocationID);
             GetDashData(OwnerTempData.LocationID);
-            
+            GetChartDetails();
            
 
             return rootView;
+        }
+
+        private void GetChartDetails()
+        {
+            List<Entry> valsComp1 = new List<Entry>();
+            List<Entry> valsComp2 = new List<Entry>();
+            Entry c1e1 = new Entry(0f, 100000f); 
+            valsComp1.Add(c1e1);
+            Entry c1e2 = new Entry(1f, 140000f); 
+            valsComp1.Add(c1e2);
+            LineDataSet setComp1 = new LineDataSet(valsComp1, "1");
+            setComp1.AxisDependency = AxisDependency.Left;
+            LineDataSet setComp2 = new LineDataSet(valsComp2, "2");
+            setComp2.AxisDependency = AxisDependency.Left;
+            // use the interface ILineDataSet
+            List<ILineDataSet> dataSets = new List<ILineDataSet>();
+            dataSets.Add(setComp1);
+            dataSets.Add(setComp2);
+            LineData data = new LineData(dataSets);
+            lineChart.Data = data;
+            lineChart.Invalidate(); // refresh
         }
 
         private async void GetStatistics(int locationID)
@@ -151,10 +184,11 @@ namespace StriveOwner.Android.Resources.Fragments
                     locationBtn.Id = BtnID;
                     locationBtn.Tag = location.LocationId;
                     locationBtn.Click += LocationBtn_Click;
-                    row.AddView(locationBtn);
+                    row.AddView(locationBtn);                    
                 }
                 locationsLayout.AddView(row);
                 BayDetails();
+
                 //hidebay1Details();
                 //hidebay2Details();
                 //hidebay3Details();
@@ -162,7 +196,7 @@ namespace StriveOwner.Android.Resources.Fragments
 
         }
 
-        private void LocationBtn_Click(object sender, EventArgs e)
+        private async void LocationBtn_Click(object sender, EventArgs e)
         {
             var data = (Button)sender;
             var locationId = Convert.ToInt32(data.Tag);
@@ -174,6 +208,9 @@ namespace StriveOwner.Android.Resources.Fragments
             dashhome_ViewPager.Adapter = dashhome_ViewPagerAdapter;
             dashhome_TabLayout.SetupWithViewPager(dashhome_ViewPager);
             GetStatistics(locationId);
+            await ViewModel.getDashboardSchedule(locationId);
+            BayDetails();
+
         }
 
         private void hidebay1Details()
@@ -219,29 +256,31 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private void BayDetails() 
         {
-            
-            if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null) 
+
+            if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
             {
+                BayDetailsScrollView.Visibility = ViewStates.Visible;
+                NoRecord.Visibility = ViewStates.Gone;
                 if (this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel.Count > 0)
                 {
                     foreach (var data in ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel)
                     {
-                        if (Context != null) 
+                        if (Context != null)
                         {
-                           var layout = LayoutInflater.From(Context).Inflate(Resource.Layout.BayDetails, bay_layout, false);
+                            var layout = LayoutInflater.From(Context).Inflate(Resource.Layout.BayDetails, bay_layout, false);
 
                             var bay_number = layout.FindViewById<TextView>(Resource.Id.bay_number);
                             var ticket_number = layout.FindViewById<TextView>(Resource.Id.ticket_number);
                             var bay_timein = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
                             var bay_client = layout.FindViewById<TextView>(Resource.Id.client_TextView);
-                            var bay_phone  = layout.FindViewById<TextView>(Resource.Id.phones_TextView);
+                            var bay_phone = layout.FindViewById<TextView>(Resource.Id.phones_TextView);
                             var bay_timeout = layout.FindViewById<TextView>(Resource.Id.timeout_TextView);
                             var bay_makemodelcolor = layout.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView);
                             var bay_services = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
                             var bay_upcharges = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
 
                             bay_number.Text = data.BayName;
-                            ticket_number.Text = data.TicketNumber;
+                            ticket_number.Text = "Ticket#: " + data.TicketNumber;
                             bay_timein.Text = data.TimeIn;
                             bay_client.Text = data.ClientName;
                             bay_phone.Text = data.PhoneNumber;
@@ -252,12 +291,17 @@ namespace StriveOwner.Android.Resources.Fragments
 
                             bay_layout.AddView(layout);
 
-                        }             
-                    
+                        }
+
                     }
-                
+
                 }
-            }           
+            }
+            else 
+            {
+                NoRecord.Visibility = ViewStates.Visible;
+                BayDetailsScrollView.Visibility = ViewStates.Gone;
+            }
                 
         }
 
