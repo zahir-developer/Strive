@@ -62,9 +62,12 @@ namespace StriveOwner.Android.Resources.Fragments
         private TextView bay3_services;
         private TextView bay3_upcharges;
         private LinearLayout bay_layout;
+<<<<<<< Updated upstream
         private LineChart lineChart;
         private TextView NoRecord;
         private NestedScrollView BayDetailsScrollView; 
+=======
+>>>>>>> Stashed changes
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -111,10 +114,14 @@ namespace StriveOwner.Android.Resources.Fragments
             //bay3_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_3);
             //bay3_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_3);
             bay_layout = rootView.FindViewById<LinearLayout>(Resource.Id.BayDetails_LinearLayout);
+<<<<<<< Updated upstream
             NoRecord = rootView.FindViewById<TextView>(Resource.Id.norecord);
             BayDetailsScrollView = rootView.FindViewById<NestedScrollView>(Resource.Id.BayDetails_ScrollView);
             lineChart = rootView.FindViewById<LineChart>(Resource.Id.linechart);
             OwnerTempData.LocationID = 14;
+=======
+            OwnerTempData.LocationID = 1;
+>>>>>>> Stashed changes
             GetStatistics(OwnerTempData.LocationID);
             GetDashData(OwnerTempData.LocationID);
             GetChartDetails();
@@ -188,7 +195,10 @@ namespace StriveOwner.Android.Resources.Fragments
                 }
                 locationsLayout.AddView(row);
                 BayDetails();
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
                 //hidebay1Details();
                 //hidebay2Details();
                 //hidebay3Details();
@@ -256,31 +266,51 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private void BayDetails() 
         {
+<<<<<<< Updated upstream
 
             if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
             {
                 BayDetailsScrollView.Visibility = ViewStates.Visible;
                 NoRecord.Visibility = ViewStates.Gone;
+=======
+            
+            if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null) 
+            {
+>>>>>>> Stashed changes
                 if (this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel.Count > 0)
                 {
                     foreach (var data in ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel)
                     {
+<<<<<<< Updated upstream
                         if (Context != null)
                         {
                             var layout = LayoutInflater.From(Context).Inflate(Resource.Layout.BayDetails, bay_layout, false);
+=======
+                        if (Context != null) 
+                        {
+                           var layout = LayoutInflater.From(Context).Inflate(Resource.Layout.BayDetails, bay_layout, false);
+>>>>>>> Stashed changes
 
                             var bay_number = layout.FindViewById<TextView>(Resource.Id.bay_number);
                             var ticket_number = layout.FindViewById<TextView>(Resource.Id.ticket_number);
                             var bay_timein = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
                             var bay_client = layout.FindViewById<TextView>(Resource.Id.client_TextView);
+<<<<<<< Updated upstream
                             var bay_phone = layout.FindViewById<TextView>(Resource.Id.phones_TextView);
+=======
+                            var bay_phone  = layout.FindViewById<TextView>(Resource.Id.phones_TextView);
+>>>>>>> Stashed changes
                             var bay_timeout = layout.FindViewById<TextView>(Resource.Id.timeout_TextView);
                             var bay_makemodelcolor = layout.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView);
                             var bay_services = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
                             var bay_upcharges = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
 
                             bay_number.Text = data.BayName;
+<<<<<<< Updated upstream
                             ticket_number.Text = "Ticket#: " + data.TicketNumber;
+=======
+                            ticket_number.Text = data.TicketNumber;
+>>>>>>> Stashed changes
                             bay_timein.Text = data.TimeIn;
                             bay_client.Text = data.ClientName;
                             bay_phone.Text = data.PhoneNumber;
@@ -291,6 +321,7 @@ namespace StriveOwner.Android.Resources.Fragments
 
                             bay_layout.AddView(layout);
 
+<<<<<<< Updated upstream
                         }
 
                     }
@@ -302,6 +333,14 @@ namespace StriveOwner.Android.Resources.Fragments
                 NoRecord.Visibility = ViewStates.Visible;
                 BayDetailsScrollView.Visibility = ViewStates.Gone;
             }
+=======
+                        }             
+                    
+                    }
+                
+                }
+            }           
+>>>>>>> Stashed changes
                 
         }
 
