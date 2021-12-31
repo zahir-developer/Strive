@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Java.Lang;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.CheckOut;
@@ -14,7 +16,7 @@ using StriveEmployee.Android.Helper;
 
 namespace StriveEmployee.Android.Fragments.CheckOut
 {
-    public class CheckOutFragment : MvxFragment<CheckOutViewModel>
+    public class CheckOutFragment : MvxFragment<CheckOutViewModel>,SwipeRefreshLayout.IOnRefreshListener
     {
         RecyclerView Checkout_RecyclerView;
         CheckOutDetailsAdapter checkOutDetailsAdapter;
@@ -24,7 +26,8 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         private EventHandler<DialogClickEventArgs> okHandler;
         private EventHandler<DialogClickEventArgs> removePhotoHandler;
         Context Context;
-
+        SwipeRefreshLayout swipeRefreshLayout;
+        
         public CheckOutFragment(Context context)
         {
             this.Context = context;
@@ -44,9 +47,10 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             var rootView = this.BindingInflate(Resource.Layout.CheckOut_Fragment, null);
             this.ViewModel = new CheckOutViewModel();
 
-           
+            swipeRefreshLayout = rootView.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             Checkout_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.checkout_RecyclerView);
             GetCheckoutDetails();
+            swipeRefreshLayout.SetOnRefreshListener(this);
             
             return rootView;
         }
@@ -205,7 +209,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             else
             {
                 Builder = new AlertDialog.Builder(Context);
-                Builder.SetMessage("Cann't Checkout without payment");
+                Builder.SetMessage("Can't Checkout without payment");
                 Builder.SetTitle("Checkout");
                 okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
                 {
@@ -237,10 +241,17 @@ namespace StriveEmployee.Android.Fragments.CheckOut
                 });
                 Builder.SetPositiveButton("Ok", okHandler);
                 Builder.Create();
-
                 Builder.Show();
             }
         }
+
+        public void OnRefresh()
+        {
+            GetCheckoutDetails();
+            swipeRefreshLayout.Refreshing = false;
+            
+        }
+
         private class MyImplementSwipeHelper : MySwipeHelper
         {
             Context Context;

@@ -106,7 +106,8 @@ namespace StriveCustomer.Android.Fragments
             }
             else
             {
-                contractView.SetImageBitmap(TermsAndConditionsFragment.contractImage);
+                
+                contractView.SetImageBitmap(TermsAndConditionsFragment.contractImage);                
                 signatureImage.SetImageBitmap(signatuerPad.GetImage());
                 signatureLayout.Visibility = ViewStates.Gone;
                 finalTermsView.Visibility = ViewStates.Visible;

@@ -12,12 +12,14 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
+using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
 
 namespace StriveEmployee.Android.Fragments.MyProfile
 {
+    [MvxUnconventionalAttribute]
     public class EmployeeInfoFragment : MvxFragment<EmployeeInfoViewModel>
     {
         private ImageButton personalDetailEdit_ImageButton;
@@ -83,8 +85,12 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             EmployeeLoginDetails.AuthID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.AuthId;
             EmployeeLoginDetails.Exemptions = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Exemptions.ToString();
         }
-        private async void GetEmployeeDetails()
+        public async void GetEmployeeDetails()
         {
+            if (this.ViewModel == null) 
+            {
+                ViewModel = new EmployeeInfoViewModel();
+            }
             await this.ViewModel.GetGender();
             await this.ViewModel.GetImmigrationStatus();
             await this.ViewModel.GetPersonalEmployeeInfo();

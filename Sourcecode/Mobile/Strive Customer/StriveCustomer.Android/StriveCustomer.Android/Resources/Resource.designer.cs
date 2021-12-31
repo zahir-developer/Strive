@@ -10800,6 +10800,9 @@ namespace StriveCustomer.Android
 			// aapt resource value: 0x7F0500A7
 			public const int vehicleInfoCardColor = 2131034279;
 			
+			// aapt resource value: 0x7F0500A8
+			public const int white = 2131034280;
+			
 			static Color()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

@@ -44,7 +44,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.EditCollisions_Fragment,null);
-            this.ViewModel = new EditCollisionsViewModel();
+            this.ViewModel = new EditCollisionsViewModel();          
 
             back_Button = rootView.FindViewById<Button>(Resource.Id.editCollisionsBack_Button);
             save_Button = rootView.FindViewById<Button>(Resource.Id.editCollisionsSave_Button);
@@ -76,6 +76,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             if(this.ViewModel.collisionAdded)
             {
                 AppCompatActivity activity = (AppCompatActivity)this.Context;
+                MyProfileInfoNeeds.selectedTab = 1;
                 myProfileFragment = new MyProfileFragment();
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, myProfileFragment).Commit(); 
             }
@@ -94,8 +95,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
                     var date = this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate.Split('T');
                     editCollisionsDate_EditText.Text = date[0];
                 }                
-                editCollisionAmount_EditText.Text = this.ViewModel.getCollisions.Collision.Liability.First().Amount.ToString();
-                editCollisionNotes_EditText.Text = this.ViewModel.getCollisions.Collision.Liability.First().Description;
+                editCollisionAmount_EditText.Text =this.ViewModel.getCollisions.Collision.LiabilityDetail.First().Amount.ToString();
+                editCollisionNotes_EditText.Text = this.ViewModel.getCollisions.Collision.LiabilityDetail.First().Description;
             }
         }
 
@@ -133,8 +134,9 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             editCollisionsDate_EditText.Text = e.Date.ToString();
         }
         private void Back_Button_Click(object sender, EventArgs e)
-        {
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
+        {            
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            MyProfileInfoNeeds.selectedTab = 1;
             profileFragment = new MyProfileFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profileFragment).Commit();
         }

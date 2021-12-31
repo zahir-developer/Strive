@@ -88,7 +88,12 @@ namespace StriveCustomer.Android.Fragments
             EndingDate = rootview.FindViewById<TextView>(Resource.Id.endingDate);
             MonthlyRecurString = rootview.FindViewById<TextView>(Resource.Id.monthlyRecurString);
             parentView = rootview.FindViewById<LinearLayout>(Resource.Id.parentView);
-            TermsDocument();
+            TermsDocumentString();
+
+            if (AppCompatDelegate.DefaultNightMode == AppCompatDelegate.ModeNightYes) 
+            {
+                parentView.Background =(Drawable)Resource.Color.white;
+            }
 
             string Datenow = DateTime.Now.Date.ToString("yyyy-MM-dd");
             StartingDate.Text = new DateTime(DateTime.Now.Date.AddMonths(1).Year, DateTime.Now.Date.AddMonths(1).Month, 1).ToString("yyyy-MM-dd");
@@ -114,18 +119,18 @@ namespace StriveCustomer.Android.Fragments
             
             return rootview;
         }
-        void TermsDocument() 
+        void TermsDocumentString() 
         {
-            SpannableString s1 = new SpannableString("Split into monthly recurring charges of");           
-            s1.SetSpan(new BackgroundColorSpan(Color.Yellow), 11, 28, SpanTypes.ExclusiveExclusive);
-            MonthlyRecurString.TextFormatted = s1;           
+            SpannableString docString = new SpannableString("Split into monthly recurring charges of");           
+            docString.SetSpan(new BackgroundColorSpan(Color.Yellow), 11, 28, SpanTypes.ExclusiveExclusive);
+            MonthlyRecurString.TextFormatted = docString;           
             
         }
 
         public void GetTotal()
         {
-            double MembershipAmount = VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price;
-            var SelectedServices = MembershipDetails.completeList.ServicesWithPrice.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
+            double MembershipAmount = VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price;            
+            var SelectedServices = VehicleAdditionalServiceViewModel.serviceList.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
             foreach (var Service in SelectedServices)
             {
                 if (Service.Price != null)
@@ -187,6 +192,10 @@ namespace StriveCustomer.Android.Fragments
         }
         public static Bitmap GetBitmapFromView(View view)
         {
+            if (AppCompatDelegate.DefaultNightMode == AppCompatDelegate.ModeNightYes)
+            {
+                view.Background = (Drawable)Resource.Color.white;
+            }
             //Define a bitmap with the same size as the view
             Bitmap returnedBitmap = Bitmap.CreateBitmap(view.Width, view.Height, Bitmap.Config.Argb8888);
             //Bind a canvas to it

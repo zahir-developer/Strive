@@ -91,7 +91,7 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Collision
                 var date = employeeCollisions[position].CreatedDate.Split("T");
                 collisionViewHolder.collisionDate_TextView.Text = date[0];
             }
-            collisionViewHolder.collisionCost_TextView.Text = employeeCollisions[position].Amount.ToString();
+            collisionViewHolder.collisionCost_TextView.Text = "$"+employeeCollisions[position].Amount.ToString();
         }
 
         public async void OnClick(View itemView, int position, bool isLongClick)

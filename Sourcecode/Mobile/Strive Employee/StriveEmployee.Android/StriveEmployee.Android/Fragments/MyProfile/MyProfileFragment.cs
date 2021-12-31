@@ -22,7 +22,7 @@ using StriveEmployee.Android.Fragments.MyProfile.Documents;
 namespace StriveEmployee.Android.Fragments.MyProfile
 {
     [MvxFragmentPresentationAttribute]
-    public class MyProfileFragment : MvxFragment
+    public class MyProfileFragment : MvxFragment,ViewPager.IOnPageChangeListener
     {
         private TabLayout profile_TabLayout;
         private ViewPager profile_ViewPager;
@@ -60,6 +60,38 @@ namespace StriveEmployee.Android.Fragments.MyProfile
 
             profile_ViewPager.Adapter = profile_ViewPagerAdapter;
             profile_TabLayout.SetupWithViewPager(profile_ViewPager);
+            profile_ViewPager.SetCurrentItem(MyProfileInfoNeeds.selectedTab,false);
+            profile_ViewPager.AddOnPageChangeListener(this);
         }
+
+        public void OnPageScrollStateChanged(int state)
+        {
+            
+        }
+
+        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+            
+        }
+
+        public void OnPageSelected(int position)
+        {
+            if(position == 0)
+            {
+                employeeInfo_Fragment.GetEmployeeDetails();            
+            }
+            if (position == 1)
+            {
+                collisions_Fragment.GetCollisionInfo();
+            }
+            if (position == 2) 
+            {
+                document_Fragment.GetDocumentDetails();
+            }
+        }        
+    }
+    public static class MyProfileInfoNeeds
+    {
+        public static int selectedTab { get; set; } = 0;
     }
 }
