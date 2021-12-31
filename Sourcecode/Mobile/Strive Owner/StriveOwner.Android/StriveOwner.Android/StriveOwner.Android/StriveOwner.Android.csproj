@@ -79,23 +79,6 @@
     <Compile Include="MvvmCross\AppStart.cs" />
     <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
     <Compile Include="MvvmCross\Setup.cs" />
-<<<<<<< Updated upstream
-    <Compile Include="Resources\Fragments\CheckOutFragment.cs" />
-    <Compile Include="Resources\Fragments\DashboardHomeFragment.cs" />
-    <Compile Include="Resources\Fragments\InventoryEditFragment.cs" />
-    <Compile Include="Resources\Fragments\InventoryMainFragment.cs" />
-    <Compile Include="Resources\Fragments\MessengerContactFragment.cs" />
-    <Compile Include="Resources\Fragments\MessengerCreateGroupFragment.cs" />
-    <Compile Include="Resources\Fragments\MessengerFinalizeGroupFragment.cs" />
-    <Compile Include="Resources\Fragments\MessengerFragment.cs" />
-    <Compile Include="Resources\Fragments\MessengerGroupContactFragment.cs" />
-    <Compile Include="Resources\Fragments\MessengerPersonalChatFragment.cs" />
-    <Compile Include="Resources\Fragments\MessengerRecentContactFragment.cs" />
-    <Compile Include="Resources\Fragments\MessengerViewParticipantsFragment.cs" />
-    <Compile Include="Resources\Fragments\RevenueFragment.cs" />
-    <Compile Include="Resources\Fragments\SalesFragment.cs" />
-    <Compile Include="Resources\Fragments\ServicesFragment.cs" />
-=======
     <Compile Include="Fragments\CheckOutFragment.cs" />
     <Compile Include="Fragments\DashboardHomeFragment.cs" />
     <Compile Include="Fragments\InventoryEditFragment.cs" />
@@ -114,7 +97,6 @@
     <Compile Include="Helper\MyButton.cs" />
     <Compile Include="Helper\MyButtonClickListener.cs" />
     <Compile Include="Helper\MySwipeHelper.cs" />
->>>>>>> Stashed changes
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreen.cs" />

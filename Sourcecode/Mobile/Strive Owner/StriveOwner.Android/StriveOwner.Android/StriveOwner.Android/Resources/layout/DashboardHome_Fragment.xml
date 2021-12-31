@@ -794,14 +794,14 @@
                     android:layout_gravity="center"
                     android:src="@drawable/chartmetro"/>
                  <ImageView
-                    android:id="@+id/filterTemp"
+                    android:id="@+id/filterTemp1"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
                     android:src="@drawable/chartbar"/>
                  <ImageView
-                    android:id="@+id/filterTemp"
+                    android:id="@+id/filterTemp2"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
