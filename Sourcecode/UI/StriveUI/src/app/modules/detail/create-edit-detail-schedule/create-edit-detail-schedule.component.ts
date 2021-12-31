@@ -118,6 +118,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   estimatedTimeOut: any = null;
   detailEstimatedTime: any = null;
   duplicateLoop = true;
+  inTime: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -152,10 +153,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.getAllBayById();
     this.getTicketNumber();
     this.getJobType();
-    if(this.isEdit)
-    {
-      this.getEmployeeList();
-    }
   }
 
   formInitialize() {
@@ -196,6 +193,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       });
     }
     this.assignDate();
+    this.getEmployeeList();
     this.getColor();
     this.getServiceType();
   }
@@ -218,9 +216,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         bay: this.bayScheduleObj.bayId,
         inTime
       });
+      this.inTime = inTime;
       this.detailForm.controls.bay.disable();
       this.detailForm.controls.inTime.disable();
-      this.getEmployeeList();
     }
   }
 
@@ -576,8 +574,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   }
 
-  resetActions()
-  {
+  resetActions() {
     const isJobStatus = _.where(this.jobStatus, { CodeId: this.selectedData?.Details?.JobStatus });
     if (isJobStatus.length > 0) {
       if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.inProgress) {
@@ -1163,7 +1160,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.isAssign = true;
           this.isStart = true;
           const jobID = JSON.parse(res.resultData);
-          
+
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
@@ -1192,9 +1189,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailItems = this.selectedData.DetailsItem;
         this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
           this.selectedData.DetailsJobServiceEmployee : [];
-          this.resetActions();
+        this.resetActions();
 
-          
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -1444,7 +1441,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
-    const timeIn = this.datePipe.transform(this.selectedData?.Details?.TimeIn, 'MM/dd/yyyy HH:mm');
+    
+    var timeIn = null;
+    if (this.isEdit)
+      timeIn = this.datePipe.transform(this.selectedData?.Details?.TimeIn, 'MM/dd/yyyy HH:mm');
+    else
+      timeIn = this.datePipe.transform(this.inTime, 'MM/dd/yyyy HH:mm');
+
     const timeclock = {
       date: timeIn,
       locationId: +localStorage.getItem('empLocationId')
