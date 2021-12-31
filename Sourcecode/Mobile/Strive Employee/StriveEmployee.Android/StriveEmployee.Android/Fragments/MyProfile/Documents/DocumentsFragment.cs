@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
@@ -27,6 +28,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
         private RecyclerView documents_RecyclerView;
         private DocumentsAdapter documents_Adapter;
         private AddDocumentsFragment addDocuments_Fragment;
+        private View rootView;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -37,7 +40,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            var rootView = this.BindingInflate(Resource.Layout.Documents_Fragment, null);
+            rootView = this.BindingInflate(Resource.Layout.Documents_Fragment, null);
             this.ViewModel = new DocumentsViewModel();
 
             documents_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.documents_RecyclerView);
@@ -62,13 +65,22 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             }
             ViewModel.isAndroid = true;
             await this.ViewModel.GetDocumentInfo();
-            if(this.ViewModel.DocumentDetails != null && this.ViewModel.DocumentDetails.Employee.EmployeeDocument != null)
+            if (this.ViewModel.DocumentDetails != null && this.ViewModel.DocumentDetails.Employee.EmployeeDocument != null)
             {
                 documents_Adapter = new DocumentsAdapter(Context, this.ViewModel.DocumentDetails.Employee.EmployeeDocument);
                 var LayoutManager = new LinearLayoutManager(Context);
                 documents_RecyclerView.SetLayoutManager(LayoutManager);
                 documents_RecyclerView.SetAdapter(documents_Adapter);
+            }            
+        }
+        public void NoData()
+        {
+            if (this.ViewModel.DocumentDetails != null)
+            {
+                Snackbar snackbar = Snackbar.Make(rootView, "No relatable data!", Snackbar.LengthShort);
+                snackbar.Show();
             }
+
         }
     }
 }

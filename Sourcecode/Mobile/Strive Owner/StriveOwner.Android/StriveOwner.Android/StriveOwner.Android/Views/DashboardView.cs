@@ -39,7 +39,7 @@ namespace StriveOwner.Android.Views
             SetContentView(Resource.Layout.DashboardViewScreen);
             this.ViewModel = new DashboardViewModel();
             messenger_Fragment = new MessengerFragment();
-            checkOut_Fragment = new CheckOutFragment();
+            checkOut_Fragment = new CheckOutFragment(this);
             dashboardhome_Fragment = new DashboardHomeFragment();
             inventoryMain_Fragment = new InventoryMainFragment();
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);

@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
@@ -29,6 +30,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         private MvxFragment selected_Fragment;
         private AddCollisionsFragment addCollisionsFragment;        
         private ImageButton addCollision_ImageButton;
+        private View rootView;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -38,7 +40,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            var rootView = this.BindingInflate(Resource.Layout.Collisions_Fragment, null);
+            rootView = this.BindingInflate(Resource.Layout.Collisions_Fragment, null);
             this.ViewModel = new CollisionsViewModel();           
             addCollisionsFragment = new AddCollisionsFragment();
             addCollision_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.addCollision_ImageButton);
@@ -70,6 +72,16 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
                 collison_RecyclerView.SetLayoutManager(layoutManager);
                 collison_RecyclerView.SetAdapter(collision_Adapter);
             }
+            
+        }
+        public void NoData() 
+        {
+            if (this.ViewModel.CollisionDetails == null)
+            {
+                Snackbar snackbar = Snackbar.Make(rootView, "No relatable data!", Snackbar.LengthShort);
+                snackbar.Show();
+            }       
+         
         }
     }
 }

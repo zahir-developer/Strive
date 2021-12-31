@@ -55,6 +55,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private TextView bay3_makemodelcolor;
         private TextView bay3_services;
         private TextView bay3_upcharges;
+        private LinearLayout bay_layout;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -76,30 +77,31 @@ namespace StriveOwner.Android.Resources.Fragments
             locationsLayout = rootView.FindViewById<LinearLayout>(Resource.Id.addinglocationbuttons);
             dashhome_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.dashhome_TabLayout);
             dashhome_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.dashhome_ViewPager);
-            bay1_expand = rootView.FindViewById<ImageView>(Resource.Id.bay1_button);
-            bay1_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_1);
-            bay1_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_1);
-            bay1_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_1);
-            bay1_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_1);
-            bay1_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_1);
-            bay1_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_1);
-            bay1_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_1);
-            bay2_expand = rootView.FindViewById<ImageView>(Resource.Id.bay2_button);
-            bay2_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_2);
-            bay2_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_2);
-            bay2_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_2);
-            bay2_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_2);
-            bay2_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_2);
-            bay2_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_2);
-            bay2_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_2);
-            bay3_expand = rootView.FindViewById<ImageView>(Resource.Id.bay3_button);
-            bay3_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_3);
-            bay3_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_3);
-            bay3_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_3);
-            bay3_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_3);
-            bay3_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_3);
-            bay3_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_3);
-            bay3_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_3);
+            //bay1_expand = rootView.FindViewById<ImageView>(Resource.Id.bay1_button);
+            //bay1_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_1);
+            //bay1_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_1);
+            //bay1_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_1);
+            //bay1_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_1);
+            //bay1_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_1);
+            //bay1_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_1);
+            //bay1_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_1);
+            //bay2_expand = rootView.FindViewById<ImageView>(Resource.Id.bay2_button);
+            //bay2_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_2);
+            //bay2_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_2);
+            //bay2_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_2);
+            //bay2_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_2);
+            //bay2_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_2);
+            //bay2_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_2);
+            //bay2_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_2);
+            //bay3_expand = rootView.FindViewById<ImageView>(Resource.Id.bay3_button);
+            //bay3_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_3);
+            //bay3_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_3);
+            //bay3_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_3);
+            //bay3_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_3);
+            //bay3_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_3);
+            //bay3_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_3);
+            //bay3_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_3);
+            bay_layout = rootView.FindViewById<LinearLayout>(Resource.Id.BayDetails_LinearLayout);
             OwnerTempData.LocationID = 1;
             GetStatistics(OwnerTempData.LocationID);
             GetDashData(OwnerTempData.LocationID);
@@ -152,9 +154,10 @@ namespace StriveOwner.Android.Resources.Fragments
                     row.AddView(locationBtn);
                 }
                 locationsLayout.AddView(row);
-                hidebay1Details();
-                hidebay2Details();
-                hidebay3Details();
+                BayDetails();
+                //hidebay1Details();
+                //hidebay2Details();
+                //hidebay3Details();
             }
 
         }
@@ -213,6 +216,51 @@ namespace StriveOwner.Android.Resources.Fragments
                 bay3_upcharges.Text = "$" + " " + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].Upcharge.ToString();
             }           
         }
+
+        private void BayDetails() 
+        {
+            
+            if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null) 
+            {
+                if (this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel.Count > 0)
+                {
+                    foreach (var data in ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel)
+                    {
+                        if (Context != null) 
+                        {
+                           var layout = LayoutInflater.From(Context).Inflate(Resource.Layout.BayDetails, bay_layout, false);
+
+                            var bay_number = layout.FindViewById<TextView>(Resource.Id.bay_number);
+                            var ticket_number = layout.FindViewById<TextView>(Resource.Id.ticket_number);
+                            var bay_timein = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
+                            var bay_client = layout.FindViewById<TextView>(Resource.Id.client_TextView);
+                            var bay_phone  = layout.FindViewById<TextView>(Resource.Id.phones_TextView);
+                            var bay_timeout = layout.FindViewById<TextView>(Resource.Id.timeout_TextView);
+                            var bay_makemodelcolor = layout.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView);
+                            var bay_services = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
+                            var bay_upcharges = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
+
+                            bay_number.Text = data.BayName;
+                            ticket_number.Text = data.TicketNumber;
+                            bay_timein.Text = data.TimeIn;
+                            bay_client.Text = data.ClientName;
+                            bay_phone.Text = data.PhoneNumber;
+                            bay_timeout.Text = data.EstimatedTimeOut;
+                            bay_makemodelcolor.Text = data.VehicleMake + data.VehicleModel + data.VehicleColor;
+                            bay_services.Text = data.ServiceTypeName;
+                            bay_upcharges.Text = "$" + " " + data.Upcharge.ToString();
+
+                            bay_layout.AddView(layout);
+
+                        }             
+                    
+                    }
+                
+                }
+            }           
+                
+        }
+
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
@@ -226,7 +274,7 @@ namespace StriveOwner.Android.Resources.Fragments
         }
         public override void OnPause()
         {
-            base.OnPause();
+            base.OnPause();            
         }
         public override void OnDetach()
         {

@@ -117,7 +117,18 @@
             android:textSize="15sp"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/opensans_bold"/>
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
+           android:layout_width="match_parent"
+           android:layout_height="300dp">
+          <LinearLayout
+            android:id="@+id/BayDetails_LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">    
+          </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+      
+        <!--<LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -761,7 +772,7 @@
                         android:fontFamily="@font/opensans_bold"/>
                 </LinearLayout>              
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout>-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -803,6 +814,18 @@
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
                     android:src="@drawable/chartline"/>
+            </LinearLayout>
+            <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical">
+                <com.github.mikephil.charting.charts.LineChart
+                       android:id="@+id/linechart"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent" 
+                />
+
+        
             </LinearLayout>
     </LinearLayout>
     </ScrollView>

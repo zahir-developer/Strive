@@ -79,6 +79,7 @@
     <Compile Include="MvvmCross\AppStart.cs" />
     <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
     <Compile Include="MvvmCross\Setup.cs" />
+<<<<<<< Updated upstream
     <Compile Include="Resources\Fragments\CheckOutFragment.cs" />
     <Compile Include="Resources\Fragments\DashboardHomeFragment.cs" />
     <Compile Include="Resources\Fragments\InventoryEditFragment.cs" />
@@ -94,6 +95,26 @@
     <Compile Include="Resources\Fragments\RevenueFragment.cs" />
     <Compile Include="Resources\Fragments\SalesFragment.cs" />
     <Compile Include="Resources\Fragments\ServicesFragment.cs" />
+=======
+    <Compile Include="Fragments\CheckOutFragment.cs" />
+    <Compile Include="Fragments\DashboardHomeFragment.cs" />
+    <Compile Include="Fragments\InventoryEditFragment.cs" />
+    <Compile Include="Fragments\InventoryMainFragment.cs" />
+    <Compile Include="Fragments\MessengerContactFragment.cs" />
+    <Compile Include="Fragments\MessengerCreateGroupFragment.cs" />
+    <Compile Include="Fragments\MessengerFinalizeGroupFragment.cs" />
+    <Compile Include="Fragments\MessengerFragment.cs" />
+    <Compile Include="Fragments\MessengerGroupContactFragment.cs" />
+    <Compile Include="Fragments\MessengerPersonalChatFragment.cs" />
+    <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
+    <Compile Include="Fragments\MessengerViewParticipantsFragment.cs" />
+    <Compile Include="Fragments\RevenueFragment.cs" />
+    <Compile Include="Fragments\SalesFragment.cs" />
+    <Compile Include="Fragments\ServicesFragment.cs" />
+    <Compile Include="Helper\MyButton.cs" />
+    <Compile Include="Helper\MyButtonClickListener.cs" />
+    <Compile Include="Helper\MySwipeHelper.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreen.cs" />
@@ -1038,6 +1059,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\RequestPopout.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Bay.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\BayDetails.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

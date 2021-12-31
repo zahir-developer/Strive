@@ -75,7 +75,7 @@ namespace StriveEmployee.Android.Adapter.CheckOut
             detailViewHolder.checkOutServiceName_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Services;
             detailViewHolder.checkInTime_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Checkin;
             detailViewHolder.checkOutTime_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Checkout;
-            if(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode != "")
+            if(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode != "" && vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode != null)
             {
                 detailViewHolder.verticalLine_LinearLayout.SetBackgroundColor(Color.ParseColor(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode));
                 detailViewHolder.checkOutNumber_TextView.SetTextColor(Color.ParseColor(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode));
