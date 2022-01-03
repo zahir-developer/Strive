@@ -1733,7 +1733,7 @@ export class SalesComponent implements OnInit {
       });
       if (this.Products.length !== 0) {
         this.Products.forEach(ele => {
-          this.totalAmount += ele.Price + ele.TaxAmount;
+          this.totalAmount += (ele.Price * ele.Quantity) + ele.TaxAmount;
         });
       }
       if(this.totalPaid > 0){
