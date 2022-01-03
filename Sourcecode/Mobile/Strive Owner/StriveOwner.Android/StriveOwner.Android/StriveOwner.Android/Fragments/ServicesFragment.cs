@@ -57,5 +57,25 @@ namespace StriveOwner.Android.Resources.Fragments
             forecastedcars.Text = this.ViewModel.statisticsData.Currents.ToString() + "/" + ViewModel.statisticsData.ForecastedCar.ToString();
             avgcarwashtime.Text = this.ViewModel.statisticsData.WashTime.ToString();
         }
+        public string getScoreCount()
+        {
+            if (score.Text == "")
+            {
+                score.Text = "0";
+            }
+            return score.Text;
+        }
+        public string getWashCount()
+        {
+            return noofwashes.Text;
+        }
+        public string getDetailsCount()
+        {
+            return noofdetails.Text;
+        }
+        public string getEmployeeCount()
+        {
+            return washemployees.Text;
+        }
     }
 }

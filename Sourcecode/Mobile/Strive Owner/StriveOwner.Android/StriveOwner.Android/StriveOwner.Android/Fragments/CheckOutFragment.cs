@@ -21,10 +21,7 @@ using StriveOwner.Android.Helper;
 
 namespace StriveOwner.Android.Fragments.CheckOut
 {
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
     public class CheckOutFragment : MvxFragment<CheckOutViewModel>, SwipeRefreshLayout.IOnRefreshListener
     {
         private RecyclerView Checkout_RecyclerView;
@@ -38,10 +35,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
         {
             this.Context = context;
         }
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -89,32 +83,6 @@ namespace StriveOwner.Android.Fragments.CheckOut
 
             await ViewModel.GetCheckOutDetails();
             if (ViewModel.CheckOutVehicleDetails != null)
-<<<<<<< Updated upstream
-=======
-            {
-                if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
-                    || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
-                {
-                    checkOutDetailsAdapter = new CheckOutDetailsAdapter(Context, ViewModel.CheckOutVehicleDetails);
-                    var layoutManager = new LinearLayoutManager(Context);
-                    Checkout_RecyclerView.SetLayoutManager(layoutManager);
-                    Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
-                }
-            }
-            MySwipeHelper mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel.CheckOutVehicleDetails);
-        }
-        public void swipercall()
-        {
-            MySwipeHelper mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel.CheckOutVehicleDetails);
-        }
-        public async void GetCheckoutDetails(RecyclerView recyclerView)
-        {
-
-            Checkout_RecyclerView = recyclerView;
-
-            await ViewModel.GetCheckOutDetails();
-            if (ViewModel.CheckOutVehicleDetails != null)
->>>>>>> Stashed changes
             {
                 if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
                     || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
@@ -275,15 +243,12 @@ namespace StriveOwner.Android.Fragments.CheckOut
             }
         }
 
-<<<<<<< Updated upstream
         public void OnRefresh()
         {
             GetCheckoutDetails();
             swipeRefreshLayout.Refreshing = false;
         }
 
-=======
->>>>>>> Stashed changes
         private class MyImplementSwipeHelper : MySwipeHelper
         {
             Context Context;
