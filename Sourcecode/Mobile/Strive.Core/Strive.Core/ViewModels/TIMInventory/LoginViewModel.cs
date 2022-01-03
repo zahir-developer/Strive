@@ -98,8 +98,9 @@ namespace Strive.Core.ViewModels.TIMInventory
                 {
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;
                     ApiUtils.Token = response.Token;
-                    UserId = "";
-                    Password = "";
+                    UserId = string.Empty;
+                    Password = string.Empty;
+
                     //var request = new TimeClockRequest()
                     //{
                     //    locationId = 1,

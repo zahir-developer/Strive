@@ -45,6 +45,11 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
+        public async Task LogoutCommand()
+        {
+            await _navigationService.Navigate<LoginViewModel>();
+        }
+
         public async Task NavigateBackCommand()
         {
             await _navigationService.Close(this);

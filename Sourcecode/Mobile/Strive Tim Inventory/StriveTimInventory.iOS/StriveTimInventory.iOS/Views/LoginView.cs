@@ -27,15 +27,21 @@ namespace StriveTimInventory.iOS.Views
             set.Bind(UserIdTxtField).To(vm => vm.UserId);
             set.Bind(PasswordTxtField).To(vm => vm.Password);
             set.Apply();
+            
             SetPasswordToggleImage();
         }
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
 
+            UserIdTxtField.BecomeFirstResponder();
+
+        }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
-
         private void DoInitialSetup()
         {
             NavigationController.NavigationBarHidden = true;
@@ -62,7 +68,8 @@ namespace StriveTimInventory.iOS.Views
 
         partial void TextFieldBeginEdit(UITextField sender)
         {
-            if(sender.Tag == 1)
+
+            if (sender.Tag == 1)
             {
                 UserIdHintLabel.Hidden = false;
                 UserIdTxtField.Placeholder = string.Empty;
@@ -74,6 +81,7 @@ namespace StriveTimInventory.iOS.Views
 
         partial void TextFieldChange(UITextField sender)
         {
+            
             if (sender.Tag == 1)
             {
                 if (string.IsNullOrEmpty(sender.Text))
@@ -102,7 +110,8 @@ namespace StriveTimInventory.iOS.Views
 
         partial void TextFieldEnd(UITextField sender)
         {
-            if(sender.Tag == 1)
+            
+            if (sender.Tag == 1)
             {
                 if(string.IsNullOrEmpty(UserIdTxtField.Text))
                 {

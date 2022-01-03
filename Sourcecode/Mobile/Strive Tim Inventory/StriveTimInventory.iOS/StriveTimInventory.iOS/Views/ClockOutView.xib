@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -29,6 +29,7 @@
                 <outlet property="ClockOutViewBox" destination="pmq-Qq-rBG" id="name-outlet-pmq-Qq-rBG"/>
                 <outlet property="DateLabel" destination="mlF-nn-yUB" id="name-outlet-mlF-nn-yUB"/>
                 <outlet property="LogoutButton" destination="Zah-wt-oRm" id="name-outlet-Zah-wt-oRm"/>
+                <outlet property="Return" destination="Ohy-iS-wLt" id="8a1-Ul-x32"/>
                 <outlet property="RoleLabel" destination="Tee-A9-fqc" id="name-outlet-Tee-A9-fqc"/>
                 <outlet property="TitleLabel" destination="50V-fZ-pFp" id="name-outlet-50V-fZ-pFp"/>
                 <outlet property="TotalHoursLabel" destination="gOc-Lm-1cq" id="name-outlet-gOc-Lm-1cq"/>
@@ -53,7 +54,7 @@
                             <color key="textColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zah-wt-oRm">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zah-wt-oRm">
                             <rect key="frame" x="25" y="27" width="56" height="36"/>
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <state key="normal" title="Logout">
@@ -190,10 +191,24 @@
                     <color key="textColor" red="0.69258880619999996" green="0.98452872039999995" blue="0.95296400790000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ohy-iS-wLt">
+                    <rect key="frame" x="254.5" y="844" width="325" height="55"/>
+                    <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="55" id="FNS-gs-DYV"/>
+                        <constraint firstAttribute="width" constant="325" id="goi-f3-7wN"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Return">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="pmq-Qq-rBG" firstAttribute="centerY" secondItem="pMc-wG-bOm" secondAttribute="centerY" id="1pi-TY-wuY"/>
+                <constraint firstItem="Ohy-iS-wLt" firstAttribute="top" secondItem="gOc-Lm-1cq" secondAttribute="bottom" constant="35" id="30W-f0-oEa"/>
                 <constraint firstItem="mlF-nn-yUB" firstAttribute="leading" secondItem="09a-XL-N56" secondAttribute="trailing" constant="6" id="58q-ns-sGP"/>
                 <constraint firstAttribute="trailing" secondItem="VDp-8n-zj0" secondAttribute="trailing" id="8sS-tt-fUW"/>
                 <constraint firstItem="P8G-oA-Syx" firstAttribute="firstBaseline" secondItem="gOc-Lm-1cq" secondAttribute="firstBaseline" id="Cs1-Ip-UsZ"/>
@@ -208,6 +223,7 @@
                 <constraint firstItem="W4l-Ly-Eb9" firstAttribute="centerX" secondItem="pMc-wG-bOm" secondAttribute="centerX" id="RCi-ka-PgJ"/>
                 <constraint firstItem="gOc-Lm-1cq" firstAttribute="centerX" secondItem="pMc-wG-bOm" secondAttribute="centerX" id="SR4-kc-W0k"/>
                 <constraint firstItem="3AR-xu-Hzn" firstAttribute="top" secondItem="eB1-FC-qrE" secondAttribute="bottom" constant="55" id="Wde-Sq-lSa"/>
+                <constraint firstItem="Ohy-iS-wLt" firstAttribute="centerX" secondItem="gOc-Lm-1cq" secondAttribute="centerX" id="Xwf-Cp-o1U"/>
                 <constraint firstItem="mlF-nn-yUB" firstAttribute="top" secondItem="Tee-A9-fqc" secondAttribute="bottom" constant="50" id="f8j-At-ugB"/>
                 <constraint firstItem="Tee-A9-fqc" firstAttribute="top" secondItem="W4l-Ly-Eb9" secondAttribute="bottom" constant="3" id="g56-J0-Sgi"/>
                 <constraint firstItem="yZ3-dT-P5r" firstAttribute="centerX" secondItem="pMc-wG-bOm" secondAttribute="centerX" id="h6l-Av-mDl"/>

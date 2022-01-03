@@ -33,6 +33,7 @@ namespace StriveTimInventory.iOS.Views
             set.Bind(ClockInTimeLabel).To(vm => vm.ClockInTime);
             set.Bind(ClockOutTimeLabel).To(vm => vm.ClockOutTime);
             set.Bind(TotalHoursLabel).To(vm => vm.TotalHours);
+            set.Bind(Return).To(vm => vm.Commands["Logout"]);
             set.Apply();
         }
 
