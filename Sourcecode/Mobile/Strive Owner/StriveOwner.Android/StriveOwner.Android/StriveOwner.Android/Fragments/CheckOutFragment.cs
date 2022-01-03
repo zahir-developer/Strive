@@ -295,7 +295,32 @@ namespace StriveOwner.Android.Fragments.CheckOut
                     new CheckOutButtonClick(this, Context, selectedItem, fragment, checkout_RecyclerView), selectedItem));
 
 
-                //add second button here
+                
+            }
+            public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
+            {
+                int itemposition = viewHolder.AdapterPosition;
+                var selectedItem = CheckoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
+                CheckOutFragment fragment = new CheckOutFragment(Context);
+
+                //button-1
+                buffer.Add(new MyButton(Context,
+                 "Hold",
+                 35,
+                 Resource.Drawable.Check,
+                 "#FBB80F",
+                 new HoldButtonClick(this, Context, selectedItem, fragment, checkout_RecyclerView), selectedItem));
+
+                // button - 2
+                buffer.Add(new MyButton(Context,
+                    "CheckOut",
+                    35,
+                    Resource.Drawable.Check,
+                    "#808080",
+                    new CheckOutButtonClick(this, Context, selectedItem, fragment, checkout_RecyclerView), selectedItem));
+
+
+             
             }
             //Click Event for holdbutton
             public class HoldButtonClick : MyButtonClickListener

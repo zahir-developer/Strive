@@ -11,8 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
-using EmployeeList = Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeList;
-using EmployeeLists = Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeList;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 
 namespace StriveOwner.Android.Adapter
 {
@@ -20,7 +19,7 @@ namespace StriveOwner.Android.Adapter
     {
         private List<ChatEmployeeList> recentContacts = new List<ChatEmployeeList>();
         private List<ChatEmployeeList> sortedRecentContacts { get; set; }
-        public List<EmployeeList> sortedContacts { get; set; }
+        public List<Employee> sortedContacts { get; set; }
         private string queryString { get; set; }
 
         public MessengerSearchAdapter() 
@@ -47,9 +46,9 @@ namespace StriveOwner.Android.Adapter
             }
             return sortedRecentContacts;
         }
-        public List<EmployeeList> SearchContacts(List<Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.Employee> contacts, string queryString)
+        public List<Employee> SearchContacts(List<Employee> contacts, string queryString)
         {
-            sortedContacts = new List<EmployeeList>();
+            sortedContacts = new List<Employee>();
             this.queryString = queryString;
 
             var AllSmall = queryString.ToLower();
@@ -60,7 +59,7 @@ namespace StriveOwner.Android.Adapter
                 var lastName = data.LastName.ToLower();
                 if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall))
                 {
-                   // sortedContacts.Add(data);
+                   sortedContacts.Add(data);
                 }
             }
 
