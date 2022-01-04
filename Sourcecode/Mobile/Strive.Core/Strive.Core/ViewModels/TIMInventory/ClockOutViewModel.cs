@@ -48,6 +48,8 @@ namespace Strive.Core.ViewModels.TIMInventory
         public async Task LogoutCommand()
         {
             await _navigationService.Navigate<LoginViewModel>();
+            await _navigationService.Close(this);
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "boo!"));
         }
 
         public async Task NavigateBackCommand()
