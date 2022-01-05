@@ -73,6 +73,9 @@
                                                 <tr *ngFor="let wash of washDetails">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
                                                     <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">
+                                                        <em *ngIf="wash.MembershipName !== ''"
+                                                            class="mdi mdi-bookmark font-size-1-5 "
+                                                            style="color: #FFA500;"></em>
                                                         {{wash.ClientName}}</td>
                                                     <td>{{wash.MakeModelColorLabel}}</td>
                                                     <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}
@@ -100,7 +103,7 @@
                                                 </ngb-pagination>
                                             </div>
                                             <select class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
-                                                 <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+                                                 <option *ngFor = "let size of pageSizeList" [selected]="size === 100" value = "{{size}}">{{size}}</option>
          
                                              </select>
                                         </div>

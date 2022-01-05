@@ -20,7 +20,7 @@
                             Tip Amount
                         </div>
                         <div class="col-2">
-                            <input type="number" name="tipAmount" class="form-control"
+                            <input name="tipAmount" class="form-control" appPosTwoDecimalNumber
                                 [ngClass]="{ 'is-invalid': submitted  && payment.tipAmount.errors }"
                                 formControlName="tipAmount" (change)="tipAmountAdded()">
                             <div *ngIf="submitted  && payment.tipAmount.errors" class="invalid-feedback">
