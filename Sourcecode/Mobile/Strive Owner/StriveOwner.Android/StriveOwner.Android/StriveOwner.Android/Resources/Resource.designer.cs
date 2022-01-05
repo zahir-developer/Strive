@@ -13018,13 +13018,10 @@ namespace StriveOwner.Android
 			public const int washsales = 2131296615;
 			
 			// aapt resource value: 0x7F090168
-			public const int weather_Temperature = 2131296616;
+			public const int withText = 2131296616;
 			
 			// aapt resource value: 0x7F090169
-			public const int withText = 2131296617;
-			
-			// aapt resource value: 0x7F09016A
-			public const int wrap_content = 2131296618;
+			public const int wrap_content = 2131296617;
 			
 			static Id()
 			{

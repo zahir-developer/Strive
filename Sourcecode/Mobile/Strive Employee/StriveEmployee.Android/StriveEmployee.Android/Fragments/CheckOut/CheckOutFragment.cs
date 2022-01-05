@@ -63,14 +63,20 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             {
                 if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
                     || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
-                    {
-                        checkOutDetailsAdapter = new CheckOutDetailsAdapter(Context, ViewModel.CheckOutVehicleDetails);
-                        var layoutManager = new LinearLayoutManager(Context);
-                        Checkout_RecyclerView.SetLayoutManager(layoutManager);
-                        Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
-                    }
+                {
+                    checkOutDetailsAdapter = new CheckOutDetailsAdapter(Context, ViewModel.CheckOutVehicleDetails);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    Checkout_RecyclerView.SetLayoutManager(layoutManager);
+                    Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
+                }
 
             }
+            else 
+            {
+                Checkout_RecyclerView.SetAdapter(null);
+                Checkout_RecyclerView.SetLayoutManager(null);                             
+            }
+            
             MySwipeHelper mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel.CheckOutVehicleDetails);
             
         }

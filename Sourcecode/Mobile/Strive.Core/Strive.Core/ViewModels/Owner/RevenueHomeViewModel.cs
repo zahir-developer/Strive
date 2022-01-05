@@ -20,7 +20,7 @@ namespace Strive.Core.ViewModels.Owner
                 locationId = locationId,
                 fromDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
                 toDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
-                CurrentDate = (System.DateTime.Now).ToString("yyy-MM-dd")
+                CurrentDate = (System.DateTime.Now).ToString("yyy-MM-dd HH:mm:ss")
             });
 
             if (result == null)

@@ -28,7 +28,7 @@ namespace StriveOwner.Android.Fragments
         private RecyclerView createGroup_RecyclerView;
         private MessengerFragment messengerFragment;
         private MessengerCreateGroupAdapter messengerCreateGroup_Adapter;
-        private MessengerFinalizeGroupFragment FinalizeGroup_Fragment;
+        private MessengerFinalizeGroupFragment FinalizeGroup_Fragment;        
         private MvxFragment selected_MvxFragment;
         public override void OnCreate(Bundle savedInstanceState)
         {

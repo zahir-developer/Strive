@@ -297,7 +297,7 @@
                  android:layout_height="wrap_content"
                  android:orientation="vertical"
                  android:layout_weight="0.5"
-                 android:layout_marginLeft="@dimen/five">
+                 >
                 <LinearLayout
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
@@ -394,13 +394,13 @@
                           android:text="Commission:"
                           android:textSize="@dimen/textFifteen"
                           android:textColor="@android:color/black"
-                          android:layout_weight="0.5"/>
+                          android:layout_weight="0.6"/>
                      <TextView
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"                          
                           android:textSize="@dimen/textFifteen"
                           android:textColor="@android:color/black"
-                          android:layout_weight="0.5"
+                          android:layout_weight="0.4"
                           android:id="@+id/Commission"/>
                 </LinearLayout>
                 <LinearLayout

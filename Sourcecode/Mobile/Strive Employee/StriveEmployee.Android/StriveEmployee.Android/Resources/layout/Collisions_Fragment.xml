@@ -19,14 +19,14 @@
             android:textSize="18sp"
             android:textColor="@color/recipientChatTime"
             android:fontFamily="@font/opensans_semibold"/>
-         <ImageButton
+         <!--<ImageButton
             android:id="@+id/addCollision_ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/fifteen"
             android:src="@drawable/add_circle"
             android:background="@android:color/transparent"
-            android:layout_toRightOf="@id/participantGroup_Name"/>
+            android:layout_toRightOf="@id/participantGroup_Name"/>-->
     </RelativeLayout>
     <LinearLayout
         android:layout_marginTop="@dimen/ten"

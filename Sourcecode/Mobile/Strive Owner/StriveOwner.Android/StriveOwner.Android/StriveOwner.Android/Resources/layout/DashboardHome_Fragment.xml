@@ -40,7 +40,7 @@
             android:layout_marginLeft="@dimen/ten"
             android:layout_marginBottom="95dp"
             android:layout_marginRight="@dimen/ten">
-        <LinearLayout
+        <!--<LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="45dp"    
@@ -79,7 +79,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/filter"/>
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout>-->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

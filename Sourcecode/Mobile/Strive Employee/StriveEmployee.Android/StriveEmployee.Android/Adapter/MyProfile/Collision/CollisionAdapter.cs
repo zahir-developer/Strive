@@ -32,11 +32,11 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Collision
             collisionName_TextView = itemView.FindViewById<TextView>(Resource.Id.collisionName_TextView);
             collisionDate_TextView = itemView.FindViewById<TextView>(Resource.Id.collisionDate_TextView);
             collisionCost_TextView = itemView.FindViewById<TextView>(Resource.Id.collisionCost_TextView);
-            collisionDelete_Button = itemView.FindViewById<ImageButton>(Resource.Id.collisionDelete_Button);
-            collisionEdit_Button = itemView.FindViewById<ImageButton>(Resource.Id.collisionEdit_Button);
-            collisionDelete_Button.Click += CollisionDelete_Button_Click;
-            collisionEdit_Button.Click += CollisionEdit_Button_Click;
-            itemView.SetOnClickListener(this);
+           // collisionDelete_Button = itemView.FindViewById<ImageButton>(Resource.Id.collisionDelete_Button);
+            //collisionEdit_Button = itemView.FindViewById<ImageButton>(Resource.Id.collisionEdit_Button);
+            //collisionDelete_Button.Click += CollisionDelete_Button_Click;
+           // collisionEdit_Button.Click += CollisionEdit_Button_Click;
+            //itemView.SetOnClickListener(this);
         }
         public void SetItemClickListener(IItemClickListener itemClickListener)
         {
@@ -84,7 +84,7 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Collision
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             collisionViewHolder = holder as CollisionViewHolder;
-            collisionViewHolder.SetItemClickListener(this);
+            //collisionViewHolder.SetItemClickListener(this);
             collisionViewHolder.collisionName_TextView.Text = employeeCollisions[position].LiabilityType;
            if(!String.IsNullOrEmpty(employeeCollisions[position].CreatedDate))
             {

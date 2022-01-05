@@ -9,6 +9,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
@@ -27,7 +28,7 @@ namespace StriveOwner.Android.Adapter
         public IItemClickListener itemClickListener;
         public MessengerCreateGroupRecycleHolder(View entry) : base(entry)
         {
-            createGroup_Button = entry.FindViewById<Button>(Resource.Id.createGroup_ImageView); 
+            createGroup_Button = entry.FindViewById<Button>(Resource.Id.createGroup_ImageView);
             createGroup_CheckBox = entry.FindViewById<CheckBox>(Resource.Id.createGroup_Checkbox);
             createGroupName_TextView = entry.FindViewById<TextView>(Resource.Id.createGroupName_TextView);
             createGroupEntry_LinearLayout = entry.FindViewById<LinearLayout>(Resource.Id.createGroupEntry_LinearLayout);
@@ -42,6 +43,9 @@ namespace StriveOwner.Android.Adapter
         private List<Employee> contacts = new List<Employee>();
         private char[] firstInitial;
         private char[] secondInitial;
+        private List<int> selectedposition = new List<int>();        
+        
+
         public MessengerCreateGroupAdapter(Context context, List<Employee> contacts)
         {
             this.context = context;
@@ -77,22 +81,59 @@ namespace StriveOwner.Android.Adapter
             }
 
             messengerCreateGroup.ItemView.Tag = position;
-            if(MessengerTempData.ChatParticipants != null)
+            if (MessengerTempData.ChatParticipants != null)
             {
                 if (!MessengerTempData.ChatParticipants.ContainsKey(contacts[position].EmployeeId))
                 {
                     MessengerTempData.ChatParticipants.Add(contacts[position].EmployeeId, position);
                 }
             }
-            
-            messengerCreateGroup.ItemView.SetOnClickListener(this);
-            
-        }
+            //if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Count == 0)
+            //{
+            //    selectedposition = -1;
+            //}
+            //if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Count > 0)
+            //{
+            //    if (selectedposition == position)
+            //    {
+            //        holder.ItemView.SetBackgroundColor(Color.LightCyan);
+            //    }
+            //    else 
+            //    { 
+            //        holder.ItemView.SetBackgroundColor(Color.Transparent); 
+            //    }
 
+            //}
+
+            if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Count > 0) 
+            { 
+                for (int i = 0; i < MessengerTempData.createGroup_Contact.EmployeeList.Employee.Count; i++)
+                {
+                //if (MessengerTempData.createGroup_Contact.EmployeeList.Employee[i].EmployeeId == contacts[position].EmployeeId && position == selectedposition)
+                //{
+                //    holder.ItemView.SetBackgroundColor(Color.LightCyan);
+                //}
+                if (selectedposition[i] == position)
+                {
+                    holder.ItemView.SetBackgroundColor(Color.LightCyan);
+                }
+                else
+                {
+                    holder.ItemView.SetBackgroundColor(Color.Transparent);
+                }
+
+                }
+
+            }
+
+            messengerCreateGroup.ItemView.SetOnClickListener(this);
+
+        }
         public void OnClick(View v)
         {
+            
             var position = (int)v.Tag;
-            if(MessengerTempData.createGroup_Contact.EmployeeList.Employee.Contains(contacts[position]))
+            if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Contains(contacts[position]))
             {
                 var index = MessengerTempData.createGroup_Contact.EmployeeList.Employee.IndexOf(contacts[position]);
                 MessengerTempData.createGroup_Contact.EmployeeList.Employee.RemoveAt(index);
@@ -100,9 +141,11 @@ namespace StriveOwner.Android.Adapter
             }
             else
             {
-                MessengerTempData.createGroup_Contact.EmployeeList.Employee.Add(contacts[position]);
+                MessengerTempData.createGroup_Contact.EmployeeList.Employee.Add(contacts[position]);               
+                selectedposition.Add(position);
                 v.SetBackgroundColor(Color.LightCyan);
             }
+            NotifyDataSetChanged();
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -116,5 +159,5 @@ namespace StriveOwner.Android.Adapter
         {
             return false;
         }
-    }    
+    }
 }

@@ -89,11 +89,11 @@ namespace StriveCustomer.Android.Fragments
             MonthlyRecurString = rootview.FindViewById<TextView>(Resource.Id.monthlyRecurString);
             parentView = rootview.FindViewById<LinearLayout>(Resource.Id.parentView);
             TermsDocumentString();
-
-            if (AppCompatDelegate.DefaultNightMode == AppCompatDelegate.ModeNightYes) 
-            {
-                parentView.Background =(Drawable)Resource.Color.white;
-            }
+            //AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
+            ////if (AppCompatDelegate.DefaultNightMode == AppCompatDelegate.ModeNightYes) 
+            ////{
+            ////    parentView.Background =(Drawable)Resource.Color.white;
+            ////}
 
             string Datenow = DateTime.Now.Date.ToString("yyyy-MM-dd");
             StartingDate.Text = new DateTime(DateTime.Now.Date.AddMonths(1).Year, DateTime.Now.Date.AddMonths(1).Month, 1).ToString("yyyy-MM-dd");
@@ -194,7 +194,8 @@ namespace StriveCustomer.Android.Fragments
         {
             if (AppCompatDelegate.DefaultNightMode == AppCompatDelegate.ModeNightYes)
             {
-                view.Background = (Drawable)Resource.Color.white;
+               // view.Background = (Drawable)Resource.Color.white;
+                view.SetBackgroundColor(Color.Gray);
             }
             //Define a bitmap with the same size as the view
             Bitmap returnedBitmap = Bitmap.CreateBitmap(view.Width, view.Height, Bitmap.Config.Argb8888);

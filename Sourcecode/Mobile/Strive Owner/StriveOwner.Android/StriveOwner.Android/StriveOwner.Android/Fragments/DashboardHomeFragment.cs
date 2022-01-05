@@ -17,12 +17,13 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Xamarin.Android;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
     public class DashboardHomeFragment : MvxFragment<HomeViewModel>
     {
-        private TextView TempTextView;
+       // private TextView TempTextView;
         private LinearLayout locationsLayout;
         private TabLayout dashhome_TabLayout;
         private ViewPager dashhome_ViewPager;
@@ -59,6 +60,8 @@ namespace StriveOwner.Android.Resources.Fragments
         private TextView NoRecord;
         private NestedScrollView BayDetailsScrollView;
         private string SelectedLocName;
+        private List<int> PreviousSelectedId = new List<int>();
+        private Button[] locationBtn;
         private int FirstLocId;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -69,8 +72,8 @@ namespace StriveOwner.Android.Resources.Fragments
             servicesFragment = new ServicesFragment();
             salesFragment = new SalesFragment();
             revenueFragment = new RevenueFragment();
-            TempTextView = rootView.FindViewById<TextView>(Resource.Id.weather_Temperature);
-            TempTextView.Text = "/";
+            //TempTextView = rootView.FindViewById<TextView>(Resource.Id.weather_Temperature);
+            ///TempTextView.Text = "/";
             locationsLayout = rootView.FindViewById<LinearLayout>(Resource.Id.addinglocationbuttons);
             dashhome_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.dashhome_TabLayout);
             dashhome_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.dashhome_ViewPager);
@@ -203,6 +206,7 @@ namespace StriveOwner.Android.Resources.Fragments
             if (ViewModel.Locations.Location.Count > 0 && ViewModel.Locations != null && ViewModel.Locations.Location != null)
             {
                 var BtnID = 777;
+                PreviousSelectedId.Add(BtnID);
                 locationsLayout.Orientation = Orientation.Vertical;
                 LinearLayout row = new LinearLayout(this.Context);
                 var layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
@@ -210,25 +214,30 @@ namespace StriveOwner.Android.Resources.Fragments
                 row.LayoutParameters = layoutParams;
                 foreach (var location in ViewModel.Locations.Location)
                 {
-                    Button locationBtn = new Button(this.Context);
-                    locationBtn.SetBackgroundResource(Resource.Drawable.RoundEdge_Button);
+                    // Button locationBtn = new Button(this.Context);
+                    Button[] locationBtn = new Button[ViewModel.Locations.Location.Count];
+                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].SetBackgroundResource(Resource.Drawable.RoundEdge_Button);
                     SelectedLocName = ViewModel.Locations.Location.First().LocationName;
                     FirstLocId = ViewModel.Locations.Location.First().LocationId;
                     var nameSplits = location.LocationName.Split(" ");
                     foreach (var name in nameSplits)
                     {
                         if (!string.Equals(name.ToUpper(), "DETAIL") || !string.Equals(name.ToUpper(), "SALON") || !string.Equals(name.ToUpper(), "MAMMOTH"))
-                            locationBtn.Text += name + " ";
+                            locationBtn[ViewModel.Locations.Location.IndexOf(location)].Text += name + " ";
                     }
 
                     btnParams.SetMargins(5, 5, 5, 5);
-                    locationBtn.LayoutParameters = btnParams;
+                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].LayoutParameters = btnParams;
+                    if (BtnID == 777) 
+                    {
+                        locationBtn[ViewModel.Locations.Location.IndexOf(location)].Selected = true;
+                    }
                     BtnID += 1;
-                    locationBtn.SetTextColor(Color.ParseColor("#ffffff"));
-                    locationBtn.Id = BtnID;
-                    locationBtn.Tag = location.LocationId;
-                    locationBtn.Click += LocationBtn_Click;
-                    row.AddView(locationBtn);
+                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].SetTextColor(Color.ParseColor("#000000"));
+                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].Id = BtnID;
+                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].Tag = location.LocationId;
+                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].Click += LocationBtn_Click;                    
+                    row.AddView(locationBtn[ViewModel.Locations.Location.IndexOf(location)]);
                 }
                 locationsLayout.AddView(row);
                 GetStatistics(FirstLocId);
@@ -245,6 +254,16 @@ namespace StriveOwner.Android.Resources.Fragments
         private async void LocationBtn_Click(object sender, EventArgs e)
         {
             var data = (Button)sender;
+            PreviousSelectedId.Add(data.Id);
+            for (int i = 0; i < PreviousSelectedId.Count; i++) 
+            {
+                if (data.Id != PreviousSelectedId[i]) 
+                {
+                    data.  FindViewById(i).Selected = false;
+                }
+            
+            }
+            data.Selected = true;
             var locationId = Convert.ToInt32(data.Tag);
             OwnerTempData.LocationID = locationId;
             SelectedLocName = data.Text;

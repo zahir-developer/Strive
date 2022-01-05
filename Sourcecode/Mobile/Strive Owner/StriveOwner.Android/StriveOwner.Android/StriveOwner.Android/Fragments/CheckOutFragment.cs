@@ -70,6 +70,11 @@ namespace StriveOwner.Android.Fragments.CheckOut
                     Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
                 }
             }
+            else
+            {
+                Checkout_RecyclerView.SetAdapter(null);
+                Checkout_RecyclerView.SetLayoutManager(null);
+            }
             MySwipeHelper mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel.CheckOutVehicleDetails);
         }
         public void swipercall()
