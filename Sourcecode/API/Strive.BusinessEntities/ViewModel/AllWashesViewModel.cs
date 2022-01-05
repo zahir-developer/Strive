@@ -22,5 +22,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string ServiceName { get; set; }
 
         public string IsPaid { get; set; } 
+        public string MembershipName { get; set; }
     }
 }

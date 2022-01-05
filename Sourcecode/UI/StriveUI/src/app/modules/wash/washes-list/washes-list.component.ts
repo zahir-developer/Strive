@@ -78,7 +78,7 @@ export class WashesListComponent implements OnInit {
     this.endDate = new Date();
     this.daterangepickerModel = [this.startDate, this.endDate];
     this.page = ApplicationConfig.PaginationConfig.page;
-    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSize = 100; // ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     const obj = {
       id: this.locationId,

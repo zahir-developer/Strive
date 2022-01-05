@@ -6,7 +6,7 @@
                 <div class="form-row">
                     <div class="form-group col-lg-3">
                         <label for="inputLocationName">Name<span class="required">*</span></label>
-                        <input type="text" maxlength="100" appAlphaNumeric class="form-control"
+                        <input type="text" maxlength="100" appAlphaNumericLoc class="form-control"
                             formControlName="locationName" placeholder="Location Name"
                             [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
                         <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
