@@ -529,7 +529,7 @@ namespace Strive.BusinessEntities
         uspGetGiftCardBalance,
         uspGetClientAndVehicle,
         USPGETMEMBERSHIPLISTBYVEHICLEID,
-        USPGETTICKETNUMBER,
+        USPGETJOBTICKETNUMBER,
         
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,

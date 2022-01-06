@@ -147,7 +147,7 @@ export class CreateEditWashesComponent implements OnInit {
       this.wash.getTicketNumber().subscribe(data => {
         if (data.status === 'Success') {
           const ticket = JSON.parse(data.resultData);
-          this.ticketNumber = ticket.GetTicketNumber.JobId;
+          this.ticketNumber = ticket.GetTicketNumber.TicketNumber;
           this.jobID = ticket.GetTicketNumber.JobId;
         }
         else {

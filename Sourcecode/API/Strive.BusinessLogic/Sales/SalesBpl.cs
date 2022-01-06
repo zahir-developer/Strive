@@ -82,7 +82,7 @@ namespace Strive.BusinessLogic.Sales
 
                 if (jobPaymentId > 0)
                 {
-                    var result = new SalesRal(_tenant).UpdateJobPayment(salesPayment.JobId, jobPaymentId);
+                    var result = new SalesRal(_tenant).UpdateJobPayment(salesPayment.LocationId, salesPayment.TicketNumber, jobPaymentId);
 
                     if (salesPayment.SalesProductItemDto != null)
                     {

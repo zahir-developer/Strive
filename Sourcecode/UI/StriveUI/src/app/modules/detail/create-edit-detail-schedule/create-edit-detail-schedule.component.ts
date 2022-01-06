@@ -184,7 +184,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const ticket = JSON.parse(data.resultData);
         if (data.status === 'Success') {
           const ticket = JSON.parse(data.resultData);
-          this.ticketNumber = ticket.GetTicketNumber.JobId;
+          this.ticketNumber = ticket.GetTicketNumber.TicketNumber;
           this.jobID = ticket.GetTicketNumber.JobId;
         }
         else {
