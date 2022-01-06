@@ -36,5 +36,6 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? WashTip { get; set; }
         public decimal? DetailTip { get; set; }
         public decimal? Bonus { get; set; }
+        public bool IsClockedOut { get; set; }
     }
 }

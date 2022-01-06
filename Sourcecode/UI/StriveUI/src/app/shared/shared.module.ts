@@ -63,6 +63,8 @@ import { QRCodeModule } from 'angular2-qrcode';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {InputMaskModule} from 'primeng/inputmask';
 import { AlphaNumericDirective } from './Directive/alpha-numeric.directive';
+import { AlphaNumericLocationDirective } from './Directive/alpha-numeric-location.directive';
+import { PositiveTwoDecimalNumberDirective } from './Directive/positive-two-decimal.directive';
 import { CalendarModule } from 'primeng/calendar';
 import { FilterPipe } from './pipe/filter.pipe';
 import { DecimalPipe } from '@angular/common';
@@ -107,7 +109,7 @@ import { SessionExpiredComponent } from './components/session-expired/session-ex
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent,RecurringPaymentComponent, AlphaNumericDirective, FilterPipe, SessionExpiredComponent],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent,RecurringPaymentComponent, AlphaNumericDirective, AlphaNumericLocationDirective, PositiveTwoDecimalNumberDirective, FilterPipe, SessionExpiredComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,QRCodeModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -117,7 +119,7 @@ import { SessionExpiredComponent } from './components/session-expired/session-ex
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, ExportFiletypeComponent,
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
       OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective,
-      AlphaNumericDirective, InputMaskModule, KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent,
+      AlphaNumericDirective, AlphaNumericLocationDirective, PositiveTwoDecimalNumberDirective, InputMaskModule, KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent,
        PaymentProcessComponent,RecurringPaymentComponent, CalendarModule, FilterPipe, CurrencyPipe],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe, DecimalPipe, CurrencyPipe],
