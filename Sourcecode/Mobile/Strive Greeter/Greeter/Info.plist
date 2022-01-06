@@ -64,6 +64,6 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.strive.greeter</string>
 	<key>CFBundleVersion</key>
-	<string>34</string>
+	<string>35</string>
 </dict>
 </plist>

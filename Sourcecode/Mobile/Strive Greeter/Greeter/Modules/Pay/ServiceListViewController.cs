@@ -81,7 +81,7 @@ namespace Greeter.Modules.Pay
             checkoutTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             checkoutTableView.BackgroundColor = UIColor.Clear;
             checkoutTableView.AutomaticallyAdjustsScrollIndicatorInsets = true;
-            refreshControl.TintColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            refreshControl.TintColor = ColorConverters.FromHex(Common.Colors.APP_BASE_COLOR).ToPlatformColor();
             checkoutTableView.RefreshControl = refreshControl;
             View.Add(checkoutTableView);
 
@@ -139,7 +139,7 @@ namespace Greeter.Modules.Pay
               });
 
             actionPrint.Image = UIImage.FromBundle("tick");
-            actionPrint.BackgroundColor = Colors.PRINT_COLOR.ToPlatformColor();
+            actionPrint.BackgroundColor = ColorConverters.FromHex(Common.Colors.PRINT_COLOR).ToPlatformColor();
 
             var contextualActions = new List<UIContextualAction>() { actionPrint };
 

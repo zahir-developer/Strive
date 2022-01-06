@@ -50,10 +50,10 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
-        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         // Mammoth QA
-        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
         // Client Url by Zahir - not working - don't use this one as of now
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";
@@ -164,9 +164,13 @@ namespace Greeter.Common
 
     public class Colors
     {
-        internal static Color APP_BASE_COLOR = Color.FromArgb(29, 201, 183);
-        internal static Color PRINT_COLOR = Color.FromArgb(36, 72, 154);
-        internal static Color MESSANGER_GREEN_COLOR = Color.FromArgb(14, 114, 104);
+        //internal Color APP_BASE_COLOR = Color.FromArgb(29, 201, 183);
+        //internal Color PRINT_COLOR = Color.FromArgb(36, 72, 154);
+        //internal Color MESSANGER_GREEN_COLOR = Color.FromArgb(14, 114, 104);
+
+        internal const string APP_BASE_COLOR = "#1dc9b7";
+        internal const string PRINT_COLOR = "#24489a";
+        //internal const string MESSANGER_GREEN_COLOR = "#0e7268";
     }
 
     public class Messages

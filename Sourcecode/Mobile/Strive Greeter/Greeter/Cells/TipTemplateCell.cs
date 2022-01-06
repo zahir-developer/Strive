@@ -103,12 +103,12 @@ namespace Greeter.Cells
         void UpdateUnSelectedColor(UIView containerView, UILabel lbl)
         {
             containerView.BackgroundColor = UIColor.White;
-            lbl.TextColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            lbl.TextColor = ColorConverters.FromHex(Common.Colors.APP_BASE_COLOR).ToPlatformColor();
         }
 
         void UpdateSelectedColor(UIView containerView, UILabel lbl)
         {
-            containerView.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            containerView.BackgroundColor = ColorConverters.FromHex(Common.Colors.APP_BASE_COLOR).ToPlatformColor();
             lbl.TextColor = UIColor.White;
         }
     }

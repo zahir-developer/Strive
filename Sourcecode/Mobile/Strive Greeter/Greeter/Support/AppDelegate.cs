@@ -56,7 +56,7 @@ namespace Greeter
                 var vcs = new UIViewController[] { vc };
                 nc.ViewControllers = vcs;
                 Window.RootViewController = nc;
-                Window.TintColor = Common.Colors.APP_BASE_COLOR.ToPlatformColor();
+                Window.TintColor = ColorConverters.FromHex(Common.Colors.APP_BASE_COLOR).ToPlatformColor();
                 Window.MakeKeyAndVisible();
             }
 

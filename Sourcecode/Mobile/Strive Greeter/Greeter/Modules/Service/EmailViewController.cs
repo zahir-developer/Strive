@@ -12,6 +12,7 @@ using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Modules.Pay;
 using Greeter.Services.Api;
+using Greeter.Services.Printer;
 using UIKit;
 
 namespace Greeter.Storyboards
@@ -490,7 +491,8 @@ namespace Greeter.Storyboards
             html += serviceHtml;
             html += ticketHtml;
 
-            Print(html);
+            //Print(html);
+            PrintZebraPrinterTest(html);
 
             //ShowActivityIndicator();
 
@@ -504,7 +506,15 @@ namespace Greeter.Storyboards
         void PrintReceipt()
         {
             string printContentHtml = MakeServiceReceipt();
-            Print(printContentHtml);
+            PrintZebraPrinterTest(printContentHtml);
+            //Print(printContentHtml);
+        }
+
+        public void PrintZebraPrinterTest(string htmlString)
+        {
+            ConnectionManager connectionManager = new ConnectionManager(this);
+            connectionManager.CreateConnection();
+            connectionManager.printImage(htmlString);
         }
 
         string MakeServiceReceipt()

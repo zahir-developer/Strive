@@ -123,7 +123,7 @@ namespace Greeter.Cells
             payButton.TranslatesAutoresizingMaskIntoConstraints = false;
             payButton.SetTitle("PAY", UIControlState.Normal);
             payButton.TitleLabel.TextColor = UIColor.White;
-            payButton.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            payButton.BackgroundColor = ColorConverters.FromHex(Common.Colors.APP_BASE_COLOR).ToPlatformColor();
             payButton.Font = UIFont.BoldSystemFontOfSize(18);
 
             containerView.Add(payButton);

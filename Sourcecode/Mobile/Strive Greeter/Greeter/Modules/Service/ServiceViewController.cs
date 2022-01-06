@@ -106,7 +106,7 @@ namespace Greeter
 
             //if (washTime != 0)
             //{
-                AppSettings.WashTime = washTime;
+            AppSettings.WashTime = washTime;
             //}
             //else
             //{

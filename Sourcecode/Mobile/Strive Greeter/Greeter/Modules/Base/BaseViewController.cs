@@ -7,7 +7,7 @@ using UIKit;
 
 namespace Greeter
 {
-    public abstract class BaseViewController : UIViewController
+    public abstract class BaseViewController : UIViewController, IBaseView
     {
         UIActivityIndicatorView activityIndicator;
         UITapGestureRecognizer tapArroundTapGesture;
@@ -179,28 +179,6 @@ namespace Greeter
             nc?.SetViewControllers(new UIViewController[] { loginViewController }, true);
         }
 
-        public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false, string titleTxt = null)
-        {
-            string title = "Alert";
-            string ok = "Ok";
-            string cancel = "Cancel";
-
-            if (!string.IsNullOrEmpty(titleTxt))
-            {
-                title = titleTxt;
-            }
-
-            var okAlertController = UIAlertController.Create(title, msg, UIAlertControllerStyle.Alert);
-            okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default,
-                alert =>
-                {
-                    okAction?.Invoke();
-                }));
-            if (isCancel)
-                okAlertController.AddAction(UIAlertAction.Create(cancel, UIAlertActionStyle.Cancel, null));
-            PresentViewController(okAlertController, true, null);
-        }
-
         public void AddPickerToolbar(UITextField textField, string title, Action action)
         {
             const string CANCEL_BUTTON_TXT = "Cancel";
@@ -275,5 +253,32 @@ namespace Greeter
                 ShowAlertMsg(Common.Messages.ADD_EMAIL_ACCOUNT);
             }
         }
+
+        public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false, string titleTxt = null)
+        {
+            string title = "Alert";
+            string ok = "Ok";
+            string cancel = "Cancel";
+
+            if (!string.IsNullOrEmpty(titleTxt))
+            {
+                title = titleTxt;
+            }
+
+            var okAlertController = UIAlertController.Create(title, msg, UIAlertControllerStyle.Alert);
+            okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default,
+                alert =>
+                {
+                    okAction?.Invoke();
+                }));
+            if (isCancel)
+                okAlertController.AddAction(UIAlertAction.Create(cancel, UIAlertActionStyle.Cancel, null));
+            PresentViewController(okAlertController, true, null);
+        }
+    }
+
+    public interface IBaseView
+    {
+        void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false, string titleTxt = null);
     }
 }
