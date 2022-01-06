@@ -1061,7 +1061,7 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   getUpcharge(applyUpcharge = true) {
-    if (this.isEdit) {
+    if (this.isEdit && applyUpcharge) {
       if (!this.upchargeTypeId || !this.vehicleForm.value.model?.id) {
         return;
       }
@@ -1101,7 +1101,7 @@ export class VehicleCreateEditComponent implements OnInit {
               this.upchargePrice = service?.Price;
             }
 
-            this.toastr.success(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
+            this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
           }
           else {
 
