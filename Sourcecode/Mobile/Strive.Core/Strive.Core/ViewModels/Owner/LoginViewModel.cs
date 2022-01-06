@@ -128,8 +128,15 @@ namespace Strive.Core.ViewModels.Owner
                 return Strings.RememberPassword;
             }
             set { }
-        }       
-               
+        }
+        public string ForgotPassword
+        {
+            get
+            {
+                return Strings.ForgotPassword_loginScreen;
+            }
+            set { }
+        }
         #endregion Properties
     }
 }

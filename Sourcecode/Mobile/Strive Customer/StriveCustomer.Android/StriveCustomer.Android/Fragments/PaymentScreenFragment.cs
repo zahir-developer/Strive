@@ -240,24 +240,25 @@ namespace StriveCustomer.Android.Fragments
                         else
                         {
                             _userDialog.HideLoading();
-                            _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
+                            _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
                         }
                     }
                     else
                     {
                         _userDialog.HideLoading();
-                        _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
+                        _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
                     }
                 }
                 else
                 {
                     _userDialog.HideLoading();
-                    _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
+                    _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
                 }
 
             }
             catch (Exception ex)
             {
+                _userDialog.Alert("Incorrect card details!");
                 System.Diagnostics.Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
 
             }

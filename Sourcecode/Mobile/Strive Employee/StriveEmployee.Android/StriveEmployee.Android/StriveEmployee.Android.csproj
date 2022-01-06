@@ -123,9 +123,12 @@
     <Compile Include="Resources\Services\Permission_Services.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\BaseExampleView.cs" />
+    <Compile Include="Views\ConfirmPasswordView.cs" />
     <Compile Include="Views\DashboardView.cs" />
     <Compile Include="Views\DocumentView.cs" />
+    <Compile Include="Views\ForgotPasswordView.cs" />
     <Compile Include="Views\LoginView.cs" />
+    <Compile Include="Views\OTPView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -135,12 +138,16 @@
     <AndroidResource Include="Resources\font\OpenSans_Regular.ttf" />
     <AndroidResource Include="Resources\font\OpenSans_Semibold.ttf" />
     <AndroidResource Include="Resources\drawable\payroll.png">
-      <SubType></SubType>
-      <Generator></Generator>
+      <SubType>
+      </SubType>
+      <Generator>
+      </Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\money.png">
-      <SubType></SubType>
-      <Generator></Generator>
+      <SubType>
+      </SubType>
+      <Generator>
+      </Generator>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
@@ -995,6 +1002,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-mdpi\payroll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ForgotPasswordScreen.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\OTPScreen.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ConfirmPasswordScreen.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

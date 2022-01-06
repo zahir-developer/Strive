@@ -61,8 +61,9 @@ namespace StriveOwner.Android.Resources.Fragments
         private NestedScrollView BayDetailsScrollView;
         private string SelectedLocName;
         private List<int> PreviousSelectedId = new List<int>();
-        private Button[] locationBtn;
         private int FirstLocId;
+        Button locationBtn;
+        List<Button> listBtn = new List<Button>();
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
@@ -199,14 +200,15 @@ namespace StriveOwner.Android.Resources.Fragments
             await ViewModel.getDashboardSchedule(locationID);
             //GetLocations();
         }
-
+        
         private async void GetLocations()
         {
             await ViewModel.GetAllLocationsCommand();
+            PreviousSelectedId.Clear();
+            listBtn.Clear();
             if (ViewModel.Locations.Location.Count > 0 && ViewModel.Locations != null && ViewModel.Locations.Location != null)
             {
                 var BtnID = 777;
-                PreviousSelectedId.Add(BtnID);
                 locationsLayout.Orientation = Orientation.Vertical;
                 LinearLayout row = new LinearLayout(this.Context);
                 var layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
@@ -214,54 +216,51 @@ namespace StriveOwner.Android.Resources.Fragments
                 row.LayoutParameters = layoutParams;
                 foreach (var location in ViewModel.Locations.Location)
                 {
-                    // Button locationBtn = new Button(this.Context);
-                    Button[] locationBtn = new Button[ViewModel.Locations.Location.Count];
-                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].SetBackgroundResource(Resource.Drawable.RoundEdge_Button);
+                    locationBtn = new Button(this.Context);
+                    listBtn.Add(locationBtn);
+                    locationBtn.SetBackgroundResource(Resource.Drawable.RoundEdge_Button);
                     SelectedLocName = ViewModel.Locations.Location.First().LocationName;
                     FirstLocId = ViewModel.Locations.Location.First().LocationId;
                     var nameSplits = location.LocationName.Split(" ");
                     foreach (var name in nameSplits)
                     {
                         if (!string.Equals(name.ToUpper(), "DETAIL") || !string.Equals(name.ToUpper(), "SALON") || !string.Equals(name.ToUpper(), "MAMMOTH"))
-                            locationBtn[ViewModel.Locations.Location.IndexOf(location)].Text += name + " ";
+                            locationBtn.Text += name + " ";
                     }
-
                     btnParams.SetMargins(5, 5, 5, 5);
-                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].LayoutParameters = btnParams;
-                    if (BtnID == 777) 
-                    {
-                        locationBtn[ViewModel.Locations.Location.IndexOf(location)].Selected = true;
-                    }
+                    locationBtn.LayoutParameters = btnParams;
                     BtnID += 1;
-                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].SetTextColor(Color.ParseColor("#000000"));
-                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].Id = BtnID;
-                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].Tag = location.LocationId;
-                    locationBtn[ViewModel.Locations.Location.IndexOf(location)].Click += LocationBtn_Click;                    
-                    row.AddView(locationBtn[ViewModel.Locations.Location.IndexOf(location)]);
+                    locationBtn.SetTextColor(Color.ParseColor("#000000"));
+                    locationBtn.Id = BtnID;
+                    locationBtn.Tag = location.LocationId;
+                    if (BtnID == 778)
+                    {
+                        PreviousSelectedId.Add(BtnID);
+                        locationBtn.Selected = true;
+                    }
+                    locationBtn.Click += LocationBtn_Click;
+                    row.AddView(locationBtn);
                 }
                 locationsLayout.AddView(row);
                 GetStatistics(FirstLocId);
                 BayDetails();
-
-
                 //hidebay1Details();
                 //hidebay2Details();
                 //hidebay3Details();
             }
-
         }
-
         private async void LocationBtn_Click(object sender, EventArgs e)
         {
             var data = (Button)sender;
             PreviousSelectedId.Add(data.Id);
-            for (int i = 0; i < PreviousSelectedId.Count; i++) 
+            for (int i = 0; i < PreviousSelectedId.Count; i++)
             {
-                if (data.Id != PreviousSelectedId[i]) 
+                if (data.Id != PreviousSelectedId[i])
                 {
-                    data.  FindViewById(i).Selected = false;
+                    int index = listBtn.FindIndex(a => a.Id == PreviousSelectedId[i]);
+                    listBtn[index].Selected = false;
+                    PreviousSelectedId.RemoveAt(i);
                 }
-            
             }
             data.Selected = true;
             var locationId = Convert.ToInt32(data.Tag);
@@ -276,8 +275,10 @@ namespace StriveOwner.Android.Resources.Fragments
             GetStatistics(locationId);
             await ViewModel.getDashboardSchedule(locationId);
             BayDetails();
+        }        
 
-        }
+
+       
 
         //private void hidebay1Details()
         //{

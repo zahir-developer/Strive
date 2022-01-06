@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
 using Android.Runtime;
@@ -31,6 +32,7 @@ namespace StriveOwner.Android.Views
         private TextView rememberMe_TextView;
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
+        private TextView forgotPassword;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -45,7 +47,8 @@ namespace StriveOwner.Android.Views
             password_EditText = this.FindViewById<EditText>(Resource.Id.passwordInputs);
             loginHeading_TextView = this.FindViewById<TextView>(Resource.Id.loginHeading);
             rememberMe_TextView = this.FindViewById<TextView>(Resource.Id.rememberMeLabel);
-
+            forgotPassword = this.FindViewById<TextView>(Resource.Id.forgotPasswordLink);
+            forgotPassword.PaintFlags = PaintFlags.UnderlineText;
             rememberMe_CheckBox.Click += RememberMe_CheckBox_Click;
             login_Button.Click += Login_Click;
 
@@ -58,10 +61,16 @@ namespace StriveOwner.Android.Views
             //bindingset.Bind(login_Button).For(lvm => lvm.Text).To(lvm => lvm.Login);
             //bindingset.Bind(login_Button).To(lvm => lvm.Commands["doNetworkCheck"]);
             bindingset.Bind(rememberMe_TextView).To(lvm => lvm.RememberPassword);
+            bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
 
             bindingset.Apply();
-
             basicSetup();
+            forgotPassword.Click += navigateToForgotPassword;
+        }
+
+        private void navigateToForgotPassword(object sender, EventArgs e)
+        {
+            ViewModel.ForgotPasswordCommand();
         }
 
         private void Login_Click(object sender, EventArgs e)

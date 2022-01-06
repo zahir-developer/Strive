@@ -16,7 +16,9 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.Employee;
+using Xamarin.Essentials;
 
 namespace StriveEmployee.Android.Views
 {
@@ -30,6 +32,9 @@ namespace StriveEmployee.Android.Views
         private EditText password_EditText;
         private TextView loginHeading_TextView;
         private TextView rememberMe_TextView;
+        private TextView newAccount;
+        private TextView signUp;
+        private TextView forgotPassword;
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
 
@@ -47,7 +52,11 @@ namespace StriveEmployee.Android.Views
             password_EditText = this.FindViewById<EditText>(Resource.Id.passwordInputs);
             loginHeading_TextView = this.FindViewById<TextView>(Resource.Id.loginHeading);
             rememberMe_TextView = this.FindViewById<TextView>(Resource.Id.rememberMeLabel);
-
+            newAccount = FindViewById<TextView>(Resource.Id.newAccount);
+            signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
+            signUp.PaintFlags = PaintFlags.UnderlineText;
+            forgotPassword = this.FindViewById<TextView>(Resource.Id.forgotPasswordLink);
+            forgotPassword.PaintFlags = PaintFlags.UnderlineText;
             rememberMe_CheckBox.Click += RememberMe_CheckBox_Click;
 
             var bindingset = this.CreateBindingSet<LoginView, LoginViewModel>();
@@ -58,12 +67,26 @@ namespace StriveEmployee.Android.Views
             bindingset.Bind(login_Button).For(lvm => lvm.Text).To(lvm => lvm.Login);
             bindingset.Bind(login_Button).To(lvm => lvm.Commands["DoLogin"]);
             bindingset.Bind(rememberMe_TextView).To(lvm => lvm.RememberPassword);
-            
+            bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
+            bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
+            bindingset.Bind(signUp).To(lvm => lvm.SignUp);
             bindingset.Apply();
-
             basicSetup();
 
+            forgotPassword.Click += navigateToForgotPassword;           
+            signUp.Click += navigateToSignUp;
         }
+
+        private void navigateToSignUp(object sender, EventArgs e)
+        {
+            Browser.OpenAsync(ApiUtils.URL_CUSTOMER_SIGNUP, BrowserLaunchMode.SystemPreferred);
+        }
+
+        private void navigateToForgotPassword(object sender, EventArgs e)
+        {
+            ViewModel.ForgotPasswordCommand();
+        }
+
         private void RememberMe_CheckBox_Click(object sender, EventArgs e)
         {
             preferenceEditor.PutBoolean("rememberMe", rememberMe_CheckBox.Checked);
