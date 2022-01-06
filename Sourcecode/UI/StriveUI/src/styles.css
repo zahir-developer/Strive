@@ -40,6 +40,12 @@ body .ui-widget {
     color: red;
 }
 
+.redHighlight
+{
+    font-weight: bold;
+    color: red;
+}
+
 .MyDialog.ui-dialog {
     width: 60%;
 }
