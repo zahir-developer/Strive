@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using Zebra.Sdk.Comm;
 using Zebra.Sdk.Printer;
 using Zebra.Sdk.Printer.Discovery;
@@ -70,37 +71,50 @@ namespace Greeter.Services.Printer
         //}
 
        
-        public static bool PostPrintCheckPrinterStatus(Connection connection)
+        public  bool PostPrintCheckPrinterStatus(Connection connection)
         {
             ZebraPrinter printer = ZebraPrinterFactory.GetInstance(PrinterLanguage.ZPL, connection);
-            PrinterStatus printerStatus = printer.GetCurrentStatus();
+            try
+            {
+                PrinterStatus printerStatus = printer.GetCurrentStatus();
 
-            // loop while printing until print is complete or there is an error
-            while ((printerStatus.numberOfFormatsInReceiveBuffer > 0) && (printerStatus.isReadyToPrint))
-            {
-                printerStatus = printer.GetCurrentStatus();
+                // loop while printing until print is complete or there is an error
+                while ((printerStatus.numberOfFormatsInReceiveBuffer > 0) && (printerStatus.isReadyToPrint))
+                {
+                    Thread.Sleep(500);
+                    printerStatus = printer.GetCurrentStatus();
+                    
+                }
+                if (printerStatus.isReadyToPrint)
+                {
+                    Debug.WriteLine("Ready To Print");
+                    return true;
+                }
+                else if (printerStatus.isPaused)
+                {
+                    Debug.WriteLine("Cannot Print because the printer is paused.");
+                }
+                else if (printerStatus.isHeadOpen)
+                {
+                    Debug.WriteLine("Cannot Print because the printer head is open.");
+                }
+                else if (printerStatus.isPaperOut)
+                {
+                    Debug.WriteLine("Cannot Print because the paper is out.");
+                }
+                else
+                {
+                    Debug.WriteLine("Cannot Print.");
+                }
             }
-            if (printerStatus.isReadyToPrint)
+            catch (ConnectionException e)
             {
-                Debug.WriteLine("Ready To Print");
-                return true;
+                //Console.WriteLine($"Error getting status from printer: {e.Message}");
+                baseView.ShowAlertMsg($"Error getting status from printer: {e.Message}");
             }
-            else if (printerStatus.isPaused)
-            {
-                Debug.WriteLine("Cannot Print because the printer is paused.");
-            }
-            else if (printerStatus.isHeadOpen)
-            {
-                Debug.WriteLine("Cannot Print because the printer head is open.");
-            }
-            else if (printerStatus.isPaperOut)
-            {
-                Debug.WriteLine("Cannot Print because the paper is out.");
-            }
-            else
-            {
-                Debug.WriteLine("Cannot Print.");
-            }
+
+
+            
             return false;
         }
 
