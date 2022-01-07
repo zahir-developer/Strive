@@ -348,8 +348,8 @@ namespace StriveOwner.Android.Resources.Fragments
 
                             var bay_timeout = layout.FindViewById<TextView>(Resource.Id.timeout_TextView);
                             var bay_makemodelcolor = layout.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView);
-                            var bay_services = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
-                            var bay_upcharges = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
+                            var bay_services = layout.FindViewById<TextView>(Resource.Id.serviceshome_TextView);
+                            var bay_upcharges = layout.FindViewById<TextView>(Resource.Id.upchargeshome_TextView);
 
                             bay_number.Text = data.BayName;
                             ticket_number.Text = "Ticket#: " + data.TicketNumber;
