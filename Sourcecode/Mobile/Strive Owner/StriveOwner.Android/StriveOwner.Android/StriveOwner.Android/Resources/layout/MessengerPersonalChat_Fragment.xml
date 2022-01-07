@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="#F2FCFE">
         <TextView
+            android:id="@+id/chatName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -59,6 +60,7 @@
             android:layout_marginLeft="@dimen/ten"
             android:layout_gravity="center"
             android:src="@drawable/dotsThree"
+            android:visibility="gone"
             android:background="@color/mtrl_btn_transparent_bg_color"/>
         </LinearLayout>
         <View

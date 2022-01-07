@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="false">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|right"
+                android:layout_marginRight="@dimen/fifteen"
                 android:layout_marginTop = "4dp"
                 android:weightSum="2">
                 <LinearLayout
@@ -42,6 +44,7 @@
                         android:gravity="right"
                         android:layout_weight="0.5"
                         android:textColor="#02143D"
+                        android:text="inprogress"
                         android:fontFamily="@font/opensans_bold"
                         android:layout_marginRight="@dimen/twenty"/>
                 </LinearLayout>               
@@ -82,7 +85,7 @@
                     android:id="@+id/checkOutVehicle_TextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.4"
                     android:text="Aston Martin/Blue"
                     android:textColor="@color/profileQColor"
                     android:textSize="@dimen/textFourteen"

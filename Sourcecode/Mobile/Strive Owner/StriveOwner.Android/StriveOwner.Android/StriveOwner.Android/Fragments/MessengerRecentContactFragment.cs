@@ -55,7 +55,7 @@ namespace StriveOwner.Android.Fragments
 
                 if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
                 {
-                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, sortedResult);
+                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, sortedResult,this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     recentContacts_RecyclerView.SetLayoutManager(layoutManager);
                     recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);
@@ -65,7 +65,7 @@ namespace StriveOwner.Android.Fragments
             {
                 if(ViewModel.EmployeeList != null)
                 {
-                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList);
+                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList, this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     recentContacts_RecyclerView.SetLayoutManager(layoutManager);
                     recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);
@@ -81,7 +81,7 @@ namespace StriveOwner.Android.Fragments
             {
                 if(ViewModel.EmployeeList.ChatEmployeeList.Count > 0)
                 {
-                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList);
+                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList, this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     recentContacts_RecyclerView.SetLayoutManager(layoutManager);
                     recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Fragments;
-using StriveEmployee.Android.Listeners;
 
 namespace StriveEmployee.Android.Adapter
 {
@@ -47,12 +41,15 @@ namespace StriveEmployee.Android.Adapter
     {
 
         Context context;
+        MessengerGroupContactViewModel messengerGroupContactViewModel;
         private List<ChatEmployeeList> groups = new List<ChatEmployeeList>();
         private MessengerGroupChatViewHolder messengerGroup;
-        public MessengerGroupChatAdapter(Context context, List<ChatEmployeeList> groups)
+        public MessengerGroupChatAdapter(Context context, List<ChatEmployeeList> groups, MessengerGroupContactViewModel viewModel)
         {
             this.context = context;
             this.groups = groups;
+            this.messengerGroupContactViewModel = viewModel;
+
         }
 
         public override int ItemCount
@@ -73,10 +70,11 @@ namespace StriveEmployee.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
+            int itemPosition = messengerGroupContactViewModel.GroupList.ChatEmployeeList.IndexOf(groups[position]);
             MessengerTempData.resetChatData();
-            MessengerTempData.GroupID = MessengerTempData.GroupLists.ChatEmployeeList[position].Id;
-            MessengerTempData.IsGroup = MessengerTempData.GroupLists.ChatEmployeeList.ElementAt(position).IsGroup;
-            MessengerTempData.GroupName = MessengerTempData.GroupLists.ChatEmployeeList.ElementAt(position).FirstName;
+            MessengerTempData.GroupID = MessengerTempData.GroupLists.ChatEmployeeList[itemPosition].Id;
+            MessengerTempData.IsGroup = MessengerTempData.GroupLists.ChatEmployeeList.ElementAt(itemPosition).IsGroup;
+            MessengerTempData.GroupName = MessengerTempData.GroupLists.ChatEmployeeList.ElementAt(itemPosition).FirstName;
             var data = MessengerTempData.GroupLists.ChatEmployeeList.Find(x => x.Id == MessengerTempData.GroupID);
             MessengerTempData.GroupUniqueID = data.CommunicationId;
             MessengerTempData.ConnectionID = data.CommunicationId; 

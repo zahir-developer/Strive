@@ -25,6 +25,7 @@ namespace StriveEmployee.Android.Adapter
         public TextView createGroupName_TextView;
         public LinearLayout createGroupEntry_LinearLayout;
         public IItemClickListener itemClickListener;
+
         public MessengerCreateGroupRecycleHolder(View entry) : base(entry)
         {
             createGroup_Button = entry.FindViewById<Button>(Resource.Id.createGroup_ImageView); 
@@ -42,6 +43,8 @@ namespace StriveEmployee.Android.Adapter
         private List<Employee> contacts = new List<Employee>();
         private char[] firstInitial;
         private char[] secondInitial;
+        public List<Employee> sortedContacts { get; set; }
+        private string queryWordString { get; set; }
         public MessengerCreateGroupAdapter(Context context, List<Employee> contacts)
         {
             this.context = context;
@@ -84,11 +87,21 @@ namespace StriveEmployee.Android.Adapter
                     MessengerTempData.ChatParticipants.Add(contacts[position].EmployeeId, position);
                 }
             }
-            
+            SelectedData(contacts[position], MessengerTempData.createGroup_Contact.EmployeeList.Employee);
             messengerCreateGroup.ItemView.SetOnClickListener(this);
             
         }
-
+        private void SelectedData(Employee employee, List<Employee> Rowselections)
+        {
+            if (Rowselections.Any(x => x.EmployeeId == employee.EmployeeId))
+            {
+                messengerCreateGroup.createGroupEntry_LinearLayout.SetBackgroundColor(Color.LightCyan);
+            }
+            else
+            {
+                messengerCreateGroup.createGroupEntry_LinearLayout.SetBackgroundColor(Color.Transparent);
+            }
+        }
         public void OnClick(View v)
         {
             var position = (int)v.Tag;
@@ -103,6 +116,8 @@ namespace StriveEmployee.Android.Adapter
                 MessengerTempData.createGroup_Contact.EmployeeList.Employee.Add(contacts[position]);
                 v.SetBackgroundColor(Color.LightCyan);
             }
+            NotifyDataSetChanged();
+
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -115,6 +130,27 @@ namespace StriveEmployee.Android.Adapter
         public bool OnLongClick(View v)
         {
             return false;
+        }
+        public List<Employee> SearchContacts(List<Employee> contacts, string queryString)
+        {
+            sortedContacts = new List<Employee>();
+            queryWordString = queryString.TrimEnd();
+
+            var AllSmall = queryWordString.ToLower();
+
+            foreach (var data in contacts)
+            {
+                var firstName = data.FirstName.ToLower();
+                var lastName = data.LastName.ToLower();
+                var fullName = data.FirstName.ToLower().TrimEnd() + " " + data.LastName.ToLower();
+                if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall) || fullName.Contains(AllSmall))
+                {
+                    sortedContacts.Add(data);
+                }
+            }
+
+            return sortedContacts;
+
         }
     }    
 }

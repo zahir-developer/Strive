@@ -8,11 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:layout_marginTop="@dimen/five"
         android:weightSum="2">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.5"
+            android:layout_weight="1.7"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/editDocumentName_TextView"
@@ -24,28 +25,20 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"
+            android:layout_weight="0.3"
             android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/editViewDoc_ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:src="@drawable/view"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center_vertical"/>
-            <ImageButton
-                android:id="@+id/editDeleteDoc_ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/five"
-                android:src="@drawable/delete_circle"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center_vertical"/>
+            <CheckBox
+            android:id="@+id/checkDocButton"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:button="@drawable/radiobutton" />
+            
         </LinearLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="@dimen/fifteen"
         android:background="@android:color/darker_gray"/>
 </LinearLayout>

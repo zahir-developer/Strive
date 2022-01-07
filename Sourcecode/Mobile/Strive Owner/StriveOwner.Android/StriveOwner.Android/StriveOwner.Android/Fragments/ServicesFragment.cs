@@ -50,12 +50,15 @@ namespace StriveOwner.Android.Resources.Fragments
         private async void GetStatistics()
         {
             await this.ViewModel.getStatistics(OwnerTempData.LocationID);
-            noofwashes.Text = this.ViewModel.statisticsData.WashesCount.ToString();
-            noofdetails.Text = this.ViewModel.statisticsData.DetailCount.ToString();
-            washemployees.Text = this.ViewModel.statisticsData.EmployeeCount.ToString();
-            score.Text = this.ViewModel.statisticsData.Score.ToString();
-            forecastedcars.Text = this.ViewModel.statisticsData.Currents.ToString() + "/" + ViewModel.statisticsData.ForecastedCar.ToString();
-            avgcarwashtime.Text = this.ViewModel.statisticsData.WashTime.ToString();
+            if (this.ViewModel.statisticsData != null)
+            {
+                noofwashes.Text = this.ViewModel.statisticsData.WashesCount.ToString();
+                noofdetails.Text = this.ViewModel.statisticsData.DetailCount.ToString();
+                washemployees.Text = this.ViewModel.statisticsData.EmployeeCount.ToString();
+                score.Text = this.ViewModel.statisticsData.Score.ToString();
+                forecastedcars.Text = this.ViewModel.statisticsData.Currents.ToString() + "/" + ViewModel.statisticsData.ForecastedCar.ToString();
+                avgcarwashtime.Text = this.ViewModel.statisticsData.WashTime.ToString();
+            }
         }
         public string getScoreCount()
         {
@@ -63,19 +66,19 @@ namespace StriveOwner.Android.Resources.Fragments
             {
                 score.Text = "0";
             }
-            return score.Text;
+            return score?.Text;
         }
         public string getWashCount()
         {
-            return noofwashes.Text;
+            return noofwashes?.Text;
         }
         public string getDetailsCount()
         {
-            return noofdetails.Text;
+            return noofdetails?.Text;
         }
         public string getEmployeeCount()
         {
-            return washemployees.Text;
+            return washemployees?.Text;
         }
     }
 }

@@ -74,8 +74,9 @@ namespace StriveOwner.Android.Fragments
             if(!string.IsNullOrEmpty(groupFinalName_TextView.Text))
             {
                 this.ViewModel.GroupName = this.groupFinalName_TextView.Text;
-                await this.ViewModel.CreateGroup();
+                await this.ViewModel.CreateGroupChat();
                 MessengerTempData.resetParticipantInfo();
+                MessengerTempData.createGroup_Contact.EmployeeList.Employee.Clear();
                 AppCompatActivity activity = (AppCompatActivity)this.Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
             }

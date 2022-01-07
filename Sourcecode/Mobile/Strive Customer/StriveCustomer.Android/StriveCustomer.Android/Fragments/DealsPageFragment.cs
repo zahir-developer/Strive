@@ -63,6 +63,22 @@ namespace StriveCustomer.Android.Fragments
             dealsnameBtn = rootview.FindViewById<Button>(Resource.Id.btnCoupon);
             qrCodeScan = rootview.FindViewById<Button>(Resource.Id.qrCodeScan);
 
+            checkCoupon1.Enabled = false;
+            checkCoupon2.Enabled = false;
+            checkCoupon3.Enabled = false;
+            checkCoupon4.Enabled = false;
+            checkCoupon5.Enabled = false;
+            checkCoupon6.Enabled = false;
+            checkCoupon7.Enabled = false;
+            checkCoupon8.Enabled = false;
+            checkCoupon9.Enabled = false;
+            checkCoupon10.Enabled = false;
+
+            checkPrice1.Enabled = false;
+            checkPrice2.Enabled = false;
+            checkPrice3.Enabled = false;
+            checkPrice4.Enabled = false;
+            checkPrice5.Enabled = false;
             dealsFragment = new DealsFragment();
             dealsnameBtn.Text = DealsViewModel.CouponName;
             if (DealsViewModel.SelectedDealId == 1)
@@ -167,6 +183,7 @@ namespace StriveCustomer.Android.Fragments
             {
                 checkCoupon1.Checked = true;
                 checkPrice1.Checked = true;
+               
                 bounce_linearLayout.Background.SetLevel(0);
             }
             else if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 2)

@@ -26,7 +26,8 @@ namespace Strive.Core.ViewModels.Employee
         public CreateGroupChat groupChatInfo { get; set; }
         public string GroupName { get; set; }
         public EmployeeList EmployeeLists { get; set; }
-
+        public chatGroup chatGroupforCreation = new chatGroup();
+        public static List<chatUserGroup> chatUserGroups = new List<chatUserGroup>();
         #endregion Properties
 
         #region Commands
@@ -208,6 +209,55 @@ namespace Strive.Core.ViewModels.Employee
             sendChat.fullName = MessengerTempData.FirstName;
 
         }
+        public async Task CreateGroupChat()
+        {
+            CreateGroupChat createGroupChat = new CreateGroupChat();
+
+           
+                _userDialog.ShowLoading(Strings.Loading);
+
+                chatGroupforCreation.chatGroupId = 0;
+                chatGroupforCreation.comments = null;
+
+                chatGroupforCreation.groupName = GroupName;
+                chatGroupforCreation.createdBy = EmployeeTempData.EmployeeID;
+
+                var chatUserGroup = new chatUserGroup();
+                chatUserGroup.CommunicationId = "";
+                chatUserGroup.createdBy = 0;
+                chatUserGroup.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss").ToString();
+                chatUserGroup.isActive = true;
+                chatUserGroup.isDeleted = false;
+                chatUserGroup.userId = EmployeeTempData.EmployeeID;
+                chatUserGroup.chatGroupUserId = 0;
+                chatUserGroup.chatGroupId = 0;
+                chatUserGroups.Add(chatUserGroup);
+
+
+
+
+                chatGroupforCreation.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
+                chatGroupforCreation.isActive = true;
+                chatGroupforCreation.isDeleted = false;
+                chatGroupforCreation.updatedBy = EmployeeTempData.EmployeeID;
+                chatGroupforCreation.updatedDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
+                createGroupChat.chatGroup = chatGroupforCreation;
+                createGroupChat.chatUserGroup = chatUserGroups;
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(createGroupChat));
+                var result = await MessengerService.CreateChatGroup(createGroupChat);
+                if (result != null)
+                {
+                    _userDialog.Toast("Group Has Been Created Sucessfully");
+                }
+                else
+                {
+                    _userDialog.Toast("Unable To Create Group");
+                }
+               
+
+            }
+
+        
         #endregion Commands
     }
 }

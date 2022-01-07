@@ -10,34 +10,56 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Strive.Core.Models.Employee.Documents;
 
 namespace StriveEmployee.Android.Adapter.MyProfile.Documents
 {
     public class AddDocumentsViewHolder : RecyclerView.ViewHolder
     {
-        public TextView editDocumentName_TextView;
-        public ImageButton editViewDoc_ImageButton;
-        public ImageButton editDeleteDoc_ImageButton;
+        public TextView documentName_TextView;
+        public CheckBox checkDoc_ImageButton;
         public AddDocumentsViewHolder(View itemView) : base(itemView)
         {
-            itemView.FindViewById<TextView>(Resource.Id.editDocumentName_TextView);
-            itemView.FindViewById<ImageButton>(Resource.Id.editViewDoc_ImageButton);
-            itemView.FindViewById<ImageButton>(Resource.Id.editDeleteDoc_ImageButton);
+            documentName_TextView = itemView.FindViewById<TextView>(Resource.Id.editDocumentName_TextView);
+            checkDoc_ImageButton = itemView.FindViewById<CheckBox>(Resource.Id.checkDocButton);
+            //itemView.FindViewById<ImageButton>(Resource.Id.editDeleteDoc_ImageButton);
         }
     }
     public class AddDocumentsAdapter : RecyclerView.Adapter
     {
 
         Context context;
+        private AddDocumentsViewHolder addDocuments_ViewHolder;
+        private employeeDocument selectedFile;
+        private List<employeeDocument> fileList;
 
-        public AddDocumentsAdapter(Context context)
+       
+
+        public AddDocumentsAdapter(Context context, List<employeeDocument> fileName)
         {
             this.context = context;
+            this.fileList = fileName;
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            throw new NotImplementedException();
+            addDocuments_ViewHolder = holder as AddDocumentsViewHolder;
+            addDocuments_ViewHolder.documentName_TextView.Text = fileList[position].fileName;
+            addDocuments_ViewHolder.checkDoc_ImageButton.Tag = position;
+            addDocuments_ViewHolder.checkDoc_ImageButton.Click += SelectDocument;
+        }
+
+        private void SelectDocument(object sender, EventArgs e)
+        {
+            var compoundBtn = (CompoundButton)sender;
+            int position = (int)compoundBtn.Tag;
+            selectedFile = fileList[position];
+            
+        }
+
+        public employeeDocument GetFile()
+        {
+            return selectedFile;
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -50,7 +72,7 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
         {
             get
             {
-                return 0;
+                return fileList.Count;
             }
                 
          }

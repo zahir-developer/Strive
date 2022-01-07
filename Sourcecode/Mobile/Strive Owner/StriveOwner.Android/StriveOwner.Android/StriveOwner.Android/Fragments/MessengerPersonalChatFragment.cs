@@ -38,6 +38,7 @@ namespace StriveOwner.Android.Fragments
         private ImageButton sendChat_Button;
         private ImageButton chatMenu_ImageButton;
         private TextView personalContactName_TextView;
+        private TextView chatName_TextView;
         private PopupMenu chat_PopupMenu;
         private IMenu chat_Menu;
         private RecyclerView chatMessage_RecyclerView;
@@ -65,6 +66,7 @@ namespace StriveOwner.Android.Fragments
             sendChat_Button = rootView.FindViewById<ImageButton>(Resource.Id.chatSend_ImageButton);
             chatMenu_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.chatMenu_ImageButton);
             personalContactName_TextView = rootView.FindViewById<TextView>(Resource.Id.personalContactName_TextView);
+            chatName_TextView = rootView.FindViewById<TextView>(Resource.Id.chatName);
             chatMessage_EditText = rootView.FindViewById<EditText>(Resource.Id.chatMessage_EditText);
             chatMessage_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.message_recyclerview);
             personalContactName_TextView.Text = MessengerTempData.IsGroup ? MessengerTempData.GroupName : MessengerTempData.RecipientName;
@@ -75,7 +77,15 @@ namespace StriveOwner.Android.Fragments
             chat_Menu = chat_PopupMenu.Menu;
             chat_PopupMenu.MenuInflater.Inflate(Resource.Menu.chat_menu, chat_Menu);
             chat_PopupMenu.MenuItemClick += Chat_PopupMenu_MenuItemClick;
-            chatMenu_ImageButton.Visibility = MessengerTempData.IsGroup ? ViewStates.Visible : ViewStates.Gone;
+            if (!MessengerTempData.IsGroup)
+            {
+                chatName_TextView.Text = "Personal Chat";
+            }
+            else
+            {
+                chatName_TextView.Text = "Group Chat";
+            }
+            //chatMenu_ImageButton.Visibility = MessengerTempData.IsGroup ? ViewStates.Visible : ViewStates.Gone;
            
             getChatData();
             EstablishHubConnection();
@@ -149,7 +159,10 @@ namespace StriveOwner.Android.Fragments
                     chatMessageDetail.SenderLastName = newChatItem.lastName;
 
                     chatMessageDetail.chatMessageId = newChatItem.chatMessageRecipient.chatMessageId;
-
+                    if(ViewModel.ChatMessages == null)
+                    {
+                        getChatData();
+                    }
                     if (!ViewModel.ChatMessages.Any(x => x.chatMessageId == chatMessageDetail.chatMessageId))
                     {
                         ViewModel.ChatMessages.Add(chatMessageDetail);
@@ -252,6 +265,8 @@ namespace StriveOwner.Android.Fragments
                     ViewModel.ChatMessages.Add(data);
                 }
                 messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
+               chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count + 1);
+                messengerChat_Adapter.NotifyDataSetChanged();    
                 this.ViewModel.Message = chatMessage_EditText.Text;
                 await this.ViewModel.SendMessage();
                 if (this.ViewModel.SentSuccess)

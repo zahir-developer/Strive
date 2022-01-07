@@ -16,6 +16,7 @@ using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Fragments;
 using StriveOwner.Android.Listeners;
 
@@ -54,15 +55,17 @@ namespace StriveOwner.Android.Adapter
     {
 
         Context context;
+        MessengerContactViewModel messengerContactViewModel;
         private MessengerContactsRecycleHolder contactsRecycleHolder;
         private List<Employee> contacts = new List<Employee>();
         private char[] firstInitial;
         private char[] secondInitial;
         public IMessengerService MessengerService = Mvx.IoCProvider.Resolve<IMessengerService>();
-        public MessengerContactsAdapter(Context context, List<Employee> contacts)
+        public MessengerContactsAdapter(Context context, List<Employee> contacts, MessengerContactViewModel viewModel)
         {
             this.context = context;
             this.contacts = contacts;
+            this.messengerContactViewModel = viewModel;
         }
 
         public override int ItemCount
@@ -107,17 +110,18 @@ namespace StriveOwner.Android.Adapter
             contactsRecycleHolder.SetItemClickListener(this);
         }
 
-        public async void OnClick(View itemView, int position, bool isLongClick)
+        public  void OnClick(View itemView, int position, bool isLongClick)
         {
+            int itemPosition = messengerContactViewModel.EmployeeLists.EmployeeList.Employee.IndexOf(contacts[position]);
             MessengerTempData.resetChatData();
             MessengerTempData.GroupID = 0;
 
 
             MessengerTempData.IsGroup = false;
 
-            MessengerTempData.RecipientName = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).FirstName + " " + MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).LastName;
+            MessengerTempData.RecipientName = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(itemPosition).FirstName + " " + MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(itemPosition).LastName;
             MessengerTempData.GroupUniqueID = null;
-            MessengerTempData.RecipientID = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).EmployeeId;
+            MessengerTempData.RecipientID = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(itemPosition).EmployeeId;
 
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();

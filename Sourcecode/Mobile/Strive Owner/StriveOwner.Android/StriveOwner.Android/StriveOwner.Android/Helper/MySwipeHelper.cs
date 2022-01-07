@@ -1,18 +1,11 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Support.V7.Widget.Helper;
 using Android.Views;
-using Android.Widget;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.ViewModels.Owner;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace StriveOwner.Android.Helper
 {
@@ -28,17 +21,17 @@ namespace StriveOwner.Android.Helper
         List<MyButton> buttonList;
         CheckOutViewModel checkOut;
         GestureDetector gestureDetector;
-        CheckoutDetails CheckoutDetails;
+        CheckoutDetails CheckoutDetail;
         public abstract void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
         public abstract void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
 
         public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth, CheckoutDetails checkoutDetails) : base(0, ItemTouchHelper.Left)
         {
             this.recyclerView = recyclerView;
-            this.buttonList = new List<MyButton>();
-            this.buttonBuffer = new Dictionary<int, List<MyButton>>();
+            buttonList = new List<MyButton>();
+            buttonBuffer = new Dictionary<int, List<MyButton>>();
             this.buttonWidth = buttonWidth;
-            this.CheckoutDetails = checkoutDetails;
+            CheckoutDetail = checkoutDetails;
 
             gestureListener = new MyGestureListener(this);
             onTouchListener = new MyOnTouchListener(this);
@@ -64,15 +57,15 @@ namespace StriveOwner.Android.Helper
                 this.mySwipeHelper = mySwipeHelper;
             }
 
-            public override bool OnSingleTapUp(MotionEvent e)
-            {
-                foreach (MyButton button in mySwipeHelper.buttonList)
-                {
-                    if (button.OnClick(e.GetX(), e.GetY()))
-                        break;
-                }
-                return true;
-            }
+            //public override bool OnSingleTapUp(MotionEvent e)
+            //{
+            //    foreach (MyButton button in mySwipeHelper.buttonList)
+            //    {
+            //        if (button.OnClick(e.GetX(), e.GetY()))
+            //            break;
+            //    }
+            //    return true;
+            //}
         }
 
         private class MyOnTouchListener : Java.Lang.Object, View.IOnTouchListener
@@ -97,7 +90,21 @@ namespace StriveOwner.Android.Helper
                 if (e.Action == MotionEventActions.Down || e.Action == MotionEventActions.Up || e.Action == MotionEventActions.Move)
                 {
                     if (rect.Top < point.Y && rect.Bottom > point.Y)
+                    {
                         mySwipeHelper.gestureDetector.OnTouchEvent(e);
+                        foreach (MyButton button in mySwipeHelper.buttonList)
+                        {
+                            if (button.OnClick(e.GetX(), e.GetY()))
+                            {
+                                mySwipeHelper.removeQueu.Enqueue(mySwipeHelper.swipePosition);
+                                mySwipeHelper.swipePosition = -1;
+                                mySwipeHelper.RecoverSwipedItem();
+                                break;
+                            }
+                                
+                        }
+                    }
+                       
                     else
                     {
                         mySwipeHelper.removeQueu.Enqueue(mySwipeHelper.swipePosition);
@@ -105,7 +112,9 @@ namespace StriveOwner.Android.Helper
                         mySwipeHelper.RecoverSwipedItem();
 
                     }
+                   
                 }
+                
                 return false;
             }
         }
@@ -160,7 +169,7 @@ namespace StriveOwner.Android.Helper
             }
         }
 
-        public override void OnChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, bool isCurrentlyActive)
+        public override  void OnChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, bool isCurrentlyActive)
         {
             int pos = viewHolder.AdapterPosition;
             float translationX = dX;
@@ -177,13 +186,16 @@ namespace StriveOwner.Android.Helper
                     List<MyButton> buffer = new List<MyButton>();
                     if (!buttonBuffer.ContainsKey(pos))
                     {
-                        if (CheckoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                        if(CheckoutDetail!=null)
                         {
-                            InstantiateMyButton(viewHolder, buffer);
-                        }
-                        else
-                        {
-                            InstantiateUpdatedMyButton(viewHolder, buffer);
+                            if (CheckoutDetail.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                            {
+                                InstantiateMyButton(viewHolder, buffer);
+                            }
+                            else
+                            {
+                                InstantiateUpdatedMyButton(viewHolder, buffer);
+                            }
                         }
                         buttonBuffer.Add(pos, buffer);
                     }
@@ -195,7 +207,7 @@ namespace StriveOwner.Android.Helper
                     DrawButton(c, itemView, buffer, pos, translationX);
                 }
             }
-            base.OnChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 1.4), dY, actionState, isCurrentlyActive);
         }
 
         private void DrawButton(Canvas c, View itemView, List<MyButton> buffer, int pos, float translationX)

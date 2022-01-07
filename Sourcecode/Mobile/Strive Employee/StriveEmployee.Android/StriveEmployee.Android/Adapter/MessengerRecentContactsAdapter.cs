@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using MvvmCross;
-using Strive.Core.Models.Employee;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Fragments;
-using StriveEmployee.Android.Listeners;
 
 namespace StriveEmployee.Android.Adapter
 {
@@ -59,15 +51,18 @@ namespace StriveEmployee.Android.Adapter
     {
 
         Context context;
+        private MessengerRecentContactsViewModel messengerRecentContactsViewModel;
         private MessengerRecentContactsRecycleHolder recentContactsRecycleHolder;
         private List<ChatEmployeeList> recentContacts = new List<ChatEmployeeList>();
         private char[] firstInitial;
         private char[] secondInitial;
         public IMessengerService MessengerService = Mvx.IoCProvider.Resolve<IMessengerService>();
-        public MessengerRecentContactsAdapter(Context context, List<ChatEmployeeList> recentContacts)
+        public MessengerRecentContactsAdapter(Context context, List<ChatEmployeeList> recentContacts , MessengerRecentContactsViewModel viewModel)
         {
             this.context = context;
             this.recentContacts = recentContacts;
+            this.messengerRecentContactsViewModel = viewModel;
+
         }
 
         public override int ItemCount
@@ -142,23 +137,24 @@ namespace StriveEmployee.Android.Adapter
 
         public async void OnClick(View itemView, int position, bool isLongClick)
         {
+            int itemPosition = messengerRecentContactsViewModel.EmployeeList.ChatEmployeeList.IndexOf(recentContacts[position]);
             MessengerTempData.resetChatData();
-            if (MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).IsGroup)
+            if (MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).IsGroup)
             {
-                MessengerTempData.GroupID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).Id;
-                MessengerTempData.IsGroup = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).IsGroup;
-                MessengerTempData.GroupName = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).FirstName;
-                MessengerTempData.GroupUniqueID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).CommunicationId;
-                MessengerTempData.ConnectionID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).CommunicationId; ;
+                MessengerTempData.GroupID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).Id;
+                MessengerTempData.IsGroup = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).IsGroup;
+                MessengerTempData.GroupName = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).FirstName;
+                MessengerTempData.GroupUniqueID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).CommunicationId;
+                MessengerTempData.ConnectionID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).CommunicationId; ;
                 MessengerTempData.RecipientID = 0;
             }
             else
             {
                 MessengerTempData.GroupID = 0;
-                MessengerTempData.IsGroup = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).IsGroup;
-                MessengerTempData.RecipientName = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).FirstName + " "+ MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).LastName;
+                MessengerTempData.IsGroup = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).IsGroup;
+                MessengerTempData.RecipientName = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).FirstName + " "+ MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).LastName;
                 MessengerTempData.GroupUniqueID = null;
-                MessengerTempData.RecipientID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).Id;
+                MessengerTempData.RecipientID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(itemPosition).Id;
                 var data = await MessengerService.GetRecentContacts(EmployeeTempData.EmployeeID);
                 //var selectedData = data.EmployeeList.ChatEmployeeList.Find(x => x.Id == MessengerTempData.RecipientID);
                 //MessengerTempData.ConnectionID = selectedData.CommunicationId;

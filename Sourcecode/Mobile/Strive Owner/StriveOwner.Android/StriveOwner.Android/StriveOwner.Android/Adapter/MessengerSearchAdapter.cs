@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using System.Collections.Generic;
 using Strive.Core.Models.Employee.Messenger;
-using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 
 namespace StriveOwner.Android.Adapter
@@ -39,7 +28,8 @@ namespace StriveOwner.Android.Adapter
             {
                 var firstName = data.FirstName.ToLower();
                 var lastName = data.LastName.ToLower();
-                if(firstName.Contains(AllSmall) || lastName.Contains(AllSmall))
+                var fullName = data.FirstName.ToLower().TrimEnd() + " " + data.LastName.ToLower();
+                if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall) || fullName.Contains(AllSmall))
                 {
                     sortedRecentContacts.Add(data);
                 }
@@ -57,7 +47,8 @@ namespace StriveOwner.Android.Adapter
             {
                 var firstName = data.FirstName.ToLower();
                 var lastName = data.LastName.ToLower();
-                if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall))
+                var fullName = data.FirstName.ToLower().TrimEnd() + " " + data.LastName.ToLower();
+                if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall) || fullName.Contains(AllSmall))
                 {
                    sortedContacts.Add(data);
                 }

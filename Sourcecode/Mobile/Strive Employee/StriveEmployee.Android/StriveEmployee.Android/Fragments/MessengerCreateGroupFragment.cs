@@ -18,6 +18,7 @@ using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
+using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace StriveEmployee.Android.Fragments
 {
@@ -30,6 +31,7 @@ namespace StriveEmployee.Android.Fragments
         private MessengerCreateGroupAdapter messengerCreateGroup_Adapter;
         private MessengerFinalizeGroupFragment FinalizeGroup_Fragment;
         private MvxFragment selected_MvxFragment;
+        private SearchView createGroup_SearchView;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -46,7 +48,8 @@ namespace StriveEmployee.Android.Fragments
             next_Button = rootView.FindViewById<Button>(Resource.Id.createGroupNext); 
             createGroupBack = rootView.FindViewById<Button>(Resource.Id.createGroupBack);
             createGroup_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.createGroup_RecyclerView);
-
+            createGroup_SearchView = rootView.FindViewById<SearchView>(Resource.Id.createGroupSearchView);
+            createGroup_SearchView.QueryTextChange += Contact_SearchView_QueryTextChange;
             next_Button.Click += Next_Button_Click;
             createGroupBack.Click += CreateGroupBack_Click;
 
@@ -61,7 +64,31 @@ namespace StriveEmployee.Android.Fragments
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
         }
-
+        private void Contact_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.NewText) && ViewModel.EmployeeLists != null)
+            {
+                // getContacts(e.NewText);
+                var sortedResult = messengerCreateGroup_Adapter.SearchContacts(ViewModel.EmployeeLists.EmployeeList.Employee, e.NewText);
+                if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
+                {
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(this.Context, sortedResult);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    createGroup_RecyclerView.SetLayoutManager(layoutManager);
+                    createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
+                }
+            }
+            else
+            {
+                if (ViewModel.EmployeeLists != null)
+                {
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList.Employee);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    createGroup_RecyclerView.SetLayoutManager(layoutManager);
+                    createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
+                }
+            }
+        }
         private void Next_Button_Click(object sender, EventArgs e)
         {
             if (!MessengerTempData.IsCreateGroup)

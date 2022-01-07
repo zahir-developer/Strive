@@ -1,18 +1,11 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Support.V7.Widget.Helper;
 using Android.Views;
-using Android.Widget;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.ViewModels.Employee.CheckOut;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace StriveEmployee.Android.Helper
 {
@@ -28,7 +21,7 @@ namespace StriveEmployee.Android.Helper
         List<MyButton> buttonList;
         CheckOutViewModel checkOut;
         GestureDetector gestureDetector;
-        CheckoutDetails CheckoutDetails;
+        CheckoutDetails CheckoutDetail;
         public abstract void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
         public abstract void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
 
@@ -39,7 +32,7 @@ namespace StriveEmployee.Android.Helper
             this.buttonList = new List<MyButton>();
             this.buttonBuffer = new Dictionary<int, List<MyButton>>();
             this.buttonWidth = buttonWidth;
-            this.CheckoutDetails = checkoutDetails;
+            this.CheckoutDetail = checkoutDetails;
 
             gestureListener = new MyGestureListener(this);
             onTouchListener = new MyOnTouchListener(this);
@@ -65,15 +58,15 @@ namespace StriveEmployee.Android.Helper
                 this.mySwipeHelper = mySwipeHelper;
             }
 
-            public override bool OnSingleTapUp(MotionEvent e)
-            {
-               foreach(MyButton button in mySwipeHelper.buttonList)
-                {
-                    if (button.OnClick(e.GetX(), e.GetY()))
-                        break;
-                }
-                return true;
-            }
+            //public override bool OnSingleTapUp(MotionEvent e)
+            //{
+            //   foreach(MyButton button in mySwipeHelper.buttonList)
+            //    {
+            //        if (button.OnClick(e.GetX(), e.GetY()))
+            //            break;
+            //    }
+            //    return true;
+            //}
         }
 
         private class MyOnTouchListener : Java.Lang.Object,View.IOnTouchListener
@@ -98,7 +91,21 @@ namespace StriveEmployee.Android.Helper
                 if(e.Action == MotionEventActions.Down|| e.Action == MotionEventActions.Up||e.Action == MotionEventActions.Move)
                 {
                     if (rect.Top < point.Y && rect.Bottom > point.Y)
+                    {
                         mySwipeHelper.gestureDetector.OnTouchEvent(e);
+                        foreach (MyButton button in mySwipeHelper.buttonList)
+                        {
+                            if (button.OnClick(e.GetX(), e.GetY()))
+                            {
+                                mySwipeHelper.removeQueu.Enqueue(mySwipeHelper.swipePosition);
+                                mySwipeHelper.swipePosition = -1;
+                                mySwipeHelper.RecoverSwipedItem();
+                                break;
+                            }
+
+                        }
+                    }
+                       
                     else
                     {
                         mySwipeHelper.removeQueu.Enqueue(mySwipeHelper.swipePosition);
@@ -178,15 +185,18 @@ namespace StriveEmployee.Android.Helper
                     List<MyButton> buffer = new List<MyButton>();
                     if (!buttonBuffer.ContainsKey(pos))
                     {
-                        if (CheckoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                        if (CheckoutDetail != null)
                         {
-                            InstantiateMyButton(viewHolder, buffer);
+                            if (CheckoutDetail.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                            {
+                                InstantiateMyButton(viewHolder, buffer);
+                            }
+                            else
+                            {
+                                InstantiateUpdatedMyButton(viewHolder, buffer);
+                            }
+                            buttonBuffer.Add(pos, buffer);
                         }
-                        else
-                        {
-                            InstantiateUpdatedMyButton(viewHolder, buffer);
-                        }
-                        buttonBuffer.Add(pos, buffer);
                     }
                     else
                     {

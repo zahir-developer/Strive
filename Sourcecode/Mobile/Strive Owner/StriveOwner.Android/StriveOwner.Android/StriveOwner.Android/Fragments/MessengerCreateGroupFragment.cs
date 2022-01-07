@@ -18,6 +18,7 @@ using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveOwner.Android.Adapter;
+using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace StriveOwner.Android.Fragments
 {
@@ -30,6 +31,7 @@ namespace StriveOwner.Android.Fragments
         private MessengerCreateGroupAdapter messengerCreateGroup_Adapter;
         private MessengerFinalizeGroupFragment FinalizeGroup_Fragment;        
         private MvxFragment selected_MvxFragment;
+        private SearchView createGroup_SearchView;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -46,7 +48,8 @@ namespace StriveOwner.Android.Fragments
             next_Button = rootView.FindViewById<Button>(Resource.Id.createGroupNext); 
             createGroupBack = rootView.FindViewById<Button>(Resource.Id.createGroupBack);
             createGroup_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.createGroup_RecyclerView);
-
+            createGroup_SearchView = rootView.FindViewById<SearchView>(Resource.Id.createGroupSearchView);
+            createGroup_SearchView.QueryTextChange += Contact_SearchView_QueryTextChange;
             next_Button.Click += Next_Button_Click;
             createGroupBack.Click += CreateGroupBack_Click;
 
@@ -84,7 +87,31 @@ namespace StriveOwner.Android.Fragments
             }
            
         }
-
+        private void Contact_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.NewText) && ViewModel.EmployeeLists != null)
+            {
+                // getContacts(e.NewText);
+                var sortedResult = messengerCreateGroup_Adapter.SearchContacts(ViewModel.EmployeeLists.EmployeeList.Employee, e.NewText);
+                if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
+                {
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(this.Context, sortedResult);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    createGroup_RecyclerView.SetLayoutManager(layoutManager);
+                    createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
+                }
+            }
+            else
+            {
+                if (ViewModel.EmployeeLists != null)
+                {
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList.Employee);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    createGroup_RecyclerView.SetLayoutManager(layoutManager);
+                    createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
+                }
+            }
+        }
         private async void selectGroupChatEntry()
         {
             await ViewModel.GetContactsList();
@@ -96,9 +123,9 @@ namespace StriveOwner.Android.Fragments
                     MessengerTempData.IsCreateGroup = false;
                     if (MessengerTempData.SelectedParticipants == null)
                     {
-                        MessengerTempData.SelectedParticipants = new Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeMessengerContacts();
-                        MessengerTempData.SelectedParticipants.EmployeeList = new Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList();
-                        MessengerTempData.SelectedParticipants.EmployeeList.Employee = new List<Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.Employee>();
+                        MessengerTempData.SelectedParticipants = new EmployeeMessengerContacts();
+                        MessengerTempData.SelectedParticipants.EmployeeList = new EmployeeList();
+                        MessengerTempData.SelectedParticipants.EmployeeList.Employee = new List<Employee>();
                     }
 
                     foreach (var data in MessengerTempData.ExistingParticipants.EmployeeList.Employee)

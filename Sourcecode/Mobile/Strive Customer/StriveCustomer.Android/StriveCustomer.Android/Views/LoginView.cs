@@ -70,10 +70,10 @@ namespace StriveCustomer.Android.Views
 
              signUp.Click += navigateToSignUp;
              forgotPassword.Click += navigateToForgotPassword;
-#if DEBUG
-            emailPhoneInput.Text = "ramtesting21@gmail.com";
-            passwordInput.Text = "pass@123";
-#endif
+//#if DEBUG
+//            emailPhoneInput.Text = "ramtesting21@gmail.com";
+//            passwordInput.Text = "pass@123";
+//#endif
 
             signUp.Click += navigateToSignUp;
            forgotPassword.Click += navigateToForgotPassword;

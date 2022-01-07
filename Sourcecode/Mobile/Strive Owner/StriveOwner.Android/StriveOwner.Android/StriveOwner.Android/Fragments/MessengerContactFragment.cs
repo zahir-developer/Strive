@@ -15,7 +15,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Utils.Employee;
-using Strive.Core.ViewModels.Employee;
+using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
@@ -57,7 +57,7 @@ namespace StriveOwner.Android.Fragments
                 var sortedResult = searchAdapter.SearchContacts(ViewModel.EmployeeLists.EmployeeList.Employee, e.NewText);
                 if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
                 {
-                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, sortedResult);
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, sortedResult , this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     contacts_RecyclerView.SetLayoutManager(layoutManager);
                     contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
@@ -67,7 +67,7 @@ namespace StriveOwner.Android.Fragments
             {
                 if (ViewModel.EmployeeLists != null)
                 {
-                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList.Employee);
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList.Employee, this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     contacts_RecyclerView.SetLayoutManager(layoutManager);
                     contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
@@ -80,9 +80,9 @@ namespace StriveOwner.Android.Fragments
             if(MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {
                 var employeeLists = await ViewModel.GetContactsList();
-                if(MessengerTempData.employeeList_Contact != null || employeeLists != null ||employeeLists.EmployeeList != null || employeeLists.EmployeeList.Employee != null)
+                if(MessengerTempData.employeeList_Contact != null || employeeLists != null ||employeeLists.EmployeeList != null || employeeLists?.EmployeeList?.Employee != null)
                 {
-                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, employeeLists.EmployeeList.Employee);
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, employeeLists.EmployeeList?.Employee, this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     contacts_RecyclerView.SetLayoutManager(layoutManager);
                     contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);

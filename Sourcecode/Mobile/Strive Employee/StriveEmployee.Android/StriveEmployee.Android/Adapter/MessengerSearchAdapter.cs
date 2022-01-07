@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using System.Collections.Generic;
 using Strive.Core.Models.Employee.Messenger;
-using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
-using EmployeeList = Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeList;
 
 namespace StriveEmployee.Android.Adapter
 {
@@ -21,7 +9,7 @@ namespace StriveEmployee.Android.Adapter
         private List<ChatEmployeeList> recentContacts = new List<ChatEmployeeList>();
         private List<ChatEmployeeList> sortedRecentContacts { get; set; }
         public List<Employee> sortedContacts { get; set; }
-        private string queryString { get; set; }
+        private string queryWordString { get; set; }
 
         public MessengerSearchAdapter() 
         {
@@ -32,33 +20,34 @@ namespace StriveEmployee.Android.Adapter
         public List<ChatEmployeeList> SearchRecentContacts(List<ChatEmployeeList> recentContacts, string queryString)
         {
             sortedRecentContacts = new List<ChatEmployeeList>();
-            this.queryString = queryString;
-
-            var AllSmall = queryString.ToLower();
-
-            foreach(var data in recentContacts)
+            queryWordString = queryString;
+            var AllSmall = queryWordString.ToLower();
+            foreach (var data in recentContacts)
             {
                 var firstName = data.FirstName.ToLower();
                 var lastName = data.LastName.ToLower();
-                if(firstName.Contains(AllSmall) || lastName.Contains(AllSmall))
+                var fullName = data.FirstName.ToLower().TrimEnd() + " " +data.LastName.ToLower();
+                if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall) || fullName.Contains(AllSmall))
                 {
                     sortedRecentContacts.Add(data);
                 }
+
             }
             return sortedRecentContacts;
         }
         public List<Employee> SearchContacts(List<Employee> contacts, string queryString)
         {
             sortedContacts = new List<Employee>();
-            this.queryString = queryString;
+            queryWordString = queryString.TrimEnd();
 
-            var AllSmall = queryString.ToLower();
+            var AllSmall = queryWordString.ToLower();
 
             foreach(var data in contacts)
             {
                 var firstName = data.FirstName.ToLower();
                 var lastName = data.LastName.ToLower();
-                if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall))
+                var fullName = data.FirstName.ToLower().TrimEnd() + " " + data.LastName.ToLower();
+                if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall) || fullName.Contains(AllSmall))
                 {
                     sortedContacts.Add(data);
                 }

@@ -13,7 +13,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-using Strive.Core.ViewModels.Employee;
+using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
@@ -53,7 +53,7 @@ namespace StriveOwner.Android.Fragments
 
                 if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
                 {
-                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, sortedResult);
+                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, sortedResult,ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     groupChat_RecyclerView.SetLayoutManager(layoutManager);
                     groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
@@ -63,7 +63,7 @@ namespace StriveOwner.Android.Fragments
             {
                 if (ViewModel.GroupList != null)
                 {
-                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList);
+                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList,this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     groupChat_RecyclerView.SetLayoutManager(layoutManager);
                     groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
@@ -78,7 +78,7 @@ namespace StriveOwner.Android.Fragments
             {
                 if(ViewModel.GroupList.ChatEmployeeList.Count > 0)
                 {
-                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList);
+                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList,this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     groupChat_RecyclerView.SetLayoutManager(layoutManager);
                     groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
