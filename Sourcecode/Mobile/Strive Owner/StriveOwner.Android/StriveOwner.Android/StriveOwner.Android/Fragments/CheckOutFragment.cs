@@ -131,23 +131,25 @@ namespace StriveOwner.Android.Fragments.CheckOut
 
             await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
 
-            if (ViewModel.holdResponse.UpdateJobStatus)
+            if (ViewModel.holdResponse != null)
             {
-                Builder = new AlertDialog.Builder(Context);
-                Builder.SetMessage("Service status changed to hold successfully");
-                Builder.SetTitle("Hold");
-                okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                if (ViewModel.holdResponse.UpdateJobStatus)
                 {
-                    recyclerView1 = recyclerView;
-                    GetCheckoutDetails(recyclerView1);
+                    Builder = new AlertDialog.Builder(Context);
+                    Builder.SetMessage("Service status changed to hold successfully");
+                    Builder.SetTitle("Hold");
+                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+                        recyclerView1 = recyclerView;
+                        GetCheckoutDetails(recyclerView1);
 
-                });
-                Builder.SetPositiveButton("Ok", okHandler);
-                Builder.Create();
+                    });
+                    Builder.SetPositiveButton("Ok", okHandler);
+                    Builder.Create();
 
-                Builder.Show();
+                    Builder.Show();
+                }
             }
-
         }
         public void CompleteTicket(checkOutViewModel checkOut, RecyclerView Checkout_RecyclerView)
         {
@@ -173,20 +175,23 @@ namespace StriveOwner.Android.Fragments.CheckOut
             ViewModel = new CheckOutViewModel();
             await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
 
-            if (ViewModel.holdResponse.UpdateJobStatus)
+            if (ViewModel.holdResponse != null)
             {
-                Builder = new AlertDialog.Builder(Context);
-                Builder.SetMessage("Service has been completed successfully");
-                Builder.SetTitle("Complete");
-                okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                if (ViewModel.holdResponse.UpdateJobStatus)
                 {
-                    recyclerView1 = recyclerView;
-                    GetCheckoutDetails(recyclerView1);
-                });
-                Builder.SetPositiveButton("Ok", okHandler);
-                Builder.Create();
+                    Builder = new AlertDialog.Builder(Context);
+                    Builder.SetMessage("Service has been completed successfully");
+                    Builder.SetTitle("Complete");
+                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+                        recyclerView1 = recyclerView;
+                        GetCheckoutDetails(recyclerView1);
+                    });
+                    Builder.SetPositiveButton("Ok", okHandler);
+                    Builder.Create();
 
-                Builder.Show();
+                    Builder.Show();
+                }
             }
         }
         public void CheckoutTicket(checkOutViewModel checkout, RecyclerView Checkout_RecyclerView)
@@ -230,21 +235,23 @@ namespace StriveOwner.Android.Fragments.CheckOut
             RecyclerView recyclerView1;
             ViewModel = new CheckOutViewModel();
             await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
-
-            if (ViewModel.status.SaveCheckoutTime)
+            if (ViewModel.status != null)
             {
-                Builder = new AlertDialog.Builder(Context);
-                Builder.SetMessage("Vehicle has been checked out successfully");
-                Builder.SetTitle("Checkout");
-                okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                if (ViewModel.status.SaveCheckoutTime)
                 {
-                    recyclerView1 = recyclerView;
-                    GetCheckoutDetails(recyclerView1);
+                    Builder = new AlertDialog.Builder(Context);
+                    Builder.SetMessage("Vehicle has been checked out successfully");
+                    Builder.SetTitle("Checkout");
+                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+                        recyclerView1 = recyclerView;
+                        GetCheckoutDetails(recyclerView1);
 
-                });
-                Builder.SetPositiveButton("Ok", okHandler);
-                Builder.Create();
-                Builder.Show();
+                    });
+                    Builder.SetPositiveButton("Ok", okHandler);
+                    Builder.Create();
+                    Builder.Show();
+                }
             }
         }
 
@@ -259,7 +266,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
             Context Context;
             RecyclerView checkout_RecyclerView;
             int buttonWidth;
-            CheckoutDetails CheckoutDetails;
+            CheckoutDetails CheckoutDetail;
 
 
             public MyImplementSwipeHelper(Context context, RecyclerView checkout_RecyclerView, int buttonWidth, CheckoutDetails checkoutDetails) : base(context, checkout_RecyclerView, 200, checkoutDetails)
@@ -267,7 +274,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
                 Context = context;
                 this.checkout_RecyclerView = checkout_RecyclerView;
                 this.buttonWidth = buttonWidth;
-                this.CheckoutDetails = checkoutDetails;
+                this.CheckoutDetail = checkoutDetails;
 
 
             }
@@ -275,7 +282,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
             public override void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
             {
                 int itemposition = viewHolder.AdapterPosition;
-                var selectedItem = CheckoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
+                var selectedItem = CheckoutDetail?.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
                 CheckOutFragment fragment = new CheckOutFragment(Context);
                 //button-1
                 buffer.Add(new MyButton(Context,
@@ -305,7 +312,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
             public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
             {
                 int itemposition = viewHolder.AdapterPosition;
-                var selectedItem = CheckoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
+                var selectedItem = CheckoutDetail?.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
                 CheckOutFragment fragment = new CheckOutFragment(Context);
 
                 //button-1

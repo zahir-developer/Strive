@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
@@ -19,9 +20,7 @@ using Strive.Core.ViewModels.Owner;
 namespace StriveOwner.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "Login View",
-        MainLauncher = true, 
-        NoHistory = true)]
+    [Activity(Label = "Login View", ScreenOrientation = ScreenOrientation.Portrait)]
     public class LoginView : MvxAppCompatActivity<LoginViewModel>
     {
         private Button login_Button;
