@@ -505,8 +505,8 @@ namespace Greeter.Storyboards
 
         void PrintReceipt()
         {
-            string printContentHtml = MakeServiceReceipt();
-            PrintZebraPrinterTest(printContentHtml);
+            string printContent = MakePrintReceipt();
+            PrintZebraPrinterTest(printContent);
             //Print(printContentHtml);
         }
 
@@ -573,6 +573,49 @@ namespace Greeter.Storyboards
             body += "<br/ ><p>Note: Please disregard if you already paid.</p>";
 
             Debug.WriteLine("Email Body :" + body);
+
+            return body;
+        }
+        string MakePrintReceipt()
+        {
+            var body = "^XA^CFA,30^FO50,50^FDTicket Number: ^FS^FO50,90^FD" + Service.Job.JobID + "^FS^FO50,150^GB700,3,3^FS";
+
+            body += "^CFA,30^FO50,200^FDVehicle Details: ^FS" +
+                 "^FO50,280^FDMake - " + Make + "^FS" +
+                "^FO50,320^FDModel - " + Model + "^FS" +
+                 "^FO50,360^FDColor - " + Color + "^FS";
+
+            var totalAmt = 0f;
+            int yaxis = 440;
+            body += "^CFA,30^ FO50,440 ^ FDServices :^FS";
+            if (Service is not null)
+            {
+                for (int i = 0; i < Service.JobItems.Count; i++)
+                {
+                    var job = Service.JobItems[i];
+                    var price = job.Price.ToString();
+                    if ((job.Price % 1) == 0)
+                    {
+                        price += ":00";
+                    }
+                    else
+                    {
+                        var values = price.Split(".");
+                        price = (int)job.Price + ":" + values[1];
+                    }
+                    yaxis += 40;
+                    body += "^FO50,"+yaxis+"^FD" + job.SeriveName + " - " + "$" + price + "^FS";
+                    totalAmt += job.Price;
+                    
+                    //Amount = totalAmt;
+                }
+            }
+
+            body += "^FO50,"+(yaxis+100)+"^FD" + "Total Amount Due: " + "$" + totalAmt.ToString() + "(USA)^FS";
+            body += "^FO50,800^FDThanks,^FS^FO50,840^^A0N,25,25^FDStrive Team @Mammoth Detail Salons.^FS^FO50,880^^A0N,25,25^FDMammoth Detail.All rights reserved.^FS^XZ";
+            Debug.WriteLine("Print Body: " + body);
+
+
 
             return body;
         }
