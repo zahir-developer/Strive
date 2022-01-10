@@ -203,5 +203,12 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPUPDATECLIENTADDRESSISNOTIFIED.ToString(), _prm);
             return true;
         }
+
+        public List<ClientCardDetailViewModel> GetClientCardDetailById(int? clientId)
+        {
+            _prm.Add("@ClientId", clientId);
+            return db.Fetch<ClientCardDetailViewModel>(SPEnum.USPGETCLIENTCARDDETAILS.ToString(), _prm);
+
+        }
     }
 }
