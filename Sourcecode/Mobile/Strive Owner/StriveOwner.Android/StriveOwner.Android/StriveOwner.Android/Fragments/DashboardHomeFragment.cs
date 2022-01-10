@@ -64,6 +64,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private int FirstLocId;
         Button locationBtn;
         List<Button> listBtn = new List<Button>();
+        View layout;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
@@ -274,6 +275,7 @@ namespace StriveOwner.Android.Resources.Fragments
             dashhome_TabLayout.SetupWithViewPager(dashhome_ViewPager);
             GetStatistics(locationId);
             await ViewModel.getDashboardSchedule(locationId);
+            bay_layout.RemoveAllViews();
             BayDetails();
         }        
 
@@ -327,25 +329,22 @@ namespace StriveOwner.Android.Resources.Fragments
             if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
             {
                 BayDetailsScrollView.Visibility = ViewStates.Visible;
-                NoRecord.Visibility = ViewStates.Gone;
-
-
-
+                NoRecord.Visibility = ViewStates.Gone;            
+                
                 if (this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel.Count > 0)
                 {
                     foreach (var data in ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel)
                     {
                         if (Context != null)
                         {
-                            var layout = LayoutInflater.From(Context).Inflate(Resource.Layout.BayDetails, bay_layout, false);
-
+                            
+                            layout = LayoutInflater.From(Context).Inflate(Resource.Layout.BayDetails, bay_layout, false);
 
                             var bay_number = layout.FindViewById<TextView>(Resource.Id.bay_number);
                             var ticket_number = layout.FindViewById<TextView>(Resource.Id.ticket_number);
                             var bay_timein = layout.FindViewById<TextView>(Resource.Id.timein_TextView);
                             var bay_client = layout.FindViewById<TextView>(Resource.Id.client_TextView);
                             var bay_phone = layout.FindViewById<TextView>(Resource.Id.phones_TextView);
-
                             var bay_timeout = layout.FindViewById<TextView>(Resource.Id.timeout_TextView);
                             var bay_makemodelcolor = layout.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView);
                             var bay_services = layout.FindViewById<TextView>(Resource.Id.serviceshome_TextView);
@@ -353,7 +352,6 @@ namespace StriveOwner.Android.Resources.Fragments
 
                             bay_number.Text = data.BayName;
                             ticket_number.Text = "Ticket#: " + data.TicketNumber;
-
                             bay_timein.Text = data.TimeIn;
                             bay_client.Text = data.ClientName;
                             bay_phone.Text = data.PhoneNumber;
@@ -369,6 +367,7 @@ namespace StriveOwner.Android.Resources.Fragments
                     }
 
                 }
+                
             }
             else
             {

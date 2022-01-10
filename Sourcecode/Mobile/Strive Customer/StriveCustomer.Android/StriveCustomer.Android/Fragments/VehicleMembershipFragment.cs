@@ -120,12 +120,16 @@ namespace StriveCustomer.Android.Fragments
                 radioButton.SetTextSize(ComplexUnitType.Sp,(float)16.5);
                 radioButton.SetTypeface(null,TypefaceStyle.Bold);
                 radioButton.TextAlignment = TextAlignment.ViewEnd;
-                if(data.MembershipId == MembershipDetails.selectedMembership)
+                if (CheckMembership.hasExistingMembership == true) 
                 {
-                    radioButton.Checked = true;
-                    
-                    MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[ViewModel.membershipList.Membership.IndexOf(data)];
+                    if (data.MembershipId == MembershipDetails.selectedMembership)
+                    {
+                        radioButton.Checked = true;
+
+                        MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[ViewModel.membershipList.Membership.IndexOf(data)];
+                    }
                 }
+                
                 someId++;
                 membershipGroup.AddView(radioButton);
             }

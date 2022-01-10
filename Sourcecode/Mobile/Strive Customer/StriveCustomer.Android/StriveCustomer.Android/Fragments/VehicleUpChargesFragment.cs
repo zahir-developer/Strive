@@ -74,18 +74,18 @@ namespace StriveCustomer.Android.Fragments
 
         private void UpchargeOptions_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
-            int radioButtonID = upchargeOptions.CheckedRadioButtonId;
-            RadioButton radioButton = (RadioButton)upchargeOptions.FindViewById(radioButtonID);
-            if (radioButton?.Text == "None")
-            {
-                MembershipDetails.isNoneSelected = true;
-                MembershipDetails.selectedUpCharge = 0;
-            }
-            else
-            {
-                MembershipDetails.selectedUpCharge = upchargeRadio.FirstOrDefault(x => x.Value == e.CheckedId).Key;
+            //int radioButtonID = upchargeOptions.CheckedRadioButtonId;
+            //RadioButton radioButton = (RadioButton)upchargeOptions.FindViewById(radioButtonID);
+            //if (radioButton?.Text == "None")
+            //{
+            //    MembershipDetails.isNoneSelected = true;
+            //    MembershipDetails.selectedUpCharge = 0;
+            //}
+            //else
+            //{
+            //    MembershipDetails.selectedUpCharge = upchargeRadio.FirstOrDefault(x => x.Value == e.CheckedId).Key;
 
-            }
+            //}
         }
 
         private async void ServiceDetails()
@@ -147,6 +147,7 @@ namespace StriveCustomer.Android.Fragments
                             }
                             
                             someId++;
+                            upChargeRadio.Clickable = false;
                             upchargeOptions.AddView(upChargeRadio);
                         }
                        

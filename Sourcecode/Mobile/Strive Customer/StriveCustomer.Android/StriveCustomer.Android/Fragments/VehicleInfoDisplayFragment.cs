@@ -94,8 +94,10 @@ namespace StriveCustomer.Android.Fragments
             await this.ViewModel.GetSelectedVehicleInfo();
             await this.ViewModel.GetCompleteVehicleDetails();
             MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;
-            MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
+            MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId ?? 0;
             MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
+            MembershipDetails.barCode = this.ViewModel.clientVehicleDetail.Status.Barcode;
+            MembershipDetails.vehicleMfr = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
             {
                 vehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +
@@ -104,8 +106,8 @@ namespace StriveCustomer.Android.Fragments
                 vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().Barcode ?? "";
                 vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
-                vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
-                if(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";                
+                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
                 {
                     CheckMembership.hasExistingMembership = true;
                     vehicleMembership.Text = "Yes";
