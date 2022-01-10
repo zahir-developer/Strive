@@ -275,5 +275,10 @@ namespace Strive.BusinessLogic
 
             return true;
         }
+
+        public Result GetClientCardDetailById(int? clientId)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientCardDetailById, clientId, "Status");
+        }        
     }
 }
