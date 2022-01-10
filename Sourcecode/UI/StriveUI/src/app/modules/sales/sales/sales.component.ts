@@ -462,8 +462,8 @@ export class SalesComponent implements OnInit {
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.SalesItemViewModel !== null) {
-            const jobDetail = this.itemList.Status.JobDetailViewModel;
-            const invalidTicket = jobDetail.filter(item => item.JobId === +this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+            const jobDetail = this.itemList.Status.SalesItemViewModel;
+            const invalidTicket = jobDetail.filter(item => item.TicketNumber === this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
             if (invalidTicket.length === 0) {
               // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
               this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
@@ -876,7 +876,7 @@ export class SalesComponent implements OnInit {
       const formObj = {
         job: {
           jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
-          ticketNumber: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
+          ticketNumber: this.newTicketNumber,
           locationId: this.locationId,
           clientId: null,
           vehicleId: null,
@@ -1012,7 +1012,7 @@ export class SalesComponent implements OnInit {
       if (data.status === 'Success') {
         const ticket = JSON.parse(data.resultData);
         this.ticketNumberGeneration = true;
-        this.newTicketNumber = ticket.GetTicketNumber.JobId;
+        this.newTicketNumber = ticket.GetTicketNumber.TicketNumber;
         this.JobId = ticket.GetTicketNumber.JobId;
         // this.multipleTicketNumber.push(this.newTicketNumber);
         //this.getTicketDetail(this.JobId);
@@ -1587,7 +1587,7 @@ export class SalesComponent implements OnInit {
       SalesPaymentDto: paymentObj,
       SalesProductItemDto: jobProductItem.length > 0 ? { jobProductItem } : null,
       locationId: +localStorage.getItem('empLocationId'),
-      jobId: this.multipleTicketNumber.toString()
+      ticketNumber: this.multipleTicketNumber.toString()
     };
 
     this.spinner.show();

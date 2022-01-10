@@ -152,7 +152,7 @@
                                     <tr
                                         *ngFor="let payroll of payRollList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                         <td *ngIf="false">{{payroll.EmployeeId}}</td>
-                                        <td ToolTip="payroll.PayeeName">{{payroll.PayeeName |
+                                        <td ToolTip="payroll.PayeeName" [ngClass] = "{ 'redHighlight': payroll.IsClockedOut === false  }">{{payroll.PayeeName |
                                             slice:0:15}}{{(payroll.PayeeName !== null) ? payroll.PayeeName.length
                                             <=15 ? '' : '...' : '' }}</td>
                                         <td>{{payroll.TotalWashHours}}</td>

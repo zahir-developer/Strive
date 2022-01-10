@@ -148,7 +148,7 @@ namespace Strive.ResourceAccess
         public TicketDto GetTicketNumber(int locationId)
         {
             _prm.Add("@locationId", locationId);
-            return db.FetchSingle<TicketDto>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
+            return db.FetchSingle<TicketDto>(SPEnum.USPGETJOBTICKETNUMBER.ToString(), _prm);
 
         }
 

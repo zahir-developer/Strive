@@ -147,7 +147,7 @@ export class CreateEditWashesComponent implements OnInit {
       this.wash.getTicketNumber().subscribe(data => {
         if (data.status === 'Success') {
           const ticket = JSON.parse(data.resultData);
-          this.ticketNumber = ticket.GetTicketNumber.JobId;
+          this.ticketNumber = ticket.GetTicketNumber.TicketNumber;
           this.jobID = ticket.GetTicketNumber.JobId;
         }
         else {
@@ -375,7 +375,7 @@ export class CreateEditWashesComponent implements OnInit {
         });
         this.getModel(vData.VehicleMakeId);
         this.upchargeService(vData.Upcharge);
-        this.getUpcharge();
+        this.getUpcharge(false);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -1088,7 +1088,10 @@ export class CreateEditWashesComponent implements OnInit {
     this.printWashComponent.print();
   }
   // To get upcharge
-  getUpcharge() {
+  getUpcharge(applyUpcharge = true) {
+    if(applyUpcharge)
+    {
+    
     if (!this.upchargeId || !this.washForm.value.model?.id) {
       return;
     }
@@ -1115,6 +1118,8 @@ export class CreateEditWashesComponent implements OnInit {
           });
           this.upchargeService(serviceId);
           this.selectedUpcharge = serviceId;
+          
+          this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
         }
         else {
           this.additionalServiceRemoved.push(this.selectedUpcharge);
@@ -1128,40 +1133,10 @@ export class CreateEditWashesComponent implements OnInit {
           }
 
         }
-
-        // if(this.upcharges){
-        //   this.upcharges.forEach(element => {
-        //     if(this.upchargeList.length > 0){
-        //       this.upchargeList.forEach(item => {
-        //         if(element.ServiceId == item.ServiceId){
-
-
-
-        //         }
-        //       });
-        //     }
-        //     else{
-        //       this.washForm.patchValue({
-        //         upcharges : '',
-
-        //         upchargeType: ''
-
-        //       })
-        //     } 
-        // });
-        //  }
-        //  else{
-        //   this.washForm.patchValue({
-        //     upcharges : '',
-
-        //     upchargeType: ''
-
-        //   })
-        // }
-
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
   }
 }
