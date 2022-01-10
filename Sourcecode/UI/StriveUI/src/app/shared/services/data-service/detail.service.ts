@@ -42,6 +42,10 @@ export class DetailService {
     return this.http.get(`${UrlConfig.details.getTodayDateScheduleList}`, { params: { JobDate, LocationId, ClientId } });
   }
 
+  getAllDetailSearch(SearchDto) {
+    return this.http.post(`${UrlConfig.details.getAllDetailSearch}`, SearchDto );
+  }
+
   getAllEmployeeList() {
     return this.http.get(`${UrlConfig.employee.getEmployees}`);
   }

@@ -21,6 +21,8 @@ namespace Strive.BusinessLogic.Details
         Result GetPastClientNotesById(int id);
         Result GetJobType();
         Result GetAllDetails(DetailsGridDto detailsGrid);
+
+        Result GetAllDetailSearch(SearchDto searchDto);
         Result DeleteDetails(int id);
         Result GetDetailScheduleStatus(DetailScheduleDto scheduleDto);
         Result UpdateJobStatus(JobStatusDto jobStatus);

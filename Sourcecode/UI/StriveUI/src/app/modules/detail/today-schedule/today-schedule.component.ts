@@ -1,10 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-today-schedule',
@@ -25,27 +28,67 @@ export class TodayScheduleComponent implements OnInit {
   isCollapsed = false;
   sortDetail: any;
   bayindex = 0;
+  startDate: any;
+  endDate: any;
+  dateRangeModel: any;
+  searchText; string;
+  searchUpdate = new Subject<string>();
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe,
     private toastr: ToastrService,
-
-  ) { }
+    private cd: ChangeDetectorRef) {
+      // Debounce search.
+      this.searchUpdate.pipe(
+        debounceTime(ApplicationConfig.debounceTime.sec),
+        distinctUntilChanged())
+        .subscribe(value => {
+          this.detailSearch();
+        });
+    }
 
   ngOnInit(): void {
-
+    this.dateRangeModel = [this.selectedDate, this.selectedDate];
     // this.getTodayDateScheduleList();
   }
 
+  onValueChange(event) {
+    if (event !== null) {
+      this.startDate = event[0];
+      this.endDate = event[1];
+      this.detailSearch();
+    }
+    else {
+      this.startDate = null;
+      this.endDate = null;
+    }
+  }
+
   getTodayDateScheduleList() {
-    const todayDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
+    this.startDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
+    this.endDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
+    this.detailSearch();
+  }
+
+  detailSearch()
+  {
     const locationId = localStorage.getItem('empLocationId');
     const clientID = null;
-    const finalObj = {
-      jobDate: todayDate,
-      locationId
-    };
-    this.detailService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
+   
+    var detailSearch =
+    {
+      locationId,
+      clientID,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      pageNo: null,
+      pageSize: null,
+      sortBy: 'TicketNo',
+      sortOrder: 'ASC',
+      query: this.searchText === '' ? null : this.searchText,
+    }
+
+    this.detailService.getAllDetailSearch(detailSearch).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         const detailGrid = scheduleDetails.DetailsGrid;

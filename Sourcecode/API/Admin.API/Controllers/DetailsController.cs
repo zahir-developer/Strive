@@ -83,6 +83,13 @@ namespace Admin.API.Controllers
         [Route("GetAllDetails")]
         public Result GetAllDetails(DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
 
+        /// <summary>
+        /// Method to retrieve All Details based on given JobId.
+        /// </summary>
+        [HttpPost]
+        [Route("GetAllDetailSearch")]
+        public Result GetDetailSearch([FromBody]SearchDto SearchDto) => _bplManager.GetAllDetailSearch(SearchDto);
+
 
 
         [HttpGet]

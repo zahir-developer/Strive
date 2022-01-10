@@ -67,9 +67,26 @@ namespace Strive.ResourceAccess
             _prm.Add("@JobDate", detailsGrid.JobDate);
             _prm.Add("@LocationId", detailsGrid.LocationId);
             _prm.Add("@ClientId", detailsGrid.ClientId);
+
             var result = db.FetchMultiResult<DetailsGridViewModel>(EnumSP.Details.USPGETALLDETAILS.ToString(), _prm);
             return result;
         }
+
+        public DetailsGridViewModel GetAllDetailSearch(SearchDto searchDto)
+        {
+            _prm.Add("@LocationId", searchDto.LocationId);
+            _prm.Add("@ClientId", searchDto.ClientId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Search", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+            _prm.Add("@EndDate", searchDto.EndDate);
+            var result = db.FetchMultiResult<DetailsGridViewModel>(EnumSP.Details.USPGETALLDETAILS.ToString(), _prm);
+            return result;
+        }
+        
         public bool DeleteDetails(int id)
         {
             _prm.Add("@JobId", id);

@@ -100,6 +100,7 @@ export const UrlConfig = {
     deleteDetail: `Admin/Details/Delete`,
     getJobType: `Admin/Details/GetJobType`,
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
+    getAllDetailSearch: `Admin/Details/GetAllDetailSearch`,
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     getDetailScheduleStatus: `Admin/Details/GetDetailScheduleStatus`,
     updateJobStatus: `Admin/Details/UpdateJobStatus`

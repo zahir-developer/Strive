@@ -448,6 +448,10 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllDetails, detailsGrid, "DetailsGrid");
         }
+        public Result GetAllDetailSearch(SearchDto searchDto)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetAllDetailSearch, searchDto, "DetailsGrid");
+        }
         public Result DeleteDetails(int id)
         {
             return ResultWrap(new DetailsRal(_tenant).DeleteDetails, id, "DeleteRespectiveDetail");
