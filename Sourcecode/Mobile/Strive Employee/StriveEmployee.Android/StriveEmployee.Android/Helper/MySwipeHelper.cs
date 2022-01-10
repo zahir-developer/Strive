@@ -206,7 +206,7 @@ namespace StriveEmployee.Android.Helper
                     DrawButton(c, itemView, buffer, pos, translationX);
                 }
             }
-            base.OnChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 1.45), dY, actionState, isCurrentlyActive);
         }
 
         private void DrawButton(Canvas c, View itemView, List<MyButton> buffer, int pos, float translationX)

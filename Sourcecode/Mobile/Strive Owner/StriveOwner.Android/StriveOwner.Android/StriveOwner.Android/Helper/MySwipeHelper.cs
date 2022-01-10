@@ -83,9 +83,13 @@ namespace StriveOwner.Android.Helper
                 Point point = new Point((int)e.RawX, (int)e.RawY);
 
                 RecyclerView.ViewHolder viewHolder = mySwipeHelper.recyclerView.FindViewHolderForAdapterPosition(mySwipeHelper.swipePosition);
-                View itemSwiped = viewHolder.ItemView;
                 Rect rect = new Rect();
-                itemSwiped.GetGlobalVisibleRect(rect);
+                if (viewHolder != null)
+                {
+                    View itemSwiped = viewHolder.ItemView;
+                    itemSwiped.GetGlobalVisibleRect(rect);
+                }
+                
 
                 if (e.Action == MotionEventActions.Down || e.Action == MotionEventActions.Up || e.Action == MotionEventActions.Move)
                 {
@@ -207,7 +211,7 @@ namespace StriveOwner.Android.Helper
                     DrawButton(c, itemView, buffer, pos, translationX);
                 }
             }
-            base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 1.4), dY, actionState, isCurrentlyActive);
+            base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 1.45), dY, actionState, isCurrentlyActive);
         }
 
         private void DrawButton(Canvas c, View itemView, List<MyButton> buffer, int pos, float translationX)

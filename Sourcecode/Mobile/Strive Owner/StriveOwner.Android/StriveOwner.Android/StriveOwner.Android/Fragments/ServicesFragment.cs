@@ -57,7 +57,7 @@ namespace StriveOwner.Android.Resources.Fragments
                 washemployees.Text = this.ViewModel.statisticsData.EmployeeCount.ToString();
                 score.Text = this.ViewModel.statisticsData.Score.ToString();
                 forecastedcars.Text = this.ViewModel.statisticsData.Currents.ToString() + "/" + ViewModel.statisticsData.ForecastedCar.ToString();
-                avgcarwashtime.Text = this.ViewModel.statisticsData.WashTime.ToString();
+                avgcarwashtime.Text = this.ViewModel.statisticsData.WashTime?.ToString();
             }
         }
         public string getScoreCount()

@@ -30,7 +30,8 @@ namespace Strive.Core.ViewModels.Owner
             else
             {
                 statisticsData = new GetDashboardStatisticsForLocationId();
-                statisticsData = result.GetDashboardStatisticsForLocationId[0];
+                if (result.GetDashboardStatisticsForLocationId.Count > 0)
+                    statisticsData = result.GetDashboardStatisticsForLocationId[0];
             }
             _userDialog.HideLoading();
         }
