@@ -172,8 +172,10 @@ export class VehicleCreateEditComponent implements OnInit {
 
     this.selectedData.LocationId
 
-    this.getModel(this.selectedData.VehicleMakeId, false);
-
+    if (this.selectedData.Upcharge === null)
+      this.getModel(this.selectedData.VehicleMakeId, true);
+    else
+      this.getModel(this.selectedData.VehicleMakeId, false);
 
     this.getVehicleCodes();
   }
@@ -364,7 +366,7 @@ export class VehicleCreateEditComponent implements OnInit {
               }
             }
             monthlyCharge = +monthlyCharge + upchargePrice;
-            
+
             this.vehicleForm.patchValue({
               monthlyCharge: monthlyCharge?.toFixed(2)
             });
@@ -1076,7 +1078,7 @@ export class VehicleCreateEditComponent implements OnInit {
           const jobtype = JSON.parse(res.resultData);
           this.upchargeList = jobtype.upcharge;
           var serviceId = 0
-          
+
           var membership = this.vehicleForm.value.membership;
 
           if (this.upchargeList?.length > 0) {
