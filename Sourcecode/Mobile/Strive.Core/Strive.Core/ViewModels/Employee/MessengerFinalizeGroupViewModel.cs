@@ -211,10 +211,8 @@ namespace Strive.Core.ViewModels.Employee
         }
         public async Task CreateGroupChat()
         {
-            CreateGroupChat createGroupChat = new CreateGroupChat();
-
-           
-                _userDialog.ShowLoading(Strings.Loading);
+               CreateGroupChat createGroupChat = new CreateGroupChat();
+               _userDialog.ShowLoading(Strings.Loading);
 
                 chatGroupforCreation.chatGroupId = 0;
                 chatGroupforCreation.comments = null;
@@ -245,6 +243,7 @@ namespace Strive.Core.ViewModels.Employee
                 createGroupChat.chatUserGroup = chatUserGroups;
                 Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(createGroupChat));
                 var result = await MessengerService.CreateChatGroup(createGroupChat);
+                chatUserGroups = new List<chatUserGroup>();
                 if (result != null)
                 {
                     _userDialog.Toast("Group Has Been Created Sucessfully");
@@ -253,11 +252,13 @@ namespace Strive.Core.ViewModels.Employee
                 {
                     _userDialog.Toast("Unable To Create Group");
                 }
-               
+                
 
-            }
+            
 
-        
+        }
+
+
         #endregion Commands
     }
 }

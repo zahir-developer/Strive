@@ -11834,73 +11834,76 @@ namespace StriveOwner.Android
 			public const int racing_flag = 2131165343;
 			
 			// aapt resource value: 0x7F0700A0
-			public const int Recipient_ChatBubble = 2131165344;
+			public const int radioButton = 2131165344;
 			
 			// aapt resource value: 0x7F0700A1
-			public const int redchart = 2131165345;
+			public const int Recipient_ChatBubble = 2131165345;
 			
 			// aapt resource value: 0x7F0700A2
-			public const int remove = 2131165346;
+			public const int redchart = 2131165346;
 			
 			// aapt resource value: 0x7F0700A3
-			public const int right_arrow = 2131165347;
+			public const int remove = 2131165347;
 			
 			// aapt resource value: 0x7F0700A4
-			public const int roundedbg = 2131165348;
+			public const int right_arrow = 2131165348;
 			
 			// aapt resource value: 0x7F0700A5
-			public const int roundedbgdark = 2131165349;
+			public const int roundedbg = 2131165349;
 			
 			// aapt resource value: 0x7F0700A6
-			public const int RoundEdge_Button = 2131165350;
+			public const int roundedbgdark = 2131165350;
 			
 			// aapt resource value: 0x7F0700A7
-			public const int scoreboard = 2131165351;
-			
-			// aapt resource value: 0x7F0700A9
-			public const int SecondaryLinearLayout = 2131165353;
+			public const int RoundEdge_Button = 2131165351;
 			
 			// aapt resource value: 0x7F0700A8
-			public const int Secondary_Button = 2131165352;
+			public const int scoreboard = 2131165352;
 			
 			// aapt resource value: 0x7F0700AA
-			public const int sendcircle = 2131165354;
+			public const int SecondaryLinearLayout = 2131165354;
+			
+			// aapt resource value: 0x7F0700A9
+			public const int Secondary_Button = 2131165353;
 			
 			// aapt resource value: 0x7F0700AB
-			public const int Sender_ChatBubble = 2131165355;
+			public const int sendcircle = 2131165355;
 			
 			// aapt resource value: 0x7F0700AC
-			public const int Splash_Screen = 2131165356;
+			public const int Sender_ChatBubble = 2131165356;
 			
 			// aapt resource value: 0x7F0700AD
-			public const int strive_logo_page = 2131165357;
+			public const int Splash_Screen = 2131165357;
 			
 			// aapt resource value: 0x7F0700AE
-			public const int strive_logo_splash = 2131165358;
+			public const int strive_logo_page = 2131165358;
 			
 			// aapt resource value: 0x7F0700AF
-			public const int sun = 2131165359;
+			public const int strive_logo_splash = 2131165359;
 			
 			// aapt resource value: 0x7F0700B0
-			public const int tooltip_frame_dark = 2131165360;
+			public const int sun = 2131165360;
 			
 			// aapt resource value: 0x7F0700B1
-			public const int tooltip_frame_light = 2131165361;
+			public const int tooltip_frame_dark = 2131165361;
 			
 			// aapt resource value: 0x7F0700B2
-			public const int Total_Sales = 2131165362;
+			public const int tooltip_frame_light = 2131165362;
 			
 			// aapt resource value: 0x7F0700B3
-			public const int Uncheck = 2131165363;
-			
-			// aapt resource value: 0x7F0700B5
-			public const int washemp = 2131165365;
+			public const int Total_Sales = 2131165363;
 			
 			// aapt resource value: 0x7F0700B4
-			public const int Wash_Sales = 2131165364;
+			public const int Uncheck = 2131165364;
 			
 			// aapt resource value: 0x7F0700B6
-			public const int yellowchart = 2131165366;
+			public const int washemp = 2131165366;
+			
+			// aapt resource value: 0x7F0700B5
+			public const int Wash_Sales = 2131165365;
+			
+			// aapt resource value: 0x7F0700B7
+			public const int yellowchart = 2131165367;
 			
 			static Drawable()
 			{

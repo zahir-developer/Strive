@@ -16,7 +16,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Utils.Employee;
-using Strive.Core.ViewModels.Employee;
+using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
@@ -95,7 +95,7 @@ namespace StriveOwner.Android.Fragments
                 var sortedResult = messengerCreateGroup_Adapter.SearchContacts(ViewModel.EmployeeLists.EmployeeList.Employee, e.NewText);
                 if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
                 {
-                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(this.Context, sortedResult);
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(this.Context, sortedResult , ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     createGroup_RecyclerView.SetLayoutManager(layoutManager);
                     createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
@@ -105,7 +105,7 @@ namespace StriveOwner.Android.Fragments
             {
                 if (ViewModel.EmployeeLists != null)
                 {
-                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList.Employee);
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList.Employee , ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);
                     createGroup_RecyclerView.SetLayoutManager(layoutManager);
                     createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
@@ -139,12 +139,12 @@ namespace StriveOwner.Android.Fragments
                         ViewModel.EmployeeLists.EmployeeList.Employee.Remove(participant);
                     }
 
-                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee);
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee, ViewModel);
                 }
                 else
                 {
                     MessengerTempData.IsCreateGroup = true;
-                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee);
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee, ViewModel);
                 }
 
                 //var layoutManager = new LinearLayoutManager(Context);
@@ -206,13 +206,13 @@ namespace StriveOwner.Android.Fragments
 
                     ViewModel.EmployeeLists.EmployeeList.Employee.Remove(removalData);
                 }
-                messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee);
+                messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee, ViewModel);
             }
 
             //if(MessengerTempData.EmployeeLists.EmployeeList != null && MessengerTempData.ExistingParticipants == null)
             //{
                 MessengerTempData.IsCreateGroup = true;
-                messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, MessengerTempData.employeeList_Contact.EmployeeList.Employee);
+                messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, MessengerTempData.employeeList_Contact.EmployeeList.Employee, ViewModel);
             //}
             var layoutManager = new LinearLayoutManager(Context);
             createGroup_RecyclerView.SetLayoutManager(layoutManager);

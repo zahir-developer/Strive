@@ -15,6 +15,7 @@ using Android.Widget;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Listeners;
 
 namespace StriveOwner.Android.Adapter
@@ -45,11 +46,13 @@ namespace StriveOwner.Android.Adapter
         private char[] secondInitial;
         public List<Employee> sortedContacts { get; set; }
         private string queryWordString { get; set; }
+        private MessengerCreateGroupViewModel messengerCreateGroupViewModel;
 
-        public MessengerCreateGroupAdapter(Context context, List<Employee> contacts)
+        public MessengerCreateGroupAdapter(Context context, List<Employee> contacts , MessengerCreateGroupViewModel viewModel)
         {
             this.context = context;
             this.contacts = contacts;
+            messengerCreateGroupViewModel = viewModel;
         }
 
 
@@ -77,7 +80,7 @@ namespace StriveOwner.Android.Adapter
             {
                 messengerCreateGroup.createGroup_Button.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
                 messengerCreateGroup.createGroupName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
-                messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Gone;
+                messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Visible;
             }
 
             messengerCreateGroup.ItemView.Tag = position;
@@ -97,29 +100,36 @@ namespace StriveOwner.Android.Adapter
         {
             if (Rowselections.Any(x => x.EmployeeId == employee.EmployeeId))
             {
-                messengerCreateGroup.createGroupEntry_LinearLayout.SetBackgroundColor(Color.LightCyan);
+                messengerCreateGroup.createGroup_CheckBox.Checked = true;
             }
             else
             {
-                messengerCreateGroup.createGroupEntry_LinearLayout.SetBackgroundColor(Color.Transparent);
+                messengerCreateGroup.createGroup_CheckBox.Checked = false;
             }
         }
         public void OnClick(View v)
         {
-            
             var position = (int)v.Tag;
-            if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Contains(contacts[position]))
+            if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Any(x => x.EmployeeId == contacts[position].EmployeeId))
             {
-                var index = MessengerTempData.createGroup_Contact.EmployeeList.Employee.IndexOf(contacts[position]);
-                MessengerTempData.createGroup_Contact.EmployeeList.Employee.RemoveAt(index);
-                v.SetBackgroundColor(Color.Transparent);
+                foreach (var data in MessengerTempData.createGroup_Contact.EmployeeList.Employee.ToList())
+                {
+                    if (data.EmployeeId == contacts[position].EmployeeId)
+                    {
+                        MessengerTempData.createGroup_Contact.EmployeeList.Employee.Remove(data);
+                    }
+                }
+                //v.SetBackgroundColor(Color.Transparent);
+                messengerCreateGroup.createGroup_CheckBox.Checked = false;
             }
             else
             {
-                MessengerTempData.createGroup_Contact.EmployeeList.Employee.Add(contacts[position]);               
-                v.SetBackgroundColor(Color.LightCyan);
+                MessengerTempData.createGroup_Contact.EmployeeList.Employee.Add(contacts[position]);
+                //v.SetBackgroundColor(Color.LightCyan);
+                messengerCreateGroup.createGroup_CheckBox.Checked = true;
             }
             NotifyDataSetChanged();
+
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

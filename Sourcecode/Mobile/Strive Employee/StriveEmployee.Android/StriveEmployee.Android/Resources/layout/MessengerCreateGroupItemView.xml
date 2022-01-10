@@ -27,16 +27,16 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/twenty"
             android:gravity="left|center"
-            android:layout_weight="0.8"
+            android:layout_weight="0.9"
             android:textSize="@dimen/fifteen"
             android:textColor="@color/profileQColor"
             android:fontFamily="@font/opensans_semibold" />
         <CheckBox
             android:id="@+id/createGroup_Checkbox"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/fifteen"
-            android:button="@drawable/custom_radiobutton"
+            android:button="@drawable/radiobutton"
             android:layout_gravity="center"/>
     </LinearLayout>
     <View

@@ -64,10 +64,10 @@ namespace StriveEmployee.Android.Fragments
             messenger_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.menu_ImageButton);
             messenger_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.messenger_TabLayout);
             messenger_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.messenger_ViewPager);
-            messenger_PopupMenu = new PopupMenu(Context, messenger_ImageButton);
-            messenger_Menu = messenger_PopupMenu.Menu;
-            messenger_PopupMenu.MenuInflater.Inflate(Resource.Menu.group_create_menu, messenger_Menu);
-            messenger_PopupMenu.MenuItemClick += Messenger_PopupMenu_MenuItemClick;
+            //messenger_PopupMenu = new PopupMenu(Context, messenger_ImageButton);
+            //messenger_Menu = messenger_PopupMenu.Menu;
+            //messenger_PopupMenu.MenuInflater.Inflate(Resource.Menu.group_create_menu, messenger_Menu);
+            //messenger_PopupMenu.MenuItemClick += Messenger_PopupMenu_MenuItemClick;
             messenger_ImageButton.Click += Messenger_ImageButton_Click;
 
             if (ChatHubMessagingService.RecipientsID == null)
@@ -120,7 +120,7 @@ namespace StriveEmployee.Android.Fragments
 
         private void Messenger_PopupMenu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
         {
-            switch(e.Item.ItemId)
+            switch (e.Item.ItemId)
             {
                 case Resource.Id.menu_CreateGroup:
                     MessengerTempData.resetParticipantInfo();
@@ -131,12 +131,15 @@ namespace StriveEmployee.Android.Fragments
                 case Resource.Id.menu_Refresh:
                     break;
             }
-            
+           
         }
 
         private void Messenger_ImageButton_Click(object sender, EventArgs e)
         {
-            messenger_PopupMenu.Show();
+            //messenger_PopupMenu.Show();
+            MessengerTempData.resetParticipantInfo();
+            selected_MvxFragment = new MessengerCreateGroupFragment();
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
 
         public override void OnActivityCreated(Bundle savedInstanceState)
