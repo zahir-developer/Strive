@@ -48,6 +48,7 @@ namespace StriveCustomer.Android.Adapter
                 AppCompatActivity activity = (AppCompatActivity)this.ItemView.Context;
                 CustomerVehiclesInformation.selectedVehicleInfo = data.VehicleId;
                 MembershipDetails.clientVehicleID = data.VehicleId;
+                MembershipDetails.vehicleNumber = data.VehicleNumber;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, InfoFragment).Commit();
             }
 

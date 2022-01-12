@@ -60,6 +60,7 @@ namespace StriveCustomer.Android.Fragments
         private void BackButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;
+            CustomerInfo.MembershipFee = 0;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
         }
 
@@ -127,6 +128,14 @@ namespace StriveCustomer.Android.Fragments
                                     upChargeRadio.Checked = true;
                                     MembershipDetails.isNoneSelected = true;
                                     MembershipDetails.selectedUpCharge = 0;
+                                    //MembershipDetails.modelUpcharge.upcharge.Add(new Strive.Core.Models.Customer.Schedule.upchargeList
+                                    //{ ServiceId = result.ServiceId,
+                                    //  Price = 0 ,
+                                    //  ServiceName=result.ServiceName, 
+                                    //  ServiceTypeId=result.ServiceTypeId,
+                                    //  Upcharges=""
+                                    //});
+                                    
                                 }
                                 else
                                 {

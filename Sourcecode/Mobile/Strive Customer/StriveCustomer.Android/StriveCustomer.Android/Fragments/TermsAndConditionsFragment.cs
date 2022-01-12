@@ -133,7 +133,7 @@ namespace StriveCustomer.Android.Fragments
             var SelectedServices = VehicleAdditionalServiceViewModel.serviceList.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
             foreach (var Service in SelectedServices)
             {
-                if (Service.Price != null)
+                if (Service.Price != 0)
                 {
 
                     //Console.WriteLine(Service.Upcharges.Split("-")[1].Substring(3));

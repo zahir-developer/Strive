@@ -135,6 +135,18 @@ namespace Strive.Core.ViewModels.Customer
                     clientVehicleMembershipService.clientVehicleMembershipServiceId = service.MembershipServiceId;
                     selectedmembershipServices.Add(clientVehicleMembershipService);
                 }
+                if (MembershipDetails.modelUpcharge.upcharge.Count > 0) 
+                {
+                    ClientVehicleMembershipService clientVehicleMembershipService = new ClientVehicleMembershipService();
+                    clientVehicleMembershipService.serviceId = MembershipDetails.modelUpcharge.upcharge[0].ServiceId;
+                    clientVehicleMembershipService.serviceTypeId = MembershipDetails.modelUpcharge.upcharge[0].ServiceTypeId;
+                    clientVehicleMembershipService.createdDate = DateTime.Now.ToString("yyyy-MM-d");
+                    clientVehicleMembershipService.updatedDate = DateTime.Now.ToString("yyyy-MM-d");
+                    clientVehicleMembershipService.clientMembershipId = 0;
+                    clientVehicleMembershipService.clientVehicleMembershipServiceId = 0;
+                    clientVehicleMembershipService.services = MembershipDetails.modelUpcharge.upcharge[0].Upcharges;
+                    selectedmembershipServices.Add(clientVehicleMembershipService);
+                }
 
                 MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;
             }
@@ -153,8 +165,14 @@ namespace Strive.Core.ViewModels.Customer
             ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
             ClientVehicless.clientVehicle.vehicleModel = MembershipDetails.modelNumber;
             ClientVehicless.clientVehicle.vehicleMfr = MembershipDetails.vehicleMfr;
-
-            ClientVehicless.clientVehicle.upcharge = (int)MembershipDetails.modelUpcharge.upcharge[0].Price;
+            if (MembershipDetails.modelUpcharge.upcharge.Count > 0)
+            {
+                ClientVehicless.clientVehicle.upcharge = (int)MembershipDetails.modelUpcharge.upcharge[0].Price;
+            }
+            else 
+            {
+                ClientVehicless.clientVehicle.upcharge = 0;  
+            }           
             ClientVehicless.clientVehicle.barcode = MembershipDetails.barCode;
             ClientVehicless.clientVehicle.locationId = null;
             MembershipDetails.customerVehicleDetails.clientVehicle = ClientVehicless;
