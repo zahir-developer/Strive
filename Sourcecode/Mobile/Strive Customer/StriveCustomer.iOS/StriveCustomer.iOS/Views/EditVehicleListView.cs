@@ -1,22 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
+using StriveCustomer.iOS.Views.CardList;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
     public partial class EditVehicleListView : MvxViewController<VehicleInfoDisplayViewModel>
     {
+        private VehicleInfoDisplayViewModel CardInfoViewModel;
+
         public EditVehicleListView() : base("EditVehicleListView", null)
         {
         }
 
-        public override void ViewDidLoad()
+        public  override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            
             InitialSetup();
             // Perform any additional setup after loading the view, typically from a nib.
         }
@@ -28,19 +35,53 @@ namespace StriveCustomer.iOS.Views
         }
 
         private void InitialSetup()
-        {           
+        {
+            CardInfoViewModel = new VehicleInfoDisplayViewModel();
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
                 Font = DesignUtils.OpenSansBoldFifteen(),
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             NavigationItem.Title = "Vehicle";
-
+            CardDetails_TableView.Hidden = false;
+            NoData.Hidden = false;
             EditVehicle_ParentView.Layer.CornerRadius = 5;
-
+            CardDetails_TableView.RegisterNibForCellReuse(CardListViewCell.Nib, CardListViewCell.Key);
+            CardDetails_TableView.BackgroundColor = UIColor.Clear;
+            CardDetails_TableView.ReloadData();
             getSelectVehicleInfo();
-        }
+            GetCardList();
 
+        }
+        private async void GetCardList()
+        {
+            await ViewModel.GetCustomerCardList();
+
+            if (ViewModel.response != null)
+            {
+                if (ViewModel.noData)
+                {
+                    CardDetails_TableView.Hidden = true;
+                    NoData.Hidden = false;
+
+                }
+                if(ViewModel.isData)
+                {
+                    CardDetails_TableView.Hidden = false;
+                    NoData.Hidden = true;
+                }
+            }
+
+            if (!(this.ViewModel.response.Status.Count == 0) || !(this.ViewModel.response == null))
+            {
+                var CardTableSource = new CardListTableSource(this.ViewModel);
+                CardDetails_TableView.Source = CardTableSource;
+                CardDetails_TableView.TableFooterView = new UIView(CGRect.Empty);
+                CardDetails_TableView.DelaysContentTouches = false;
+                CardDetails_TableView.ReloadData();
+            }
+
+        }
         private async void getSelectVehicleInfo()
         {
             CheckMembership.hasExistingMembership = false;
@@ -103,6 +144,13 @@ namespace StriveCustomer.iOS.Views
                 
             }
         }
+
+        partial void Touch_CardDetails_AddBtn(UIButton sender)
+        {
+            ViewModel.NavigatetoAddCard();
+
+        }
+        
     }
 
     public class CheckMembership

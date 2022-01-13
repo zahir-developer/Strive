@@ -49,14 +49,29 @@ namespace StriveCustomer.iOS.Views
             GetTotal();
             KeyBoardHandling();
             UpdateData();
-            
-           // RegisterForCardDetailsScanning();
 
-#if DEBUG
-            cardNumberTextField.Text = "6011000995500000";
-            expirationDateTextField.Text = "12/21";
-            securityCodeTextField.Text = "291";
-#endif
+            if(CustomerCardInfo.SelectedCard!= null)
+            {
+                cardNumberTextField.Text = CustomerCardInfo.SelectedCard.CardNumber ;
+                expirationDateTextField.Text = CustomerCardInfo.SelectedCard.ExpiryDate.Substring(8, 2)+"/"+CustomerCardInfo.SelectedCard.ExpiryDate.Substring(2, 2);
+                ViewModel.cardNumber = CustomerCardInfo.SelectedCard.CardNumber;
+                ViewModel.expiryDate = CustomerCardInfo.SelectedCard.ExpiryDate;
+                securityCodeTextField.Text = string.Empty;
+
+            }
+            else
+            {
+                cardNumberTextField.Text = string.Empty;
+                expirationDateTextField.Text = string.Empty;
+                securityCodeTextField.Text = string.Empty;
+            }
+            // RegisterForCardDetailsScanning();
+
+//#if DEBUG
+//            cardNumberTextField.Text = "6011000995500000";
+//            expirationDateTextField.Text = "12/21";
+//            securityCodeTextField.Text = "291";
+//#endif
 
         }
         public void GetTotal()
@@ -127,7 +142,8 @@ namespace StriveCustomer.iOS.Views
 
             //_userDialog.ShowLoading();
             var totalAmnt = Amount;
-
+            ViewModel.cardNumber = cardNo;
+            ViewModel.expiryDate = expiryDate;
             if (cardNo.IsEmpty() || expiryDate.IsEmpty() || ccv == 0)
             {
                 _userDialog.HideLoading();

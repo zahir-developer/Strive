@@ -8,6 +8,7 @@ using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
+using StriveCustomer.iOS.Views.CardList;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
@@ -17,6 +18,7 @@ namespace StriveCustomer.iOS.Views
         private PastDetailViewModel pastViewModel;
         private PersonalInfoViewModel personalInfoViewModel;
         private VehicleInfoViewModel vehicleViewModel;
+        private VehicleInfoDisplayViewModel CardInfoViewModel;
         float totalCost;
         string previousDates;
         public PastClientServices pastClientServices;
@@ -34,12 +36,12 @@ namespace StriveCustomer.iOS.Views
 
             // Perform any additional setup after loading the view, typically from a nib.
         }
-        
         private void InitialSetup()
         {
             pastViewModel = new PastDetailViewModel();
             personalInfoViewModel = new PersonalInfoViewModel();
             vehicleViewModel = new VehicleInfoViewModel();
+            CardInfoViewModel = new VehicleInfoDisplayViewModel();
             CustomerInfo.TotalCost = new List<float>();
             pastClientServices = new PastClientServices();
             pastClientServices.PastClientDetails = new List<PastClientDetails>();
@@ -63,7 +65,7 @@ namespace StriveCustomer.iOS.Views
             {
                 ViewModel.LogoutCommand();
             };
-
+            
             PastDetail_Segment.Hidden = true;
             PersonalInfo_Segment.Hidden = false;
             VehicleList_Segment.Hidden = true;
@@ -85,11 +87,16 @@ namespace StriveCustomer.iOS.Views
                 VehicleList_TableView.RegisterNibForCellReuse(VehicleListViewCell.Nib, VehicleListViewCell.Key);
                 VehicleList_TableView.BackgroundColor = UIColor.Clear;
                 VehicleList_TableView.ReloadData();
-
+                
                 GetVehicleList();
             }
-
+            
             getPersonalInfo();
+        }
+        
+        partial void Touch_CardDetails_AddBtn(UIButton sender)
+        {
+            ViewModel.NavigatetoAddCard();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -108,6 +115,8 @@ namespace StriveCustomer.iOS.Views
                 PastDetail_Segment.Hidden = true;
                 VehicleList_Segment.Hidden = true;
 
+               
+                //GetCardList();
                 getPersonalInfo();
             }
             else if (index == 1)
@@ -226,7 +235,6 @@ namespace StriveCustomer.iOS.Views
         {
             personalInfoViewModel.NavToEditPersonalInfo();
         }
-        
         public async void GetVehicleList()
         {
             await this.vehicleViewModel.GetCustomerVehicleList();
@@ -240,7 +248,6 @@ namespace StriveCustomer.iOS.Views
                 VehicleList_TableView.ReloadData();
             } 
         }
-
         partial void Touch_VehicleList_AddBtn(UIButton sender)
         {
             CheckMembership.hasExistingMembership = false;
@@ -249,7 +256,6 @@ namespace StriveCustomer.iOS.Views
             vehicleViewModel.NavToAddVehicle();
         }                
     }
-
     public class PastDetailsCompleteDetails
     {
         public static PastClientServices pastClientServices { get; set; }

@@ -451,6 +451,19 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<AddClientDealResponse>(ApiUtils.URL_ADD_CLIENT_DEAL, HttpMethod.Post,clientDeal);
         }
 
+        public async Task<CardDetailsResponse> GetCardDetails(int clientid)
+        {
+            return await _restClient.MakeApiCall<CardDetailsResponse>(ApiUtils.URL_GET_CLIENTCARDDETAIL + "/" + clientid, HttpMethod.Get);
+        }
+        public async Task<Status> UpdateCard(CardLists cardLists)
+        {
+            return await _restClient.MakeApiCall<Status>(ApiUtils.URL_UPDATE_CLIENTCARD,HttpMethod.Post,cardLists);
+        }
+        public async Task<GeneralResponse> AddClientCard(AddCardRequest ClientCardDetails)
+        {
+            return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_UPDATE_CLIENTCARD, HttpMethod.Post, ClientCardDetails);
+        }
+
     }
     public static class RestUtils
     {

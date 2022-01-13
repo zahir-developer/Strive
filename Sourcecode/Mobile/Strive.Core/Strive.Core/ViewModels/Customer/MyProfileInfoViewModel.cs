@@ -41,5 +41,16 @@ namespace Strive.Core.ViewModels.Customer
 
 
         #endregion Commands
+
+        public  async void NavigatetoAddCard()
+        {
+            CustomerCardInfo.isAddCard = true;
+            if (CustomerCardInfo.cardNumber != null && CustomerCardInfo.expiryDate!= null)
+            {
+                CustomerCardInfo.cardNumber = string.Empty;
+                CustomerCardInfo.expiryDate = string.Empty;
+            }
+            await _navigationService.Navigate<CardModifyViewModel>();
+        }
     }
 }

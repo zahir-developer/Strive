@@ -274,6 +274,7 @@
         <Folder Include="Resources\Assets.xcassets\icon-back.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-back-arrow.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-car.imageset\" />
+        <Folder Include="Views\CardList\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -317,6 +318,8 @@
         <InterfaceDefinition Include="Views\Schedule\Schedule_Confirmation.xib" />
         <InterfaceDefinition Include="Views\PaymentView.xib" />
         <InterfaceDefinition Include="Views\DealsPageViewController.xib" />
+        <InterfaceDefinition Include="Views\CardList\CardListViewCell.xib" />
+        <InterfaceDefinition Include="Views\CardList\ModifyCardView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -503,6 +506,15 @@
         <Compile Include="Views\DealsPageViewController.cs" />
         <Compile Include="Views\DealsPageViewController.designer.cs">
           <DependentUpon>DealsPageViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CardList\CardListViewCell.cs" />
+        <Compile Include="Views\CardList\CardListViewCell.designer.cs">
+          <DependentUpon>CardListViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CardList\CardListTableSource.cs" />
+        <Compile Include="Views\CardList\ModifyCardView.cs" />
+        <Compile Include="Views\CardList\ModifyCardView.designer.cs">
+          <DependentUpon>ModifyCardView.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>

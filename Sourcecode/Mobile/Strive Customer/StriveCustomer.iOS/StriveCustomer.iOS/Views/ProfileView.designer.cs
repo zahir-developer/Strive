@@ -16,6 +16,12 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UILabel Address_Value { get; set; }
 
 		[Outlet]
+		UIKit.UIButton CardDetails_AddBtn { get; set; }
+
+		[Outlet]
+		UIKit.UITableView CardDetails_TableView { get; set; }
+
+		[Outlet]
 		UIKit.UILabel ContactNo_Value { get; set; }
 
 		[Outlet]
@@ -62,6 +68,9 @@ namespace StriveCustomer.iOS.Views
 
 		[Action ("ProfileSegment_SelectedTab:")]
 		partial void ProfileSegment_SelectedTab (UIKit.UISegmentedControl sender);
+
+		[Action ("Touch_CardDetails_AddBtn:")]
+		partial void Touch_CardDetails_AddBtn (UIKit.UIButton sender);
 
 		[Action ("Touch_VehicleList_AddBtn:")]
 		partial void Touch_VehicleList_AddBtn (UIKit.UIButton sender);
@@ -123,9 +132,14 @@ namespace StriveCustomer.iOS.Views
 				SegmentControl = null;
 			}
 
-			if (ZipCode_Value != null) {
-				ZipCode_Value.Dispose ();
-				ZipCode_Value = null;
+			if (VehicleList_AddBtn != null) {
+				VehicleList_AddBtn.Dispose ();
+				VehicleList_AddBtn = null;
+			}
+
+			if (CardDetails_AddBtn != null) {
+				CardDetails_AddBtn.Dispose ();
+				CardDetails_AddBtn = null;
 			}
 
 			if (VehicleList_Segment != null) {
@@ -133,14 +147,19 @@ namespace StriveCustomer.iOS.Views
 				VehicleList_Segment = null;
 			}
 
-			if (VehicleList_AddBtn != null) {
-				VehicleList_AddBtn.Dispose ();
-				VehicleList_AddBtn = null;
-			}
-
 			if (VehicleList_TableView != null) {
 				VehicleList_TableView.Dispose ();
 				VehicleList_TableView = null;
+			}
+
+			if (CardDetails_TableView != null) {
+				CardDetails_TableView.Dispose ();
+				CardDetails_TableView = null;
+			}
+
+			if (ZipCode_Value != null) {
+				ZipCode_Value.Dispose ();
+				ZipCode_Value = null;
 			}
 		}
 	}

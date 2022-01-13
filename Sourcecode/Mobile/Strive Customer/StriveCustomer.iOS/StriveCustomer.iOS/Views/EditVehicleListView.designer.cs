@@ -13,6 +13,12 @@ namespace StriveCustomer.iOS.Views
 	partial class EditVehicleListView
 	{
 		[Outlet]
+		UIKit.UIButton CardDetails_AddBtn { get; set; }
+
+		[Outlet]
+		UIKit.UITableView CardDetails_TableView { get; set; }
+
+		[Outlet]
 		UIKit.UILabel EditBarCode_Value { get; set; }
 
 		[Outlet]
@@ -33,19 +39,25 @@ namespace StriveCustomer.iOS.Views
 		[Outlet]
 		UIKit.UILabel EditVehicleName { get; set; }
 
+		[Outlet]
+		UIKit.UILabel NoData { get; set; }
+
 		[Action ("EditVehicleList_BtnTouch:")]
 		partial void EditVehicleList_BtnTouch (UIKit.UIButton sender);
+
+		[Action ("Touch_CardDetails_AddBtn:")]
+		partial void Touch_CardDetails_AddBtn (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (EditVehicle_ParentView != null) {
-				EditVehicle_ParentView.Dispose ();
-				EditVehicle_ParentView = null;
+			if (CardDetails_AddBtn != null) {
+				CardDetails_AddBtn.Dispose ();
+				CardDetails_AddBtn = null;
 			}
 
-			if (EditVehicleName != null) {
-				EditVehicleName.Dispose ();
-				EditVehicleName = null;
+			if (CardDetails_TableView != null) {
+				CardDetails_TableView.Dispose ();
+				CardDetails_TableView = null;
 			}
 
 			if (EditBarCode_Value != null) {
@@ -53,14 +65,9 @@ namespace StriveCustomer.iOS.Views
 				EditBarCode_Value = null;
 			}
 
-			if (EditVehicleMake_Value != null) {
-				EditVehicleMake_Value.Dispose ();
-				EditVehicleMake_Value = null;
-			}
-
-			if (EditVehicleModel_Value != null) {
-				EditVehicleModel_Value.Dispose ();
-				EditVehicleModel_Value = null;
+			if (EditVehicle_ParentView != null) {
+				EditVehicle_ParentView.Dispose ();
+				EditVehicle_ParentView = null;
 			}
 
 			if (EditVehicleColor_Value != null) {
@@ -68,9 +75,29 @@ namespace StriveCustomer.iOS.Views
 				EditVehicleColor_Value = null;
 			}
 
+			if (EditVehicleMake_Value != null) {
+				EditVehicleMake_Value.Dispose ();
+				EditVehicleMake_Value = null;
+			}
+
 			if (EditVehicleMembership_Value != null) {
 				EditVehicleMembership_Value.Dispose ();
 				EditVehicleMembership_Value = null;
+			}
+
+			if (EditVehicleModel_Value != null) {
+				EditVehicleModel_Value.Dispose ();
+				EditVehicleModel_Value = null;
+			}
+
+			if (EditVehicleName != null) {
+				EditVehicleName.Dispose ();
+				EditVehicleName = null;
+			}
+
+			if (NoData != null) {
+				NoData.Dispose ();
+				NoData = null;
 			}
 		}
 	}

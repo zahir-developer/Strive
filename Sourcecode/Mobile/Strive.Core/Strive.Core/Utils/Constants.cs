@@ -171,6 +171,12 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_PAYROLL =   "/Admin/PayRoll/GetPayroll";
 
+        public const string URL_GET_CLIENTCARDDETAIL = "/Admin/Client/GetClientCardDetailById";
+
+        public const string URL_UPDATE_CLIENTCARD = "/Admin/Client/UpdateClientVehicle";
+
+        public const string URL_ADD_CLIENTCARD = "/Admin/Client/InsertClientDetails";
+
         public const string URL_CUSTOMER_SIGNUP = "https://mammothuat-qa.azurewebsites.net/#/signup?token=0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE";
 
         //Payment

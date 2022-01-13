@@ -163,5 +163,10 @@ namespace Strive.Core.Services.Interfaces
 
         Task<AddClientDealResponse> AddClientDeal(AddClientDeal clientDeal);
 
+        Task<CardDetailsResponse> GetCardDetails(int clientid);
+
+        Task<Status> UpdateCard(CardLists cardLists);
+
+        Task<GeneralResponse> AddClientCard(AddCardRequest cardLists);
     }
 }

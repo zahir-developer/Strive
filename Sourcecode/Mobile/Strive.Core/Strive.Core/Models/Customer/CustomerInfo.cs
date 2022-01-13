@@ -139,6 +139,7 @@ namespace Strive.Core.Models.Customer
         public static ClientVehicleRootView completeVehicleDetails { get; set; }
         public static ClientVehicleRoot membershipDetails { get; set; }
 
+
         #endregion Properties
 
         #region Commands
@@ -214,4 +215,15 @@ namespace Strive.Core.Models.Customer
         public static string SecondaryContactNumber { get; set; }
         public static string Email { get; set; }
     }
+
+    public static class CustomerCardInfo
+    {
+        public static string cardNumber { get; set; }
+        public static string expiryDate { get; set; }
+        public static int cardid { get; set; }
+        public static bool isAddCard { get; set; }
+        public static CardDetailsResponse cardDetailsResponse { get; set; }
+        public static status SelectedCard {get;set;}
+    }
+
 }
