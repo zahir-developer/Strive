@@ -38,6 +38,9 @@ namespace Greeter.Storyboards
         public ServiceType ServiceType;
         public bool IsMembershipService;
         public string CustPhNumber="404-964-7048";
+        public string model;
+
+        
 
         List<Employee> Employees;
         string[] employeeNames;
@@ -54,6 +57,8 @@ namespace Greeter.Storyboards
         public EmailViewController(IntPtr handle) : base(handle)
         {
         }
+
+        
 
         public override void ViewDidLoad()
         {
@@ -508,9 +513,18 @@ namespace Greeter.Storyboards
         }
         string VehicleTicket()
         {
+            
+            if (Model.Contains("/"))
+            {
+                model = Model.Substring(0, Model.IndexOf("/"));
+            }
+            else
+            {
+                model = Model;
+            }
 
-            var body = "^XA^CFA,20^FO50,50^FD" + DateTime.Now + "^FS^FO320,50^FD" + Title + "^FS";
-            body += "^CFA,30^FO50,90^FDIn:" + CheckInTime + "^FS^A0N,30,30^FO50,130^FDOut:" + CheckOutTime + "^FS^FO50,170^FDClient:" + CustName + "^FS^CFA,20^FO50,220^FDVehicle:" + Model.Replace(" ", string.Empty) + "^FS^CFA,30^FO50,250^GB700,3,3^FS";
+                var body = "^XA^FWN^CFA,20^FO50,50^FD" + DateTime.Now + "^FS^FO320,50^FD" + Title + "^FS";
+            body += "^CFA,30^FO50,90^FDIn:" + CheckInTime + "^FS^A0N,30,30^FO50,130^FDOut:" + CheckOutTime + "^FS^FO50,170^FDClient:" + CustName + "^FS^CFA,20^FO50,220^FDVehicle:" + model + "^FS^CFA,30^FO50,250^GB700,3,3^FS";
             body += "^CFA,30^FO550,90^FD 7327112021 ^FS^FO495,170^FD(234)235-3453^FS^CFA,20^FO440,220^FD" + Make + "^FS^FO690,220^FD" + Color + "^FS^CFA,30";
             int checkboxaxis = 280;
 
@@ -608,9 +622,17 @@ namespace Greeter.Storyboards
         }
         string MakePrintReceipt()
         {
-            var body = "^XA^CFA,30^FO50,50^FDClient:" + CustName + "^FS^FO540,50^FD"+CustPhNumber+"^FS";
+            if (Model.Contains("/"))
+            {
+                model = Model.Substring(0, Model.IndexOf("/"));
+            }
+            else
+            {
+                model = Model;
+            }
+            var body = "^XA^FWN^CFA,30^FO50,50^FDClient:" + CustName + "^FS^FO540,50^FD"+CustPhNumber+"^FS";
 
-            body += "^CFA,20^FO50,100^FDVehicle:" + Model+" ^FS" +
+            body += "^CFA,20^FO50,100^FDVehicle:" + model + " ^FS" +
                  "^FO420,100^FD" + Make + "^FS" +
                  "^FO690,100^FD" + Color +"^FS";
 
@@ -650,8 +672,8 @@ namespace Greeter.Storyboards
             }
             
             body += "^CFA,30^A0N,30,30^FO480," + (yaxis+100) +"^FDAir Fresheners^FS";
-
-            DateTime intime = DateTime.Parse(CheckInTime);
+            
+            DateTime intime = DateTime.Parse(CheckInTime.Substring(10));
             DateTime Outtime = DateTime.Parse(CheckOutTime);
             int EstimatedTime = Outtime.Minute - intime.Minute;
 
