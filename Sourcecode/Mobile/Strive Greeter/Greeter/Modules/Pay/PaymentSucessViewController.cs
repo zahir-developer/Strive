@@ -99,7 +99,7 @@ namespace Greeter.Storyboards
                 }
             }
 
-            body += "^CFA,30^FO80," + (checkboxaxis + 80) + "^FDTicket Number:" + Service.Job.JobID.ToString() + "^FS^XZ";
+            body += "^CFA,30^FO80," + (checkboxaxis + 80) + "^FDTicket Number:" + TicketID.ToString() + "^FS^XZ";
             //Print(html);
             Debug.WriteLine(body);
             return body;
@@ -168,7 +168,7 @@ namespace Greeter.Storyboards
             html += serviceHtml;
             html += ticketHtml;
             string printVehicleReceipt = VehicleTicket();
-            Print(printVehicleReceipt);
+            Print(html); 
 
             //ShowActivityIndicator();
 
@@ -435,7 +435,7 @@ namespace Greeter.Storyboards
 
             body += "^CFA,20^FO50,1040^FDNote^FS";
 
-            body += "^CFA,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + Service.Job.JobID + "^FS";
+            body += "^CFA,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + TicketID + "^FS";
 
             body += "^FO180,200^GFA,11400,11400,38," + Image + "^FS^XZ";
 
