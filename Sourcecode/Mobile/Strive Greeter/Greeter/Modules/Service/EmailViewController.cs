@@ -630,16 +630,16 @@ namespace Greeter.Storyboards
             {
                 model = Model;
             }
-            var body = "^XA^CFA,30^FO50,50^FDClient:" + CustName + "^FS^FO540,50^FD"+CustPhNumber+"^FS";
+            var body = "^XA^A1N,30^FO50,50^FDClient:" + CustName + "^FS^A1N,30^FO540,50^FD" + CustPhNumber+"^FS";
 
-            body += "^CFA,20^FO50,100^FDVehicle:" + model + " ^FS" +
-                 "^FO420,100^FD" + Make + "^FS" +
-                 "^FO690,100^FD" + Color +"^FS";
+            body += "^A1N,20^FO50,100^FDVehicle:" + model + " ^FS" +
+                 "^A1N,20^FO420,100^FD" + Make + "^FS" +
+                 "^A1N,20^FO690,100^FD" + Color +"^FS";
 
             var totalAmt = 0f;
             int yaxis = 300;
-            body += "^CFA,30^A0N,30,30^FO480,200^FDHand Car Washes^FS";
-            body += "^CFA,30^A0N,30,30^FO480,300^FDVehicle Upcharge^FS";
+            body += "^A1N,30^A0N,30,30^FO480,200^FDHand Car Washes^FS";
+            body += "^A1N,30^A0N,30,30^FO480,300^FDVehicle Upcharge^FS";
             if (Service is not null)
             {
                 for (int i = 0; i < Service.JobItems.Count; i++)
@@ -657,12 +657,12 @@ namespace Greeter.Storyboards
                     }
                     if (job.ServiceTypeID!=0)
                     {
-                        body += "^CFA,20^FO480,240^FD"+ job.SeriveName.Replace(" ",string.Empty) + "-$" + price + "^FS";
+                        body += "^A1N,20^FO480,240^FD" + job.SeriveName.Replace(" ",string.Empty) + "-$" + price + "^FS";
                     }
                     else
                     {
                         yaxis += 40;
-                        body += "^CFA,20^FO480," + yaxis + "^FD" + job.SeriveName.Replace(" ", string.Empty) + "-$" + price + "^FS";
+                        body += "^A1N,20^FO480," + yaxis + "^FD" + job.SeriveName.Replace(" ", string.Empty) + "-$" + price + "^FS";
                     }
                     
                     totalAmt += job.Price;
@@ -671,36 +671,36 @@ namespace Greeter.Storyboards
                 }
             }
             
-            body += "^CFA,30^A0N,30,30^FO480," + (yaxis+100) +"^FDAir Fresheners^FS";
+            body += "^A1N,30^A0N,30,30^FO480," + (yaxis+100) +"^FDAir Fresheners^FS";
             
             DateTime intime = DateTime.Parse(CheckInTime.Substring(10));
             DateTime Outtime = DateTime.Parse(CheckOutTime);
             int EstimatedTime = Outtime.Minute - intime.Minute;
 
 
-            body += "^CFA,20^FO50,600^FDIn:"+ CheckInTime +"^FS"+
-                     "^FO50,640^FDOut:"+ CheckOutTime + "^FS"+
-                     "^FO50,680^FDEst "+ EstimatedTime.ToString()+"Min^FS";
+            body += "^A1N,20^FO50,600^FDIn:" + CheckInTime +"^FS"+
+                     "^A1N,20^FO50,640^FDOut:" + CheckOutTime + "^FS"+
+                     "^A1N,20^FO50,680^FDEst " + EstimatedTime.ToString()+"Min^FS";
 
-            body += @"^CFA,30
+            body += @"^A1N,30
                     ^A0N,30,30^FO300,720^FDNew Customer Info^FS
-                    ^FO60,900^FDName^FS
-                    ^FO160,920^GB600,3,3^FS
-                    ^FO60,940^FDPhone^FS^FO160,960^GB600,3,3^FS
-                    ^FO60,980^FDEMail^FS
-                    ^FO160,1000^GB600,3,3^FS";
+                    ^A1N,30^FO60,900^FDName^FS
+                    ^A1N,30^FO160,920^GB600,3,3^FS
+                    ^A1N,30^FO60,940^FDPhone^FS^FO160,960^GB600,3,3^FS
+                    ^A1N,30^FO60,980^FDEMail^FS
+                    ^A1N,30^FO160,1000^GB600,3,3^FS";
             if (Barcode!=null)
             {
-                body += @"^CFA,20
+                body += @"^A1N,20
                     ^AD^BY5,2,100
-                    ^FO100,750^BC^FD" + Barcode + "^FS";
+                    ^A1N,20^FO100,750^BC^FD" + Barcode + "^FS";
             }
            
-            body += "^CFA,20^FO50,1040^FDNote^FS";
+            body += "^A1N,20^FO50,1040^FDNote^FS";
 
-            body += "^CFA,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD"+ Service.Job.JobID + "^FS";
+            body += "^A1N,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + Service.Job.JobID + "^FS";
 
-            body += "^FO180,200^GFA,11400,11400,38,"+Image+"^FS^XZ";
+            body += "^A1N,20^FO180,200^GFA,11400,11400,38," + Image+"^FS^XZ";
            
             Debug.WriteLine("Print Body: " + body);
             return body;
