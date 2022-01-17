@@ -55,6 +55,7 @@ namespace StriveEmployee.Android.Fragments
         private ViewGroup rootLayout;
         private LinearLayout listLayout;
         public static string ConnectionID;
+        private bool isSendClicked;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -83,6 +84,7 @@ namespace StriveEmployee.Android.Fragments
             chat_Menu = chat_PopupMenu.Menu;
             chat_PopupMenu.MenuInflater.Inflate(Resource.Menu.chat_menu, chat_Menu);
             chat_PopupMenu.MenuItemClick += Chat_PopupMenu_MenuItemClick;
+            isSendClicked = false;
             //chatMenu_ImageButton.Visibility = MessengerTempData.IsGroup ? ViewStates.Visible : ViewStates.Gone;
             if (!MessengerTempData.IsGroup)
             {
@@ -196,7 +198,7 @@ namespace StriveEmployee.Android.Fragments
 
                     //Sender 1st name, last name is not coming in the outpu
                     chatMessageDetail.SenderId = (int)newChatItem.chatMessageRecipient.senderId;
-                    chatMessageDetail.SenderFirstName = newChatItem.firstName;
+                    chatMessageDetail.SenderFirstName = newChatItem.fullName;
                     chatMessageDetail.SenderLastName = newChatItem.lastName;
 
                     chatMessageDetail.chatMessageId = newChatItem.chatMessageRecipient.chatMessageId;
@@ -206,7 +208,10 @@ namespace StriveEmployee.Android.Fragments
                     }
                     if (!ViewModel.ChatMessages.Any(x => x.chatMessageId == chatMessageDetail.chatMessageId))
                     {
-                         ViewModel.ChatMessages.Add(chatMessageDetail);
+                        if (MessengerTempData.IsGroup)
+                        {
+                            ViewModel.ChatMessages.Add(chatMessageDetail);
+                        }
 
                     }
                     messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
@@ -236,14 +241,17 @@ namespace StriveEmployee.Android.Fragments
 
                     //Sender 1st name, last name is not coming in the outpu
                     chatMessageDetail.SenderId = (int)newChatItem.chatMessageRecipient.senderId;
-                    chatMessageDetail.SenderFirstName = newChatItem.firstName;
+                    chatMessageDetail.SenderFirstName = newChatItem.fullName;
                     chatMessageDetail.SenderLastName = newChatItem.lastName;
 
                     chatMessageDetail.chatMessageId = newChatItem.chatMessageRecipient.chatMessageId;
 
                     if (!ViewModel.ChatMessages.Any(x => x.chatMessageId == chatMessageDetail.chatMessageId))
                     {
+                        if (!MessengerTempData.IsGroup)
+                        {
                             ViewModel.ChatMessages.Add(chatMessageDetail);
+                        }
                       
                     }
                     messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
@@ -276,50 +284,55 @@ namespace StriveEmployee.Android.Fragments
 
         private async void SendChat_Button_Click(object sender, EventArgs e)
         {
-            if(!String.IsNullOrEmpty(chatMessage_EditText.Text))
+            if (!isSendClicked)
             {
-                var data = new ChatMessageDetail()
+                if (!String.IsNullOrEmpty(chatMessage_EditText.Text))
                 {
-                    MessageBody = chatMessage_EditText.Text,
-                    ReceipientId = 0,
-                    RecipientFirstName = "",
-                    RecipientLastName = "",
-                    SenderFirstName = "",
-                    SenderLastName = "",
-                    SenderId = EmployeeTempData.EmployeeID,
-                    CreatedDate = DateTime.UtcNow.ToLocalTime()
-                };
-                if (ViewModel.ChatMessages == null)
-                {
-                    ViewModel.ChatMessages = new MvxObservableCollection<ChatMessageDetail>();
-                    //ViewModel.chatMessages.ChatMessage = new ChatMessage();
-                    //ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
-                    ViewModel.ChatMessages.Add(data);
-                    messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.ChatMessages);
+                    isSendClicked = true;
+                    var data = new ChatMessageDetail()
+                    {
+                        MessageBody = chatMessage_EditText.Text,
+                        ReceipientId = 0,
+                        RecipientFirstName = "",
+                        RecipientLastName = "",
+                        SenderFirstName = "",
+                        SenderLastName = "",
+                        SenderId = EmployeeTempData.EmployeeID,
+                        CreatedDate = DateTime.UtcNow.ToLocalTime()
+                    };
+                    if (ViewModel.ChatMessages == null)
+                    {
+                        ViewModel.ChatMessages = new MvxObservableCollection<ChatMessageDetail>();
+                        //ViewModel.chatMessages.ChatMessage = new ChatMessage();
+                        //ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
+                        ViewModel.ChatMessages.Add(data);
+                        messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.ChatMessages);
 
-                    var layoutManager = new LinearLayoutManager(Context);
-                    chatMessage_RecyclerView.SetLayoutManager(layoutManager);
-                    chatMessage_RecyclerView.SetAdapter(messengerChat_Adapter);
-                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count);
+                        var layoutManager = new LinearLayoutManager(Context);
+                        chatMessage_RecyclerView.SetLayoutManager(layoutManager);
+                        chatMessage_RecyclerView.SetAdapter(messengerChat_Adapter);
+                        chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count);
+                    }
+                    else
+                    {
+                        ViewModel.ChatMessages.Add(data);
+                    }
+                    messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
+                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count + 1);
+                    messengerChat_Adapter.NotifyDataSetChanged();
+                    this.ViewModel.Message = chatMessage_EditText.Text;
+                    await this.ViewModel.SendMessage();
+                    if (this.ViewModel.SentSuccess)
+                    {
+                        chatMessage_EditText.Text = "";
+                        isSendClicked = false;
+                        getChatData();
+                    }
                 }
                 else
                 {
-                    ViewModel.ChatMessages.Add(data);
+                    this.ViewModel.EmptyChatMessageError();
                 }
-                messengerChat_Adapter.NotifyItemInserted(ViewModel.ChatMessages.Count);
-                chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count + 1);
-                messengerChat_Adapter.NotifyDataSetChanged();
-                this.ViewModel.Message = chatMessage_EditText.Text;
-                await this.ViewModel.SendMessage();
-                if (this.ViewModel.SentSuccess)
-                {
-                    chatMessage_EditText.Text = "";
-                    getChatData();
-                }
-            }
-            else
-            {
-                this.ViewModel.EmptyChatMessageError();
             }
         }
 

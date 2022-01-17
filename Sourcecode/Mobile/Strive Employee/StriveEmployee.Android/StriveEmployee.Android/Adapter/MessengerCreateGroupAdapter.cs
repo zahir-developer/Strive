@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
-using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
+using Strive.Core.Models.Employee.Messenger.MessengerGroups;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
-using StriveEmployee.Android.Listeners;
 
 namespace StriveEmployee.Android.Adapter
 {
@@ -91,6 +84,7 @@ namespace StriveEmployee.Android.Adapter
                 }
             }
             SelectedData(contacts[position], MessengerTempData.createGroup_Contact.EmployeeList.Employee);
+            messengerCreateGroup.createGroup_CheckBox.Clickable = false;
             messengerCreateGroup.ItemView.SetOnClickListener(this);
             
         }
@@ -110,23 +104,37 @@ namespace StriveEmployee.Android.Adapter
         public void OnClick(View v)
         {
             var position = (int)v.Tag;
-            if(MessengerTempData.createGroup_Contact.EmployeeList.Employee.Any(x=>x.EmployeeId == contacts[position].EmployeeId))
+            var temp = new chatUserGroup();
+            temp.CommunicationId = contacts[position].CommunicationId;
+            temp.createdBy = 0;
+            temp.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss").ToString();
+            temp.isActive = true;
+            temp.isDeleted = false;
+            temp.userId = contacts[position].EmployeeId;
+            temp.chatGroupUserId = 0;
+            temp.chatGroupId = 0;
+            if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Any(x=>x.EmployeeId == contacts[position].EmployeeId))
             {
                 foreach(var data in MessengerTempData.createGroup_Contact.EmployeeList.Employee.ToList())
                 {
                    if(data.EmployeeId == contacts[position].EmployeeId)
                     {
                         MessengerTempData.createGroup_Contact.EmployeeList.Employee.Remove(data);
+                        MessengerFinalizeGroupViewModel.chatUserGroups.Remove(temp);
+
                     }
                 }
-                //v.SetBackgroundColor(Color.Transparent);
                 messengerCreateGroup.createGroup_CheckBox.Checked = false;
             }
             else
             {
                 MessengerTempData.createGroup_Contact.EmployeeList.Employee.Add(contacts[position]);
-                //v.SetBackgroundColor(Color.LightCyan);
                 messengerCreateGroup.createGroup_CheckBox.Checked = true;
+                if (contacts[position].EmployeeId != EmployeeTempData.EmployeeID)
+                {
+                    MessengerFinalizeGroupViewModel.chatUserGroups.Add(temp);
+
+                }
             }
             NotifyDataSetChanged();
 

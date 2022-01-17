@@ -1,15 +1,5 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.Content.Res;
 using Android.Support.V4.Content;
 using Android.Graphics.Drawables;
 using Strive.Core.Models.Employee.CheckOut;
@@ -38,10 +28,11 @@ namespace StriveOwner.Android.Helper
             this.checkOut = checkOut; 
             
         }
-        public bool OnClick(float x , float y)
+        public bool OnClick(float x , float y,checkOutViewModel checkOutViewModel)
         {
             if(clickRegion != null && clickRegion.Contains(x, y))
             {
+                checkOut = checkOutViewModel;
                 listener.OnClick(pos,checkOut);
                 return true;
             }

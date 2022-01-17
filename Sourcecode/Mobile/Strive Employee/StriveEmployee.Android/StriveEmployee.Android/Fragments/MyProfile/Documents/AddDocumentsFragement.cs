@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using MvvmCross;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Plugin.FilePicker;
@@ -26,6 +28,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
         MyProfileFragment MyProfFragment;
         private AddDocumentsAdapter addDocuments_Adapter;
         private List<employeeDocument> fileName = new List<employeeDocument>();
+        public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -51,9 +55,10 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
 
         private  void Save_Button_ClickAsync(object sender, EventArgs e)
         {
-            if(fileData != null && (addDocuments_Adapter != null && addDocuments_Adapter?.GetFile()!=null))
+            if (fileData != null && (addDocuments_Adapter != null && addDocuments_Adapter?.GetFile()!=null))
             {
                 save_Button.Enabled = false;
+                _userDialog.ShowLoading("Loading");
                 ViewModel.filepath = addDocuments_Adapter.GetFile().filePath;
                 ViewModel.filename = addDocuments_Adapter.GetFile().fileName;
                 ViewModel.filetype = addDocuments_Adapter.GetFile().fileType;
@@ -89,7 +94,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             try
             {
                 fileData = await CrossFilePicker.Current.PickFile();
-                if(fileData != null)
+                if (fileData != null)
                 {
                     this.ViewModel.filedata = Convert.ToBase64String(fileData.DataArray);
                     //this.ViewModel.filepath = fileData.FilePath;

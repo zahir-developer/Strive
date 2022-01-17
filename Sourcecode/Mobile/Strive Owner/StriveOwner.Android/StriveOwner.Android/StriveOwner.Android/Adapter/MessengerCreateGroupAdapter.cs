@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
+using Strive.Core.Models.Employee.Messenger.MessengerGroups;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Owner;
-using StriveOwner.Android.Listeners;
+using MessengerFinalizeGroupViewModel = Strive.Core.ViewModels.Employee.MessengerFinalizeGroupViewModel;
 
 namespace StriveOwner.Android.Adapter
 {
@@ -83,7 +76,7 @@ namespace StriveOwner.Android.Adapter
                 messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Visible;
             }
 
-            messengerCreateGroup.ItemView.Tag = position;
+             messengerCreateGroup.ItemView.Tag = position;
             if (MessengerTempData.ChatParticipants != null)
             {
                 if (!MessengerTempData.ChatParticipants.ContainsKey(contacts[position].EmployeeId))
@@ -93,9 +86,12 @@ namespace StriveOwner.Android.Adapter
             }
 
             SelectedData(contacts[position], MessengerTempData.createGroup_Contact.EmployeeList.Employee);
+            messengerCreateGroup.createGroup_CheckBox.Clickable = false;
             messengerCreateGroup.ItemView.SetOnClickListener(this);
 
         }
+
+
         private void SelectedData(Employee employee, List<Employee> Rowselections)
         {
             if (Rowselections.Any(x => x.EmployeeId == employee.EmployeeId))
@@ -110,6 +106,15 @@ namespace StriveOwner.Android.Adapter
         public void OnClick(View v)
         {
             var position = (int)v.Tag;
+            var temp = new chatUserGroup();
+            temp.CommunicationId = contacts[position].CommunicationId;
+            temp.createdBy = 0;
+            temp.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss").ToString();
+            temp.isActive = true;
+            temp.isDeleted = false;
+            temp.userId = contacts[position].EmployeeId;
+            temp.chatGroupUserId = 0;
+            temp.chatGroupId = 0;
             if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Any(x => x.EmployeeId == contacts[position].EmployeeId))
             {
                 foreach (var data in MessengerTempData.createGroup_Contact.EmployeeList.Employee.ToList())
@@ -117,6 +122,7 @@ namespace StriveOwner.Android.Adapter
                     if (data.EmployeeId == contacts[position].EmployeeId)
                     {
                         MessengerTempData.createGroup_Contact.EmployeeList.Employee.Remove(data);
+                        MessengerFinalizeGroupViewModel.chatUserGroups.Remove(temp);
                     }
                 }
                 //v.SetBackgroundColor(Color.Transparent);
@@ -124,14 +130,20 @@ namespace StriveOwner.Android.Adapter
             }
             else
             {
+                
                 MessengerTempData.createGroup_Contact.EmployeeList.Employee.Add(contacts[position]);
                 //v.SetBackgroundColor(Color.LightCyan);
                 messengerCreateGroup.createGroup_CheckBox.Checked = true;
+                if(contacts[position].EmployeeId != EmployeeTempData.EmployeeID)
+                {
+                    MessengerFinalizeGroupViewModel.chatUserGroups.Add(temp);
+
+                }
             }
             NotifyDataSetChanged();
 
         }
-
+     
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);

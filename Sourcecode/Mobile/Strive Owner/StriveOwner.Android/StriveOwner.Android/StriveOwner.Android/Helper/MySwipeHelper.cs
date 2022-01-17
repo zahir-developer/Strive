@@ -13,32 +13,30 @@ namespace StriveOwner.Android.Helper
     {
         int buttonWidth, swipePosition = -1;
         float swipeThreshold = 0.5f;
-        Dictionary<int, List<MyButton>> buttonBuffer;
+        public Dictionary<int, List<MyButton>> buttonBuffer;
         Queue<int> removeQueu = new Queue<int>();
         GestureDetector.SimpleOnGestureListener gestureListener;
         View.IOnTouchListener onTouchListener;
         RecyclerView recyclerView;
         List<MyButton> buttonList;
-        CheckOutViewModel checkOut;
+        public CheckOutViewModel checkOut;
         GestureDetector gestureDetector;
-        CheckoutDetails CheckoutDetail;
         public abstract void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
         public abstract void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
 
-        public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth, CheckoutDetails checkoutDetails) : base(0, ItemTouchHelper.Left)
+        public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth ,CheckOutViewModel viewModel) : base(0, ItemTouchHelper.Left)
         {
             this.recyclerView = recyclerView;
             buttonList = new List<MyButton>();
             buttonBuffer = new Dictionary<int, List<MyButton>>();
             this.buttonWidth = buttonWidth;
-            CheckoutDetail = checkoutDetails;
 
             gestureListener = new MyGestureListener(this);
             onTouchListener = new MyOnTouchListener(this);
 
             this.gestureDetector = new GestureDetector(context, gestureListener);
             this.recyclerView.SetOnTouchListener(onTouchListener);
-
+            checkOut = viewModel;
             AttachSwipe();
         }
 
@@ -98,7 +96,7 @@ namespace StriveOwner.Android.Helper
                         mySwipeHelper.gestureDetector.OnTouchEvent(e);
                         foreach (MyButton button in mySwipeHelper.buttonList)
                         {
-                            if (button.OnClick(e.GetX(), e.GetY()))
+                            if (button.OnClick(e.GetX(), e.GetY(), mySwipeHelper.checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[mySwipeHelper.swipePosition]))
                             {
                                 mySwipeHelper.removeQueu.Enqueue(mySwipeHelper.swipePosition);
                                 mySwipeHelper.swipePosition = -1;
@@ -190,9 +188,9 @@ namespace StriveOwner.Android.Helper
                     List<MyButton> buffer = new List<MyButton>();
                     if (!buttonBuffer.ContainsKey(pos))
                     {
-                        if(CheckoutDetail!=null)
+                        if(checkOut != null)
                         {
-                            if (CheckoutDetail.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                            if (checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
                             {
                                 InstantiateMyButton(viewHolder, buffer);
                             }
@@ -204,7 +202,8 @@ namespace StriveOwner.Android.Helper
                         buttonBuffer.Add(pos, buffer);
                     }
                     else
-                    {
+                      {
+
                         buffer = buttonBuffer[pos];
                     }
                     translationX = dX * buffer.Count * buttonWidth / itemView.Width;

@@ -120,8 +120,16 @@ namespace StriveEmployee.Android.Adapter
             MessengerTempData.RecipientName = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(itemPosition).FirstName + " " + MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(itemPosition).LastName;
             MessengerTempData.GroupUniqueID = null;
             MessengerTempData.RecipientID = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(itemPosition).EmployeeId;
-
-            AppCompatActivity activity = (AppCompatActivity)itemView.Context;
+ 			if (MessengerTempData.RecipientsConnectionID == null)
+            {
+                MessengerTempData.RecipientsConnectionID = new Dictionary<string, string>();
+            }
+            if (!MessengerTempData.RecipientsConnectionID.ContainsKey(MessengerTempData.RecipientID.ToString()))
+            {
+                if (MessengerTempData.ConnectionID != null)
+                    MessengerTempData.RecipientsConnectionID.Add(MessengerTempData.RecipientID.ToString(), MessengerTempData.ConnectionID);
+            }
+            AppCompatActivity activity = (AppCompatActivity)itemView.Context;           
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();
         }

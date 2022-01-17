@@ -62,12 +62,20 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.ItemDescription = inventorylist[position].Product.ProductDescription;
             inventoryViewHolder.productViewMore.Click += ProductViewMore_Click;
             inventoryViewHolder.productViewMore.Tag = "Tag" + position;
-            inventoryViewHolder.quantityInc.Click += QuantityInc_Click;
             inventoryViewHolder.quantityInc.Tag = "Tag" + position;
-            inventoryViewHolder.quantityDec.Click += QuantityDec_Click;
+            if(!inventoryViewHolder.quantityInc.HasOnClickListeners){
+                inventoryViewHolder.quantityInc.Click += QuantityInc_Click;
+
+            }
+            if (!inventoryViewHolder.quantityDec.HasOnClickListeners)
+            {
+                inventoryViewHolder.quantityDec.Click += QuantityDec_Click;
+
+            }
             inventoryViewHolder.quantityDec.Tag = "Tag" + position;
             inventoryViewHolder.quantityProds.Text = inventorylist[position].Product.Quantity.ToString();
             OwnerTempData.ItemQuantity = inventorylist[position].Product.Quantity.ToString();
+
         }
 
         private async void QuantityDec_Click(object sender, EventArgs e)
@@ -76,6 +84,9 @@ namespace StriveOwner.Android.Adapter
             var tagsOBJ = objs.Tag.ToString().Split('g');
             var positions = int.Parse(tagsOBJ[1]);
             invVM.DecrementCommand(positions);
+            inventorylist[positions] = invVM.FilteredList[positions];
+            NotifyItemChanged(positions);
+
         }
 
         private async void QuantityInc_Click(object sender, EventArgs e)
@@ -84,6 +95,8 @@ namespace StriveOwner.Android.Adapter
             var tagsOBJ = objs.Tag.ToString().Split('g');
             var positions = int.Parse(tagsOBJ[1]);
             invVM.IncrementCommand(positions);
+            inventorylist[positions] = invVM.FilteredList[positions];
+            NotifyItemChanged(positions);
         }
 
         private void ProductViewMore_Click(object sender, EventArgs e)

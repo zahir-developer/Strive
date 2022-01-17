@@ -27,7 +27,9 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         private EventHandler<DialogClickEventArgs> removePhotoHandler;
         Context Context;
         SwipeRefreshLayout swipeRefreshLayout;
-        
+        private bool isPullToRefresh;
+        private bool isSwipeCalled;
+        static MySwipeHelper mySwipe;
         public CheckOutFragment(Context context)
         {
             this.Context = context;
@@ -49,6 +51,8 @@ namespace StriveEmployee.Android.Fragments.CheckOut
 
             swipeRefreshLayout = rootView.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             Checkout_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.checkout_RecyclerView);
+            isPullToRefresh = false;
+            isSwipeCalled = false;
             GetCheckoutDetails();
             swipeRefreshLayout.SetOnRefreshListener(this);
             
@@ -69,7 +73,16 @@ namespace StriveEmployee.Android.Fragments.CheckOut
                     Checkout_RecyclerView.SetLayoutManager(layoutManager);
                     Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
                 }
-                Swipercall();
+                if (!isPullToRefresh || !isSwipeCalled)
+                {
+                    mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel);
+                    isSwipeCalled = true;
+                }
+                if (mySwipe!=null)
+                {
+                    mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
+
+                }
             }
             else 
             {
@@ -79,10 +92,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             
             
         }
-        public void Swipercall()
-        {
-            MySwipeHelper mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel.CheckOutVehicleDetails);
-        }
+        
         public async void GetCheckoutDetails(RecyclerView recyclerView)
         {
             
@@ -100,9 +110,15 @@ namespace StriveEmployee.Android.Fragments.CheckOut
                     Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
                     
                 }
-                
+                mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
+                mySwipe.buttonBuffer.Clear();
             }
-      
+            else
+            {
+                Checkout_RecyclerView.SetAdapter(null);
+                Checkout_RecyclerView.SetLayoutManager(null);
+            }
+
         }
         public void HoldTicket(checkOutViewModel checkOut,RecyclerView Checkout_RecyclerView)
         {
@@ -260,7 +276,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         {
             GetCheckoutDetails();
             swipeRefreshLayout.Refreshing = false;
-            
+            isPullToRefresh = true;
         }
 
         private class MyImplementSwipeHelper : MySwipeHelper
@@ -268,15 +284,15 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             Context Context;
             RecyclerView checkout_RecyclerView;
             int buttonWidth;
-            CheckoutDetails CheckoutDetail;
+            CheckOutViewModel CheckoutDetail;
             
            
-            public MyImplementSwipeHelper(Context context, RecyclerView checkout_RecyclerView, int buttonWidth,CheckoutDetails checkoutDetails) : base(context, checkout_RecyclerView, 200,checkoutDetails)
+            public MyImplementSwipeHelper(Context context, RecyclerView checkout_RecyclerView, int buttonWidth, CheckOutViewModel viewModel) : base(context, checkout_RecyclerView, 200, viewModel)
             {
                 Context = context;
                 this.checkout_RecyclerView = checkout_RecyclerView;
                 this.buttonWidth = buttonWidth;
-                this.CheckoutDetail = checkoutDetails;
+                this.CheckoutDetail = viewModel;
                 
                 
             }
@@ -284,7 +300,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             public override void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
             {
                 int itemposition = viewHolder.AdapterPosition;
-                var selectedItem = CheckoutDetail?.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
+                var selectedItem = CheckoutDetail.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
                 CheckOutFragment fragment = new CheckOutFragment(Context);
 
                  //button-1
@@ -315,7 +331,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
             {
                 int itemposition = viewHolder.AdapterPosition;
-                var selectedItem = CheckoutDetail?.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
+                var selectedItem = CheckoutDetail.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
                 CheckOutFragment fragment = new CheckOutFragment(Context);
 
                     //button-1

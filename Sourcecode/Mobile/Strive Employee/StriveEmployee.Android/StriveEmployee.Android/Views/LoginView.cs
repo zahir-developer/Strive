@@ -58,6 +58,7 @@ namespace StriveEmployee.Android.Views
             forgotPassword = this.FindViewById<TextView>(Resource.Id.forgotPasswordLink);
             forgotPassword.PaintFlags = PaintFlags.UnderlineText;
             rememberMe_CheckBox.Click += RememberMe_CheckBox_Click;
+            login_Button.Click += Login_Click;
 
             var bindingset = this.CreateBindingSet<LoginView, LoginViewModel>();
 
@@ -65,18 +66,27 @@ namespace StriveEmployee.Android.Views
             bindingset.Bind(password_EditText).To(lvm => lvm.loginPassword);
             bindingset.Bind(loginHeading_TextView).To(lvm => lvm.Login);
             bindingset.Bind(login_Button).For(lvm => lvm.Text).To(lvm => lvm.Login);
-            bindingset.Bind(login_Button).To(lvm => lvm.Commands["DoLogin"]);
+            //bindingset.Bind(login_Button).To(lvm => lvm.Commands["DoLogin"]);
             bindingset.Bind(rememberMe_TextView).To(lvm => lvm.RememberPassword);
             bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
             bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
             bindingset.Bind(signUp).To(lvm => lvm.SignUp);
             bindingset.Apply();
             basicSetup();
-
             forgotPassword.Click += navigateToForgotPassword;           
             signUp.Click += navigateToSignUp;
         }
-
+        private void Login_Click(object sender, EventArgs e)
+        {
+            if(rememberMe_CheckBox.Checked == true)
+            {
+                preferenceEditor.PutBoolean("rememberMe", rememberMe_CheckBox.Checked);
+                preferenceEditor.PutString("loginId", emailPhone_EditText.Text);
+                preferenceEditor.PutString("password", password_EditText.Text);
+                preferenceEditor.Apply();
+            }
+            _ = ViewModel.DoLoginCommand();
+        }
         private void navigateToSignUp(object sender, EventArgs e)
         {
             Browser.OpenAsync(ApiUtils.URL_CUSTOMER_SIGNUP, BrowserLaunchMode.SystemPreferred);
@@ -103,10 +113,10 @@ namespace StriveEmployee.Android.Views
                 emailPhone_EditText.SetText(loginId, null);
                 var password = sharedPreferences.GetString("password", null);
                 password_EditText.SetText(password, null);
-                if (!String.IsNullOrEmpty(emailPhone_EditText.Text) && !String.IsNullOrEmpty(password_EditText.Text))
-                {
-                    await ViewModel.DoLoginCommand();
-                }
+                //if (!String.IsNullOrEmpty(emailPhone_EditText.Text) && !String.IsNullOrEmpty(password_EditText.Text))
+                //{
+                //    await ViewModel.DoLoginCommand();
+                //}
             }
             else
             {

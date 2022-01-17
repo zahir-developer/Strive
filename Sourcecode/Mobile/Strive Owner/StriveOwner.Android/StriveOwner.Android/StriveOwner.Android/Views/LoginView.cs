@@ -74,6 +74,13 @@ namespace StriveOwner.Android.Views
 
         private void Login_Click(object sender, EventArgs e)
         {
+            if (rememberMe_CheckBox.Checked == true)
+            {
+                preferenceEditor.PutBoolean("rememberMe", rememberMe_CheckBox.Checked);
+                preferenceEditor.PutString("loginId", emailPhone_EditText.Text);
+                preferenceEditor.PutString("password", password_EditText.Text);
+                preferenceEditor.Apply();
+            }
             this.ViewModel.DoLoginCommand();
         }
         private void RememberMe_CheckBox_Click(object sender, EventArgs e)
