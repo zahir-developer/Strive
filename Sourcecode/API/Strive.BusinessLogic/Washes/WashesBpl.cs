@@ -165,5 +165,131 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).GetAllLocationWashTime, locationStoreStatus, "Washes");
         }
+
+        public Result GetWashVehiclePrint(PrintTicketDto printTicketDto)
+        {
+            return ResultWrap(VehicleCopyPrint, printTicketDto, "VehiclePrint");
+        }
+
+        public string VehicleCopyPrint(PrintTicketDto print)
+        {
+            string model = string.Empty;
+            if (print.Job.VehicleModel.Contains("/"))
+            {
+                model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
+            }
+            else
+            {
+                model = print.Job.VehicleModel;
+            }
+
+            var body = "^XA^AJN,20^FO50,50^FD" + DateTime.Now + "^FS^AJN,20^FO320,50^FD" + print.Job.Title + "^FS";
+            body += "^AJN,30^FO50,90^FDIn:" + print.Job.InTime + "^FS^A0N,30,30^FO50,130^FDOut:" + print.Job.TimeOut + "^FS^AJN,30^FO50,170^FDClient:" + print.Job.ClientName + "^FS^AJN,20^FO50,220^FDVehicle:" + model + "^FS^AJN,20^FO50,250^GB700,3,3^FS";
+            body += "^AJN,30^FO550,90^FD 7327112021 ^FS^AJN,30^FO495,170^FD(234)235 - 3453^FS^AJN,20^FO440,220^FD" + print.Job.VehicleMake + "^FS^AJN,20^FO690,220^FD" + print.Job.VehicleColor + "^FS^AJN,30";
+            int checkboxaxis = 280;
+
+            if (print.JobItem != null)
+{
+                foreach (var jobItem in print.JobItem)
+                {
+                    body += "^FO50," + checkboxaxis + "^GB20,20,1^FS^AJN,30^FO80," + checkboxaxis + "^FD" + jobItem.ServiceName + "^FS";
+                    checkboxaxis += 40;
+                }
+            }
+
+
+            body += "^AJN,30^FO80," + (checkboxaxis + 80) + "^FDTicket Number:" + print.Job.TicketNumber.ToString() + "^FS^XZ";
+            return body;
+
+        }
+
+        string CustomerPrintReceipt(PrintTicketDto print)
+        {
+            string model = string.Empty;
+            if (print.Job.VehicleModel.Contains("/"))
+            {
+                model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
+            }
+            else
+            {
+                model = print.Job.VehicleModel;
+            }
+            var body = "^XA^AJN,30^FO50,50^FDClient:" + print.Job.ClientName + "^FS^AJN,30^FO540,50^FD" + print.Job.PhoneNumber + "^FS";
+
+            body += "^AJN,20^FO50,100^FDVehicle:" + model + " ^FS" +
+            "^AJN,20^FO420,100^FD" + print.Job.VehicleMake + "^FS" +
+            "^AJN,20^FO690,100^FD" + print.Job.VehicleColor + "^FS";
+
+            var totalAmt = 0f;
+            int yaxis = 300;
+            body += "^AJN,30^A0N,30,30^FO480,200^FDHand Car Washes^FS";
+
+            body += "^AJN,30^A0N,30,30^FO480,300^FDVehicle Upcharge^FS";
+            if (print.JobItem != null)
+            {
+                foreach (var jobItem in print.JobItem)
+                {
+                    var price = jobItem.Price.ToString();
+                    if ((jobItem.Price % 1) == 0)
+                    {
+                        price += ":00";
+                    }
+                    else
+                    {
+                        var values = jobItem.Price.ToString().Split('.');
+                        price = (int)jobItem.Price + ":" + values[1];
+                    }
+
+                    if (jobItem.ServiceName != string.Empty)
+                    {
+                        body += "^AJN,20^FO480,240^FD" + jobItem.ServiceName.Replace(" ", string.Empty) + "-$" + price + "^FS";
+                    }
+                    else
+                    {
+                        yaxis += 40;
+                        body += "^AJN,20^FO480," + yaxis + "^FD" + jobItem.ServiceName.Replace(" ", string.Empty) + "-$" + price + "^FS";
+                    }
+
+                    totalAmt += float.Parse(jobItem.Price.ToString());
+
+                    //Amount = totalAmt;
+                }
+            }
+
+            body += "^AJN,30^A0N,30,30^FO480," + (yaxis + 100) + "^FDAir Fresheners^FS";
+
+            DateTime intime = DateTime.Parse(print.Job.InTime.Substring(10));
+            DateTime Outtime = DateTime.Parse(print.Job.TimeOut);
+            int EstimatedTime = Outtime.Minute - intime.Minute;
+
+
+            body += "^AJN,20^FO50,600^FDIn:" + print.Job.InTime + "^FS" +
+            "^AJN,20^FO50,640^FDOut:" + print.Job.InTime + "^FS" +
+            "^AJN,20^FO50,680^FDEst " + EstimatedTime.ToString() + "Min^FS";
+
+
+
+            body += @"^AJN,30
+                ^A0N,30,30^FO300,720^FDNew Customer Info^FS
+                ^AJN,30^FO60,900^FDName^FS
+                ^AJN,30^FO160,920^GB600,3,3^FS
+                ^AJN,30^FO60,940^FDPhone^FS^FO160,960^GB600,3,3^FS
+                ^AJN,30^FO60,980^FDEMail^FS
+                ^AJN,30^FO160,1000^GB600,3,3^FS";
+            if (print.Job.Barcode != null)
+            {
+                body += @"^AJN,20
+                        ^AD^BY5,2,100
+                        ^AJN,20^FO100,750^BC^FD" + print.Job.Barcode + "^FS";
+            }
+
+            body += "^AJN,20^FO50,1040^FDNote^FS";
+
+            body += "^AJN,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + print.Job.TicketNumber + "^FS";
+
+            body += "^AJN,20^FO180,200^GFA,11400,11400,38," + ZebraPrint.MammothLogo + "^FS^XZ";
+
+            return body;
+        }
     }
 }

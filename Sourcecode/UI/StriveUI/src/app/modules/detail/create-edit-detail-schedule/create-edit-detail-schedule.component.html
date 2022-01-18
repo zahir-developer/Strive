@@ -1,8 +1,18 @@
+
+
+	<script type="text/javascript">
+  
+		$(document).ready(setup_web_print);
+	</script>
+
 <div class="modal" id="vehicleModal" tabindex="1" role="dialog" *ngIf="showVehicleDialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{headerData}}</h5>
+                <div id="error_div" style="width:500px; display:none"><div id="error_message"></div>
+      <button type="button" class="btn btn-lg btn-success" onclick="trySetupAgain();">Try Again</button>
+    </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
                         aria-hidden="true">&times;</span> </button>
             </div>
@@ -266,7 +276,7 @@
                 <div class="col-sm-8">
                     <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="!isEdit" (click)="printCustomerCopy()">Customer
                         Copy</button>
-                    <button type="button" class="btn theme-primary-button-color m-r-5" (click)="print()" [disabled]="!isEdit">Vehicle Copy</button>
+                    <button type="button" class="btn theme-primary-button-color m-r-5" (click)="zebraPrint()" [disabled]="!isEdit">Vehicle Copy</button>
                     <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes" (click)="pastNotes()">View Past Client Notes</button>
                 </div>
                 <div class="col-sm-4">

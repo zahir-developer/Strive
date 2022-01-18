@@ -98,8 +98,8 @@ export class CreateEditWashesComponent implements OnInit {
     private modelService: ModelService,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
     private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService
-    , private GetUpchargeService: GetUpchargeService,    
-    private datePipe: DatePipe, 
+    , private GetUpchargeService: GetUpchargeService,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -164,7 +164,7 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getWashTimeByLocationID() {
-        this.detailService.getWashTimeByLocationId(localStorage.getItem('empLocationId'),this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss').toString()).subscribe(res => {
+    this.detailService.getWashTimeByLocationId(localStorage.getItem('empLocationId'), this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss').toString()).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
         if (washTime.Washes.length > 0) {
@@ -353,9 +353,9 @@ export class CreateEditWashesComponent implements OnInit {
 
         if (this.barcodeDetails?.ClientId === 0) {
           var vehicles = [];
-          var v  = 
+          var v =
           {
-            VehicleId : vData.ClientVehicleId,
+            VehicleId: vData.ClientVehicleId,
             VehicleModel: vData.ModelName === null ? 'Unk' : vData.ModelName,
             VehicleMfr: vData.VehicleMake === null ? 'Unk' : vData.VehicleMake,
             VehicleColor: vData.Color === null ? 'Unk' : vData.Color
@@ -364,7 +364,7 @@ export class CreateEditWashesComponent implements OnInit {
           vehicles.push(v);
           this.vehicle = vehicles;
         }
-        
+
 
         this.washForm.patchValue({
           vehicle: vData.ClientVehicleId,
@@ -653,16 +653,15 @@ export class CreateEditWashesComponent implements OnInit {
         if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
           this.barcodeDetails = wash.ClientAndVehicleDetail[0];
           if (this.barcodeDetails?.ClientId !== 0) {
-              this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId, 1);
+            this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId, 1);
           }
-          else
-          {
+          else {
             this.getVehicleById(this.barcodeDetails.VehicleId);
           }
 
-          
+
           this.clientName = this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName;
-          
+
           setTimeout(() => {
             this.washForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
@@ -1083,60 +1082,112 @@ export class CreateEditWashesComponent implements OnInit {
       $(this).addClass('theme-secondary-color text-underline');
     });
   }
+
   print() {
     this.isPrint = true;
     this.printWashComponent.print();
   }
-  // To get upcharge
-  getUpcharge(applyUpcharge = true) {
-    if(applyUpcharge)
-    {
+
+  zebraPrint() {
     
-    if (!this.upchargeId || !this.washForm.value.model?.id) {
-      return;
+    this.printWashComponent.printInit();
+
+    var job =
+    {
+      Title: "Email Receipt",
+      TicketNumber: this.selectedData?.Details?.TicketNumber,
+      InTime: this.selectedData?.Details?.TimeIn,
+      TimeOut: this.selectedData?.Details?.TimeOut,
+      ClientName: this.selectedData?.Details?.ClientName,
+      PhoneNumber: this.selectedData?.Details?.PhoneNumber,
+      Barcode: this.selectedData?.Details?.Barcode,
+      VehicleModel: this.selectedData?.Details?.VehicleModel,
+      VehicleMake: this.selectedData?.Details?.VehicleMake,
+      VehicleColor: this.selectedData?.Details?.VehicleColor,
+      Notes: this.selectedData?.Details?.Notes
     }
-    const obj = {
-      "upchargeServiceType": this.upchargeId,
-      "modelId": this.washForm.value.model?.id
-    };
 
-    this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
+    var jobItem = [];
+
+    this.selectedData?.DetailsItem.forEach(e => {
+      jobItem.push(
+        {
+          ServiceName: e.ServiceName,
+          Price: e.Price
+        });
+    })
+
+    var finalObj =
+    {
+      job,
+      jobItem
+    }
+    
+    this.wash.getWashVehicleCopy(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        const jobtype = JSON.parse(res.resultData);
-        this.upchargeList = jobtype.upcharge;
-        var serviceId = 0
-        if (this.upchargeList?.length > 0) {
-          serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
-
-          if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
-            this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
-          }
-
-          this.washForm.patchValue({
-            upcharges: serviceId,
-            upchargeType: serviceId
-          });
-          this.upchargeService(serviceId);
-          this.selectedUpcharge = serviceId;
-          
-          this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
-        }
-        else {
-          this.additionalServiceRemoved.push(this.selectedUpcharge);
-          this.washForm.patchValue({
-            upcharges: '',
-            upchargeType: ''
-          });
-
-          if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
-            this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
-          }
-
-        }
+        
+        var result = JSON.parse(res.resultData);
+        this.printWashComponent.zebraPrint(result.VehiclePrint);
+      }
+      else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+    this.isPrint = true;
+    
   }
+  // To get upcharge
+  getUpcharge(applyUpcharge = true) {
+    if(applyUpcharge) {
+
+      if (!this.upchargeId || !this.washForm.value.model?.id) {
+        return;
+      }
+      const obj = {
+        "upchargeServiceType": this.upchargeId,
+        "modelId": this.washForm.value.model?.id
+      };
+
+      this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
+        if (res.status === 'Success') {
+          const jobtype = JSON.parse(res.resultData);
+          this.upchargeList = jobtype.upcharge;
+          var serviceId = 0
+          if (this.upchargeList?.length > 0) {
+            serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
+
+            if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
+              this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
+            }
+
+            this.washForm.patchValue({
+              upcharges: serviceId,
+              upchargeType: serviceId
+            });
+            this.upchargeService(serviceId);
+            this.selectedUpcharge = serviceId;
+
+            this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
+          }
+          else {
+            this.additionalServiceRemoved.push(this.selectedUpcharge);
+            this.washForm.patchValue({
+              upcharges: '',
+              upchargeType: ''
+            });
+
+            if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
+              this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
+            }
+
+          }
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
 }

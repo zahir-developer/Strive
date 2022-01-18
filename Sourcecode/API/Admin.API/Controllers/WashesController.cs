@@ -73,6 +73,13 @@ namespace Admin.API.Controllers
         [Route("GetWashTimeByLocationId")]
         public Result GetLocationById([FromBody] WashTimeDto washTimeDto) => _bplManager.GetWashTimeByLocationId(washTimeDto);
 
-
+        /// <summary>
+        /// Get the print format for the JobDetail
+        /// </summary>
+        /// <param name="printTicketDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetWashVehiclePrint")]
+        public Result GetWashVehiclePrint([FromBody] PrintTicketDto printTicketDto) => _bplManager.GetWashVehiclePrint(printTicketDto);
     }
 }

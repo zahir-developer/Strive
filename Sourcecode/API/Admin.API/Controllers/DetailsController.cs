@@ -84,7 +84,7 @@ namespace Admin.API.Controllers
         public Result GetAllDetails(DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
 
         /// <summary>
-        /// Method to retrieve All Details based on given JobId.
+        /// Method to retrieve Detail job based on search input.
         /// </summary>
         [HttpPost]
         [Route("GetAllDetailSearch")]
