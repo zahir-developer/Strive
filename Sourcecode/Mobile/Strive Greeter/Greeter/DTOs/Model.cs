@@ -80,6 +80,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("StoreStatus")]
         public string StoreStatus { get; set; }
+
+        [JsonProperty("PhoneNumber")]
+        public string ShopPhoneNumber { get; set; }
     }
 
     public class BarcodeResponse : BaseResponse

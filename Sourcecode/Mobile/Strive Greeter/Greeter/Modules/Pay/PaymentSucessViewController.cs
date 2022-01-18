@@ -9,6 +9,7 @@ using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Services.Api;
 using Greeter.Services.Printer;
 using MessageUI;
 using UIKit;
@@ -29,7 +30,8 @@ namespace Greeter.Storyboards
         public string AdditionalServiceName;
         public float Amount;
         public string CustomerName;
-        public string CustomerPhNumber;
+        public string PhoneNumber = "" ;
+        public string ShopPhoneNumber;
         //public bool IsFromNewService = true;
         public ServiceType ServiceType;
         public CreateServiceRequest Service;
@@ -72,6 +74,9 @@ namespace Greeter.Storyboards
 
                 //TestEmailTemplate();
             };
+
+            
+
         }
         string VehicleTicket()
         {
@@ -84,9 +89,9 @@ namespace Greeter.Storyboards
                 model = Model;
             }
 
-            var body = "^XA^A1N,20^FO50,50^FD" + DateTime.Now + "^FS^A1N,20^FO320,50^FD" + Title + "^FS";
-            body += "^A1N,30^FO50,90^FDIn:" + CheckInTime + "^FS^A0N,30,30^FO50,130^FDOut:" + CheckOutTime + "^FS^A1N,30^FO50,170^FDClient:" + CustomerName + "^FS^A1N,20^FO50,220^FDVehicle:" + model + "^FS^A1N,20^FO50,250^GB700,3,3^FS";
-            body += "^A1N,30^FO550,90^FD 7327112021 ^FS^A1N,30^FO495,170^FD(234)235 - 3453^FS^A1N,20^FO440,220^FD" + Make + "^FS^A1N,20^FO690,220^FD" + Color + "^FS^A1N,30";
+            var body = "^XA^AJN,20^FO50,50^FD" + DateTime.Now + "^FS";
+            body += "^AJN,30^FO50,90^FDIn:" + CheckInTime + "^FS^A0N,30,30^FO50,130^FDOut:" + CheckOutTime + "^FS^AJN,30^FO50,170^FDClient:" + CustomerName + "^FS^AJN,20^FO50,220^FDVehicle:" + model + "^FS^AJN,20^FO50,250^GB700,3,3^FS";
+            body += "^AJN,30^FO550,90^FD" + ShopPhoneNumber +"^FS^AJN,30^FO495,170^FD"+ PhoneNumber +"^FS^AJN,20^FO440,220^FD" + Make + "^FS^AJN,20^FO690,220^FD" + Color + "^FS^AJN,30";
             int checkboxaxis = 280;
 
             if (Service is not null)
@@ -95,12 +100,13 @@ namespace Greeter.Storyboards
                 for (int i = 0; i < Service.JobItems.Count; i++)
                 {
                     var job = Service.JobItems[i];
-                    body += "^FO50," + checkboxaxis + "^GB20,20,1^FS^A1N,30^FO80," + checkboxaxis + "^FD" + job.SeriveName + "^FS";
+                    body += "^FO50," + checkboxaxis + "^GB20,20,1^FS^AJN,30^FO80," + checkboxaxis + "^FD" + job.SeriveName + "^FS";
                     checkboxaxis += 40;
                 }
             }
-
-            body += "^A1N,30^FO80," + (checkboxaxis + 80) + "^FDTicket Number:" + TicketID.ToString() + "^FS^XZ";
+            body += "^BY3,2,100^FO80," + (checkboxaxis + 80) + "^BC^FD" + TicketID.ToString() + "^FS";
+            body += "^AJN,30^FO80," + (checkboxaxis + 220) + "^FDTicket Number:" + TicketID.ToString() + "^FS^XZ";
+            
             //Print(html);
             Debug.WriteLine(body);
             return body;
@@ -368,16 +374,16 @@ namespace Greeter.Storyboards
             {
                 model = Model;
             }
-            var body = "^XA^A1N,30^FO50,50^FDClient:" + CustomerName + "^FS^A1N,30^FO540,50^FD" + CustomerPhNumber + "^FS";
+            var body = "^XA^AJN,30^FO50,50^FDClient:" + CustomerName + "^FS^AJN,30^FO540,50^FD" + PhoneNumber + "^FS";
 
-            body += "^A1N,20^FO50,100^FDVehicle:" + model + " ^FS" +
-                 "^A1N,20^FO420,100^FD" + Make + "^FS" +
-                 "^A1N,20^FO690,100^FD" + Color + "^FS";
+            body += "^AJN,20^FO50,100^FDVehicle:" + model + " ^FS" +
+                 "^AJN,20^FO420,100^FD" + Make + "^FS" +
+                 "^AJN,20^FO690,100^FD" + Color + "^FS";
 
             var totalAmt = 0f;
             int yaxis = 300;
-            body += "^A1N,30^A0N,30,30^FO480,200^FDHand Car Washes^FS";
-            body += "^A1N,30^A0N,30,30^FO480,300^FDVehicle Upcharge^FS";
+            body += "^AJN,30^A0N,30,30^FO480,200^FDHand Car Washes^FS";
+            body += "^AJN,30^A0N,30,30^FO480,300^FDVehicle Upcharge^FS";
             if (Service is not null)
             {
                 for (int i = 0; i < Service.JobItems.Count; i++)
@@ -395,12 +401,12 @@ namespace Greeter.Storyboards
                     }
                     if (job.ServiceTypeID != 0)
                     {
-                        body += "^A1N,20^FO480,240^FD" + job.SeriveName.Replace(" ", string.Empty) + "-$" + price + "^FS";
+                        body += "^AJN,20^FO480,240^FD" + job.SeriveName.Replace(" ", string.Empty) + "-$" + price + "^FS";
                     }
                     else
                     {
                         yaxis += 40;
-                        body += "^A1N,20^FO480," + yaxis + "^FD" + job.SeriveName.Replace(" ", string.Empty) + "-$" + price + "^FS";
+                        body += "^AJN,20^FO480," + yaxis + "^FD" + job.SeriveName.Replace(" ", string.Empty) + "-$" + price + "^FS";
                     }
 
                     totalAmt += job.Price;
@@ -409,36 +415,36 @@ namespace Greeter.Storyboards
                 }
             }
 
-            body += "^A1N,30^A0N,30,30^FO480," + (yaxis + 100) + "^FDAir Fresheners^FS";
+            body += "^AJN,30^A0N,30,30^FO480," + (yaxis + 100) + "^FDAir Fresheners^FS";
 
             DateTime intime = DateTime.Parse(CheckInTime);
             DateTime Outtime = DateTime.Parse(CheckOutTime);
             int EstimatedTime = Outtime.Minute - intime.Minute;
 
 
-            body += "^A1N,20^FO50,600^FDIn:" + CheckInTime + "^FS" +
-                     "^A1N,20^FO50,640^FDOut:" + CheckOutTime + "^FS" +
-                     "^A1N,20^FO50,680^FDEst " + EstimatedTime.ToString() + "Min^FS";
+            body += "^AJN,20^FO50,600^FDIn:" + CheckInTime + "^FS" +
+                     "^AJN,20^FO50,640^FDOut:" + CheckOutTime + "^FS" +
+                     "^AJN,20^FO50,680^FDEst " + EstimatedTime.ToString() + "Min^FS";
 
-            body += @"^A1N,30
+            body += @"^AJN,30
                     ^A0N,30,30^FO300,720^FDNew Customer Info^FS
-                    ^A1N,30^FO60,900^FDName^FS
-                    ^A1N,30^FO160,920^GB600,3,3^FS
-                    ^A1N,30^FO60,940^FDPhone^FS^FO160,960^GB600,3,3^FS
-                    ^A1N,30^FO60,980^FDEMail^FS
-                    ^A1N,30^FO160,1000^GB600,3,3^FS";
+                    ^AJN,30^FO60,900^FDName^FS
+                    ^AJN,30^FO160,920^GB600,3,3^FS
+                    ^AJN,30^FO60,940^FDPhone^FS^FO160,960^GB600,3,3^FS
+                    ^AJN,30^FO60,980^FDEMail^FS
+                    ^AJN,30^FO160,1000^GB600,3,3^FS";
             if (Barcode != null)
             {
-                body += @"^A1N,20
+                body += @"^AJN,20
                     ^AD^BY5,2,100
-                    ^A1N,20^FO100,750^BC^FD" + Barcode + "^FS";
+                    ^AJN,20^FO100,750^BC^FD" + Barcode + "^FS";
             }
 
-            body += "^A1N,20^FO50,1040^FDNote^FS";
+            body += "^AJN,20^FO50,1040^FDNote^FS";
 
-            body += "^A1N,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + TicketID + "^FS";
+            body += "^AJN,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + TicketID + "^FS";
 
-            body += "^A1N,20^FO180,200^GFA,11400,11400,38," + Image + "^FS^XZ";
+            body += "^AJN,20^FO180,200^GFA,11400,11400,38," + Image + "^FS^XZ";
 
             Debug.WriteLine("Print Body: " + body);
             return body;

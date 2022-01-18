@@ -25,6 +25,7 @@ namespace Greeter
         // State Values
         bool IsWash = true;
 
+        public string shopPhoneNumber;
         //BarcodeResponse barcodeResponse;
 
         private IPCDTDevices Peripheral { get; } = IPCDTDevices.Instance;
@@ -134,7 +135,9 @@ namespace Greeter
             if (response.IsSuccess())
             {
                 washTime = response.Locations[0].WashTimeMinutes;
+                shopPhoneNumber = response.Locations[0].ShopPhoneNumber;
             }
+
 
             return washTime;
         }
@@ -308,12 +311,13 @@ namespace Greeter
                 vc.MakeID = clientDetail.MakeID;
                 vc.ModelID = clientDetail.ModelID;
                 vc.Model = clientDetail.Model;
-
+                vc.ShopPhoneNumber = shopPhoneNumber;
                 vc.ColorID = clientDetail.ColorID;
                 vc.ClientID = clientDetail.ClientID;
                 vc.VehicleID = clientDetail.VehicleID;
                 vc.CustName = clientDetail.FirstName + " " + clientDetail.LastName;
                 vc.UpchargeID = clientDetail.UpchargeID;
+                
             }
 
             if (IsWash)

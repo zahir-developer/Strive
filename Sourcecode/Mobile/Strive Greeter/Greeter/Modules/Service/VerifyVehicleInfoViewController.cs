@@ -35,6 +35,7 @@ namespace Greeter.Storyboards
         public string Color = string.Empty;
         public string Barcode;
         public string CustName;
+        public string ShopPhoneNumber;
         //public string CheckInTime;
         //public string CheckOutTime;
         public string UpchargeTypeName;
@@ -710,6 +711,7 @@ namespace Greeter.Storyboards
                             vc.CheckOutTime = req.Job.EstimatedTimeOut.GetValueOrDefault().ToString("hh:mm tt");
                             vc.ServiceType = ServiceType;
                             vc.IsMembershipService = IsMembershipService;
+                            vc.ShopPhoneNumber = ShopPhoneNumber;
                             nc.PushViewController(vc, true);
                         }, titleTxt: Common.Messages.SERVICE);
                     }

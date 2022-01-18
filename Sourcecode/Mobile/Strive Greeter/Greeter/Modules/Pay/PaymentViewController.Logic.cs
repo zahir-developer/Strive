@@ -25,6 +25,8 @@ namespace Greeter.Modules.Pay
         public string Barcode;
         public string CheckInTime;
         public string CheckOutTime;
+        public string PhoneNumber;
+        public string ShopPhoneNumber;
         public ServiceType ServiceType;
         //public bool IsFromNewService = true;
         public CreateServiceRequest Service;
@@ -165,6 +167,7 @@ namespace Greeter.Modules.Pay
                             vc.Service = Service;
                             vc.ServiceType = ServiceType;
                             vc.CardNumber = cardNo;
+                            vc.ShopPhoneNumber = ShopPhoneNumber;
                             //vc.IsMembershipService = IsMembershipService;
                             //vc.IsFromNewService = IsFromNewService;
                             nc.PushViewController(vc, true);

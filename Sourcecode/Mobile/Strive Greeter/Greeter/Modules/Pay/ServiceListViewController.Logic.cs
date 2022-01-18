@@ -16,7 +16,7 @@ namespace Greeter.Modules.Pay
     {
 		List<Checkout> Checkouts;
         List<Checkout> FilteredCheckouts = new List<Checkout>();
-
+        public string shopPhoneNumber;
         public ServiceListViewController()
         {
             
@@ -48,6 +48,9 @@ namespace Greeter.Modules.Pay
             #endif
 
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
+
+            var selectedlocation = await new GeneralApiService().GetLocationWashTime(AppSettings.LocationID);
+            shopPhoneNumber = selectedlocation.Locations[0].ShopPhoneNumber;
 
             HandleResponse(response);
 
@@ -89,6 +92,7 @@ namespace Greeter.Modules.Pay
             vc.ServiceName = checkout.Services;
             vc.CustName = checkout.CustomerFirstName + " "+ checkout.CustomerLastName;
             vc.Amount = checkout.Cost;
+            vc.ShopPhoneNumber = shopPhoneNumber;
 
             if (checkout.JobType.Equals(ServiceType.Wash.ToString(), StringComparison.OrdinalIgnoreCase))
             {

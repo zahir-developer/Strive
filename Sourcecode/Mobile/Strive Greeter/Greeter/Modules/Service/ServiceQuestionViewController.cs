@@ -39,6 +39,7 @@ namespace Greeter.Storyboards
         public long VehicleID;
         public long UpchargeID;
         public bool IsNewBarcode;
+        public string ShopPhoneNumber;
 
         //int modelId;
         string make;
@@ -946,6 +947,7 @@ namespace Greeter.Storyboards
             vc.ClientID = ClientID;
             vc.VehicleID = VehicleID;
             vc.ServiceType = ServiceType;
+            vc.ShopPhoneNumber = ShopPhoneNumber;
             vc.IsMembershipService = isMembershipService;
             NavigateToWithAnim(vc);
         }
