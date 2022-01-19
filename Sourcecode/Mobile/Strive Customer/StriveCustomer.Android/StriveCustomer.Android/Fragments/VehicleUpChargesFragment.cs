@@ -59,9 +59,9 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
+            //AppCompatActivity activity = (AppCompatActivity)Context;
             CustomerInfo.MembershipFee = 0;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
+            Activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
         }
 
         private void NextButton_Click(object sender, EventArgs e)

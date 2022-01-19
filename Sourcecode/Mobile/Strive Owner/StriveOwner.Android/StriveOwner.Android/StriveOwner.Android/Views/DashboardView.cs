@@ -41,7 +41,7 @@ namespace StriveOwner.Android.Views
             messenger_Fragment = new MessengerFragment();
             checkOut_Fragment = new CheckOutFragment(this);
             dashboardhome_Fragment = new DashboardHomeFragment();
-            inventoryMain_Fragment = new InventoryMainFragment();
+            inventoryMain_Fragment = new InventoryMainFragment(this);
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;

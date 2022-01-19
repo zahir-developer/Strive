@@ -110,6 +110,7 @@ namespace Strive.Core.ViewModels.Customer
             vehicleLists = await AdminService.GetClientVehicle(CustomerInfo.ClientID);
             MembershipDetails.clientVehicleID = vehicleLists.Status.LastOrDefault().VehicleId;
             CustomerVehiclesInformation.vehiclesList = vehicleLists;
+            CustomerVehiclesInformation.selectedVehicleInfo = CustomerVehiclesInformation.vehiclesList.Status.LastOrDefault().VehicleId;
             if (vehicleLists == null || vehicleLists.Status.Count == 0)
             {
                 _userDialog.Alert("No associated vehicles were found.");
@@ -193,7 +194,7 @@ namespace Strive.Core.ViewModels.Customer
                                 VehicleNumber.Add(val);
 
                         }
-                    }
+                    }                    
                     clientVehicles.clientVehicle.vehicleNumber = (VehicleNumber.Count() > 0) ? (VehicleNumber.Max()+1).ToString() : "1" ;
                     clientVehicles.clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
                     clientVehicles.clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
@@ -215,7 +216,7 @@ namespace Strive.Core.ViewModels.Customer
                     //vehicleImage.updatedBy = 0;
 
                     //clientVehicles.vehicleImage.Add(vehicleImage);
-
+                    MembershipDetails.vehicleNumber = clientVehicles.clientVehicle.vehicleNumber;
                     var data = await AdminService.AddCustomerVehicle(clientVehicles);
                     if (data == null)
                     {

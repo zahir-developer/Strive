@@ -117,11 +117,12 @@ namespace StriveCustomer.Android.Fragments
 
         private void Schedule_CalendarView_DateChange1(object sender, CalendarView.DateChangeEventArgs e)
         {
-            var str = e.Month + 1 + "-" + e.DayOfMonth + "-" + e.Year+ " " + DateTime.Now.ToString("HH:mm:ss");
+            var str = e.Month + 1 + "-" + e.DayOfMonth + "-" + e.Year + " " + DateTime.Now.ToString("HH:mm:ss");
             try
             {
-              
-                dt = DateTime.ParseExact(str, "MM/dd/yyyy", System.Globalization.CultureInfo.CurrentUICulture);//Convert.ToDateTime(str);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
+
+                //dt = DateTime.ParseExact(str, "MM/dd/yyyy", System.Globalization.CultureInfo.CurrentUICulture);//Convert.ToDateTime(str);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
+                dt = Convert.ToDateTime(str);
             }
             catch (Exception ex)
             {

@@ -4,8 +4,10 @@ using Android.Support.V7.Widget;
 using Android.Support.V7.Widget.Helper;
 using Android.Views;
 using Strive.Core.Models.Employee.CheckOut;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Owner;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace StriveOwner.Android.Helper
 {
@@ -21,6 +23,9 @@ namespace StriveOwner.Android.Helper
         List<MyButton> buttonList;
         public CheckOutViewModel checkOut;
         GestureDetector gestureDetector;
+        CheckoutDetails CheckoutDetail;
+        ObservableCollection<InventoryDataModel> filteredlist;
+        bool flag;
         public abstract void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
         public abstract void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
 
@@ -36,7 +41,23 @@ namespace StriveOwner.Android.Helper
 
             this.gestureDetector = new GestureDetector(context, gestureListener);
             this.recyclerView.SetOnTouchListener(onTouchListener);
-            checkOut = viewModel;
+            flag = true;
+            AttachSwipe();
+        }
+        public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth, ObservableCollection<InventoryDataModel> filteredlist) : base(0, ItemTouchHelper.Left)
+        {
+            this.recyclerView = recyclerView;
+            buttonList = new List<MyButton>();
+            buttonBuffer = new Dictionary<int, List<MyButton>>();
+            this.buttonWidth = buttonWidth;
+            this.filteredlist = filteredlist;
+
+            gestureListener = new MyGestureListener(this);
+            onTouchListener = new MyOnTouchListener(this);
+
+            this.gestureDetector = new GestureDetector(context, gestureListener);
+            this.recyclerView.SetOnTouchListener(onTouchListener);
+            flag = false;
             AttachSwipe();
         }
 
@@ -188,18 +209,30 @@ namespace StriveOwner.Android.Helper
                     List<MyButton> buffer = new List<MyButton>();
                     if (!buttonBuffer.ContainsKey(pos))
                     {
-                        if(checkOut != null)
+                        if (flag)
                         {
-                            if (checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                            if (CheckoutDetail != null)
+                            {
+                                if (CheckoutDetail.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                                {
+                                    InstantiateMyButton(viewHolder, buffer);
+                                }
+                                else
+                                {
+                                    InstantiateUpdatedMyButton(viewHolder, buffer);
+                                }
+                            }
+                            buttonBuffer.Add(pos, buffer);
+                        }
+                        else
+                        {
+                            if (filteredlist != null) 
                             {
                                 InstantiateMyButton(viewHolder, buffer);
-                            }
-                            else
-                            {
-                                InstantiateUpdatedMyButton(viewHolder, buffer);
-                            }
+
+                            }                        
                         }
-                        buttonBuffer.Add(pos, buffer);
+                        
                     }
                     else
                       {

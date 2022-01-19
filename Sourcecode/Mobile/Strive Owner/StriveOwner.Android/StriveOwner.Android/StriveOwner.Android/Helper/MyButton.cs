@@ -3,6 +3,7 @@ using Android.Graphics;
 using Android.Support.V4.Content;
 using Android.Graphics.Drawables;
 using Strive.Core.Models.Employee.CheckOut;
+using Strive.Core.Models.TimInventory;
 
 namespace StriveOwner.Android.Helper
 {
@@ -13,8 +14,11 @@ namespace StriveOwner.Android.Helper
         private string text, color;
         private RectF clickRegion;
         private MyButtonClickListener listener;
+        private DeleteButtonClickListener clickListener;
         private Context context;
         checkOutViewModel checkOut;
+        InventoryDataModel dataModel;
+        bool flag;
         
         
         public MyButton(Context context, string text,int textSize,int imageResId, string color, MyButtonClickListener listener,checkOutViewModel checkOut)
@@ -25,17 +29,41 @@ namespace StriveOwner.Android.Helper
             this.imageResId = imageResId;
             this.color = color;
             this.listener = listener;
-            this.checkOut = checkOut; 
+            this.checkOut = checkOut;
+            flag = true;
             
         }
-        public bool OnClick(float x , float y,checkOutViewModel checkOutViewModel)
+        public MyButton(Context context, string text, int textSize, int imageResId, string color, DeleteButtonClickListener listener, InventoryDataModel inventoryData)
         {
-            if(clickRegion != null && clickRegion.Contains(x, y))
+            this.context = context;
+            this.text = text;
+            this.textSize = textSize;
+            this.imageResId = imageResId;
+            this.color = color;
+            this.clickListener = listener;
+            this.dataModel = inventoryData;
+            flag = false;
+        }
+
+        public bool OnClick(float x , float y)
+        {
+            if (flag)
             {
-                checkOut = checkOutViewModel;
-                listener.OnClick(pos,checkOut);
-                return true;
+                if (clickRegion != null && clickRegion.Contains(x, y))
+                {
+                    listener.OnClick(pos, checkOut);
+                    return true;
+                }
             }
+            else 
+            {
+                if (clickRegion != null && clickRegion.Contains(x, y))
+                {
+                    clickListener.OnClick(pos, dataModel);
+                    return true;
+                }
+            }
+            
             return false;
         }
 

@@ -33,7 +33,7 @@
         android:background="@drawable/color_searchview"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        app:queryHint="Search Employees"/>
+        app:queryHint="Search"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/inventoryMain_RecyclerView"
             android:layout_marginTop="@dimen/ten"

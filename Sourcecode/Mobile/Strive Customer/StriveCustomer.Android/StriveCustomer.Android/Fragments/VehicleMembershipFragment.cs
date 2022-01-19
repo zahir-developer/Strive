@@ -17,6 +17,7 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
+using AlertDialog = Android.App.AlertDialog;
 using static Android.Views.View;
 
 namespace StriveCustomer.Android.Fragments
@@ -25,7 +26,7 @@ namespace StriveCustomer.Android.Fragments
     {
         private RadioGroup membershipGroup;
         private Dictionary<int, string> serviceList;
-        private Dictionary<int,int> checkedId;
+        private Dictionary<int, int> checkedId;
         private Button backButton;
         private Button nextButton;
         int someId = 12347770;
@@ -48,7 +49,8 @@ namespace StriveCustomer.Android.Fragments
             this.ViewModel = new VehicleMembershipViewModel();
             serviceList = new Dictionary<int, string>();
             checkedId = new Dictionary<int, int>();
-            getMembershipData();
+            DiscountAlert();
+            //getMembershipData();
             membershipGroup = rootview.FindViewById<RadioGroup>(Resource.Id.membershipOptions);
             backButton = rootview.FindViewById<Button>(Resource.Id.membershipBack);
             nextButton = rootview.FindViewById<Button>(Resource.Id.membershipNext);
@@ -56,6 +58,20 @@ namespace StriveCustomer.Android.Fragments
             backButton.Click += BackButton_Click;
             nextButton.Click += NextButton_Click;
             return rootview;
+        }
+
+        private void DiscountAlert()
+        {
+            var Builder = new AlertDialog.Builder(Context);
+            Builder.SetMessage("Membership Discount Available!");
+            Builder.SetTitle("");
+            var okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+            {
+                getMembershipData();
+            });
+            Builder.SetPositiveButton("Ok", okHandler);
+            Builder.Create();
+            Builder.Show();
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -69,16 +85,17 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoDisplayFragment).Commit();
+            Console.WriteLine("Context null");
+           // AppCompatActivity activity = (AppCompatActivity)Context;            
+            Activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoDisplayFragment).Commit();
         }
 
         private void MembershipGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
             MembershipDetails.selectedMembership = checkedId.FirstOrDefault(x => x.Value == e.CheckedId).Key;
             int index = membershipGroup.IndexOfChild(membershipGroup.FindViewById(membershipGroup.CheckedRadioButtonId));
-            if(index!=-1)
-            UpdatePrice(index);
+            if (index != -1)
+                UpdatePrice(index);
         }
         public void UpdatePrice(int index)
         {
@@ -113,23 +130,22 @@ namespace StriveCustomer.Android.Fragments
                 layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
                 layoutParams.SetMargins(0, 25, 0, 25);
                 radioButton.LayoutParameters = layoutParams;
-                radioButton.Text = data.MembershipName; 
+                radioButton.Text = data.MembershipName;
                 radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
                 radioButton.Id = someId;
-                checkedId.Add(data.MembershipId,someId);
-                radioButton.SetTextSize(ComplexUnitType.Sp,(float)16.5);
-                radioButton.SetTypeface(null,TypefaceStyle.Bold);
+                checkedId.Add(data.MembershipId, someId);
+                radioButton.SetTextSize(ComplexUnitType.Sp, (float)16.5);
+                radioButton.SetTypeface(null, TypefaceStyle.Bold);
                 radioButton.TextAlignment = TextAlignment.ViewEnd;
-                if (CheckMembership.hasExistingMembership == true) 
-                {
-                    if (data.MembershipId == MembershipDetails.selectedMembership)
-                    {
-                        radioButton.Checked = true;
 
-                        MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[ViewModel.membershipList.Membership.IndexOf(data)];
-                    }
+                if (data.MembershipId == MembershipDetails.selectedMembership)
+                {
+                    radioButton.Checked = true;
+
+                    MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[ViewModel.membershipList.Membership.IndexOf(data)];
                 }
-                
+
+
                 someId++;
                 membershipGroup.AddView(radioButton);
             }

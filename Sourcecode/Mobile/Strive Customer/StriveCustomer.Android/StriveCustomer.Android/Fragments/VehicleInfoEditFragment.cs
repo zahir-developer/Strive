@@ -15,6 +15,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 namespace StriveCustomer.Android.Fragments
@@ -33,7 +34,7 @@ namespace StriveCustomer.Android.Fragments
         private VehicleAdapter<string> makeAdapter, modelAdapter;
         private List<string> makeList, colorList, modelList;
         private VehicleMembershipFragment membershipFragment;
-        private MyProfileInfoFragment myProfile;
+        private MyProfileInfoFragment myProfile;        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -69,7 +70,8 @@ namespace StriveCustomer.Android.Fragments
 
         private async void SaveButton_Click(object sender, EventArgs e)
         {
-            await this.ViewModel.SaveVehicle();
+            await this.ViewModel.SaveVehicle();      
+
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -83,7 +85,7 @@ namespace StriveCustomer.Android.Fragments
         private void MembershipInfo_Click(object sender, EventArgs e)
         {
             if (MembershipDetails.clientVehicleID != 0)
-            {
+            {                
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
             }
@@ -120,11 +122,14 @@ namespace StriveCustomer.Android.Fragments
 
         private void MakeSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            if (e.Position > 0){
+            if (e.Position > 0)
+            {
                 MembershipDetails.selectedMake = e.Position-1;
                 var selected = this.ViewModel.makeList.Make.ElementAt(e.Position-1);
                 MembershipDetails.vehicleMakeNumber = selected.MakeId;
-                MembershipDetails.vehicleMakeName = selected.MakeValue;
+                MembershipDetails.vehicleMfr = selected.MakeId;
+                MembershipDetails.vehicleMakeName = selected.MakeValue;                
+                MembershipDetails.clientVehicleID = 0;
                 MembershipDetails.selectedModel = 0;
                 
 

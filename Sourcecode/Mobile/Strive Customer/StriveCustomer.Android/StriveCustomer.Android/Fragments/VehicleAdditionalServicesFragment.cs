@@ -64,8 +64,8 @@ namespace StriveCustomer.Android.Fragments
         }
         private void BackButton_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upChargesFragment).Commit();
+           // AppCompatActivity activity = (AppCompatActivity)Context;
+            Activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upChargesFragment).Commit();
         }
     }
 }
