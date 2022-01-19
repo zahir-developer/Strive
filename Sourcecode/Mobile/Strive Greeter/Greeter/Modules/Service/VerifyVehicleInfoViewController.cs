@@ -349,8 +349,9 @@ namespace Greeter.Storyboards
                 jobItems.Add(MainService);
 
                 float serviceTimeMins = 0;
+                float detailTimeMins = 0;
 
-                //detailTimeMins += MainService.Time;
+                 detailTimeMins += MainService.Time;
 
                 if (Upcharge != null)
                 {
@@ -410,7 +411,7 @@ namespace Greeter.Storyboards
                         //req.Job.TimeIn = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
                         req.Job.TimeIn = DateTime.Now;
                         //req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API); ;
-                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins);
+                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + (serviceTimeMins*60) + (detailTimeMins*60));
                         createServiceResponse = await apiService.CreateService(req);
                     }
                     else // Detail

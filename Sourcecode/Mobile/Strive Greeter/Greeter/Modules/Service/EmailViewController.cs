@@ -672,11 +672,11 @@ namespace Greeter.Storyboards
                 }
             }
             
-            body += "^AJN,30^A0N,30,30^FO480," + (yaxis+100) +"^FDAir Fresheners^FS";
+            body += "^AJN,30^A0N,30,30^FO480," + (yaxis+80) +"^FDAir Fresheners^FS";
             
             DateTime intime = DateTime.Parse(CheckInTime.Substring(10));
             DateTime Outtime = DateTime.Parse(CheckOutTime);
-            int EstimatedTime = Outtime.Minute - intime.Minute;
+            TimeSpan EstimatedTime = Outtime.TimeOfDay - intime.TimeOfDay;
 
 
             body += "^AJN,20^FO50,600^FDIn:" + CheckInTime +"^FS"+
