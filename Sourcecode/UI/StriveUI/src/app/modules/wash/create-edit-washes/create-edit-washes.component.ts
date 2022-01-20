@@ -20,6 +20,8 @@ import { GetUpchargeService } from 'src/app/shared/services/common-service/get-u
 import { MakeService } from 'src/app/shared/services/common-service/make.service';
 import { ModelService } from 'src/app/shared/services/common-service/model.service';
 import { DatePipe } from '@angular/common';
+import { CommonService } from 'src/app/shared/services/data-service/common.service';
+import { PrintCustomerCopyComponent } from '../../detail/print-customer-copy/print-customer-copy.component';
 declare var $: any;
 
 @Component({
@@ -29,6 +31,8 @@ declare var $: any;
 export class CreateEditWashesComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   @ViewChild(PrintWashComponent) printWashComponent: PrintWashComponent;
+  @ViewChild(PrintCustomerCopyComponent) printCustomerComponent: PrintCustomerCopyComponent;
+  
   washForm: FormGroup;
   timeIn: any;
   timeOut: any;
@@ -100,6 +104,7 @@ export class CreateEditWashesComponent implements OnInit {
     private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService
     , private GetUpchargeService: GetUpchargeService,
     private datePipe: DatePipe,
+    private common: CommonService
   ) { }
 
   ngOnInit() {
@@ -1083,6 +1088,49 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
+  getPrintObj()
+  {
+    
+    var job =
+    {
+      Title: "Email Receipt",
+      TicketNumber: this.selectedData?.Details?.TicketNumber,
+      InTime: this.selectedData?.Details?.TimeIn,
+      TimeOut: this.selectedData?.Details?.EstimatedTimeOut,
+      Barcode: this.selectedData?.Details?.Barcode,
+      VehicleModel: this.selectedData?.Details?.VehicleModel,
+      VehicleMake: this.selectedData?.Details?.VehicleMake,
+      VehicleColor: this.selectedData?.Details?.VehicleColor,
+      Notes: this.selectedData?.Details?.Notes
+    }
+
+    var clientInfo = 
+    {
+      ClientName: this.selectedData?.Details?.ClientName,
+      PhoneNumber: this.selectedData?.Details?.PhoneNumber,
+      Email: this.selectedData?.Details?.Email,
+    }
+
+    var jobItem = [];
+
+    this.selectedData?.DetailsItem.forEach(e => {
+      jobItem.push(
+        {
+          ServiceName: e.ServiceName,
+          Price: e.Price,
+          ServiceType: e.ServiceType
+        });
+    })
+
+    var finalObj =
+    {
+      job,
+      jobItem,
+      clientInfo
+    }
+    return finalObj;
+  }
+
   print() {
     this.isPrint = true;
     this.printWashComponent.print();
@@ -1092,38 +1140,9 @@ export class CreateEditWashesComponent implements OnInit {
     
     this.printWashComponent.printInit();
 
-    var job =
-    {
-      Title: "Email Receipt",
-      TicketNumber: this.selectedData?.Details?.TicketNumber,
-      InTime: this.selectedData?.Details?.TimeIn,
-      TimeOut: this.selectedData?.Details?.TimeOut,
-      ClientName: this.selectedData?.Details?.ClientName,
-      PhoneNumber: this.selectedData?.Details?.PhoneNumber,
-      Barcode: this.selectedData?.Details?.Barcode,
-      VehicleModel: this.selectedData?.Details?.VehicleModel,
-      VehicleMake: this.selectedData?.Details?.VehicleMake,
-      VehicleColor: this.selectedData?.Details?.VehicleColor,
-      Notes: this.selectedData?.Details?.Notes
-    }
+    var finalObj = this.getPrintObj();
 
-    var jobItem = [];
-
-    this.selectedData?.DetailsItem.forEach(e => {
-      jobItem.push(
-        {
-          ServiceName: e.ServiceName,
-          Price: e.Price
-        });
-    })
-
-    var finalObj =
-    {
-      job,
-      jobItem
-    }
-    
-    this.wash.getWashVehicleCopy(finalObj).subscribe(res => {
+    this.common.getVehicleCopy(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         
         var result = JSON.parse(res.resultData);
@@ -1139,6 +1158,31 @@ export class CreateEditWashesComponent implements OnInit {
     this.isPrint = true;
     
   }
+
+
+  zebraPrintCustomerCopy() {
+    
+    this.printWashComponent.printInit();
+
+    var finalObj = this.getPrintObj();
+
+    this.common.getCustomerPrint(finalObj).subscribe(res => {
+      if (res.status === 'Success') {
+        
+        var result = JSON.parse(res.resultData);
+        this.printCustomerComponent.zebraPrint(result.CustomerPrint);
+      }
+      else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+    
+  }
+
+
   // To get upcharge
   getUpcharge(applyUpcharge = true) {
     if(applyUpcharge) {

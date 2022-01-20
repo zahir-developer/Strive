@@ -25,7 +25,5 @@ namespace Strive.BusinessLogic.Washes
 
         Result GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatusDto);
 
-        Result GetWashVehiclePrint(PrintTicketDto printTicketDto);
-        
     }
 }

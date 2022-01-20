@@ -92,8 +92,4 @@ export class DetailService {
     return this.http.post(`${UrlConfig.details.updateJobStatus}`, obj);
   }
 
-  getDetailCustomerPrint(obj) : Observable<any> {
-    return this.http.post(`${UrlConfig.details.getDetailCustomerPrint}`, obj);
-  }
-
 }

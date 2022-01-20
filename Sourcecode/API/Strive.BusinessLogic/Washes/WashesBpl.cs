@@ -166,44 +166,9 @@ namespace Strive.BusinessLogic.Washes
             return ResultWrap(new WashesRal(_tenant).GetAllLocationWashTime, locationStoreStatus, "Washes");
         }
 
-        public Result GetWashVehiclePrint(PrintTicketDto printTicketDto)
-        {
-            return ResultWrap(VehicleCopyPrint, printTicketDto, "VehiclePrint");
-        }
+       
 
-        public string VehicleCopyPrint(PrintTicketDto print)
-        {
-            string model = string.Empty;
-            if (print.Job.VehicleModel.Contains("/"))
-            {
-                model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
-            }
-            else
-            {
-                model = print.Job.VehicleModel;
-            }
-
-            var body = "^XA^AJN,20^FO50,50^FD" + DateTime.Now + "^FS";
-            body += "^AJN,30^FO50,90^FDIn:" + print.Job.InTime + "^FS^A0N,30,30^FO50,130^FDOut:" + print.Job.TimeOut + "^FS^AJN,30^FO50,170^FDClient:" + print.Job.ClientName + "^FS^AJN,20^FO50,220^FDVehicle:" + model + "^FS^AJN,20^FO50,250^GB700,3,3^FS";
-            body += "^AJN,30^FO550,90^FD" + "-" + "^FS^AJN,30^FO495,170^FD" + print.Job.PhoneNumber + "^FS^AJN,20^FO440,220^FD" + print.Job.VehicleMake + "^FS^AJN,20^FO690,220^FD" + print.Job.VehicleColor + "^FS^AJN,30";
-            int checkboxaxis = 280;
-
-            if (print.JobItem != null)
-{
-                foreach (var jobItem in print.JobItem)
-                {
-                    body += "^FO50," + checkboxaxis + "^GB20,20,1^FS^AJN,30^FO80," + checkboxaxis + "^FD" + jobItem.ServiceName + "^FS";
-                    checkboxaxis += 40;
-                }
-            }
-
-
-            body += "^BY3,2,100^FO80," + (checkboxaxis + 80) + "^BC^FD" + print.Job.TicketNumber.ToString() + "^FS";
-            body += "^AJN,30^FO80," + (checkboxaxis + 220) + "^FDTicket Number:" + print.Job.TicketNumber.ToString() + "^FS^XZ";
-
-            return body;
-
-        }
+        
 
         
     }

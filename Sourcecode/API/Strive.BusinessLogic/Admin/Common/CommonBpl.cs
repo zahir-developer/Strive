@@ -27,6 +27,7 @@ using Azure.Storage.Blobs;
 using System.Security.Authentication;
 using Strive.BusinessLogic.EmailHelper.Dto;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -325,7 +326,7 @@ namespace Strive.BusinessLogic.Common
         public UserDetailsViewModel GetUserPassword(string email, UserType userType)
         {
             var commonRal = new CommonRal(_tenant, true);
-            return  commonRal.GetUserPassword(email,userType); 
+            return  commonRal.GetUserPassword(email,userType);
         }
 
         public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)
@@ -645,6 +646,151 @@ namespace Strive.BusinessLogic.Common
             str.Close();
 
             return MailText;
+        }
+
+        public Result GetVehiclePrint(PrintTicketDto printTicketDto)
+        {
+            return ResultWrap(VehicleCopyPrint, printTicketDto, "VehiclePrint");
+        }
+
+        public string VehicleCopyPrint(PrintTicketDto print)
+        {
+            string model = string.Empty;
+            if (print.Job.VehicleModel.Contains("/"))
+            {
+                model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
+            }
+            else
+            {
+                model = print.Job.VehicleModel;
+            }
+
+            var body = "^XA^AJN,20^FO50,50^FD" + DateTime.Now.ToString("MM/dd/yyyy hh:mm tt") + "^FS";
+            body += "^AJN,30^FO50,90^FDIn: " + Convert.ToDateTime(print.Job.InTime).ToString("MM/dd/yyyy hh:mm tt") + "^FS^A0N,30,30^FO50,130^FDOut: " + Convert.ToDateTime(print.Job.TimeOut).ToString("hh:mm tt") + "^FS^AJN,30^FO50,170^FDClient: " + print.ClientInfo.ClientName + "^FS^AJN,20^FO50,220^FDVehicle: " + model + "^FS^AJN,20^FO50,250^GB700,3,3^FS";
+            body += "^AJN,30^FO550,90^FD" + "-" + "^FS^AJN,30^FO495,170^FD" + print.ClientInfo.PhoneNumber + "^FS^AJN,20^FO440,220^FD" + print.Job.VehicleMake + "^FS^AJN,20^FO690,220^FD" + print.Job.VehicleColor + "^FS^AJN,30";
+            int checkboxaxis = 280;
+
+            if (print.JobItem != null)
+            {
+                foreach (var jobItem in print.JobItem)
+                {
+                    body += "^FO50," + checkboxaxis + "^GB20,20,1^FS^AJN,30^FO80," + checkboxaxis + "^FD" + jobItem.ServiceName.Trim() + "^FS";
+                    checkboxaxis += 40;
+                }
+            }
+
+
+            body += "^BY3,2,100^FO80," + (checkboxaxis + 80) + "^BC^FD" + print.Job.TicketNumber.ToString() + "^FS";
+            body += "^AJN,30^FO80," + (checkboxaxis + 220) + "^FDTicket Number: " + print.Job.TicketNumber.ToString() + "^FS^XZ";
+
+            return body;
+
+        }
+
+        public Result GetCustomerPrint(PrintTicketDto printTicketDto)
+        {
+            return ResultWrap(CustomerCopyPrint, printTicketDto, "CustomerPrint");
+        }
+
+        public string CustomerCopyPrint(PrintTicketDto print)
+        {
+            string model = string.Empty;
+            if (print.Job.VehicleModel.Contains("/"))
+            {
+                model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
+            }
+            else
+            {
+                model = print.Job.VehicleModel;
+            }
+
+            var body = "^XA^AJN,30^FO50,50^FD" + "Client: " + print.ClientInfo.ClientName + "^FS^AJN,30^FO540,50^FD" + print.ClientInfo.PhoneNumber + "^FS";
+            body += "^AJN,20^FO50,100^FD" + "Vehicle: " + model + " ^FS" +
+            "^AJN,20^FO420,100^FD" + print.Job.VehicleMake + "^FS" +
+            "^AJN,20^FO690,100^FD" + print.Job.VehicleColor + "^FS";
+
+            decimal totalAmt = 0;
+            int yaxis = 300;
+            body += "^AJN,30^A0N,30,30^FO480,200^FD" + "Hand Car Washes" + "^FS";
+
+            body += "^AJN,30^A0N,30,30^FO480,300^FD" + "Vehicle Upcharge" + "^FS";
+
+            if (print.JobItem != null)
+            {
+                var package = print.JobItem.Where(s => s.ServiceType == "Wash Package" || s.ServiceType == "Detail Package").FirstOrDefault();
+
+                string price = string.Empty;
+                if (package != null)
+                {
+                    price = package.Price != 0 ? package.Price.ToString("#.00") : "0.00";
+                    body += "^AJN,20^FO480,240^FD" + package.ServiceName.Trim() + " - $" + price + "^FS";
+
+                }
+
+                var upcharge = print.JobItem.Where(s => s.ServiceType.Contains("Upcharge")).FirstOrDefault();
+
+                if (upcharge != null)
+                {
+                    yaxis += 40;
+                    price = upcharge.Price != 0 ? upcharge.Price.ToString("#.00") : "0.00";
+                    body += "^AJN,20^FO480," + yaxis + "^FD" + upcharge.ServiceName.Trim() + " - $" + price + "^FS";
+                }
+                else
+                {
+                    yaxis += 40;
+                    body += "^AJN,20^FO480," + yaxis + "^FD" + "-" + "^FS";
+                }
+
+
+                var airFreshner = print.JobItem.Where(s => s.ServiceType.Contains("Air Fresheners")).FirstOrDefault();
+                if (airFreshner != null)
+                {
+                    yaxis += 40 + 60;
+                    price = airFreshner.Price != 0 ? airFreshner.Price.ToString("#.00") : "0.00";
+                    body += "^AJN,20^FO480," + yaxis + "^FD" + airFreshner.ServiceName.Trim() + " - $" + price + "^FS";
+                }
+                else
+                {
+                    yaxis += 40 + 60;
+                    body += "^AJN,20^FO480," + yaxis + "^FD" + "-" + "^FS";
+                }
+
+            }
+
+            totalAmt += print.JobItem.Sum(s => s.Price);
+
+            body += "^AJN,30^A0N,30,30^FO480," + (yaxis - 40) + "^FD" + "Air Fresheners" + "^FS";
+
+            DateTime intime = DateTime.Parse(print.Job.InTime);
+            DateTime Outtime = DateTime.Parse(print.Job.TimeOut);
+            var EstimatedTime = (Outtime - intime);
+
+            body += "^AJN,20^FO50,600^FD" + "In: " + Convert.ToDateTime(print.Job.InTime).ToString("MM/dd/yyyy hh:mm tt") + "^FS" +
+            "^AJN,20^FO50,640^FD" + "Out: " + Convert.ToDateTime(print.Job.TimeOut).ToString("hh:mm tt") + "^FS" +
+            "^AJN,20^FO50,680^FD" + "Est: " + EstimatedTime.Hours + ":" + EstimatedTime.Minutes + "(hh:mm)^FS";
+
+            body += @"^AJN,30
+                ^A0N,30,30^FO300,720^FD" + "New Customer Info" + "^FS" +
+                "^AJN,30^FO60,900^FD" + "Name" + "^FS" +
+                "^AJN,30^FO160,920^GB600,3,3^FS" +
+                "^AJN,30^FO60,940^FD" + "Phone" + "^FS^FO160,960^GB600,3,3^FS" +
+                "^AJN,30^FO60,980^FD" + "Email" + "^FS" +
+                "^AJN,30^FO160,1000^GB600,3,3^FS";
+
+            if (print.Job.Barcode != null)
+            {
+                body += @"^AJN,20
+                        ^AD^BY5,2,100
+                        ^AJN,20^FO100,750^BC^FD" + print.Job.Barcode + "^FS";
+            }
+
+            body += "^AJN,20^FO50,1040^FDNote^FS";
+
+            body += "^AJN,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + print.Job.TicketNumber + "^FS";
+
+            body += "^AJN,20^FO180,200^GFA,11400,11400,38," + ZebraPrint.MammothLogo + "^FS^XZ";
+
+            return body;
         }
 
     }

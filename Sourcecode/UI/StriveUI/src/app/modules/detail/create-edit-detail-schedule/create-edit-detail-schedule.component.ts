@@ -21,6 +21,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { GetUpchargeService } from 'src/app/shared/services/common-service/get-upcharge.service';
 import { MakeService } from 'src/app/shared/services/common-service/make.service';
 import { ModelService } from 'src/app/shared/services/common-service/model.service';
+import { CommonService } from 'src/app/shared/services/data-service/common.service';
 declare var $: any;
 
 @Component({
@@ -122,6 +123,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
+    private common: CommonService,
     private message: MessageServiceToastr,
     private toastr: ToastrService,
     private detailService: DetailService,
@@ -1494,24 +1496,27 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.printWashComponent.print();
   }
 
-  
-  zebraPrint() {
+  getPrintObj()
+  {
     
-    this.printWashComponent.printInit();
-
     var job =
     {
       Title: "Email Receipt",
       TicketNumber: this.selectedData?.Details?.TicketNumber,
       InTime: this.selectedData?.Details?.TimeIn,
       TimeOut: this.selectedData?.Details?.EstimatedTimeOut,
-      ClientName: this.selectedData?.Details?.ClientName,
-      PhoneNumber: this.selectedData?.Details?.PhoneNumber,
       Barcode: this.selectedData?.Details?.Barcode,
       VehicleModel: this.selectedData?.Details?.VehicleModel,
       VehicleMake: this.selectedData?.Details?.VehicleMake,
       VehicleColor: this.selectedData?.Details?.VehicleColor,
       Notes: this.selectedData?.Details?.Notes
+    }
+
+    var clientInfo = 
+    {
+      ClientName: this.selectedData?.Details?.ClientName,
+      PhoneNumber: this.selectedData?.Details?.PhoneNumber,
+      Email: this.selectedData?.Details?.Email,
     }
 
     var jobItem = [];
@@ -1520,17 +1525,28 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobItem.push(
         {
           ServiceName: e.ServiceName,
-          Price: e.Price
+          Price: e.Price,
+          ServiceType: e.ServiceType
         });
     })
 
     var finalObj =
     {
       job,
-      jobItem
+      jobItem,
+      clientInfo
     }
+    return finalObj;
+  }
+
+  
+  zebraPrint() {
     
-    this.wash.getWashVehicleCopy(finalObj).subscribe(res => {
+    this.printWashComponent.printInit();
+
+    var finalObj = this.getPrintObj();
+
+    this.common.getVehicleCopy(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         
         var result = JSON.parse(res.resultData);
@@ -1558,38 +1574,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     
     this.printWashComponent.printInit();
 
-    var job =
-    {
-      Title: "Email Receipt",
-      TicketNumber: this.selectedData?.Details?.TicketNumber,
-      InTime: this.selectedData?.Details?.TimeIn,
-      TimeOut: this.selectedData?.Details?.EstimatedTimeOut,
-      ClientName: this.selectedData?.Details?.ClientName,
-      PhoneNumber: this.selectedData?.Details?.PhoneNumber,
-      Barcode: this.selectedData?.Details?.Barcode,
-      VehicleModel: this.selectedData?.Details?.VehicleModel,
-      VehicleMake: this.selectedData?.Details?.VehicleMake,
-      VehicleColor: this.selectedData?.Details?.VehicleColor,
-      Notes: this.selectedData?.Details?.Notes
-    }
+    var finalObj = this.getPrintObj();
 
-    var jobItem = [];
-
-    this.selectedData?.DetailsItem.forEach(e => {
-      jobItem.push(
-        {
-          ServiceName: e.ServiceName,
-          Price: e.Price
-        });
-    })
-
-    var finalObj =
-    {
-      job,
-      jobItem
-    }
-    
-    this.detailService.getDetailCustomerPrint(finalObj).subscribe(res => {
+    this.common.getCustomerPrint(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         
         var result = JSON.parse(res.resultData);

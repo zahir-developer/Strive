@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Strive.BusinessEntities.DTO.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,7 @@ namespace Strive.BusinessEntities.DTO
         public PrintJobDto Job { get; set; }
 
         public List<PrintJobItemDto> JobItem { get; set; }
+
+        public ClientNameDto ClientInfo { get; set; }
     }
 }

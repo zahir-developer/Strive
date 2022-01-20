@@ -26,6 +26,5 @@ namespace Strive.BusinessLogic.Details
         Result DeleteDetails(int id);
         Result GetDetailScheduleStatus(DetailScheduleDto scheduleDto);
         Result UpdateJobStatus(JobStatusDto jobStatus);
-        Result GetDetailCustomerPrint(PrintTicketDto printTicketDto);
     }
 }
