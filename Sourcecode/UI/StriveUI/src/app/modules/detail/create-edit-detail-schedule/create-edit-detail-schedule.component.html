@@ -269,12 +269,11 @@
                                 [disabled]="(!isEdit || isCompleted || isView)" (click)="completed()">Complete</button>
                         </span>
                     </div>
-
                 </div>
             </div>
             <div class="m-t-12 row">
                 <div class="col-sm-8">
-                    <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="!isEdit" (click)="printCustomerCopy()">Customer
+                    <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="!isEdit" (click)="zebraPrintCustomerCopy()">Customer
                         Copy</button>
                     <button type="button" class="btn theme-primary-button-color m-r-5" (click)="zebraPrint()" [disabled]="!isEdit">Vehicle Copy</button>
                     <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes" (click)="pastNotes()">View Past Client Notes</button>

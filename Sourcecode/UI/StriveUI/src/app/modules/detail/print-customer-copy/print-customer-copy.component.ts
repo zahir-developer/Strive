@@ -6,10 +6,16 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
+declare function setup_web_print(): any;
+
+declare function sendData(data): any;
+
 @Component({
   selector: 'app-print-customer-copy',
   templateUrl: './print-customer-copy.component.html'
 })
+
+
 export class PrintCustomerCopyComponent implements OnInit {
   @Input() selectedData?: any;
   serviceEnum: any;
@@ -73,6 +79,20 @@ export class PrintCustomerCopyComponent implements OnInit {
     });
   }
 
+  zebraPrint(data) {
+    var content = "^XA^A1N,20^FO50,50^FD1/17/2022 9:27:37 PM^FS^A1N,20^FO320,50^FDEmail Receipt^FS^A1N,30^FO50,90^FDIn:17/01/2022, 09:27 PM^FS^A0N,30,30^FO50,130^FDOut:09:27 PM^FS^A1N,30^FO50,170^FDClient:Drive Up^FS^A1N,20^FO50,220^FDVehicle:Ambassador^FS^A1N,20^FO50,250^GB700,3,3^FS^A1N,30^FO550,90^FD 7327112021 ^FS^A1N,30^FO495,170^FD(234)235 - 3453^FS^A1N,20^FO440,220^FDAMC^FS^A1N,20^FO690,220^FDRed^FS^A1N,30^FO50,280^GB20,20,1^FS^A1N,30^FO80,280^FDMega Mammoth^FS^A1N,30^FO80,400^FDTicket Number:593201^FS^XZ";
+    if (data !== "") {
+      content = data;
+    }
+    sendData(content);
+  }
+
+  printInit()
+  {
+    setup_web_print();
+  }
+
+
   print(): void {
     const content = document.getElementById('print-section').innerHTML;
     const printContent = '<!DOCTYPE html><html><head><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>'
@@ -89,5 +109,4 @@ export class PrintCustomerCopyComponent implements OnInit {
       popupWin.close();
     }, 2000);
   }
-
 }

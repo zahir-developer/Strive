@@ -110,5 +110,15 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateJobStatus")]
         public Result UpdateJobStatus([FromBody]JobStatusDto jobStatus) => _bplManager.UpdateJobStatus(jobStatus);
+
+        /// <summary>
+        /// Get the print format for the JobDetail
+        /// </summary>
+        /// <param name="printTicketDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetDetailCustomerPrint")]
+        public Result GetDetailCustomerPrint([FromBody] PrintTicketDto printTicketDto) => _bplManager.GetDetailCustomerPrint(printTicketDto);
+
     }
 }

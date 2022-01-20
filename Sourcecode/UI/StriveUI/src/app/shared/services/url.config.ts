@@ -103,7 +103,8 @@ export const UrlConfig = {
     getAllDetailSearch: `Admin/Details/GetAllDetailSearch`,
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     getDetailScheduleStatus: `Admin/Details/GetDetailScheduleStatus`,
-    updateJobStatus: `Admin/Details/UpdateJobStatus`
+    updateJobStatus: `Admin/Details/UpdateJobStatus`,
+    getDetailCustomerPrint: `Admin/Details/GetDetailCustomerPrint`
   },
 
 
