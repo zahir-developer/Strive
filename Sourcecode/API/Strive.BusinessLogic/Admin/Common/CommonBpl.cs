@@ -655,14 +655,18 @@ namespace Strive.BusinessLogic.Common
 
         public string VehicleCopyPrint(PrintTicketDto print)
         {
-            string model = string.Empty;
-            if (print.Job.VehicleModel.Contains("/"))
+            string model = "Unk";
+
+            if (print.Job.VehicleModel != null)
             {
-                model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
-            }
-            else
-            {
-                model = print.Job.VehicleModel;
+                if (print.Job.VehicleModel.Contains("/"))
+                {
+                    model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
+                }
+                else
+                {
+                    model = print.Job.VehicleModel;
+                }
             }
 
             var body = "^XA^AJN,20^FO50,50^FD" + DateTime.Now.ToString("MM/dd/yyyy hh:mm tt") + "^FS";
@@ -679,8 +683,7 @@ namespace Strive.BusinessLogic.Common
                 }
             }
 
-
-            body += "^BY3,2,100^FO80," + (checkboxaxis + 80) + "^BC^FD" + print.Job.TicketNumber.ToString() + "^FS";
+            body += "^BY3,2,100^FO80," + (checkboxaxis + 80) + "^FWN^BC^FD" + print.Job.TicketNumber.ToString() + "^FS";
             body += "^AJN,30^FO80," + (checkboxaxis + 220) + "^FDTicket Number: " + print.Job.TicketNumber.ToString() + "^FS^XZ";
 
             return body;
@@ -694,14 +697,17 @@ namespace Strive.BusinessLogic.Common
 
         public string CustomerCopyPrint(PrintTicketDto print)
         {
-            string model = string.Empty;
-            if (print.Job.VehicleModel.Contains("/"))
+            string model = "Unk";
+            if (print.Job.VehicleModel != null)
             {
-                model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
-            }
-            else
-            {
-                model = print.Job.VehicleModel;
+                if (print.Job.VehicleModel.Contains("/"))
+                {
+                    model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
+                }
+                else
+                {
+                    model = print.Job.VehicleModel;
+                }
             }
 
             var body = "^XA^AJN,30^FO50,50^FD" + "Client: " + print.ClientInfo.ClientName + "^FS^AJN,30^FO540,50^FD" + print.ClientInfo.PhoneNumber + "^FS";
@@ -761,16 +767,18 @@ namespace Strive.BusinessLogic.Common
 
             body += "^AJN,30^A0N,30,30^FO480," + (yaxis - 40) + "^FD" + "Air Fresheners" + "^FS";
 
-            DateTime intime = DateTime.Parse(print.Job.InTime);
-            DateTime Outtime = DateTime.Parse(print.Job.TimeOut);
+            TimeZoneInfo tst = TimeZoneInfo.Local;
+
+            DateTime intime = TimeZoneInfo.ConvertTime(DateTime.Parse(print.Job.InTime), TimeZoneInfo.Local, tst);
+            DateTime Outtime = TimeZoneInfo.ConvertTime(DateTime.Parse(print.Job.TimeOut), TimeZoneInfo.Local, tst);
             var EstimatedTime = (Outtime - intime);
 
-            body += "^AJN,20^FO50,600^FD" + "In: " + Convert.ToDateTime(print.Job.InTime).ToString("MM/dd/yyyy hh:mm tt") + "^FS" +
-            "^AJN,20^FO50,640^FD" + "Out: " + Convert.ToDateTime(print.Job.TimeOut).ToString("hh:mm tt") + "^FS" +
-            "^AJN,20^FO50,680^FD" + "Est: " + EstimatedTime.Hours + ":" + EstimatedTime.Minutes + "(hh:mm)^FS";
+            body += "^AJN,20^FO50,600^FD" + "In: " + intime.ToString("MM/dd/yyyy hh:mm tt") + "^FS" +
+            "^AJN,20^FO50,640^FD" + "Est. Out: " + Outtime.ToString("hh:mm tt") + "^FS" +
+            "^AJN,20^FO50,680^FD" + "Est. Time: " + EstimatedTime.TotalMinutes + "Min^FS";
 
             body += @"^AJN,30
-                ^A0N,30,30^FO300,720^FD" + "New Customer Info" + "^FS" +
+                ^A0N,30,30^FO300,720^FD" + "New Vehicle Info" + "^FS" +
                 "^AJN,30^FO60,900^FD" + "Name" + "^FS" +
                 "^AJN,30^FO160,920^GB600,3,3^FS" +
                 "^AJN,30^FO60,940^FD" + "Phone" + "^FS^FO160,960^GB600,3,3^FS" +
