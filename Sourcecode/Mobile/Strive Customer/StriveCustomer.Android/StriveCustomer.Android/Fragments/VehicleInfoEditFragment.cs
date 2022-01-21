@@ -47,7 +47,7 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.VehicleInfoEditFragment, null);
             this.ViewModel = new VehicleInfoEditViewModel();
-            membershipFragment = new VehicleMembershipFragment();
+            membershipFragment = new VehicleMembershipFragment(this.Activity);
             makeList = new List<string>();
             colorList = new List<string>();
             modelList = new List<string>();

@@ -32,6 +32,11 @@ namespace StriveCustomer.Android.Fragments
         int someId = 12348880;
         private string selectedRadioBtn ="";
         RadioButton upChargeRadio;
+        Context context;
+        public VehicleUpChargesFragment(Context cxt)
+        {
+            this.context = cxt;
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,8 +49,8 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = inflater.Inflate(Resource.Layout.VehicleUpChargesFragment,null);
             this.ViewModel = new VehicleUpchargeViewModel();
-            additionalServicesFragment = new VehicleAdditionalServicesFragment();
-            membershipFragment = new VehicleMembershipFragment();
+            additionalServicesFragment = new VehicleAdditionalServicesFragment(this.Activity);
+            membershipFragment = new VehicleMembershipFragment(this.Activity);
             upchargeRadio = new Dictionary<int, int>();
             upchargeOptions = rootview.FindViewById<RadioGroup>(Resource.Id.upchargesOptions);
             nextButton = rootview.FindViewById<Button>(Resource.Id.upchargeNext);
@@ -59,16 +64,17 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            //AppCompatActivity activity = (AppCompatActivity)Context;
+
+            AppCompatActivity activity = (AppCompatActivity)context;
             CustomerInfo.MembershipFee = 0;
-            Activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
         }
 
         private void NextButton_Click(object sender, EventArgs e)
         {
             if (ViewModel.VehicleUpchargeCheck())
             {
-                AppCompatActivity activity = (AppCompatActivity)Context;
+                AppCompatActivity activity = (AppCompatActivity)context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
             }
         }
@@ -101,7 +107,7 @@ namespace StriveCustomer.Android.Fragments
                     if(!string.IsNullOrEmpty(result.Upcharges))
                     {
 
-                        upChargeRadio = new RadioButton(Context);
+                        upChargeRadio = new RadioButton(context);
                         layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
                         layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
                         layoutParams.SetMargins(0, 20, 0, 20);

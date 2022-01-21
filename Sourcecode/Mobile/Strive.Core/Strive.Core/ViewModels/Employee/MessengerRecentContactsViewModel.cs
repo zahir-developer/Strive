@@ -2,6 +2,7 @@
 using Strive.Core.Models.Employee;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Resources;
+using Strive.Core.Services.HubServices;
 using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Strive.Core.ViewModels.Employee
 
 
         #region Commands
-
+       
         public async Task GetRecentContactsList()
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);

@@ -13,7 +13,7 @@ namespace Strive.Core.ViewModels.Employee
     public class DashboardViewModel : BaseViewModel
     {
         private MvxSubscriptionToken _messageToken;
-
+        public bool isAndroid = false;
         public DashboardViewModel()
         {
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
@@ -42,7 +42,15 @@ namespace Strive.Core.ViewModels.Employee
                 ChatHubMessagingService.StopConnection();
                 await SetChatCommunicationDetails();
                 EmployeeTempData.ResetAll();
-                await _navigationService.Navigate<LoginViewModel>();            }
+                if (!isAndroid)
+                {
+                    await _navigationService.Navigate<LoginViewModel>();
+                }
+                else
+                {
+                   await _navigationService.Close(this);
+                }
+             }
         }
         public async Task SetChatCommunicationDetails()
         {

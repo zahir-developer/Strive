@@ -45,7 +45,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.VehicleInfoDisplay, null);
             profileFragment = new MyProfileInfoFragment();
             membershipDetailFrag = new VehicleMembershipDetailsFragment();
-            vehicleMembershipFrag = new VehicleMembershipFragment();
+            vehicleMembershipFrag = new VehicleMembershipFragment(this.Activity);
             editMembershipButton = rootview.FindViewById<ImageButton>(Resource.Id.vehicleEdits);
             vehicleBarCode = rootview.FindViewById<TextView>(Resource.Id.vehicleBarcode);
             vehicleMake = rootview.FindViewById<TextView>(Resource.Id.vehicleMake);

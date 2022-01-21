@@ -48,7 +48,7 @@ namespace StriveCustomer.Android.Fragments
             termsFragment = new TermsAndConditionsFragment();
             paymentScreenFragment = new PaymentScreenFragment();
             myProfileInfoFragment = new MyProfileInfoFragment();
-            membershipFragment = new VehicleMembershipFragment();
+            membershipFragment = new VehicleMembershipFragment(this.Activity);
             this.ViewModel = new MembershipSignatureViewModel();
             nextButton = rootview.FindViewById<Button>(Resource.Id.signatureNext);
             backButton = rootview.FindViewById<Button>(Resource.Id.signatureBack);

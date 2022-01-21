@@ -46,7 +46,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             documents_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.documents_RecyclerView);
             addDocument_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.addDocuments_ImageButton);
             addDocument_ImageButton.Click += AddDocument_ImageButton_Click;
-            GetDocumentDetails();
+            GetDocumentDetails(true);
             return rootView;
         }       
 
@@ -57,13 +57,13 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             acitivity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, addDocuments_Fragment).Commit();
         }
 
-        public async void GetDocumentDetails()
+        public async void GetDocumentDetails(bool isInitialCall)
         {
             if (this.ViewModel == null) 
             {
                 ViewModel = new DocumentsViewModel();
             }
-            ViewModel.isAndroid = true;
+            ViewModel.isAndroidFlag = isInitialCall;
             await this.ViewModel.GetDocumentInfo();
             if (this.ViewModel.DocumentDetails != null && this.ViewModel.DocumentDetails.Employee.EmployeeDocument != null)
             {

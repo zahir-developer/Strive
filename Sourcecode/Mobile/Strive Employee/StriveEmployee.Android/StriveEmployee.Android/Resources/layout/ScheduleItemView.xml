@@ -6,14 +6,17 @@
     <TextView
         android:id="@+id/locationNameSchedule"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:textSize="15sp"
         android:fontFamily="@font/opensans_bold"/>
     <TextView
         android:id="@+id/locationstartandend"
-        android:layout_marginTop="20dp"
         android:textSize="15sp"
         android:fontFamily="@font/opensans_regular"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginTop="@dimen/seven"/>
 </LinearLayout>

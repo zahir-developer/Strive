@@ -11,7 +11,6 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class VehicleMembershipViewModel : BaseViewModel
     {
-        bool isAndroid = false;
         public VehicleMembershipViewModel()
         {
             
@@ -74,10 +73,9 @@ namespace Strive.Core.ViewModels.Customer
             if (result.Status == "true")
             {
                 isDiscoutAvailable = true;
-                if (isAndroid) 
-                { 
-                    _userDialog.Alert("Membership Discount Available !"); 
-                }
+
+               _userDialog.Alert("Membership Discount Available !"); 
+
                
                 return isDiscoutAvailable;
             }

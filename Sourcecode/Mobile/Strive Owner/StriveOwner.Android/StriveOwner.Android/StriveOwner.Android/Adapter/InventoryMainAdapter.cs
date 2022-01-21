@@ -28,23 +28,19 @@ namespace StriveOwner.Android.Adapter
         public InventoryMainAdapterViewHolder inventoryViewHolder;
         private Dialog popupRequest;
         private Dialog popupMainInvetory;
-        private InventoryViewModel invVM = new InventoryViewModel();
+        private InventoryViewModel invVM;//= new InventoryViewModel();
         private EditText quantity;
         private int index;
 
-        public InventoryMainAdapter(Context context, ObservableCollection<InventoryDataModel> inventorylist)
+        public InventoryMainAdapter(Context context, ObservableCollection<InventoryDataModel> inventorylist, InventoryViewModel viewModel)
         {
             this.context = context;
             this.inventorylist = inventorylist;
-            GetData();
+            this.invVM = viewModel;
+            //GetData();
 
         }
-        public async void GetData()
-        {
-            await invVM.GetProductsCommand();
-            await invVM.GetVendorsCommand();
-            await invVM.InventorySearchCommand(" ");
-        }
+       
 
         public override long GetItemId(int position)
         {

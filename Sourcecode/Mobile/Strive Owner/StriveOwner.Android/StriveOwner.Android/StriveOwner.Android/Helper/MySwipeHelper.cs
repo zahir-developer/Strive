@@ -23,35 +23,32 @@ namespace StriveOwner.Android.Helper
         List<MyButton> buttonList;
         public CheckOutViewModel checkOut;
         GestureDetector gestureDetector;
-        CheckoutDetails CheckoutDetail;
-        ObservableCollection<InventoryDataModel> filteredlist;
+        InventoryViewModel viewModel;
         bool flag;
         public abstract void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
         public abstract void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
 
-        public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth ,CheckOutViewModel viewModel) : base(0, ItemTouchHelper.Left)
+        public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth, CheckOutViewModel viewModel) : base(0, ItemTouchHelper.Left)
         {
             this.recyclerView = recyclerView;
-            buttonList = new List<MyButton>();
-            buttonBuffer = new Dictionary<int, List<MyButton>>();
+            this.buttonList = new List<MyButton>();
+            this.buttonBuffer = new Dictionary<int, List<MyButton>>();
             this.buttonWidth = buttonWidth;
-
             gestureListener = new MyGestureListener(this);
             onTouchListener = new MyOnTouchListener(this);
-
+            this.checkOut = viewModel;
             this.gestureDetector = new GestureDetector(context, gestureListener);
             this.recyclerView.SetOnTouchListener(onTouchListener);
             flag = true;
             AttachSwipe();
         }
-        public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth, ObservableCollection<InventoryDataModel> filteredlist) : base(0, ItemTouchHelper.Left)
+        public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth, InventoryViewModel viewModel) : base(0, ItemTouchHelper.Left)
         {
             this.recyclerView = recyclerView;
             buttonList = new List<MyButton>();
             buttonBuffer = new Dictionary<int, List<MyButton>>();
             this.buttonWidth = buttonWidth;
-            this.filteredlist = filteredlist;
-
+            this.viewModel = viewModel;
             gestureListener = new MyGestureListener(this);
             onTouchListener = new MyOnTouchListener(this);
 
@@ -60,7 +57,6 @@ namespace StriveOwner.Android.Helper
             flag = false;
             AttachSwipe();
         }
-
         private void AttachSwipe()
         {
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(this);
@@ -117,12 +113,25 @@ namespace StriveOwner.Android.Helper
                         mySwipeHelper.gestureDetector.OnTouchEvent(e);
                         foreach (MyButton button in mySwipeHelper.buttonList)
                         {
-                            if (button.OnClick(e.GetX(), e.GetY(), mySwipeHelper.checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[mySwipeHelper.swipePosition]))
+                            if (mySwipeHelper.flag)
                             {
-                                mySwipeHelper.removeQueu.Enqueue(mySwipeHelper.swipePosition);
-                                mySwipeHelper.swipePosition = -1;
-                                mySwipeHelper.RecoverSwipedItem();
-                                break;
+                                if (button.OnClick(e.GetX(), e.GetY(), mySwipeHelper.checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[mySwipeHelper.swipePosition]))
+                                {
+                                    mySwipeHelper.removeQueu.Enqueue(mySwipeHelper.swipePosition);
+                                    mySwipeHelper.swipePosition = -1;
+                                    mySwipeHelper.RecoverSwipedItem();
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                if (button.OnClick(e.GetX(), e.GetY(), mySwipeHelper.viewModel.FilteredList[mySwipeHelper.swipePosition]))
+                                {
+                                    mySwipeHelper.removeQueu.Enqueue(mySwipeHelper.swipePosition);
+                                    mySwipeHelper.swipePosition = -1;
+                                    mySwipeHelper.RecoverSwipedItem();
+                                    break;
+                                }
                             }
                                 
                         }
@@ -210,10 +219,11 @@ namespace StriveOwner.Android.Helper
                     if (!buttonBuffer.ContainsKey(pos))
                     {
                         if (flag)
-                        {
-                            if (CheckoutDetail != null)
+                        {                 
+                           if (checkOut != null)
                             {
-                                if (CheckoutDetail.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+                                if (checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
+
                                 {
                                     InstantiateMyButton(viewHolder, buffer);
                                 }
@@ -226,24 +236,29 @@ namespace StriveOwner.Android.Helper
                         }
                         else
                         {
-                            if (filteredlist != null) 
+                         if (viewModel.FilteredList != null)
                             {
                                 InstantiateMyButton(viewHolder, buffer);
-
-                            }                        
+                            }
+                            buttonBuffer.Add(pos, buffer);
                         }
-                        
                     }
                     else
                       {
-
                         buffer = buttonBuffer[pos];
-                    }
+                      }
                     translationX = dX * buffer.Count * buttonWidth / itemView.Width;
                     DrawButton(c, itemView, buffer, pos, translationX);
                 }
             }
-            base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 1.45), dY, actionState, isCurrentlyActive);
+            if (flag)
+            {
+                base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 1.45), dY, actionState, isCurrentlyActive);
+            }
+            else
+            {
+                base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 5), dY, actionState, isCurrentlyActive);
+            }
         }
 
         private void DrawButton(Canvas c, View itemView, List<MyButton> buffer, int pos, float translationX)

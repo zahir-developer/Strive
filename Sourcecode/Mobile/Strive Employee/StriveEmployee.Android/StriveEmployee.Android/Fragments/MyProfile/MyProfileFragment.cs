@@ -82,13 +82,13 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             }
             if (position == 1)
             {
-                collisions_Fragment.GetCollisionInfo();
-                collisions_Fragment.NoData();
+                 collisions_Fragment.GetCollisionInfo(false);
+                 //collisions_Fragment.NoData();
             }
             if (position == 2) 
             {
-                document_Fragment.GetDocumentDetails();
-                document_Fragment.NoData();
+                document_Fragment.GetDocumentDetails(false);
+                
             }
         }        
     }

@@ -56,7 +56,7 @@ namespace Strive.Core.Services.HubServices
                 await SubscribeChatEvent();
                 var communicationData = new ChatCommunication()
                 {
-                    communicationId = ConnectionID,
+                    communicationId = ConnectionID!= null ? ConnectionID : "0",
                     employeeId = EmployeeTempData.EmployeeID
                 };
                 await MessengerService.ChatCommunication(communicationData);
@@ -65,7 +65,7 @@ namespace Strive.Core.Services.HubServices
             ConnectionID = connection.ConnectionId;
 
             var chatcommunication = new ChatCommunication();
-            chatcommunication.communicationId = ConnectionID;
+            chatcommunication.communicationId = ConnectionID != null ? ConnectionID : "0";
             chatcommunication.employeeId = EmployeeTempData.EmployeeID;
             var tempresult = await MessengerService.ChatCommunication(chatcommunication);
             return ConnectionID;
@@ -80,7 +80,7 @@ namespace Strive.Core.Services.HubServices
             await SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
             var communicationData = new ChatCommunication()
             {
-                communicationId = ConnectionID,
+                communicationId = ConnectionID != null ? ConnectionID : "0",
                 employeeId = EmployeeTempData.EmployeeID
             };
             await MessengerService.ChatCommunication(communicationData);

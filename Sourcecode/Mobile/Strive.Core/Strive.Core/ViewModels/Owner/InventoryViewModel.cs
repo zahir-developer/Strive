@@ -23,7 +23,7 @@ namespace Strive.Core.ViewModels.Owner
 
         private ObservableCollection<VendorDetail> VendorList = new ObservableCollection<VendorDetail>();
 
-        private ObservableCollection<InventoryDataModel> InventoryList = new ObservableCollection<InventoryDataModel>();
+        public ObservableCollection<InventoryDataModel> InventoryList = new ObservableCollection<InventoryDataModel>();
 
         private ObservableCollection<InventoryDataModel> EditableList = new ObservableCollection<InventoryDataModel>();
 
@@ -36,7 +36,7 @@ namespace Strive.Core.ViewModels.Owner
             _userDialog.ShowLoading(Strings.Loading);
             var SearchText = getSearchText(" ");
             Products products = await AdminService.GetAllProducts(SearchText);
-            foreach (var product in products.ProductSearch)
+            foreach (var product in products?.ProductSearch)
             {
                 ProductList.Add(product);
 

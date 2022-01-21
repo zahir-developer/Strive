@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
@@ -116,7 +111,7 @@ namespace StriveOwner.Android.Fragments
         {
             await ViewModel.GetContactsList();
 
-            if (ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList != null || ViewModel.EmployeeLists.EmployeeList.Employee != null || ViewModel.EmployeeLists.EmployeeList.Employee.Count != 0)
+            if (ViewModel.EmployeeLists != null || ViewModel.EmployeeLists?.EmployeeList != null || ViewModel.EmployeeLists?.EmployeeList?.Employee != null || ViewModel.EmployeeLists?.EmployeeList?.Employee?.Count != 0)
             {
                 if (MessengerTempData.ExistingParticipants != null)
                 {
@@ -144,7 +139,7 @@ namespace StriveOwner.Android.Fragments
                 else
                 {
                     MessengerTempData.IsCreateGroup = true;
-                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee, ViewModel);
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel?.EmployeeLists?.EmployeeList?.Employee, ViewModel);
                 }
 
                 //var layoutManager = new LinearLayoutManager(Context);

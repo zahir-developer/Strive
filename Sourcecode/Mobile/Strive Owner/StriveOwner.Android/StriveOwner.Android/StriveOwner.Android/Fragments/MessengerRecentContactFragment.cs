@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
+﻿using Android.OS;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-using Strive.Core.Models.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveOwner.Android.Adapter;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace StriveOwner.Android.Fragments
-{ 
+{
     public class MessengerRecentContactFragment : MvxFragment<MessengerRecentContactsViewModel>
     {
         private RecyclerView recentContacts_RecyclerView;

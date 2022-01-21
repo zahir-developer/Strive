@@ -21,7 +21,8 @@ namespace StriveEmployee.Android.Adapter.Schedule
         ScheduleDetail scheduleDetail;
         public ScheduleAdapterViewHolder scheduleViewHolder;
         private List<ScheduleDetailViewModel> scheduleDetailViewModels = new List<ScheduleDetailViewModel>();
-
+        private string getStartTime;
+        private string getEndTime;
         public ScheduleAdapter(Context context, ScheduleDetail scheduleDetail)
         {
             this.context = context;
@@ -31,6 +32,7 @@ namespace StriveEmployee.Android.Adapter.Schedule
             this.scheduleDetail.ScheduleHoursViewModel = new ScheduleHoursViewModel();
             
             this.scheduleDetail = scheduleDetail;
+            scheduleDetailViewModels = scheduleDetail.ScheduleDetailViewModel;
         }
 
         public override long GetItemId(int position)
@@ -45,19 +47,36 @@ namespace StriveEmployee.Android.Adapter.Schedule
             {
                 var start = scheduleDetailViewModels[position].StartTime.Split('T');
                 var startTime = start[1].Split(":");
-                var end = scheduleDetailViewModels[position].StartTime.Split('T');
+                var end = scheduleDetailViewModels[position].EndTime.Split('T');
                 var endTime = end[1].Split(":");
-                if(int.Parse(startTime[0]) > 12)
+                if(int.Parse(startTime[0]) >= 12)
                 {
-                    scheduleViewHolder.locationstartandend.Text = "Start Time =" + startTime[0] + "PM"+ "\tEnd Time =" + endTime[0] + "PM";
+                   getStartTime = startTime[0] + ":" + startTime[1] + " " + "PM";
+                    if (int.Parse(endTime[0]) >= 12)
+                    {
+                        getEndTime = endTime[0] + ":" + endTime[1] + " " + "PM";
+                    }
+                    //scheduleViewHolder.locationstartandend.Text = "Start Time = " + startTime[0] + ":" + startTime[1] + " " + "PM"+ "\nEnd Time = " + endTime[0] + ":" + endTime[1] + " " + "PM";
                 }
-                else
+                
+                else 
                 {
-                    scheduleViewHolder.locationstartandend.Text = "Start Time =" + startTime[0] + "AM" + "\tEnd Time =" + endTime[0] + "PM";
+                    getStartTime = startTime[0] + ":" + startTime[1] + " " + "AM";
+                    if (int.Parse(endTime[0]) < 12)
+                    {
+                        getEndTime = endTime[0] + ":" + endTime[1] + " " + "AM";
+                    }
+                    else if (int.Parse(endTime[0]) >= 12)
+                    {
+                        getEndTime = endTime[0] + ":" + endTime[1] + " " + "PM";
+                    }
+                    //scheduleViewHolder.locationstartandend.Text = "Start Time = " + startTime[0] + ":" + startTime[1] + " " + "AM" + "\nEnd Time = " + endTime[0] + ":" + endTime[1] + " " + "PM";
                 }
+                scheduleViewHolder.locationstartandend.Text = "Start Time = " + getStartTime + "\nEnd Time = " + getEndTime;
+
             }
-           
-            
+
+
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

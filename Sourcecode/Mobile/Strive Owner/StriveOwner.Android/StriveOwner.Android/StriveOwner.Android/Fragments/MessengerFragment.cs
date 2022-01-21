@@ -70,53 +70,18 @@ namespace StriveOwner.Android.Fragments
             messenger_PopupMenu.MenuItemClick += Messenger_PopupMenu_MenuItemClick;
             messenger_ImageButton.Click += Messenger_ImageButton_Click;
 
-            if (ChatHubMessagingService.RecipientsID == null)
-            {
-                ChatHubMessagingService.RecipientsID = new ObservableCollection<RecipientsCommunicationID>();
-                ChatHubMessagingService.RecipientsID.CollectionChanged += RecipientsID_CollectionChanged;
-            }
-            EstablishHubConnection();
+            //if (ChatHubMessagingService.RecipientsID == null)
+            //{
+            //    ChatHubMessagingService.RecipientsID = new ObservableCollection<RecipientsCommunicationID>();
+            //    ChatHubMessagingService.RecipientsID.CollectionChanged += RecipientsID_CollectionChanged;
+            //}
+            //EstablishHubConnection();
             
            
             return rootView;
         }
 
-        private async void RecipientsID_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-            {
-                if (MessengerTempData.RecipientsConnectionID == null)
-                {
-                    MessengerTempData.RecipientsConnectionID = new Dictionary<string, string>();
-                }
-                foreach (var item in e.NewItems)
-                {
-                    var datas = (RecipientsCommunicationID)item;
-                    if (MessengerTempData.RecipientsConnectionID.ContainsKey(datas.employeeId))
-                    {
-                        MessengerTempData.RecipientsConnectionID.Remove(datas.employeeId);
-                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
-                    }
-                    else
-                    {
-                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
-                    }
-                }
-            }
-        }
-
-        private async void EstablishHubConnection()
-        {
-            ConnectionID = await this.ViewModel.StartCommunication();
-            
-            await ChatHubMessagingService.SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
-          
-            MessengerTempData.ConnectionID = ConnectionID;
-            
-           // await this.ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
-            await ChatHubMessagingService.SubscribeChatEvent();
-
-        }
+       
 
         private void Messenger_PopupMenu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
         {
@@ -128,8 +93,8 @@ namespace StriveOwner.Android.Fragments
                     FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
                     break;
 
-                case Resource.Id.menu_Refresh:
-                    break;
+                //case Resource.Id.menu_Refresh:
+                //    break;
             }
             
         }

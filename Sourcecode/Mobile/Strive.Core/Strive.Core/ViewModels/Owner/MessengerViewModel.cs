@@ -19,7 +19,7 @@ namespace Strive.Core.ViewModels.Owner
         {
             var communicationData = new ChatCommunication()
             {
-                communicationId = commID,
+                communicationId = commID != null ? commID : "0",
                 employeeId = EmployeeTempData.EmployeeID
             };
             var result = await MessengerService.ChatCommunication(communicationData);

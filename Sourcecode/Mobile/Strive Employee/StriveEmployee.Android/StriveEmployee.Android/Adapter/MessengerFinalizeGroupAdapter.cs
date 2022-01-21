@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
-using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Utils.Employee;
-using StriveEmployee.Android.Listeners;
 
 namespace StriveEmployee.Android.Adapter
 {
-     public class MessengerFinalizeGroupViewHolder : RecyclerView.ViewHolder, View.IOnClickListener
+    public class MessengerFinalizeGroupViewHolder : RecyclerView.ViewHolder, View.IOnClickListener
     {
         public IItemClickListener itemClickListener;
         public Button FinalizeGroupProfile_ImageButton;
@@ -113,10 +106,14 @@ namespace StriveEmployee.Android.Adapter
         {
             if(MessengerTempData.ClickAction == 1)
             {
-                MessengerTempData.SelectedParticipants.EmployeeList.Employee.RemoveAt(position);
+                if (selectedParticipants.EmployeeList.Employee.Count > 0)
+                {
+                    selectedParticipants.EmployeeList.Employee.RemoveAt(position);
+                }
                 NotifyItemRemoved(position);
                 NotifyItemRangeChanged(position, selectedParticipants.EmployeeList.Employee.Count);
                 MessengerTempData.ClickAction = 0;
+                  
             }
         }
 

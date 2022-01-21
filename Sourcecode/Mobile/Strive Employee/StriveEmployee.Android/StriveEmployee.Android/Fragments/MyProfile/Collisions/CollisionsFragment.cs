@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
+﻿using Android.OS;
 using Android.Support.Design.Widget;
-using Android.Support.V7.App;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
 using StriveEmployee.Android.Adapter.MyProfile.Collision;
 
@@ -45,7 +34,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             //addCollisionsFragment = new AddCollisionsFragment();
             //addCollision_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.addCollision_ImageButton);
             collison_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.collison_RecyclerView);
-            GetCollisionInfo();
+            GetCollisionInfo(true);
             // addCollision_ImageButton.Click += AddCollision_ImageButton_Click;
             return rootView;
         }
@@ -57,15 +46,15 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         //    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame,addCollisionsFragment).Commit();
         //}
 
-        public async void GetCollisionInfo()
+        public async void GetCollisionInfo(bool isInitialCall)
         {
             if (this.ViewModel == null)
             {
-                ViewModel = new CollisionsViewModel();            
+              this.ViewModel = new CollisionsViewModel();
             }
-            ViewModel.isAndroid = true;
-            await this.ViewModel.GetCollisionInfo();
-            if(this.ViewModel.CollisionDetails != null && this.ViewModel.CollisionDetails.Employee.EmployeeCollision != null)
+            ViewModel.isAndroidFlag = isInitialCall;
+            await ViewModel.GetCollisionInfo();
+            if (this.ViewModel.CollisionDetails != null && this.ViewModel.CollisionDetails.Employee.EmployeeCollision != null)
             {
                 collision_Adapter = new CollisionAdapter(Context, this.ViewModel.CollisionDetails.Employee.EmployeeCollision);
                 var layoutManager = new LinearLayoutManager(Context);
@@ -74,14 +63,14 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             }
             
         }
-        public void NoData() 
-        {
-            if (this.ViewModel.CollisionDetails == null)
-            {
-                Snackbar snackbar = Snackbar.Make(rootView, "No relatable data!", Snackbar.LengthShort);
-                snackbar.Show();
-            }       
+        //public void NoData() 
+        //{
+        //    if (this.ViewModel.CollisionDetails == null)
+        //    {
+        //        Snackbar snackbar = Snackbar.Make(rootView, "No relatable data!", Snackbar.LengthShort);
+        //        snackbar.Show();
+        //    }       
          
-        }
+        //}
     }
 }

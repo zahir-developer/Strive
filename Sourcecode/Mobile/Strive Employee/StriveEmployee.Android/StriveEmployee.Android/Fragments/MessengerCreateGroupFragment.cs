@@ -116,7 +116,7 @@ namespace StriveEmployee.Android.Fragments
         {
             await ViewModel.GetContactsList();
 
-            if (ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList != null || ViewModel.EmployeeLists.EmployeeList.Employee != null || ViewModel.EmployeeLists.EmployeeList.Employee.Count != 0)
+            if (ViewModel.EmployeeLists != null || ViewModel.EmployeeLists?.EmployeeList != null || ViewModel.EmployeeLists?.EmployeeList?.Employee != null || ViewModel.EmployeeLists?.EmployeeList?.Employee?.Count != 0)
             {
                 if (MessengerTempData.ExistingParticipants != null)
                 {
@@ -144,7 +144,7 @@ namespace StriveEmployee.Android.Fragments
                 else
                 {
                     MessengerTempData.IsCreateGroup = true;
-                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee , ViewModel);
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel?.EmployeeLists?.EmployeeList?.Employee , ViewModel);
                 }
 
                 //var layoutManager = new LinearLayoutManager(Context);

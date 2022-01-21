@@ -120,9 +120,8 @@ namespace StriveCustomer.Android.Fragments
             var str = e.Month + 1 + "-" + e.DayOfMonth + "-" + e.Year + " " + DateTime.Now.ToString("HH:mm:ss");
             try
             {
-
-                //dt = DateTime.ParseExact(str, "MM/dd/yyyy", System.Globalization.CultureInfo.CurrentUICulture);//Convert.ToDateTime(str);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
-                dt = Convert.ToDateTime(str);
+              dt = DateTime.ParseExact(str, "M-dd-yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentUICulture);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
+                 //dt = Convert.ToDateTime(str);
             }
             catch (Exception ex)
             {

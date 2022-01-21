@@ -29,6 +29,11 @@ namespace StriveCustomer.Android.Fragments
         private TermsAndConditionsFragment termsAndConditionsFragment;
         private Button backButton;
         private Button nextButton;
+        private Context context;
+        public VehicleAdditionalServicesFragment(Context cxt)
+        {
+            this.context = cxt;
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -39,7 +44,7 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.VehicleAdditionalServicesFragment, null);
             this.ViewModel = new VehicleAdditionalServiceViewModel();
-            upChargesFragment = new VehicleUpChargesFragment();
+            upChargesFragment = new VehicleUpChargesFragment(this.Activity);
             termsAndConditionsFragment = new TermsAndConditionsFragment();
             additionalService = rootview.FindViewById<ListView>(Resource.Id.additionalOptions);
             backButton = rootview.FindViewById<Button>(Resource.Id.serviceBack);
@@ -52,20 +57,21 @@ namespace StriveCustomer.Android.Fragments
         }
         private void NextButton_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
+            AppCompatActivity activity = (AppCompatActivity)context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsAndConditionsFragment).Commit();
         }
         private async void getAdditionalServices()
         {
             await this.ViewModel.AddUpchargesToServiceList();
 
-            additionalServicesAdapter = new AdditionalServicesAdapter(Context, VehicleAdditionalServiceViewModel.serviceList);
+            additionalServicesAdapter = new AdditionalServicesAdapter(context, VehicleAdditionalServiceViewModel.serviceList);
             additionalService.SetAdapter(additionalServicesAdapter);
         }
         private void BackButton_Click(object sender, EventArgs e)
         {
-           // AppCompatActivity activity = (AppCompatActivity)Context;
-            Activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upChargesFragment).Commit();
+           AppCompatActivity activity = (AppCompatActivity)context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upChargesFragment).Commit();
+
         }
     }
 }

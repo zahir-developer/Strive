@@ -33,6 +33,11 @@ namespace StriveCustomer.Android.Fragments
         VehicleUpChargesFragment upchargeFragment;
         VehicleInfoDisplayFragment infoDisplayFragment;
         LinearLayout.LayoutParams layoutParams;
+        Context context;
+        public VehicleMembershipFragment(Context cxt)
+        {
+            this.context = cxt;
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,13 +49,13 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.VehicleMembershipInfoFragment, null);
-            upchargeFragment = new VehicleUpChargesFragment();
+            upchargeFragment = new VehicleUpChargesFragment(this.Activity);
             infoDisplayFragment = new VehicleInfoDisplayFragment();
             this.ViewModel = new VehicleMembershipViewModel();
             serviceList = new Dictionary<int, string>();
             checkedId = new Dictionary<int, int>();
-            DiscountAlert();
-            //getMembershipData();
+            //DiscountAlert();
+            getMembershipData();
             membershipGroup = rootview.FindViewById<RadioGroup>(Resource.Id.membershipOptions);
             backButton = rootview.FindViewById<Button>(Resource.Id.membershipBack);
             nextButton = rootview.FindViewById<Button>(Resource.Id.membershipNext);
@@ -78,7 +83,7 @@ namespace StriveCustomer.Android.Fragments
         {
             if (ViewModel.VehicleMembershipCheck())
             {
-                AppCompatActivity activity = (AppCompatActivity)Context;
+                AppCompatActivity activity = (AppCompatActivity)context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upchargeFragment).Commit();
             }
         }
@@ -86,8 +91,8 @@ namespace StriveCustomer.Android.Fragments
         private void BackButton_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Context null");
-           // AppCompatActivity activity = (AppCompatActivity)Context;            
-            Activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoDisplayFragment).Commit();
+            AppCompatActivity activity = (AppCompatActivity)context;            
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoDisplayFragment).Commit();
         }
 
         private void MembershipGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
@@ -125,7 +130,7 @@ namespace StriveCustomer.Android.Fragments
             await this.ViewModel.getMembershipDetails();
             foreach (var data in this.ViewModel.membershipList.Membership)
             {
-                RadioButton radioButton = new RadioButton(Context);
+                RadioButton radioButton = new RadioButton(context);
                 layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
                 layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
                 layoutParams.SetMargins(0, 25, 0, 25);

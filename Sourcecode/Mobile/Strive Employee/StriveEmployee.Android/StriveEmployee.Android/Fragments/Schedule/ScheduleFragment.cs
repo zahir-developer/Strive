@@ -49,7 +49,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
             FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
         }
 
-        public async Task GetScheduleList()
+        public async void GetScheduleList()
         {
             await this.ViewModel.GetScheduleList();
             scheduleAdapter = new ScheduleAdapter(Context, this.ViewModel.scheduleList);

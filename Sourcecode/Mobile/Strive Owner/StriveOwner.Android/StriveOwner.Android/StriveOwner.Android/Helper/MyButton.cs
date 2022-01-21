@@ -14,12 +14,12 @@ namespace StriveOwner.Android.Helper
         private string text, color;
         private RectF clickRegion;
         private MyButtonClickListener listener;
-        private DeleteButtonClickListener clickListener;
+        private DeleteButtonClickListener deleteListener;
         private Context context;
         checkOutViewModel checkOut;
         InventoryDataModel dataModel;
         bool flag;
-        
+
         
         public MyButton(Context context, string text,int textSize,int imageResId, string color, MyButtonClickListener listener,checkOutViewModel checkOut)
         {
@@ -31,7 +31,7 @@ namespace StriveOwner.Android.Helper
             this.listener = listener;
             this.checkOut = checkOut;
             flag = true;
-            
+
         }
         public MyButton(Context context, string text, int textSize, int imageResId, string color, DeleteButtonClickListener listener, InventoryDataModel inventoryData)
         {
@@ -40,30 +40,20 @@ namespace StriveOwner.Android.Helper
             this.textSize = textSize;
             this.imageResId = imageResId;
             this.color = color;
-            this.clickListener = listener;
+            this.deleteListener = listener;
             this.dataModel = inventoryData;
             flag = false;
         }
 
-        public bool OnClick(float x , float y)
+        
+        public bool OnClick(float x , float y , checkOutViewModel viewModel)
         {
-            if (flag)
-            {
-                if (clickRegion != null && clickRegion.Contains(x, y))
-                {
+           if (clickRegion != null && clickRegion.Contains(x, y))
+              {
+                    checkOut = viewModel;
                     listener.OnClick(pos, checkOut);
                     return true;
-                }
-            }
-            else 
-            {
-                if (clickRegion != null && clickRegion.Contains(x, y))
-                {
-                    clickListener.OnClick(pos, dataModel);
-                    return true;
-                }
-            }
-            
+              }         
             return false;
         }
 
@@ -90,14 +80,28 @@ namespace StriveOwner.Android.Helper
             }
             else
             {
-                Drawable d = ContextCompat.GetDrawable(context, imageResId);
-                Bitmap bitmap = DrawableToBitmap(d);
-                x = cWidth / 2f - r.Width() /3f - r.Left;
-                y = cHeight / 4f + r.Height() / 2f - r.Left;
-                c.DrawBitmap(bitmap, rectf.Left + x, rectf.Top + y, p);
-                x = cWidth / 2f - r.Width() / 2f - r.Left;
-                y = cHeight / 2f + r.Height() / 2f - r.Left;
-                c.DrawText(text, rectf.Left + x, rectf.Top + y, p);
+                if (flag)
+                {
+                    Drawable d = ContextCompat.GetDrawable(context, imageResId);
+                    Bitmap bitmap = DrawableToBitmap(d);
+                    x = cWidth / 2f - r.Width() / 3f - r.Left;
+                    y = cHeight / 4f + r.Height() / 2f - r.Left;
+                    c.DrawBitmap(bitmap, rectf.Left + x, rectf.Top + y, p);
+                    x = cWidth / 2f - r.Width() / 2f - r.Left;
+                    y = cHeight / 2f + r.Height() / 2f - r.Left;
+                    c.DrawText(text, rectf.Left + x, rectf.Top + y, p);
+                }
+                else
+                {
+                    Drawable d = ContextCompat.GetDrawable(context, imageResId);
+                    Bitmap bitmap = DrawableToBitmap(d);
+                    x = cWidth / 4f - r.Width() / 6f - r.Left;
+                    y = cHeight / 6f + r.Height() / 4f - r.Left;
+                    c.DrawBitmap(bitmap, rectf.Left + x, rectf.Top + y, p);
+                    x = cWidth / 2f - r.Width() / 2f - r.Left;
+                    y = cHeight / 1.5f + r.Height() / 1.5f - r.Left;
+                    c.DrawText(text, rectf.Left + x, rectf.Top + y, p);
+                }
             }
             clickRegion = rectf;
             this.pos = pos;
@@ -112,6 +116,18 @@ namespace StriveOwner.Android.Helper
             d.SetBounds(0, 0, canvas.Width, canvas.Height);
             d.Draw(canvas);
             return bitmap;
+        }
+
+        public bool OnClick(float x, float y, InventoryDataModel inventoryDataModel)
+        {
+            if (clickRegion != null && clickRegion.Contains(x, y))
+            {
+                dataModel = inventoryDataModel;
+                deleteListener.OnClick(dataModel);
+                return true;
+            }
+
+            return false;
         }
     }
 }

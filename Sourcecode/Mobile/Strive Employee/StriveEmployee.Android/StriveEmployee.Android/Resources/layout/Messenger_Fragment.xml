@@ -43,14 +43,14 @@
                 android:id="@+id/messenger_TabLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.95"
+                android:layout_weight="0.87"
                 app:tabGravity="fill"
                 app:tabMode="fixed" />
             <ImageButton
                 android:id="@+id/menu_ImageButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.02"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.13"
                 android:layout_marginLeft="@dimen/ten"
                 android:layout_gravity="center"
                 android:src="@drawable/dotsThree"

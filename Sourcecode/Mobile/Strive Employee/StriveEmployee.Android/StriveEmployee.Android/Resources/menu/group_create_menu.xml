@@ -6,8 +6,8 @@
       android:title="Create Group"
       android:icon="@drawable/chat"/>
 
-  <item
+ <!-- <item
       android:id="@+id/menu_Refresh"
       android:title="Refresh"
-      android:icon="@drawable/clock"/>
+      android:icon="@drawable/clock"/>-->
 </menu>
