@@ -47,8 +47,11 @@ namespace Strive.Core.ViewModels.Employee
             _userDialog.ShowLoading();
             var result = await AdminService.GetPayRoll(Fromdate,Todate,employeeid,Location);
 
-            if (result.Result.PayRollRateViewModel.Any(x => x.EmployeeId == employeeid))
-                PayRoll = result.Result.PayRollRateViewModel.First(x => x.EmployeeId == employeeid);
+            if (result.Result.PayRollRateViewModel != null)
+            {
+                if (result.Result.PayRollRateViewModel.Any(x => x.EmployeeId == employeeid))
+                    PayRoll = result.Result.PayRollRateViewModel.First(x => x.EmployeeId == employeeid);
+            }            
             else
             {
                 PayRoll = null;

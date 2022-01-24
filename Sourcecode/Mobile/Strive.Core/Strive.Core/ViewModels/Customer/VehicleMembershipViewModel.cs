@@ -11,6 +11,7 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class VehicleMembershipViewModel : BaseViewModel
     {
+        bool isAndroid = false;
         public VehicleMembershipViewModel()
         {
             

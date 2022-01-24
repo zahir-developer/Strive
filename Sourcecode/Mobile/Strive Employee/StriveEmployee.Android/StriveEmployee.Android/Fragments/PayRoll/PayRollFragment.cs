@@ -186,7 +186,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
         {
             DateTime today = DateTime.Today.Date;
             DatePickerDialog dialog = new DatePickerDialog(Context, OnFromDateSet, today.Year, today.Month - 1, today.Day);
-            dialog.DatePicker.MinDate = today.Millisecond;
+            dialog.DatePicker.MinDate = today.Millisecond;           
             dialog.Show();            
         }      
 
@@ -198,7 +198,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
         private void ToDate_Click(object sender, EventArgs e)
         {
             DateTime today = DateTime.Today.Date;
-            DatePickerDialog dialog = new DatePickerDialog(Context, OnToDateSet, today.Year, today.Month - 1, today.Day);
+            DatePickerDialog dialog = new DatePickerDialog(Context, OnToDateSet, today.Year, today.Month - 1, today.Day);            
             dialog.DatePicker.MinDate = today.Millisecond;
             dialog.Show();           
         }

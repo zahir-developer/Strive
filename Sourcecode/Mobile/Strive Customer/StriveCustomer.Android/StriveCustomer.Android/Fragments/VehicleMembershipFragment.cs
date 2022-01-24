@@ -53,31 +53,34 @@ namespace StriveCustomer.Android.Fragments
             infoDisplayFragment = new VehicleInfoDisplayFragment();
             this.ViewModel = new VehicleMembershipViewModel();
             serviceList = new Dictionary<int, string>();
-            checkedId = new Dictionary<int, int>();
-            //DiscountAlert();
-            getMembershipData();
+            checkedId = new Dictionary<int, int>();            
             membershipGroup = rootview.FindViewById<RadioGroup>(Resource.Id.membershipOptions);
             backButton = rootview.FindViewById<Button>(Resource.Id.membershipBack);
             nextButton = rootview.FindViewById<Button>(Resource.Id.membershipNext);
+            //DiscountAlert();
+            backButton.Enabled = false;
+            nextButton.Enabled = false;
+            getMembershipData();
+            
             membershipGroup.CheckedChange += MembershipGroup_CheckedChange;
             backButton.Click += BackButton_Click;
             nextButton.Click += NextButton_Click;
             return rootview;
         }
 
-        private void DiscountAlert()
-        {
-            var Builder = new AlertDialog.Builder(Context);
-            Builder.SetMessage("Membership Discount Available!");
-            Builder.SetTitle("");
-            var okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
-            {
-                getMembershipData();
-            });
-            Builder.SetPositiveButton("Ok", okHandler);
-            Builder.Create();
-            Builder.Show();
-        }
+        //private void DiscountAlert()
+        //{
+        //    var Builder = new AlertDialog.Builder(context);
+        //    Builder.SetMessage("Membership Discount Available!");
+        //    Builder.SetTitle("");
+        //    var okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+        //    {
+        //        //getMembershipData();
+        //    });
+        //    Builder.SetPositiveButton("Ok", okHandler);
+        //    Builder.Create();
+        //    Builder.Show();
+        //}
 
         private void NextButton_Click(object sender, EventArgs e)
         {
@@ -90,7 +93,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Context null");
+            
             AppCompatActivity activity = (AppCompatActivity)context;            
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoDisplayFragment).Commit();
         }
@@ -154,6 +157,8 @@ namespace StriveCustomer.Android.Fragments
                 someId++;
                 membershipGroup.AddView(radioButton);
             }
+            backButton.Enabled = true;
+            nextButton.Enabled = true;
         }
     }
 }
