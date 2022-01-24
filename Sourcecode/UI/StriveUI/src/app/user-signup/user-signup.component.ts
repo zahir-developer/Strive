@@ -36,7 +36,7 @@ export class UserSignupComponent implements OnInit {
   emailVal = false;
   token: any;
   userGroup: any;
-  emailregex: RegExp = /^[ A-Za-z0-9@.]*$/;
+  emailregex: RegExp = /^[ A-Za-z0-9_@.]*$/;
   constructor(private fb: FormBuilder, private makeService: MakeService, private modelService: ModelService,
     private toastr: ToastrService, private wash: WashService, private router: Router, private spinner: NgxSpinnerService,
     private client: ClientService, private activatedRoute: ActivatedRoute,
