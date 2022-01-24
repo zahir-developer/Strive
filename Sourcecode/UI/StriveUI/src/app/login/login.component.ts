@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   dashBoardModule: boolean;
   isRememberMe: boolean;
-  emailregex: RegExp = /^[ A-Za-z0-9@.+]*$/;
+  emailregex: RegExp = /^[ A-Za-z0-9_@.+]*$/;
   showSignup = true;
 
   constructor(
