@@ -47,8 +47,12 @@ namespace StriveOwner.Android.Resources.Fragments
           
             return rootView;
         }
-        private async void GetStatistics()
+        public async void GetStatistics()
         {
+            if (this.ViewModel == null)
+            {
+                ViewModel = new RevenueHomeViewModel();
+            }
             await this.ViewModel.getStatistics(OwnerTempData.LocationID);
             avgmoneyewashpercar.Text = this.ViewModel.statisticsData.AverageWashPerCar.ToString();
             avgmoneyedetailpercar.Text = this.ViewModel.statisticsData.AverageDetailPerCar.ToString();

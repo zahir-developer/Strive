@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
-    public class DashboardHomeFragment : MvxFragment<HomeViewModel>
+    public class DashboardHomeFragment : MvxFragment<HomeViewModel>,ViewPager.IOnPageChangeListener
     {
        // private TextView TempTextView;
         private LinearLayout locationsLayout;
@@ -30,41 +30,18 @@ namespace StriveOwner.Android.Resources.Fragments
         private ViewPagerAdapter dashhome_ViewPagerAdapter;
         private ServicesFragment servicesFragment;
         private SalesFragment salesFragment;
-        private RevenueFragment revenueFragment;
-        //private ImageView bay1_expand;
-        //private TextView bay1_timein;
-        //private TextView bay1_client;
-        //private TextView bay1_phone;
-        //private TextView bay1_timeout;
-        //private TextView bay1_makemodelcolor;
-        //private TextView bay1_services;
-        //private TextView bay1_upcharges;
-        //private ImageView bay2_expand;
-        //private TextView bay2_timein;
-        //private TextView bay2_client;
-        //private TextView bay2_phone;
-        //private TextView bay2_timeout;
-        //private TextView bay2_makemodelcolor;
-        //private TextView bay2_services;
-        //private TextView bay2_upcharges;
-        //private ImageView bay3_expand;
-        //private TextView bay3_timein;
-        //private TextView bay3_client;
-        //private TextView bay3_phone;
-        //private TextView bay3_timeout;
-        //private TextView bay3_makemodelcolor;
-        //private TextView bay3_services;
-        //private TextView bay3_upcharges;
+        private RevenueFragment revenueFragment;        
         private LinearLayout bay_layout;
         private PlotView lineChart;
         private TextView NoRecord;
         private NestedScrollView BayDetailsScrollView;
-        private string SelectedLocName;
+        private static string SelectedLocName="";
         private List<int> PreviousSelectedId = new List<int>();
         private int FirstLocId;
         Button locationBtn;
         List<Button> listBtn = new List<Button>();
         View layout;
+        private static int selectedLocationId = 0;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
@@ -78,41 +55,13 @@ namespace StriveOwner.Android.Resources.Fragments
             ///TempTextView.Text = "/";
             locationsLayout = rootView.FindViewById<LinearLayout>(Resource.Id.addinglocationbuttons);
             dashhome_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.dashhome_TabLayout);
-            dashhome_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.dashhome_ViewPager);
-            //bay1_expand = rootView.FindViewById<ImageView>(Resource.Id.bay1_button);
-            //bay1_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_1);
-            //bay1_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_1);
-            //bay1_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_1);
-            //bay1_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_1);
-            //bay1_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_1);
-            //bay1_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_1);
-            //bay1_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_1);
-            //bay2_expand = rootView.FindViewById<ImageView>(Resource.Id.bay2_button);
-            //bay2_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_2);
-            //bay2_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_2);
-            //bay2_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_2);
-            //bay2_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_2);
-            //bay2_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_2);
-            //bay2_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_2);
-            //bay2_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_2);
-            //bay3_expand = rootView.FindViewById<ImageView>(Resource.Id.bay3_button);
-            //bay3_timein = rootView.FindViewById<TextView>(Resource.Id.timein_TextView_3);
-            //bay3_client = rootView.FindViewById<TextView>(Resource.Id.client_TextView_3);
-            //bay3_phone = rootView.FindViewById<TextView>(Resource.Id.phones_TextView_3);
-            //bay3_timeout = rootView.FindViewById<TextView>(Resource.Id.timeout_TextView_3);
-            //bay3_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_3);
-            //bay3_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_3);
-            //bay3_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_3);
+            dashhome_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.dashhome_ViewPager);            
             bay_layout = rootView.FindViewById<LinearLayout>(Resource.Id.BayDetails_LinearLayout);
             NoRecord = rootView.FindViewById<TextView>(Resource.Id.norecord);
             BayDetailsScrollView = rootView.FindViewById<NestedScrollView>(Resource.Id.BayDetails_ScrollView);
             lineChart = rootView.FindViewById<PlotView>(Resource.Id.linechart);
-            OwnerTempData.LocationID = 14;
-            GetLocations();
-            //OwnerTempData.LocationID = 1;
-            //GetStatistics(OwnerTempData.LocationID);
-            // GetDashData(OwnerTempData.LocationID);
-            //GetChartDetails();
+            //OwnerTempData.LocationID = 14;
+            GetLocations();           
 
             return rootView;
         }
@@ -171,7 +120,7 @@ namespace StriveOwner.Android.Resources.Fragments
 
             var Items = new Collection<Item>
             {
-                new Item {Label = SelectedLocName, WashValue = int.Parse(servicesFragment.getWashCount().ToString()), DetailValue = int.Parse(servicesFragment.getDetailsCount().ToString()), EmployeeValue = int.Parse(servicesFragment.getEmployeeCount().ToString()), ScoreValue = double.Parse(servicesFragment.getScoreCount().ToString())},
+                new Item {Label = SelectedLocName, WashValue = int.Parse(ViewModel.statisticsData.WashesCount.ToString()), DetailValue = int.Parse(ViewModel.statisticsData.DetailCount.ToString()), EmployeeValue = int.Parse(ViewModel.statisticsData.EmployeeCount.ToString()), ScoreValue = double.Parse(ViewModel.statisticsData.Score.ToString())},
                 
                 //new Item {Label = "Old Milton", Value1 = 4, Value2 = 2, Value3 = 1},
                 //new Item {Label = "Holcomb Bridge", Value1 = 1, Value2 = 4, Value3 = 2}
@@ -220,8 +169,8 @@ namespace StriveOwner.Android.Resources.Fragments
                     locationBtn = new Button(this.Context);
                     listBtn.Add(locationBtn);
                     locationBtn.SetBackgroundResource(Resource.Drawable.RoundEdge_Button);
-                    SelectedLocName = ViewModel.Locations.Location.First().LocationName;
-                    FirstLocId = ViewModel.Locations.Location.First().LocationId;
+                   // SelectedLocName = ViewModel.Locations.Location.First().LocationName;
+                   // FirstLocId = ViewModel.Locations.Location.First().LocationId;                    
                     var nameSplits = location.LocationName.Split(" ");
                     foreach (var name in nameSplits)
                     {
@@ -234,20 +183,31 @@ namespace StriveOwner.Android.Resources.Fragments
                     locationBtn.SetTextColor(Color.ParseColor("#000000"));
                     locationBtn.Id = BtnID;
                     locationBtn.Tag = location.LocationId;
-                    if (BtnID == 778)
+                    if (selectedLocationId == 0)
                     {
+                        FirstLocId = ViewModel.Locations.Location.First().LocationId;
+                        SelectedLocName = ViewModel.Locations.Location.First().LocationName;
                         PreviousSelectedId.Add(BtnID);
                         locationBtn.Selected = true;
                     }
+                    else
+                    {
+                        FirstLocId = selectedLocationId;
+                        PreviousSelectedId.Add(BtnID);
+                        locationBtn.Selected = true;
+
+                    }
+                    //if (BtnID == 778)
+                    //{
+                    //    PreviousSelectedId.Add(BtnID);
+                    //    locationBtn.Selected = true;
+                    //}
                     locationBtn.Click += LocationBtn_Click;
                     row.AddView(locationBtn);
                 }
-                locationsLayout.AddView(row);
-                GetStatistics(FirstLocId);
-                BayDetails();
-                //hidebay1Details();
-                //hidebay2Details();
-                //hidebay3Details();
+                locationsLayout.AddView(row);             
+                GetStatistics(FirstLocId);                
+                BayDetails();                
             }
         }
         private async void LocationBtn_Click(object sender, EventArgs e)
@@ -266,6 +226,7 @@ namespace StriveOwner.Android.Resources.Fragments
             data.Selected = true;
             var locationId = Convert.ToInt32(data.Tag);
             OwnerTempData.LocationID = locationId;
+            selectedLocationId = locationId;
             SelectedLocName = data.Text;
             dashhome_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
             dashhome_ViewPagerAdapter.AddFragment(servicesFragment, "Service");
@@ -277,51 +238,7 @@ namespace StriveOwner.Android.Resources.Fragments
             await ViewModel.getDashboardSchedule(locationId);
             bay_layout.RemoveAllViews();
             BayDetails();
-        }        
-
-
-       
-
-        //private void hidebay1Details()
-        //{
-        //    if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
-        //    {
-        //        bay1_timein.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].TimeIn;
-        //        bay1_client.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].ClientName;
-        //        bay1_phone.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].PhoneNumber;
-        //        bay1_timeout.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].EstimatedTimeOut;
-        //        bay1_makemodelcolor.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].VehicleMake + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].VehicleModel + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].VehicleColor;
-        //        bay1_services.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].ServiceTypeName;
-        //        bay1_upcharges.Text = "$" + " " + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].Upcharge.ToString();
-        //    }
-
-        //}
-        //private void hidebay2Details()
-        //{
-        //    if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
-        //    {
-        //        bay2_timein.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].TimeIn;
-        //        bay2_client.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].ClientName;
-        //        bay2_phone.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].PhoneNumber;
-        //        bay2_timeout.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].EstimatedTimeOut;
-        //        bay2_makemodelcolor.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].VehicleMake + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].VehicleModel + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].VehicleColor;
-        //        bay2_services.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].ServiceTypeName;
-        //        bay2_upcharges.Text = "$" + " " + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].Upcharge.ToString();
-        //    }
-        //}
-        //private void hidebay3Details()
-        //{
-        //    if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
-        //    {
-        //        bay3_timein.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].TimeIn;
-        //        bay3_client.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].ClientName;
-        //        bay3_phone.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].PhoneNumber;
-        //        bay3_timeout.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].EstimatedTimeOut;
-        //        bay3_makemodelcolor.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].VehicleMake + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].VehicleModel + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].VehicleColor;
-        //        bay3_services.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].ServiceTypeName;
-        //        bay3_upcharges.Text = "$" + " " + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].Upcharge.ToString();
-        //    }
-        //}
+        }  
 
         private void BayDetails()
         {
@@ -388,6 +305,7 @@ namespace StriveOwner.Android.Resources.Fragments
             dashhome_ViewPagerAdapter.AddFragment(revenueFragment, "Revenue");
             dashhome_ViewPager.Adapter = dashhome_ViewPagerAdapter;
             dashhome_TabLayout.SetupWithViewPager(dashhome_ViewPager);
+            dashhome_ViewPager.AddOnPageChangeListener(this);
         }
         public override void OnPause()
         {
@@ -400,6 +318,21 @@ namespace StriveOwner.Android.Resources.Fragments
         public override void OnDestroy()
         {
             base.OnDestroy();
+        }
+
+        public void OnPageScrollStateChanged(int state)
+        {
+            
+        }
+
+        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+           
+        }
+
+        public void OnPageSelected(int position)
+        {
+            
         }
     }
     internal class Item

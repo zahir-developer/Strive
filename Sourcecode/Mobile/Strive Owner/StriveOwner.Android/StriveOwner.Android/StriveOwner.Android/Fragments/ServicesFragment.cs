@@ -47,8 +47,12 @@ namespace StriveOwner.Android.Resources.Fragments
             GetStatistics();
             return rootView;
         }
-        private async void GetStatistics()
+        public async void GetStatistics()
         {
+            if (this.ViewModel == null) 
+            {
+                this.ViewModel = new ServicesHomeViewModel();
+            }
             await this.ViewModel.getStatistics(OwnerTempData.LocationID);
             if (this.ViewModel.statisticsData != null)
             {

@@ -48,8 +48,12 @@ namespace StriveOwner.Android.Resources.Fragments
             GetStatistics();
             return rootView;
         }
-        private async void GetStatistics()
+        public async void GetStatistics()
         {
+            if (this.ViewModel == null)
+            {
+                ViewModel = new SalesHomeViewModel();
+            }
             await this.ViewModel.getStatistics(OwnerTempData.LocationID);
             washsales.Text = this.ViewModel.statisticsData.WashSales.ToString();
             detailsales.Text = this.ViewModel.statisticsData.DetailSales.ToString();
