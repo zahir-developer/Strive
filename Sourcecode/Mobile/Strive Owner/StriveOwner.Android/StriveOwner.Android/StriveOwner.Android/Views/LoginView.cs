@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
@@ -9,7 +6,6 @@ using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
@@ -69,10 +65,10 @@ namespace StriveOwner.Android.Views
 
         private void navigateToForgotPassword(object sender, EventArgs e)
         {
-            ViewModel.ForgotPasswordCommand();
+            _ = ViewModel.ForgotPasswordCommand();
         }
 
-        private void Login_Click(object sender, EventArgs e)
+        private async void Login_Click(object sender, EventArgs e)
         {
             if (rememberMe_CheckBox.Checked == true)
             {
@@ -81,7 +77,8 @@ namespace StriveOwner.Android.Views
                 preferenceEditor.PutString("password", password_EditText.Text);
                 preferenceEditor.Apply();
             }
-            this.ViewModel.DoLoginCommand();
+            await this.ViewModel.DoLoginCommand();
+           
         }
         private void RememberMe_CheckBox_Click(object sender, EventArgs e)
         {
@@ -91,7 +88,7 @@ namespace StriveOwner.Android.Views
             preferenceEditor.Apply();
         }
 
-        private async void isCredentialStored(bool isRemember)
+        private  void isCredentialStored(bool isRemember)
         {
             if (isRemember)
             {
@@ -99,13 +96,14 @@ namespace StriveOwner.Android.Views
                 emailPhone_EditText.SetText(loginId, null);
                 var password = sharedPreferences.GetString("password", null);
                 password_EditText.SetText(password, null);
-                if (!String.IsNullOrEmpty(emailPhone_EditText.Text) && !String.IsNullOrEmpty(password_EditText.Text))
-                {
-                    ViewModel.DoLoginCommand();
-                }
+                //if (!String.IsNullOrEmpty(emailPhone_EditText.Text) && !String.IsNullOrEmpty(password_EditText.Text))
+                //{
+                //    ViewModel.DoLoginCommand();
+                //}
             }
             else
             {
+               
                 preferenceEditor.PutBoolean("rememberMe", isRemember);
                 preferenceEditor.PutString("loginId", emailPhone_EditText.Text);
                 preferenceEditor.PutString("password", password_EditText.Text);
@@ -117,6 +115,15 @@ namespace StriveOwner.Android.Views
         {
             rememberMe_CheckBox.Checked = sharedPreferences.GetBoolean("rememberMe", false);
             isCredentialStored(rememberMe_CheckBox.Checked);
+        }
+        public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+        {
+            if (keyCode == Keycode.Back)
+            {
+                FinishAffinity();
+            }
+
+            return true;
         }
     }
 }

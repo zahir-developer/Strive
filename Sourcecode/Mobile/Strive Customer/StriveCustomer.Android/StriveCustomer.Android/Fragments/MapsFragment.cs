@@ -227,8 +227,14 @@ namespace StriveCustomer.Android.Fragments
                 }
             }
             if (!IsAdded)
+            {
                 return;
-            gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
+            }
+            else
+            {
+                gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
+
+            }
             if (gmaps != null)
             {
                 gmaps.GetMapAsync(this);

@@ -84,6 +84,7 @@ namespace StriveCustomer.Android.Views
         }
         public override void OnBackPressed()
         {
+            ViewModel.isAndroid = true;
             ViewModel.Logout();
         }
     }

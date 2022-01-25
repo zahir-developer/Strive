@@ -254,8 +254,14 @@ namespace StriveCustomer.Android.Fragments
 
                 washlocations = allLocations;
             }
-            
-            gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.contactUsMaps);
+            if (!IsAdded)
+            {
+                return;
+            }
+            else
+            {
+                gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.contactUsMaps);
+            }
             if (gmaps != null)
             {
                 gmaps.GetMapAsync(this);

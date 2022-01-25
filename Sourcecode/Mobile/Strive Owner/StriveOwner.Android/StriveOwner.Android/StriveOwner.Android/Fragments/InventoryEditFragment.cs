@@ -50,8 +50,8 @@ namespace StriveOwner.Android.Resources.Fragments
             supplier_address.Text = OwnerTempData.SupplierAddress;
             supplier_email.Text = OwnerTempData.SupplierEmail;
 
-            cancelButton.Click += CancelButton_Click;
-            saveButton.Click += SaveButton_Click;
+            //cancelButton.Click += CancelButton_Click;
+            //saveButton.Click += SaveButton_Click;
 
             return rootView;
         }

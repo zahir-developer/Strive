@@ -1,9 +1,6 @@
 ﻿using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Services.HubServices;
 using Strive.Core.Utils.Employee;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Strive.Core.Utils;
 using MvvmCross.Plugin.Messenger;
@@ -13,7 +10,6 @@ namespace Strive.Core.ViewModels.Employee
     public class DashboardViewModel : BaseViewModel
     {
         private MvxSubscriptionToken _messageToken;
-        public bool isAndroid = false;
         public DashboardViewModel()
         {
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
@@ -42,14 +38,7 @@ namespace Strive.Core.ViewModels.Employee
                 ChatHubMessagingService.StopConnection();
                 await SetChatCommunicationDetails();
                 EmployeeTempData.ResetAll();
-                if (!isAndroid)
-                {
-                    await _navigationService.Navigate<LoginViewModel>();
-                }
-                else
-                {
-                   await _navigationService.Close(this);
-                }
+                await _navigationService.Navigate<LoginViewModel>();
              }
         }
         public async Task SetChatCommunicationDetails()

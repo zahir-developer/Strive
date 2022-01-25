@@ -56,7 +56,11 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.ItemName = inventorylist[position].Product.ProductName;
             inventoryViewHolder.productDescription.Text = inventorylist[position].Product.ProductDescription;
             OwnerTempData.ItemDescription = inventorylist[position].Product.ProductDescription;
-            inventoryViewHolder.productViewMore.Click += ProductViewMore_Click;
+            if (!inventoryViewHolder.productViewMore.HasOnClickListeners)
+            {
+                inventoryViewHolder.productViewMore.Click += ProductViewMore_Click;
+
+            }
             inventoryViewHolder.productViewMore.Tag = "Tag" + position;
             inventoryViewHolder.quantityInc.Tag = "Tag" + position;
             if(!inventoryViewHolder.quantityInc.HasOnClickListeners){
@@ -124,9 +128,9 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.SupplierAddress = inventorylist[positions].Vendor.Address1;
             popout_Email.Text = inventorylist[positions].Vendor.Email;
             OwnerTempData.SupplierEmail = inventorylist[positions].Vendor.Email;
-            edit_Items.Click += Edit_Items_Click;
+            //edit_Items.Click += Edit_Items_Click;
             close.Click += Close_Click;
-            popout_Request.Click += Popout_Request_Click;
+            //popout_Request.Click += Popout_Request_Click;
         }
 
         private void Popout_Request_Click(object sender, EventArgs e)

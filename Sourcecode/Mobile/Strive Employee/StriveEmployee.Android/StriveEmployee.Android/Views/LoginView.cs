@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
@@ -9,13 +6,11 @@ using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
-using MvvmCross.Platforms.Android.Views;
 using Strive.Core.Utils;
 using Strive.Core.ViewModels.Employee;
 using Xamarin.Essentials;
@@ -105,7 +100,7 @@ namespace StriveEmployee.Android.Views
             preferenceEditor.Apply();
         }
 
-        private async void isCredentialStored(bool isRemember)
+        private  void isCredentialStored(bool isRemember)
         {
             if (isRemember)
             {
@@ -131,6 +126,15 @@ namespace StriveEmployee.Android.Views
         {
             rememberMe_CheckBox.Checked = sharedPreferences.GetBoolean("rememberMe", false);
             isCredentialStored(rememberMe_CheckBox.Checked);
+        }
+        public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+        {
+            if (keyCode == Keycode.Back)
+            {
+                FinishAffinity();
+            }
+
+            return true;
         }
     }
 }

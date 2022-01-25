@@ -52,10 +52,18 @@ namespace StriveEmployee.Android.Fragments.Schedule
         public async void GetScheduleList()
         {
             await this.ViewModel.GetScheduleList();
+            if (this.ViewModel.scheduleList != null)
+            {
             scheduleAdapter = new ScheduleAdapter(Context, this.ViewModel.scheduleList);
             var layoutManager = new LinearLayoutManager(Context);
             scheduleInfo.SetLayoutManager(layoutManager);
             scheduleInfo.SetAdapter(scheduleAdapter);
+            }
+            else
+            {
+                scheduleInfo.SetAdapter(null);
+                scheduleInfo.SetLayoutManager(null);
+            }
 
         }
     }

@@ -144,7 +144,10 @@ namespace Strive.Core.ViewModels.Employee
             _userDialog.Alert("Please enter group name to save");
         }
 
-
+        public void NotEnough()
+        {
+            _userDialog.Alert("Please add participants to the group");
+        }
         public async Task SendMessage()
         {
             if (true)

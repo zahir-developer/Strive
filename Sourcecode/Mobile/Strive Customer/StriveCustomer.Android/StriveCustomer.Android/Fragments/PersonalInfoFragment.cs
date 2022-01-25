@@ -71,7 +71,7 @@ namespace StriveCustomer.Android.Fragments
             }
             await this.ViewModel.GetClientById();
 
-            if(ViewModel.customerInfo.Status.Count > 0)
+            if(ViewModel.customerInfo?.Status.Count > 0)
             {
                 fullNameView.Text = ViewModel.customerInfo.Status.LastOrDefault().FirstName + " " + ViewModel.customerInfo.Status.LastOrDefault().MiddleName + " " + ViewModel.customerInfo.Status.LastOrDefault().LastName;
                 contactNumberView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;

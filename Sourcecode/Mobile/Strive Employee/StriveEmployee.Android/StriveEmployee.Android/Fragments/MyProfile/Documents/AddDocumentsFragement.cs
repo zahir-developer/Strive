@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
@@ -15,7 +18,7 @@ using Plugin.FilePicker.Abstractions;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
 using StriveEmployee.Android.Adapter.MyProfile.Documents;
-
+using Xamarin.Essentials;
 namespace StriveEmployee.Android.Fragments.MyProfile.Documents
 {
     public class AddDocumentsFragment : MvxFragment<AddDocumentsViewModel>
@@ -27,13 +30,13 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
         private FileData fileData;
         MyProfileFragment MyProfFragment;
         private AddDocumentsAdapter addDocuments_Adapter;
-        private List<employeeDocument> fileName = new List<employeeDocument>();
+        private ObservableCollection<employeeDocument> fileName = new ObservableCollection<employeeDocument>();
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            Platform.Init((Activity)this.Context, savedInstanceState);
             // Create your fragment here
         }
 
@@ -55,22 +58,23 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
 
         private  void Save_Button_ClickAsync(object sender, EventArgs e)
         {
-            if (fileData != null && (addDocuments_Adapter != null && addDocuments_Adapter?.GetFile()!=null))
+            if (addDocuments_Adapter != null && addDocuments_Adapter?.GetFile()!=null && addDocuments_Adapter?.GetFile().Count >0)
             {
                 save_Button.Enabled = false;
                 _userDialog.ShowLoading("Loading");
-                ViewModel.filepath = addDocuments_Adapter.GetFile().filePath;
-                ViewModel.filename = addDocuments_Adapter.GetFile().fileName;
-                ViewModel.filetype = addDocuments_Adapter.GetFile().fileType;
-                Task t = Task.Run(async () => await ViewModel.SaveDocuments());
-                t.ContinueWith((t1) =>
+                foreach (var data in addDocuments_Adapter?.GetFile())
                 {
-                    AppCompatActivity activity = (AppCompatActivity)this.Context;
-                    MyProfileInfoNeeds.selectedTab = 2;
-                    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, MyProfFragment).Commit();
-                });
-               
-               
+                    ViewModel.employeeDocumentList.Add(data);
+                }
+                Task t = Task.Run(async () => await ViewModel.SaveDocuments());
+                    t.ContinueWith((t1) =>
+                    {
+                        AppCompatActivity activity = (AppCompatActivity)this.Context;
+                        MyProfileInfoNeeds.selectedTab = 2;
+                        activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, MyProfFragment).Commit();
+                    });
+
+                
             }
             else
             {
@@ -93,33 +97,39 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
         {
             try
             {
-                fileData = await CrossFilePicker.Current.PickFile();
-                if (fileData != null)
+                //fileData = await CrossFilePicker.Current.PickFile();
+               
+                var result = await FilePicker.PickMultipleAsync();
+                if (result != null)
                 {
-                    this.ViewModel.filedata = Convert.ToBase64String(fileData.DataArray);
-                    //this.ViewModel.filepath = fileData.FilePath;
-                    //this.ViewModel.filename = fileData.FileName;
-                    //var fileType = fileData.FileName.Split(".");
-                    //this.ViewModel.filetype = fileType[1];
-                    var fileType = fileData.FileName.Split(".");
-                    var employeeDocuments = new employeeDocument();
-                    employeeDocuments.fileName = fileData.FileName;
-                    employeeDocuments.filePath = fileData.FilePath;
-                    employeeDocuments.base64 = Convert.ToBase64String(fileData.DataArray);
-                    employeeDocuments.fileType = fileType[1];
-                    fileName.Add(employeeDocuments);
-                    // await this.ViewModel.SaveDocuments();
-                    //AppCompatActivity activity = (AppCompatActivity)this.Context;
-                    //activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, MyProfFragment).Commit();
-                    if (fileName!= null && fileName.Count > 0)
-                    {
-                        addDocuments_Adapter = new AddDocumentsAdapter(Context, fileName);
-                        var LayoutManager = new LinearLayoutManager(Context);
-                        addDoc_RecyclerView.SetLayoutManager(LayoutManager);
-                        addDoc_RecyclerView.SetAdapter(addDocuments_Adapter);
-                    }
+                    //    foreach (var data in result)
+                    //    {
+                    //        var employeeDocuments = new employeeDocument();
+                    //        byte[] DataArray = File.ReadAllBytes(data.FullPath);
+                    //        //this.ViewModel.filedata = Convert.ToBase64String(DataArray);
+
+                    //        var fileType = data.FileName.Split(".");
+                    //        employeeDocuments.fileName = data.FileName;
+                    //        employeeDocuments.filePath = data.FullPath;
+                    //        employeeDocuments.base64 = Convert.ToBase64String(DataArray);
+                    //        employeeDocuments.fileType = fileType[1];
+                    //        fileName.Add(employeeDocuments);
+                    //    }
+                    //}
+                    //        if (fileName != null && fileName.Count > 0)
+                    //        {
+                    //            addDocuments_Adapter = new AddDocumentsAdapter(Context, result);
+                    //            var LayoutManager = new LinearLayoutManager(Context);
+                    //            addDoc_RecyclerView.SetLayoutManager(LayoutManager);
+                    //            addDoc_RecyclerView.SetAdapter(addDocuments_Adapter);
+                    //        }
+
+                    addDocuments_Adapter = new AddDocumentsAdapter(Context, result);
+                    var LayoutManager = new LinearLayoutManager(Context);
+                    addDoc_RecyclerView.SetLayoutManager(LayoutManager);
+                    addDoc_RecyclerView.SetAdapter(addDocuments_Adapter);
                 }
-            }
+                }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);

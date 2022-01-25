@@ -88,6 +88,7 @@ namespace StriveOwner.Android.Views
         {
             if (keyCode == Keycode.Back)
             {
+                this.ViewModel.isAndroid = true;
                 this.ViewModel.Logout();
             }
 

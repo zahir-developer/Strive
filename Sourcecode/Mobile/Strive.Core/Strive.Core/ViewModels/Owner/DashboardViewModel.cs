@@ -12,7 +12,7 @@ namespace Strive.Core.ViewModels.Owner
     {
         #region Commands
         private MvxSubscriptionToken _messageToken;
-
+        public bool isAndroid = false;
         public DashboardViewModel()
         {
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
@@ -36,7 +36,15 @@ namespace Strive.Core.ViewModels.Owner
                 ChatHubMessagingService.StopConnection();
                 await SetChatCommunicationDetails();
                 EmployeeTempData.ResetAll();
-                await _navigationService.Close(this);
+                if (!isAndroid)
+                {
+                    await _navigationService.Close(this);
+                }
+                else
+                {
+                    await _navigationService.Navigate<LoginViewModel>();
+                }
+               
             }
         }
         public async Task SetChatCommunicationDetails()

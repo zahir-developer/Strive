@@ -76,7 +76,7 @@ namespace Strive.Core.ViewModels.Employee
                 personalChatMessages.ChatMessage = new ChatMessage();
                 personalChatMessages.ChatMessage.ChatMessageDetail = new MvxObservableCollection<ChatMessageDetail>();
                 personalChatMessages = result;
-                ChatMessages = personalChatMessages.ChatMessage.ChatMessageDetail;
+                ChatMessages = personalChatMessages?.ChatMessage?.ChatMessageDetail;
             
         }
 

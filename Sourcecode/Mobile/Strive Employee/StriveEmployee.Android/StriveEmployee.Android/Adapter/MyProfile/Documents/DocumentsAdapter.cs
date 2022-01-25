@@ -21,6 +21,7 @@ using Uri = Android.Net.Uri;
 using Android.Webkit;
 using Java.IO;
 using Android.Util;
+using Xamarin.Essentials;
 
 namespace StriveEmployee.Android.Adapter.MyProfile.Documents
 {

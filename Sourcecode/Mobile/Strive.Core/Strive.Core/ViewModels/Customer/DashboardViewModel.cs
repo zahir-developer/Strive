@@ -13,7 +13,7 @@ namespace Strive.Core.ViewModels.Customer
     public class DashboardViewModel : BaseViewModel
     {
         private MvxSubscriptionToken _messageToken;
-
+        public bool isAndroid = false;
         public DashboardViewModel()
         {
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
@@ -48,7 +48,15 @@ namespace Strive.Core.ViewModels.Customer
                     if(success)
                     {
                         CustomerInfo.Clear();
-                        _navigationService.Close(this);
+                        if (!isAndroid)
+                        {
+                            _navigationService.Close(this);
+                        }
+                        else
+                        {
+                             _navigationService.Navigate<LoginViewModel>();
+                        }
+                        
                     }
                 }
 

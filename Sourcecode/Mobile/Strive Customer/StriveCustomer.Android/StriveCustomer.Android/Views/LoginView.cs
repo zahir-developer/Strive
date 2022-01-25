@@ -7,6 +7,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
 using Android.Support.V4.App;
+using Android.Views;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -59,7 +60,7 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(passwordInput).To(lvm => lvm.loginPassword);
             bindingset.Bind(loginTextView).To(lvm => lvm.Login);
             bindingset.Bind(loginButton).For(lvm => lvm.Text).To(lvm => lvm.Login);
-            bindingset.Bind(loginButton).To(lvm => lvm.Commands["DoLogin"]);
+            //bindingset.Bind(loginButton).To(lvm => lvm.Commands["DoLogin"]);
             bindingset.Bind(rememberMe).To(lvm => lvm.RememberPassword);
             bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
             bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
@@ -67,19 +68,30 @@ namespace StriveCustomer.Android.Views
             bindingset.Apply();
             basicSetup();
             rememberMeCheck.Click += checkStoredCredentials;
-
-             signUp.Click += navigateToSignUp;
+            loginButton.Click += Login_Click;
+            signUp.Click += navigateToSignUp;
              forgotPassword.Click += navigateToForgotPassword;
 //#if DEBUG
 //            emailPhoneInput.Text = "ramtesting21@gmail.com";
 //            passwordInput.Text = "pass@123";
 //#endif
 
-            signUp.Click += navigateToSignUp;
+           signUp.Click += navigateToSignUp;
            forgotPassword.Click += navigateToForgotPassword;
 
         }
-
+        private async void Login_Click(object sender, EventArgs e)
+        {
+            if (rememberMeCheck.Checked == true)
+            {
+                preferenceEditor.PutBoolean("rememberMe", rememberMeCheck.Checked);
+                preferenceEditor.PutString("loginId", emailPhoneInput.Text);
+                preferenceEditor.PutString("password", passwordInput.Text);
+                preferenceEditor.Apply();
+            }
+            await this.ViewModel.DoLoginCommand();
+            
+        }
         private void checkStoredCredentials(object o, EventArgs e)
         {
             preferenceEditor.PutBoolean("rememberMe", rememberMeCheck.Checked);
@@ -88,7 +100,7 @@ namespace StriveCustomer.Android.Views
             preferenceEditor.Apply();
         }
 
-        private async void isCredentialStored(bool isRemember)
+        private  void isCredentialStored(bool isRemember)
         {
             if (isRemember)
             {
@@ -96,10 +108,10 @@ namespace StriveCustomer.Android.Views
                 emailPhoneInput.SetText(loginId, null);
                 var password = sharedPreferences.GetString("password", null);
                 passwordInput.SetText(password, null);
-                if(!String.IsNullOrEmpty(emailPhoneInput.Text) && !String.IsNullOrEmpty(passwordInput.Text))
-                {
-                    await ViewModel.DoLoginCommand();
-                }
+                //if(!String.IsNullOrEmpty(emailPhoneInput.Text) && !String.IsNullOrEmpty(passwordInput.Text))
+                //{
+                //    await ViewModel.DoLoginCommand();
+                //}
             }
             else
             {
@@ -127,6 +139,15 @@ namespace StriveCustomer.Android.Views
             rememberMeCheck.Checked = sharedPreferences.GetBoolean("rememberMe", false);
             isCredentialStored(rememberMeCheck.Checked);
             CustomerInfo.selectedMilesOption = sharedPreferences.GetString("milesoption", null);
+        }
+        public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+        {
+            if (keyCode == Keycode.Back)
+            {
+                FinishAffinity();
+            }
+
+            return true;
         }
     }
 }
