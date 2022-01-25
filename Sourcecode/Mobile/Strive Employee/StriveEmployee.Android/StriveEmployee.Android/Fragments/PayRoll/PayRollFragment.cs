@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Java.Util;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
@@ -186,7 +187,12 @@ namespace StriveEmployee.Android.Fragments.Payroll
         {
             DateTime today = DateTime.Today.Date;
             DatePickerDialog dialog = new DatePickerDialog(Context, OnFromDateSet, today.Year, today.Month - 1, today.Day);
-            dialog.DatePicker.MinDate = today.Millisecond;           
+            //dialog.DatePicker.MinDate = today.Millisecond;
+            var calendar = Calendar.GetInstance(Java.Util.TimeZone.Default);
+            var day = calendar.Get(CalendarField.DayOfMonth);
+            var year = calendar.Get(CalendarField.Year);
+            var month = calendar.Get(CalendarField.Month);
+            dialog.DatePicker.MaxDate = calendar.TimeInMillis;             
             dialog.Show();            
         }      
 
@@ -199,7 +205,12 @@ namespace StriveEmployee.Android.Fragments.Payroll
         {
             DateTime today = DateTime.Today.Date;
             DatePickerDialog dialog = new DatePickerDialog(Context, OnToDateSet, today.Year, today.Month - 1, today.Day);            
-            dialog.DatePicker.MinDate = today.Millisecond;
+            //dialog.DatePicker.MinDate = today.Millisecond;
+            var calendar = Calendar.GetInstance(Java.Util.TimeZone.Default);
+            var day = calendar.Get(CalendarField.DayOfMonth);
+            var year = calendar.Get(CalendarField.Year);
+            var month = calendar.Get(CalendarField.Month);
+            dialog.DatePicker.MaxDate = calendar.TimeInMillis;
             dialog.Show();           
         }
 

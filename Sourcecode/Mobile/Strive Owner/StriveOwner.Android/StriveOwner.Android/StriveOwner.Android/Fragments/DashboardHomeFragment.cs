@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
-    public class DashboardHomeFragment : MvxFragment<HomeViewModel>,ViewPager.IOnPageChangeListener
+    public class DashboardHomeFragment : MvxFragment<HomeViewModel>
     {
        // private TextView TempTextView;
         private LinearLayout locationsLayout;
@@ -42,6 +42,7 @@ namespace StriveOwner.Android.Resources.Fragments
         List<Button> listBtn = new List<Button>();
         View layout;
         private static int selectedLocationId = 0;
+        private HorizontalScrollView button_ScrollView;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
@@ -57,10 +58,10 @@ namespace StriveOwner.Android.Resources.Fragments
             dashhome_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.dashhome_TabLayout);
             dashhome_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.dashhome_ViewPager);            
             bay_layout = rootView.FindViewById<LinearLayout>(Resource.Id.BayDetails_LinearLayout);
+            button_ScrollView = rootView.FindViewById<HorizontalScrollView>(Resource.Id.Button_ScrollView);
             NoRecord = rootView.FindViewById<TextView>(Resource.Id.norecord);
             BayDetailsScrollView = rootView.FindViewById<NestedScrollView>(Resource.Id.BayDetails_ScrollView);
-            lineChart = rootView.FindViewById<PlotView>(Resource.Id.linechart);
-            //OwnerTempData.LocationID = 14;
+            lineChart = rootView.FindViewById<PlotView>(Resource.Id.linechart);            
             GetLocations();           
 
             return rootView;
@@ -111,12 +112,7 @@ namespace StriveOwner.Android.Resources.Fragments
             s2.Items.Add(new ColumnItem(30));
             s2.Items.Add(new ColumnItem(10));
             s2.Items.Add(new ColumnItem(20));
-            s2.ColumnWidth = 20;
-
-            //if (servicesFragment.getScore() == "")
-            //{
-            //    servicesFragment.getScore() = "0";
-            //}
+            s2.ColumnWidth = 20;            
 
             var Items = new Collection<Item>
             {
@@ -141,13 +137,15 @@ namespace StriveOwner.Android.Resources.Fragments
         private async void GetStatistics(int locationID)
         {
             await ViewModel.getStatistics(locationID);
-            GetDashData(locationID);
+            GetDashData(locationID);            
             setChartView();
         }
 
         private async void GetDashData(int locationID)
         {
             await ViewModel.getDashboardSchedule(locationID);
+            bay_layout.RemoveAllViews();
+            BayDetails();
             //GetLocations();
         }
         
@@ -187,27 +185,29 @@ namespace StriveOwner.Android.Resources.Fragments
                     {
                         FirstLocId = ViewModel.Locations.Location.First().LocationId;
                         SelectedLocName = ViewModel.Locations.Location.First().LocationName;
-                        PreviousSelectedId.Add(BtnID);
-                        locationBtn.Selected = true;
+                        if (BtnID == 778)
+                        {
+                            PreviousSelectedId.Add(BtnID);
+                            locationBtn.Selected = true;
+                        }
                     }
                     else
                     {
-                        FirstLocId = selectedLocationId;
-                        PreviousSelectedId.Add(BtnID);
-                        locationBtn.Selected = true;
-
+                        FirstLocId = selectedLocationId;                        
+                        if (selectedLocationId == location.LocationId)
+                        {
+                            SelectedLocName = location.LocationName;
+                           // button_ScrollView.SmoothScrollTo(locationBtn.Top,locationBtn.Bottom);
+                            PreviousSelectedId.Add(BtnID);
+                            locationBtn.Selected = true;
+                        }
                     }
-                    //if (BtnID == 778)
-                    //{
-                    //    PreviousSelectedId.Add(BtnID);
-                    //    locationBtn.Selected = true;
-                    //}
                     locationBtn.Click += LocationBtn_Click;
                     row.AddView(locationBtn);
                 }
                 locationsLayout.AddView(row);             
-                GetStatistics(FirstLocId);                
-                BayDetails();                
+                GetStatistics(FirstLocId);             
+                                
             }
         }
         private async void LocationBtn_Click(object sender, EventArgs e)
@@ -235,9 +235,9 @@ namespace StriveOwner.Android.Resources.Fragments
             dashhome_ViewPager.Adapter = dashhome_ViewPagerAdapter;
             dashhome_TabLayout.SetupWithViewPager(dashhome_ViewPager);
             GetStatistics(locationId);
-            await ViewModel.getDashboardSchedule(locationId);
-            bay_layout.RemoveAllViews();
-            BayDetails();
+            //await ViewModel.getDashboardSchedule(locationId);
+            //bay_layout.RemoveAllViews();
+            //BayDetails();
         }  
 
         private void BayDetails()
@@ -293,8 +293,6 @@ namespace StriveOwner.Android.Resources.Fragments
             }
 
         }
-
-
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
@@ -305,7 +303,6 @@ namespace StriveOwner.Android.Resources.Fragments
             dashhome_ViewPagerAdapter.AddFragment(revenueFragment, "Revenue");
             dashhome_ViewPager.Adapter = dashhome_ViewPagerAdapter;
             dashhome_TabLayout.SetupWithViewPager(dashhome_ViewPager);
-            dashhome_ViewPager.AddOnPageChangeListener(this);
         }
         public override void OnPause()
         {
@@ -319,21 +316,7 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             base.OnDestroy();
         }
-
-        public void OnPageScrollStateChanged(int state)
-        {
-            
-        }
-
-        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-        {
-           
-        }
-
-        public void OnPageSelected(int position)
-        {
-            
-        }
+       
     }
     internal class Item
     {
