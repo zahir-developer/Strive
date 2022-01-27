@@ -80,7 +80,7 @@ namespace StriveOwner.Android.Fragments
             if(MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {
                 var employeeLists = await ViewModel.GetContactsList();
-                if(MessengerTempData.employeeList_Contact != null || employeeLists != null ||employeeLists.EmployeeList != null || employeeLists?.EmployeeList?.Employee != null)
+                if(MessengerTempData.employeeList_Contact != null && employeeLists != null && employeeLists.EmployeeList != null && employeeLists?.EmployeeList?.Employee != null)
                 {
                     messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, employeeLists.EmployeeList?.Employee, this.ViewModel);
                     var layoutManager = new LinearLayoutManager(Context);

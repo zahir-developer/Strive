@@ -78,13 +78,22 @@ namespace StriveEmployee.Android.Adapter
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             contactsRecycleHolder = holder as MessengerContactsRecycleHolder;
-            if (!String.IsNullOrEmpty(contacts[position].FirstName))
+         
+            if (!string.IsNullOrEmpty(contacts[position].FirstName))
             {
                 firstInitial = contacts[position].FirstName.ToCharArray();
             }
-            if (!String.IsNullOrEmpty(contacts[position].LastName))
+            else
+            {
+                firstInitial = null;
+            }
+            if (!string.IsNullOrEmpty(contacts[position].LastName))
             {
                 secondInitial = contacts[position].LastName.ToCharArray();
+            }
+            else
+            {
+                secondInitial = null;
             }
             if (firstInitial != null && secondInitial != null)
             {

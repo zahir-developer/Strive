@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Android.Content;
 using Android.Support.V7.App;
@@ -44,6 +45,8 @@ namespace StriveEmployee.Android.Adapter
         MessengerGroupContactViewModel messengerGroupContactViewModel;
         private List<ChatEmployeeList> groups = new List<ChatEmployeeList>();
         private MessengerGroupChatViewHolder messengerGroup;
+        private char[] firstInitial;
+        private char[] secondInitial;
         public MessengerGroupChatAdapter(Context context, List<ChatEmployeeList> groups, MessengerGroupContactViewModel viewModel)
         {
             this.context = context;
@@ -65,6 +68,40 @@ namespace StriveEmployee.Android.Adapter
         {
             messengerGroup = holder as MessengerGroupChatViewHolder;
             messengerGroup.groupName_TextView.Text = groups[position].FirstName + groups[position].LastName;
+            if (!string.IsNullOrEmpty(groups[position].FirstName))
+            {
+                firstInitial = groups[position].FirstName.ToCharArray();
+            }
+            else
+            {
+                firstInitial = null;
+            }
+            if (!string.IsNullOrEmpty(groups[position].LastName))
+            {
+                secondInitial = groups[position].LastName.ToCharArray();
+            }
+            else
+            {
+                secondInitial = null;
+            }
+            if (firstInitial != null && secondInitial != null)
+            {
+                messengerGroup.group_Button.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
+            }
+            else if (firstInitial != null)
+            {
+                if (firstInitial.Length > 0)
+                {
+                    messengerGroup.group_Button.Text = firstInitial.ElementAt(0).ToString() + firstInitial.ElementAt(1).ToString();
+                }
+            }
+            else
+            {
+                if (secondInitial.Length > 0)
+                {
+                    messengerGroup.group_Button.Text = secondInitial.ElementAt(0).ToString() + secondInitial.ElementAt(1).ToString();
+                }
+            }
             messengerGroup.SetItemClickListener(this);
         }
 

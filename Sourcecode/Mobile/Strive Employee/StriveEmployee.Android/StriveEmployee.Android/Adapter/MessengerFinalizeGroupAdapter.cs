@@ -67,7 +67,7 @@ namespace StriveEmployee.Android.Adapter
         {
             MessengerFinalizeGroup = holder as MessengerFinalizeGroupViewHolder;
 
-            if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList.Employee[position].FirstName))
+            if (!string.IsNullOrEmpty(selectedParticipants.EmployeeList.Employee[position].FirstName))
             {
                 firstInitial = selectedParticipants.EmployeeList.Employee[position].FirstName.ToCharArray();
             }
@@ -76,7 +76,7 @@ namespace StriveEmployee.Android.Adapter
                 firstInitial = null;
 
             }
-            if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList.Employee[position].LastName))
+            if (!string.IsNullOrEmpty(selectedParticipants.EmployeeList.Employee[position].LastName))
             {
                 secondInitial = selectedParticipants.EmployeeList.Employee[position].LastName.ToCharArray();
             }
@@ -91,12 +91,18 @@ namespace StriveEmployee.Android.Adapter
             }
             else if(firstInitial != null)
             {
-                MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = firstInitial.ElementAt(0).ToString();
+                if (firstInitial.Length > 0)
+                {
+                    MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = firstInitial.ElementAt(0).ToString();
+                }
                 MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList.Employee[position].FirstName;
             }
             else
             {
-                MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = secondInitial.ElementAt(0).ToString();
+                if (secondInitial.Length > 0)
+                {
+                    MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = secondInitial.ElementAt(0).ToString();
+                }
                 MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList.Employee[position].LastName;
             }
             MessengerFinalizeGroup.SetItemClickListener(this);

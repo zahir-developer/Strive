@@ -58,23 +58,44 @@ namespace StriveEmployee.Android.Adapter
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             messengerCreateGroup = holder as MessengerCreateGroupRecycleHolder;
-
-
-            if (!String.IsNullOrEmpty(contacts[position].FirstName))
+ 
+            if (!string.IsNullOrEmpty(contacts[position].FirstName))
             {
                 firstInitial = contacts[position].FirstName.ToCharArray();
             }
-            if (!String.IsNullOrEmpty(contacts[position].LastName))
+            else
+            {
+                firstInitial = null;
+            }
+            if (!string.IsNullOrEmpty(contacts[position].LastName))
             {
                 secondInitial = contacts[position].LastName.ToCharArray();
             }
-            if (firstInitial.Length != 0 || secondInitial.Length != 0)
+            else
+            {
+                secondInitial = null;
+            }
+            if (firstInitial != null && secondInitial != null)
             {
                 messengerCreateGroup.createGroup_Button.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
                 messengerCreateGroup.createGroupName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
-                messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Visible;
             }
-
+            else if (firstInitial != null)
+            {
+                if (firstInitial.Length > 0)
+                {
+                    messengerCreateGroup.createGroup_Button.Text = firstInitial.ElementAt(0).ToString() + firstInitial.ElementAt(1).ToString();
+                }
+            }
+            else
+            {
+                if (secondInitial.Length > 0)
+                {
+                    messengerCreateGroup.createGroup_Button.Text = secondInitial.ElementAt(0).ToString() + secondInitial.ElementAt(1).ToString();
+                }
+            }
+          
+            messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Visible;
             messengerCreateGroup.ItemView.Tag = position;
             if(MessengerTempData.ChatParticipants != null)
             {

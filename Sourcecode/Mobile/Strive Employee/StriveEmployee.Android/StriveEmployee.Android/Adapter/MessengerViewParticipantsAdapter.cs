@@ -74,20 +74,41 @@ namespace StriveEmployee.Android.Adapter
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             MessengerParticipantGroup = holder as MessengerViewParticipantsViewHolder;
-            if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList.ChatEmployeeList[position].FirstName))
+            if (!string.IsNullOrEmpty(selectedParticipants.EmployeeList.ChatEmployeeList[position].FirstName))
             {
                 firstInitial = selectedParticipants.EmployeeList.ChatEmployeeList[position].FirstName.ToCharArray();
             }
-            if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList.ChatEmployeeList[position].LastName))
+            else
+            {
+                firstInitial = null;
+            }
+            if (!string.IsNullOrEmpty(selectedParticipants.EmployeeList.ChatEmployeeList[position].LastName))
             {
                 secondInitial = selectedParticipants.EmployeeList.ChatEmployeeList[position].LastName.ToCharArray();
             }
-            if (firstInitial.Length != 0 || secondInitial.Length != 0)
+            else
+            {
+                secondInitial = null;
+            }
+            if (firstInitial != null && secondInitial != null)
             {
                 MessengerParticipantGroup.ParticipantsProfile_ImageButton.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
                 MessengerParticipantGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList.ChatEmployeeList[position].FirstName + " " + selectedParticipants.EmployeeList.ChatEmployeeList[position].LastName;
             }
-
+            else if (firstInitial != null)
+            {
+                if (firstInitial.Length > 0)
+                {
+                    MessengerParticipantGroup.ParticipantsProfile_ImageButton.Text = firstInitial.ElementAt(0).ToString() + firstInitial.ElementAt(1).ToString();
+                }
+            }
+            else
+            {
+                if (secondInitial.Length > 0)
+                {
+                    MessengerParticipantGroup.ParticipantsProfile_ImageButton.Text = secondInitial.ElementAt(0).ToString() + secondInitial.ElementAt(1).ToString();
+                }
+            }
             MessengerParticipantGroup.SetItemClickListener(this);
         }
 
