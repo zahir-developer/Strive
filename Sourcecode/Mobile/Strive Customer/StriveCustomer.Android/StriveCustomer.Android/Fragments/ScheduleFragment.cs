@@ -21,7 +21,7 @@ using StriveCustomer.Android.Adapter;
 
 namespace StriveCustomer.Android.Fragments
 {
-    public class ScheduleFragment : MvxFragment<ScheduleViewModel>
+    public class ScheduleFragment : MvxFragment<ScheduleViewModel>,ViewPager.IOnPageChangeListener
     {
         TabLayout scheduleTabs;
         ViewPager schedulePager;
@@ -59,7 +59,30 @@ namespace StriveCustomer.Android.Fragments
             scheduleAdapter.AddFragment(pastServiceHistoryFragment, "Past Service History");
             schedulePager.Adapter = scheduleAdapter;
             scheduleTabs.SetupWithViewPager(schedulePager);
+            schedulePager.SetOnPageChangeListener(this);
             //schedulePager.SetCurrentItem(MyProfileInfoNeeds.selectedTab, false);
+        }
+
+        public void OnPageScrollStateChanged(int state)
+        {
+            
+        }
+
+        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+            
+        }
+
+        public void OnPageSelected(int position)
+        {
+            if (position == 0) 
+            { 
+            
+            }
+            if (position == 1) 
+            {
+                pastServiceHistoryFragment.GetPastServices();
+            }
         }
     }
 }
