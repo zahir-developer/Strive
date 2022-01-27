@@ -1046,7 +1046,7 @@ export class SalesComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result.status) {
         this.isCreditPay = true;
-        this.tips = parseFloat(result.tipAmount);
+        this.tips = result.tipAmount == "" ? 0 : parseFloat(result.tipAmount);
         this.credit = result.totalAmount
         this.captureObj = result.authObj;
         this.calculateTotalpaid(+this.credit);
