@@ -71,9 +71,9 @@ namespace StriveEmployee.Android.Fragments
 
         private async void Create_Button_Click(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(groupFinalName_TextView.Text))
+            if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Count > 0)
             {
-                if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Count > 0)
+                if (!string.IsNullOrEmpty(groupFinalName_TextView.Text))
                 {
                     this.ViewModel.GroupName = this.groupFinalName_TextView.Text;
                     await this.ViewModel.CreateGroupChat();
@@ -84,14 +84,15 @@ namespace StriveEmployee.Android.Fragments
                 }
                 else
                 {
-                    this.ViewModel.NotEnough();
+                    this.ViewModel.EmptyGroupName();
+
                 }
             }
             else
             {
-                this.ViewModel.EmptyGroupName();
+                this.ViewModel.NotEnough();
             }
-            
+
         }
 
 

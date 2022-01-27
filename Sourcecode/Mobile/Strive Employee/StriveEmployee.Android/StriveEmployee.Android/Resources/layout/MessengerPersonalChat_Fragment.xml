@@ -90,7 +90,7 @@
 				<LinearLayout
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
-					android:layout_weight="0.9"
+					android:layout_weight="1"
 					android:weightSum="1"
 					android:orientation="horizontal"
 					android:layout_margin="@dimen/five"
@@ -110,6 +110,7 @@
 						android:layout_height="wrap_content"
 						android:layout_gravity="top"
 						android:layout_marginTop="2dp"
+                         android:layout_weight="0.05"
 						android:background="@android:color/transparent"
 						android:src="@drawable/sendcircle"/>
 				</LinearLayout>

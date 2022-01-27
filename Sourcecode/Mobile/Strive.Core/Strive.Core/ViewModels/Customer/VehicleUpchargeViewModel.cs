@@ -65,7 +65,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             MembershipDetails.filteredList = new ServiceList();
             MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();
-            foreach (var upcharges in selectedMembership.MembershipDetail)
+            foreach (var upcharges in selectedMembership?.MembershipDetail)
             {
                 if (upcharges.Upcharges != null)
                 {

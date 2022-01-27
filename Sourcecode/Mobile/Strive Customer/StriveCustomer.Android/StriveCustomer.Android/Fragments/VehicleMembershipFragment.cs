@@ -126,7 +126,7 @@ namespace StriveCustomer.Android.Fragments
                 MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[index];
             }
 
-
+            MembershipDetails.selectedAdditionalServices = null;
         }
         public async void getMembershipData()
         {

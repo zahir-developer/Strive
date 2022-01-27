@@ -18,24 +18,25 @@ using OxyPlot.Series;
 using OxyPlot.Xamarin.Android;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using Java.Lang;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
     public class DashboardHomeFragment : MvxFragment<HomeViewModel>
     {
-       // private TextView TempTextView;
+        // private TextView TempTextView;
         private LinearLayout locationsLayout;
         private TabLayout dashhome_TabLayout;
         private ViewPager dashhome_ViewPager;
         private ViewPagerAdapter dashhome_ViewPagerAdapter;
         private ServicesFragment servicesFragment;
         private SalesFragment salesFragment;
-        private RevenueFragment revenueFragment;        
+        private RevenueFragment revenueFragment;
         private LinearLayout bay_layout;
         private PlotView lineChart;
         private TextView NoRecord;
         private NestedScrollView BayDetailsScrollView;
-        private static string SelectedLocName="";
+        private static string SelectedLocName = "";
         private List<int> PreviousSelectedId = new List<int>();
         private int FirstLocId;
         Button locationBtn;
@@ -56,13 +57,13 @@ namespace StriveOwner.Android.Resources.Fragments
             ///TempTextView.Text = "/";
             locationsLayout = rootView.FindViewById<LinearLayout>(Resource.Id.addinglocationbuttons);
             dashhome_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.dashhome_TabLayout);
-            dashhome_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.dashhome_ViewPager);            
+            dashhome_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.dashhome_ViewPager);
             bay_layout = rootView.FindViewById<LinearLayout>(Resource.Id.BayDetails_LinearLayout);
             button_ScrollView = rootView.FindViewById<HorizontalScrollView>(Resource.Id.Button_ScrollView);
             NoRecord = rootView.FindViewById<TextView>(Resource.Id.norecord);
             BayDetailsScrollView = rootView.FindViewById<NestedScrollView>(Resource.Id.BayDetails_ScrollView);
-            lineChart = rootView.FindViewById<PlotView>(Resource.Id.linechart);            
-            GetLocations();           
+            lineChart = rootView.FindViewById<PlotView>(Resource.Id.linechart);
+            GetLocations();
 
             return rootView;
         }
@@ -112,7 +113,7 @@ namespace StriveOwner.Android.Resources.Fragments
             s2.Items.Add(new ColumnItem(30));
             s2.Items.Add(new ColumnItem(10));
             s2.Items.Add(new ColumnItem(20));
-            s2.ColumnWidth = 20;            
+            s2.ColumnWidth = 20;
 
             var Items = new Collection<Item>
             {
@@ -132,12 +133,12 @@ namespace StriveOwner.Android.Resources.Fragments
             this.lineChart.Model = model;
             //lineChart.fr = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);
             //return model;
-        }        
+        }
 
         private async void GetStatistics(int locationID)
         {
             await ViewModel.getStatistics(locationID);
-            GetDashData(locationID);            
+            GetDashData(locationID);
             setChartView();
         }
 
@@ -148,7 +149,7 @@ namespace StriveOwner.Android.Resources.Fragments
             BayDetails();
             //GetLocations();
         }
-        
+
         private async void GetLocations()
         {
             await ViewModel.GetAllLocationsCommand();
@@ -167,8 +168,8 @@ namespace StriveOwner.Android.Resources.Fragments
                     locationBtn = new Button(this.Context);
                     listBtn.Add(locationBtn);
                     locationBtn.SetBackgroundResource(Resource.Drawable.RoundEdge_Button);
-                   // SelectedLocName = ViewModel.Locations.Location.First().LocationName;
-                   // FirstLocId = ViewModel.Locations.Location.First().LocationId;                    
+                    // SelectedLocName = ViewModel.Locations.Location.First().LocationName;
+                    // FirstLocId = ViewModel.Locations.Location.First().LocationId;                    
                     var nameSplits = location.LocationName.Split(" ");
                     foreach (var name in nameSplits)
                     {
@@ -193,11 +194,19 @@ namespace StriveOwner.Android.Resources.Fragments
                     }
                     else
                     {
-                        FirstLocId = selectedLocationId;                        
+                        FirstLocId = selectedLocationId;
                         if (selectedLocationId == location.LocationId)
                         {
+                            if(selectedLocationId == ViewModel.Locations.Location.Last().LocationId)
+                            {
+                            Action myAction = () =>
+                            {
+                                button_ScrollView.FullScroll(FocusSearchDirection.Right);
+                            };
+                            button_ScrollView.PostDelayed(myAction, 1000);
+                                }
                             SelectedLocName = location.LocationName;
-                           // button_ScrollView.SmoothScrollTo(locationBtn.Top,locationBtn.Bottom);
+                            // button_ScrollView.SmoothScrollTo(locationBtn.Top,locationBtn.Bottom);
                             PreviousSelectedId.Add(BtnID);
                             locationBtn.Selected = true;
                         }
@@ -205,12 +214,15 @@ namespace StriveOwner.Android.Resources.Fragments
                     locationBtn.Click += LocationBtn_Click;
                     row.AddView(locationBtn);
                 }
-                locationsLayout.AddView(row);             
-                GetStatistics(FirstLocId);             
-                                
+                locationsLayout.AddView(row);
+                GetStatistics(FirstLocId);
+
             }
         }
-        private async void LocationBtn_Click(object sender, EventArgs e)
+       
+
+    
+    private async void LocationBtn_Click(object sender, EventArgs e)
         {
             var data = (Button)sender;
             PreviousSelectedId.Add(data.Id);
