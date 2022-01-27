@@ -380,7 +380,7 @@ export class CreateEditWashesComponent implements OnInit {
         });
         this.getModel(vData.VehicleMakeId);
         this.upchargeService(vData.Upcharge);
-        this.getUpcharge(false);
+        this.getUpcharge(true);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
