@@ -42,7 +42,7 @@ namespace StriveCustomer.iOS.Views.Login
 		UIKit.UILabel SignupLbl { get; set; }
 
 		[Outlet]
-		UIKit.UIWebView TermsDocuments { get; set; }
+		UIKit.UIView TermsDocuments { get; set; }
 
 		[Action ("AgreeBtnclicked:")]
 		partial void AgreeBtnclicked (UIKit.UIButton sender);
@@ -52,6 +52,9 @@ namespace StriveCustomer.iOS.Views.Login
 
 		[Action ("DisagreeBtnclicked:")]
 		partial void DisagreeBtnclicked (UIKit.UIButton sender);
+
+		[Action ("LoginButtonclicked:")]
+		partial void LoginButtonclicked (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

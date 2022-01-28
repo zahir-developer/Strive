@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -17,28 +18,28 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginView">
             <connections>
-                <outlet property="AgreeBtn" destination="iPg-jr-3tj" id="G8l-xV-QGm"/>
+                <outlet property="AgreeBtn" destination="VmR-kV-gc0" id="OIS-Nc-4wa"/>
                 <outlet property="CheckBox" destination="ujE-X9-LeZ" id="name-outlet-ujE-X9-LeZ"/>
-                <outlet property="DisagreeBtn" destination="3dL-AF-mTa" id="cOf-IU-uzk"/>
+                <outlet property="DisagreeBtn" destination="58S-7G-39m" id="9Ju-Ij-wzK"/>
                 <outlet property="EmailTextfield" destination="mzp-bD-SUp" id="name-outlet-mzp-bD-SUp"/>
                 <outlet property="ForgotPasswordButton" destination="2E1-qZ-P25" id="name-outlet-2E1-qZ-P25"/>
                 <outlet property="LoginButton" destination="tfd-No-OYy" id="Aa2-f1-pav"/>
                 <outlet property="PasswordTextfield" destination="kVA-Zu-eJ3" id="name-outlet-kVA-Zu-eJ3"/>
                 <outlet property="SignupLbl" destination="yp8-zX-hJ1" id="s93-gk-pi5"/>
-                <outlet property="TermsDocuments" destination="W2Z-pw-6mF" id="7rk-U6-hfB"/>
+                <outlet property="TermsDocuments" destination="yR7-fc-Tru" id="b7l-PA-WxH"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="2">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="fwZ-gY-5Lc">
-                    <rect key="frame" x="-10" y="-10" width="434" height="916"/>
+                    <rect key="frame" x="-10" y="-10" width="410" height="864"/>
                 </imageView>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kVA-Zu-eJ3">
-                    <rect key="frame" x="20" y="423" width="374" height="50"/>
+                    <rect key="frame" x="20" y="397" width="350" height="50"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="B6N-Z4-kZn"/>
@@ -48,34 +49,37 @@
                     <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email or Phone #" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mzp-bD-SUp">
-                    <rect key="frame" x="20" y="363" width="374" height="50"/>
+                    <rect key="frame" x="20" y="337" width="350" height="50"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                     <textInputTraits key="textInputTraits" textContentType="email"/>
                 </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70J-84-Sja">
-                    <rect key="frame" x="20" y="315" width="55" height="28"/>
+                    <rect key="frame" x="20" y="289" width="55" height="28"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-strive" translatesAutoresizingMaskIntoConstraints="NO" id="mBa-5n-Bdi">
-                    <rect key="frame" x="140.5" y="169" width="133" height="76"/>
+                    <rect key="frame" x="132" y="147.33333333333334" width="126" height="71.666666666666657"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="mBa-5n-Bdi" secondAttribute="height" multiplier="7:4" id="Apl-cU-96G"/>
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tfd-No-OYy">
-                    <rect key="frame" x="20" y="530" width="374" height="50"/>
+                    <rect key="frame" x="20" y="504" width="350" height="50"/>
                     <color key="backgroundColor" red="0.1150721237" green="0.78556483980000003" blue="0.71554869409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="18"/>
                     <state key="normal" title="LOGIN">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="LoginButtonclicked:" destination="-1" eventType="touchUpInside" id="E46-T7-9LN"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yp8-zX-hJ1">
-                    <rect key="frame" x="97" y="686" width="220.5" height="21.5"/>
+                    <rect key="frame" x="84.666666666666671" y="660" width="220.66666666666663" height="21.666666666666629"/>
                     <attributedString key="attributedText">
                         <fragment content="Create a new account">
                             <attributes>
@@ -100,7 +104,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2E1-qZ-P25">
-                    <rect key="frame" x="20" y="595" width="130" height="31"/>
+                    <rect key="frame" x="20" y="569" width="130" height="31"/>
                     <state key="normal">
                         <attributedString key="attributedTitle">
                             <fragment content="Forgot Password?">
@@ -116,7 +120,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ujE-X9-LeZ">
-                    <rect key="frame" x="20" y="488" width="20" height="20"/>
+                    <rect key="frame" x="20" y="462" width="20" height="20"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="20" id="f8p-bn-ocQ"/>
                         <constraint firstAttribute="height" constant="20" id="p2x-0s-Pps"/>
@@ -127,7 +131,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vAd-DW-oHM">
-                    <rect key="frame" x="50" y="481" width="167" height="34"/>
+                    <rect key="frame" x="50" y="455" width="167" height="34"/>
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                     <state key="normal" title="Remember Password?">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -136,55 +140,1018 @@
                         <action selector="CheckBoxClicked:" destination="-1" eventType="touchUpInside" id="931"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPg-jr-3tj">
-                    <rect key="frame" x="213" y="775" width="181" height="31"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yR7-fc-Tru">
+                    <rect key="frame" x="20" y="91" width="350" height="662"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms And Conditions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t57-Gz-geO">
+                            <rect key="frame" x="91" y="14" width="168" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="AVN-mZ-Rbk">
+                            <rect key="frame" x="8" y="49" width="334" height="566"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6D5-uf-0M0">
+                                    <rect key="frame" x="0.0" y="0.0" width="334" height="566"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <attributedString key="attributedText">
+                                        <fragment>
+                                            <mutableString key="content">MAMMOTH DETAIL SALON, INC., based in Alpharetta, Georgia, USA, and serving the Atlanta-area market, offers exceptional beauty treatments for your vehicle. Our Mammoth Detail “Strive” App (“App”) provides a consumer-friendly interface for Mammoth Members to schedule and pay for services such as our Auto Detail Handwash Package and numerous Add-On Services such as “leather cleaning,” “shampoo carpets,” or “headlamp restoration.” 
+
+</mutableString>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">1.	How to become a Member</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">. After purchasing any of our wash packages, you can complete a Mammoth Membership Form, choose your vehicle profile and Package and Add-ons, enter your credit card payment information and sign. Then load our Mammoth Detail “Strive”) App (the “App”) onto your Mobile Device (iPhone and Android currently supported), and come in for the rest of the month free of charge! At the beginning of each month your card will be automatically charged and you will be renewed as an unlimited wash Member each month (See our Payments section below).
+</mutableString>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">2.	Using the Mammoth Detail App </string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">a.	</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">Please read these Terms of Use carefully before downloading or using the App. By downloading or using the App, you accept and agree to these Terms of Use which bind you legally. The Terms of Use are entered into for the benefit of Mammoth and its affiliated companies who may each enforce the Terms of Use against you. Please note that if you do not agree to these Terms of Use, you are not permitted to use the App and are requested to immediately cease download or installation of the App.</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">b.	</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">App updates may be made available through the App Store and Play Store. Depending on the update, and whether you use such store to download and access the App, you may not be able to use the App until you have installed the latest version.</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">c.	</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">Please be aware that App is provided over the Internet and mobile networks and so the quality and availability of the App may be affected by connectivity issues beyond the control of Mammoth. </string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">d.	</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">When you register for to become a Member, you agree to provide accurate, current and complete information about yourself and your vehicles and to update your information to keep it current. 
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">e.	</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">As part of the Member registration process, you may be asked to provide a username and password that are unique to your Membership (collectively referred to as “Login Information”). You will be responsible for the confidentiality of your Login Information and agree not to transfer or resell your use of or access to the Services to anyone else. If you have reason to believe that your Account with Mammoth is no longer secure, please notify Mammoth immediately.</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">f.	</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="You may use the App and Mammoth’s services only if you are at least 18 years of age.">
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">g.	</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">If you experience any technical issues with the App, or you would like to contact us regarding these Terms, you may contact Mammoth by sending an email to </string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">mammoth3@comcast.net.
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">3.	License to Use App</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content=".">
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                                <integer key="NSUnderline" value="1"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+IAo
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">a.	Subject to these Terms of Use, the Privacy Policy and any terms for any app store from which the App was downloaded (as applicable), Mammoth grants to you a non-exclusive, non-transferable, non-sublicensable, personal, limited, revocable license to use the App on your devices for the purposes accessing or ordering the services and products of Mammoth, applying discounts, setting wash times, booking appointments, and managing your Mammoth Membership. Any other use of the App is strictly prohibited. We reserve all rights in and to the App. Mammoth reserves the right to revoke this license at any time, in its sole discretion.</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">b.	Except as expressly permitted under these Terms of Use, and unless prohibited by applicable law, you agree: (i) not to copy, reproduce, republish, reuse, upload, post, transmit or distribute any content presented in or provided by the App, including without limitation for public or commercial purposes, including any text, images, audio and video; (ii) not to make alterations to, or modifications of, the whole or any part of the App, or permit the App or any part of it to be combined with, or become incorporated in, any other App or programs; (c) not to reverse-engineer, disassemble, decompile, or create derivative works based on the whole or any part of the App; (d) not to sell, resell, or exploit the App in whole or in part (including object and source code), in any form to any person without prior written consent from us; </mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">c.	Additionally, you agree</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content=" ">
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">(i) not to use the App in any unlawful manner, for any unlawful or criminal purpose, or in any manner inconsistent with these Terms of Use, or act fraudulently or maliciously such as by hacking into or inserting harmful data, into the App; (ii) not to use the App to post or transmit any information that is defamatory, threatening, abusive, offensive, obscene, indecent, discriminatory or is otherwise objectionable or infringes on any one’s rights;  (iii) not to use the App in a way that could damage, disable, impair or compromise Mammoth’s systems or security or interfere with other Members, or restrict or inhibit any other Members from using the App; and  (iv) not to collect any information or data from the App or our systems or attempt to decipher any transmissions to or from the App.</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="54" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">4.	Site Contents. 
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">a.	Unless otherwise noted, the </string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="https://www.mammothdetail.com/">
+                                            <attributes>
+                                                <color key="NSColor" red="0.019607843137254902" green="0.38823529411764707" blue="0.75686274509803919" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <url key="NSLink" string="https://www.mammothdetail.com/"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                                <integer key="NSUnderline" value="1"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">, and any other sites or apps we own and operate (collective “Sites”), and all features and materials on the Sites, including text, images, illustrations, designs, icons, photographs, video clips and other content, and the copyrights, trademarks, and/or other intellectual property in such materials (collectively, the "Contents"), are owned, controlled or licensed by Mammoth. Unless otherwise specified, the Sites are intended to promote Mammoth's products and services available in the Atlanta, Georgia-area.
+b.	Information on the Sites may contain typographical errors, inaccuracies, or omissions that relate to services and product descriptions, pricing, offers, and availability. We reserve the right to correct any errors or omissions and to change or update information or cancel orders or appointments if any information on the Sites is inaccurate at any time without prior notice (including after you have submitted an order or appointment).</mutableString>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content"> We make no representation or warranty as to the completeness, accuracy or timeliness of information provided in the App. Such information is also subject to change at any time without notice.</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">
+c.	The Sites may contain links to other websites that are not under the control of Mammoth. Mammoth has no responsibility for the linked websites nor does linking constitute an endorsement of any linked website. If you use such links, you will leave the Sites and your activities may be governed by terms and conditions and privacy practices of such other websites. Such links are provided solely for convenience only.
+d.	</mutableString>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">The App is provided 'as is, where is' and, to the extent permitted by applicable law, Mammoth excludes all representations or warranties of any kind, express or implied including, but not limited to, implied warranties of merchantability, satisfactory quality, fitness for a particular purpose and non-infringement. Any reliance on or use of the App shall be at the user’s sole risk. Mammoth shall not have any obligation to provide any maintenance and/or support services with respect to the App. </mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">
+e.	</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="Mammoth expressly disclaim any liability for loss or damage sustained by you as a result of the accessing and use of the App.">
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="49.5" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">5.	PRIVACY</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content=". Your privacy is important ">
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="to Mammoth">
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">. It is Mammoth’s policy to respect your privacy regarding any information we may collect from you across our website, Mammoth apps, and any other sites or apps we own and operate (collective “Sites”).</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="  ">
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="Please take the time to read Mammoth’s Privacy Policy.">
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">6.	PAYMENT. </string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">Mammoth uses a third-party payment processor to bill and collect fees through the Sites. If you are directed to our third-party payment processor(s), you may be subject to terms and conditions governing use of that third party’s service and that third party’s personal information collection practices. Please review such terms and conditions and privacy policy before using these third-party payment processors.</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">7.	AMENDMENT.</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content"> These Terms of Use apply to the App, including any updates. Mammoth may change or revise these Terms of Use from time to time in its sole discretion, with or without notice to you. You are bound by any such revisions and should therefore from time to time, visit this page to review the then-current Terms of Use. Your use of the App after such revised Terms of Use are released will signify your acceptance of such revised Terms of Use.</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">8.	ASSIGNMENT.</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content"> Mammoth may assign our rights and obligations under these Terms of Use to another party or business entity. You may not transfer your rights or obligations under these Terms of Use.
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">9.	DISCONTINUATION.</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content"> Mammoth reserves the right, temporarily or permanently, in whole or in part, to modify, suspend or discontinue the App without notice for any reason without liability to you, except where prohibited by applicable law.
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" firstLineHeadIndent="36" headIndent="36" tailIndent="468" lineHeightMultiple="1.0791666666666666" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">10.	LIMITATION OF LIABILITY.</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content"> To the fullest extent permitted under applicable law, in no event shall Mammoth be liable to you personally for any loss, injury or damages (including but not limited to any special, indirect, consequential or punitive damages, lost profits, lost revenues or other incidental damages) arising out of the use, inability to use, or the results of use of the App.
+</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" firstLineHeadIndent="36" headIndent="36" tailIndent="468" lineHeightMultiple="1.0791666666666666" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">11.	INDEMNIFICATION. </string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">You agree to defend, indemnify and hold Mammoth harmless from and against any and all claims, damages, costs and expenses, including attorneys' fees, due to your use of the Sites and/or your breach of any representation, warranty, or other provision of these Terms of Use.</mutableString>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" firstLineHeadIndent="36" headIndent="36" tailIndent="468" lineHeightMultiple="1.0791666666666666" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">12.	WAIVER AND SEVERABLITY</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">a.	These Terms of Use equal the entire agreement between us with respect to your use of the App. Such Terms supersede all prior understandings or agreements you and Mammoth.
+b.	Each of the conditions of these Terms operates separately. If any court or competent authority decides that any of them are unlawful or unenforceable, the remaining conditions will remain in full force and effect.
+c.	If we fail to insist that you perform any of your obligations under these Terms of Use, or if we do not enforce our rights against you, or if we delay in doing so, that will not mean that we have waived our rights against you and will not mean that you do not have to comply with those obligations.
+</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="54" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">13.	LAW AND JURISDICTION. </string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <mutableString key="content">To the extent permitted by applicable law, these Terms of Use are governed and construed by the laws of the State of Georgia, U.S.A. and you consent to the non-exclusive jurisdiction of the Georgia courts. We retain the right to bring proceedings against you for breach of these Term of Use in your state of residence.
+</mutableString>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">14.	CONTACT.</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" firstLineHeadIndent="18" headIndent="36" tailIndent="468" lineHeightMultiple="1.0791666666666666" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content"> MAMMOTH DETAIL SALON, INC. c/o Jimmy Tester
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" firstLineHeadIndent="18" headIndent="36" tailIndent="468" lineHeightMultiple="1.0791666666666666" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">2145 Old Milton Parkway, Alpharetta, GA 30009
+770 521-0599
+mammoth3@comcast.net
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" firstLineHeadIndent="36" headIndent="36" tailIndent="468" lineHeightMultiple="1.0791666666666666" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                    <tabStops/>
+                                                </paragraphStyle>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                </textView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="6D5-uf-0M0" firstAttribute="height" secondItem="cvY-3g-aMk" secondAttribute="height" id="0bG-Sg-Khh"/>
+                                <constraint firstItem="6D5-uf-0M0" firstAttribute="centerX" secondItem="AVN-mZ-Rbk" secondAttribute="centerX" id="KyB-ys-xKB"/>
+                                <constraint firstItem="6D5-uf-0M0" firstAttribute="leading" secondItem="AVN-mZ-Rbk" secondAttribute="leading" id="ORK-3s-xwe"/>
+                                <constraint firstItem="6D5-uf-0M0" firstAttribute="width" secondItem="jRd-gE-0Jd" secondAttribute="width" id="hFH-0O-2IZ"/>
+                                <constraint firstItem="6D5-uf-0M0" firstAttribute="bottom" secondItem="cvY-3g-aMk" secondAttribute="bottom" id="kIM-OY-MHy"/>
+                                <constraint firstAttribute="bottom" secondItem="6D5-uf-0M0" secondAttribute="bottom" id="tQO-mZ-EXe"/>
+                                <constraint firstItem="6D5-uf-0M0" firstAttribute="top" secondItem="cvY-3g-aMk" secondAttribute="top" id="wyg-oo-ysr"/>
+                            </constraints>
+                            <viewLayoutGuide key="contentLayoutGuide" id="jRd-gE-0Jd"/>
+                            <viewLayoutGuide key="frameLayoutGuide" id="cvY-3g-aMk"/>
+                        </scrollView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VmR-kV-gc0">
+                            <rect key="frame" x="257" y="623" width="85" height="26"/>
+                            <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="85" id="O8e-WE-Fcx"/>
+                                <constraint firstAttribute="height" constant="26" id="ZF1-BH-ORI"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Agree">
+                                <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="AgreeBtnclicked:" destination="-1" eventType="touchUpInside" id="Krm-Lp-L6k"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58S-7G-39m">
+                            <rect key="frame" x="8" y="623" width="85" height="26"/>
+                            <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="3vT-vb-qJ5"/>
+                                <constraint firstAttribute="width" constant="85" id="SJj-tH-ghJ"/>
+                                <constraint firstAttribute="height" constant="26" id="eUb-vZ-f2I"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Disagree">
+                                <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="DisagreeBtnclicked:" destination="-1" eventType="touchUpInside" id="szQ-zK-hH2"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="181" id="H5Y-uc-J71"/>
+                        <constraint firstItem="t57-Gz-geO" firstAttribute="top" secondItem="yR7-fc-Tru" secondAttribute="top" constant="14" id="2OO-Pq-igV"/>
+                        <constraint firstAttribute="trailing" secondItem="VmR-kV-gc0" secondAttribute="trailing" constant="8" id="42u-pZ-Ka1"/>
+                        <constraint firstItem="t57-Gz-geO" firstAttribute="leading" secondItem="yR7-fc-Tru" secondAttribute="leading" constant="91" id="Cm9-av-OET"/>
+                        <constraint firstItem="VmR-kV-gc0" firstAttribute="top" secondItem="AVN-mZ-Rbk" secondAttribute="bottom" constant="8" symbolic="YES" id="T3n-dt-E8R"/>
+                        <constraint firstItem="58S-7G-39m" firstAttribute="top" secondItem="AVN-mZ-Rbk" secondAttribute="bottom" constant="8" symbolic="YES" id="cAt-cc-4oe"/>
+                        <constraint firstItem="AVN-mZ-Rbk" firstAttribute="top" secondItem="t57-Gz-geO" secondAttribute="bottom" constant="14" id="k4G-DB-YiE"/>
+                        <constraint firstItem="AVN-mZ-Rbk" firstAttribute="leading" secondItem="yR7-fc-Tru" secondAttribute="leading" constant="8" id="nH3-0s-Zzl"/>
+                        <constraint firstAttribute="trailing" secondItem="AVN-mZ-Rbk" secondAttribute="trailing" constant="8" id="vBn-aO-9bV"/>
+                        <constraint firstItem="58S-7G-39m" firstAttribute="leading" secondItem="yR7-fc-Tru" secondAttribute="leading" constant="8" id="wLC-WX-zJp"/>
+                        <constraint firstAttribute="trailing" secondItem="t57-Gz-geO" secondAttribute="trailing" constant="91" id="wxy-rh-Qn6"/>
                     </constraints>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Agree">
-                        <backgroundConfiguration key="background">
-                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </backgroundConfiguration>
-                    </buttonConfiguration>
-                    <connections>
-                        <action selector="AgreeBtnclicked:" destination="-1" eventType="touchUpInside" id="YM3-YN-vdE"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dL-AF-mTa">
-                    <rect key="frame" x="20" y="775" width="197" height="31"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Disagree">
-                        <backgroundConfiguration key="background">
-                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </backgroundConfiguration>
-                    </buttonConfiguration>
-                    <connections>
-                        <action selector="DisagreeBtnclicked:" destination="-1" eventType="touchUpInside" id="kKh-u6-vOv"/>
-                    </connections>
-                </button>
-                <wkWebView hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W2Z-pw-6mF">
-                    <rect key="frame" x="20" y="115" width="374" height="625"/>
-                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="374" id="2J8-du-33s"/>
-                        <constraint firstAttribute="height" constant="627" id="8Li-Qx-1bD"/>
-                    </constraints>
-                    <wkWebViewConfiguration key="configuration">
-                        <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                        <wkPreferences key="preferences"/>
-                    </wkWebViewConfiguration>
-                </wkWebView>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="iPg-jr-3tj" firstAttribute="leading" secondItem="3dL-AF-mTa" secondAttribute="trailing" constant="-4" id="02F-f4-u6o"/>
                 <constraint firstItem="tfd-No-OYy" firstAttribute="centerX" secondItem="kVA-Zu-eJ3" secondAttribute="centerX" id="0KG-V6-wsH"/>
                 <constraint firstAttribute="trailing" secondItem="fwZ-gY-5Lc" secondAttribute="trailing" constant="-10" id="1cB-g7-XNL"/>
-                <constraint firstItem="3dL-AF-mTa" firstAttribute="baseline" secondItem="iPg-jr-3tj" secondAttribute="baseline" id="1ul-PN-wPZ"/>
-                <constraint firstItem="W2Z-pw-6mF" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="39u-bd-tGp"/>
-                <constraint firstAttribute="trailing" secondItem="W2Z-pw-6mF" secondAttribute="trailing" constant="20" symbolic="YES" id="3tw-p1-kfv"/>
                 <constraint firstItem="2E1-qZ-P25" firstAttribute="top" secondItem="tfd-No-OYy" secondAttribute="bottom" constant="15" id="40Q-Cb-TCh"/>
+                <constraint firstItem="yR7-fc-Tru" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="42F-rQ-nfm"/>
                 <constraint firstItem="fwZ-gY-5Lc" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="8XE-5e-BjA"/>
                 <constraint firstItem="2E1-qZ-P25" firstAttribute="leading" secondItem="kVA-Zu-eJ3" secondAttribute="leading" id="8mN-OO-dvT"/>
                 <constraint firstItem="70J-84-Sja" firstAttribute="top" secondItem="mBa-5n-Bdi" secondAttribute="bottom" constant="70" id="8pq-j1-foX"/>
@@ -199,30 +1166,31 @@
                 <constraint firstItem="70J-84-Sja" firstAttribute="leading" secondItem="kVA-Zu-eJ3" secondAttribute="leading" id="I8X-Et-Qvi"/>
                 <constraint firstItem="mzp-bD-SUp" firstAttribute="centerX" secondItem="kVA-Zu-eJ3" secondAttribute="centerX" id="Ixw-Vj-6m0"/>
                 <constraint firstAttribute="trailing" secondItem="kVA-Zu-eJ3" secondAttribute="trailing" constant="20" id="TBx-iJ-7GV"/>
+                <constraint firstAttribute="trailing" secondItem="yR7-fc-Tru" secondAttribute="trailing" constant="20" symbolic="YES" id="U5X-Mi-9hQ"/>
                 <constraint firstItem="tfd-No-OYy" firstAttribute="width" secondItem="kVA-Zu-eJ3" secondAttribute="width" id="UDg-YJ-WBV"/>
                 <constraint firstItem="mzp-bD-SUp" firstAttribute="top" secondItem="70J-84-Sja" secondAttribute="bottom" constant="20" id="XGJ-dk-O9a"/>
-                <constraint firstAttribute="bottom" secondItem="3dL-AF-mTa" secondAttribute="bottom" constant="90" id="XL4-ah-ChI"/>
                 <constraint firstItem="mBa-5n-Bdi" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="Z0u-Lf-7nF"/>
-                <constraint firstItem="W2Z-pw-6mF" firstAttribute="top" secondItem="2" secondAttribute="top" constant="114" id="bh4-cA-23Z"/>
                 <constraint firstItem="kVA-Zu-eJ3" firstAttribute="top" secondItem="mzp-bD-SUp" secondAttribute="bottom" constant="10" id="dGb-ux-FSz"/>
-                <constraint firstAttribute="bottom" secondItem="iPg-jr-3tj" secondAttribute="bottom" constant="90" id="ePx-pE-aJo"/>
                 <constraint firstItem="mBa-5n-Bdi" firstAttribute="width" secondItem="fwZ-gY-5Lc" secondAttribute="width" multiplier="0.3066" id="ela-kf-Eiu"/>
                 <constraint firstItem="yp8-zX-hJ1" firstAttribute="centerX" secondItem="kVA-Zu-eJ3" secondAttribute="centerX" id="evf-Xh-5g6"/>
                 <constraint firstItem="fwZ-gY-5Lc" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="jrs-Fk-5YF"/>
+                <constraint firstItem="yR7-fc-Tru" firstAttribute="top" secondItem="2" secondAttribute="top" constant="91" id="laC-d8-vnq"/>
                 <constraint firstItem="mzp-bD-SUp" firstAttribute="height" secondItem="kVA-Zu-eJ3" secondAttribute="height" id="m0b-ys-e0Q"/>
-                <constraint firstItem="3dL-AF-mTa" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="pBK-Xs-V2e"/>
+                <constraint firstAttribute="bottom" secondItem="yR7-fc-Tru" secondAttribute="bottom" constant="91" id="qUD-Qp-pHd"/>
                 <constraint firstItem="ujE-X9-LeZ" firstAttribute="top" secondItem="kVA-Zu-eJ3" secondAttribute="bottom" constant="15" id="qqc-2U-N7t"/>
                 <constraint firstItem="vAd-DW-oHM" firstAttribute="leading" secondItem="ujE-X9-LeZ" secondAttribute="trailing" constant="10" id="uQx-MR-we1"/>
-                <constraint firstAttribute="trailing" secondItem="iPg-jr-3tj" secondAttribute="trailing" constant="20" symbolic="YES" id="uYR-pF-NdO"/>
                 <constraint firstAttribute="bottom" secondItem="fwZ-gY-5Lc" secondAttribute="bottom" constant="-10" id="xCp-gX-UKK"/>
                 <constraint firstItem="vAd-DW-oHM" firstAttribute="centerY" secondItem="ujE-X9-LeZ" secondAttribute="centerY" id="yPP-6t-XTu"/>
             </constraints>
-            <point key="canvasLocation" x="24.637681159420293" y="51.5625"/>
+            <point key="canvasLocation" x="24.615384615384613" y="51.18483412322275"/>
         </view>
     </objects>
     <resources>
-        <image name="icon-strive" width="115" height="76.5"/>
+        <image name="icon-strive" width="115" height="76.666664123535156"/>
         <image name="icon-unchecked" width="21" height="19"/>
         <image name="splash" width="390" height="812"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

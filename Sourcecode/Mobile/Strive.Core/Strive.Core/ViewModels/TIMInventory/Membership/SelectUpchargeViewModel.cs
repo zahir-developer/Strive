@@ -52,6 +52,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public async Task NavigateBackCommand()
         {
+            
             await _navigationService.Close(this);
         }
 
@@ -60,7 +61,12 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             if (MembershipDetails.modelUpcharge != null)
             {
                 if (MembershipDetails.modelUpcharge.upcharge.Count > 0)
+                {
                     MembershipData.CalculatedPrice += MembershipDetails.modelUpcharge.upcharge[0].Price;
+                    MembershipData.UpchargesPrice = MembershipDetails.modelUpcharge.upcharge[0].Price;
+                }
+                    
+
             }
             _navigationService.Navigate<ExtraServiceViewModel>();
         }

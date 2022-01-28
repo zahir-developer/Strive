@@ -99,6 +99,7 @@ namespace Strive.Core.ViewModels.Employee
         public string loginEmailPhone { get; set; }
         public string loginPassword { get; set; }
         public bool rememberMe { get; set; }
+        public bool terms { get; set; }
         public static string ConnectionID;
         public string Title
         {

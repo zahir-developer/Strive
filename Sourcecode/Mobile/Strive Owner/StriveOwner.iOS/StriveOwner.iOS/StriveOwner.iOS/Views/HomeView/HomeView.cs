@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using OxyPlot;
@@ -16,16 +17,23 @@ namespace StriveOwner.iOS.Views.HomeView
     {
         public Locations Locations;
         public string SelectedLocName;
+        bool useRefreshControl = false;
+        UIRefreshControl RefreshControl;
+        public int newSegment = 3;
 
         public HomeView() : base("HomeView", null)
         {
         }
 
-        public override void ViewDidLoad()
+        public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
             DoInitialSetup();
             // Perform any additional setup after loading the view, typically from a nib.
+            await RefreshAsync();
+            AddRefreshControl();
+
+            DashboardInnerView.Add(RefreshControl);
         }
 
         public override void DidReceiveMemoryWarning()
@@ -53,7 +61,39 @@ namespace StriveOwner.iOS.Views.HomeView
             Locations = await ViewModel.GetAllLocationsCommand();
             setSegment();
         }
-         
+
+        async Task RefreshAsync()
+        {
+            // only activate the refresh control if the feature is available  
+            if (useRefreshControl)
+                RefreshControl.BeginRefreshing();
+
+            if (useRefreshControl)
+                RefreshControl.EndRefreshing();
+
+            
+        }
+
+        #region * iOS Specific Code  
+        // This method will add the UIRefreshControl to the table view if  
+        // it is available, ie, we are running on iOS 6+  
+        void AddRefreshControl()
+        {
+            if (UIDevice.CurrentDevice.CheckSystemVersion(6, 0))
+            {
+                // the refresh control is available, let's add it  
+                RefreshControl = new UIRefreshControl();
+                RefreshControl.ValueChanged += async (sender, e) =>
+                {
+                    DoInitialSetup();
+                    LocationSegment.SelectedSegment = 0;
+                    dashboardService_Seg.SelectedSegment = 0;
+                    await RefreshAsync();
+                };
+                useRefreshControl = true;
+            }
+        }
+        #endregion
         private async void getStatisticsData(int locationId)
         {            
             await ViewModel.getStatistics(locationId);
@@ -75,7 +115,7 @@ namespace StriveOwner.iOS.Views.HomeView
                     index++;
                 }
 
-                var newSegment = 3;
+                //var newSegment = 3;
                 while (newSegment != Locations.Location.Count)
                 {
                     LocationSegment.InsertSegment(Locations.Location[newSegment].LocationName, newSegment, true);
@@ -171,7 +211,7 @@ namespace StriveOwner.iOS.Views.HomeView
                     detailImage.Image = UIImage.FromBundle("DB-DetailSales");
                     washEmployeeImage.Image = UIImage.FromBundle("DB-ExtraServiceSales");
                     scoreImage.Image = UIImage.FromBundle("DB-MerchandiseSales");
-                    forecastedImage.Image = UIImage.FromBundle("DB-TotalSales");
+                    forecastedImage.Image = UIImage.FromBundle("DB-ExtraServiceSales");
                     carWashTimeImage.Image = UIImage.FromBundle("DB-MonthlyClientSales");
                 }                    
             }
@@ -211,6 +251,165 @@ namespace StriveOwner.iOS.Views.HomeView
             var selectedLoc = Locations.Location.Find(x => x.LocationName == SelectedLocName);
 
             getStatisticsData(selectedLoc.LocationId);           
+        }
+
+        partial void ScatterChart_ButtonTouch(UIButton sender)
+        {
+            var model = new PlotModel()
+            {
+                PlotType = PlotType.XY,
+                LegendSymbolLength = 5,
+                LegendPlacement = LegendPlacement.Outside,
+                LegendOrientation = LegendOrientation.Vertical,
+                Title = SelectedLocName
+            };
+            var washseries = new ScatterSeries()
+            {
+              MarkerType = MarkerType.Circle,
+              MarkerSize = 3,
+              Title = "Wash"
+            };
+            var detailseries = new ScatterSeries()
+            {
+                MarkerType = MarkerType.Circle,
+                MarkerSize = 3,
+                Title = "Detail"
+            };
+            var employeeseries = new ScatterSeries()
+            {
+                MarkerType = MarkerType.Circle,
+                MarkerSize = 3,
+                Title = "Employee"
+            };
+            var scoreseries = new ScatterSeries()
+            {
+                MarkerType = MarkerType.Circle,
+                MarkerSize = 3,
+                Title = "Score"
+            };
+
+            var washpoint = new ScatterPoint(Double.Parse(washCount.Text), 0);
+            var detailpoint = new ScatterPoint(Double.Parse(detailCount.Text), 0);
+            var employeepoint = new ScatterPoint(Double.Parse(employeeCount.Text), 0);
+            var scorepoint = new ScatterPoint(Double.Parse(scoreCount.Text),0);
+            
+            washseries.Points.Add(washpoint);
+            detailseries.Points.Add(detailpoint);
+            employeeseries.Points.Add(employeepoint);
+            scoreseries.Points.Add(scorepoint);
+            model.Series.Add(washseries);
+            model.Series.Add(detailseries);
+            model.Series.Add(employeeseries);
+            model.Series.Add(scoreseries);
+            plotView.Model = model;
+            plotView.Frame = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);
+
+
+        }
+        partial void LineChart_ButtonTouch(UIButton sender)
+        {
+            var model = new PlotModel()
+            {
+                PlotType = PlotType.XY,
+                LegendSymbolLength = 5,
+                LegendPlacement = LegendPlacement.Outside,
+                LegendOrientation = LegendOrientation.Vertical,
+                Title = SelectedLocName
+            };
+
+            var washline = new LineSeries() {
+
+                MarkerSize = 3,
+                MarkerType = MarkerType.Circle,
+                Title = "Wash"
+            };
+            var detailline = new LineSeries()
+            {
+
+                MarkerSize = 3,
+                MarkerType = MarkerType.Circle,
+                Title = "Detail"
+            };
+            var employeeline = new LineSeries()
+            {
+
+                MarkerSize = 3,
+                MarkerType = MarkerType.Circle,
+                Title = "Employee"
+            };
+            var scoreline = new LineSeries()
+            {
+
+                MarkerSize = 3,
+                MarkerType = MarkerType.Circle,
+                Title = "Score"
+            };
+
+            CategoryAxis xaxis = new CategoryAxis();
+            xaxis.Position = AxisPosition.Bottom;
+            xaxis.AbsoluteMinimum = -.5;
+            xaxis.AbsoluteMaximum = 6;
+            xaxis.Zoom(0, 3);
+            xaxis.Angle = 45;
+
+            
+
+            
+            washline.Points.Add(new DataPoint(0, Double.Parse(washCount.Text)));
+            washline.Points.Add(new DataPoint(1, Double.Parse(washCount.Text)+1));
+            washline.Points.Add(new DataPoint(2, Double.Parse(washCount.Text) +2));
+            washline.Points.Add(new DataPoint(3, Double.Parse(washCount.Text) +3));
+            detailline.Points.Add(new DataPoint(0, Double.Parse(detailCount.Text)));
+            detailline.Points.Add(new DataPoint(1, Double.Parse(detailCount.Text) + 1));
+            detailline.Points.Add(new DataPoint(2, Double.Parse(detailCount.Text) + 2));
+            detailline.Points.Add(new DataPoint(3, Double.Parse(detailCount.Text) + 3));
+            employeeline.Points.Add(new DataPoint(0, Double.Parse(employeeCount.Text)));
+            employeeline.Points.Add(new DataPoint(1, Double.Parse(employeeCount.Text) + 1));
+            employeeline.Points.Add(new DataPoint(2, Double.Parse(employeeCount.Text) + 2));
+            employeeline.Points.Add(new DataPoint(3, Double.Parse(employeeCount.Text) + 3));
+            scoreline.Points.Add(new DataPoint(0, Double.Parse(scoreCount.Text)));
+            scoreline.Points.Add(new DataPoint(1, Double.Parse(scoreCount.Text) + 1));
+            scoreline.Points.Add(new DataPoint(2, Double.Parse(scoreCount.Text) + 2));
+            scoreline.Points.Add(new DataPoint(3, Double.Parse(scoreCount.Text) + 3));
+
+            model.Series.Add(washline);
+            model.Series.Add(detailline);
+            model.Series.Add(employeeline);
+            model.Series.Add(scoreline);
+            plotView.Model = model;
+            plotView.Frame = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);
+
+        }
+        partial void BarChart_ButtonTouch(UIButton sender)
+        {
+            setChartView();
+        }
+        partial void PieChart_ButtonTouch(UIButton sender)
+        {
+            var model = new PlotModel()
+            {
+                Title = SelectedLocName
+            };
+
+            var seriespie = new PieSeries() {
+                StrokeThickness = 2.0,
+                InsideLabelPosition = 1.05,
+                OutsideLabelFormat = "",
+                TickHorizontalLength = 0.00,
+                TickRadialLength = 0.00,
+                AngleSpan = 360, 
+            };
+
+            seriespie.Slices.Add(new PieSlice("Wash", Double.Parse(washCount.Text)) { IsExploded = false}); 
+            seriespie.Slices.Add(new PieSlice("Detail", Double.Parse(detailCount.Text)) { IsExploded = false});
+            seriespie.Slices.Add(new PieSlice("Employee", Double.Parse(employeeCount.Text)) { IsExploded = false});
+            seriespie.Slices.Add(new PieSlice("Score", Double.Parse(scoreCount.Text)) { IsExploded = false });
+            
+
+            model.Series.Add(seriespie);
+            plotView.Model = model;
+            
+            plotView.Frame = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);
         }
 
         public void setChartView()
@@ -276,10 +475,10 @@ namespace StriveOwner.iOS.Views.HomeView
 
             model.Axes.Add(new CategoryAxis { ItemsSource = Items, LabelField = "Label", AbsoluteMinimum = -0.5 });
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MinimumPadding = 0, AbsoluteMinimum = 0 });
-            model.Series.Add(new ColumnSeries { Title = "Washes", ItemsSource = Items, ValueField = "Value1", ColumnWidth = 20 });
-            model.Series.Add(new ColumnSeries { Title = "Details", ItemsSource = Items, ValueField = "Value2", ColumnWidth = 20 });
-            model.Series.Add(new ColumnSeries { Title = "Employees", ItemsSource = Items, ValueField = "Value3", ColumnWidth = 20 });
-            model.Series.Add(new ColumnSeries { Title = "Score", ItemsSource = Items, ValueField = "Value4", ColumnWidth = 20 });
+            model.Series.Add(new ColumnSeries { Title = "Washes", ItemsSource = Items, ValueField = "WashValue", ColumnWidth = 20 });
+            model.Series.Add(new ColumnSeries { Title = "Details", ItemsSource = Items, ValueField = "DetailValue", ColumnWidth = 20 });
+            model.Series.Add(new ColumnSeries { Title = "Employees", ItemsSource = Items, ValueField = "EmployeeValue", ColumnWidth = 20 });
+            model.Series.Add(new ColumnSeries { Title = "Score", ItemsSource = Items, ValueField = "ScoreValue", ColumnWidth = 20 });
 
             this.plotView.Model = model;
             plotView.Frame = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);            

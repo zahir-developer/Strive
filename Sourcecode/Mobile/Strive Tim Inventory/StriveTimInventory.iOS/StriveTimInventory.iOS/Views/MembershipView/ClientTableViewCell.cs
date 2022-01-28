@@ -17,6 +17,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         public static readonly NSString Key = new NSString("ClientTableViewCell`");
         public static readonly UINib Nib;
         public static ClientTableViewCell SelectedCell;
+        public string[] selectedServices;
         static ClientTableViewCell()
         {
             Nib = UINib.FromName("ClientTableViewCell", NSBundle.MainBundle);
@@ -112,14 +113,18 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public void SetExtraServiceList(AllServiceDetail item,ObservableCollection<AllServiceDetail> list, ObservableCollection<AllServiceDetail> GrayedList, ClientTableViewCell cell)
         {
+            
             ItemTitle.Text = item.ServiceName;
             DeSelectMembershipcell();
             cell.BackgroundColor = UIColor.White;
             cell.UserInteractionEnabled = true;
 
             var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
-
-            string[] selectedServices = SelectedMembership.Services.Split(",");
+            if (SelectedMembership.Services != null)
+            {
+                 selectedServices = SelectedMembership.Services.Split(",");
+            }
+            
 
             if (MembershipData.MembershipDetailView != null)
             {

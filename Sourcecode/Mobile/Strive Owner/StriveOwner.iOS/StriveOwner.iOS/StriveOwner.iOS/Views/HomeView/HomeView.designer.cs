@@ -13,6 +13,9 @@ namespace StriveOwner.iOS.Views.HomeView
 	partial class HomeView
 	{
 		[Outlet]
+		UIKit.UIButton BarChart_Button { get; set; }
+
+		[Outlet]
 		UIKit.UILabel carWashTimeCount { get; set; }
 
 		[Outlet]
@@ -55,10 +58,19 @@ namespace StriveOwner.iOS.Views.HomeView
 		UIKit.UIImageView forecastedImage { get; set; }
 
 		[Outlet]
+		UIKit.UIButton LineChart_Button { get; set; }
+
+		[Outlet]
 		UIKit.UISegmentedControl LocationSegment { get; set; }
 
 		[Outlet]
+		UIKit.UIButton PieChart_Button { get; set; }
+
+		[Outlet]
 		OxyPlot.Xamarin.iOS.PlotView plotView { get; set; }
+
+		[Outlet]
+		UIKit.UIButton ScatterChart_Button { get; set; }
 
 		[Outlet]
 		UIKit.UITableView ScheduleTableView { get; set; }
@@ -87,14 +99,31 @@ namespace StriveOwner.iOS.Views.HomeView
 		[Outlet]
 		UIKit.UILabel WashLbl { get; set; }
 
+		[Action ("BarChart_ButtonTouch:")]
+		partial void BarChart_ButtonTouch (UIKit.UIButton sender);
+
 		[Action ("DashboardServices_Touch:")]
 		partial void DashboardServices_Touch (UIKit.UISegmentedControl sender);
 
+		[Action ("LineChart_ButtonTouch:")]
+		partial void LineChart_ButtonTouch (UIKit.UIButton sender);
+
 		[Action ("locationSegment_Touch:")]
 		partial void locationSegment_Touch (UIKit.UISegmentedControl sender);
+
+		[Action ("PieChart_ButtonTouch:")]
+		partial void PieChart_ButtonTouch (UIKit.UIButton sender);
+
+		[Action ("ScatterChart_ButtonTouch:")]
+		partial void ScatterChart_ButtonTouch (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (BarChart_Button != null) {
+				BarChart_Button.Dispose ();
+				BarChart_Button = null;
+			}
+
 			if (carWashTimeCount != null) {
 				carWashTimeCount.Dispose ();
 				carWashTimeCount = null;
@@ -145,6 +174,11 @@ namespace StriveOwner.iOS.Views.HomeView
 				DetailLbl = null;
 			}
 
+			if (detailScheduleStatus != null) {
+				detailScheduleStatus.Dispose ();
+				detailScheduleStatus = null;
+			}
+
 			if (employeeCount != null) {
 				employeeCount.Dispose ();
 				employeeCount = null;
@@ -160,9 +194,24 @@ namespace StriveOwner.iOS.Views.HomeView
 				forecastedImage = null;
 			}
 
+			if (LineChart_Button != null) {
+				LineChart_Button.Dispose ();
+				LineChart_Button = null;
+			}
+
 			if (LocationSegment != null) {
 				LocationSegment.Dispose ();
 				LocationSegment = null;
+			}
+
+			if (PieChart_Button != null) {
+				PieChart_Button.Dispose ();
+				PieChart_Button = null;
+			}
+
+			if (ScatterChart_Button != null) {
+				ScatterChart_Button.Dispose ();
+				ScatterChart_Button = null;
 			}
 
 			if (plotView != null) {
@@ -213,11 +262,6 @@ namespace StriveOwner.iOS.Views.HomeView
 			if (WashLbl != null) {
 				WashLbl.Dispose ();
 				WashLbl = null;
-			}
-
-			if (detailScheduleStatus != null) {
-				detailScheduleStatus.Dispose ();
-				detailScheduleStatus = null;
 			}
 		}
 	}

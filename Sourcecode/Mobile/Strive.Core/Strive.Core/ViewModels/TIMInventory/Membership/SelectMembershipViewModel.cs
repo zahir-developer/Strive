@@ -108,6 +108,8 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public async Task NavigateBackCommand()
         {
+            MembershipData.SelectedMembershipPrice = 0;
+            MembershipData.CalculatedPrice = 0;
             await _navigationService.Close(this);
         }
     }

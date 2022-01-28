@@ -24,6 +24,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public  ObservableCollection<AllServiceDetail> serviceList { get; set; } = new ObservableCollection<AllServiceDetail>();
 
+        private double servicestotal;
        
 
         public ExtraServiceViewModel()
@@ -146,10 +147,14 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                 if (service.Price != 0)
                 {
                     MembershipData.CalculatedPrice += service.Price;
+                    servicestotal += service.Price;
                 }
+                MembershipData.additionalserviceswithprice += service.ServiceName.Replace(" ","")+"- $"+service.Price+" ";
                
             }
+            MembershipData.AdditionalServicesPrice = servicestotal;
             _navigationService.Navigate<TermsViewModel>();
+
             //}           
         }
     }

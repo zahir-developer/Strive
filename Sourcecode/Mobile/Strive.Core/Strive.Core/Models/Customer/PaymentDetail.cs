@@ -26,7 +26,7 @@ namespace Strive.Core.Models.Customer
         //[JsonProperty("receipt")]
         //public string Receipt { get; set; }
 
-        [JsonProperty("ccv")]
-        public short CCV { get; set; }
+        //[JsonProperty("ccv")]
+        //public short CCV { get; set; }
     }
 }

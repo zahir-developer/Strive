@@ -124,7 +124,7 @@ namespace Strive.Core.ViewModels.Customer
         public string loginEmailPhone { get; set; } 
         public string loginPassword { get; set; }
         public bool rememberMe { get; set; }
-        public bool isTerms { get; set; }
+        public bool terms { get; set; }
         public string Title
         {
             get

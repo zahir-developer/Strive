@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="OpenSans-Bold.ttf">
@@ -18,10 +18,22 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TermsView">
             <connections>
-                <outlet property="BackButton" destination="2WB-6a-NyG" id="name-outlet-2WB-6a-NyG"/>
-                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+                <outlet property="AdditionalServicesTotal" destination="wvJ-ki-Kxs" id="G1u-4m-eAV"/>
                 <outlet property="AgreeButton" destination="pK5-BQ-sBg" id="name-outlet-pK5-BQ-sBg"/>
+                <outlet property="BackButton" destination="2WB-6a-NyG" id="name-outlet-2WB-6a-NyG"/>
+                <outlet property="ContractView" destination="thd-IP-ktX" id="PlR-4o-y8u"/>
+                <outlet property="Date" destination="06X-eD-VPp" id="TZT-i9-TZG"/>
                 <outlet property="DisagreeButton" destination="r7P-QP-Bwc" id="name-outlet-r7P-QP-Bwc"/>
+                <outlet property="DisplaySelectedAdditionals" destination="P1e-3g-Iwp" id="Cai-gl-utT"/>
+                <outlet property="EndingDate" destination="YVa-Xd-DzE" id="X9p-QR-K3N"/>
+                <outlet property="Membership_name" destination="peX-f7-k5u" id="RDJ-C1-lr9"/>
+                <outlet property="MonthlyTotal" destination="jyy-TA-qv6" id="Agi-5N-wcS"/>
+                <outlet property="StartingDate" destination="WQf-pc-60P" id="raN-AG-8ua"/>
+                <outlet property="SwitchMembershipFee" destination="pS2-1j-s7Y" id="zTz-OC-jXA"/>
+                <outlet property="Total" destination="fth-YX-rKX" id="8Lg-Ky-tA1"/>
+                <outlet property="Upchargeslbl" destination="7O8-25-ftP" id="UhI-86-rR2"/>
+                <outlet property="YearlyTotal" destination="kGq-yn-bge" id="Q08-fj-1Hy"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -41,7 +53,7 @@
                             <color key="textColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2WB-6a-NyG">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2WB-6a-NyG">
                             <rect key="frame" x="25" y="27" width="38" height="36"/>
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <state key="normal" title="Back">
@@ -59,211 +71,897 @@
                         <constraint firstItem="2WB-6a-NyG" firstAttribute="centerY" secondItem="Rmv-LM-0Sv" secondAttribute="centerY" multiplier="1.2" id="y9C-ye-LfX"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="thd-IP-ktX">
-                    <rect key="frame" x="92" y="289.5" width="650" height="734"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r7P-QP-Bwc">
-                            <rect key="frame" x="20" y="675" width="85" height="39"/>
-                            <state key="normal">
-                                <attributedString key="attributedTitle">
-                                    <fragment content="Disagree">
-                                        <attributes>
-                                            <color key="NSColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="20" name="OpenSans-SemiBold"/>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                            </state>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pK5-BQ-sBg">
-                            <rect key="frame" x="573" y="675" width="57" height="39"/>
-                            <state key="normal">
-                                <attributedString key="attributedTitle">
-                                    <fragment content="Agree">
-                                        <attributes>
-                                            <color key="NSColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="20" name="OpenSans-SemiBold"/>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                            </state>
-                        </button>
-                        <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VcL-zr-aAj">
-                            <rect key="frame" x="0.0" y="664" width="650" height="1"/>
-                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="2Pu-4m-CVV"/>
-                            </constraints>
-                        </view>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" allowsEditingTextAttributes="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DEY-2t-vmM">
-                            <rect key="frame" x="20" y="20" width="610" height="634"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            <attributedString key="attributedText">
-                                <fragment content="In consideration or first month as a discounted/prorated price point,">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content=" ">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="17" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content="next month MUST BE PAID">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Bold"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content=". ">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="17" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment>
-                                    <string key="content">Cancel any time after 1st month is paid. 
-
-To understand form is valid for an undetermined time period month to month. </string>
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content="Cancellation must be given, in person, by the 25th of any month In order to avoid being charged on the first of the nest month">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Bold"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content=". Cancellation is INVALID unless signed AND approved by a manager of our management team.">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content=" ">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="17" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment>
-                                    <string key="content">You must come in to one of our stores and sign a Cancellation Form in order for the request to be processed. (Only by filling out Cancellation form)</string>
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Bold"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment>
-                                    <string key="content">. 
-
-</string>
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="17" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content="Agreement Is by each vehicle. ">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content="Vehicles may be switched or exchanged for another vehicle with a $20  service charge">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Bold"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content=". ">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="17" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment>
-                                    <string key="content">New vehicle will be placed under a new contract and the old vehicle will be taken oft any contractual agreement previously in place</string>
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment>
-                                    <string key="content">. 
-
-</string>
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="17" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content="All returned or NSF payments will be assessed an additional $20.00 if payment of contract is not collected  after the 5th">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content=" ">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="17" name="OpenSans-Bold"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content="day of the due date. Mammoth will not serve clients with more than one NSF or chargeback from bad card. ">
-                                    <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <font key="NSFont" size="18" name="OpenSans-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    </attributes>
-                                </fragment>
-                            </attributedString>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                        </textView>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="r7P-QP-Bwc" firstAttribute="top" secondItem="VcL-zr-aAj" secondAttribute="bottom" constant="10" id="6gc-eE-VqW"/>
-                        <constraint firstItem="VcL-zr-aAj" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" id="M0b-CF-9I1"/>
-                        <constraint firstItem="DEY-2t-vmM" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="20" id="MQE-ER-im8"/>
-                        <constraint firstAttribute="trailing" secondItem="DEY-2t-vmM" secondAttribute="trailing" constant="20" id="YQb-uh-Daf"/>
-                        <constraint firstItem="VcL-zr-aAj" firstAttribute="top" secondItem="DEY-2t-vmM" secondAttribute="bottom" constant="10" id="bQe-uk-TsT"/>
-                        <constraint firstItem="DEY-2t-vmM" firstAttribute="top" secondItem="thd-IP-ktX" secondAttribute="top" constant="20" id="czG-eZ-sgH"/>
-                        <constraint firstItem="r7P-QP-Bwc" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="20" id="dbh-SN-qeo"/>
-                        <constraint firstAttribute="trailing" secondItem="VcL-zr-aAj" secondAttribute="trailing" id="jWj-b6-GPr"/>
-                        <constraint firstAttribute="bottom" secondItem="r7P-QP-Bwc" secondAttribute="bottom" constant="20" id="jZS-U4-nZR"/>
-                        <constraint firstAttribute="width" constant="650" id="jfh-82-GCm"/>
-                        <constraint firstAttribute="bottom" secondItem="pK5-BQ-sBg" secondAttribute="bottom" constant="20" id="lWc-93-0GB"/>
-                        <constraint firstAttribute="trailing" secondItem="pK5-BQ-sBg" secondAttribute="trailing" constant="20" id="woe-V6-xf6"/>
-                    </constraints>
-                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms and Conditions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yU2-UJ-WxV">
                     <rect key="frame" x="286.5" y="221.5" width="261.5" height="33"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="24"/>
                     <color key="textColor" red="0.60121947529999997" green="0.99664801359999999" blue="0.95195192100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="thd-IP-ktX">
+                    <rect key="frame" x="92" y="279" width="650" height="690"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" allowsEditingTextAttributes="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DEY-2t-vmM">
+                            <rect key="frame" x="16" y="272" width="618" height="418"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <attributedString key="attributedText">
+                                <fragment content="• ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="In consideration of first month as a discounted/prorated price point, ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="next month MUST BE PAID">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96470999999999996" blue="0.066669999999999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content=".">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96470999999999996" blue="0.066669999999999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content"> Cancel any time after 1st month is paid.
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="• ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="I understand this form is valid for an undetermined time period month to month. ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="Cancellation must be given, in person, by the 25">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.99216000000000004" blue="0.066669999999999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="th">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.99216000000000004" blue="0.066669999999999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSSuperScript" value="1"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content=" of any month in order to avoid being charged on the first of the next month.">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.99216000000000004" blue="0.066669999999999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content"> Cancellation is INVALID unless signed AND approved by a manager of our management team. You must come in to one of our stores and sign a Cancellation Form in order for the request to be processed. ( Only by filling out cancellation form)   </string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="• ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="Agreement is by each vehicle. ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="Vehicles may be switched or exchanged for another vehicle with a $20.00 service charge.">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.98431000000000002" blue="0.066669999999999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content"> New vehicle will be placed under a new contract and the old vehicle will be taken off any contractual agreement previously in place.
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="• ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="All returned or NSF payments will be assessed an additional $20.00 ">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.98038999999999998" blue="0.07059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="if payment of contract is not collected after the 5">
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="th">
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSSuperScript" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content"> day of the due date. Mammoth will not serve clients with more than 1 NSF.
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="• ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content">Payment amounts may change during the contract agreement depending on cancellations and/ or additional contracts of any other vehicle under the contract. </string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="Variations of 1">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96077999999999997" blue="0.07059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="st">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96077999999999997" blue="0.07059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSSuperScript" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content=", 2">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96077999999999997" blue="0.07059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="nd">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96077999999999997" blue="0.07059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSSuperScript" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content=" and 3">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96077999999999997" blue="0.07059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="rd">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96077999999999997" blue="0.07059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSSuperScript" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content=" vehicles can/will cause a price increase or decrease.">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.96077999999999997" blue="0.07059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="• ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content">Additional services outside of Monthly contract agreement will be paid at time of service rendered. If for some reason payment was not made at time of service, the credit card information NEW MAMMOTH DETAIL SALON has on file will be used to pay for the additional services rendered.
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="•  ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="NEW MAMMOTH DETAIL SALON has normal business hours posted, however,">
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content"> weather will dictate if the business will be closed from time to time. Store hours change throughout the year due to Daylight Savings Time.</string>
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.92940999999999996" blue="0.082350000000000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="• ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="Normal wash times are 30 to 80 minutes, although longer wash times may occur during uncommon rushes.">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.93725000000000003" blue="0.074510000000000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="• ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.13725000000000001" green="0.14902000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="Please Note: ">
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="Prices May change without notice">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="0.93725000000000003" blue="0.07843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content">. Please keep in mind the two Alpharetta Locations are billed separately from Holcomb Bridge Location 
+</string>
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment>
+                                    <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.13333" green="0.13333" blue="0.13333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" size="14" name="TimesNewRomanPS-BoldMT"/>
+                                        <real key="NSKern" value="0.0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops/>
+                                        </paragraphStyle>
+                                        <color key="NSStrokeColor" red="0.13333" green="0.13333" blue="0.13333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I authorize: NEW MAMMOTH DETAIL SALON" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="py7-wr-39v">
+                            <rect key="frame" x="16" y="14" width="365" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="365" id="2Uj-VA-hnl"/>
+                                <constraint firstAttribute="height" constant="25" id="Zbk-8E-gV6"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To keep my signature on file and to charge my Credit Card Account on file for: " lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7EY-fN-oNL">
+                            <rect key="frame" x="16" y="41" width="365" height="47"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="365" id="KWN-hd-wVD"/>
+                                <constraint firstAttribute="height" constant="47" id="hgN-mj-bpa"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Membership label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="peX-f7-k5u">
+                            <rect key="frame" x="401" y="16" width="227" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="227" id="ShL-8X-3Mc"/>
+                                <constraint firstAttribute="height" constant="20" id="d2M-rA-Ijp"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Additional Services:0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvJ-ki-Kxs">
+                            <rect key="frame" x="393" y="68" width="235" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="235" id="TOA-aT-YNI"/>
+                                <constraint firstAttribute="height" constant="20" id="wID-Jz-w7b"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Switch Membership Fee: $20.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pS2-1j-s7Y">
+                            <rect key="frame" x="393" y="96" width="235" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="6fJ-KU-7a4"/>
+                                <constraint firstAttribute="width" constant="235" id="9II-rv-lXl"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upcharges:0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7O8-25-ftP">
+                            <rect key="frame" x="393" y="124" width="235" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="0i5-Qt-a7W"/>
+                                <constraint firstAttribute="width" constant="235" id="o2L-Il-Fhl"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total: 0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fth-YX-rKX">
+                            <rect key="frame" x="393" y="152" width="235" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="Th3-5a-FmK"/>
+                                <constraint firstAttribute="width" constant="235" id="cAu-CY-RZC"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Option Code:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WwK-Zb-NxQ">
+                            <rect key="frame" x="16" y="96" width="153" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="153" id="72C-Vc-7G9"/>
+                                <constraint firstAttribute="height" constant="20" id="8nT-fA-TVq"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Advance Fee:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyX-2h-jue">
+                            <rect key="frame" x="16" y="152" width="153" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="dfI-kX-FMx"/>
+                                <constraint firstAttribute="width" constant="153" id="t60-vQ-3bH"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Additional Services:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGw-Ot-Xuo">
+                            <rect key="frame" x="16" y="180" width="148" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="148" id="2VL-tk-b4j"/>
+                                <constraint firstAttribute="height" constant="28" id="ldQ-QK-lC8"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date: 00-00-0000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="06X-eD-VPp">
+                            <rect key="frame" x="232" y="152" width="127.5" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="127.5" id="oOK-ez-cu4"/>
+                                <constraint firstAttribute="height" constant="20" id="s4u-AM-B5E"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="service-1" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="P1e-3g-Iwp">
+                            <rect key="frame" x="172" y="180" width="456" height="37"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="37" id="kHD-Bl-0BX"/>
+                                <constraint firstAttribute="width" constant="456" id="vP4-0A-hj1"/>
+                            </constraints>
+                            <color key="textColor" systemColor="labelColor"/>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yearly total of " lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6w-yE-bn7">
+                            <rect key="frame" x="16" y="222" width="108" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="108" id="GG0-9i-EMl"/>
+                                <constraint firstAttribute="height" constant="20" id="OtD-1O-wTs"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="starting" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1g-jP-3ih">
+                            <rect key="frame" x="16" y="244" width="54" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="54" id="Xfx-SZ-dEC"/>
+                                <constraint firstAttribute="height" constant="20" id="ySe-VS-bSq"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ending" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UZb-wp-m1K">
+                            <rect key="frame" x="177" y="244" width="49" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="hmy-SC-N0V"/>
+                                <constraint firstAttribute="width" constant="49" id="pCk-7w-bPI"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Split into monthly recurring charges of " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pby-on-NMB">
+                            <rect key="frame" x="244" y="222" width="285" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="EJo-gx-uIC"/>
+                                <constraint firstAttribute="width" constant="285" id="rV0-gP-At5"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kGq-yn-bge">
+                            <rect key="frame" x="126" y="222" width="110" height="20"/>
+                            <color key="backgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="CHe-dJ-LG9"/>
+                                <constraint firstAttribute="width" constant="110" id="New-Cc-8pc"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00-00-0000" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WQf-pc-60P">
+                            <rect key="frame" x="72" y="244" width="97" height="20"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="97" id="d9l-rc-XaD"/>
+                                <constraint firstAttribute="height" constant="20" id="nFP-wl-xRY"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyy-TA-qv6">
+                            <rect key="frame" x="537" y="222" width="91" height="20"/>
+                            <color key="backgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="91" id="rPp-YF-zAx"/>
+                                <constraint firstAttribute="height" constant="20" id="wN4-6K-4m9"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00-00-0000" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YVa-Xd-DzE">
+                            <rect key="frame" x="232" y="244" width="107" height="20"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="jBR-oD-YGg"/>
+                                <constraint firstAttribute="width" constant="107" id="t4R-Lw-7W1"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="fth-YX-rKX" firstAttribute="leading" secondItem="06X-eD-VPp" secondAttribute="trailing" constant="33.5" id="0Ky-hu-dhd"/>
+                        <constraint firstItem="py7-wr-39v" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="16" id="2HG-Ul-VNS"/>
+                        <constraint firstAttribute="trailing" secondItem="peX-f7-k5u" secondAttribute="trailing" constant="22" id="2qH-kq-9F7"/>
+                        <constraint firstAttribute="trailing" secondItem="fth-YX-rKX" secondAttribute="trailing" constant="22" id="3sV-FP-Y41"/>
+                        <constraint firstItem="xyX-2h-jue" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="16" id="4j5-qN-zku"/>
+                        <constraint firstItem="UZb-wp-m1K" firstAttribute="leading" secondItem="WQf-pc-60P" secondAttribute="trailing" constant="8" symbolic="YES" id="529-ya-XYe"/>
+                        <constraint firstAttribute="trailing" secondItem="YVa-Xd-DzE" secondAttribute="trailing" constant="311" id="6Vy-rq-F9q"/>
+                        <constraint firstItem="P1e-3g-Iwp" firstAttribute="top" secondItem="06X-eD-VPp" secondAttribute="bottom" constant="8" symbolic="YES" id="7fM-KL-zYy"/>
+                        <constraint firstAttribute="trailing" secondItem="7O8-25-ftP" secondAttribute="trailing" constant="22" id="9Jm-ws-c20"/>
+                        <constraint firstItem="jyy-TA-qv6" firstAttribute="leading" secondItem="Pby-on-NMB" secondAttribute="trailing" constant="8" symbolic="YES" id="9gL-2d-Byg"/>
+                        <constraint firstItem="7EY-fN-oNL" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="16" id="C43-qw-dec"/>
+                        <constraint firstAttribute="trailing" secondItem="jyy-TA-qv6" secondAttribute="trailing" constant="22" id="CCN-c7-8XM"/>
+                        <constraint firstItem="fth-YX-rKX" firstAttribute="top" secondItem="7O8-25-ftP" secondAttribute="bottom" constant="8" symbolic="YES" id="DVW-T6-Otg"/>
+                        <constraint firstAttribute="trailing" secondItem="P1e-3g-Iwp" secondAttribute="trailing" constant="22" id="EAq-FY-fOM"/>
+                        <constraint firstAttribute="trailing" secondItem="pS2-1j-s7Y" secondAttribute="trailing" constant="22" id="Hf0-DZ-blb"/>
+                        <constraint firstItem="wvJ-ki-Kxs" firstAttribute="top" secondItem="peX-f7-k5u" secondAttribute="bottom" constant="32" id="ILS-4i-lgD"/>
+                        <constraint firstItem="YVa-Xd-DzE" firstAttribute="leading" secondItem="UZb-wp-m1K" secondAttribute="trailing" constant="6" id="JDA-uU-YPz"/>
+                        <constraint firstItem="WQf-pc-60P" firstAttribute="top" secondItem="F6w-yE-bn7" secondAttribute="bottom" constant="2" id="LRL-Aq-uzC"/>
+                        <constraint firstItem="peX-f7-k5u" firstAttribute="top" secondItem="thd-IP-ktX" secondAttribute="top" constant="16" id="M0u-Fn-LrA"/>
+                        <constraint firstItem="wvJ-ki-Kxs" firstAttribute="leading" secondItem="7EY-fN-oNL" secondAttribute="trailing" constant="12" id="MMa-09-Ndw"/>
+                        <constraint firstItem="DEY-2t-vmM" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="16" id="MQE-ER-im8"/>
+                        <constraint firstItem="a1g-jP-3ih" firstAttribute="top" secondItem="F6w-yE-bn7" secondAttribute="bottom" constant="2" id="NvX-u1-3th"/>
+                        <constraint firstItem="P1e-3g-Iwp" firstAttribute="leading" secondItem="fGw-Ot-Xuo" secondAttribute="trailing" constant="8" symbolic="YES" id="OeF-IC-6MZ"/>
+                        <constraint firstItem="WwK-Zb-NxQ" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="16" id="QHx-go-QEm"/>
+                        <constraint firstItem="pS2-1j-s7Y" firstAttribute="top" secondItem="wvJ-ki-Kxs" secondAttribute="bottom" constant="8" symbolic="YES" id="Qqk-kv-2J9"/>
+                        <constraint firstItem="fGw-Ot-Xuo" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="16" id="Qzy-dW-Q1D"/>
+                        <constraint firstItem="UZb-wp-m1K" firstAttribute="top" secondItem="kGq-yn-bge" secondAttribute="bottom" constant="2" id="Rw8-SX-7jo"/>
+                        <constraint firstItem="WwK-Zb-NxQ" firstAttribute="top" secondItem="7EY-fN-oNL" secondAttribute="bottom" constant="8" symbolic="YES" id="Saq-Rj-K0W"/>
+                        <constraint firstItem="kGq-yn-bge" firstAttribute="top" secondItem="P1e-3g-Iwp" secondAttribute="bottom" constant="5" id="TZl-4G-996"/>
+                        <constraint firstItem="py7-wr-39v" firstAttribute="top" secondItem="thd-IP-ktX" secondAttribute="top" constant="14" id="Tmv-rf-SNp"/>
+                        <constraint firstItem="fGw-Ot-Xuo" firstAttribute="top" secondItem="xyX-2h-jue" secondAttribute="bottom" constant="8" symbolic="YES" id="UeC-6R-KPS"/>
+                        <constraint firstItem="a1g-jP-3ih" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="16" id="VYp-zE-ltM"/>
+                        <constraint firstItem="kGq-yn-bge" firstAttribute="leading" secondItem="F6w-yE-bn7" secondAttribute="trailing" constant="2" id="VoA-cg-Q5t"/>
+                        <constraint firstItem="xyX-2h-jue" firstAttribute="top" secondItem="WwK-Zb-NxQ" secondAttribute="bottom" constant="36" id="W7B-Ti-E08"/>
+                        <constraint firstAttribute="bottom" secondItem="DEY-2t-vmM" secondAttribute="bottom" id="Wr5-1n-Rgf"/>
+                        <constraint firstAttribute="trailing" secondItem="DEY-2t-vmM" secondAttribute="trailing" constant="16" id="YQb-uh-Daf"/>
+                        <constraint firstItem="7EY-fN-oNL" firstAttribute="top" secondItem="py7-wr-39v" secondAttribute="bottom" constant="2" id="Yde-E1-z4s"/>
+                        <constraint firstItem="pS2-1j-s7Y" firstAttribute="leading" secondItem="WwK-Zb-NxQ" secondAttribute="trailing" constant="224" id="ZJl-4H-B4g"/>
+                        <constraint firstItem="F6w-yE-bn7" firstAttribute="top" secondItem="fGw-Ot-Xuo" secondAttribute="bottom" constant="14" id="akS-VJ-asL"/>
+                        <constraint firstItem="fth-YX-rKX" firstAttribute="leading" secondItem="06X-eD-VPp" secondAttribute="trailing" constant="33.5" id="b8c-OH-cni"/>
+                        <constraint firstItem="DEY-2t-vmM" firstAttribute="top" secondItem="thd-IP-ktX" secondAttribute="top" constant="272" id="czG-eZ-sgH"/>
+                        <constraint firstItem="7O8-25-ftP" firstAttribute="top" secondItem="pS2-1j-s7Y" secondAttribute="bottom" constant="8" symbolic="YES" id="daQ-Fz-fcf"/>
+                        <constraint firstItem="06X-eD-VPp" firstAttribute="top" secondItem="7EY-fN-oNL" secondAttribute="bottom" constant="64" id="drU-BO-NS5"/>
+                        <constraint firstItem="F6w-yE-bn7" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="16" id="eGu-A8-cGP"/>
+                        <constraint firstItem="06X-eD-VPp" firstAttribute="leading" secondItem="xyX-2h-jue" secondAttribute="trailing" constant="63" id="fhl-l5-Nw7"/>
+                        <constraint firstItem="Pby-on-NMB" firstAttribute="top" secondItem="P1e-3g-Iwp" secondAttribute="bottom" constant="5" id="jQC-6D-4Fo"/>
+                        <constraint firstAttribute="width" constant="650" id="jfh-82-GCm"/>
+                        <constraint firstItem="WQf-pc-60P" firstAttribute="leading" secondItem="a1g-jP-3ih" secondAttribute="trailing" constant="2" id="kga-79-YMT"/>
+                        <constraint firstItem="jyy-TA-qv6" firstAttribute="top" secondItem="P1e-3g-Iwp" secondAttribute="bottom" constant="5" id="ou9-v3-9OI"/>
+                        <constraint firstItem="Pby-on-NMB" firstAttribute="leading" secondItem="kGq-yn-bge" secondAttribute="trailing" constant="8" symbolic="YES" id="ryl-Z7-5NK"/>
+                        <constraint firstAttribute="trailing" secondItem="wvJ-ki-Kxs" secondAttribute="trailing" constant="22" id="u9q-i8-Une"/>
+                        <constraint firstItem="Pby-on-NMB" firstAttribute="leading" secondItem="kGq-yn-bge" secondAttribute="trailing" constant="8" symbolic="YES" id="uwU-Rw-vBB"/>
+                        <constraint firstItem="YVa-Xd-DzE" firstAttribute="top" secondItem="Pby-on-NMB" secondAttribute="bottom" constant="2" id="xRs-Rz-szJ"/>
+                        <constraint firstItem="peX-f7-k5u" firstAttribute="leading" secondItem="py7-wr-39v" secondAttribute="trailing" constant="20" id="xdR-LP-nK8"/>
+                        <constraint firstItem="7O8-25-ftP" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" constant="393" id="z5q-fb-0ZW"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fYJ-uD-EYY">
+                    <rect key="frame" x="92" y="968" width="650" height="56"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r7P-QP-Bwc">
+                            <rect key="frame" x="23" y="8" width="78" height="36"/>
+                            <state key="normal">
+                                <attributedString key="attributedTitle">
+                                    <fragment content="Disagree">
+                                        <attributes>
+                                            <color key="NSColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" metaFont="system" size="20"/>
+                                            <integer key="NSUnderline" value="1"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pK5-BQ-sBg">
+                            <rect key="frame" x="573" y="8" width="52" height="36"/>
+                            <state key="normal">
+                                <attributedString key="attributedTitle">
+                                    <fragment content="Agree">
+                                        <attributes>
+                                            <color key="NSColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" metaFont="system" size="20"/>
+                                            <integer key="NSUnderline" value="1"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                            </state>
+                            <connections>
+                                <action selector="AgreeButtonTouch:" destination="-1" eventType="touchUpInside" id="AHb-fQ-UxS"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="r7P-QP-Bwc" firstAttribute="baseline" secondItem="pK5-BQ-sBg" secondAttribute="baseline" id="BWL-pv-ifF"/>
+                        <constraint firstItem="r7P-QP-Bwc" firstAttribute="leading" secondItem="fYJ-uD-EYY" secondAttribute="leading" constant="23" id="PNl-p2-TBo"/>
+                        <constraint firstAttribute="trailing" secondItem="pK5-BQ-sBg" secondAttribute="trailing" constant="25" id="UdH-zR-wGp"/>
+                        <constraint firstItem="r7P-QP-Bwc" firstAttribute="top" secondItem="fYJ-uD-EYY" secondAttribute="topMargin" id="gPp-Sn-daa"/>
+                        <constraint firstAttribute="bottom" secondItem="r7P-QP-Bwc" secondAttribute="bottom" constant="12" id="tjx-Ab-BRh"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -271,20 +969,29 @@ To understand form is valid for an undetermined time period month to month. </st
                 <constraint firstItem="Rmv-LM-0Sv" firstAttribute="top" secondItem="2" secondAttribute="top" id="3su-f7-7mH"/>
                 <constraint firstAttribute="bottom" secondItem="sIc-Ni-kL9" secondAttribute="bottom" constant="-10" id="5LZ-cM-7XD"/>
                 <constraint firstItem="sIc-Ni-kL9" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="EAm-jC-YJe"/>
-                <constraint firstItem="thd-IP-ktX" firstAttribute="height" secondItem="sIc-Ni-kL9" secondAttribute="height" multiplier="0.604613" id="JoW-11-rEH"/>
-                <constraint firstItem="thd-IP-ktX" firstAttribute="top" secondItem="yU2-UJ-WxV" secondAttribute="bottom" constant="35" id="TkL-zo-ayS"/>
+                <constraint firstItem="thd-IP-ktX" firstAttribute="height" secondItem="sIc-Ni-kL9" secondAttribute="height" multiplier="0.604613" constant="-44.000181999999995" id="JoW-11-rEH"/>
+                <constraint firstItem="fYJ-uD-EYY" firstAttribute="leading" secondItem="thd-IP-ktX" secondAttribute="leading" id="KCE-PS-dS7"/>
+                <constraint firstItem="fYJ-uD-EYY" firstAttribute="trailing" secondItem="thd-IP-ktX" secondAttribute="trailing" id="R5y-S4-5Sd"/>
+                <constraint firstItem="thd-IP-ktX" firstAttribute="top" secondItem="yU2-UJ-WxV" secondAttribute="bottom" constant="24.5" id="TkL-zo-ayS"/>
                 <constraint firstAttribute="trailing" secondItem="Rmv-LM-0Sv" secondAttribute="trailing" id="bIQ-zA-9rk"/>
-                <constraint firstItem="thd-IP-ktX" firstAttribute="centerY" secondItem="sIc-Ni-kL9" secondAttribute="centerY" multiplier="1.1" id="eUI-RG-6ZT"/>
+                <constraint firstItem="thd-IP-ktX" firstAttribute="centerY" secondItem="sIc-Ni-kL9" secondAttribute="centerY" multiplier="1.1" constant="-32.700000000000045" id="eUI-RG-6ZT"/>
+                <constraint firstItem="fYJ-uD-EYY" firstAttribute="top" secondItem="2" secondAttribute="top" constant="968" id="fh7-u0-VNq"/>
                 <constraint firstItem="sIc-Ni-kL9" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="jBy-Bd-J4B"/>
                 <constraint firstAttribute="trailing" secondItem="sIc-Ni-kL9" secondAttribute="trailing" constant="-10" id="jMD-NB-9oY"/>
                 <constraint firstItem="Rmv-LM-0Sv" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="m01-tA-1dk"/>
                 <constraint firstItem="thd-IP-ktX" firstAttribute="centerX" secondItem="sIc-Ni-kL9" secondAttribute="centerX" id="ubR-9o-AAP"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="24.46043165467626" y="51.758793969849243"/>
+            <point key="canvasLocation" x="24.0234375" y="51.390922401171302"/>
         </view>
     </objects>
     <resources>
         <image name="car_image_bg" width="768" height="1024"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

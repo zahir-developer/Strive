@@ -49,6 +49,7 @@ namespace StriveCustomer.iOS.Views
             GetTotal();
             KeyBoardHandling();
             UpdateData();
+            securityCodeTextField.Hidden = true;
 
             if(CustomerCardInfo.SelectedCard!= null)
             {
@@ -56,14 +57,14 @@ namespace StriveCustomer.iOS.Views
                 expirationDateTextField.Text = CustomerCardInfo.SelectedCard.ExpiryDate.Substring(8, 2)+"/"+CustomerCardInfo.SelectedCard.ExpiryDate.Substring(2, 2);
                 ViewModel.cardNumber = CustomerCardInfo.SelectedCard.CardNumber;
                 ViewModel.expiryDate = CustomerCardInfo.SelectedCard.ExpiryDate;
-                securityCodeTextField.Text = string.Empty;
+                //securityCodeTextField.Text = string.Empty;
 
             }
             else
             {
                 cardNumberTextField.Text = string.Empty;
                 expirationDateTextField.Text = string.Empty;
-                securityCodeTextField.Text = string.Empty;
+                //securityCodeTextField.Text = string.Empty;
             }
             // RegisterForCardDetailsScanning();
 
@@ -144,7 +145,7 @@ namespace StriveCustomer.iOS.Views
             var totalAmnt = Amount;
             ViewModel.cardNumber = cardNo;
             ViewModel.expiryDate = expiryDate;
-            if (cardNo.IsEmpty() || expiryDate.IsEmpty() || ccv == 0)
+            if (cardNo.IsEmpty() || expiryDate.IsEmpty())
             {
                 _userDialog.HideLoading();
                 ShowAlertMsg("Please fill card details");
@@ -161,7 +162,7 @@ namespace StriveCustomer.iOS.Views
                     {
                         Account = cardNo,
                         Expiry = expiryDate,
-                        CCV = ccv,
+                        //CCV = ccv,
                         Amount = Amount
                     },
 
@@ -210,46 +211,47 @@ namespace StriveCustomer.iOS.Views
 
                         var paymentTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentType.Card.ToString())).ID ?? -1;
 
-                        var addPaymentReqReq = new AddPaymentReq
-                        {
-                            SalesPaymentDto = new SalesPaymentDto()
-                            {
-                                JobPayment = new JobPayment()
-                                {
-                                    JobID = JobID,
-                                    Amount = Amount,
-                                    PaymentStatus = paymentStatusId
-                                },
+                        //var addPaymentReqReq = new AddPaymentReq
+                        //{
+                        //    SalesPaymentDto = new SalesPaymentDto()
+                        //    {
+                        //        JobPayment = new JobPayment()
+                        //        {
+                        //            JobID = JobID,
+                        //            Amount = Amount,
+                        //            PaymentStatus = paymentStatusId
+                        //        },
 
-                                JobPaymentDetails = new List<JobPaymentDetail>() {
-                                            new JobPaymentDetail()
-                                            {
-                                                Amount = Amount,
-                                                PaymentType = paymentTypeId
-                                            }
-                                        }
-                            },
-                            LocationID = 1,//AppSettings.LocationID,
-                            JobID = JobID
-                        };
+                        //        JobPaymentDetails = new List<JobPaymentDetail>() {
+                        //                    new JobPaymentDetail()
+                        //                    {
+                        //                        Amount = Amount,
+                        //                        PaymentType = paymentTypeId
+                        //                    }
+                        //                }
+                        //    },
+                        //    LocationID = 1,//AppSettings.LocationID,
+                        //    JobID = JobID
+                        //};
 
-                        
+
                         //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
 
-                        var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
-                        Debug.WriteLine(JsonConvert.SerializeObject(paymentResponse));
-                      
+                        //var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
+                        //Debug.WriteLine(JsonConvert.SerializeObject(paymentResponse));
 
-                        if (paymentResponse.Message == "true")
-                        {
-                            ViewModel.MembershipAgree();
-                            
-                        }
-                        else
-                        {
-                            _userDialog.HideLoading();
-                            ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
-                        }
+
+                        //if (paymentResponse.Message == "true")
+                        //{
+                        //    ViewModel.MembershipAgree();
+
+                        //}
+                        //else
+                        //{
+                        //    _userDialog.HideLoading();
+                        //    ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
+                        //}
+                        ViewModel.MembershipAgree();
                     }
                     else
                     {
@@ -396,12 +398,12 @@ namespace StriveCustomer.iOS.Views
             expirationDateTextField.Placeholder = "mm/yy";
             backgroundView.Add(expirationDateTextField);
 
-            var securityCodeLabel = new UILabel(CGRect.Empty);
-            securityCodeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            securityCodeLabel.Text = "Security Code(CVV)";
-            securityCodeLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
-            securityCodeLabel.Font = UIFont.SystemFontOfSize(18);
-            backgroundView.Add(securityCodeLabel);
+            //var securityCodeLabel = new UILabel(CGRect.Empty);
+            //securityCodeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            //securityCodeLabel.Text = "Security Code(CVV)";
+            //securityCodeLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
+            //securityCodeLabel.Font = UIFont.SystemFontOfSize(18);
+            //backgroundView.Add(securityCodeLabel);
 
             securityCodeTextField = new UITextField(CGRect.Empty);
             securityCodeTextField.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -500,8 +502,8 @@ namespace StriveCustomer.iOS.Views
             expirationDateTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
            
 
-            securityCodeLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
-            securityCodeLabel.CenterYAnchor.ConstraintEqualTo(securityCodeTextField.CenterYAnchor).Active = true;
+            //securityCodeLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 10).Active = true;
+            //securityCodeLabel.CenterYAnchor.ConstraintEqualTo(securityCodeTextField.CenterYAnchor).Active = true;
 
             securityCodeTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor,constant: -10).Active = true;
             securityCodeTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -8).Active = true;

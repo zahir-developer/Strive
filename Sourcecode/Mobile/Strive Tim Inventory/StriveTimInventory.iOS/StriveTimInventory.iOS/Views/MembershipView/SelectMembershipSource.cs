@@ -118,19 +118,20 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                     var previousmembership = MembershipData.MembershipServiceList.Membership.FindAll(x => x.MembershipName == MembershipData.SelectedVehicle.MembershipName);
                     if (ViewModel.isDiscoutAvailable == true)
                     {
-                        MembershipData.CalculatedPrice = MembershipData.SelectedMembership.DiscountedPrice;
+                        MembershipData.CalculatedPrice = MembershipData.SelectedMembershipPrice = MembershipData.SelectedMembership.DiscountedPrice;
                         if (MembershipData.SelectedMembership.DiscountedPrice < previousmembership[0].DiscountedPrice)
                         {
                             MembershipData.CalculatedPrice += 20;
+                            MembershipData.isMembershipSwitch = true;
                         }
                     }
                     else
                     {
-                        MembershipData.CalculatedPrice = MembershipData.SelectedMembership.Price;
+                        MembershipData.CalculatedPrice = MembershipData.SelectedMembershipPrice = MembershipData.SelectedMembership.Price;
                         if (MembershipData.SelectedMembership.Price < previousmembership[0].Price)
                         {
                             MembershipData.CalculatedPrice += 20;
-                           
+                            MembershipData.isMembershipSwitch = false;
                         }
                     }
                     
@@ -139,11 +140,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 {
                     if (ViewModel.isDiscoutAvailable == true)
                     {
-                        MembershipData.CalculatedPrice = MembershipData.SelectedMembership.DiscountedPrice;
+                        MembershipData.CalculatedPrice = MembershipData.SelectedMembershipPrice = MembershipData.SelectedMembership.DiscountedPrice;
                     }
                     else
                     {
-                        MembershipData.CalculatedPrice = MembershipData.SelectedMembership.Price;
+                        MembershipData.CalculatedPrice = MembershipData.SelectedMembershipPrice = MembershipData.SelectedMembership.Price;
                     }
                 }
 

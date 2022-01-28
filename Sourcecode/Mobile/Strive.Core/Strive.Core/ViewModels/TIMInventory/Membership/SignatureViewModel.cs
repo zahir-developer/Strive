@@ -15,6 +15,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
     {
         private MvxSubscriptionToken _messageToken;
         private double MonthlyCharge;
+        public  string Base64ContractString;
         public SignatureViewModel()
         {
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
@@ -58,20 +59,61 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             var VehicleMembership = PrepareVehicleMembership();
             _userDialog.ShowLoading("Assigning membership to the vehicle...");
             var result = await AdminService.SaveVehicleMembership(VehicleMembership);
+
             if(result == null)
             {
                 await _userDialog.AlertAsync("Membership not Assigned. Please try again.");
+
                 _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));
                 return;
             }
             if(result.Status)
             {
-                await _userDialog.AlertAsync("Membership Assigned");
+                var codeByCategory = await AdminService.GetCodesByCategory();
+
+                var membershipAgreement = codeByCategory.Codes.Find(x => x.CodeValue == "MembershipAgreement");
+
+                var termsDocument = new Document()
+                {
+                    DocumentId = membershipAgreement.CategoryId,
+                    DocumentName = "MembershipAgreement",
+                    DocumentType = membershipAgreement.CodeId,
+                    DocumentSubType = null,
+                    Base64 = Base64ContractString,
+                    CreatedBy = CustomerInfo.ClientID,
+                    CreatedDate = DateTime.Now,
+                    FileName = "MembershipAgreement -" + CustomerInfo.custName + ".jpeg",
+                    FilePath = "",
+                    OriginalFileName = "MembershipAgreement -" + CustomerInfo.custName + ".jpeg",
+                    IsActive = true,
+                    IsDeleted = false,
+                    RoleId = null,
+                    UpdatedBy = CustomerInfo.ClientID,
+                    UpdatedDate = DateTime.Now
+
+                };
+
+                var addDocument = new AddDocument()
+                {
+                    Document = termsDocument,
+                    DocumentType = membershipAgreement.CodeValue,
+
+                };
+
+                var document = await AdminService.AddDocumentDetails(addDocument);
+                if (document != null)
+                {
+                    await _userDialog.AlertAsync("Membership Assigned");
+                }
+                
             }
             else
             {
                 await _userDialog.AlertAsync("Membership not Assigned. Please try again.");
             }
+
+
+
             _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));
         }
 
