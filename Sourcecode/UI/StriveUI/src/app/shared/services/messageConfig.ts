@@ -104,7 +104,9 @@ export const MessageConfig = {
       MembershipApplied : 'Membership applied for below services: ',
       MembershipServicesNotMatching : 'Membership services not matching.',
       InvalidCharacters: 'Ticket number have Invalid characters.', 
-      DiscountServiceNotMatching: 'Service Discount Type not matching with any of the Job service.'
+      DiscountServiceNotMatching: 'Service Discount Type not matching with any of the Job service.',
+      ItemAlreadyAdded: 'Item already exists, can not be added.',
+      PackageAlreadyAdded: 'Base package(Wash/Detail) already exists.'
    },
    Messenger: {
       Message: 'Please enter a message!',
