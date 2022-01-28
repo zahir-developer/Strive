@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using Android;
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
+using Android.Support.V4.Content;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -13,7 +14,6 @@ using Android.Widget;
 using MvvmCross;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
@@ -93,46 +93,53 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, MyProfFragment).Commit();
         }
 
-        private async void Browse_Button_Click(object sender, EventArgs e)
+        private void Browse_Button_Click(object sender, EventArgs e)
+        {
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) == Permission.Granted)
+            {
+                OpenFileAsync();
+            }
+            else
+            {
+                requestpermission();
+            }
+
+        }
+        private async void OpenFileAsync()
         {
             try
             {
-                //fileData = await CrossFilePicker.Current.PickFile();
-               
                 var result = await FilePicker.PickMultipleAsync();
                 if (result != null)
                 {
-                    //    foreach (var data in result)
-                    //    {
-                    //        var employeeDocuments = new employeeDocument();
-                    //        byte[] DataArray = File.ReadAllBytes(data.FullPath);
-                    //        //this.ViewModel.filedata = Convert.ToBase64String(DataArray);
-
-                    //        var fileType = data.FileName.Split(".");
-                    //        employeeDocuments.fileName = data.FileName;
-                    //        employeeDocuments.filePath = data.FullPath;
-                    //        employeeDocuments.base64 = Convert.ToBase64String(DataArray);
-                    //        employeeDocuments.fileType = fileType[1];
-                    //        fileName.Add(employeeDocuments);
-                    //    }
-                    //}
-                    //        if (fileName != null && fileName.Count > 0)
-                    //        {
-                    //            addDocuments_Adapter = new AddDocumentsAdapter(Context, result);
-                    //            var LayoutManager = new LinearLayoutManager(Context);
-                    //            addDoc_RecyclerView.SetLayoutManager(LayoutManager);
-                    //            addDoc_RecyclerView.SetAdapter(addDocuments_Adapter);
-                    //        }
-
                     addDocuments_Adapter = new AddDocumentsAdapter(Context, result);
                     var LayoutManager = new LinearLayoutManager(Context);
                     addDoc_RecyclerView.SetLayoutManager(LayoutManager);
                     addDoc_RecyclerView.SetAdapter(addDocuments_Adapter);
                 }
-                }
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+        public void requestpermission()
+        {
+            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted)
+            {
+              RequestPermissions(new string[] { Manifest.Permission.ReadExternalStorage }, 1);
+            }
+        }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            if (requestCode == 1)
+            {
+                OpenFileAsync();
+            }
+            else
+            {
+                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
             }
         }
     }
