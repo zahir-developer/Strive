@@ -12,8 +12,6 @@ namespace Strive.BusinessEntities.DTO
         public string TicketNumber { get; set; }
         public string InTime { get; set; }
         public string TimeOut { get; set; }
-        public string ClientName { get; set; }
-        public string PhoneNumber { get; set; }
         public string Barcode { get; set; }
         public string VehicleModel { get; set; }
         public string VehicleMake { get; set; }

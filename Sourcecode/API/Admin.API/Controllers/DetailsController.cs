@@ -110,5 +110,7 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateJobStatus")]
         public Result UpdateJobStatus([FromBody]JobStatusDto jobStatus) => _bplManager.UpdateJobStatus(jobStatus);
+
+        
     }
 }

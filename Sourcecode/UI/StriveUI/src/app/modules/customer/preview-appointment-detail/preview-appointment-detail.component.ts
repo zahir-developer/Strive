@@ -39,7 +39,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   }
 
   getTicketNumber() {
-      this.detailService.getTicketNumber().subscribe(data => {
+      this.detailService.getTicketNumber(this.scheduleDetailObj.locationObj.LocationId).subscribe(data => {
         const ticket = JSON.parse(data.resultData);
         if (data.status === 'Success') {
           const ticket = JSON.parse(data.resultData);

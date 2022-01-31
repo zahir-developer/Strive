@@ -244,7 +244,8 @@ export class SalesComponent implements OnInit {
               id: item.ServiceId,
               name: item.ServiceName.trim(),
               price: item.Cost,
-              type: 'service'
+              type: 'service',
+              serviceTypeId: item.ServiceType
             };
           });
         }
@@ -609,7 +610,8 @@ export class SalesComponent implements OnInit {
               id: item.ServiceId,
               name: item.ServiceName.trim(),
               price: item.Cost,
-              type: 'service'
+              type: 'service',
+              serviceTypeId: item.ServiceType
             };
           });
         } else {
@@ -860,7 +862,7 @@ export class SalesComponent implements OnInit {
           this.submitted = false;
         }
       });
-    } else {
+    } else if (this.isPackageAlreadyAdded()) {
       this.submitted = true;
       if (+this.addItemForm.controls.quantity.value === 0) {
         this.addItemForm.patchValue({ quantity: '' });
@@ -956,6 +958,31 @@ export class SalesComponent implements OnInit {
       }
     }
   }
+
+  isPackageAlreadyAdded() {
+    var itemExists = this.itemList?.Status?.SalesItemViewModel?.filter(s => s.ServiceId === this.selectedService?.id);
+
+    if (itemExists?.length > 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.ItemAlreadyAdded });
+      return false;
+    }
+
+    var detailServiceType = this.serviceType.filter(type => type.CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage)
+
+    var washServiceType = this.serviceType.filter(type => type.CodeValue === ApplicationConfig.Enum.ServiceType.WashPackage)
+
+    var detailPackageExists = this.details.filter(s => s.ServiceType === detailServiceType[0]?.CodeValue)
+
+    var washPackageExists = this.washes.filter(s => s.ServiceType === washServiceType[0]?.CodeValue)
+
+    if (detailPackageExists?.length > 0 || washPackageExists?.length > 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.PackageAlreadyAdded });
+      return false;
+    }
+
+    return true;
+  }
+
   updateListItem(formObj, flag) {
     formObj.job = null;
     this.salesService.updateListItem(formObj).subscribe(data => {
@@ -1046,7 +1073,7 @@ export class SalesComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result.status) {
         this.isCreditPay = true;
-        this.tips = parseFloat(result.tipAmount);
+        this.tips = result.tipAmount == "" ? 0 : parseFloat(result.tipAmount);
         this.credit = result.totalAmount
         this.captureObj = result.authObj;
         this.calculateTotalpaid(+this.credit);
@@ -1065,7 +1092,7 @@ export class SalesComponent implements OnInit {
     const amount = this.decimalPipe.transform(totalAmount, '.2-2');
     const capObj = {
       authCode: auth.authcode,
-      amount: amount.toString().replace(",",""),
+      amount: amount.toString().replace(",", ""),
       retRef: auth.retref,
       invoiceId: {}
     };
@@ -1210,7 +1237,7 @@ export class SalesComponent implements OnInit {
           }
           //Detail Upcharge
           else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge) {
-            this.upCharges.filter(s=>s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
+            this.upCharges.filter(s => s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
             item.Price = String(item.Price).replace('-', '');
@@ -1224,7 +1251,7 @@ export class SalesComponent implements OnInit {
           }
           // Detail Ceramic Upcharge
           else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge) {
-            this.upCharges.filter(s=>s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
+            this.upCharges.filter(s => s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
             item.Price = String(item.Price).replace('-', '');
@@ -1494,18 +1521,18 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(accountDet);
 
       creditAccountHistory = {
-        CreditAccountHistoryId :0,
-        Amount : (-1 * this.account) ,
-        IsActive : true,
-        IsDeleted : false,
-        CreatedBy : null,
+        CreditAccountHistoryId: 0,
+        Amount: (-1 * this.account),
+        IsActive: true,
+        IsDeleted: false,
+        CreatedBy: null,
         CreatedDate: new Date(),
-        UpdatedBy : null,
+        UpdatedBy: null,
         UpdatedDate: new Date(),
-        JobPaymentId : 0,
-        TransactionType : this.accountPayType,
-        ClientId : this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
-        }
+        JobPaymentId: 0,
+        TransactionType: this.accountPayType,
+        ClientId: this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
+      }
     }
     if (this.credit !== 0) {
       const creditPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Card)[0].CodeId;
@@ -1543,7 +1570,7 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(gift);
     }
-   
+
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -1566,7 +1593,7 @@ export class SalesComponent implements OnInit {
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
-      creditAccountHistory : creditAccountHistory,
+      creditAccountHistory: creditAccountHistory,
       jobPaymentCreditCard: null
     };
 
@@ -1736,10 +1763,10 @@ export class SalesComponent implements OnInit {
           this.totalAmount += (ele.Price * ele.Quantity) + ele.TaxAmount;
         });
       }
-      if(this.totalPaid > 0){
+      if (this.totalPaid > 0) {
         this.totalAmount = this.totalAmount - this.totalPaid;
       }
-      if(this.discountAmount > 0){
+      if (this.discountAmount > 0) {
         this.totalAmount = this.totalAmount - this.discountAmount;
       }
       this.account = this.totalAmount;
@@ -1792,8 +1819,8 @@ export class SalesComponent implements OnInit {
                 }
 
                 if (services !== '') {
-                  
-                  services = services.slice(0,services.length-2);
+
+                  services = services.slice(0, services.length - 2);
                   services += ".";
 
                   this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + services });

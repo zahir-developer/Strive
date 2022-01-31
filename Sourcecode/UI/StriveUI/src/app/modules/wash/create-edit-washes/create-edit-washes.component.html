@@ -209,12 +209,13 @@
                             <span *ngIf="isEdit">
                                 <button type="button"  (click)="pay()"  [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled' : 'btn theme-primary-button-color '"> 
                                    {{paidLabel}}</button>
-                                 
-                              &nbsp;
+                                   &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="print()">Print</button>
+                                    (click)="zebraPrint()">Vehicle Copy</button>
+                                    &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="zebraPrint()">Zebra Print</button>
+                                    (click)="zebraPrintCustomerCopy()">Customer Copy</button>
+                                    
                             </span>
                             <span class="pull-right">
                                 <button type="button" class="btn theme-optional-button-color"

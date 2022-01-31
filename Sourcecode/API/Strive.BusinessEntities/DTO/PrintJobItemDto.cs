@@ -9,7 +9,7 @@ namespace Strive.BusinessEntities.DTO
     public class PrintJobItemDto
     {
         public string ServiceName { get; set; }
-
         public decimal Price { get; set; }
+        public string ServiceType { get; set; }
     }
 }

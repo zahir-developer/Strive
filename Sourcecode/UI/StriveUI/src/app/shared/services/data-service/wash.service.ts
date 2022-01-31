@@ -42,9 +42,6 @@ export class WashService {
   getVehicleColor() {
     return this.http.post(`${UrlConfig.vehicle.getVehicleCodes}`);
   }
-  getWashVehicleCopy(obj) : Observable<any> {
-    return this.http.post(`${UrlConfig.washes.getWashVehiclePrint}`, obj);
-  }
   getTicketNumber(): Observable<any> {
  const locationId = localStorage.getItem('empLocationId');
 

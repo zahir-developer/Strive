@@ -172,10 +172,10 @@ export class VehicleCreateEditComponent implements OnInit {
 
     this.selectedData.LocationId
 
-    if (this.selectedData.Upcharge === null)
+    //if (this.selectedData.Upcharge === null)
+    //  this.getModel(this.selectedData.VehicleMakeId, true);
+    //else
       this.getModel(this.selectedData.VehicleMakeId, true);
-    else
-      this.getModel(this.selectedData.VehicleMakeId, false);
 
     this.getVehicleCodes();
   }

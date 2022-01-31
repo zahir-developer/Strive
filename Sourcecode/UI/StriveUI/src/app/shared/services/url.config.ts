@@ -43,10 +43,10 @@ export const UrlConfig = {
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
     MakeList: `Admin/Common/GetAllMake`,
-
     countryList: `Admin/Common/CountryList`,
     getTicketNumber: `Admin/Common/GetTicketNumber/`,
-
+    getCustomerPrint: `Admin/Common/GetCustomerPrint`,
+    getVehiclePrint: `Admin/Common/GetVehiclePrint`
   },
   collision: {
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
@@ -103,7 +103,7 @@ export const UrlConfig = {
     getAllDetailSearch: `Admin/Details/GetAllDetailSearch`,
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     getDetailScheduleStatus: `Admin/Details/GetDetailScheduleStatus`,
-    updateJobStatus: `Admin/Details/UpdateJobStatus`
+    updateJobStatus: `Admin/Details/UpdateJobStatus`,
   },
 
 
@@ -311,7 +311,6 @@ export const UrlConfig = {
     getDashBoardCount: `Admin/Washes/DashboardCount`,
     getByBarcode: `Admin/Washes/GetByBarCode/`,
     getWashTimeByLocationId: `Admin/Washes/GetAllLocationWashTime`,
-    getWashVehiclePrint: `Admin/Washes/GetWashVehiclePrint`
   },
   weather: {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,

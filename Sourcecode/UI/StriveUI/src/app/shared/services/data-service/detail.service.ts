@@ -83,8 +83,7 @@ export class DetailService {
     return this.http.post(`${UrlConfig.timeClock.getClockedInDetailer}`, obj);
   }
 
-  getTicketNumber(): Observable<any> {
-    const locationId = 0;
+  getTicketNumber(locationId): Observable<any> {
     return this.http.get(`${UrlConfig.common.getTicketNumber}` + locationId);
   }
 
