@@ -1,64 +1,84 @@
-﻿// WARNING
+// WARNING
 //
-// This file has been generated automatically by Visual Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Visual Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace StriveTimInventory.iOS.Views.MembershipView
 {
-    [Register ("SignatureView")]
-    partial class SignatureView
-    {
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton BackButton { get; set; }
+	[Register ("SignatureView")]
+	partial class SignatureView
+	{
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIKit.UIButton BackButton { get; set; }
 
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton CancelButton { get; set; }
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIKit.UIButton CancelButton { get; set; }
 
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton DoneButton { get; set; }
+		[Outlet]
+		UIKit.UIImageView CustomerSignatureIMG { get; set; }
 
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        Xamarin.Controls.SignaturePadView SignPad { get; set; }
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIKit.UIButton DoneButton { get; set; }
 
-        [Action ("CancelButtonClicked:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void CancelButtonClicked (UIKit.UIButton sender);
+		[Outlet]
+		UIKit.UIView FinalContract { get; set; }
 
-        [Action ("DoneButtonClicked:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void DoneButtonClicked (UIKit.UIButton sender);
+		[Outlet]
+		UIKit.UIImageView FinalContractIMG { get; set; }
 
-        void ReleaseDesignerOutlets ()
-        {
-            if (BackButton != null) {
-                BackButton.Dispose ();
-                BackButton = null;
-            }
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		Xamarin.Controls.SignaturePadView SignPad { get; set; }
 
-            if (CancelButton != null) {
-                CancelButton.Dispose ();
-                CancelButton = null;
-            }
+		[Action ("CancelButtonClicked:")]
+		partial void CancelButtonClicked (UIKit.UIButton sender);
 
-            if (DoneButton != null) {
-                DoneButton.Dispose ();
-                DoneButton = null;
-            }
+		[Action ("DoneButtonClicked:")]
+		partial void DoneButtonClicked (UIKit.UIButton sender);
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (BackButton != null) {
+				BackButton.Dispose ();
+				BackButton = null;
+			}
 
-            if (SignPad != null) {
-                SignPad.Dispose ();
-                SignPad = null;
-            }
-        }
-    }
+			if (CancelButton != null) {
+				CancelButton.Dispose ();
+				CancelButton = null;
+			}
+
+			if (DoneButton != null) {
+				DoneButton.Dispose ();
+				DoneButton = null;
+			}
+
+			if (SignPad != null) {
+				SignPad.Dispose ();
+				SignPad = null;
+			}
+
+			if (FinalContract != null) {
+				FinalContract.Dispose ();
+				FinalContract = null;
+			}
+
+			if (CustomerSignatureIMG != null) {
+				CustomerSignatureIMG.Dispose ();
+				CustomerSignatureIMG = null;
+			}
+
+			if (FinalContractIMG != null) {
+				FinalContractIMG.Dispose ();
+				FinalContractIMG = null;
+			}
+		}
+	}
 }

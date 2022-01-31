@@ -13,7 +13,13 @@ namespace StriveEmployee.iOS.Views.Login
 	partial class LoginView
 	{
 		[Outlet]
+		UIKit.UIButton AgreeBtn { get; set; }
+
+		[Outlet]
 		UIKit.UIButton CheckBox { get; set; }
+
+		[Outlet]
+		UIKit.UIButton DisagreeBtn { get; set; }
 
 		[Outlet]
 		UIKit.UITextField EmailTextfield { get; set; }
@@ -30,8 +36,20 @@ namespace StriveEmployee.iOS.Views.Login
 		[Outlet]
 		UIKit.UILabel SignUPLbl { get; set; }
 
+		[Outlet]
+		UIKit.UIView TermsAndCondtions { get; set; }
+
+		[Action ("AgreeBtnClicked:")]
+		partial void AgreeBtnClicked (UIKit.UIButton sender);
+
 		[Action ("CheckBoxClicked:")]
 		partial void CheckBoxClicked (UIKit.UIButton sender);
+
+		[Action ("DisagreeBtnClicked:")]
+		partial void DisagreeBtnClicked (UIKit.UIButton sender);
+
+		[Action ("LoginBtnClicked:")]
+		partial void LoginBtnClicked (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -63,6 +81,21 @@ namespace StriveEmployee.iOS.Views.Login
 			if (SignUPLbl != null) {
 				SignUPLbl.Dispose ();
 				SignUPLbl = null;
+			}
+
+			if (TermsAndCondtions != null) {
+				TermsAndCondtions.Dispose ();
+				TermsAndCondtions = null;
+			}
+
+			if (AgreeBtn != null) {
+				AgreeBtn.Dispose ();
+				AgreeBtn = null;
+			}
+
+			if (DisagreeBtn != null) {
+				DisagreeBtn.Dispose ();
+				DisagreeBtn = null;
 			}
 		}
 	}

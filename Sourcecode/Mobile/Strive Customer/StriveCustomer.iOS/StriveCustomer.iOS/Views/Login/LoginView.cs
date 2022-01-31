@@ -19,8 +19,9 @@ namespace StriveCustomer.iOS.Views.Login
         NSUserDefaults Persistance;
         string UsernameKey = "username";
         string PasswordKey = "password";
+        string TermsKey = "false";
 
-        public bool FirstTimeFlag;
+        
         public LoginView() : base("LoginView", null)
         {
         }
@@ -32,16 +33,17 @@ namespace StriveCustomer.iOS.Views.Login
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
             set.Bind(EmailTextfield).To(vm => vm.loginEmailPhone);
             set.Bind(PasswordTextfield).To(vm => vm.loginPassword);
-            set.Bind(LoginButton).To(vm => vm.Commands["DoLogin"]);
+            //set.Bind(LoginButton).To(vm => vm.Commands["DoLogin"]);
             set.Bind(ForgotPasswordButton).To(vm => vm.Commands["ForgotPassword"]);
             set.Apply();
             TermsDocuments.Hidden = true;
-            AgreeBtn.Hidden = true;
-            DisagreeBtn.Hidden = true;
-            
+            TermsDocuments.BecomeFirstResponder();
+            TermsDocuments.Layer.CornerRadius = 5;
+            AgreeBtn.Layer.CornerRadius = 3;
+            DisagreeBtn.Layer.CornerRadius = 3;
             SignupLbl.UserInteractionEnabled = true;
             
-            //plist.SetBool(true, "first");
+            
             Action action = () =>
             {
                 UIApplication.SharedApplication.OpenUrl(new NSUrl(ApiUtils.URL_CUSTOMER_SIGNUP));
@@ -54,70 +56,78 @@ namespace StriveCustomer.iOS.Views.Login
         // need this when terms implementation
         //partial  void LoginButtonClicked(UIButton sender)
         //{
-        //    CallLogin();
+        //    
             
             
 
         //}
-        async void CallLogin()
-        {
-            await Task.Run(ViewModel.DoLoginCommand);
-            var plist = NSUserDefaults.StandardUserDefaults;
-            var First = plist.BoolForKey("first");
-            if (First == true)
-            {
-                SetTerm();
-                TermsDocuments.Hidden = true;
-                AgreeBtn.Hidden = true;
-                DisagreeBtn.Hidden = true;
-                ViewModel.navigatetodashboard();
-            }
-            else
-            {
+        //async void CallLogin()
+        //{
+        //    await Task.Run(ViewModel.DoLoginCommand);
+        //    var plist = NSUserDefaults.StandardUserDefaults;
+        //    var First = plist.BoolForKey("first");
+        //    if (First == true)
+        //    {
+        //        SetTerm();
+        //        TermsDocuments.Hidden = true;
+        //        AgreeBtn.Hidden = true;
+        //        DisagreeBtn.Hidden = true;
+        //        ViewModel.navigatetodashboard();
+        //    }
+        //    else
+        //    {
 
-                ViewModel.navigatetodashboard();
-            }
+        //        ViewModel.navigatetodashboard();
+        //    }
 
-        }
+        //}
         
-        async void SetTerm()
-        {
-            TermsDocument term = await ViewModel.Terms();
-            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
-            {
-                Font = DesignUtils.OpenSansBoldFifteen(),
-                ForegroundColor = UIColor.Clear.FromHex(0x24489A),
-            };
-            NavigationItem.Title = "Terms and Conditions";
+        //async void SetTerm()
+        //{
+        //    TermsDocument term = await ViewModel.Terms();
+        //    NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+        //    {
+        //        Font = DesignUtils.OpenSansBoldFifteen(),
+        //        ForegroundColor = UIColor.Clear.FromHex(0x24489A),
+        //    };
+        //    NavigationItem.Title = "Terms and Conditions";
             
-            WKWebView webView = new WKWebView(TermsDocuments.Bounds, new WKWebViewConfiguration());
-            TermsDocuments.AddSubview(webView);
-            LoadBase64StringToWebView(term.Document.Document.Base64, webView);
+        //    WKWebView webView = new WKWebView(TermsDocuments.Bounds, new WKWebViewConfiguration());
+        //    TermsDocuments.AddSubview(webView);
+        //    LoadBase64StringToWebView(term.Document.Document.Base64, webView);
 
-        }
+        //}
 
-        void LoadBase64StringToWebView(string base64String, WKWebView webview)
-        {
-            var data = new NSData(base64String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters);
-            webview.LoadData(data, mimeType: "application/pdf", characterEncodingName: "", baseUrl: NSUrl.FromString("https://www.google.com"));
-        }
+        //void LoadBase64StringToWebView(string base64String, WKWebView webview)
+        //{
+        //    var data = new NSData(base64String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters);
+        //    webview.LoadData(data, mimeType: "application/pdf", characterEncodingName: "", baseUrl: NSUrl.FromString("https://www.google.com"));
+        //}
 
         partial void AgreeBtnclicked(UIButton sender)
         {
+            bool terms = Persistance.BoolForKey(TermsKey);
+            ViewModel.terms = !terms;
+            Persistance.SetBool(ViewModel.terms, TermsKey);
+
+            ViewModel.DoLoginCommand();
             TermsDocuments.Hidden = true;
-            AgreeBtn.Hidden = true;
-            DisagreeBtn.Hidden = true;
-            ViewModel.navigatetodashboard();
-            var plist = NSUserDefaults.StandardUserDefaults;
-            var First = plist.BoolForKey("first");
-            plist.SetBool(false, "first");
 
         }
         partial void DisagreeBtnclicked(UIButton sender)
         {
             TermsDocuments.Hidden = true;
-            AgreeBtn.Hidden = true;
-            DisagreeBtn.Hidden = true;
+        }
+        partial void LoginButtonclicked(UIButton sender)
+        {
+            if (Persistance.BoolForKey(TermsKey) == true)
+            {
+                ViewModel.DoLoginCommand();
+            }
+            else
+            {
+                TermsDocuments.Hidden = false;
+            }
 
         }
 

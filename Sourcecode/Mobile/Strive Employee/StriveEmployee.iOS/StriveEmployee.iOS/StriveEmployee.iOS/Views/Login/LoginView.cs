@@ -13,6 +13,7 @@ namespace StriveEmployee.iOS.Views.Login
         NSUserDefaults Persistance;
         string UsernameKey = "username";
         string PasswordKey = "password";
+        string TermsKey = "false";
 
         public LoginView() : base("LoginView", null)
         {
@@ -25,10 +26,14 @@ namespace StriveEmployee.iOS.Views.Login
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
             set.Bind(EmailTextfield).To(vm => vm.loginEmailPhone);
             set.Bind(PasswordTextfield).To(vm => vm.loginPassword);
-            set.Bind(LoginBtn).To(vm => vm.Commands["DoLogin"]);
+            //set.Bind(LoginBtn).To(vm => vm.Commands["DoLogin"]);
             set.Bind(ForgotPasswordBtn).To(vm => vm.Commands["ForgotPassword"]);
             set.Apply();
-
+            TermsAndCondtions.Hidden = true;
+            TermsAndCondtions.BecomeFirstResponder();
+            TermsAndCondtions.Layer.CornerRadius = 5;
+            AgreeBtn.Layer.CornerRadius = 3;
+            DisagreeBtn.Layer.CornerRadius = 3;
 
             SignUPLbl.UserInteractionEnabled = true;
             Action action = () =>
@@ -57,7 +62,33 @@ namespace StriveEmployee.iOS.Views.Login
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
+        partial void AgreeBtnClicked(UIButton sender)
+        {
+            bool terms = Persistance.BoolForKey(TermsKey);
+            ViewModel.terms = !terms;
+            Persistance.SetBool(ViewModel.terms, TermsKey);
 
+            ViewModel.DoLoginCommand();
+            TermsAndCondtions.Hidden = true;
+        }
+
+        partial void DisagreeBtnClicked(UIButton sender)
+        {
+            TermsAndCondtions.Hidden = true;
+        }
+
+        partial void LoginBtnClicked(UIButton sender)
+        {
+            if (Persistance.BoolForKey(TermsKey) == true)
+            {
+                ViewModel.DoLoginCommand();
+            }
+            else
+            {
+                TermsAndCondtions.Hidden = false;
+            }
+
+        }
         partial void CheckBoxClicked(UIButton sender)
         {
             ViewModel.RememberMeButtonCommand();

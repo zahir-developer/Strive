@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,10 +21,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeView">
             <connections>
+                <outlet property="BarChart_Button" destination="LJA-cR-b8Y" id="bzm-Xe-IXp"/>
                 <outlet property="DashboardInnerView" destination="ZG5-z4-JS5" id="Anb-wl-u16"/>
                 <outlet property="DashboardParentView" destination="IPb-KN-mQO" id="PkE-rz-AXR"/>
                 <outlet property="DetailLbl" destination="hMI-Jl-1tv" id="P46-Wd-PjW"/>
+                <outlet property="LineChart_Button" destination="ZUh-m9-VSB" id="sqn-Nb-xvL"/>
                 <outlet property="LocationSegment" destination="Ak5-AR-HWH" id="rYB-oR-vu8"/>
+                <outlet property="PieChart_Button" destination="3vb-nQ-10H" id="wgo-NS-ILw"/>
+                <outlet property="ScatterChart_Button" destination="emy-0m-6bo" id="1mL-CM-HRo"/>
                 <outlet property="ScheduleTableView" destination="ZQ9-iQ-ogo" id="l1z-bw-YvX"/>
                 <outlet property="WashLbl" destination="Y1w-Z3-7u2" id="UdG-i0-2LH"/>
                 <outlet property="carWashTimeCount" destination="jvg-bi-9Gm" id="U6c-dL-c2Z"/>
@@ -333,6 +338,9 @@
                                                 <constraint firstAttribute="height" constant="35" id="zYS-3z-QcA"/>
                                             </constraints>
                                             <state key="normal" image="graph-chart"/>
+                                            <connections>
+                                                <action selector="LineChart_ButtonTouch:" destination="-1" eventType="touchUpInside" id="OPT-ju-e3q"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LJA-cR-b8Y">
                                             <rect key="frame" x="70" y="607" width="40" height="35"/>
@@ -341,6 +349,9 @@
                                                 <constraint firstAttribute="height" constant="35" id="Gf8-g5-8gy"/>
                                             </constraints>
                                             <state key="normal" image="barChart-Active"/>
+                                            <connections>
+                                                <action selector="BarChart_ButtonTouch:" destination="-1" eventType="touchUpInside" id="rFy-bo-6wh"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3vb-nQ-10H">
                                             <rect key="frame" x="130" y="607" width="40" height="35"/>
@@ -349,6 +360,9 @@
                                                 <constraint firstAttribute="height" constant="35" id="b6a-fp-lpS"/>
                                             </constraints>
                                             <state key="normal" image="pieChart"/>
+                                            <connections>
+                                                <action selector="PieChart_ButtonTouch:" destination="-1" eventType="touchUpInside" id="ycm-R2-cy3"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="emy-0m-6bo">
                                             <rect key="frame" x="190" y="607" width="40" height="35"/>
@@ -357,6 +371,9 @@
                                                 <constraint firstAttribute="height" constant="35" id="Ia2-dx-HBF"/>
                                             </constraints>
                                             <state key="normal" image="lineChart"/>
+                                            <connections>
+                                                <action selector="ScatterChart_ButtonTouch:" destination="-1" eventType="touchUpInside" id="a5l-9B-FA8"/>
+                                            </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rvB-aK-TlD" customClass="PlotView">
                                             <rect key="frame" x="10" y="662" width="347" height="180"/>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Acr.UserDialogs;
 using CoreGraphics;
 using Foundation;
@@ -23,7 +24,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
+            FinalContract.Hidden = true;
 			var set = this.CreateBindingSet<SignatureView, SignatureViewModel>();
 			set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
 			set.Bind(CancelButton).To(vm => vm.Commands["NavigateBack"]);
@@ -46,7 +47,9 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         async partial void DoneButtonClicked(UIButton sender)
 		{
+            
 			UIImage image;
+            
             var bitmap = await SignPad.GetImageStreamAsync(SignatureImageFormat.Png, UIColor.Black, UIColor.White, 1f);
             if(bitmap == null)
             {
@@ -57,8 +60,16 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 			{
 				image = UIImage.LoadFromData(data);
 			}
-            ViewModel.NextCommand();
-		}
+            
+            CustomerSignatureIMG.Image = image;
+            FinalContractIMG.Image = TermsView.TermsViewImg;
+            FinalContract.Hidden = false;
+            UIImage Contract = UIViewExtensions.AsImage(FinalContract);
+            ViewModel.Base64ContractString = Contract.AsJPEG(0.15f).GetBase64EncodedString(NSDataBase64EncodingOptions.None);
+
+            await Task.Delay(3000);
+                ViewModel.NextCommand();
+        }
 
         partial void CancelButtonClicked(UIButton sender)
         {
