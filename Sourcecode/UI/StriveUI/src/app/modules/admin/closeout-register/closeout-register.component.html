@@ -313,7 +313,7 @@
                         </div>
                         <div class="m-t-12 pull-right mw-100 modal-footer">
                             <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
-                            <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
+                            <button type="button" class="btn theme-primary-button-color" (click)="submit()" [class.disabled]="isUpdate" [disabled]="isUpdate">Save</button>
                         </div>
                     </div>
                 </div>

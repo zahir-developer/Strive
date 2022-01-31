@@ -36,5 +36,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string IsPaid { get; set; }
+        public string JobDetailId { get; set; }
     }
 }
