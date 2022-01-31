@@ -1049,7 +1049,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       notes: this.note
     };
     const jobDetail = {
-      jobDetailId: 0,
+      //jobDetailId: 0,
+      jobDetailId: this.isEdit ? this.selectedData.Details.JobDetailId : 0,
       jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
       bayId: this.detailForm.value.bay,
       isActive: true,
