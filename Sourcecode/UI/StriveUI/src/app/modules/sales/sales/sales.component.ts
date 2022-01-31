@@ -957,6 +957,11 @@ export class SalesComponent implements OnInit {
         });
       }
     }
+    else
+    {
+      this.addItemForm.controls.quantity.enable();
+      this.addItemFormInit();
+    }
   }
 
   isPackageAlreadyAdded() {
@@ -975,10 +980,17 @@ export class SalesComponent implements OnInit {
 
     var washPackageExists = this.washes.filter(s => s.ServiceType === washServiceType[0]?.CodeValue)
 
-    if (detailPackageExists?.length > 0 || washPackageExists?.length > 0) {
+    if ((detailPackageExists?.length > 0 && (detailServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId)) || (washPackageExists?.length > 0 && (washServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId))) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.PackageAlreadyAdded });
       return false;
     }
+
+    if ((detailPackageExists?.length > 0 && (washServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId)) || (washPackageExists?.length > 0 && (detailServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId))) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.PackageAlreadyAdded });
+      return false;
+    }
+
+
 
     return true;
   }
