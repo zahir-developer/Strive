@@ -82,6 +82,9 @@ import { TenantSetupComponent } from './tenant-setup/tenant-setup.component';
 import { AddTenantComponent } from './tenant-setup/add-tenant/add-tenant.component';
 import { EmployeeHourlyRateComponent } from './employees/employee-hourly-rate/employee-hourly-rate.component';
 import { AddActivityAdditionalComponent } from './gift-card/add-activity-additional/add-activity-additional.component';
+// import { AddCreditCardComponent } from './credit-card/add-credit-card.component';
+import { PaymentGatewayComponent } from './system-setup/payment-gateway/paymentgateway-list.component';
+import { PaymentGatewayCreateEditComponent } from './system-setup/payment-gateway/payment-gateway-create-edit/payment-gateway-create-edit.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -98,7 +101,8 @@ import { AddActivityAdditionalComponent } from './gift-card/add-activity-additio
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
   , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent, ServiceListComponent, EditChecklistComponent, AddChecklistComponent, TenantSetupComponent, AddTenantComponent, EmployeeHourlyRateComponent,EmailBlastComponent,
-    AddActivityAdditionalComponent
+    AddActivityAdditionalComponent//,AddCreditCardComponent
+    ,PaymentGatewayComponent,PaymentGatewayCreateEditComponent
 ],
   imports: [
     CommonModule,

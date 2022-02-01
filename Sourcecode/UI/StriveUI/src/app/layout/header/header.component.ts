@@ -77,13 +77,15 @@ export class HeaderComponent implements OnInit {
         localStorage.setItem('streetGroup', this.locationName);
       }
     });
-
-     if (localStorage.getItem('isAuthenticated') != null){
-      if (localStorage.getItem('isAuthenticated').toString() === 'true') {
         this.getWeatherDetails();
         this.getUnReadMessage();
-      }
-    }
+
+    //  if (localStorage.getItem('isAuthenticated') != null){
+    //   if (localStorage.getItem('isAuthenticated').toString() === 'true') {
+    //     this.getWeatherDetails();
+    //     this.getUnReadMessage();
+    //   }
+    // }
 
   }
   // Get WeatherDetails

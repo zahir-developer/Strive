@@ -47,6 +47,7 @@ export class LocationCreateEditComponent implements OnInit {
   merchantId = '';
   merchantUserName = '';
   merchantPassword = '';
+  Url = '';
   emailPattern: '^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$'
   isOffset: boolean;
   employeeId: number;
@@ -167,6 +168,7 @@ export class LocationCreateEditComponent implements OnInit {
       this.merchantId = this.selectedData?.MerchantDetail.MID;
       this.merchantUserName = this.selectedData?.MerchantDetail.UserName;
       this.merchantPassword = this.selectedData?.MerchantDetail.Password;
+      this.Url = this.selectedData?.MerchantDetail.Url;
     }
   }
 
@@ -319,7 +321,8 @@ export class LocationCreateEditComponent implements OnInit {
       createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: this.employeeId,
-      updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+      url: this.Url
     }
 
     const finalObj = {

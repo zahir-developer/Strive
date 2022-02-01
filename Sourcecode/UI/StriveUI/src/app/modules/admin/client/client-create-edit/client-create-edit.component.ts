@@ -12,7 +12,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { AddActivityComponent } from '../../gift-card/add-activity/add-activity.component';
 import { AddActivityAdditionalComponent } from '../../gift-card/add-activity-additional/add-activity-additional.component';
+// import { AddCreditCardComponent } from '../../credit-card/add-credit-card.component';
 import { duration } from 'moment';
+import { debug } from 'console';
 
 
 @Component({
@@ -27,6 +29,7 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isEdit?: any;
   @Input() isView?: any;
   @Input() isAdd?: any;
+  // cardDetails = [];
   vehicleDetails = [];
   activityDetails = [];
   historyData = [];
@@ -42,8 +45,11 @@ export class ClientCreateEditComponent implements OnInit {
   pageSize = 3;
   activityPage = 1;
   activityPageSize = 3;
+  cardPage = 1;
+  cardPageSize = 3;
   collectionSize: number = 0;
   activityCollectionSize: number = 0;
+  cardCollectionSize: number = 0;
   deleteIds = [];
   additionalService: any = [];
   vehicleNumber: number;
@@ -53,6 +59,7 @@ export class ClientCreateEditComponent implements OnInit {
   showDialog = false;
   vehicleDetail: any;
   isVehicleEdit: boolean;
+  // clonedCardDetails=[];
   clonedVehicleDetails = [];
   clonedAccountDetails = [];
   showActivity : boolean;  
@@ -70,6 +77,7 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
       this.getClientActivity(this.selectedData.ClientId);
+      //this.getClientCreditCard(this.selectedData.ClientId);
     }
     else {
       this.vehicleNumber = 1;
@@ -112,6 +120,26 @@ getClientActivity(id) {
   );
 
 }
+/*
+// Get CreditCard By ClientId
+getClientCreditCard(id) {
+  this.client.getClientCreditCard(id).subscribe(data => {
+    if (data.status === 'Success') {
+      const vehicle = JSON.parse(data.resultData);
+      this.cardDetails = vehicle.Status;
+      this.clonedCardDetails = this.cardDetails.map(x => Object.assign({}, x));
+      this.cardCollectionSize = Math.ceil(this.cardDetails.length / this.cardPageSize) * 10;
+     
+    } else {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+  }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+  );
+}
+*/
   // Get Vehicle By ClientId
   getClientVehicle(id) {
     this.vehicle.getVehicleByClientId(id).subscribe(data => {
@@ -209,13 +237,16 @@ getClientActivity(id) {
       clientType: (this.clientFormComponent.clientForm.value.type === '' || this.clientFormComponent.clientForm.value.type == null) ?
         0 : this.clientFormComponent.clientForm.value.type,
       amount: this.clientFormComponent.clientForm.value.amount,
-      authId: this.selectedData.AuthId
+      authId: this.selectedData.AuthId,
+      locationId : this.clientFormComponent.clientForm.value.location == '0' ? null : this.clientFormComponent.clientForm.value.location 
     };
+    debugger;
     const myObj = {
       client: formObj,
       clientVehicle: this.vehicleDet.length === 0 ? null : this.vehicleDet,
       clientAddress: this.address,
       CreditAccountHistory:  this.clonedAccountDetails.length > 0 ? this.clonedAccountDetails[0] : null,
+    //  ClientCardDetails: this.clonedCardDetails.length > 0 ? this.clonedCardDetails[0] : null,
       token: null,
       password: ''
     }
@@ -462,7 +493,6 @@ getClientActivity(id) {
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
     modalRef.componentInstance.CreditAccountHistoryId = activity.CreditAccountHistoryId;
     modalRef.componentInstance.amount = activity.Amount;
-    modalRef.componentInstance.amount = activity.Amount;
     modalRef.componentInstance.comments = activity.Comments;
     modalRef.componentInstance.header = "Edit Activity";
 
@@ -599,6 +629,133 @@ getClientActivity(id) {
       return 'fa-sort-asc';
     }
     return '';
+  }
+  addCreditCard(){
+    /*
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(AddCreditCardComponent, ngbModalOptions);
+    modalRef.componentInstance.clientId = this.selectedData.ClientId; 
+    modalRef.componentInstance.header = "Add New Credit Card";
+  
+    modalRef.componentInstance.userCreditCard.subscribe((receivedEntry) => {
+     const CreditCardObj = {
+        clientId: this.isEdit ? this.selectedData.ClientId : 0,
+        Id: receivedEntry.Id == undefined ? 0 : receivedEntry.Id,
+        CardType: receivedEntry.cardType,
+        CardNumber:receivedEntry.CardNumber,
+        ExpiryDate:receivedEntry.ExpiryDate,
+        IsActive: true,
+        isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: new Date(),
+      };     
+      
+      this.clonedCardDetails.length>0 ? this.clonedCardDetails[0].push(CreditCardObj) : this.clonedCardDetails.push([CreditCardObj]);
+      if (this.clonedCardDetails.length > 0) {
+        this.cardDetails = [];
+        this.clonedCardDetails[0].forEach(item => {
+          this.cardDetails.push(item);
+        });
+      }
+
+      this.cardCollectionSize = Math.ceil(this.cardDetails.length / this.cardPageSize) * 10;
+      modalRef.close();
+     
+      })*/
+  }
+/*
+  deleteCreditCard(data) {
+    debugger;
+    if (this.isView) {
+      return;
+    }
+    this.confirmationService.confirm('Delete Credit Card', `Are you sure you want to delete this Credit Card details? All related 
+    information will be deleted and the CreditCard cannot be retrieved?`, 'Yes', 'No')
+      .then((confirmed) => {
+        if (confirmed === true) {
+          this.confirmCreditCard(data);
+        }
+      })
+      .catch(() => { });
+  }
+
+  // Delete Vehicle 
+  confirmCreditCard(receivedEntry) {
+    if(this.clonedCardDetails.length > 0){ 
+      var oExists = this.clonedCardDetails[0].findIndex(x => x.Id === receivedEntry.Id);
+     
+      this.clonedCardDetails[0][oExists].IsActive  = false;
+      this.clonedCardDetails[0][oExists].isDeleted = true;
+      this.clonedCardDetails[0][oExists].updatedBy = this.employeeId;
+      this.clonedCardDetails[0][oExists].updatedDate =  new Date();
+    }
+  
+  }
+  */
+  editCreditCard(card) {
+   /*
+    if (!card.hasOwnProperty('Id')) {
+      return;
+    };
+    
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+
+    const modalRef = this.modalService.open(AddCreditCardComponent, ngbModalOptions);
+    modalRef.componentInstance.clientId = this.selectedData.ClientId;
+    modalRef.componentInstance.Id = card.Id;
+    modalRef.componentInstance.cardType = card.CardType;
+    modalRef.componentInstance.CardNumber = card.CardNumber;
+    modalRef.componentInstance.ExpiryDate = card.ExpiryDate;
+    modalRef.componentInstance.header = "Edit Credit Card ";
+
+    modalRef.componentInstance.userCreditCard.subscribe((receivedEntry) => {
+      const activityObj = {
+        clientId:this.selectedData.ClientId,
+        Id: receivedEntry.Id == undefined ? 0 : receivedEntry.Id,
+        CardType:receivedEntry.cardType,
+        CardNumber:receivedEntry.CardNumber,
+        ExpiryDate:receivedEntry.ExpiryDate,
+        IsActive: true,
+        isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: new Date(),
+      };
+      if(this.clonedCardDetails.length > 0){ 
+        var oExists = this.clonedCardDetails[0].findIndex(x => x.CreditAccountHistoryId === receivedEntry.CreditAccountHistoryId);
+        this.clonedCardDetails[0][oExists].CardType = receivedEntry.cardType;
+        this.clonedCardDetails[0][oExists].CardNumber = receivedEntry.CardNumber;
+        this.clonedCardDetails[0][oExists].ExpiryDate = receivedEntry.ExpiryDate;
+        this.clonedCardDetails[0][oExists].IsActive  = true;
+        this.clonedCardDetails[0][oExists].isDeleted = false;
+        this.clonedCardDetails[0][oExists].updatedBy = this.employeeId;
+        this.clonedCardDetails[0][oExists].updatedDate =  new Date();
+        if (this.clonedCardDetails.length > 0) {
+          this.cardDetails = [];
+          this.clonedCardDetails[0].forEach(item => {
+            this.cardDetails.push(item);
+          });
+        }
+      }else{ 
+        this.clonedCardDetails.push([activityObj]);
+        if (this.clonedCardDetails.length > 0) {
+          this.cardDetails = [];
+          this.clonedCardDetails[0].forEach(item => {
+            this.cardDetails.push(item);
+          });
+        }
+      }
+     
+      modalRef.close();
+    });
+    */
   }
 
   selectedCls(column) {

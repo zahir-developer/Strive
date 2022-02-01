@@ -10,19 +10,19 @@ using Quartz;
 using Strive.BusinessEntities;
 using Strive.BusinessLogic;
 using Strive.BusinessLogic.Auth;
-using Strive.BusinessLogic.Weather;
+using Strive.BusinessLogic.PaymentGateway;
 using Strive.Common;
 
 namespace Admin.API.Scheduler
 {
     [DisallowConcurrentExecution]
-    public class WeatherScheduler : IScheduledTask, IJob
+    public class ThirdPaymentScheduler : IScheduledTask, IJob
     {
         public string Schedule => "*/1 * * * *";
         IDistributedCache _cache;
         IConfiguration _config;
         TenantHelper _tenant = new TenantHelper(null);
-        public WeatherScheduler(IDistributedCache dcache, IConfiguration config)
+        public ThirdPaymentScheduler(IDistributedCache dcache, IConfiguration config)
         {
             _config = config;
             _cache = dcache;
@@ -93,21 +93,19 @@ namespace Admin.API.Scheduler
         {
 
         }
-        public async Task Execute(IJobExecutionContext context)
+
+        public Task Execute(IJobExecutionContext context)
         {
             try
             {
-                string baseurl = Pick("Weather", "BaseUrl");
-                string api = Pick("Weather", "Apikey");
-                string ApiMethod = Pick("Weather", "ApiMethod");
-              await  new WeatherBpl(_cache, _tenant).GetDailyWeatherPredictionAsync(baseurl, api, ApiMethod);
-
+                new PaymentGatewayBpl(_cache, _tenant).MakeRecurringPayment(3);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+
+            return Task.CompletedTask;
         }
-        
     }
 }

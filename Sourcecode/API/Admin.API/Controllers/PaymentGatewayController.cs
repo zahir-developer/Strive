@@ -19,7 +19,9 @@ namespace Admin.API.Controllers
 
         public PaymentGatewayController(IPaymentGatewayBpl paymentGatewayBpl) : base(paymentGatewayBpl) { }
 
-
+        [HttpDelete]
+        [Route("Delete")]
+        public Result DeletePaymentGateway(int id) => _bplManager.DeletePaymentGateway(id);
 
         [HttpPost]
         [Route("Auth")]
@@ -45,11 +47,11 @@ namespace Admin.API.Controllers
 
                             string respMessage = string.Empty;
 
-                            if(respTextObj != null)
+                            if (respTextObj != null)
                             {
                                 respMessage = respTextObj.ToString();
                             }
-                            
+
                             if (resp == "A")
                             {
                                 var retRefObj = authResponse.GetValue("retref");
@@ -136,9 +138,9 @@ namespace Admin.API.Controllers
             }
             catch (Exception ex)
             {
-                return Helper.BindFailedResult(ex,System.Net.HttpStatusCode.BadRequest);
+                return Helper.BindFailedResult(ex, System.Net.HttpStatusCode.BadRequest);
             }
-            
+
         }
 
 
@@ -151,5 +153,78 @@ namespace Admin.API.Controllers
         {
             return Helper.BindValidationErrorResult(message, jObject);
         }
+
+        [HttpPost]
+        [Route("AuthProfile")]
+        public Result AuthProfile([FromBody] CardPaymentDto cardPaymentDto)
+        {
+
+            try
+            {
+                
+                var authResponse = _bplManager.CreateUpdateProfile(cardPaymentDto);
+                //oMerchantDetails[0].UserName, oMerchantDetails[0].Password, oMerchantDetails[0].URL, oMerchantDetails[0].MID);
+
+                    if (authResponse != null)
+                    {
+                        try
+                        {
+                            string respText = string.Empty;
+
+                            var respStat = authResponse.GetValue("respstat");
+                            if (respStat != null)
+                            {
+                                string resp = respStat.ToString();
+
+                                var respTextObj = authResponse.GetValue("resptext");
+
+                                string respMessage = string.Empty;
+
+                                if (respTextObj != null)
+                                {
+                                    respMessage = respTextObj.ToString();
+                                }
+
+                                if (resp == "A")
+                                {
+                                    var profileid = authResponse.GetValue("profileid");
+                                    var acctid = authResponse.GetValue("acctid");
+                                    //Capture
+                                    if (profileid != null & acctid != null)
+                                    {
+                                        return Helper.BindSuccessResult(authResponse);
+                                    }
+                                    else
+                                        return SendValidationErrorResult(respMessage, authResponse);
+                                }
+                                else if (resp == "B" || resp == "C")
+                                {
+                                    return Helper.BindValidationErrorResult(respMessage, authResponse);
+                                }
+                                else
+                                    return Helper.BindValidationErrorResult("Transaction Error", authResponse);
+                            }
+                            else
+                            {
+                                return Helper.BindValidationErrorResult("Trasaction Failed", authResponse);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            return Helper.BindFailedResultWithContent(authResponse, ex, System.Net.HttpStatusCode.BadRequest);
+                        }
+                    }
+                    else
+                        return Helper.BindValidationErrorResult("Trasaction Error", authResponse);
+                
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        
     }
 }

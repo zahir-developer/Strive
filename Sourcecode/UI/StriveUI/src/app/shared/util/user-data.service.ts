@@ -29,7 +29,7 @@ export class UserDataService {
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
     console.log(token, 'token');
-
+    localStorage.setItem('isAuthenticated', 'true');
     if (token.EmployeeDetails !== undefined) {
       this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
       localStorage.setItem('authorizationToken', token.Token);
@@ -91,7 +91,7 @@ export class UserDataService {
       localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail.LastName);
 
       localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);
-      localStorage.setItem('isAuthenticated', 'true');
+     // localStorage.setItem('isAuthenticated', 'true');
     }
 
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
