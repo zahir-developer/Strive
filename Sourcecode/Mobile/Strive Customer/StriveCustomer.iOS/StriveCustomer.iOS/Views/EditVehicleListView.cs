@@ -55,24 +55,18 @@ namespace StriveCustomer.iOS.Views
         }
         private async void GetCardList()
         {
-            await ViewModel.GetCustomerCardList();
-
+            await this.ViewModel.GetSelectedVehicleInfo();
             if (ViewModel.response != null)
             {
-                if (ViewModel.noData)
-                {
-                    CardDetails_TableView.Hidden = true;
-                    NoData.Hidden = false;
-
-                }
-                if(ViewModel.isData)
-                {
-                    CardDetails_TableView.Hidden = false;
-                    NoData.Hidden = true;
-                }
+                CardDetails_TableView.Hidden = false;
+                NoData.Hidden = true;
             }
-
-            if (!(this.ViewModel.response.Status.Count == 0) || !(this.ViewModel.response == null))
+            else
+            {
+                CardDetails_TableView.Hidden = true;
+                NoData.Hidden = false;
+            }
+            if (ViewModel.response != null)
             {
                 var CardTableSource = new CardListTableSource(this.ViewModel);
                 CardDetails_TableView.Source = CardTableSource;
@@ -87,7 +81,7 @@ namespace StriveCustomer.iOS.Views
             CheckMembership.hasExistingMembership = false;
             CustomerVehiclesInformation.membershipDetails = null;
 
-            await this.ViewModel.GetSelectedVehicleInfo();
+            
             await this.ViewModel.GetCompleteVehicleDetails();
 
             MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;

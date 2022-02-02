@@ -2,6 +2,11 @@
 using MvvmCross.Platforms.Ios.Core;
 using StriveEmployee.iOS.MvvmCross;
 using UIKit;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using System;
+using System.Collections.Generic;
 
 namespace StriveEmployee.iOS
 {
@@ -22,7 +27,11 @@ namespace StriveEmployee.iOS
         {
             // create a new window instance based on the screen size
             var result = base.FinishedLaunching(application, launchOptions);
-
+            AppCenter.Start("9ea0f580-b800-45c5-9565-81f442eddc04",
+                   typeof(Analytics), typeof(Crashes));
+            Crashes.SetEnabledAsync(true);
+           
+            Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
             return result;
         }
 

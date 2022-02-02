@@ -19,6 +19,9 @@ namespace Strive.Core.ViewModels.Customer
 
         public string cardNumber { get; set; }
         public string expiryDate { get; set; }
+        public string profileId { get; set; }
+        public string accountId { get; set; }
+        private int documentId { get; set; }
         public CardDetails card;
         public AddCardRequest ClientCardDetails;
         public PaymentViewModel()
@@ -44,62 +47,63 @@ namespace Strive.Core.ViewModels.Customer
                 }
             }
 
-            PrepareAdditionalServices();
-            AddClientCard();
+           
+            var codeByCategory = await AdminService.GetCodesByCategory();
 
+            var membershipAgreement = codeByCategory.Codes.Find(x => x.CodeValue == "MembershipAgreement");
 
-            var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
-            if (data.Status == true)
+            var termsDocument = new Document()
             {
-                var codeByCategory = await AdminService.GetCodesByCategory();
+                DocumentId = membershipAgreement.CategoryId,
+                DocumentName = "MembershipAgreement",
+                DocumentType = membershipAgreement.CodeId,
+                DocumentSubType = null,
+                Base64 = Base64ContractString,
+                CreatedBy = CustomerInfo.ClientID,
+                CreatedDate = DateTime.Now,
+                FileName = "MembershipAgreement -" + CustomerInfo.custName + ".jpeg",
+                FilePath = "",
+                OriginalFileName = "MembershipAgreement -" + CustomerInfo.custName + ".jpeg",
+                IsActive = true,
+                IsDeleted = false,
+                RoleId = null,
+                UpdatedBy = CustomerInfo.ClientID,
+                UpdatedDate = DateTime.Now
 
-                var membershipAgreement = codeByCategory.Codes.Find(x => x.CodeValue == "MembershipAgreement");
-               
-                var termsDocument = new Document()
+            };
+
+            var addDocument = new AddDocument()
+            {
+                Document = termsDocument,
+                DocumentType = membershipAgreement.CodeValue,
+
+            };
+
+            var document = await AdminService.AddDocumentDetails(addDocument);
+
+            if (document != null)
+            {
+                documentId = document.Result;
+                PrepareAdditionalServices();
+                var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
+                if (data.Status == true)
                 {
-                    DocumentId = membershipAgreement.CategoryId,
-                    DocumentName = "MembershipAgreement",
-                    DocumentType = membershipAgreement.CodeId,
-                    DocumentSubType = null,
-                    Base64 = Base64ContractString,
-                    CreatedBy = CustomerInfo.ClientID,
-                    CreatedDate = DateTime.Now,
-                    FileName = "MembershipAgreement -"+ CustomerInfo.custName + ".jpeg",
-                    FilePath = "",
-                    OriginalFileName = "MembershipAgreement -" + CustomerInfo.custName + ".jpeg",
-                    IsActive = true,
-                    IsDeleted = false,
-                    RoleId = null,
-                    UpdatedBy = CustomerInfo.ClientID,
-                    UpdatedDate = DateTime.Now
-                    
-                };
 
-                var addDocument = new AddDocument()
-                {
-                    Document = termsDocument,
-                    DocumentType = membershipAgreement.CodeValue,
-
-                };
-
-                var document = await AdminService.AddDocumentDetails(addDocument);
-
-                if (document != null)
-                {
-                    _userDialog.Toast("Membership has been created successfully");
-                    MembershipDetails.clearMembershipData();
-                    if (!isAndroid) 
-                    { 
-                        await _navigationService.Navigate<MyProfileInfoViewModel>(); 
-                    }                   
-                  
+                    await _userDialog.AlertAsync("Amount will charge from 1st of next month.");
                 }
                 else
                 {
                     _userDialog.Alert("Error membership not created");
                 }
 
-            }
+                MembershipDetails.clearMembershipData();
+                if (!isAndroid)
+                {
+                    await _navigationService.Navigate<MyProfileInfoViewModel>();
+                }
+
+
+            }            
             else
             {
                 _userDialog.Alert("Error membership not created");
@@ -159,7 +163,13 @@ namespace Strive.Core.ViewModels.Customer
             }
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipService = selectedmembershipServices;
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.totalPrice = finalmonthlycharge;
-            ClientVehicless = new ClientVehicle();
+            MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.cardNumber = cardNumber;
+            MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.expiryDate = expiryDate;
+            MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.profileId = profileId;
+            MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.accountId = accountId;
+            MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.documentId = documentId;
+            
+        ClientVehicless = new ClientVehicle();
             ClientVehicless.clientVehicle = new ClientVehicleDetail();
             ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
             ClientVehicless.clientVehicle.isActive = true;

@@ -3,6 +3,9 @@ using MvvmCross.Platforms.Ios.Core;
 using ObjCRuntime;
 using StriveTimInventory.iOS.MvvmCross;
 using UIKit;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace StriveTimInventory.iOS
 {
@@ -24,7 +27,13 @@ namespace StriveTimInventory.iOS
         {
             // create a new window instance based on the screen size
             var result = base.FinishedLaunching(application, launchOptions);
+            AppCenter.Start("4da8ab4c-3546-4b4d-867d-cc2c8008578c",
+                   typeof(Analytics), typeof(Crashes));
+            Crashes.SetEnabledAsync(true);
 
+            Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
+
+            //Crashes.GenerateTestCrash();
             return result;
         }
 

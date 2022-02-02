@@ -24,6 +24,7 @@ namespace Strive.Core.ViewModels
         public BaseViewModel()
         {
             Commands = new MvxCommandCollectionBuilder().BuildCollectionFor(this);
+            
         }
 
         public override async Task Initialize()

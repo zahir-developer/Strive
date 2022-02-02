@@ -42,6 +42,16 @@ namespace Strive.Core.Models.TimInventory
         public object CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
+        public double TotalPrice { get; set; }
+        
+        public bool? isDiscount { get; set; }
+        public string cardNumber { get; set; }
+        public string expiryDate { get; set; }
+        public string profileId { get; set; }
+        public string accountId { get; set; }
+        public int? failedAttempts { get; set; }
+        public bool? isNotified { get; set; }
+
     }
 
     public class ClientVehicleMembershipServiceView

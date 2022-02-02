@@ -14,6 +14,10 @@ namespace Strive.Core.Models.Customer
         [JsonProperty("billingDetail")]
         public BillingDetail BillingDetail { get; set; } //= new();
 
+
+        [JsonProperty("locationId")]
+        public int Locationid { get; set; } //= new();
+
         //[JsonProperty("isRepeatTransaction")]
         //public bool isRepeatTransaction { get; } = false;
     }

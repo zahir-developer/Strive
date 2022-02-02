@@ -123,7 +123,7 @@ namespace StriveCustomer.iOS.Views
 
         public void setServicesData(ObservableCollection<AllServiceDetail> services, NSIndexPath indexPath, MembershipVehicle_ViewCell cell)
         {
-            Membership_VehicleLbl.Text = services[indexPath.Row].ServiceName.Trim() + " - $" + services[indexPath.Row].Price;
+            Membership_VehicleLbl.Text = services[indexPath.Row].ServiceName.Trim() + " - $" + services[indexPath.Row].Price+"/mo.";
             MembershipCell_ViewHeight.Constant = 0;
             Membership_Discount.Hidden = true;
             MonthlyCharge_lbl.Hidden = true;

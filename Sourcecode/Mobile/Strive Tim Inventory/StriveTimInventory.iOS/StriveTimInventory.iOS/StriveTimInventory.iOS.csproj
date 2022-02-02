@@ -84,6 +84,12 @@
       <PackageReference Include="Xamarin.Controls.SignaturePad">
         <Version>3.0.0</Version>
       </PackageReference>
+      <PackageReference Include="Microsoft.AppCenter.Crashes">
+        <Version>4.5.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.AppCenter.Analytics">
+        <Version>4.5.0</Version>
+      </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -406,6 +412,20 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Component 30 – 1 %281%29.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Component 30 – 1%403x %281%29.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Component 30 – 1%402x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash_bg.imageset\portrait-bg%402x.jpg" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash_bg.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash_bg.imageset\portrait-bg.jpg" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash_bg_landscape.imageset\landscape-bg.jpg" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash_bg_landscape.imageset\landscape-bg%402x.jpg" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash_bg_landscape.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Contents.json" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -473,6 +493,7 @@
         <Folder Include="Resources\Assets.xcassets\member-inactive.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
+        <Folder Include="Views\CardList\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -500,6 +521,9 @@
         <InterfaceDefinition Include="Views\MembershipView\SignatureView.xib" />
         <InterfaceDefinition Include="Views\MembershipView\VehicleMembershipDetailView.xib" />
         <InterfaceDefinition Include="Views\LocationView.xib" />
+        <InterfaceDefinition Include="Views\PaymentView.xib" />
+        <InterfaceDefinition Include="Views\CardList\CardListViewCell.xib" />
+        <InterfaceDefinition Include="Views\CardList\ModifyCardView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -625,6 +649,19 @@
         </Compile>
         <Compile Include="Views\LocationPicker.cs" />
         <Compile Include="Views\WashAnnotation.cs" />
+        <Compile Include="Views\PaymentView.cs" />
+        <Compile Include="Views\PaymentView.designer.cs">
+          <DependentUpon>PaymentView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CardList\CardListViewCell.cs" />
+        <Compile Include="Views\CardList\CardListViewCell.designer.cs">
+          <DependentUpon>CardListViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CardList\ModifyCardView.cs" />
+        <Compile Include="Views\CardList\ModifyCardView.designer.cs">
+          <DependentUpon>ModifyCardView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CardList\CardListTableSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

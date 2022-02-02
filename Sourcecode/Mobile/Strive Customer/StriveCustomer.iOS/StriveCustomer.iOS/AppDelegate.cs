@@ -5,6 +5,9 @@ using MvvmCross.Platforms.Ios.Core;
 using StriveCustomer.iOS.MvvmCross;
 using UIKit;
 using UserNotifications;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace StriveCustomer.iOS
 {
@@ -72,6 +75,11 @@ namespace StriveCustomer.iOS
 
             // create a new window instance based on the screen size
             var result = base.FinishedLaunching(application, launchOptions);
+            //Appcenter connection
+            AppCenter.Start("0c284dec-d952-42c7-9eeb-f84e88f09c8b",
+                   typeof(Analytics), typeof(Crashes));
+            Crashes.SetEnabledAsync(true);
+            Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
 
             return result;
         }

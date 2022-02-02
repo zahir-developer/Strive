@@ -177,26 +177,26 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gGd-RV-8Oi">
-                            <rect key="frame" x="25" y="83" width="335" height="685"/>
+                            <rect key="frame" x="6" y="98" width="379" height="685"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms And Conditions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u3X-sS-AkL">
-                                    <rect key="frame" x="80" y="13" width="175" height="21"/>
+                                    <rect key="frame" x="68" y="13" width="240" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Dc4-PT-o1C">
-                                    <rect key="frame" x="8" y="42" width="319" height="594"/>
+                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="Dc4-PT-o1C">
+                                    <rect key="frame" x="8" y="42" width="360" height="594"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" bounces="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vku-pV-7KT">
-                                            <rect key="frame" x="0.0" y="0.0" width="319" height="612"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="360" height="594"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <attributedString key="attributedText">
                                                 <fragment>
-                                                    <mutableString key="content">MAMMOTH DETAIL SALON, INC., based in Alpharetta, Georgia, USA, and serving the Atlanta-area market, offers exceptional beauty treatments for your vehicle. Our Mammoth Detail “Strive” App (“App”) provides a consumer-friendly interface for Mammoth Members to schedule and pay for services such as our Auto Detail Handwash Package and numerous Add-On Services such as “leather cleaning,” “shampoo carpets,” or “headlamp restoration.” 
+                                                    <string key="content">MAMMOTH DETAIL SALON, INC., based in Alpharetta, Georgia, USA, and serving the Atlanta-area market, offers exceptional beauty treatments for your vehicle. Our Mammoth Detail “Strive” App (“App”) provides a consumer-friendly interface for Mammoth Members to schedule and pay for services such as our Auto Detail Handwash Package and numerous Add-On Services such as “leather cleaning,” “shampoo carpets,” or “headlamp restoration.” 
 
-</mutableString>
+</string>
                                                     <attributes>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPS-BoldMT"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
@@ -214,8 +214,8 @@
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">. After purchasing any of our wash packages, you can complete a Mammoth Membership Form, choose your vehicle profile and Package and Add-ons, enter your credit card payment information and sign. Then load our Mammoth Detail “Strive”) App (the “App”) onto your Mobile Device (iPhone and Android currently supported), and come in for the rest of the month free of charge! At the beginning of each month your card will be automatically charged and you will be renewed as an unlimited wash Member each month (See our Payments section below).
-</mutableString>
+                                                    <string key="content">. After purchasing any of our wash packages, you can complete a Mammoth Membership Form, choose your vehicle profile and Package and Add-ons, enter your credit card payment information and sign. Then load our Mammoth Detail “Strive”) App (the “App”) onto your Mobile Device (iPhone and Android currently supported), and come in for the rest of the month free of charge! At the beginning of each month your card will be automatically charged and you will be renewed as an unlimited wash Member each month (See our Payments section below).
+</string>
                                                     <attributes>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
@@ -265,7 +265,7 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">Please read these Terms of Use carefully before downloading or using the App. By downloading or using the App, you accept and agree to these Terms of Use which bind you legally. The Terms of Use are entered into for the benefit of Mammoth and its affiliated companies who may each enforce the Terms of Use against you. Please note that if you do not agree to these Terms of Use, you are not permitted to use the App and are requested to immediately cease download or installation of the App.</mutableString>
+                                                    <string key="content">Please read these Terms of Use carefully before downloading or using the App. By downloading or using the App, you accept and agree to these Terms of Use which bind you legally. The Terms of Use are entered into for the benefit of Mammoth and its affiliated companies who may each enforce the Terms of Use against you. Please note that if you do not agree to these Terms of Use, you are not permitted to use the App and are requested to immediately cease download or installation of the App.</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -379,7 +379,7 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">As part of the Member registration process, you may be asked to provide a username and password that are unique to your Membership (collectively referred to as “Login Information”). You will be responsible for the confidentiality of your Login Information and agree not to transfer or resell your use of or access to the Services to anyone else. If you have reason to believe that your Account with Mammoth is no longer secure, please notify Mammoth immediately.</mutableString>
+                                                    <string key="content">As part of the Member registration process, you may be asked to provide a username and password that are unique to your Membership (collectively referred to as “Login Information”). You will be responsible for the confidentiality of your Login Information and agree not to transfer or resell your use of or access to the Services to anyone else. If you have reason to believe that your Account with Mammoth is no longer secure, please notify Mammoth immediately.</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -489,7 +489,7 @@ IAo
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">a.	Subject to these Terms of Use, the Privacy Policy and any terms for any app store from which the App was downloaded (as applicable), Mammoth grants to you a non-exclusive, non-transferable, non-sublicensable, personal, limited, revocable license to use the App on your devices for the purposes accessing or ordering the services and products of Mammoth, applying discounts, setting wash times, booking appointments, and managing your Mammoth Membership. Any other use of the App is strictly prohibited. We reserve all rights in and to the App. Mammoth reserves the right to revoke this license at any time, in its sole discretion.</mutableString>
+                                                    <string key="content">a.	Subject to these Terms of Use, the Privacy Policy and any terms for any app store from which the App was downloaded (as applicable), Mammoth grants to you a non-exclusive, non-transferable, non-sublicensable, personal, limited, revocable license to use the App on your devices for the purposes accessing or ordering the services and products of Mammoth, applying discounts, setting wash times, booking appointments, and managing your Mammoth Membership. Any other use of the App is strictly prohibited. We reserve all rights in and to the App. Mammoth reserves the right to revoke this license at any time, in its sole discretion.</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -510,7 +510,7 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">b.	Except as expressly permitted under these Terms of Use, and unless prohibited by applicable law, you agree: (i) not to copy, reproduce, republish, reuse, upload, post, transmit or distribute any content presented in or provided by the App, including without limitation for public or commercial purposes, including any text, images, audio and video; (ii) not to make alterations to, or modifications of, the whole or any part of the App, or permit the App or any part of it to be combined with, or become incorporated in, any other App or programs; (c) not to reverse-engineer, disassemble, decompile, or create derivative works based on the whole or any part of the App; (d) not to sell, resell, or exploit the App in whole or in part (including object and source code), in any form to any person without prior written consent from us; </mutableString>
+                                                    <string key="content">b.	Except as expressly permitted under these Terms of Use, and unless prohibited by applicable law, you agree: (i) not to copy, reproduce, republish, reuse, upload, post, transmit or distribute any content presented in or provided by the App, including without limitation for public or commercial purposes, including any text, images, audio and video; (ii) not to make alterations to, or modifications of, the whole or any part of the App, or permit the App or any part of it to be combined with, or become incorporated in, any other App or programs; (c) not to reverse-engineer, disassemble, decompile, or create derivative works based on the whole or any part of the App; (d) not to sell, resell, or exploit the App in whole or in part (including object and source code), in any form to any person without prior written consent from us; </string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -550,7 +550,7 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">(i) not to use the App in any unlawful manner, for any unlawful or criminal purpose, or in any manner inconsistent with these Terms of Use, or act fraudulently or maliciously such as by hacking into or inserting harmful data, into the App; (ii) not to use the App to post or transmit any information that is defamatory, threatening, abusive, offensive, obscene, indecent, discriminatory or is otherwise objectionable or infringes on any one’s rights;  (iii) not to use the App in a way that could damage, disable, impair or compromise Mammoth’s systems or security or interfere with other Members, or restrict or inhibit any other Members from using the App; and  (iv) not to collect any information or data from the App or our systems or attempt to decipher any transmissions to or from the App.</mutableString>
+                                                    <string key="content">(i) not to use the App in any unlawful manner, for any unlawful or criminal purpose, or in any manner inconsistent with these Terms of Use, or act fraudulently or maliciously such as by hacking into or inserting harmful data, into the App; (ii) not to use the App to post or transmit any information that is defamatory, threatening, abusive, offensive, obscene, indecent, discriminatory or is otherwise objectionable or infringes on any one’s rights;  (iii) not to use the App in a way that could damage, disable, impair or compromise Mammoth’s systems or security or interfere with other Members, or restrict or inhibit any other Members from using the App; and  (iv) not to collect any information or data from the App or our systems or attempt to decipher any transmissions to or from the App.</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -612,8 +612,8 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">, and any other sites or apps we own and operate (collective “Sites”), and all features and materials on the Sites, including text, images, illustrations, designs, icons, photographs, video clips and other content, and the copyrights, trademarks, and/or other intellectual property in such materials (collectively, the "Contents"), are owned, controlled or licensed by Mammoth. Unless otherwise specified, the Sites are intended to promote Mammoth's products and services available in the Atlanta, Georgia-area.
-b.	Information on the Sites may contain typographical errors, inaccuracies, or omissions that relate to services and product descriptions, pricing, offers, and availability. We reserve the right to correct any errors or omissions and to change or update information or cancel orders or appointments if any information on the Sites is inaccurate at any time without prior notice (including after you have submitted an order or appointment).</mutableString>
+                                                    <string key="content">, and any other sites or apps we own and operate (collective “Sites”), and all features and materials on the Sites, including text, images, illustrations, designs, icons, photographs, video clips and other content, and the copyrights, trademarks, and/or other intellectual property in such materials (collectively, the "Contents"), are owned, controlled or licensed by Mammoth. Unless otherwise specified, the Sites are intended to promote Mammoth's products and services available in the Atlanta, Georgia-area.
+b.	Information on the Sites may contain typographical errors, inaccuracies, or omissions that relate to services and product descriptions, pricing, offers, and availability. We reserve the right to correct any errors or omissions and to change or update information or cancel orders or appointments if any information on the Sites is inaccurate at any time without prior notice (including after you have submitted an order or appointment).</string>
                                                     <attributes>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
@@ -632,9 +632,9 @@ b.	Information on the Sites may contain typographical errors, inaccuracies, or o
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">
+                                                    <string key="content">
 c.	The Sites may contain links to other websites that are not under the control of Mammoth. Mammoth has no responsibility for the linked websites nor does linking constitute an endorsement of any linked website. If you use such links, you will leave the Sites and your activities may be governed by terms and conditions and privacy practices of such other websites. Such links are provided solely for convenience only.
-d.	</mutableString>
+d.	</string>
                                                     <attributes>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="36" headIndent="49.5" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
@@ -643,7 +643,7 @@ d.	</mutableString>
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">The App is provided 'as is, where is' and, to the extent permitted by applicable law, Mammoth excludes all representations or warranties of any kind, express or implied including, but not limited to, implied warranties of merchantability, satisfactory quality, fitness for a particular purpose and non-infringement. Any reliance on or use of the App shall be at the user’s sole risk. Mammoth shall not have any obligation to provide any maintenance and/or support services with respect to the App. </mutableString>
+                                                    <string key="content">The App is provided 'as is, where is' and, to the extent permitted by applicable law, Mammoth excludes all representations or warranties of any kind, express or implied including, but not limited to, implied warranties of merchantability, satisfactory quality, fitness for a particular purpose and non-infringement. Any reliance on or use of the App shall be at the user’s sole risk. Mammoth shall not have any obligation to provide any maintenance and/or support services with respect to the App. </string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -778,7 +778,7 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">Mammoth uses a third-party payment processor to bill and collect fees through the Sites. If you are directed to our third-party payment processor(s), you may be subject to terms and conditions governing use of that third party’s service and that third party’s personal information collection practices. Please review such terms and conditions and privacy policy before using these third-party payment processors.</mutableString>
+                                                    <string key="content">Mammoth uses a third-party payment processor to bill and collect fees through the Sites. If you are directed to our third-party payment processor(s), you may be subject to terms and conditions governing use of that third party’s service and that third party’s personal information collection practices. Please review such terms and conditions and privacy policy before using these third-party payment processors.</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -822,7 +822,7 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content"> These Terms of Use apply to the App, including any updates. Mammoth may change or revise these Terms of Use from time to time in its sole discretion, with or without notice to you. You are bound by any such revisions and should therefore from time to time, visit this page to review the then-current Terms of Use. Your use of the App after such revised Terms of Use are released will signify your acceptance of such revised Terms of Use.</mutableString>
+                                                    <string key="content"> These Terms of Use apply to the App, including any updates. Mammoth may change or revise these Terms of Use from time to time in its sole discretion, with or without notice to you. You are bound by any such revisions and should therefore from time to time, visit this page to review the then-current Terms of Use. Your use of the App after such revised Terms of Use are released will signify your acceptance of such revised Terms of Use.</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -931,8 +931,8 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content"> To the fullest extent permitted under applicable law, in no event shall Mammoth be liable to you personally for any loss, injury or damages (including but not limited to any special, indirect, consequential or punitive damages, lost profits, lost revenues or other incidental damages) arising out of the use, inability to use, or the results of use of the App.
-</mutableString>
+                                                    <string key="content"> To the fullest extent permitted under applicable law, in no event shall Mammoth be liable to you personally for any loss, injury or damages (including but not limited to any special, indirect, consequential or punitive damages, lost profits, lost revenues or other incidental damages) arising out of the use, inability to use, or the results of use of the App.
+</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -964,7 +964,7 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">You agree to defend, indemnify and hold Mammoth harmless from and against any and all claims, damages, costs and expenses, including attorneys' fees, due to your use of the Sites and/or your breach of any representation, warranty, or other provision of these Terms of Use.</mutableString>
+                                                    <string key="content">You agree to defend, indemnify and hold Mammoth harmless from and against any and all claims, damages, costs and expenses, including attorneys' fees, due to your use of the Sites and/or your breach of any representation, warranty, or other provision of these Terms of Use.</string>
                                                     <attributes>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" firstLineHeadIndent="18" headIndent="36" tailIndent="468" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
@@ -1019,10 +1019,10 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">a.	These Terms of Use equal the entire agreement between us with respect to your use of the App. Such Terms supersede all prior understandings or agreements you and Mammoth.
+                                                    <string key="content">a.	These Terms of Use equal the entire agreement between us with respect to your use of the App. Such Terms supersede all prior understandings or agreements you and Mammoth.
 b.	Each of the conditions of these Terms operates separately. If any court or competent authority decides that any of them are unlawful or unenforceable, the remaining conditions will remain in full force and effect.
 c.	If we fail to insist that you perform any of your obligations under these Terms of Use, or if we do not enforce our rights against you, or if we delay in doing so, that will not mean that we have waived our rights against you and will not mean that you do not have to comply with those obligations.
-</mutableString>
+</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -1054,8 +1054,8 @@ Cg
                                                     </attributes>
                                                 </fragment>
                                                 <fragment>
-                                                    <mutableString key="content">To the extent permitted by applicable law, these Terms of Use are governed and construed by the laws of the State of Georgia, U.S.A. and you consent to the non-exclusive jurisdiction of the Georgia courts. We retain the right to bring proceedings against you for breach of these Term of Use in your state of residence.
-</mutableString>
+                                                    <string key="content">To the extent permitted by applicable law, these Terms of Use are governed and construed by the laws of the State of Georgia, U.S.A. and you consent to the non-exclusive jurisdiction of the Georgia courts. We retain the right to bring proceedings against you for breach of these Term of Use in your state of residence.
+</string>
                                                     <attributes>
                                                         <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
@@ -1125,30 +1125,15 @@ mammoth3@comcast.net
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="vku-pV-7KT" secondAttribute="bottom" constant="-18" id="B7O-38-pZN"/>
-                                        <constraint firstItem="vku-pV-7KT" firstAttribute="height" secondItem="1Mr-xU-pLL" secondAttribute="height" multiplier="1.27104" constant="-143" id="OVN-pl-1zk"/>
                                         <constraint firstItem="vku-pV-7KT" firstAttribute="leading" secondItem="Dc4-PT-o1C" secondAttribute="leading" id="dVA-Af-zgP"/>
                                         <constraint firstItem="vku-pV-7KT" firstAttribute="top" secondItem="1Mr-xU-pLL" secondAttribute="top" id="dlS-Sq-7Th"/>
-                                        <constraint firstAttribute="trailing" secondItem="vku-pV-7KT" secondAttribute="trailing" id="grL-xd-RWo"/>
+                                        <constraint firstItem="vku-pV-7KT" firstAttribute="centerY" secondItem="Dc4-PT-o1C" secondAttribute="centerY" id="dxL-B3-IS6"/>
                                         <constraint firstItem="vku-pV-7KT" firstAttribute="width" secondItem="1Mr-xU-pLL" secondAttribute="width" id="nx9-tL-ATG"/>
+                                        <constraint firstItem="vku-pV-7KT" firstAttribute="centerX" secondItem="Dc4-PT-o1C" secondAttribute="centerX" id="o0K-al-1CW"/>
                                     </constraints>
                                     <viewLayoutGuide key="contentLayoutGuide" id="b0U-fC-IIr"/>
                                     <viewLayoutGuide key="frameLayoutGuide" id="1Mr-xU-pLL"/>
                                 </scrollView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJJ-n5-bz3">
-                                    <rect key="frame" x="260" y="649" width="67" height="23"/>
-                                    <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="23" id="8C2-Ku-aJL"/>
-                                        <constraint firstAttribute="width" constant="67" id="aCv-de-Zcb"/>
-                                    </constraints>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title="Agree">
-                                        <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </buttonConfiguration>
-                                    <connections>
-                                        <action selector="AgreeBtnClicked:" destination="-1" eventType="touchUpInside" id="GBH-Vj-vd0"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IBx-dz-HhD">
                                     <rect key="frame" x="8" y="649" width="82" height="23"/>
                                     <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1164,22 +1149,31 @@ mammoth3@comcast.net
                                         <action selector="DisagreeBtnClicked:" destination="-1" eventType="touchUpInside" id="2TT-oZ-Xng"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJJ-n5-bz3">
+                                    <rect key="frame" x="304" y="649" width="67" height="23"/>
+                                    <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="23" id="8C2-Ku-aJL"/>
+                                        <constraint firstAttribute="width" constant="67" id="aCv-de-Zcb"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="Agree">
+                                        <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </buttonConfiguration>
+                                    <connections>
+                                        <action selector="AgreeBtnClicked:" destination="-1" eventType="touchUpInside" id="GBH-Vj-vd0"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="IBx-dz-HhD" firstAttribute="top" secondItem="Dc4-PT-o1C" secondAttribute="bottom" constant="13" id="6DU-Sp-S7f"/>
-                                <constraint firstItem="gJJ-n5-bz3" firstAttribute="leading" secondItem="IBx-dz-HhD" secondAttribute="trailing" constant="170" id="Dbe-jQ-Ciz"/>
-                                <constraint firstAttribute="trailing" secondItem="gJJ-n5-bz3" secondAttribute="trailing" constant="8" id="EVu-3V-cWE"/>
-                                <constraint firstItem="u3X-sS-AkL" firstAttribute="top" secondItem="gGd-RV-8Oi" secondAttribute="top" constant="13" id="Qg0-qA-ayT"/>
-                                <constraint firstAttribute="height" constant="685" id="bgk-bt-3FC"/>
-                                <constraint firstItem="u3X-sS-AkL" firstAttribute="leading" secondItem="gGd-RV-8Oi" secondAttribute="leading" constant="80" id="cxf-TM-nyO"/>
-                                <constraint firstItem="IBx-dz-HhD" firstAttribute="leading" secondItem="gGd-RV-8Oi" secondAttribute="leading" constant="8" id="hY5-FQ-7v7"/>
+                                <constraint firstItem="IBx-dz-HhD" firstAttribute="leading" secondItem="Dc4-PT-o1C" secondAttribute="leading" id="8C6-Z6-psv"/>
+                                <constraint firstItem="gJJ-n5-bz3" firstAttribute="leading" secondItem="IBx-dz-HhD" secondAttribute="trailing" constant="214" id="Dbe-jQ-Ciz"/>
+                                <constraint firstItem="u3X-sS-AkL" firstAttribute="leading" secondItem="gGd-RV-8Oi" secondAttribute="leading" constant="68" id="UbL-UJ-bj5"/>
+                                <constraint firstItem="u3X-sS-AkL" firstAttribute="centerX" secondItem="gGd-RV-8Oi" secondAttribute="centerX" constant="-1.5" id="etU-Cr-YJr"/>
                                 <constraint firstItem="Dc4-PT-o1C" firstAttribute="top" secondItem="u3X-sS-AkL" secondAttribute="bottom" constant="8" id="l0l-rq-Sa9"/>
                                 <constraint firstItem="gJJ-n5-bz3" firstAttribute="top" secondItem="Dc4-PT-o1C" secondAttribute="bottom" constant="13" id="m7Z-It-tfg"/>
-                                <constraint firstAttribute="width" constant="335" id="qao-uk-gLy"/>
-                                <constraint firstAttribute="trailing" secondItem="Dc4-PT-o1C" secondAttribute="trailing" constant="8" id="uOG-gr-6YI"/>
-                                <constraint firstAttribute="trailing" secondItem="u3X-sS-AkL" secondAttribute="trailing" constant="80" id="vbO-3h-x39"/>
-                                <constraint firstItem="Dc4-PT-o1C" firstAttribute="leading" secondItem="gGd-RV-8Oi" secondAttribute="leading" constant="8" id="ySI-yD-UG3"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -1187,12 +1181,12 @@ mammoth3@comcast.net
                     <constraints>
                         <constraint firstItem="ZLg-Qt-oOS" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="134" id="0uh-Iw-1Ce"/>
                         <constraint firstAttribute="trailing" secondItem="K5C-w7-hFK" secondAttribute="trailing" constant="33" id="3ig-1I-bDx"/>
-                        <constraint firstItem="gGd-RV-8Oi" firstAttribute="top" secondItem="JKq-0E-dzW" secondAttribute="top" constant="83" id="5Rq-w8-4mp"/>
                         <constraint firstItem="r1F-62-q9L" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="47" id="6W8-rj-Sfk"/>
                         <constraint firstItem="Lg1-uj-1yQ" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="47" id="6us-oH-dMm"/>
                         <constraint firstItem="Igk-H3-0sj" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="48" id="954-DN-6r3"/>
                         <constraint firstAttribute="trailing" secondItem="smG-Re-ree" secondAttribute="trailing" constant="52" id="9Yb-Cs-GyJ"/>
                         <constraint firstItem="K5C-w7-hFK" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="47" id="9aZ-hR-BUt"/>
+                        <constraint firstItem="gGd-RV-8Oi" firstAttribute="centerX" secondItem="JKq-0E-dzW" secondAttribute="centerX" constant="0.5" id="CPF-Mx-47Y"/>
                         <constraint firstAttribute="trailing" secondItem="Lg1-uj-1yQ" secondAttribute="trailing" constant="288.66666666666663" id="EXG-Lc-0vU"/>
                         <constraint firstAttribute="trailing" secondItem="Igk-H3-0sj" secondAttribute="trailing" constant="32" id="FUx-tS-Os3"/>
                         <constraint firstAttribute="trailing" secondItem="7aW-aH-RpF" secondAttribute="trailing" constant="146" id="MIj-FC-en9"/>
@@ -1202,9 +1196,12 @@ mammoth3@comcast.net
                         <constraint firstItem="K5C-w7-hFK" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="47" id="VC3-bu-7ar"/>
                         <constraint firstItem="7aW-aH-RpF" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="47" id="YTY-X2-LCY"/>
                         <constraint firstAttribute="trailing" secondItem="WgI-N9-Uoy" secondAttribute="trailing" constant="165.66666666666666" id="Ydv-RK-cT0"/>
+                        <constraint firstItem="gGd-RV-8Oi" firstAttribute="top" secondItem="JKq-0E-dzW" secondAttribute="top" constant="98" id="ZbB-83-8oS"/>
                         <constraint firstAttribute="trailing" secondItem="r1F-62-q9L" secondAttribute="trailing" constant="33" id="ag6-jg-vNB"/>
                         <constraint firstItem="smG-Re-ree" firstAttribute="top" secondItem="7aW-aH-RpF" secondAttribute="bottom" constant="63" id="arR-uX-oqU"/>
+                        <constraint firstItem="gGd-RV-8Oi" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="6" id="bXq-iE-UNZ"/>
                         <constraint firstItem="Igk-H3-0sj" firstAttribute="top" secondItem="r1F-62-q9L" secondAttribute="bottom" constant="8" symbolic="YES" id="cgm-Xg-rlT"/>
+                        <constraint firstItem="gGd-RV-8Oi" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="6" id="dRg-Ep-mWH"/>
                         <constraint firstItem="smG-Re-ree" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="76" id="dzr-zZ-rvL"/>
                         <constraint firstAttribute="trailing" secondItem="r1F-62-q9L" secondAttribute="trailing" constant="33" id="fGe-jZ-O1f"/>
                         <constraint firstItem="K5C-w7-hFK" firstAttribute="top" secondItem="WgI-N9-Uoy" secondAttribute="bottom" constant="8" symbolic="YES" id="fd5-28-kQ5"/>
@@ -1212,18 +1209,17 @@ mammoth3@comcast.net
                         <constraint firstItem="r1F-62-q9L" firstAttribute="top" secondItem="Lg1-uj-1yQ" secondAttribute="bottom" constant="26.5" id="gT2-Hq-xD5"/>
                         <constraint firstItem="WgI-N9-Uoy" firstAttribute="top" secondItem="Igk-H3-0sj" secondAttribute="bottom" constant="8" symbolic="YES" id="hLY-6S-8hg"/>
                         <constraint firstItem="4xZ-D1-4HQ" firstAttribute="top" secondItem="Igk-H3-0sj" secondAttribute="bottom" constant="15" id="lCY-dy-B6H"/>
+                        <constraint firstAttribute="bottom" secondItem="gGd-RV-8Oi" secondAttribute="bottom" constant="144" id="mWr-GB-3rd"/>
                         <constraint firstItem="K5C-w7-hFK" firstAttribute="top" secondItem="4xZ-D1-4HQ" secondAttribute="bottom" constant="15" id="nD6-bW-sd2"/>
                         <constraint firstItem="7aW-aH-RpF" firstAttribute="top" secondItem="K5C-w7-hFK" secondAttribute="bottom" constant="26" id="nQZ-JW-Jbg"/>
                         <constraint firstItem="WgI-N9-Uoy" firstAttribute="leading" secondItem="4xZ-D1-4HQ" secondAttribute="trailing" constant="8" id="voh-pZ-Q4U"/>
-                        <constraint firstItem="gGd-RV-8Oi" firstAttribute="leading" secondItem="JKq-0E-dzW" secondAttribute="leading" constant="25" id="x9a-1E-Unx"/>
-                        <constraint firstAttribute="trailing" secondItem="gGd-RV-8Oi" secondAttribute="trailing" constant="30" id="xH0-dC-Bwz"/>
                         <constraint firstAttribute="trailing" secondItem="K5C-w7-hFK" secondAttribute="trailing" constant="33" id="yRh-FI-lhg"/>
                         <constraint firstItem="Lg1-uj-1yQ" firstAttribute="top" secondItem="JKq-0E-dzW" secondAttribute="top" constant="311" id="z7x-5X-a7O"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <point key="canvasLocation" x="196.92307692307691" y="-15.639810426540283"/>
+            <point key="canvasLocation" x="194.85981308411215" y="-16.846652267818577"/>
         </view>
     </objects>
     <resources>

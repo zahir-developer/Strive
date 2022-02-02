@@ -38,28 +38,13 @@ namespace StriveCustomer.iOS.Views.CardList
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return CardLists.Status.Count;
+            return 1;
         }
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             CardListViewCell cell = (CardListViewCell)tableView.CellAt(indexPath);
                        
-        }
-
-        public void editCardList(NSIndexPath indexPath)
-        {
-            var data = CustomerCardInfo.cardDetailsResponse.Status[indexPath.Row];
-            CustomerCardInfo.cardid = data.Id;
-            cardInfoViewModel.NavToEditCard();
-        }
-        public void DeleteCard(NSIndexPath indexPath)
-        {
-            var data = CustomerCardInfo.cardDetailsResponse.Status[indexPath.Row];
-            CustomerCardInfo.cardid = data.Id;
-            CustomerCardInfo.cardNumber = data.CardNumber;
-            CustomerCardInfo.expiryDate = data.ExpiryDate;
-            cardInfoViewModel.DeleteCard();
         }
 
     }

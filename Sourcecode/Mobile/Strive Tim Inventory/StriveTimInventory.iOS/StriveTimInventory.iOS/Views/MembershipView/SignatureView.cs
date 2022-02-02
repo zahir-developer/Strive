@@ -65,7 +65,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             FinalContractIMG.Image = TermsView.TermsViewImg;
             FinalContract.Hidden = false;
             UIImage Contract = UIViewExtensions.AsImage(FinalContract);
-            ViewModel.Base64ContractString = Contract.AsJPEG(0.15f).GetBase64EncodedString(NSDataBase64EncodingOptions.None);
+            SignatureViewModel.Base64ContractString = Contract.AsJPEG(0.15f).GetBase64EncodedString(NSDataBase64EncodingOptions.None);
 
             await Task.Delay(3000);
                 ViewModel.NextCommand();

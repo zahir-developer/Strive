@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+        <array key="OpenSans-SemiBold.ttf">
+            <string>OpenSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ModifyCardView">
+            <connections>
+                <outlet property="CardDetialsView" destination="kGy-N5-OGT" id="ZFm-FE-ASq"/>
+                <outlet property="CardNumberentry" destination="crx-fJ-JQB" id="rJQ-Ly-76P"/>
+                <outlet property="ExpiryDateentry" destination="3fx-aW-LTs" id="hFM-Wc-6zd"/>
+                <outlet property="SaveCardButton" destination="GS0-9c-t7x" id="1Z0-lH-Ks8"/>
+                <outlet property="Title" destination="ZwY-5A-RIA" id="qlO-z0-clh"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="LEC-Ik-kSt">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card Edit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZwY-5A-RIA">
+                    <rect key="frame" x="464" y="151" width="96" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="96" id="mWL-TU-lc2"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kGy-N5-OGT">
+                    <rect key="frame" x="20" y="246" width="984" height="220"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card Number:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shC-q2-V4Q">
+                            <rect key="frame" x="8" y="78" width="106" height="22"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="crx-fJ-JQB">
+                            <rect key="frame" x="124" y="72" width="844" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3fx-aW-LTs">
+                            <rect key="frame" x="124" y="114" width="844" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expiry Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rh1-Jd-ibR">
+                            <rect key="frame" x="8" y="120" width="90" height="22"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="crx-fJ-JQB" secondAttribute="trailing" constant="16" id="3eH-yx-mbJ"/>
+                        <constraint firstItem="shC-q2-V4Q" firstAttribute="leading" secondItem="kGy-N5-OGT" secondAttribute="leadingMargin" id="5jE-5t-Byw"/>
+                        <constraint firstItem="crx-fJ-JQB" firstAttribute="leading" secondItem="shC-q2-V4Q" secondAttribute="trailing" constant="10" id="94g-im-0fA"/>
+                        <constraint firstItem="crx-fJ-JQB" firstAttribute="top" secondItem="kGy-N5-OGT" secondAttribute="top" constant="72" id="CNj-qv-RDr"/>
+                        <constraint firstItem="crx-fJ-JQB" firstAttribute="leading" secondItem="3fx-aW-LTs" secondAttribute="leading" id="FAZ-NK-Tva"/>
+                        <constraint firstItem="crx-fJ-JQB" firstAttribute="trailing" secondItem="3fx-aW-LTs" secondAttribute="trailing" id="Kkl-3b-h0k"/>
+                        <constraint firstAttribute="bottom" secondItem="3fx-aW-LTs" secondAttribute="bottom" constant="72" id="TME-ti-S3s"/>
+                        <constraint firstItem="shC-q2-V4Q" firstAttribute="leading" secondItem="Rh1-Jd-ibR" secondAttribute="leading" id="jGE-hr-1pu"/>
+                        <constraint firstItem="Rh1-Jd-ibR" firstAttribute="centerY" secondItem="3fx-aW-LTs" secondAttribute="centerY" id="jnr-dW-5Sf"/>
+                        <constraint firstItem="3fx-aW-LTs" firstAttribute="top" secondItem="crx-fJ-JQB" secondAttribute="bottom" constant="8" id="kTs-9Y-I1U"/>
+                        <constraint firstItem="shC-q2-V4Q" firstAttribute="centerY" secondItem="crx-fJ-JQB" secondAttribute="centerY" id="rme-vo-4p7"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GS0-9c-t7x">
+                    <rect key="frame" x="480.5" y="502" width="63" height="29"/>
+                    <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="63" id="40J-6n-Olf"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="12"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="SAVE">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="SaveCard_BtnTouch:" destination="-1" eventType="touchUpInside" id="75Q-pM-UC4"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="LEC-Ik-kSt" firstAttribute="top" secondItem="2" secondAttribute="top" id="7d9-z2-Zhs"/>
+                <constraint firstAttribute="bottom" secondItem="LEC-Ik-kSt" secondAttribute="bottom" id="8Au-0Z-oTq"/>
+                <constraint firstItem="LEC-Ik-kSt" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="E6G-56-UCh"/>
+                <constraint firstItem="kGy-N5-OGT" firstAttribute="centerX" secondItem="GS0-9c-t7x" secondAttribute="centerX" id="O5d-ui-CUN"/>
+                <constraint firstAttribute="trailing" secondItem="LEC-Ik-kSt" secondAttribute="trailing" id="Ua5-Bp-eUt"/>
+                <constraint firstItem="kGy-N5-OGT" firstAttribute="trailing" secondItem="2" secondAttribute="trailingMargin" id="YWn-cJ-mKX"/>
+                <constraint firstItem="kGy-N5-OGT" firstAttribute="top" secondItem="ZwY-5A-RIA" secondAttribute="bottom" constant="67" id="dcS-ps-kSQ"/>
+                <constraint firstItem="ZwY-5A-RIA" firstAttribute="top" secondItem="2" secondAttribute="top" constant="151" id="etS-Su-D3w"/>
+                <constraint firstItem="ZwY-5A-RIA" firstAttribute="centerX" secondItem="kGy-N5-OGT" secondAttribute="centerX" id="o5F-aH-exx"/>
+                <constraint firstItem="GS0-9c-t7x" firstAttribute="top" secondItem="kGy-N5-OGT" secondAttribute="bottom" constant="36" id="tPu-qG-A0H"/>
+                <constraint firstItem="kGy-N5-OGT" firstAttribute="leading" secondItem="2" secondAttribute="leadingMargin" id="xDg-VP-6RC"/>
+            </constraints>
+            <point key="canvasLocation" x="76.7578125" y="-23.718887262079061"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="car_image_bg" width="768" height="1024"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

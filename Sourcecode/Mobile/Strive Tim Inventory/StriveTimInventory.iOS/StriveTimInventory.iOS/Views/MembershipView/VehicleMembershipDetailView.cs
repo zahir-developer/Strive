@@ -4,6 +4,8 @@ using UIKit;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.TIMInventory.Membership;
+using CoreGraphics;
+using StriveTimInventory.iOS.Views.CardList;
 
 namespace StriveTimInventory.iOS.Views.MembershipView
 {
@@ -27,6 +29,40 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             set.Bind(ChangeButton).To(vm => vm.Commands["ChangeMembership"]);
             set.Bind(CancelButton).To(vm => vm.Commands["CancelMembership"]);
             set.Apply();
+            CardDetailsTable.RegisterNibForCellReuse(CardListViewCell.Nib, CardListViewCell.Key);
+            CardDetailsTable.BackgroundColor = UIColor.Clear;
+            CardDetailsTable.ReloadData();
+            //GetCardList();
+        }
+
+        private async void GetCardList()
+        {
+            await ViewModel.GetCustomerCardList();
+
+            if (ViewModel.response != null)
+            {
+                if (ViewModel.noData)
+                {
+                    CardDetailsTable.Hidden = true;
+                    _NoRelatableData.Hidden = false;
+
+                }
+                if (ViewModel.isData)
+                {
+                    CardDetailsTable.Hidden = false;
+                    _NoRelatableData.Hidden = true;
+                }
+            }
+
+            if (!(this.ViewModel.response.Status.Count == 0) || !(this.ViewModel.response == null))
+            {
+                var CardTableSource = new CardListTableSource(ViewModel);
+                CardDetailsTable.Source = CardTableSource;
+                CardDetailsTable.TableFooterView = new UIView(CGRect.Empty);
+                CardDetailsTable.DelaysContentTouches = false;
+                CardDetailsTable.ReloadData();
+            }
+
         }
 
         public override void DidReceiveMemoryWarning()

@@ -24,7 +24,7 @@ namespace StriveCustomer.iOS.Views
        // WeakReference<UITextField> focusedTextField = new(WeakReference<UITextField>);
 
         UIScrollView scrollView;
-        UITextField customerNameTextField;
+        UILabel customerNameTextField;
         UITextField tipAmountTextField;
         UILabel totalAmountDueLabel;
         UILabel paymentInfoLabel;
@@ -51,12 +51,12 @@ namespace StriveCustomer.iOS.Views
             UpdateData();
             securityCodeTextField.Hidden = true;
 
-            if(CustomerCardInfo.SelectedCard!= null)
+            if(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
             {
-                cardNumberTextField.Text = CustomerCardInfo.SelectedCard.CardNumber ;
-                expirationDateTextField.Text = CustomerCardInfo.SelectedCard.ExpiryDate.Substring(8, 2)+"/"+CustomerCardInfo.SelectedCard.ExpiryDate.Substring(2, 2);
-                ViewModel.cardNumber = CustomerCardInfo.SelectedCard.CardNumber;
-                ViewModel.expiryDate = CustomerCardInfo.SelectedCard.ExpiryDate;
+                cardNumberTextField.Text =  CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
+                expirationDateTextField.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate;
+                ViewModel.cardNumber = cardNumberTextField.Text;
+                ViewModel.expiryDate = cardNumberTextField.Text;
                 //securityCodeTextField.Text = string.Empty;
 
             }
@@ -98,7 +98,7 @@ namespace StriveCustomer.iOS.Views
                 MembershipAmount += MembershipDetails.modelUpcharge.upcharge[0].Price;
             }
             Amount += (float)MembershipAmount;
-            ViewModel.finalmonthlycharge = Amount;
+            ViewModel.finalmonthlycharge = 0; //Amount;
             
             //MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.monthlyCharge = Amount;
 
@@ -142,7 +142,7 @@ namespace StriveCustomer.iOS.Views
         {
 
             //_userDialog.ShowLoading();
-            var totalAmnt = Amount;
+            var totalAmnt = 0;//Amount;
             ViewModel.cardNumber = cardNo;
             ViewModel.expiryDate = expiryDate;
             if (cardNo.IsEmpty() || expiryDate.IsEmpty())
@@ -151,8 +151,13 @@ namespace StriveCustomer.iOS.Views
                 ShowAlertMsg("Please fill card details");
                 return;
             }
-
-            try
+            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+            {
+                ViewModel.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
+                ViewModel.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
+                ViewModel.MembershipAgree();
+            }
+            else
             {
                 var paymentAuthReq = new PaymentAuthReq
                 {
@@ -161,9 +166,10 @@ namespace StriveCustomer.iOS.Views
                     PaymentDetail = new PaymentDetail()
                     {
                         Account = cardNo,
-                        Expiry = expiryDate,
+                        Expiry = expiryDate.Replace("/", ""),
                         //CCV = ccv,
-                        Amount = Amount
+                        Amount = 1,
+                        OrderID = ""
                     },
 
                     BillingDetail = new BillingDetail()
@@ -174,102 +180,33 @@ namespace StriveCustomer.iOS.Views
                         Country = "India",//status.Country,
                         Region = "Tamilnadu",//status.State,
                         Postal = CustomerInfo.customerPersonalInfo.Status[0].Zip
-                    }
+                    },
+
+                    Locationid = 1
+
 
                 };
 
 
                 Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
-                
+
 
                 var apiService = new PaymentApiService();
 
                 var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
 
                 // if (paymentAuthResponse.IsSuccess())
-                if (paymentAuthResponse.Authcode != null)
+                if (paymentAuthResponse != null)
                 {
-                    var paymentCaptureReq = new PaymentCaptureReq
-                    {
-                        AuthCode = paymentAuthResponse?.Authcode,
-                        RetRef = paymentAuthResponse?.Retref,
-                        Amount = totalAmnt,
-                    };
-
-                    Debug.WriteLine("" + JsonConvert.SerializeObject(paymentCaptureReq));
-                    var captureResponse = await apiService.PaymentCapture(paymentCaptureReq);
-
-                    if (captureResponse.Authcode != null)
-                    {
-                        var generalApiService = new GeneralApiService();
-                        var paymentStatusResponse = await generalApiService.GetGlobalData("PAYMENTSTATUS");
-                        //Debug.WriteLine("Payment Status Response : " + JsonConvert.SerializeObject(paymentStatusResponse));
-                        var paymentStatusId = paymentStatusResponse?.Codes.First(x => x.Name.Equals(PaymentStatus.Success.ToString())).ID ?? -1;
-
-                        var paymentTypeResponse = await generalApiService.GetGlobalData("PAYMENTTYPE");
-                        //Debug.WriteLine("Payment Type Response : " + JsonConvert.SerializeObject(paymentTypeResponse));
-
-                        var paymentTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentType.Card.ToString())).ID ?? -1;
-
-                        //var addPaymentReqReq = new AddPaymentReq
-                        //{
-                        //    SalesPaymentDto = new SalesPaymentDto()
-                        //    {
-                        //        JobPayment = new JobPayment()
-                        //        {
-                        //            JobID = JobID,
-                        //            Amount = Amount,
-                        //            PaymentStatus = paymentStatusId
-                        //        },
-
-                        //        JobPaymentDetails = new List<JobPaymentDetail>() {
-                        //                    new JobPaymentDetail()
-                        //                    {
-                        //                        Amount = Amount,
-                        //                        PaymentType = paymentTypeId
-                        //                    }
-                        //                }
-                        //    },
-                        //    LocationID = 1,//AppSettings.LocationID,
-                        //    JobID = JobID
-                        //};
-
-
-                        //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
-
-                        //var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
-                        //Debug.WriteLine(JsonConvert.SerializeObject(paymentResponse));
-
-
-                        //if (paymentResponse.Message == "true")
-                        //{
-                        //    ViewModel.MembershipAgree();
-
-                        //}
-                        //else
-                        //{
-                        //    _userDialog.HideLoading();
-                        //    ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
-                        //}
-                        ViewModel.MembershipAgree();
-                    }
-                    else
-                    {
-                        _userDialog.HideLoading();
-                        ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
-                    }
+                    ViewModel.accountId = paymentAuthResponse.AccountId;
+                    ViewModel.profileId = paymentAuthResponse.ProfileId;
+                    ViewModel.MembershipAgree();
                 }
                 else
                 {
                     _userDialog.HideLoading();
                     ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
                 }
-                
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
-               
             }
             
         }
@@ -301,7 +238,7 @@ namespace StriveCustomer.iOS.Views
 
         void SetupView()
         {
-            Title = "Pay";
+            Title = "Monthly Payment";
             NavigationController.NavigationBar.Hidden = false;
 
             View.AddGestureRecognizer(new UITapGestureRecognizer(DidTapAround));
@@ -332,10 +269,8 @@ namespace StriveCustomer.iOS.Views
             customerNameLabel.Font = UIFont.SystemFontOfSize(18);
             backgroundView.Add(customerNameLabel);
 
-            customerNameTextField = new UITextField(CGRect.Empty);
+            customerNameTextField = new UILabel(CGRect.Empty);
             customerNameTextField.TranslatesAutoresizingMaskIntoConstraints = false;
-            customerNameTextField.WeakDelegate = this;
-            customerNameTextField.BorderStyle = UITextBorderStyle.RoundedRect;
             customerNameTextField.Font = UIFont.SystemFontOfSize(18);
             customerNameTextField.TextColor = UIColor.Black;
             backgroundView.Add(customerNameTextField);
@@ -417,7 +352,7 @@ namespace StriveCustomer.iOS.Views
 
             var payButton = new UIButton(CGRect.Empty);
             payButton.TranslatesAutoresizingMaskIntoConstraints = false;
-            payButton.SetTitle("Pay", UIControlState.Normal);
+            payButton.SetTitle("Setup Membership", UIControlState.Normal);
             payButton.BackgroundColor = UIColor.Blue; //Common.Colors.APP_BASE_COLOR.ToPlatformColor();
             payButton.SetTitleColor(UIColor.White, UIControlState.Normal);
             payButton.Font = UIFont.SystemFontOfSize(18);
@@ -649,11 +584,8 @@ namespace StriveCustomer.iOS.Views
         [Export("textFieldShouldReturn:")]
         public bool ShouldReturn(UITextField textField)
         {
-            if (textField == customerNameTextField)
-            {
-                tipAmountTextField.BecomeFirstResponder();
-            }
-            else if (textField == tipAmountTextField)
+            
+            if (textField == tipAmountTextField)
             {
                 cardNumberTextField.BecomeFirstResponder();
             }

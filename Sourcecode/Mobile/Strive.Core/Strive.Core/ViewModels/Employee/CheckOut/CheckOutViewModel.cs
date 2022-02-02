@@ -48,6 +48,7 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
             else
             {
                 CheckOutVehicleDetails = new CheckoutDetails();
+                //CheckOutVehicleDetails = null;
                 CheckOutVehicleDetails.GetCheckedInVehicleDetails = new GetCheckedInVehicleDetails();
                 CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel = new List<checkOutViewModel>();
                 CheckOutVehicleDetails = result;

@@ -14,8 +14,8 @@ namespace Strive.Core.Models.Customer
         [JsonProperty("amount")]
         public float Amount { get; set; }
 
-        //[JsonProperty("orderId")]
-        //public string OrderID { get; } = "AB-11-9876";
+        [JsonProperty("orderId")]
+        public string OrderID { get; set; }
 
         //[JsonProperty("batchid")]
         //public long BatchID { get; set; }

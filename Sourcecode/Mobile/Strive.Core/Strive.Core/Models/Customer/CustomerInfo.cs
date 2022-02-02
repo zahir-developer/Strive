@@ -223,7 +223,7 @@ namespace Strive.Core.Models.Customer
         public static int cardid { get; set; }
         public static bool isAddCard { get; set; }
         public static CardDetailsResponse cardDetailsResponse { get; set; }
-        public static status SelectedCard {get;set;}
+        public static CardDetailsResponse SelectedCard {get;set;}
     }
 
 }
