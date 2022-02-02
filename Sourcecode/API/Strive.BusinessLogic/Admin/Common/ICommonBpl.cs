@@ -27,5 +27,7 @@ namespace Strive.BusinessLogic.Common
         string Template(string templateName);
         Result GetVehiclePrint(PrintTicketDto printTicketDto);
         Result GetCustomerPrint(PrintTicketDto printTicketDto);
+        Result GetAllPaymentGateway();
+        Result InsertPaymentGateway(PaymentGatewayDTO oPayment);
     }
 }

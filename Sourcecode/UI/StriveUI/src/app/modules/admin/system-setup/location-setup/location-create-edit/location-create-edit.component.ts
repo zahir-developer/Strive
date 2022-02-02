@@ -168,7 +168,7 @@ export class LocationCreateEditComponent implements OnInit {
       this.merchantId = this.selectedData?.MerchantDetail.MID;
       this.merchantUserName = this.selectedData?.MerchantDetail.UserName;
       this.merchantPassword = this.selectedData?.MerchantDetail.Password;
-      this.Url = this.selectedData?.MerchantDetail.Url;
+      this.Url = this.selectedData?.MerchantDetail.URL;
     }
   }
 
