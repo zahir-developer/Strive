@@ -478,10 +478,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (res.status === 'Success') {
         const scheduleDetail = JSON.parse(res.resultData);
         this.forecastedList = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel;
-        this.forecastedList.forEach(item => {
-          item.TotalEmployees = 0;
-          item.Totalhours = 0;
-        });
+        //this.forecastedList.forEach(item => {
+        // item.TotalEmployees = 0;
+        //  item.Totalhours = 0;
+        //});
         // this.noOfForcastedCars = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars ?
         //   scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars : 0;
         // this.noOfForcastedHours = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours ?
