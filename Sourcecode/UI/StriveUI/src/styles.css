@@ -331,3 +331,13 @@ em {
 .ui-datepicker-calendar td {
     padding: 0.1em 0.3em !important;
 }
+
+.icon-disabled {
+    cursor: not-allowed;
+  }
+  .enable {
+      background-color: white;
+  }
+  .disable {
+      background-color: #e2e9f1;
+  }

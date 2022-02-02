@@ -11,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { DocumentService } from 'src/app/shared/services/data-service/document.service'
 
 @Component({
   selector: 'app-vehicle-list',
@@ -53,8 +54,9 @@ export class VehicleListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService,
     private memberService: MembershipService,
-    private route: ActivatedRoute
-  ) { 
+    private route: ActivatedRoute,
+    private documentService: DocumentService
+  ) {
     this.searchUpdate.pipe(
       debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
@@ -65,7 +67,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
 
     this.imagePopup = false;
     this.isOpenImage = false;
@@ -118,7 +120,7 @@ export class VehicleListComponent implements OnInit {
           this.vehicleDetails = vehicle.Vehicle.clientViewModel;
           if (this.vehicleDetails?.length > 0) {
             for (let i = 0; i < this.vehicleDetails.length; i++) {
-              this.vehicleDetails[i].ModelName == 'None' ? this.vehicleDetails[i].ModelName =  'Unk' : this.vehicleDetails[i].ModelName ;
+              this.vehicleDetails[i].ModelName == 'None' ? this.vehicleDetails[i].ModelName = 'Unk' : this.vehicleDetails[i].ModelName;
             }
           }
           totalCount = vehicle.Vehicle.Count.Count;
@@ -148,7 +150,7 @@ export class VehicleListComponent implements OnInit {
         this.imagePopup = true;
         if (sType.VehicleThumbnails.length > 0) {
           this.imageList = sType.VehicleThumbnails;
-          this.imageList.forEach( item => {
+          this.imageList.forEach(item => {
             item.vehicleImage = 'data:image/png;base64,' + item.Base64Thumbnail;
           });
         }
@@ -161,7 +163,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   openImage(base64Value) {
-    this.vehicle.getVehicleImageById(base64Value.VehicleImageId).subscribe( res => {
+    this.vehicle.getVehicleImageById(base64Value.VehicleImageId).subscribe(res => {
       if (res.status === 'Success') {
         const image = JSON.parse(res.resultData);
         this.originalImage = 'data:image/png;base64,' + image.VehicleThumbnails.Base64Thumbnail;
@@ -239,7 +241,7 @@ export class VehicleListComponent implements OnInit {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
-        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+        this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
         this.page = 1;
         this.getAllVehicleDetails();
       } else {
@@ -254,7 +256,7 @@ export class VehicleListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved' || event.status === 'edit') {
-      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+      this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
 
       this.getAllVehicleDetails();
     }
@@ -304,30 +306,57 @@ export class VehicleListComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.sortColumn ={
-     sortBy: column,
-     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
 
     this.selectedCls(this.sortColumn)
-   this.getAllVehicleDetails();
- }
+    this.getAllVehicleDetails();
+  }
 
- 
-newgetAllVehicleDetails()
-{
-  this.page = 1;
-  this.getAllVehicleDetails();
-}
 
- selectedCls(column) {
-   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-     return 'fa-sort-desc';
-   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-     return 'fa-sort-asc';
-   }
-   return '';
- }
+  newgetAllVehicleDetails() {
+    this.page = 1;
+    this.getAllVehicleDetails();
+  }
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  downloadPDF(documentId) {
+    if (documentId !== null) {
+      this.spinner.show();
+      this.documentService.getDocumentById(documentId, 'MEMBERSHIPAGREEMENT').subscribe(res => {
+        if (res.status === 'Success') {
+          const documentDetails = JSON.parse(res.resultData);
+          if (documentDetails.Document !== null) {
+            const details = documentDetails.Document.Document;
+            this.selectedData = documentDetails.Document.Document;
+            const base64 = details.Base64;
+            const linkSource = 'data:application/pdf;base64,' + base64;
+            const downloadLink = document.createElement('a');
+            const fileName = details.OriginalFileName;
+            downloadLink.href = linkSource;
+            downloadLink.download = fileName;
+            downloadLink.click();
+            this.spinner.hide();
+          }
+        }
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      );
+    }
+  }
 
 }
 
