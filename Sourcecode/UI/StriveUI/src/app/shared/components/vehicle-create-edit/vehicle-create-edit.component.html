@@ -127,6 +127,48 @@
                 <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control"
                     formControlName="monthlyCharge" placeholder="$0.00">
             </div>
+            <div class="form-group col-4" *ngIf="isEdit">
+                <label for="inputCardNumber">Card Number<span class="required">*</span></label>
+                
+                <input type="text" name="cardNumber" maxlength="16" placeholder="1234-1234-1234-1234"
+                                class="form-control" (change)="getCardType($event.target.value)"
+                                [ngClass]="{ 'is-invalid': submitted  && f.cardNumber.errors }"
+                                formControlName="cardNumber">
+                            <div *ngIf="submitted  && f.cardNumber.errors" class="invalid-feedback">
+                                <div *ngIf="f.cardNumber.errors.required">Card Number is required</div>
+                            </div>
+                            
+            </div>
+
+            <div class="form-group col-lg-3" style="flex:0 0 !important" *ngIf="card == 'AMEX'"><i class="fa  fa-cc-amex"
+                    style="margin-top: 31px;margin-left: -63px;font-size: 40px;color: blue;"></i></div>
+            <div class="form-group col-lg-3" style="flex:0 0 !important" *ngIf="card == 'Discover'"><i class="fa fa-cc-discover"
+                    style="margin-top: 31px;margin-left: -63px;font-size: 40px;color: blue;"></i></div>
+            <div class="form-group col-lg-3" style="flex:0 0 !important" *ngIf="card == 'Diners'"><i class="fa fa-cc-diners"
+                    style="margin-top: 31px;margin-left: -63px;font-size: 40px;color: blue;"></i></div>
+            <div class="form-group col-lg-3" style="flex:0 0 !important" *ngIf="card == 'Diners - Carte Blanche'"><i class="fa fa-cc-diners-club"
+                    style="margin-top: 31px;margin-left: -63px;font-size: 40px;color: blue;"></i></div>
+            <div class="form-group col-lg-3" style="flex:0 0 !important" *ngIf="card == 'JCB'"><i class="fa fa-cc-jcb"
+                    style="margin-top: 31px;margin-left: -63px;font-size: 40px;color: blue;"></i></div>
+            <div class="form-group col-lg-3" style="flex:0 0 !important" *ngIf="card == 'Mastercard'"><i class="fa fa-cc-mastercard"
+                    style="margin-top: 31px;margin-left: -63px;font-size: 40px;color: blue;"></i></div>
+
+            <div class="form-group col-lg-3" style="flex:0 0 !important" *ngIf="card == 'Visa'"><i class="fa fa-cc-visa"
+                    style="margin-top: 31px;margin-left: -63px;font-size: 40px;color: blue;"></i></div>
+
+           <br/>
+            <div class="form-group col-lg-3"  *ngIf="isEdit">
+                <label for="inputExpiryDate">Expiry Date<span class="required">*</span></label>
+
+                    <p-inputMask mask="99/99" size="9" name="expiryDate"
+                    [ngClass]="{ 'is-invalid': submitted  && f.expiryDate.errors }"
+                    formControlName="expiryDate" placeholder="99/99" slotChar="mm/yy">
+                </p-inputMask>
+
+                <div *ngIf="submitted  && f.expiryDate.errors" class="invalid-feedback">
+                    <div *ngIf="f.expiryDate.errors.required">Expiration Date is required</div>
+                </div>
+            </div>
         </div>
     </form>
 </div>

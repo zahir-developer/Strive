@@ -1,0 +1,83 @@
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
+        <div class="card m-b-10">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="title-border p-b-20 m-b-15">
+                        <h5 class="d-inline-block">Payment Gateway List</h5>
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                            (click)="add()">Add New Item</button>
+                    </div>
+                    <div class="setup-wrapper">
+                        <div class="setup-content" id="open-collapse">
+                           
+                            <div class="table-responsive">
+                                <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
+                                    <thead>
+                                        <tr>
+                                            <th class="pointer" (click)="changesort('PaymentGatewayName')">Payment Gateway Name
+                                                <i class="fa" ></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('BaseURL')">BASE URL
+                                                <i class="fa"></i>
+                                            </th>
+
+                                            <th class="pointer" (click)="changesort('APIKey')">API Key
+                                                <i class="fa" ></i>
+                                            </th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bodyfix">
+                                        <tr
+                                            *ngFor="let paymentGateway of paymentGatewayDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                            <td scope="row">{{paymentGateway.PaymentGatewayName}}</td>
+                                            <td>
+                                                {{paymentGateway.BaseURL}} </td>
+                                            <td>{{paymentGateway.APIKey}}</td>
+                                            <td>
+                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
+                                                    style="color:green" pTooltip="Edit" tooltipPosition="bottom"
+                                                    (click)="edit(paymentGateway)"></em>
+                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                    style="color:red" pTooltip="Delete" tooltipPosition="bottom"
+                                                    (click)="delete(paymentGateway)"></em>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="paymentGatewayDetails.length == 0">
+                                            <td colspan="12" class="text-center"> No Records Found</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
+                                <div class="row pull-right">
+                                    <div class="col-6">
+                                        <ngb-pagination *ngIf="paymentGatewayDetails.length > 0"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                             class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                    <select *ngIf="paymentGatewayDetails.length > 0" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [resizable]="true"
+    appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false">
+    <app-payment-gateway-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
+        (closeDialog)="closePopupEmit($event)">
+    </app-payment-gateway-create-edit>
+</p-dialog> -->

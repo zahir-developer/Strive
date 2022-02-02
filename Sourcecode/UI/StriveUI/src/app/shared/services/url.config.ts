@@ -46,7 +46,10 @@ export const UrlConfig = {
     countryList: `Admin/Common/CountryList`,
     getTicketNumber: `Admin/Common/GetTicketNumber/`,
     getCustomerPrint: `Admin/Common/GetCustomerPrint`,
-    getVehiclePrint: `Admin/Common/GetVehiclePrint`
+    getVehiclePrint: `Admin/Common/GetVehiclePrint`,
+    getPaymentGateway: `Admin/Common/GetPaymentGateway/`,
+    addPaymentGateway: `Admin/Common/InsertPaymentGateway/`,
+
   },
   collision: {
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
@@ -88,7 +91,8 @@ export const UrlConfig = {
     getClientList: `Admin/Client/EmailBlast/`,
     getCSVClientList: `Admin/Client/EmailBlastCSV/`,
     sendClientEmail: `Admin/Client/SendClientEmail/`,
-    getActivityByClientId: `Admin/Client/GetCreditAccountBalanceHistory/`
+    getActivityByClientId: `Admin/Client/GetCreditAccountBalanceHistory/`,
+    getClientCreditCard: `Admin/Client/GetClientCardDetailById/`,
   },
   details: {
     addDetail: `Admin/Details/AddDetails`,
@@ -193,6 +197,8 @@ export const UrlConfig = {
     updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
     editRestrict: `Admin/PayRoll/GetPayrollProcessStatus`,
     addPayrollProcess: `Admin/PayRoll/AddPayRollProcess`,
+    deletePayment: `Payroll/PaymentGateway/Delete`,
+    authProfile: `Payroll/PaymentGateway/AuthProfile`
   },
   product: {
     getProduct: `Admin/Product/GetAll`,
@@ -310,7 +316,7 @@ export const UrlConfig = {
     deleteWash: `Admin/washes/Delete`,
     getDashBoardCount: `Admin/Washes/DashboardCount`,
     getByBarcode: `Admin/Washes/GetByBarCode/`,
-    getWashTimeByLocationId: `Admin/Washes/GetAllLocationWashTime`,
+    getWashTimeByLocationId: `Admin/Washes/GetAllLocationWashTime`,   
   },
   weather: {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,

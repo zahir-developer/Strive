@@ -129,6 +129,19 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetCustomerPrint")]
         public Result GetCustomerPrint([FromBody] PrintTicketDto printTicketDto) => _commonBpl.GetCustomerPrint(printTicketDto);
+        
+        [HttpGet]
+        [Route("GetPaymentGateway")]
+        public Result GetPaymentGateway()
+        {
+            return _commonBpl.GetAllPaymentGateway();
+        }
+
+        [HttpPost]
+        [Route("InsertPaymentGateway")]
+        public Result InsertPaymentGateway([FromBody]PaymentGatewayDTO oPayment) => _commonBpl.InsertPaymentGateway(oPayment);
+
+      
 
     }
 }

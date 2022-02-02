@@ -170,13 +170,7 @@ namespace Admin.API.Controllers
         [Route("GetCreditAccountBalanceHistory/{clientId}")]
         public Result GetCreditAccountBalanceHistory(string clientId) => _bplManager.GetCreditAccountBalanceHistory(clientId);
 
-        [HttpGet]
-        [Route("GetClientCardDetailById/{clientId}")]
-        public Result GetClientCardDetailById(int? clientId)
-        {
-            return _bplManager.GetClientCardDetailById(clientId);
-        }
-
+       
         //[HttpPost]
         //[Route("SendClientEmail")]
         //public Result SendClientEmail() => _bplManager.SendClientEmail();

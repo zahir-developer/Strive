@@ -150,7 +150,7 @@ namespace Admin.API
 
                 {
 
-                    builder.WithOrigins("http://localhost:4200", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net","https://mammothuat.azurewebsites.net")
+                    builder.WithOrigins("http://localhost:4200", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat.azurewebsites.net")
 
                             .AllowAnyHeader()
 
@@ -238,8 +238,26 @@ namespace Admin.API
             services.AddHostedService<QuartzHostedService>();
 
             services.AddSingleton<EmailScheduler>();
+            services.AddSingleton<PaymentScheduler>();
+            services.AddSingleton<SecPaymentScheduler>();
+            services.AddSingleton<ThirdPaymentScheduler>();
+            services.AddSingleton<WeatherScheduler>();
+            //EmailScheduler
             string cronExp = Configuration.GetSection("EmailScheduler")["CRON"];
             services.AddSingleton(new JobSchedule(jobType: typeof(EmailScheduler), cronExpression: cronExp));
+
+            //Payment
+            string paymentExp = Configuration.GetSection("CRON")["PaymentCRON"];
+            services.AddSingleton(new JobSchedule(jobType: typeof(PaymentScheduler), cronExpression: paymentExp));
+
+            string secPaymentExp = Configuration.GetSection("CRON")["SecPaymentCRON"];
+            services.AddSingleton(new JobSchedule(jobType: typeof(SecPaymentScheduler), cronExpression: secPaymentExp));
+
+            string thirdPaymentExp = Configuration.GetSection("CRON")["ThirdPaymentCRON"];
+            services.AddSingleton(new JobSchedule(jobType: typeof(ThirdPaymentScheduler), cronExpression: thirdPaymentExp));
+
+            string weatherExp = Configuration.GetSection("CRON")["WeatherCRON"];
+            services.AddSingleton(new JobSchedule(jobType: typeof(WeatherScheduler), cronExpression: weatherExp));
 
             services.AddSwagger();
 
@@ -284,9 +302,9 @@ namespace Admin.API
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "https://mammothuat.azurewebsites.net","https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "https://mammothuat.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            
+
             // global cors policy
             //app.UseCors(x => x
             //    .AllowAnyMethod()

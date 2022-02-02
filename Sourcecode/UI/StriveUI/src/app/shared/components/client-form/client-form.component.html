@@ -130,6 +130,20 @@
                 <div *ngIf="f.type.errors">Type is required</div>
             </div>
         </div>
+        <div class="form-group col-lg-6 col-xl-2">
+            <label for="inputLocation">Location<span class="required">*</span></label>
+
+            <select class="form-control" formControlName="location"
+            [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+            <option  selected value="0">Choose</option>
+            <option *ngFor="let location of Location" value="{{location.LocationId}}">{{location.LocationName}}
+            </option>
+        </select>
+
+            <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                <div *ngIf="f.location.errors">Location is required</div>
+            </div>
+        </div>
         <div class="form-group col-lg-6 col-xl-2  m-t-40">
             <div class="custom-control custom-checkbox custom-control-inline m-r-0">
                 <div class="form-check">
@@ -139,6 +153,7 @@
                 </div>
             </div>
         </div>
+      
         <!--  <div class="form-group col-lg-2">
             <label for="Amount">Amount<span *ngIf="isAmount" class="required">*</span></label>
             <label class="form-control" formControlName="amount" placeholder="$0.00"

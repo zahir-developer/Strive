@@ -26,6 +26,7 @@ import { AdSetupComponent } from './system-setup/ad-setup/ad-setup.component';
 import { DealSetupComponent } from './system-setup/deal-setup/deal-setup.component';
 import { TenantSetupComponent } from './tenant-setup/tenant-setup.component';
 import { EmailBlastComponent } from './system-setup/email-blast/email-blast.component';
+import { PaymentGatewayComponent } from './system-setup/payment-gateway/paymentgateway-list.component';
 
 
 const adminRoutes: Routes = [
@@ -59,6 +60,7 @@ const adminRoutes: Routes = [
         { path: 'adSetup', component: AdSetupComponent },
         { path: 'dealSetup', component: DealSetupComponent },
         { path: 'emailBlast', component: EmailBlastComponent },
+        { path: 'paymentGateway', component: PaymentGatewayComponent },
 
 
       ]
