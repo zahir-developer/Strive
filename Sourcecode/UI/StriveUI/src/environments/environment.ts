@@ -9,8 +9,8 @@ export const environment = {
   appName: 'Strive Phase 1',
   api: { // API Endpoints
     
-    striveUrl:  'http://localhost:60001/',
-    //striveUrl:  'https://mammothuatapi-dev.azurewebsites.net/',
+    //striveUrl:  'http://localhost:60001/',
+    striveUrl:  'https://mammothuatapi-dev.azurewebsites.net/',
     striveCdn: 'https://mammothuatapi-cdn.azurewebsites.net/',
     //striveUrl:  'http://40.114.79.101:5006/',
     //striveUrl: 'http://14.141.185.75:5006/'
