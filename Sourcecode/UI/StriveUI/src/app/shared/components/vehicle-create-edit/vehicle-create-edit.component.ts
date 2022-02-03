@@ -888,7 +888,8 @@ export class VehicleCreateEditComponent implements OnInit {
           membershipId: this.vehicleForm.value.membership === '' ?
             this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
           startDate: new Date().toLocaleDateString(),
-          endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+          // endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+          endDate: null,
           status: true,
           notes: null,
           isActive: this.vehicleForm.value.membership === '' ? false : true,
@@ -1259,7 +1260,8 @@ export class VehicleCreateEditComponent implements OnInit {
         membershipId: this.vehicleForm.value.membership === '' ?
           this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
         startDate: new Date().toLocaleDateString(),
-        endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+        //endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+        endDate:null,
         status: true,
         notes: null,
         isActive: this.vehicleForm.value.membership === '' ? false : true,
