@@ -13,6 +13,7 @@ using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.ResourceAccess
 {
@@ -64,7 +65,7 @@ namespace Strive.ResourceAccess
 
             return authId;
         }
-      
+
         public void SaveTenantUserMap(int authId, string tenentGuid)
         {
             DynamicParameters dynParams = new DynamicParameters();
@@ -113,7 +114,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynamic = new DynamicParameters();
             dynamic.Add("@AuthId", authId);
-            
+
             CommandDefinition cmd = new CommandDefinition(EnumSP.Authentication.USPDELETEUSER.ToString(), dynamic, commandType: CommandType.StoredProcedure);
 
             db.Save(cmd);
@@ -182,6 +183,11 @@ namespace Strive.ResourceAccess
             return db.Fetch<UpchargeViewModel>(EnumSP.Vehicle.USPGETUPCHARGEBYTYPE.ToString(), _prm);
         }
 
+        public bool InsertPaymentGateway(PaymentGatewayDTO oPayment)
+        {
+            return dbRepo.UpdatePc(oPayment);
+        }
+
         public MaxLocationViewModel GetLoationMaxLimit(int tenantId)
         {
             _prm.Add("tenantId", tenantId);
@@ -199,6 +205,10 @@ namespace Strive.ResourceAccess
             _prm.Add("@email", email);
             _prm.Add("@userType", userType);
             return db.FetchSingle<UserDetailsViewModel>(EnumSP.Job.USPGETCLIENTMAIL.ToString(), _prm);
+        }
+        public List<PaymentGatewayViewModel> GetAllPaymentGateway()
+        {
+            return db.Fetch<PaymentGatewayViewModel>(SPEnum.USPGETPAYMENTGATEWAYDETAILS.ToString(), _prm);
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Strive.BusinessEntities.DTO.PaymentGateway
         public BillingDetail BillingDetail { get; set; }
 
         public bool IsRepeatTransaction { get; set; }
+       public int LocationId { get; set; }
     }
 }

@@ -13,7 +13,6 @@ namespace Strive.BusinessEntities.DTO.Client
         public List<ClientVehicle> ClientVehicle { get; set; }
         public List<ClientAddress> ClientAddress { get; set; }
         public List<CreditAccountHistory> CreditAccountHistory { get; set; }
-        public List<ClientCardDetails> ClientCardDetails { get; set; }
         public Guid? Token { get; set; }
 
         public string Password { get; set; }

@@ -1,0 +1,48 @@
+<div  class="modal-content">  <div class="modal-header">
+    <h5 class="modal-title">{{header}}</h5>
+</div>
+<div class="modal-body">
+    <form [formGroup]="paymentGatewaySetupForm">
+      
+<div class="form-row">
+    <div class="form-group col-lg-3">
+        <label for="inputFirstName">Payment Gateway Name<span class="required">*</span></label>
+        <input type="text" class="form-control" 
+            [ngClass]="{'is-invalid': submitted && f.PaymentGatewayName.errors ||  PaymentGatewayNameValidation}"
+            formControlName="PaymentGatewayName">
+        <div *ngIf="submitted && f.PaymentGatewayName.errors" class="invalid-feedback">
+            <div *ngIf="f.PaymentGatewayName.errors.required">Payment Gateway Name is required</div>
+        </div>
+      
+    </div>
+    <div class="form-group col-lg-3">
+        <label for="inputLastName">Base URL<span class="required">*</span></label>
+        <input type="text" class="form-control" 
+        [ngClass]="{'is-invalid': submitted && f.BaseURL.errors }"
+        formControlName="BaseURL">
+       
+    <div *ngIf="submitted && f.BaseURL.errors" class="invalid-feedback">
+        <div *ngIf="f.BaseURL.errors.required">Base URL is required</div>
+    </div>
+    </div>
+    <div class="form-group col-lg-3">
+        <label for="inputLastName">API Key<span class="required">*</span></label>
+        <input type="text"  class="form-control" 
+            [ngClass]="{'is-invalid': submitted && f.APIKey.errors }"
+            formControlName="APIKey">
+        <div *ngIf="submitted && f.APIKey.errors" class="invalid-feedback">
+            <div *ngIf="f.APIKey.errors.required">API Key is required</div>
+        </div>
+       
+    </div>
+</div>
+       
+    </form>
+</div>
+</div>
+<br>
+
+<div class="modal-footer">
+    <button type="button" class="btn theme-optional-button-color" tabIndex="-1" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
+</div>

@@ -800,6 +800,15 @@ namespace Strive.BusinessLogic.Common
 
             return body;
         }
+        public Result GetAllPaymentGateway()
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetAllPaymentGateway, "PaymentGateway");
+        }
+        public Result InsertPaymentGateway(PaymentGatewayDTO oPayment)
+        {
+            return ResultWrap(new CommonRal(_tenant, false).InsertPaymentGateway, oPayment, "Payment");
+
+        }
 
     }
 }

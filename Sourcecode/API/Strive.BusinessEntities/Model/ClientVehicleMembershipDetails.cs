@@ -26,6 +26,9 @@ namespace Strive.BusinessEntities.Model
         public DateTime? EndDate { get; set; }
 
         [Column]
+        public int? DocumentId { get; set; }
+
+        [Column]
         public bool? Status { get; set; }
 
         [Column]
@@ -52,6 +55,19 @@ namespace Strive.BusinessEntities.Model
         public decimal? TotalPrice { get; set; }
         [Column]
         public bool? IsDiscount { get; set; }
+
+        [Column]
+        public string CardNumber { get; set; }
+        [Column]
+        public string ExpiryDate { get; set; }
+        [Column]
+        public string ProfileId { get; set; }
+        [Column]
+        public string AccountId { get; set; }
+        [Column]
+        public int? FailedAttempts { get; set; }
+        [Column]
+        public bool? IsNotified { get; set; }
 
 
     }

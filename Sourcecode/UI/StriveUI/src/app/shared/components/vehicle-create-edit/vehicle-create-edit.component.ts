@@ -13,6 +13,10 @@ import { MakeService } from '../../services/common-service/make.service';
 import { WashService } from '../../services/data-service/wash.service';
 import { CodeValueService } from '../../common-service/code-value.service';
 import { GetUpchargeService } from '../../services/common-service/get-upcharge.service';
+import { PayrollsService } from 'src/app/shared/services/data-service/payrolls.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { DecimalPipe } from '@angular/common';
+import { ClientService } from '../../services/data-service/client.service';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -66,9 +70,15 @@ export class VehicleCreateEditComponent implements OnInit {
   locationId: number = 0;
   upchargePrice: number = 0;
   isEditLoad: boolean = false;
+  ccRegex: RegExp = /[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
+  card: string;
+  profileId: string;
+  billingAddress: any = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
     private spinner: NgxSpinnerService, private employeeService: EmployeeService,
-    private modelService: ModelService,
+    private modelService: ModelService, private payrollsService:PayrollsService, 
+    private messageService: MessageServiceToastr,
+    private decimalPipe: DecimalPipe, private client:ClientService,
     private makeService: MakeService, private wash: WashService, private codeValueService: CodeValueService, private GetUpchargeService: GetUpchargeService) { }
 
   ngOnInit() {
@@ -86,7 +96,6 @@ export class VehicleCreateEditComponent implements OnInit {
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
       this.getMembershipService();
-
     }
     else {
       this.locationId = +localStorage.getItem('empLocationId');
@@ -112,7 +121,9 @@ export class VehicleCreateEditComponent implements OnInit {
       monthlyCharge: ['',],
       membership: ['',],
       wash: [''],
-      services: [[]]
+      services: [[]],
+      cardNumber: this.isEdit === true ? ['', Validators.required] : ['',] ,
+      expiryDate: this.isEdit === true ? ['', Validators.required] : ['',],
     });
     this.vehicleForm.get('vehicleNumber').patchValue(this.vehicleNumber);
     this.vehicleForm.controls.vehicleNumber.disable();
@@ -175,9 +186,9 @@ export class VehicleCreateEditComponent implements OnInit {
     //if (this.selectedData.Upcharge === null)
     //  this.getModel(this.selectedData.VehicleMakeId, true);
     //else
-      this.getModel(this.selectedData.VehicleMakeId, true);
+    this.getModel(this.selectedData.VehicleMakeId, true);
 
-    this.getVehicleCodes();
+        this.getVehicleCodes();
   }
 
   selectedClient(event) {
@@ -257,8 +268,12 @@ export class VehicleCreateEditComponent implements OnInit {
           //this.getMemberServices(this.memberServiceId);
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId,
-            monthlyCharge: vehicle?.VehicleMembershipDetails?.ClientVehicleMembership.TotalPrice.toFixed(2)
+            monthlyCharge: vehicle?.VehicleMembershipDetails?.ClientVehicleMembership.TotalPrice.toFixed(2),
+            cardNumber:vehicle.VehicleMembershipDetails.ClientVehicleMembership.CardNumber,
+            expiryDate:vehicle.VehicleMembershipDetails.ClientVehicleMembership.ExpiryDate
           });
+          this.profileId = vehicle.VehicleMembershipDetails.ClientVehicleMembership.ProfileId;
+
           this.clientMembershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.ClientMembershipId;
           this.membershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
         }
@@ -828,112 +843,153 @@ export class VehicleCreateEditComponent implements OnInit {
         updatedBy: +localStorage.getItem('empId'),
         updatedDate: new Date()
       };
-      const membership = {
-        clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
-          this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
-        clientVehicleId: this.selectedData.ClientVehicleId,
-        locationId: localStorage.getItem('empLocationId'),
-        membershipId: this.vehicleForm.value.membership === '' ?
-          this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
-        startDate: new Date().toLocaleDateString(),
-        //endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
-        endDate: null,
-        status: true,
-        notes: null,
-        isActive: this.vehicleForm.value.membership === '' ? false : true,
-        isDeleted: this.vehicleForm.value.membership === '' ? true : false,
-        createdBy: +localStorage.getItem('empId'),
-        createdDate: new Date(),
-        updatedBy: +localStorage.getItem('empId'),
-        updatedDate: new Date(),
-        totalPrice: this.vehicleForm.value.monthlyCharge,
-        isDiscount: this.MembershipDiscount
-      };
-      let membershipServices = [];
-      if (memberService !== undefined && memberService.length) {
-        membershipServices = memberService.map(item => {
-          return {
-            clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
-            clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
-              this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
-            serviceId: item.ServiceId ? item.ServiceId : item.item_id,
-            isActive: true,
-            isDeleted: item.IsDeleted,
-            createdBy: +localStorage.getItem('empId'),
-            createdDate: new Date(),
-            updatedBy: +localStorage.getItem('empId'),
-            updatedDate: new Date()
-          };
+
+      if(!this.vehicleForm.value.cardNumber.includes("xxxx")){
+        this.client.getClientById(this.vehicleForm.value.client?.id).subscribe(res => {
+          if (res.status === 'Success') {
+            const clientDetail = JSON.parse(res.resultData);
+            console.log(clientDetail, 'client');
+            if (clientDetail.Status.length > 0) {
+              const clientObj = clientDetail.Status[0];
+              
+              const billingDetailObj = {
+                name: clientObj.firstName + '' + clientObj.lastName,
+                address: clientObj.address1 ? clientObj.address1 : null,
+                city: null,  // need too change
+                country: null,  // need too change
+                region: null,  // need too change
+                postal: clientObj.zip ? clientObj.zip : null
+              };
+              const amount = this.decimalPipe.transform(this.vehicleForm.value.monthlyCharge, '.2-2');
+              const paymentDetailObj = {
+                account: this.vehicleForm.value.cardNumber,
+                expiry: this.vehicleForm.value.expiryDate.replace("/",""), 
+                amount: amount.toString().replace(",",""),
+                orderId: "",  // need too change
+              };
+          
+              const authObj = {
+                cardConnect: {},
+                paymentDetail: paymentDetailObj,
+                billingDetail: billingDetailObj,
+                locationId: parseInt(localStorage.getItem('empLocationId'))
+              };
+              this.paymentAuth(authObj,memberService,formObj);
+            } 
+          }
+        });
+        
+      }else{
+        const membership = {
+          clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
+            this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+          clientVehicleId: this.selectedData.ClientVehicleId,
+          locationId: localStorage.getItem('empLocationId'),
+          membershipId: this.vehicleForm.value.membership === '' ?
+            this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
+          startDate: new Date().toLocaleDateString(),
+          endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+          status: true,
+          notes: null,
+          isActive: this.vehicleForm.value.membership === '' ? false : true,
+          isDeleted: this.vehicleForm.value.membership === '' ? true : false,
+          createdBy: +localStorage.getItem('empId'),
+          createdDate: new Date(),
+          updatedBy: +localStorage.getItem('empId'),
+          updatedDate: new Date(),
+          totalPrice: this.vehicleForm.value.monthlyCharge,
+          isDiscount: this.MembershipDiscount,
+          cardNumber: this.vehicleForm.value.cardNumber,
+          expiryDate:this.vehicleForm.value.expiryDate.replace("/",""),
+          profileId:this.profileId
+        };
+        let membershipServices = [];
+        if (memberService !== undefined && memberService.length) {
+          membershipServices = memberService.map(item => {
+            return {
+              clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
+              clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
+                this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+              serviceId: item.ServiceId ? item.ServiceId : item.item_id,
+              isActive: true,
+              isDeleted: item.IsDeleted,
+              createdBy: +localStorage.getItem('empId'),
+              createdDate: new Date(),
+              updatedBy: +localStorage.getItem('empId'),
+              updatedDate: new Date()
+            };
+          });
+        }
+        let membershipName = '';
+        if (this.vehicleForm.value.membership !== '') {
+          const selectedMembership = this.membership.filter(item => item.MembershipId === +this.vehicleForm.value.membership);
+          if (selectedMembership.length > 0) {
+            membershipName = selectedMembership[0].MembershipName;
+          }
+        }
+        const value: any = {
+          ClientId: this.clientId,
+          ClientVehicleId: this.selectedData.ClientVehicleId,
+          VehicleNumber: this.vehicleForm.value.vehicleNumber,
+          VehicleMfr: this.vehicleForm.value.make.name,
+          VehicleModel: this.vehicleForm.value.model.name,
+          VehicleColor: this.vehicleForm.value.color.name,
+          Upcharge: this.upchargeType !== null && this.upchargeType !== undefined ? this.upchargeType.filter(item =>
+            item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
+          Barcode: this.vehicleForm.value.barcode,
+          MembershipName: membershipName !== '' ? membershipName : 'No'
+        };
+  
+  
+        //Avoid duplicate of existing services which is not removed.
+        membershipServices = membershipServices.filter(s => (s.clientVehicleMembershipServiceId === 0 && (s.serviceId !== null) && (s.serviceId !== undefined)) || (s.clientVehicleMembershipServiceId > 0 && s.isDeleted === true));
+        var membershipServicefiltered = [];
+        if (this.vehicleForm.value.membership !== '') {
+          membershipServices.forEach(s => {
+            var t = membershipServices.filter(s => s.serviceId === this.vehicleForm.value.wash && s.isDeleted === true);
+  
+            if (t.length === 0)
+              membershipServicefiltered.push(s);
+  
+          })
+        }
+  
+        membershipServices = membershipServicefiltered;
+
+        const model = {
+          clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
+          clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
+        };
+  
+        var deleteClientMembershipId = 0;
+        if (this.vehicleForm.value.membership === "" || ((this.vehicleForm.value.membership !== this.membershipId) && this.clientMembershipId !== 0)) {
+          deleteClientMembershipId = this.clientMembershipId !== 0 ? this.clientMembershipId : null;
+        }
+  
+        const sourceObj = {
+          clientVehicle: { clientVehicle: formObj },
+          clientVehicleMembershipModel: (deleteClientMembershipId === 0) ?
+            ((this.vehicleForm.value.membership !== "") ? model : null) : ((this.vehicleForm.value.membership !== "") ? model : null),
+          deletedClientMembershipId: deleteClientMembershipId
+        };
+  
+        this.vehicle.vehicleValue = value;
+        this.spinner.show();
+        this.vehicle.updateVehicle(sourceObj).subscribe(data => {
+          if (data.status === 'Success') {
+            this.spinner.hide();
+            this.toastr.success(MessageConfig.Admin.Vehicle.Update, 'Success!');
+            this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+          } else {
+            this.spinner.hide()
+            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          }
+        }, (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
       }
-      let membershipName = '';
-      if (this.vehicleForm.value.membership !== '') {
-        const selectedMembership = this.membership.filter(item => item.MembershipId === +this.vehicleForm.value.membership);
-        if (selectedMembership.length > 0) {
-          membershipName = selectedMembership[0].MembershipName;
-        }
-      }
-      const value: any = {
-        ClientId: this.clientId,
-        ClientVehicleId: this.selectedData.ClientVehicleId,
-        VehicleNumber: this.vehicleForm.value.vehicleNumber,
-        VehicleMfr: this.vehicleForm.value.make.name,
-        VehicleModel: this.vehicleForm.value.model.name,
-        VehicleColor: this.vehicleForm.value.color.name,
-        Upcharge: this.upchargeType !== null && this.upchargeType !== undefined ? this.upchargeType.filter(item =>
-          item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
-        Barcode: this.vehicleForm.value.barcode,
-        MembershipName: membershipName !== '' ? membershipName : 'No'
-      };
-
-
-      //Avoid duplicate of existing services which is not removed.
-      membershipServices = membershipServices.filter(s => (s.clientVehicleMembershipServiceId === 0 && (s.serviceId !== null) && (s.serviceId !== undefined)) || (s.clientVehicleMembershipServiceId > 0 && s.isDeleted === true));
-      var membershipServicefiltered = [];
-      if (this.vehicleForm.value.membership !== '') {
-        membershipServices.forEach(s => {
-          var t = membershipServices.filter(s => s.serviceId === this.vehicleForm.value.wash && s.isDeleted === true);
-
-          if (t.length === 0)
-            membershipServicefiltered.push(s);
-
-        })
-      }
-
-      membershipServices = membershipServicefiltered;
-
-      const model = {
-        clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
-        clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
-      };
-
-      var deleteClientMembershipId = 0;
-      if (this.vehicleForm.value.membership === "" || ((this.vehicleForm.value.membership !== this.membershipId) && this.clientMembershipId !== 0)) {
-        deleteClientMembershipId = this.clientMembershipId !== 0 ? this.clientMembershipId : null;
-      }
-
-      const sourceObj = {
-        clientVehicle: { clientVehicle: formObj },
-        clientVehicleMembershipModel: (deleteClientMembershipId === 0) ?
-          ((this.vehicleForm.value.membership !== "") ? model : null) : ((this.vehicleForm.value.membership !== "") ? model : null),
-        deletedClientMembershipId: deleteClientMembershipId
-      };
-
-      this.vehicle.vehicleValue = value;
-      this.spinner.show();
-      this.vehicle.updateVehicle(sourceObj).subscribe(data => {
-        if (data.status === 'Success') {
-          this.spinner.hide();
-          this.toastr.success(MessageConfig.Admin.Vehicle.Update, 'Success!');
-          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        } else {
-          this.spinner.hide()
-          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-        }
-      }, (err) => {
-        this.spinner.hide();
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
+     
     } else {
       const add = {
         VehicleId: 0,
@@ -953,7 +1009,7 @@ export class VehicleCreateEditComponent implements OnInit {
         CreatedBy: +localStorage.getItem('empId'),
         CreatedDate: new Date(),
         UpdatedBy: +localStorage.getItem('empId'),
-        UpdatedDate: new Date()
+        UpdatedDate: new Date(),
       };
       const value = {
         ClientId: this.isAdd ? 0 : this.clientId,
@@ -1063,6 +1119,62 @@ export class VehicleCreateEditComponent implements OnInit {
     }
   }
 
+  getCardType(number) {
+    // visa
+    let re = new RegExp('^4');
+    if (number.match(re) != null) {
+      this.card = 'Visa';
+      return this.card;
+    }
+
+
+    // Mastercard 
+    // Updated for Mastercard 2017 BINs expansion
+    if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(number)) {
+      this.card = 'Mastercard';
+      return this.card;
+    }
+
+    // AMEX
+    re = new RegExp('^3[47]');
+    if (number.match(re) != null) {
+      this.card = 'AMEX';
+      return this.card;
+    }
+    // Discover
+    re = new RegExp('^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)');
+    if (number.match(re) != null) {
+      this.card = 'Discover';
+      return this.card;
+    }
+    // Diners
+    re = new RegExp('^36');
+    if (number.match(re) != null) {
+      this.card = 'Diners';
+      return this.card;
+    }
+    // Diners - Carte Blanche
+    re = new RegExp('^30[0-5]');
+    if (number.match(re) != null) {
+      this.card = 'Diners - Carte Blanche';
+      return this.card;
+    }
+    // JCB
+    re = new RegExp('^35(2[89]|[3-8][0-9])');
+    if (number.match(re) != null) {
+      this.card = 'JCB';
+      return this.card;
+    }
+    // Visa Electron
+    re = new RegExp('^(4026|417500|4508|4844|491(3|7))');
+    if (number.match(re) != null) {
+      this.card = 'Visa Electron';
+      return this.card;
+    }
+
+    console.log(this.card);
+  }
+
   getUpcharge(applyUpcharge = true) {
     if (this.isEdit && applyUpcharge) {
       if (!this.upchargeTypeId || !this.vehicleForm.value.model?.id) {
@@ -1079,7 +1191,6 @@ export class VehicleCreateEditComponent implements OnInit {
           const jobtype = JSON.parse(res.resultData);
           this.upchargeList = jobtype.upcharge;
           var serviceId = 0
-
           var membership = this.vehicleForm.value.membership;
 
           if (this.upchargeList?.length > 0) {
@@ -1129,6 +1240,132 @@ export class VehicleCreateEditComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
+  }
+  
+
+  paymentAuth(authObj,memberService,formObj) {
+    this.spinner.show();
+    
+    this.payrollsService.authProfile(authObj).subscribe(res => {
+      this.spinner.hide();
+      if (res.status === 'Success') {
+        const auth = JSON.parse(res.resultData);        
+       this.profileId = auth.profileid;
+       const membership = {
+        clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
+          this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+        clientVehicleId: this.selectedData.ClientVehicleId,
+        locationId: localStorage.getItem('empLocationId'),
+        membershipId: this.vehicleForm.value.membership === '' ?
+          this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
+        startDate: new Date().toLocaleDateString(),
+        endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+        status: true,
+        notes: null,
+        isActive: this.vehicleForm.value.membership === '' ? false : true,
+        isDeleted: this.vehicleForm.value.membership === '' ? true : false,
+        createdBy: +localStorage.getItem('empId'),
+        createdDate: new Date(),
+        updatedBy: +localStorage.getItem('empId'),
+        updatedDate: new Date(),
+        totalPrice: this.vehicleForm.value.monthlyCharge,
+        isDiscount: this.MembershipDiscount,
+        cardNumber: this.vehicleForm.value.cardNumber,
+        expiryDate:this.vehicleForm.value.expiryDate.replace("/",""),
+        profileId:this.profileId
+      };
+      let membershipServices = [];
+      if (memberService !== undefined && memberService.length) {
+        membershipServices = memberService.map(item => {
+          return {
+            clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
+            clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
+              this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+            serviceId: item.ServiceId ? item.ServiceId : item.item_id,
+            isActive: true,
+            isDeleted: item.IsDeleted,
+            createdBy: +localStorage.getItem('empId'),
+            createdDate: new Date(),
+            updatedBy: +localStorage.getItem('empId'),
+            updatedDate: new Date()
+          };
+        });
+      }
+      let membershipName = '';
+      if (this.vehicleForm.value.membership !== '') {
+        const selectedMembership = this.membership.filter(item => item.MembershipId === +this.vehicleForm.value.membership);
+        if (selectedMembership.length > 0) {
+          membershipName = selectedMembership[0].MembershipName;
+        }
+      }
+      const value: any = {
+        ClientId: this.clientId,
+        ClientVehicleId: this.selectedData.ClientVehicleId,
+        VehicleNumber: this.vehicleForm.value.vehicleNumber,
+        VehicleMfr: this.vehicleForm.value.make.name,
+        VehicleModel: this.vehicleForm.value.model.name,
+        VehicleColor: this.vehicleForm.value.color.name,
+        Upcharge: this.upchargeType !== null && this.upchargeType !== undefined ? this.upchargeType.filter(item =>
+          item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
+        Barcode: this.vehicleForm.value.barcode,
+        MembershipName: membershipName !== '' ? membershipName : 'No'
+      };
+
+
+      //Avoid duplicate of existing services which is not removed.
+      membershipServices = membershipServices.filter(s => (s.clientVehicleMembershipServiceId === 0 && (s.serviceId !== null) && (s.serviceId !== undefined)) || (s.clientVehicleMembershipServiceId > 0 && s.isDeleted === true));
+      var membershipServicefiltered = [];
+      if (this.vehicleForm.value.membership !== '') {
+        membershipServices.forEach(s => {
+          var t = membershipServices.filter(s => s.serviceId === this.vehicleForm.value.wash && s.isDeleted === true);
+
+          if (t.length === 0)
+            membershipServicefiltered.push(s);
+
+        })
+      }
+
+      membershipServices = membershipServicefiltered;
+      const model = {
+        clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
+        clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
+      };
+
+      var deleteClientMembershipId = 0;
+      if (this.vehicleForm.value.membership === "" || ((this.vehicleForm.value.membership !== this.membershipId) && this.clientMembershipId !== 0)) {
+        deleteClientMembershipId = this.clientMembershipId !== 0 ? this.clientMembershipId : null;
+      }
+
+      const sourceObj = {
+        clientVehicle: { clientVehicle: formObj },
+        clientVehicleMembershipModel: (deleteClientMembershipId === 0) ?
+          ((this.vehicleForm.value.membership !== "") ? model : null) : ((this.vehicleForm.value.membership !== "") ? model : null),
+        deletedClientMembershipId: deleteClientMembershipId
+      };
+
+      this.vehicle.vehicleValue = value;
+      this.spinner.show();
+      this.vehicle.updateVehicle(sourceObj).subscribe(data => {
+        if (data.status === 'Success') {
+          this.spinner.hide();
+          this.toastr.success(MessageConfig.Admin.Vehicle.Update, 'Success!');
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.spinner.hide()
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+      } else {
+        
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: res.errorMessage });
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 }
 

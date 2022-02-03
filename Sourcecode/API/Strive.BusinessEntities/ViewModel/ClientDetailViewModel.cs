@@ -40,5 +40,6 @@ namespace Strive.BusinessEntities.ViewModel
         //public ClientAddressDto ClientAddressDto { get; set; }
         //public List<ClientAddressDetailDto> ClientAddressDetailDto { get; set; }
         //public List<ClientVehicleDto> ClientVehicleDto { get; set; }
+        public int LocationId { get; set; }
     }
 }

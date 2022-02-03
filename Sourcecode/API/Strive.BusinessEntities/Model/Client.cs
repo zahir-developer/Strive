@@ -70,5 +70,8 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public bool? IsCreditAccount { get; set; }
 
+        [Column]
+        public int? LocationId { get; set; }
+
     }
 }

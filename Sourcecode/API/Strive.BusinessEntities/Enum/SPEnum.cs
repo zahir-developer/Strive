@@ -191,6 +191,7 @@ namespace Strive.BusinessEntities
             USPADDBAYSLOT,
             USPGETALLLOCATIONNAME,
             USPGETMERCHANTDETAIL,
+            UPSGETLOCATIONWEATHER
         }
         public enum ServiceSetup
         {
@@ -334,6 +335,9 @@ namespace Strive.BusinessEntities
             USPGETPAYROLLPROCESS,
             USPUPDATEADJUSMENT,
             USPUPDATEEMPLOYEEADJUSTMENT,
+            USPDELETEPAYMENTGATEWAY,
+            UPSGETALLRECURRINGPAYMENTDETAILS,
+            UPSGETMERCHANTDETAILS
         }
         public enum Checkout
         {
@@ -420,7 +424,7 @@ namespace Strive.BusinessEntities
         USPISCLIENTAVAILABLE,
         USPGETALLCLIENTNAME,
         USPUPDATECLIENTADDRESSISNOTIFIED,
-        USPGETCLIENTCARDDETAILS,
+        //USPGETCLIENTCARDDETAILS,
 
         //GiftCard
         USPGETALLGIFTCARD,
@@ -546,6 +550,7 @@ namespace Strive.BusinessEntities
         USPUPDATECHECKOUTDETAILFORJOBID,
         USPUPDATEJOBSTATUSHOLDBYJOBID,
         USPUPDATEJOBSTATUSCOMPLETEBYJOBID,
-        USPGETCUSTOMERHISTORY
+        USPGETCUSTOMERHISTORY,
+        USPGETPAYMENTGATEWAYDETAILS
     }
 }

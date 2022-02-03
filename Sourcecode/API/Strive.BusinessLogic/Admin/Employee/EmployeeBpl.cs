@@ -296,7 +296,7 @@ namespace Strive.BusinessLogic
 
                     commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, email, keyValues, subject);
                 }
-                else
+               /* else
                 {
                     var createLogin = commonBpl.GetUserPassword(email, UserType.Employee);
                     var subject = EmailSubject.WelcomeEmail;
@@ -327,7 +327,7 @@ namespace Strive.BusinessLogic
 
 
                     commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, email, keyValues, subject);
-                }
+                }*/
             }
         }
     }
