@@ -31,16 +31,16 @@ namespace StriveCustomer.Android.Fragments
         private TextView totalAmount;
         private EditText cardNo;
         private EditText expirationDate;
-        private EditText CVV;
+        //private EditText CVV;
         private Button payButton;
         private Button paymentBackButton;
         PaymentViewModel paymentVM;
         MembershipSignatureFragment signatureFragment;
-        MyProfileInfoFragment infoFragment;        
+        MyProfileInfoFragment infoFragment;
         public float Amount;
         public long JobID;
         private View rootView;
-        
+
 
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
         public override void OnCreate(Bundle savedInstanceState)
@@ -59,17 +59,32 @@ namespace StriveCustomer.Android.Fragments
             totalAmount = rootView.FindViewById<TextView>(Resource.Id.totalAmount);
             cardNo = rootView.FindViewById<EditText>(Resource.Id.cardNo);
             expirationDate = rootView.FindViewById<EditText>(Resource.Id.expirationDate);
-            CVV = rootView.FindViewById<EditText>(Resource.Id.CVV);
+            //CVV = rootView.FindViewById<EditText>(Resource.Id.CVV);
             payButton = rootView.FindViewById<Button>(Resource.Id.payButton);
             paymentBackButton = rootView.FindViewById<Button>(Resource.Id.paymentBackButton);
             paymentVM = new PaymentViewModel();
             infoFragment = new MyProfileInfoFragment();
-            signatureFragment = new MembershipSignatureFragment();            
-#if DEBUG
-            cardNo.Text = "6011000995500000";
-            expirationDate.Text = "12/22";
-            CVV.Text = "291";
-#endif
+            signatureFragment = new MembershipSignatureFragment();
+
+            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
+            {
+                cardNo.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
+                expirationDate.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate;
+                paymentVM.cardNumber = cardNo.Text;
+                paymentVM.expiryDate = expirationDate.Text;
+
+            }
+            else
+            {
+                cardNo.Text = string.Empty;
+                expirationDate.Text = string.Empty;
+
+            }
+            //#if DEBUG
+            //            cardNo.Text = "6011000995500000";
+            //            expirationDate.Text = "12/22";
+            //            //CVV.Text = "291";
+            //#endif
             GetTotal();
             GetPaymentDetails();
             payButton.Click += PayButton_Click;
@@ -80,14 +95,14 @@ namespace StriveCustomer.Android.Fragments
         }
 
         private void PaymentBackButton_Click(object sender, EventArgs e)
-        {           
+        {
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, signatureFragment).Commit();
         }
 
         public void GetTotal()
         {
-            double MembershipAmount = VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price;    
+            double MembershipAmount = VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price;
             var SelectedServices = VehicleAdditionalServiceViewModel.serviceList.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
             foreach (var Service in SelectedServices)
             {
@@ -108,7 +123,7 @@ namespace StriveCustomer.Android.Fragments
                 MembershipAmount += MembershipDetails.modelUpcharge.upcharge[0].Price;
             }
             Amount += (float)MembershipAmount;
-            paymentVM.finalmonthlycharge = Amount;
+            paymentVM.finalmonthlycharge = 0;//Amount;
 
             //MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.monthlyCharge = Amount;
 
@@ -116,30 +131,39 @@ namespace StriveCustomer.Android.Fragments
 
         private void PayButton_Click(object sender, EventArgs e)
         {
-            _userDialog.ShowLoading();
-            short ccv = 0;
-            if (CVV.Text != null && CVV.Text != "")
-            {
-                ccv = Convert.ToInt16(CVV.Text);
-            }
-            
-            _ = PayAsync(cardNo.Text, expirationDate.Text, ccv);
+            //_userDialog.ShowLoading();
+            //short ccv = 0;
+            //if (CVV.Text != null && CVV.Text != "")
+            //{
+            //    ccv = Convert.ToInt16(CVV.Text);
+            //}
+
+            _ = PayAsync(cardNo.Text, expirationDate.Text); //, ccv);
 
         }
-        public async Task PayAsync(string cardNo, string expiryDate, short ccv)
+        public async Task PayAsync(string cardNo, string expiryDate) //, short ccv)
         {
 
             //_userDialog.ShowLoading();
-            var totalAmnt = Amount;
-
-            if (cardNo.IsEmpty() || expiryDate.IsEmpty() || ccv == 0)
+            var totalAmnt = 0;// Amount;
+            paymentVM.cardNumber = cardNo;
+            paymentVM.expiryDate = expiryDate;
+            if (cardNo.IsEmpty() || expiryDate.IsEmpty()) // || ccv == 0)
             {
                 _userDialog.HideLoading();
                 _userDialog.Alert("Please fill card details");
                 return;
             }
-
-            try
+            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+            {
+                paymentVM.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
+                paymentVM.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
+                paymentVM.isAndroid = true;
+                await paymentVM.MembershipAgree();
+                Membershipstatus();
+                
+            }
+            else
             {
                 var paymentAuthReq = new PaymentAuthReq
                 {
@@ -148,9 +172,10 @@ namespace StriveCustomer.Android.Fragments
                     PaymentDetail = new PaymentDetail()
                     {
                         Account = cardNo,
-                        Expiry = expiryDate,
-                        CCV = ccv,
-                        Amount = Amount
+                        Expiry = expiryDate.Replace("/", ""),
+                        //CCV = ccv,
+                        Amount = 1,
+                        OrderID = ""
                     },
 
                     BillingDetail = new BillingDetail()
@@ -161,12 +186,15 @@ namespace StriveCustomer.Android.Fragments
                         Country = "India",//status.Country,
                         Region = "Tamilnadu",//status.State,
                         Postal = CustomerInfo.customerPersonalInfo.Status[0].Zip
-                    }
+                    },
+
+                    Locationid = 1
+
 
                 };
 
 
-                // Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
+                //Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
 
 
                 var apiService = new PaymentApiService();
@@ -174,95 +202,161 @@ namespace StriveCustomer.Android.Fragments
                 var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
 
                 // if (paymentAuthResponse.IsSuccess())
-                if (paymentAuthResponse.Authcode != null)
+                if (paymentAuthResponse != null)
                 {
-                    var paymentCaptureReq = new PaymentCaptureReq
-                    {
-                        AuthCode = paymentAuthResponse?.Authcode,
-                        RetRef = paymentAuthResponse?.Retref,
-                        Amount = totalAmnt,
-                    };
+                    paymentVM.accountId = paymentAuthResponse.AccountId;
+                    paymentVM.profileId = paymentAuthResponse.ProfileId;
+                    paymentVM.isAndroid = true;
+                    await paymentVM.MembershipAgree();
+                    Membershipstatus();
 
-                    // Debug.WriteLine("" + JsonConvert.SerializeObject(paymentCaptureReq));
-                    var captureResponse = await apiService.PaymentCapture(paymentCaptureReq);
-
-                    if (captureResponse.Authcode != null)
-                    {
-                        var generalApiService = new GeneralApiService();
-                        var paymentStatusResponse = await generalApiService.GetGlobalData("PAYMENTSTATUS");
-                        //Debug.WriteLine("Payment Status Response : " + JsonConvert.SerializeObject(paymentStatusResponse));
-                        var paymentStatusId = paymentStatusResponse?.Codes.First(x => x.Name.Equals(PaymentViewModel.PaymentStatus.Success.ToString())).ID ?? -1;
-
-                        var paymentTypeResponse = await generalApiService.GetGlobalData("PAYMENTTYPE");
-                        //Debug.WriteLine("Payment Type Response : " + JsonConvert.SerializeObject(paymentTypeResponse));
-
-                        var paymentTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentViewModel.PaymentType.Card.ToString())).ID ?? -1;
-
-                        var addPaymentReqReq = new AddPaymentReq
-                        {
-                            SalesPaymentDto = new SalesPaymentDto()
-                            {
-                                JobPayment = new JobPayment()
-                                {
-                                    JobID = JobID,
-                                    Amount = Amount,
-                                    PaymentStatus = paymentStatusId
-                                },
-
-                                JobPaymentDetails = new List<JobPaymentDetail>() {
-                                            new JobPaymentDetail()
-                                            {
-                                                Amount = Amount,
-                                                PaymentType = paymentTypeId
-                                            }
-                                        }
-                            },
-                            LocationID = 1,//AppSettings.LocationID,
-                            JobID = JobID
-                        };
-
-
-                        //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
-
-                        var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
-                        //Debug.WriteLine(JsonConvert.SerializeObject(paymentResponse));
-
-                        if (paymentResponse.Message == "true")
-                        {
-                            paymentVM.isAndroid = true;
-                            paymentVM.MembershipAgree();                            
-                            Snackbar.Make(rootView, "Membership has been created successfully", Snackbar.LengthShort).Show();
-                            AppCompatActivity activity = (AppCompatActivity)Context;
-                            MyProfileInfoNeeds.selectedTab = 0;
-                            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
-
-                        }
-                        else
-                        {
-                            _userDialog.HideLoading();
-                            _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
-                        }
-                    }
-                    else
-                    {
-                        _userDialog.HideLoading();
-                        _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
-                    }
                 }
                 else
                 {
                     _userDialog.HideLoading();
-                    _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
+                    _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
                 }
-
             }
-            catch (Exception ex)
+
+            //try
+            //{
+            //    var paymentAuthReq = new PaymentAuthReq
+            //    {
+            //        CardConnect = new Object(),
+
+            //        PaymentDetail = new PaymentDetail()
+            //        {
+            //            Account = cardNo,
+            //            Expiry = expiryDate,
+            //            //CCV = ccv,
+            //            Amount = Amount
+            //        },
+
+            //        BillingDetail = new BillingDetail()
+            //        {
+            //            Name = CustomerInfo.customerPersonalInfo.Status[0].FirstName,
+            //            Address = CustomerInfo.customerPersonalInfo.Status[0].Address1,
+            //            City = "Chennai",// status.City,
+            //            Country = "India",//status.Country,
+            //            Region = "Tamilnadu",//status.State,
+            //            Postal = CustomerInfo.customerPersonalInfo.Status[0].Zip
+            //        }
+
+            //    };
+
+
+            //    // Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
+
+
+            //    var apiService = new PaymentApiService();
+
+            //    var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
+
+            //    // if (paymentAuthResponse.IsSuccess())
+            //    if (paymentAuthResponse.Authcode != null)
+            //    {
+            //        var paymentCaptureReq = new PaymentCaptureReq
+            //        {
+            //            AuthCode = paymentAuthResponse?.Authcode,
+            //            RetRef = paymentAuthResponse?.Retref,
+            //            Amount = totalAmnt,
+            //        };
+
+            //        // Debug.WriteLine("" + JsonConvert.SerializeObject(paymentCaptureReq));
+            //        var captureResponse = await apiService.PaymentCapture(paymentCaptureReq);
+
+            //        if (captureResponse.Authcode != null)
+            //        {
+            //            var generalApiService = new GeneralApiService();
+            //            var paymentStatusResponse = await generalApiService.GetGlobalData("PAYMENTSTATUS");
+            //            //Debug.WriteLine("Payment Status Response : " + JsonConvert.SerializeObject(paymentStatusResponse));
+            //            var paymentStatusId = paymentStatusResponse?.Codes.First(x => x.Name.Equals(PaymentViewModel.PaymentStatus.Success.ToString())).ID ?? -1;
+
+            //            var paymentTypeResponse = await generalApiService.GetGlobalData("PAYMENTTYPE");
+            //            //Debug.WriteLine("Payment Type Response : " + JsonConvert.SerializeObject(paymentTypeResponse));
+
+            //            var paymentTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentViewModel.PaymentType.Card.ToString())).ID ?? -1;
+
+            //            var addPaymentReqReq = new AddPaymentReq
+            //            {
+            //                SalesPaymentDto = new SalesPaymentDto()
+            //                {
+            //                    JobPayment = new JobPayment()
+            //                    {
+            //                        JobID = JobID,
+            //                        Amount = Amount,
+            //                        PaymentStatus = paymentStatusId
+            //                    },
+
+            //                    JobPaymentDetails = new List<JobPaymentDetail>() {
+            //                                new JobPaymentDetail()
+            //                                {
+            //                                    Amount = Amount,
+            //                                    PaymentType = paymentTypeId
+            //                                }
+            //                            }
+            //                },
+            //                LocationID = 1,//AppSettings.LocationID,
+            //                JobID = JobID
+            //            };
+
+
+            //            //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
+
+            //            var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
+            //            //Debug.WriteLine(JsonConvert.SerializeObject(paymentResponse));
+
+            //            if (paymentResponse.Message == "true")
+            //            {
+            //                paymentVM.isAndroid = true;
+            //                paymentVM.MembershipAgree();                            
+            //                Snackbar.Make(rootView, "Membership has been created successfully", Snackbar.LengthShort).Show();
+            //                AppCompatActivity activity = (AppCompatActivity)Context;
+            //                MyProfileInfoNeeds.selectedTab = 0;
+            //                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
+
+            //            }
+            //            else
+            //            {
+            //                _userDialog.HideLoading();
+            //                _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
+            //            }
+            //        }
+            //        else
+            //        {
+            //            _userDialog.HideLoading();
+            //            _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        _userDialog.HideLoading();
+            //        _userDialog.Alert("The operation cannot be completed at this time.Incorrect card details!");
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    _userDialog.Alert("Incorrect card details!");
+            //    System.Diagnostics.Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
+
+            //}
+
+        }
+
+        private async void Membershipstatus()
+        {
+            if (paymentVM.membershipStatus)
             {
-                _userDialog.Alert("Incorrect card details!");
-                System.Diagnostics.Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
-
+                await _userDialog.AlertAsync("Amount will be charged from 1st of next month.");
             }
-
+            else
+            {
+                await _userDialog.AlertAsync("Error membership not created");
+            }
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            MyProfileInfoNeeds.selectedTab = 0;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
         }
 
         private void GetPaymentDetails()
@@ -274,6 +368,6 @@ namespace StriveCustomer.Android.Fragments
         {
             totalAmount.Text = $"${amt}";
         }
-       
+
     }
 }

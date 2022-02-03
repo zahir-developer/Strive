@@ -8,6 +8,7 @@ using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -29,6 +30,10 @@ namespace StriveCustomer.Android.Fragments
         private Button backButton;
         private Button nextButton;
         private ImageButton editMembershipButton;
+        private TextView cardNumber;
+        private TextView expiryDate;
+        private CardView cardDetails_cardView;
+        private TextView noCardDetails_Text;
         private MyProfileInfoFragment profileFragment;
         private VehicleMembershipDetailsFragment membershipDetailFrag;
         private VehicleMembershipFragment vehicleMembershipFrag;
@@ -55,6 +60,10 @@ namespace StriveCustomer.Android.Fragments
             vehicleMembership = rootview.FindViewById<TextView>(Resource.Id.vehicleMembershipName);
             backButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoBack);
             nextButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoNext);
+            cardNumber = rootview.FindViewById<TextView>(Resource.Id.cardNumber);
+            expiryDate = rootview.FindViewById<TextView>(Resource.Id.expiryDate);
+            cardDetails_cardView = rootview.FindViewById<CardView>(Resource.Id.cardDetails_cardView);
+            noCardDetails_Text = rootview.FindViewById<TextView>(Resource.Id.noCardDetailsText);
             this.ViewModel = new VehicleInfoDisplayViewModel();
             backButton.Click += BackButton_Click;
             nextButton.Click += NextButton_Click;
@@ -106,7 +115,18 @@ namespace StriveCustomer.Android.Fragments
                 vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().Barcode ?? "";
                 vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
-                vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";                
+                vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
+                if (this.ViewModel.response != null)
+                {
+                    cardNumber.Text = this.ViewModel.response.CardNumber;
+                    expiryDate.Text = this.ViewModel.response.ExpiryDate;
+                }
+                else 
+                {
+                    cardDetails_cardView.Visibility = ViewStates.Gone;
+                    noCardDetails_Text.Visibility = ViewStates.Visible;                
+                }
+                
                 if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
                 {
                     CheckMembership.hasExistingMembership = true;

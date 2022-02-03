@@ -1,5 +1,7 @@
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -57,6 +59,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:weightSum="2"
             android:layout_marginTop="@dimen/five"
             android:layout_marginBottom="@dimen/five">
             <TextView
@@ -66,16 +69,30 @@
                 android:layout_marginLeft="@dimen/ten"
                 android:layout_marginTop="@dimen/ten"
                 android:textSize="16sp"
+                android:layout_weight="2"
                 android:textColor="@color/profileQColor"
-                android:fontFamily="@font/opensans_semibold" />
+                android:fontFamily="@font/opensans_semibold" />       
+            
             <ImageButton
-                android:id="@+id/vehicleEdits"
+                android:id="@+id/vehicleEdits" 
+                android:layout_weight="0.1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/ten"                 
                 android:src="@drawable/editbutton"
                 android:background="@android:color/transparent"/>
+            <TextView
+                android:id="@+id/addMembershipTextView"
+                android:layout_weight="0.9"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"                
+                android:layout_marginTop="@dimen/ten"
+                android:layout_marginLeft="@dimen/two"
+                android:text="Add Membership"
+                android:textSize="12sp"
+                android:textColor="@color/profileQColor"
+                android:fontFamily="@font/opensans_semibold" />           
+           
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -87,7 +104,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -208,6 +225,98 @@
                     android:fontFamily="@font/opensans_bold"
                     android:layout_weight="1"/>
             </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_marginBottom="@dimen/five">
+                <TextView
+                    android:text="Card Details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/ten"
+                    android:layout_marginTop="@dimen/ten"
+                    android:textSize="16sp"
+                    android:textColor="@color/profileQColor"
+                    android:fontFamily="@font/opensans_semibold" />
+            </LinearLayout>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginRight="@dimen/ten"
+                android:layout_marginTop="@dimen/five"
+                android:id="@+id/cardDetails_cardView"
+                app:cardBackgroundColor="@color/vehicleInfoCardColor"
+                app:cardElevation="@dimen/one"
+                app:cardUseCompatPadding="true"
+                android:visibility="visible">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fifteen"
+                        android:weightSum="2">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Card Number :"
+                            android:paddingLeft="@dimen/twelve"
+                            android:textColor="@color/profileQColor"
+                            android:textSize ="@dimen/textFourteen"
+                            android:fontFamily="@font/opensans_regular"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:id="@+id/cardNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/profileQColor"
+                            android:textSize ="@dimen/textFourteen"
+                            android:fontFamily="@font/opensans_bold"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fifteen"
+                        android:weightSum="2">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Expiry Date :"
+                            android:paddingLeft="@dimen/twelve"
+                            android:textColor="@color/profileQColor"
+                            android:textSize ="@dimen/textFourteen"
+                            android:fontFamily="@font/opensans_regular"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:id="@+id/expiryDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/profileQColor"
+                            android:textSize ="@dimen/textFourteen"
+                            android:fontFamily="@font/opensans_bold"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/noCardDetailsText"
+                android:visibility="gone"
+                android:text="No Relatable Data!"
+                android:paddingLeft="@dimen/twelve"
+                android:textColor="@color/profileQColor"
+                android:textSize ="@dimen/textFourteen"
+                android:fontFamily="@font/opensans_regular"
+            />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

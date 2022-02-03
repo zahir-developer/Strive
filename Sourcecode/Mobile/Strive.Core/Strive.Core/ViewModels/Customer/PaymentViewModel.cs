@@ -16,6 +16,7 @@ namespace Strive.Core.ViewModels.Customer
         public float finalmonthlycharge;
         private List<ServiceDetail> servicedetails;
         public bool isAndroid = false;
+        public bool membershipStatus = false;
 
         public string cardNumber { get; set; }
         public string expiryDate { get; set; }
@@ -30,7 +31,7 @@ namespace Strive.Core.ViewModels.Customer
         }
 
         
-        public async void MembershipAgree()
+        public async Task MembershipAgree()
         {
 
             _userDialog.ShowLoading();
@@ -88,12 +89,20 @@ namespace Strive.Core.ViewModels.Customer
                 var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
                 if (data.Status == true)
                 {
-
-                    await _userDialog.AlertAsync("Amount will charge from 1st of next month.");
+                    membershipStatus = true;
+                    if (!isAndroid)
+                    { 
+                        await _userDialog.AlertAsync("Amount will charge from 1st of next month."); 
+                    }
+                    
                 }
                 else
                 {
-                    _userDialog.Alert("Error membership not created");
+                    if (!isAndroid)
+                    {
+                        _userDialog.Alert("Error membership not created"); 
+                    }
+                   
                 }
 
                 MembershipDetails.clearMembershipData();
