@@ -835,6 +835,13 @@ export class SalesComponent implements OnInit {
     // this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
+
+    //Set cashback amount
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    
+     if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
+    }
   }
   addItem() {
     if (this.selectedService.name === 'Gift Card') {
@@ -1128,9 +1135,11 @@ export class SalesComponent implements OnInit {
     this.removAddedAmount(+this.cash);
     this.cash = this.cashTotal;
     this.calculateTotalpaid(+this.cash);
-    if (this.totalPaid > +this.grandTotal) {
-      this.cashback = this.totalPaid - (+this.grandTotal);
-    }
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    
+     if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
+    }  
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -1298,6 +1307,13 @@ export class SalesComponent implements OnInit {
     else {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.DiscountServiceNotMatching });
       return;
+    }
+
+    //Calculate cashback amount
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    
+     if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
     }
     document.getElementById('discountpopup').style.width = '0';
   }
