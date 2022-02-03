@@ -24,38 +24,37 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
 
         public async Task GetCheckOutDetails()
         {
-            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-            var result = await AdminService.CheckOutVehicleDetails(new GetAllEmployeeDetail_Request
-            {
-                startDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
-                endDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
-                locationId = 1,
-                pageNo = 1,
-                pageSize = 100,
-                query = "",
-                sortOrder = "ASC",
-                sortBy = "TicketNumber",
-                status = true,
-            });
-            if (result == null || result.GetCheckedInVehicleDetails.checkOutViewModel == null)
-            {
-                if (CheckOutVehicleDetails != null)
+              _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+                var result = await AdminService.CheckOutVehicleDetails(new GetAllEmployeeDetail_Request
                 {
-                    CheckOutVehicleDetails = null;
+                    startDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
+                    endDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
+                    locationId = 1,
+                    pageNo = 1,
+                    pageSize = 100,
+                    query = "",
+                    sortOrder = "ASC",
+                    sortBy = "TicketNumber",
+                    status = true,
+                });
+                if (result == null || result.GetCheckedInVehicleDetails.checkOutViewModel == null)
+                {
+                    if (CheckOutVehicleDetails != null)
+                    {
+                        CheckOutVehicleDetails = null;
+                    }
+                    _userDialog.Toast("No relatable data");
                 }
-                _userDialog.Toast("No relatable data");
+  
+                else
+                {
+                    CheckOutVehicleDetails = new CheckoutDetails();
+                    CheckOutVehicleDetails.GetCheckedInVehicleDetails = new GetCheckedInVehicleDetails();
+                    CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel = new List<checkOutViewModel>();
+                    CheckOutVehicleDetails = result;
+                }
+                _userDialog.HideLoading();
             }
-            else
-            {
-                CheckOutVehicleDetails = new CheckoutDetails();
-                //CheckOutVehicleDetails = null;
-                CheckOutVehicleDetails.GetCheckedInVehicleDetails = new GetCheckedInVehicleDetails();
-                CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel = new List<checkOutViewModel>();
-                CheckOutVehicleDetails = result;
-            }
-            _userDialog.HideLoading();
-        }
-
         public async Task updateHoldStatus(int Id)
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);

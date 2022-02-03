@@ -61,12 +61,22 @@ namespace StriveEmployee.iOS.Views.Schedule
 
         private async void getSheduleDetails()
         {
-            await ViewModel.GetScheduleList();
-
-            if(ViewModel.scheduleList != null && ViewModel.scheduleList.ScheduleDetailViewModel != null)
+            try
             {
-                setData(DateTime.Now.ToString("yyyy-MM-dd"));
+                await ViewModel.GetScheduleList();
+                if (ViewModel.scheduleList != null && ViewModel.scheduleList.ScheduleDetailViewModel != null)
+                {
+                    setData(DateTime.Now.ToString("yyyy-MM-dd"));
+                }
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }           
+          
         }
 
         private void setData(string date)
@@ -95,9 +105,18 @@ namespace StriveEmployee.iOS.Views.Schedule
         {
             var  selectedDate = ScheduleDateView.Date;
             ScheduleViewModel.StartDate = selectedDate.ToString();
-            await ViewModel.GetScheduleList();
-            
-            setData(selectedDate.ToString());
+            try
+            {
+                await ViewModel.GetScheduleList();
+                setData(selectedDate.ToString());
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
             
         }
     }

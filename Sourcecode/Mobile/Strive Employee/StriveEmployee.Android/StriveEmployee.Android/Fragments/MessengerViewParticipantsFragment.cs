@@ -17,6 +17,7 @@ using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments
 {
@@ -82,29 +83,40 @@ namespace StriveEmployee.Android.Fragments
         private async void GetParticipants()
         {
             MessengerTempData.IsCreateGroup = false;
-            await ViewModel.GetParticipants();
-            if(ViewModel.EmployeeList != null)
+            try
             {
-                if(MessengerTempData.SelectedParticipants != null)
+                await ViewModel.GetParticipants();
+                if (ViewModel.EmployeeList != null)
                 {
-                    ChatEmployeeList data;
-                    foreach (var result in MessengerTempData.SelectedParticipants.EmployeeList.Employee)
+                    if (MessengerTempData.SelectedParticipants != null)
                     {
-                        var results = ViewModel.EmployeeList.EmployeeList.ChatEmployeeList.Find(x => x.Id == result.EmployeeId);
-                        if (results == null)
+                        ChatEmployeeList data;
+                        foreach (var result in MessengerTempData.SelectedParticipants.EmployeeList.Employee)
                         {
-                            data = new ChatEmployeeList();
-                            data.FirstName = result.FirstName;
-                            data.LastName = result.LastName;
-                            ViewModel.EmployeeList.EmployeeList.ChatEmployeeList.Add(data);
+                            var results = ViewModel.EmployeeList.EmployeeList.ChatEmployeeList.Find(x => x.Id == result.EmployeeId);
+                            if (results == null)
+                            {
+                                data = new ChatEmployeeList();
+                                data.FirstName = result.FirstName;
+                                data.LastName = result.LastName;
+                                ViewModel.EmployeeList.EmployeeList.ChatEmployeeList.Add(data);
+                            }
                         }
                     }
+                    messengerViewParticipants_Adapter = new MessengerViewParticipantsAdapter(Context, ViewModel.EmployeeList);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    particpants_recyclerView.SetLayoutManager(layoutManager);
+                    particpants_recyclerView.SetAdapter(messengerViewParticipants_Adapter);
                 }
-                messengerViewParticipants_Adapter = new MessengerViewParticipantsAdapter(Context, ViewModel.EmployeeList);
-                var layoutManager = new LinearLayoutManager(Context);
-                particpants_recyclerView.SetLayoutManager(layoutManager);
-                particpants_recyclerView.SetAdapter(messengerViewParticipants_Adapter);
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+ 
         }
 
         private void Back_Button_Click(object sender, EventArgs e)

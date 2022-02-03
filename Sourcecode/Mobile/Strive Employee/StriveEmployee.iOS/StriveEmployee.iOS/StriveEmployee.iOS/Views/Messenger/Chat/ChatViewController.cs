@@ -296,8 +296,17 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 RecipientId = MessengerTempData.RecipientID,
                 GroupId = MessengerTempData.GroupID
             };
-            await ViewModel.GetAllMessages(chatData);
-
+            try
+            {
+                await ViewModel.GetAllMessages(chatData);
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
             SetupView();
             SetupNavigationItem();
             RegisterCell();

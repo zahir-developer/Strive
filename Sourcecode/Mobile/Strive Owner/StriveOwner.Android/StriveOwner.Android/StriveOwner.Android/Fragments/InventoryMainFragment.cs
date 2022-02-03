@@ -13,6 +13,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
 using StriveOwner.Android.Helper;
+using OperationCanceledException = System.OperationCanceledException;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace StriveOwner.Android.Resources.Fragments
@@ -57,8 +58,18 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private async void InventoryMain_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
-            await ViewModel.InventorySearchCommand(e.NewText);
-            InventoryAdapterData();
+            try
+            {
+                await ViewModel.InventorySearchCommand(e.NewText);
+                InventoryAdapterData();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
 
         private async void GetProducts()
@@ -67,23 +78,46 @@ namespace StriveOwner.Android.Resources.Fragments
             if (vendors)
             {
                 ViewModel.ClearCommand();
-                await ViewModel.InventorySearchCommand("");
+                try
+                {
+                    await ViewModel.InventorySearchCommand("");
+                }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
+                }
             }
             InventoryAdapterData();
         }
 
         private async Task<bool> GetVendors()
         {
-            await ViewModel.GetVendorsCommand();
+            try
+            {
+                await ViewModel.GetVendorsCommand();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return false;
+                }
+            }
             return true;
         }
 
         private void InventoryAdapterData()
         {
-            inventoryMainAdapter = new InventoryMainAdapter(Context, ViewModel.FilteredList, ViewModel);
-            var layoutManager = new LinearLayoutManager(Context);
-            inventoryMain_RecyclerView.SetLayoutManager(layoutManager);
-            inventoryMain_RecyclerView.SetAdapter(inventoryMainAdapter);
+            if (ViewModel.FilteredList != null && ViewModel.FilteredList.Count > 0)
+            {
+                inventoryMainAdapter = new InventoryMainAdapter(Context, ViewModel.FilteredList, ViewModel);
+                var layoutManager = new LinearLayoutManager(Context);
+                inventoryMain_RecyclerView.SetLayoutManager(layoutManager);
+                inventoryMain_RecyclerView.SetAdapter(inventoryMainAdapter);
+            }
             if (ViewModel.FilteredList != null && ViewModel.FilteredList.Count > 0 && !isSwipeCalled)
             {
                 MySwipeHelper mySwipe = new MyImplementSwipeHelper(Context, inventoryMain_RecyclerView, 200, this.ViewModel);
@@ -125,11 +159,21 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             RecyclerView recyclerView1;
             int index = viewModel.FilteredList.IndexOf(selectedItem);
-            var response = await viewModel.DeleteProductCommand(index);
-            if (response)
+            try
             {
-                await viewModel.InventorySearchCommand(" ");
-                InventoryAdapterDataAsync(recyclerView, viewModel);
+                var response = await viewModel.DeleteProductCommand(index);
+                if (response)
+                {
+                    await viewModel.InventorySearchCommand(" ");
+                    InventoryAdapterDataAsync(recyclerView, viewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
 
         }

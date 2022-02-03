@@ -1,10 +1,12 @@
-﻿using Android.OS;
+﻿using System;
+using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace StriveEmployee.Android.Fragments
@@ -64,18 +66,29 @@ namespace StriveEmployee.Android.Fragments
      
         private async void getRecentContacts()
         {
-            await ViewModel.GetRecentContactsList();
-            if(ViewModel.EmployeeList != null)
+            try
             {
-                if(ViewModel.EmployeeList.ChatEmployeeList.Count > 0)
+                await ViewModel.GetRecentContactsList();
+                if (ViewModel.EmployeeList != null)
                 {
-                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList, this.ViewModel);
-                    var layoutManager = new LinearLayoutManager(Context);
-                    recentContacts_RecyclerView.SetLayoutManager(layoutManager);
-                    recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);
+                    if (ViewModel.EmployeeList.ChatEmployeeList.Count > 0)
+                    {
+                        messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList, this.ViewModel);
+                        var layoutManager = new LinearLayoutManager(Context);
+                        recentContacts_RecyclerView.SetLayoutManager(layoutManager);
+                        recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);
+                    }
+
                 }
-              
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            
         }
     }
 }

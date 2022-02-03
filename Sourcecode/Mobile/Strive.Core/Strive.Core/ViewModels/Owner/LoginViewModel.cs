@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Rest.Implementations;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 
@@ -24,6 +25,7 @@ namespace Strive.Core.ViewModels.Owner
 
         public async Task DoLoginCommand()
         {
+          isExitApp = false;
                 if (validateCommand())
                 {
                     _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);

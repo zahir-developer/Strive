@@ -18,6 +18,7 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
 using StriveEmployee.Android.Adapter.MyProfile.Documents;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.MyProfile.Documents
 {
@@ -63,15 +64,25 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             {
                 ViewModel = new DocumentsViewModel();
             }
-            ViewModel.isAndroidFlag = isInitialCall;
-            await this.ViewModel.GetDocumentInfo();
-            if (this.ViewModel.DocumentDetails != null && this.ViewModel.DocumentDetails.Employee.EmployeeDocument != null)
+            try
             {
-                documents_Adapter = new DocumentsAdapter(Context, this.ViewModel.DocumentDetails.Employee.EmployeeDocument);
-                var LayoutManager = new LinearLayoutManager(Context);
-                documents_RecyclerView.SetLayoutManager(LayoutManager);
-                documents_RecyclerView.SetAdapter(documents_Adapter);
-            }            
+                ViewModel.isAndroidFlag = isInitialCall;
+                await this.ViewModel.GetDocumentInfo();
+                if (this.ViewModel.DocumentDetails != null && this.ViewModel.DocumentDetails.Employee.EmployeeDocument != null)
+                {
+                    documents_Adapter = new DocumentsAdapter(Context, this.ViewModel.DocumentDetails.Employee.EmployeeDocument);
+                    var LayoutManager = new LinearLayoutManager(Context);
+                    documents_RecyclerView.SetLayoutManager(LayoutManager);
+                    documents_RecyclerView.SetAdapter(documents_Adapter);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }        
         }
         public void NoData()
         {

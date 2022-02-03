@@ -311,4 +311,29 @@
     <value>Logout</value>
     <comment>Logout Title </comment>
   </data>
+  <data name="EmployeeAppName" xml:space="preserve">
+    <value>StriveEmployee</value>
+    <comment>General</comment>
+  </data>
+   <data name="OwnerAppName" xml:space="preserve">
+    <value>StriveOwner</value>
+    <comment>General</comment>
+  </data>
+   <data name="CustomerAppName" xml:space="preserve">
+    <value>StriveCustomer</value>
+    <comment>General</comment>
+  </data>
+
+  <data name="EmployeePackageName" xml:space="preserve">
+    <value>com.telliant.StriveEmployee</value>
+    <comment>General</comment>
+  </data>
+   <data name="OwnerPackageName" xml:space="preserve">
+    <value>com.telliant.StriveOwner</value>
+    <comment>General</comment>
+  </data>
+   <data name="CustomerPackageName" xml:space="preserve">
+    <value>com.telliant.StriveCustomer</value>
+    <comment>General</comment>
+  </data>
 </root>

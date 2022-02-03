@@ -6,6 +6,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Rest.Implementations;
 using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.Customer
@@ -40,6 +41,7 @@ namespace Strive.Core.ViewModels.Customer
         }
         public async Task DoLoginCommand()
         {
+            isExitApp = false;
             if (validateCommand())
             {
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);

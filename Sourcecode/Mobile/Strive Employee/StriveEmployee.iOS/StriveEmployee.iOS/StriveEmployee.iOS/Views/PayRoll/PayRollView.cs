@@ -64,8 +64,17 @@ namespace StriveEmployee.iOS.Views.PayRoll
             FindPayRoll.Layer.CornerRadius = 5;
             if (ViewModel.employeeid != 0)
             {
-                await ViewModel.GetPayRollProcess();
-                
+                try
+                {
+                    await ViewModel.GetPayRollProcess();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
+                }
             }
             
             //Setting Data
@@ -151,8 +160,17 @@ namespace StriveEmployee.iOS.Views.PayRoll
             ViewModel.employeeid = EmployeeTempData.EmployeeID;
             if (ViewModel.employeeid != 0)
             {
-                await ViewModel.GetPayRollProcess();
-                
+                try
+                {
+                    await ViewModel.GetPayRollProcess();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
+                }
             }
 
             if (ViewModel.PayRoll != null)

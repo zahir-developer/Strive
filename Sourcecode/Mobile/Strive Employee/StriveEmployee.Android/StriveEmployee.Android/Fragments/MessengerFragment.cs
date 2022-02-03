@@ -59,7 +59,6 @@ namespace StriveEmployee.Android.Fragments
             messenger_PopupMenu.MenuInflater.Inflate(Resource.Menu.group_create_menu, messenger_Menu);
             messenger_PopupMenu.MenuItemClick += Messenger_PopupMenu_MenuItemClick;
             messenger_ImageButton.Click += Messenger_ImageButton_Click;
-    
             return rootView;
         }
 

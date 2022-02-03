@@ -1,20 +1,17 @@
 ﻿using Acr.UserDialogs;
-using Strive.Core.Models.Customer;
-using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
-using Strive.Core.Services.HubServices;
+using Strive.Core.Rest.Implementations;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Strive.Core.ViewModels.Employee
 {
     public class LoginViewModel : BaseViewModel
     {
+       
         public LoginViewModel()
         {
 
@@ -30,6 +27,7 @@ namespace Strive.Core.ViewModels.Employee
 
         public async Task DoLoginCommand()
         {
+            isExitApp = false;
             if (validateCommand())
             {
 

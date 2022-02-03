@@ -14,6 +14,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Owner;
 using Strive.Core.ViewModels.Owner;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -44,7 +45,7 @@ namespace StriveOwner.Android.Resources.Fragments
             laborcostpercar = rootView.FindViewById<TextView>(Resource.Id.laborcostpercar);
             detailcostpercar = rootView.FindViewById<TextView>(Resource.Id.detailcostpercar);
             GetStatistics();
-          
+
             return rootView;
         }
         public async void GetStatistics()
@@ -53,14 +54,23 @@ namespace StriveOwner.Android.Resources.Fragments
             {
                 ViewModel = new RevenueHomeViewModel();
             }
-            await this.ViewModel.getStatistics(OwnerTempData.LocationID);
-            avgmoneyewashpercar.Text = this.ViewModel.statisticsData.AverageWashPerCar.ToString();
-            avgmoneyedetailpercar.Text = this.ViewModel.statisticsData.AverageDetailPerCar.ToString();
-            avgmoneyeextraservicepercar.Text = this.ViewModel.statisticsData.AverageExtraServicePerCar.ToString();
-            avgmoneytotalpercar.Text = this.ViewModel.statisticsData.AverageTotalPerCar.ToString();
-            laborcostpercar.Text = this.ViewModel.statisticsData.LabourCostPerCarMinusDetail.ToString();
-            detailcostpercar.Text = this.ViewModel.statisticsData.DetailCostPerCar.ToString();
-
+            try
+            {
+                await this.ViewModel.getStatistics(OwnerTempData.LocationID);
+                avgmoneyewashpercar.Text = this.ViewModel.statisticsData.AverageWashPerCar.ToString();
+                avgmoneyedetailpercar.Text = this.ViewModel.statisticsData.AverageDetailPerCar.ToString();
+                avgmoneyeextraservicepercar.Text = this.ViewModel.statisticsData.AverageExtraServicePerCar.ToString();
+                avgmoneytotalpercar.Text = this.ViewModel.statisticsData.AverageTotalPerCar.ToString();
+                laborcostpercar.Text = this.ViewModel.statisticsData.LabourCostPerCarMinusDetail.ToString();
+                detailcostpercar.Text = this.ViewModel.statisticsData.DetailCostPerCar.ToString();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
     }
 }

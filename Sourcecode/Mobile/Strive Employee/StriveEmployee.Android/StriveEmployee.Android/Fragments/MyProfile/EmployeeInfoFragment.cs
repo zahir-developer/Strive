@@ -16,6 +16,7 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.MyProfile
 {
@@ -91,10 +92,41 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             {
                 ViewModel = new EmployeeInfoViewModel();
             }
-            await this.ViewModel.GetGender();
-            await this.ViewModel.GetImmigrationStatus();
-            await this.ViewModel.GetPersonalEmployeeInfo();
-            if((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null) || this.ViewModel.PersonalDetails.Employee.EmployeeCollision != null
+            try
+            {
+                await ViewModel.GetGender();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            try
+            {
+                await ViewModel.GetImmigrationStatus();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            try
+            {
+                await ViewModel.GetPersonalEmployeeInfo();
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            if ((this.ViewModel?.PersonalDetails!=null && this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null) || this.ViewModel.PersonalDetails.Employee.EmployeeCollision != null
                 || this.ViewModel.PersonalDetails.Employee.EmployeeDocument != null || this.ViewModel.PersonalDetails.Employee.EmployeeLocations != null || this.ViewModel.PersonalDetails.Employee.EmployeeRoles != null)
             {
                 FillEmployeeDetails();

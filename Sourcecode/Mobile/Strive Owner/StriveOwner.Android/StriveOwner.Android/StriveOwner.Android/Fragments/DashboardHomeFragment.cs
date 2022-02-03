@@ -19,6 +19,8 @@ using OxyPlot.Xamarin.Android;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Java.Lang;
+using OperationCanceledException = System.OperationCanceledException;
+using Exception = System.Exception;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -49,7 +51,6 @@ namespace StriveOwner.Android.Resources.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.DashboardHome_Fragment, null);
             this.ViewModel = new HomeViewModel();
-
             servicesFragment = new ServicesFragment();
             salesFragment = new SalesFragment();
             revenueFragment = new RevenueFragment();
@@ -137,86 +138,116 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private async void GetStatistics(int locationID)
         {
-            await ViewModel.getStatistics(locationID);
-            GetDashData(locationID);
-            setChartView();
+            try
+            {
+                await ViewModel.getStatistics(locationID);
+                GetDashData(locationID);
+                setChartView();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+           
         }
 
         private async void GetDashData(int locationID)
         {
-            await ViewModel.getDashboardSchedule(locationID);
-            bay_layout.RemoveAllViews();
-            BayDetails();
-            //GetLocations();
+            try
+            {
+                await ViewModel.getDashboardSchedule(locationID);
+                bay_layout.RemoveAllViews();
+                BayDetails();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
 
         private async void GetLocations()
         {
-            await ViewModel.GetAllLocationsCommand();
-            PreviousSelectedId.Clear();
-            listBtn.Clear();
-            if (ViewModel.Locations.Location.Count > 0 && ViewModel.Locations != null && ViewModel.Locations.Location != null)
+            try
             {
-                var BtnID = 777;
-                locationsLayout.Orientation = Orientation.Vertical;
-                LinearLayout row = new LinearLayout(this.Context);
-                var layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
-                var btnParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
-                row.LayoutParameters = layoutParams;
-                foreach (var location in ViewModel.Locations.Location)
+                await ViewModel.GetAllLocationsCommand();
+                PreviousSelectedId.Clear();
+                listBtn.Clear();
+                if (ViewModel.Locations != null && ViewModel.Locations.Location != null && ViewModel.Locations.Location.Count > 0)
                 {
-                    locationBtn = new Button(this.Context);
-                    listBtn.Add(locationBtn);
-                    locationBtn.SetBackgroundResource(Resource.Drawable.RoundEdge_Button);
-                    // SelectedLocName = ViewModel.Locations.Location.First().LocationName;
-                    // FirstLocId = ViewModel.Locations.Location.First().LocationId;                    
-                    var nameSplits = location.LocationName.Split(" ");
-                    foreach (var name in nameSplits)
+                    var BtnID = 777;
+                    locationsLayout.Orientation = Orientation.Vertical;
+                    LinearLayout row = new LinearLayout(this.Context);
+                    var layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+                    var btnParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
+                    row.LayoutParameters = layoutParams;
+                    foreach (var location in ViewModel.Locations.Location)
                     {
-                        if (!string.Equals(name.ToUpper(), "DETAIL") || !string.Equals(name.ToUpper(), "SALON") || !string.Equals(name.ToUpper(), "MAMMOTH"))
-                            locationBtn.Text += name + " ";
-                    }
-                    btnParams.SetMargins(5, 5, 5, 5);
-                    locationBtn.LayoutParameters = btnParams;
-                    BtnID += 1;
-                    locationBtn.SetTextColor(Color.ParseColor("#000000"));
-                    locationBtn.Id = BtnID;
-                    locationBtn.Tag = location.LocationId;
-                    if (selectedLocationId == 0)
-                    {
-                        FirstLocId = ViewModel.Locations.Location.First().LocationId;
-                        SelectedLocName = ViewModel.Locations.Location.First().LocationName;
-                        if (BtnID == 778)
+                        locationBtn = new Button(this.Context);
+                        listBtn.Add(locationBtn);
+                        locationBtn.SetBackgroundResource(Resource.Drawable.RoundEdge_Button);
+                        // SelectedLocName = ViewModel.Locations.Location.First().LocationName;
+                        // FirstLocId = ViewModel.Locations.Location.First().LocationId;                    
+                        var nameSplits = location.LocationName.Split(" ");
+                        foreach (var name in nameSplits)
                         {
-                            PreviousSelectedId.Add(BtnID);
-                            locationBtn.Selected = true;
+                            if (!string.Equals(name.ToUpper(), "DETAIL") || !string.Equals(name.ToUpper(), "SALON") || !string.Equals(name.ToUpper(), "MAMMOTH"))
+                                locationBtn.Text += name + " ";
                         }
-                    }
-                    else
-                    {
-                        FirstLocId = selectedLocationId;
-                        if (selectedLocationId == location.LocationId)
+                        btnParams.SetMargins(5, 5, 5, 5);
+                        locationBtn.LayoutParameters = btnParams;
+                        BtnID += 1;
+                        locationBtn.SetTextColor(Color.ParseColor("#000000"));
+                        locationBtn.Id = BtnID;
+                        locationBtn.Tag = location.LocationId;
+                        if (selectedLocationId == 0)
                         {
-                            if(selectedLocationId == ViewModel.Locations.Location.Last().LocationId)
+                            FirstLocId = ViewModel.Locations.Location.First().LocationId;
+                            SelectedLocName = ViewModel.Locations.Location.First().LocationName;
+                            if (BtnID == 778)
                             {
-                            Action myAction = () =>
+                                PreviousSelectedId.Add(BtnID);
+                                locationBtn.Selected = true;
+                            }
+                        }
+                        else
+                        {
+                            FirstLocId = selectedLocationId;
+                            if (selectedLocationId == location.LocationId)
                             {
-                                button_ScrollView.FullScroll(FocusSearchDirection.Right);
-                            };
-                            button_ScrollView.PostDelayed(myAction, 1000);
+                                if (selectedLocationId == ViewModel.Locations.Location.Last().LocationId)
+                                {
+                                    Action myAction = () =>
+                                    {
+                                        button_ScrollView.FullScroll(FocusSearchDirection.Right);
+                                    };
+                                    button_ScrollView.PostDelayed(myAction, 1000);
                                 }
-                            SelectedLocName = location.LocationName;
-                            // button_ScrollView.SmoothScrollTo(locationBtn.Top,locationBtn.Bottom);
-                            PreviousSelectedId.Add(BtnID);
-                            locationBtn.Selected = true;
+                                SelectedLocName = location.LocationName;
+                                // button_ScrollView.SmoothScrollTo(locationBtn.Top,locationBtn.Bottom);
+                                PreviousSelectedId.Add(BtnID);
+                                locationBtn.Selected = true;
+                            }
                         }
+                        locationBtn.Click += LocationBtn_Click;
+                        row.AddView(locationBtn);
                     }
-                    locationBtn.Click += LocationBtn_Click;
-                    row.AddView(locationBtn);
-                }
-                locationsLayout.AddView(row);
-                GetStatistics(FirstLocId);
+                    locationsLayout.AddView(row);
+                    GetStatistics(FirstLocId);
 
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }
        

@@ -15,6 +15,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace StriveEmployee.Android.Fragments
@@ -73,17 +74,28 @@ namespace StriveEmployee.Android.Fragments
 
         private async void getGroups()
         {
-            await ViewModel.GetGroupsList();
-            if (ViewModel.GroupList != null)
+            try
             {
-                if(ViewModel.GroupList.ChatEmployeeList.Count > 0)
+                await ViewModel.GetGroupsList();
+                if (ViewModel.GroupList != null)
                 {
-                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList, this.ViewModel);
-                    var layoutManager = new LinearLayoutManager(Context);
-                    groupChat_RecyclerView.SetLayoutManager(layoutManager);
-                    groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
+                    if (ViewModel.GroupList.ChatEmployeeList.Count > 0)
+                    {
+                        messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList, this.ViewModel);
+                        var layoutManager = new LinearLayoutManager(Context);
+                        groupChat_RecyclerView.SetLayoutManager(layoutManager);
+                        groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            
         }
     }
 }

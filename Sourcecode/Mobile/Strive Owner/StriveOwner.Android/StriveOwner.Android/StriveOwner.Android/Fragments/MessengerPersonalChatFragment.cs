@@ -20,6 +20,7 @@ using Strive.Core.Services.Implementations;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using MvvmCross.ViewModels;
 using Strive.Core.Models.Employee.Messenger;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveOwner.Android.Fragments
 {
@@ -273,12 +274,22 @@ namespace StriveOwner.Android.Fragments
                     chatMessage_RecyclerView.ScrollToPosition(ViewModel.ChatMessages.Count + 1);
                     messengerChat_Adapter.NotifyDataSetChanged();
                     this.ViewModel.Message = chatMessage_EditText.Text;
-                    await this.ViewModel.SendMessage();
-                    if (this.ViewModel.SentSuccess)
+                    try
                     {
-                        chatMessage_EditText.Text = "";
-                        isSendClicked = false;
-                        getChatData();
+                        await this.ViewModel.SendMessage();
+                        if (this.ViewModel.SentSuccess)
+                        {
+                            chatMessage_EditText.Text = "";
+                            isSendClicked = false;
+                            getChatData();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is OperationCanceledException)
+                        {
+                            return;
+                        }
                     }
                 }
                 else
@@ -302,14 +313,24 @@ namespace StriveOwner.Android.Fragments
                 RecipientId = MessengerTempData.RecipientID,
                 GroupId = MessengerTempData.GroupID
             };
-            await this.ViewModel.GetAllMessages(chatData);
-            if(ViewModel.ChatMessages != null )
+            try
             {
-                messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.ChatMessages);
-                var layoutManager = new LinearLayoutManager(Context);
-                layoutManager.StackFromEnd = true;
-                chatMessage_RecyclerView.SetLayoutManager(layoutManager);
-                chatMessage_RecyclerView.SetAdapter(messengerChat_Adapter);               
+                await this.ViewModel.GetAllMessages(chatData);
+                if (ViewModel.ChatMessages != null)
+                {
+                    messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.ChatMessages);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    layoutManager.StackFromEnd = true;
+                    chatMessage_RecyclerView.SetLayoutManager(layoutManager);
+                    chatMessage_RecyclerView.SetAdapter(messengerChat_Adapter);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }
         private async void getCommunicationID()

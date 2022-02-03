@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer.Schedule;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -81,33 +82,43 @@ namespace StriveCustomer.Android.Fragments
 
         private async void GetAllLocations()
         {
-            await this.ViewModel.GetAllLocationsCommand();
-            if(this.ViewModel.Locations != null && this.ViewModel.Locations.Location.Count > 0)
+            try
             {
-                for (int locations = 0; locations < this.ViewModel.Locations.Location.Count; locations++)
+                await this.ViewModel.GetAllLocationsCommand();
+                if (this.ViewModel.Locations != null && this.ViewModel.Locations.Location.Count > 0)
                 {
-                    RadioButton radioButton = new RadioButton(Context);
-                    layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
-                    layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
-                    layoutParams.SetMargins(0, 25, 0, 25);
-                    radioButton.LayoutParameters = layoutParams;
-                    radioButton.Text = this.ViewModel.Locations.Location[locations].Address1;
-                    radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
-                    radioButton.Id = someId;
-                    radioButton.SetTextSize(ComplexUnitType.Sp, (float)16.5);
-                    radioButton.SetTypeface(null, TypefaceStyle.Bold);
-                    radioButton.TextAlignment = TextAlignment.ViewStart;
-                    radioButton.CheckedChange += RadioButton_CheckedChange;
-                    radioButton.SetPadding(15,0,15,0);
-                    someId++;
-                    if(CustomerScheduleInformation.ScheduleServiceLocationNumber == locations)
+                    for (int locations = 0; locations < this.ViewModel.Locations.Location.Count; locations++)
                     {
-                        radioButton.Checked = true;
+                        RadioButton radioButton = new RadioButton(Context);
+                        layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+                        layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
+                        layoutParams.SetMargins(0, 25, 0, 25);
+                        radioButton.LayoutParameters = layoutParams;
+                        radioButton.Text = this.ViewModel.Locations.Location[locations].Address1;
+                        radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
+                        radioButton.Id = someId;
+                        radioButton.SetTextSize(ComplexUnitType.Sp, (float)16.5);
+                        radioButton.SetTypeface(null, TypefaceStyle.Bold);
+                        radioButton.TextAlignment = TextAlignment.ViewStart;
+                        radioButton.CheckedChange += RadioButton_CheckedChange;
+                        radioButton.SetPadding(15, 0, 15, 0);
+                        someId++;
+                        if (CustomerScheduleInformation.ScheduleServiceLocationNumber == locations)
+                        {
+                            radioButton.Checked = true;
+                        }
+                        scheduleLocationsGroup.AddView(radioButton);
                     }
-                    scheduleLocationsGroup.AddView(radioButton);
                 }
             }
-        }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+}
 
         private void RadioButton_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {

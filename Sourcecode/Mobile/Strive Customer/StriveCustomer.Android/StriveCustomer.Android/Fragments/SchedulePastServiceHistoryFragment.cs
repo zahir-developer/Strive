@@ -15,6 +15,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -57,6 +58,8 @@ namespace StriveCustomer.Android.Fragments
             {
                 this.ViewModel = new ScheduleViewModel();
             }
+            try
+            { 
             await this.ViewModel.GetPastServiceDetails();
             if (this.ViewModel.pastServiceHistory != null)
             {
@@ -111,7 +114,15 @@ namespace StriveCustomer.Android.Fragments
                         }
                     }
                 }
+           }
 
+       }
+          catch (Exception ex)
+          {
+             if (ex is OperationCanceledException)
+              {
+                    return;
+               }
             }
         }
 

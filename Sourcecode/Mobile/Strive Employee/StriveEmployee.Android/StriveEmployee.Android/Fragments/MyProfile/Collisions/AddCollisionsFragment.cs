@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 {
@@ -77,7 +78,17 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         {
             this.ViewModel.CollisionAmount = collisionAmount_EditText.Text.ToString();
             this.ViewModel.CollisionNotes = collisionNotes_EditText.Text.ToString();
-            await ViewModel.AddCollision();
+            try
+            {
+                await ViewModel.AddCollision();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
 
         private void CollisionDate_EditText_Click(object sender, EventArgs e)
@@ -102,20 +113,30 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 
         private async void GetLiabilityTypes()
         {
-           await this.ViewModel.GetLiabilityTypes();
-            if(this.ViewModel.liabilityTypes != null)
+            try
             {
-                codes = new List<string>();
-                foreach (var data in this.ViewModel.liabilityTypes.Codes)
+                await this.ViewModel.GetLiabilityTypes();
+                if (this.ViewModel.liabilityTypes != null)
                 {
-                    codes.Add(data.CodeValue);
-                    collisionID_List.Add(data.CodeId);
+                    codes = new List<string>();
+                    foreach (var data in this.ViewModel.liabilityTypes.Codes)
+                    {
+                        codes.Add(data.CodeValue);
+                        collisionID_List.Add(data.CodeId);
+                    }
+                    codesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, codes);
+                    collisionType_Spinner.Adapter = codesAdapter;
                 }
-                codesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, codes);
-                collisionType_Spinner.Adapter = codesAdapter;
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            
         }
-
         private void AddImage_TextView_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)this.Context;

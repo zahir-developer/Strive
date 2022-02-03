@@ -15,6 +15,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.MyProfile
 {
@@ -94,62 +95,82 @@ namespace StriveEmployee.Android.Fragments.MyProfile
 
         private async void GetGender()
         {
-            await this.ViewModel.GetGender();
-            if(this.ViewModel.gender != null)
+            try
             {
-                codes = new List<string>();
-                foreach (var data in this.ViewModel.gender.Codes)
+                await this.ViewModel.GetGender();
+                if (this.ViewModel.gender != null)
                 {
-                    codes.Add(data.CodeValue);
-                }
-                codesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, codes);
-                gender_Spinner.Adapter = codesAdapter;
-                if (EmployeePersonalDetails.GenderSpinnerPosition != -1)
-                {
-                    gender_Spinner.SetSelection(EmployeePersonalDetails.GenderSpinnerPosition);
-                }
-                if(EmployeePersonalDetails.GenderCodeID != -1)
-                {
-                    for(int i = 0; i < this.ViewModel.gender.Codes.Count; i++)
+                    codes = new List<string>();
+                    foreach (var data in this.ViewModel.gender.Codes)
                     {
-                        if(this.ViewModel.gender.Codes[i].CodeId == EmployeePersonalDetails.GenderCodeID)
+                        codes.Add(data.CodeValue);
+                    }
+                    codesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, codes);
+                    gender_Spinner.Adapter = codesAdapter;
+                    if (EmployeePersonalDetails.GenderSpinnerPosition != -1)
+                    {
+                        gender_Spinner.SetSelection(EmployeePersonalDetails.GenderSpinnerPosition);
+                    }
+                    if (EmployeePersonalDetails.GenderCodeID != -1)
+                    {
+                        for (int i = 0; i < this.ViewModel.gender.Codes.Count; i++)
                         {
-                            gender_Spinner.SetSelection(i);
+                            if (this.ViewModel.gender.Codes[i].CodeId == EmployeePersonalDetails.GenderCodeID)
+                            {
+                                gender_Spinner.SetSelection(i);
+                            }
                         }
                     }
+
                 }
-               
             }
-           
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+
         }
 
         private async void GetImmigrationStatus()
         {
-            await this.ViewModel.GetImmigrationStatus();
-            if (this.ViewModel.ImmigrationStatus != null)
+            try
             {
-                immigrationCodes = new List<string>();
-                foreach (var data in this.ViewModel.ImmigrationStatus.Codes)
+                await this.ViewModel.GetImmigrationStatus();
+                if (this.ViewModel.ImmigrationStatus != null)
                 {
-                    immigrationCodes.Add(data.CodeValue);
-                }
-                immigrationCodesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, immigrationCodes);
-                ImmigrationStatus.Adapter = immigrationCodesAdapter;
-                if(EmployeePersonalDetails.ImmigrationSpinnerPosition != -1)
-                {
-                    ImmigrationStatus.SetSelection(EmployeePersonalDetails.ImmigrationSpinnerPosition);
-                }
-                if (EmployeePersonalDetails.ImmigrationCodeID != -1)
-                {
-                    for (int i = 0; i < this.ViewModel.ImmigrationStatus.Codes.Count; i++)
+                    immigrationCodes = new List<string>();
+                    foreach (var data in this.ViewModel.ImmigrationStatus.Codes)
                     {
-                        if (this.ViewModel.ImmigrationStatus.Codes[i].CodeId == EmployeePersonalDetails.ImmigrationCodeID)
+                        immigrationCodes.Add(data.CodeValue);
+                    }
+                    immigrationCodesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, immigrationCodes);
+                    ImmigrationStatus.Adapter = immigrationCodesAdapter;
+                    if (EmployeePersonalDetails.ImmigrationSpinnerPosition != -1)
+                    {
+                        ImmigrationStatus.SetSelection(EmployeePersonalDetails.ImmigrationSpinnerPosition);
+                    }
+                    if (EmployeePersonalDetails.ImmigrationCodeID != -1)
+                    {
+                        for (int i = 0; i < this.ViewModel.ImmigrationStatus.Codes.Count; i++)
                         {
-                            ImmigrationStatus.SetSelection(i);
+                            if (this.ViewModel.ImmigrationStatus.Codes[i].CodeId == EmployeePersonalDetails.ImmigrationCodeID)
+                            {
+                                ImmigrationStatus.SetSelection(i);
+                            }
                         }
                     }
-                }
 
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
 
         }
@@ -161,13 +182,23 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             EmployeePersonalDetails.ContactNumber = ContactNumber.Text;
             EmployeePersonalDetails.Address = Address.Text;
             EmployeePersonalDetails.SSN = SSN.Text ;
-            var result = await this.ViewModel.SavePersonalInfo();
-            if(result)
+            try
             {
-                EmployeeLoginDetails.clearData();
-                EmployeePersonalDetails.clearData();
-                MyProfileInfoNeeds.selectedTab = 0;
-                FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
+                var result = await this.ViewModel.SavePersonalInfo();
+                if (result)
+                {
+                    EmployeeLoginDetails.clearData();
+                    EmployeePersonalDetails.clearData();
+                    MyProfileInfoNeeds.selectedTab = 0;
+                    FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }
 

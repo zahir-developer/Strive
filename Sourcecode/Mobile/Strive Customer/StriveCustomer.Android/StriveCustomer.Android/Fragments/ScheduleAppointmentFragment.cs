@@ -18,10 +18,11 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
-    public class ScheduleAppointmentFragment : MvxFragment<ScheduleAppointmentDateViewModel> 
+    public class ScheduleAppointmentFragment : MvxFragment<ScheduleAppointmentDateViewModel>
     {
         private GridView TimeSlot_GridView;
         private TextView SlotTxtView;
@@ -66,7 +67,7 @@ namespace StriveCustomer.Android.Fragments
             schedule_CalendarView.MinDate = calendar.TimeInMillis;
             CurrentDateSlots();
             TimeSlot_GridView.ScrollStateChanged += OnGridViewScrollStateChanged;
-       
+
             return rootView;
         }
 
@@ -93,13 +94,13 @@ namespace StriveCustomer.Android.Fragments
 
         private void Next_Button_Click(object sender, EventArgs e)
         {
-            if (this.ViewModel.checkSelectedTime() && this.ViewModel.checkSelectedDate()) 
+            if (this.ViewModel.checkSelectedTime() && this.ViewModel.checkSelectedDate())
             {
                 previewFragment = new SchedulePreviewFragment();
                 AppCompatActivity activity = (AppCompatActivity)this.Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, previewFragment).Commit();
 
-            }            
+            }
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)
@@ -218,46 +219,56 @@ namespace StriveCustomer.Android.Fragments
             //DateTime local = date1.d;
             var dateToServer = dt.ToString("yyy/MM/dd HH:mm:ss");
             this.ViewModel.checkDate = CustomerScheduleInformation.ScheduleDate + "/" + CustomerScheduleInformation.ScheduleMonth + "/" + CustomerScheduleInformation.ScheduleYear;
-            await ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, dateToServer);
-            //await this.ViewModel.GetSlotAvailability(8, date);
-            var datenow = DateTime.Now.TimeOfDay;
-            if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
+            try
             {
-                foreach (var item in this.ViewModel.ScheduleSlotInfo.GetTimeInDetails)
+                await ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, dateToServer);
+                //await this.ViewModel.GetSlotAvailability(8, date);
+                var datenow = DateTime.Now.TimeOfDay;
+                if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
                 {
-                    DateTime availabletime = DateTime.Parse(item.TimeIn, System.Globalization.CultureInfo.CurrentCulture);
-                    if (dt.Date == DateTime.Now.Date)
+                    foreach (var item in this.ViewModel.ScheduleSlotInfo.GetTimeInDetails)
                     {
-                        if (availabletime.TimeOfDay > datenow)
+                        DateTime availabletime = DateTime.Parse(item.TimeIn, System.Globalization.CultureInfo.CurrentCulture);
+                        if (dt.Date == DateTime.Now.Date)
+                        {
+                            if (availabletime.TimeOfDay > datenow)
+                            {
+                                updatedScheduleSlotInfo.GetTimeInDetails.Add(item);
+                            }
+                        }
+                        else
                         {
                             updatedScheduleSlotInfo.GetTimeInDetails.Add(item);
                         }
                     }
+                    if (updatedScheduleSlotInfo.GetTimeInDetails.Count > 0)
+                    {
+                        SlotTxtView.Text = "Available Times Slots";
+                    }
                     else
                     {
-                        updatedScheduleSlotInfo.GetTimeInDetails.Add(item);
+                        SlotTxtView.Text = "No Available Time Slots";
                     }
+                    TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, updatedScheduleSlotInfo);
                 }
-                if (updatedScheduleSlotInfo.GetTimeInDetails.Count > 0)
+
+                if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
                 {
-                    SlotTxtView.Text = "Available Times Slots";
+                    TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, updatedScheduleSlotInfo);
+
                 }
                 else
                 {
-                    SlotTxtView.Text = "No Available Time Slots";
+
                 }
-                TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, updatedScheduleSlotInfo);
             }
-
-            if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
+            catch (Exception ex)
             {
-                TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, updatedScheduleSlotInfo);
-
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
-            else
-            {
-
-            }
-            }
+        }
     }
 }

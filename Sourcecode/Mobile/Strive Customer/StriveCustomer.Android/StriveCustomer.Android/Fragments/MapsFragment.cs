@@ -30,6 +30,7 @@ using static Android.Gms.Maps.GoogleMap;
 using Strive.Core.Models.Customer;
 using Double = System.Double;
 using Android.Graphics.Drawables;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -169,7 +170,7 @@ namespace StriveCustomer.Android.Fragments
                 RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
             }
 
-            if (carWashLocations != null)
+            if (carWashLocations != null && carWashLocations.Washes !=null)
             {
                 Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
                 setUpMarkers(); 
@@ -183,20 +184,29 @@ namespace StriveCustomer.Android.Fragments
             while (seconds != 0)
             {
                 await Task.Delay(seconds);
-                var locations = await ViewModel.GetAllLocationStatus();
-                if (locations != null)
+                try
                 {
-                    if (locations?.Washes.Count == 0)
+                    var locations = await ViewModel.GetAllLocationStatus();
+                    if (locations != null)
                     {
-                        carWashLocations = null;
+                        if (locations?.Washes.Count == 0)
+                        {
+                            carWashLocations = null;
+                        }
+                        else
+                        {
+                            carWashLocations = locations;
+                        }
                     }
-                    else
+                    setUpMarkers();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
                     {
-                        carWashLocations = locations;
+                        return;
                     }
                 }
-                setUpMarkers();
-                
 
             }
         }
@@ -213,31 +223,40 @@ namespace StriveCustomer.Android.Fragments
         }
         private async void setUpMaps()
         {
-            //var locations = await ViewModel.GetAllLocationsCommand();
-            var locations = await ViewModel.GetAllLocationStatus();
-            if (locations != null)
+            try
             {
-                if (locations?.Washes.Count == 0)
+                var locations = await ViewModel.GetAllLocationStatus();
+                if (locations != null && locations.Washes != null)
                 {
-                    carWashLocations = null;
+                    if (locations.Washes.Count == 0)
+                    {
+                        carWashLocations = null;
+                    }
+                    else
+                    {
+                        carWashLocations = locations;
+                    }
+                }
+                if (!IsAdded)
+                {
+                    return;
                 }
                 else
                 {
-                    carWashLocations = locations;
+                    gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
+
+                }
+                if (gmaps != null)
+                {
+                    gmaps.GetMapAsync(this);
                 }
             }
-            if (!IsAdded)
+            catch (Exception ex)
             {
-                return;
-            }
-            else
-            {
-                gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
-
-            }
-            if (gmaps != null)
-            {
-                gmaps.GetMapAsync(this);
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }
         private void enableUserLocation()

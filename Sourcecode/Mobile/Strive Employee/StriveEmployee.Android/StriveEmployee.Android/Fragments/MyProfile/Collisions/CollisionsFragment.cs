@@ -1,4 +1,5 @@
-﻿using Android.OS;
+﻿using System;
+using Android.OS;
 using Android.Support.Design.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -8,6 +9,7 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
 using StriveEmployee.Android.Adapter.MyProfile.Collision;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 {
@@ -52,16 +54,26 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             {
               this.ViewModel = new CollisionsViewModel();
             }
-            ViewModel.isAndroidFlag = isInitialCall;
-            await ViewModel.GetCollisionInfo();
-            if (this.ViewModel.CollisionDetails != null && this.ViewModel.CollisionDetails.Employee.EmployeeCollision != null)
+            try
             {
-                collision_Adapter = new CollisionAdapter(Context, this.ViewModel.CollisionDetails.Employee.EmployeeCollision);
-                var layoutManager = new LinearLayoutManager(Context);
-                collison_RecyclerView.SetLayoutManager(layoutManager);
-                collison_RecyclerView.SetAdapter(collision_Adapter);
+                ViewModel.isAndroidFlag = isInitialCall;
+                await ViewModel.GetCollisionInfo();
+                if (this.ViewModel.CollisionDetails != null && this.ViewModel.CollisionDetails.Employee.EmployeeCollision != null)
+                {
+                    collision_Adapter = new CollisionAdapter(Context, this.ViewModel.CollisionDetails.Employee.EmployeeCollision);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    collison_RecyclerView.SetLayoutManager(layoutManager);
+                    collison_RecyclerView.SetAdapter(collision_Adapter);
+                }
             }
-            
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+  
         }
         //public void NoData() 
         //{

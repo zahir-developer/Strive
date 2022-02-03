@@ -14,6 +14,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Owner;
 using Strive.Core.ViewModels.Owner;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -44,7 +45,6 @@ namespace StriveOwner.Android.Resources.Fragments
             merchandisesales = rootView.FindViewById<TextView>(Resource.Id.merchandisesales);
             totalsales = rootView.FindViewById<TextView>(Resource.Id.totalsales);
             monthclientsales = rootView.FindViewById<TextView>(Resource.Id.monthclientsales);
-
             GetStatistics();
             return rootView;
         }
@@ -54,13 +54,26 @@ namespace StriveOwner.Android.Resources.Fragments
             {
                 ViewModel = new SalesHomeViewModel();
             }
-            await this.ViewModel.getStatistics(OwnerTempData.LocationID);
-            washsales.Text = this.ViewModel.statisticsData.WashSales.ToString();
-            detailsales.Text = this.ViewModel.statisticsData.DetailSales.ToString();
-            extraservicesales.Text = this.ViewModel.statisticsData.ExtraServiceSales.ToString();
-            merchandisesales.Text = this.ViewModel.statisticsData.MerchandizeSales.ToString();
-            totalsales.Text = this.ViewModel.statisticsData.TotalSales.ToString();
-            monthclientsales.Text = this.ViewModel.statisticsData.MonthlyClientSales.ToString();
+            try
+            {
+                await this.ViewModel.getStatistics(OwnerTempData.LocationID);
+                if (this.ViewModel != null && this.ViewModel.statisticsData != null)
+                {
+                    washsales.Text = this.ViewModel.statisticsData.WashSales.ToString();
+                    detailsales.Text = this.ViewModel.statisticsData.DetailSales.ToString();
+                    extraservicesales.Text = this.ViewModel.statisticsData.ExtraServiceSales.ToString();
+                    merchandisesales.Text = this.ViewModel.statisticsData.MerchandizeSales.ToString();
+                    totalsales.Text = this.ViewModel.statisticsData.TotalSales.ToString();
+                    monthclientsales.Text = this.ViewModel.statisticsData.MonthlyClientSales.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
     }
 }

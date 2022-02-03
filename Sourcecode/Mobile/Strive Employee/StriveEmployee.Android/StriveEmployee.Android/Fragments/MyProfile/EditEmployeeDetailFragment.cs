@@ -15,6 +15,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.MyProfile
 {
@@ -91,13 +92,23 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             var dates = DateOfHire.Text.Split("-");
             this.ViewModel.DateOfHire = dates[2] +"-"+dates[1] +"-"+dates[0];
             EmployeeLoginDetails.LoginID = LoginID.Text;
-            var result =  await this.ViewModel.SavePersonalInfo();
-            if(result)
+            try
             {
-                EmployeeLoginDetails.clearData();
-                EmployeePersonalDetails.clearData();
-                MyProfileInfoNeeds.selectedTab = 0;
-                FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
+                var result = await this.ViewModel.SavePersonalInfo();
+                if (result)
+                {
+                    EmployeeLoginDetails.clearData();
+                    EmployeePersonalDetails.clearData();
+                    MyProfileInfoNeeds.selectedTab = 0;
+                    FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }
         private async void GetStatus()

@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace StriveOwner.Android.Fragments
@@ -79,13 +70,23 @@ namespace StriveOwner.Android.Fragments
         {
             if(MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {
-                var employeeLists = await ViewModel.GetContactsList();
-                if(MessengerTempData.employeeList_Contact != null && employeeLists != null && employeeLists.EmployeeList != null && employeeLists?.EmployeeList?.Employee != null)
+                try
                 {
-                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, employeeLists.EmployeeList?.Employee, this.ViewModel);
-                    var layoutManager = new LinearLayoutManager(Context);
-                    contacts_RecyclerView.SetLayoutManager(layoutManager);
-                    contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+                    var employeeLists = await ViewModel.GetContactsList();
+                    if (MessengerTempData.employeeList_Contact != null && employeeLists != null && employeeLists.EmployeeList != null && employeeLists?.EmployeeList?.Employee != null)
+                    {
+                        messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, employeeLists.EmployeeList?.Employee, this.ViewModel);
+                        var layoutManager = new LinearLayoutManager(Context);
+                        contacts_RecyclerView.SetLayoutManager(layoutManager);
+                        contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
                 }
             }
               

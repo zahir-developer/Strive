@@ -19,6 +19,8 @@ using Strive.Core.Models.Employee.Documents;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
 using StriveEmployee.Android.Adapter.MyProfile.Documents;
 using Xamarin.Essentials;
+using OperationCanceledException = System.OperationCanceledException;
+
 namespace StriveEmployee.Android.Fragments.MyProfile.Documents
 {
     public class AddDocumentsFragment : MvxFragment<AddDocumentsViewModel>
@@ -66,15 +68,26 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
                 {
                     ViewModel.employeeDocumentList.Add(data);
                 }
-                Task t = Task.Run(async () => await ViewModel.SaveDocuments());
+                try
+                {
+                    Task t = Task.Run(async () => await ViewModel.SaveDocuments());
                     t.ContinueWith((t1) =>
                     {
                         AppCompatActivity activity = (AppCompatActivity)this.Context;
                         MyProfileInfoNeeds.selectedTab = 2;
                         activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, MyProfFragment).Commit();
                     });
-
+                }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
+                }
                 
+
+                AddDocumentsAdapter.fileList.Clear();
             }
             else
             {

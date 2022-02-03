@@ -9,6 +9,9 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using MvvmCross;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android;
@@ -27,6 +30,13 @@ namespace StriveEmployee.Android
             : base(javaReference, transfer)
         {
             UserDialogs.Init(() => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
+
+        }
+        public override void OnCreate()
+        {
+            AppCenter.Start("6abbcdd4-bc5a-42b4-9077-db8006de8e3f", typeof(Analytics), typeof(Crashes));
+            Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
+            base.OnCreate();
         }
     }
 }

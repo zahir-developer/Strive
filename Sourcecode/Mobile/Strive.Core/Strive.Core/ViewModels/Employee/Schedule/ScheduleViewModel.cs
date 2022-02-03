@@ -43,6 +43,10 @@ namespace Strive.Core.ViewModels.Employee.Schedule
             }
             else
             {
+                if(result.ScheduleDetail.ScheduleDetailViewModel == null)
+                {
+                    _userDialog.Toast("No relatable data");
+                }
                 scheduleList = new ScheduleDetail();
                 scheduleList.ScheduleDetailViewModel = new List<ScheduleDetailViewModel>();
                 scheduleList.ScheduleEmployeeViewModel = new ScheduleEmployeeViewModel();

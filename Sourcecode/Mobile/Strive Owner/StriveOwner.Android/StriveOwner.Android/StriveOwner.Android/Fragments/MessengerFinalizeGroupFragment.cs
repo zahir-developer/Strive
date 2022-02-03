@@ -17,6 +17,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveOwner.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveOwner.Android.Fragments
 {
@@ -73,14 +74,24 @@ namespace StriveOwner.Android.Fragments
         {
             if (MessengerTempData.createGroup_Contact.EmployeeList.Employee.Count > 0)
             {
-              if (!string.IsNullOrEmpty(groupFinalName_TextView.Text))
-              {
-                  this.ViewModel.GroupName = this.groupFinalName_TextView.Text;
-                  await this.ViewModel.CreateGroupChat();
-                  MessengerTempData.resetParticipantInfo();
-                  MessengerTempData.createGroup_Contact.EmployeeList.Employee.Clear();
-                  AppCompatActivity activity = (AppCompatActivity)this.Context;
-                  activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
+                if (!string.IsNullOrEmpty(groupFinalName_TextView.Text))
+                {
+                    this.ViewModel.GroupName = this.groupFinalName_TextView.Text;
+                    try
+                    {
+                        await this.ViewModel.CreateGroupChat();
+                        MessengerTempData.resetParticipantInfo();
+                        MessengerTempData.createGroup_Contact.EmployeeList.Employee.Clear();
+                        AppCompatActivity activity = (AppCompatActivity)this.Context;
+                        activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is OperationCanceledException)
+                        {
+                            return;
+                        }
+                    }
                 }
                 else
                 {

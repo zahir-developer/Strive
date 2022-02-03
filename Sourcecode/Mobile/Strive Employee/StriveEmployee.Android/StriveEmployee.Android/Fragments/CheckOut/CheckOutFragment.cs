@@ -13,6 +13,8 @@ using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.ViewModels.Employee.CheckOut;
 using StriveEmployee.Android.Adapter.CheckOut;
 using StriveEmployee.Android.Helper;
+using Exception = System.Exception;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.CheckOut
 {
@@ -61,64 +63,79 @@ namespace StriveEmployee.Android.Fragments.CheckOut
 
         public async void GetCheckoutDetails()
         {
-
-            await ViewModel.GetCheckOutDetails();
-            if (ViewModel.CheckOutVehicleDetails != null)
+            try
             {
-                if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
-                    || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
+                await ViewModel.GetCheckOutDetails();
+                if (ViewModel.CheckOutVehicleDetails != null)
                 {
-                    checkOutDetailsAdapter = new CheckOutDetailsAdapter(Context, ViewModel.CheckOutVehicleDetails);
-                    var layoutManager = new LinearLayoutManager(Context);
-                    Checkout_RecyclerView.SetLayoutManager(layoutManager);
-                    Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
-                }
-                if (!isPullToRefresh || !isSwipeCalled)
-                {
-                    mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel);
-                    isSwipeCalled = true;
-                }
-                if (mySwipe!=null)
-                {
-                    mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
+                    if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
+                        || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
+                    {
+                        checkOutDetailsAdapter = new CheckOutDetailsAdapter(Context, ViewModel.CheckOutVehicleDetails);
+                        var layoutManager = new LinearLayoutManager(Context);
+                        Checkout_RecyclerView.SetLayoutManager(layoutManager);
+                        Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
+                    }
+                    if (!isPullToRefresh || !isSwipeCalled)
+                    {
+                        mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel);
+                        isSwipeCalled = true;
+                    }
+                    if (mySwipe != null)
+                    {
+                        mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
 
+                    }
+                }
+                else
+                {
+                    Checkout_RecyclerView.SetAdapter(null);
+                    Checkout_RecyclerView.SetLayoutManager(null);
                 }
             }
-            else 
+            catch (Exception ex)
             {
-                Checkout_RecyclerView.SetAdapter(null);
-                Checkout_RecyclerView.SetLayoutManager(null);                             
-            }
-            
-            
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }          
         }
         
         public async void GetCheckoutDetails(RecyclerView recyclerView)
         {
-            
             Checkout_RecyclerView = recyclerView;
-
-            await ViewModel.GetCheckOutDetails();
-            if (ViewModel.CheckOutVehicleDetails != null)
+            try
             {
-                if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
-                    || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
+                await ViewModel.GetCheckOutDetails();
+                if (ViewModel.CheckOutVehicleDetails != null)
                 {
-                    checkOutDetailsAdapter = new CheckOutDetailsAdapter(Context, ViewModel.CheckOutVehicleDetails);
-                    var layoutManager = new LinearLayoutManager(Context);
-                    Checkout_RecyclerView.SetLayoutManager(layoutManager);
-                    Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
-                    
-                }
-                mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
-                mySwipe.buttonBuffer.Clear();
-            }
-            else
-            {
-                Checkout_RecyclerView.SetAdapter(null);
-                Checkout_RecyclerView.SetLayoutManager(null);
-            }
+                    if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
+                        || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
+                    {
+                        checkOutDetailsAdapter = new CheckOutDetailsAdapter(Context, ViewModel.CheckOutVehicleDetails);
+                        var layoutManager = new LinearLayoutManager(Context);
+                        Checkout_RecyclerView.SetLayoutManager(layoutManager);
+                        Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
 
+                    }
+                    mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
+                    mySwipe.buttonBuffer.Clear();
+                }
+                else
+                {
+                    Checkout_RecyclerView.SetAdapter(null);
+                    Checkout_RecyclerView.SetLayoutManager(null);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+           
         }
         public void HoldTicket(checkOutViewModel checkOut,RecyclerView Checkout_RecyclerView)
         {
@@ -143,26 +160,35 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         {
             RecyclerView recyclerView1;
             ViewModel = new CheckOutViewModel();
-
-            await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
-
-            if (ViewModel.holdResponse != null)
+            try
             {
-                if (ViewModel.holdResponse.UpdateJobStatus)
+                await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
+
+                if (ViewModel.holdResponse != null)
                 {
-                    Builder = new AlertDialog.Builder(Context);
-                    Builder.SetMessage("Service status changed to hold successfully");
-                    Builder.SetTitle("Hold");
-                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    if (ViewModel.holdResponse.UpdateJobStatus)
                     {
-                        recyclerView1 = recyclerView;
-                        GetCheckoutDetails(recyclerView1);
+                        Builder = new AlertDialog.Builder(Context);
+                        Builder.SetMessage("Service status changed to hold successfully");
+                        Builder.SetTitle("Hold");
+                        okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                        {
+                            recyclerView1 = recyclerView;
+                            GetCheckoutDetails(recyclerView1);
 
-                    });
-                    Builder.SetPositiveButton("Ok", okHandler);
-                    Builder.Create();
+                        });
+                        Builder.SetPositiveButton("Ok", okHandler);
+                        Builder.Create();
 
-                    Builder.Show();
+                        Builder.Show();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
                 }
             }
 
@@ -189,24 +215,34 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         {
             RecyclerView recyclerView1;
             ViewModel = new CheckOutViewModel();
-            await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
-
-            if (ViewModel.holdResponse != null)
+            try
             {
-                if (ViewModel.holdResponse.UpdateJobStatus)
-                {
-                    Builder = new AlertDialog.Builder(Context);
-                    Builder.SetMessage("Service has been completed successfully");
-                    Builder.SetTitle("Complete");
-                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
-                    {
-                        recyclerView1 = recyclerView;
-                        GetCheckoutDetails(recyclerView1);
-                    });
-                    Builder.SetPositiveButton("Ok", okHandler);
-                    Builder.Create();
+                await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
 
-                    Builder.Show();
+                if (ViewModel.holdResponse != null)
+                {
+                    if (ViewModel.holdResponse.UpdateJobStatus)
+                    {
+                        Builder = new AlertDialog.Builder(Context);
+                        Builder.SetMessage("Service has been completed successfully");
+                        Builder.SetTitle("Complete");
+                        okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                        {
+                            recyclerView1 = recyclerView;
+                            GetCheckoutDetails(recyclerView1);
+                        });
+                        Builder.SetPositiveButton("Ok", okHandler);
+                        Builder.Create();
+
+                        Builder.Show();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
                 }
             }
         }
@@ -250,24 +286,34 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         {
             RecyclerView recyclerView1;
             ViewModel = new CheckOutViewModel();
-            await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
-
-            if (ViewModel.status != null)
+            try
             {
-                if (ViewModel.status.SaveCheckoutTime)
-                {
-                    Builder = new AlertDialog.Builder(Context);
-                    Builder.SetMessage("Vehicle has been checked out successfully");
-                    Builder.SetTitle("Checkout");
-                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
-                    {
-                        recyclerView1 = recyclerView;
-                        GetCheckoutDetails(recyclerView1);
+                await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
 
-                    });
-                    Builder.SetPositiveButton("Ok", okHandler);
-                    Builder.Create();
-                    Builder.Show();
+                if (ViewModel.status != null)
+                {
+                    if (ViewModel.status.SaveCheckoutTime)
+                    {
+                        Builder = new AlertDialog.Builder(Context);
+                        Builder.SetMessage("Vehicle has been checked out successfully");
+                        Builder.SetTitle("Checkout");
+                        okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                        {
+                            recyclerView1 = recyclerView;
+                            GetCheckoutDetails(recyclerView1);
+
+                        });
+                        Builder.SetPositiveButton("Ok", okHandler);
+                        Builder.Create();
+                        Builder.Show();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
                 }
             }
         }

@@ -14,6 +14,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Owner;
 using Strive.Core.ViewModels.Owner;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -43,7 +44,6 @@ namespace StriveOwner.Android.Resources.Fragments
             score = rootView.FindViewById<TextView>(Resource.Id.score);
             forecastedcars = rootView.FindViewById<TextView>(Resource.Id.forecastedcars);
             avgcarwashtime = rootView.FindViewById<TextView>(Resource.Id.avgcarwashtime);
-
             GetStatistics();
             return rootView;
         }
@@ -53,15 +53,25 @@ namespace StriveOwner.Android.Resources.Fragments
             {
                 this.ViewModel = new ServicesHomeViewModel();
             }
-            await this.ViewModel.getStatistics(OwnerTempData.LocationID);
-            if (this.ViewModel.statisticsData != null)
+            try
             {
-                noofwashes.Text = this.ViewModel.statisticsData.WashesCount.ToString();
-                noofdetails.Text = this.ViewModel.statisticsData.DetailCount.ToString();
-                washemployees.Text = this.ViewModel.statisticsData.EmployeeCount.ToString();
-                score.Text = this.ViewModel.statisticsData.Score.ToString();
-                forecastedcars.Text = this.ViewModel.statisticsData.Currents.ToString() + "/" + ViewModel.statisticsData.ForecastedCar.ToString();
-                avgcarwashtime.Text = this.ViewModel.statisticsData.WashTime?.ToString();
+                await this.ViewModel.getStatistics(OwnerTempData.LocationID);
+                if (this.ViewModel.statisticsData != null)
+                {
+                    noofwashes.Text = this.ViewModel.statisticsData.WashesCount.ToString();
+                    noofdetails.Text = this.ViewModel.statisticsData.DetailCount.ToString();
+                    washemployees.Text = this.ViewModel.statisticsData.EmployeeCount.ToString();
+                    score.Text = this.ViewModel.statisticsData.Score.ToString();
+                    forecastedcars.Text = this.ViewModel.statisticsData.Currents.ToString() + "/" + ViewModel.statisticsData.ForecastedCar.ToString();
+                    avgcarwashtime.Text = this.ViewModel.statisticsData.WashTime?.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }        
     }

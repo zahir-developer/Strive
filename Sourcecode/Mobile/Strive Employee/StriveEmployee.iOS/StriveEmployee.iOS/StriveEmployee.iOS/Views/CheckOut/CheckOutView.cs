@@ -40,7 +40,7 @@ namespace StriveEmployee.iOS.Views
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
-            GetCheckoutDetails();
+           // GetCheckoutDetails();
         }
         
         async Task RefreshAsync()
@@ -98,26 +98,37 @@ namespace StriveEmployee.iOS.Views
         }
         private async void GetCheckoutDetails()
         {
-            await ViewModel.GetCheckOutDetails();
-            if (ViewModel.CheckOutVehicleDetails != null)
+            try
             {
-                if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
-                    || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
-                {                                                 
-                    var documentSource = new Checkout_DataSource(ViewModel.CheckOutVehicleDetails, this);
-                    CheckOut_TableView.Source = documentSource;
+                await ViewModel.GetCheckOutDetails();
+                if (ViewModel.CheckOutVehicleDetails != null)
+                {
+                    if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
+                        || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
+                    {
+                        var documentSource = new Checkout_DataSource(ViewModel.CheckOutVehicleDetails, this);
+                        CheckOut_TableView.Source = documentSource;
+                        CheckOut_TableView.TableFooterView = new UIView(CGRect.Empty);
+                        CheckOut_TableView.DelaysContentTouches = false;
+                        CheckOut_TableView.ReloadData();
+                    }
+                }
+                else
+                {
+                    CheckOut_TableView.Source = null;
                     CheckOut_TableView.TableFooterView = new UIView(CGRect.Empty);
                     CheckOut_TableView.DelaysContentTouches = false;
                     CheckOut_TableView.ReloadData();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                CheckOut_TableView.Source = null;
-                CheckOut_TableView.TableFooterView = new UIView(CGRect.Empty);
-                CheckOut_TableView.DelaysContentTouches = false;
-                CheckOut_TableView.ReloadData();
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
+           
         }
 
         public void HoldTicket(checkOutViewModel checkout)
@@ -129,18 +140,28 @@ namespace StriveEmployee.iOS.Views
         }
 
         public async void HoldCheckout(checkOutViewModel checkout)
-        {          
-            await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
-
-            if (ViewModel.holdResponse.UpdateJobStatus)
+        {
+            try
             {
-                ShowAlertMsg("Service status changed to hold successfully", () =>
+                await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
+
+                if (ViewModel.holdResponse.UpdateJobStatus)
                 {
+                    ShowAlertMsg("Service status changed to hold successfully", () =>
+                    {
                     // Refreshing checkout list
                     GetCheckoutDetails();
-                }, titleTxt: "Hold");
+                    }, titleTxt: "Hold");
+                }
             }
-           
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+
         }
 
         public void CompleteTicket(checkOutViewModel checkout)
@@ -153,14 +174,24 @@ namespace StriveEmployee.iOS.Views
 
         public async void CompleteCheckout(checkOutViewModel checkout)
         {
-            await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
-
-            if (ViewModel.holdResponse.UpdateJobStatus)
+            try
             {
-                ShowAlertMsg("Service has been completed successfully", () =>
-                {                    
-                    GetCheckoutDetails();
-                }, titleTxt: "Complete");
+                await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
+
+                if (ViewModel.holdResponse.UpdateJobStatus)
+                {
+                    ShowAlertMsg("Service has been completed successfully", () =>
+                    {
+                        GetCheckoutDetails();
+                    }, titleTxt: "Complete");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }
 
@@ -184,15 +215,25 @@ namespace StriveEmployee.iOS.Views
 
         public async void Checkout(checkOutViewModel checkout)
         {
-            await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
-
-            if (ViewModel.status.SaveCheckoutTime)
+            try
             {
-                ShowAlertMsg("Vehicle has been checked out successfully", () =>
+                await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
+
+                if (ViewModel.status.SaveCheckoutTime)
                 {
-                    GetCheckoutDetails();
-                }, titleTxt: "Checkout");
-            }            
+                    ShowAlertMsg("Vehicle has been checked out successfully", () =>
+                    {
+                        GetCheckoutDetails();
+                    }, titleTxt: "Checkout");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
 
         public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false, string titleTxt = null)

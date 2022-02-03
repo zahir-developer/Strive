@@ -26,6 +26,8 @@ using Strive.Core.Rest.Implementations;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Services.Interfaces;
+using Strive.Core.ViewModels.Employee;
+using StriveEmployee.Android.Views;
 
 namespace StriveEmployee.Android.MvvmCross
 {
@@ -66,6 +68,12 @@ namespace StriveEmployee.Android.MvvmCross
         {
             return new MvxAppCompatViewPresenter(AndroidViewAssemblies);
         }
-
+        public override IEnumerable<Assembly> GetViewModelAssemblies()
+        {
+            var result = base.GetViewModelAssemblies();
+            var assemblyList = result.ToList();
+            assemblyList.Add(typeof(LoginViewModel).Assembly);
+            return assemblyList;
+        }
     }
 }

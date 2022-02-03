@@ -17,6 +17,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
 using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -46,16 +47,26 @@ namespace StriveCustomer.Android.Fragments
 
         public async void GetScheduleVehicleList()
         {
-           await this.ViewModel.GetScheduleVehicleList();
-            if (this.ViewModel != null)
+            try
             {
-             if (this.ViewModel.scheduleVehicleList != null || this.ViewModel.scheduleVehicleList.Status.Count > 0)
+                await this.ViewModel.GetScheduleVehicleList();
+                if (this.ViewModel != null)
                 {
-                    scheduleListAdapter = new ScheduleVehicleListAdapter(this.ViewModel.scheduleVehicleList);
+                    if (this.ViewModel.scheduleVehicleList != null || this.ViewModel.scheduleVehicleList.Status.Count > 0)
+                    {
+                        scheduleListAdapter = new ScheduleVehicleListAdapter(this.ViewModel.scheduleVehicleList);
 
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(Context);
-                    ScheduleVehicleList_RecyclerView.SetLayoutManager(layoutManager);
-                    ScheduleVehicleList_RecyclerView.SetAdapter(scheduleListAdapter);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(Context);
+                        ScheduleVehicleList_RecyclerView.SetLayoutManager(layoutManager);
+                        ScheduleVehicleList_RecyclerView.SetAdapter(scheduleListAdapter);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
                 }
             }
         }

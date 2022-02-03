@@ -16,6 +16,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 {
@@ -84,39 +85,59 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 
         private async Task GetCollisions()
         {
-            await this.ViewModel.GetCollisions();
-            if(this.ViewModel.getCollisions != null)
+            try
             {
-                var id = this.ViewModel.getCollisions.Collision.LiabilityDetail.First().LiabilityId;
-                position = this.ViewModel.liabilityTypes.Codes.FindIndex(x => x.CodeId == id);
-                if(!string.IsNullOrEmpty(this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate))
+                await this.ViewModel.GetCollisions();
+                if (this.ViewModel.getCollisions != null)
                 {
-                    dates = this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate;
-                    var date = this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate.Split('T');
-                    editCollisionsDate_EditText.Text = date[0];
-                }                
-                editCollisionAmount_EditText.Text =this.ViewModel.getCollisions.Collision.LiabilityDetail.First().Amount.ToString();
-                editCollisionNotes_EditText.Text = this.ViewModel.getCollisions.Collision.LiabilityDetail.First().Description;
+                    var id = this.ViewModel.getCollisions.Collision.LiabilityDetail.First().LiabilityId;
+                    position = this.ViewModel.liabilityTypes.Codes.FindIndex(x => x.CodeId == id);
+                    if (!string.IsNullOrEmpty(this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate))
+                    {
+                        dates = this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate;
+                        var date = this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate.Split('T');
+                        editCollisionsDate_EditText.Text = date[0];
+                    }
+                    editCollisionAmount_EditText.Text = this.ViewModel.getCollisions.Collision.LiabilityDetail.First().Amount.ToString();
+                    editCollisionNotes_EditText.Text = this.ViewModel.getCollisions.Collision.LiabilityDetail.First().Description;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }
 
-        private async void GetLiabilityTypes()
-        {
-            await this.ViewModel.GetLiabilityTypes();
-            if(this.ViewModel.liabilityTypes != null)
+         private async void GetLiabilityTypes()
+         {
+            try
             {
-                codes = new List<string>();
-                collisionID_List = new List<int>();
-
-                foreach (var data in this.ViewModel.liabilityTypes.Codes)
+                await this.ViewModel.GetLiabilityTypes();
+                if (this.ViewModel.liabilityTypes != null)
                 {
-                    codes.Add(data.CodeValue);
-                    collisionID_List.Add(data.CodeId);
+                    codes = new List<string>();
+                    collisionID_List = new List<int>();
+
+                    foreach (var data in this.ViewModel.liabilityTypes.Codes)
+                    {
+                        codes.Add(data.CodeValue);
+                        collisionID_List.Add(data.CodeId);
+                    }
+                    codesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, codes);
+                    editCollisionType_Spinner.Adapter = codesAdapter;
+                    await GetCollisions();
+                    editCollisionType_Spinner.SetSelection(position);
                 }
-                codesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, codes);
-                editCollisionType_Spinner.Adapter = codesAdapter;
-                await GetCollisions();
-                editCollisionType_Spinner.SetSelection(position);
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
         }
         private void CollisionDate_EditText_Click(object sender, EventArgs e)

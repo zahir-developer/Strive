@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
@@ -10,6 +11,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 using StriveCustomer.Android.DemoData;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -60,9 +62,20 @@ namespace StriveCustomer.Android.Fragments
         //}
         public async void GetDeals()
         {
-            await this.ViewModel.GetAllDealsCommand();
-            DealsAdapter dealsAdapter = new DealsAdapter(this.ViewModel.Deals, context,ViewModel);
-            dealsRecyclerView.SetAdapter(dealsAdapter);
+            try
+            {
+                await this.ViewModel.GetAllDealsCommand();
+                DealsAdapter dealsAdapter = new DealsAdapter(this.ViewModel.Deals, context, ViewModel);
+                dealsRecyclerView.SetAdapter(dealsAdapter);
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
         
     }

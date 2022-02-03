@@ -12,6 +12,7 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.Utils;
+using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Employee;
 using Xamarin.Essentials;
 

@@ -27,6 +27,7 @@ using StriveCustomer.Android.Services;
 using Xamarin.Essentials;
 using static Android.Gms.Common.Apis.GoogleApiClient;
 using Double = System.Double;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -244,29 +245,38 @@ namespace StriveCustomer.Android.Fragments
      
         public async void setupMaps()
         {
-            var allLocations = await this.ViewModel.GetAllLocationStatus();
-            if (allLocations.Washes.Count == 0)
+            try
             {
-                Locations = null;
-            }
-            else
-            {
+                var allLocations = await this.ViewModel.GetAllLocationStatus();
+                if (allLocations.Washes.Count == 0)
+                {
+                    Locations = null;
+                }
+                else
+                {
 
-                washlocations = allLocations;
+                    washlocations = allLocations;
+                }
+                if (!IsAdded)
+                {
+                    return;
+                }
+                else
+                {
+                    gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.contactUsMaps);
+                }
+                if (gmaps != null)
+                {
+                    gmaps.GetMapAsync(this);
+                }
             }
-            if (!IsAdded)
+            catch (System.Exception ex)
             {
-                return;
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
-            else
-            {
-                gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.contactUsMaps);
-            }
-            if (gmaps != null)
-            {
-                gmaps.GetMapAsync(this);
-            }
-            
         }
         private void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
         {

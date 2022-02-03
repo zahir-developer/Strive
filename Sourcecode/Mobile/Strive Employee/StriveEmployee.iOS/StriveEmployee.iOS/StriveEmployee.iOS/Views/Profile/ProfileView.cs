@@ -108,43 +108,75 @@ namespace StriveEmployee.iOS.Views
         }
         private async void GetEmployeeDetails()
         {
-            await ViewModel.GetGender();
-            await ViewModel.GetImmigrationStatus();
-            await ViewModel.GetPersonalEmployeeInfo();
-            //if ((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null) || this.ViewModel.PersonalDetails.Employee.EmployeeCollision != null
-            //    || this.ViewModel.PersonalDetails.Employee.EmployeeDocument != null || this.ViewModel.PersonalDetails.Employee.EmployeeLocations != null || this.ViewModel.PersonalDetails.Employee.EmployeeRoles != null)
-            if ((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null))
+            try
             {
-                SetEmployeeData();
-                Emp_Firstname.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
-                Emp_Lastname.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
-                if (this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != 0)
-                {
-                    Emp_Gender.Text = ViewModel.gender.Codes.Find(x => x.CodeId == ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
-                }
-                Emp_ContactNo.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.PhoneNumber;
-                Emp_SSN.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.SSNo;
-                foreach (var data in this.ViewModel.ImmigrationStatus.Codes)
-                {
-                    if (data.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.ImmigrationStatus)
-                    {
-                        Emp_Imm_Status.Text = data.CodeValue;
-                    }
-                }                    
-                Emp_Address.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.Address1;
-                Emp_LoginId.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.Email;
-
-                var date = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.HiredDate.Split("T");
-                Emp_HireDate.Text = date[0];
-                if (this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Status)
-                {
-                    Emp_Status.Text = "Active";
-                }
-                else
-                {
-                    Emp_Status.Text = "InActive";
-                }                    
+                await ViewModel.GetGender();
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            try
+            {
+                await ViewModel.GetImmigrationStatus();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            try
+            {
+                await ViewModel.GetPersonalEmployeeInfo();
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+           
+                //if ((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null) || this.ViewModel.PersonalDetails.Employee.EmployeeCollision != null
+                //    || this.ViewModel.PersonalDetails.Employee.EmployeeDocument != null || this.ViewModel.PersonalDetails.Employee.EmployeeLocations != null || this.ViewModel.PersonalDetails.Employee.EmployeeRoles != null)
+                if ((this.ViewModel.PersonalDetails != null && this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null))
+                {
+                    SetEmployeeData();
+                    Emp_Firstname.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
+                    Emp_Lastname.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
+                    if (this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != 0)
+                    {
+                        Emp_Gender.Text = ViewModel.gender.Codes.Find(x => x.CodeId == ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                    }
+                    Emp_ContactNo.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.PhoneNumber;
+                    Emp_SSN.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.SSNo;
+                    foreach (var data in this.ViewModel.ImmigrationStatus.Codes)
+                    {
+                        if (data.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.ImmigrationStatus)
+                        {
+                            Emp_Imm_Status.Text = data.CodeValue;
+                        }
+                    }
+                    Emp_Address.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.Address1;
+                    Emp_LoginId.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.Email;
+
+                    var date = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.HiredDate.Split("T");
+                    Emp_HireDate.Text = date[0];
+                    if (this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Status)
+                    {
+                        Emp_Status.Text = "Active";
+                    }
+                    else
+                    {
+                        Emp_Status.Text = "InActive";
+                    }
+                }
         }
         private void SetEmployeeData()
         {
@@ -166,28 +198,50 @@ namespace StriveEmployee.iOS.Views
 
         private async void GetCollisionInfo()
         {
-            await collisionView.GetCollisionInfo();
-            if (collisionView.CollisionDetails != null && collisionView.CollisionDetails.Employee.EmployeeCollision != null)
+            try
             {
-                var collisionSource = new CollisionDataSource(collisionView.CollisionDetails.Employee.EmployeeCollision);
-                Collision_TableView.Source = collisionSource;
-                Collision_TableView.TableFooterView = new UIView(CGRect.Empty);
-                Collision_TableView.DelaysContentTouches = false;
-                Collision_TableView.ReloadData();
+                await collisionView.GetCollisionInfo();
+                if (collisionView.CollisionDetails != null && collisionView.CollisionDetails.Employee.EmployeeCollision != null)
+                {
+                    var collisionSource = new CollisionDataSource(collisionView.CollisionDetails.Employee.EmployeeCollision);
+                    Collision_TableView.Source = collisionSource;
+                    Collision_TableView.TableFooterView = new UIView(CGRect.Empty);
+                    Collision_TableView.DelaysContentTouches = false;
+                    Collision_TableView.ReloadData();
+                }
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            
         }
 
         private async void GetDocumentInfo()
         {
-            await documentsView.GetDocumentInfo();
-            if (documentsView.DocumentDetails != null && documentsView.DocumentDetails.Employee.EmployeeDocument != null)
+            try
             {
-                var documentSource = new DocumentDataSource(documentsView.DocumentDetails.Employee.EmployeeDocument, documentsView, this);
-                Documents_TableView.Source = documentSource;
-                Documents_TableView.TableFooterView = new UIView(CGRect.Empty);
-                Documents_TableView.DelaysContentTouches = false;
-                Documents_TableView.ReloadData();
-            }            
+                await documentsView.GetDocumentInfo();
+                if (documentsView.DocumentDetails != null && documentsView.DocumentDetails.Employee.EmployeeDocument != null)
+                {
+                    var documentSource = new DocumentDataSource(documentsView.DocumentDetails.Employee.EmployeeDocument, documentsView, this);
+                    Documents_TableView.Source = documentSource;
+                    Documents_TableView.TableFooterView = new UIView(CGRect.Empty);
+                    Documents_TableView.DelaysContentTouches = false;
+                    Documents_TableView.ReloadData();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+                        
         }       
     }
 }

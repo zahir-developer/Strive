@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Android.Content;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -28,23 +29,37 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
         Context context;
         private AddDocumentsViewHolder addDocuments_ViewHolder;
         private ObservableCollection<employeeDocument> selectedFile = new ObservableCollection<employeeDocument>();
-        private ObservableCollection<FileResult> fileList;
-
-        //public AddDocumentsAdapter(Context context, ObservableCollection<string> fileName)
-        //{
-        //    this.context = context;
-        //    this.fileList = fileName;
-        //}
+        public static ObservableCollection<FileResult> fileList = new ObservableCollection<FileResult>();
+        
 
         public AddDocumentsAdapter(Context context, IEnumerable<FileResult> result)
         {
             this.context = context;
-            this.fileList = new ObservableCollection<FileResult>(result);
+            //this.fileList = new ObservableCollection<FileResult>(result);
+            result.ToList().ForEach(fileList.Add);
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             addDocuments_ViewHolder = holder as AddDocumentsViewHolder;
+            //if (tempFileList.Count > 0)
+            //{
+            //    foreach (var data in tempFileList)
+            //    {
+            //        if (data.FileName != fileList[position].FileName)
+            //        {
+            //            tempFileList.Add(data);
+            //        }
+            //        else
+            //        {
+            //            tempFileList.Remove(data);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    tempFileList.Add(fileList);
+            //}
             addDocuments_ViewHolder.documentName_TextView.Text = fileList[position].FileName;
             addDocuments_ViewHolder.checkDoc_ImageButton.Tag = position;
             addDocuments_ViewHolder.checkDoc_ImageButton.Click += SelectDocument;
@@ -63,7 +78,6 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
             employeeDocuments.base64 = Convert.ToBase64String(DataArray);
             employeeDocuments.fileType = fileType[1];
             selectedFile.Add(employeeDocuments);
-            
         }
 
         public ObservableCollection<employeeDocument> GetFile()

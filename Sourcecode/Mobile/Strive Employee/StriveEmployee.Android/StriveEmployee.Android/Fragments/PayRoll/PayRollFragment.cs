@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.Payroll
 {
@@ -117,8 +118,20 @@ namespace StriveEmployee.Android.Fragments.Payroll
            
             if (ViewModel.employeeid != 0)
             {
-                await ViewModel.GetPayRollProcess();
-
+                if (ViewModel.employeeid != 0)
+                {
+                    try
+                    {
+                        await ViewModel.GetPayRollProcess();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is OperationCanceledException)
+                        {
+                            return;
+                        }
+                    }
+                }
             }
 
             //Setting Data
@@ -227,11 +240,19 @@ namespace StriveEmployee.Android.Fragments.Payroll
             ViewModel.Fromdate = fromdate;
             ViewModel.Todate = todate;
             ViewModel.employeeid = EmployeeTempData.EmployeeID;
-
             if (ViewModel.employeeid != 0)
             {
-                await ViewModel.GetPayRollProcess();
-
+                try
+                {
+                    await ViewModel.GetPayRollProcess();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
+                }         
             }
             
             if (ViewModel.PayRoll != null)

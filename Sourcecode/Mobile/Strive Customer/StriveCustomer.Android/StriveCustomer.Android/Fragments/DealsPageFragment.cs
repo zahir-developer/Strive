@@ -15,6 +15,7 @@ using Android.Content.PM;
 using StriveCustomer.Android.Services;
 using Android.Graphics;
 using Android.Content;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -326,11 +327,19 @@ namespace StriveCustomer.Android.Fragments
                             this.ViewModel.clientID = CustomerInfo.ClientID;
                             this.ViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
                             //_userDialog.Loading();
-
-                            await this.ViewModel.AddClientDeals();
-                            validateDeals(false);
-                            couponValidity();
-
+                            try
+                            {
+                                await this.ViewModel.AddClientDeals();
+                                validateDeals(false);
+                                couponValidity();
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex is OperationCanceledException)
+                                {
+                                    return;
+                                }
+                            }
                             //_userDialog.HideLoading();
                         }
                         else
@@ -367,10 +376,19 @@ namespace StriveCustomer.Android.Fragments
                         this.ViewModel.Date = DateTime.Today.ToString("yyyy-MM-dd");
                         //_userDialog.Loading();
 
-                        await this.ViewModel.AddClientDeals();
-                        validateDeals(false);
-                        couponValidity();
-
+                        try
+                        {
+                            await this.ViewModel.AddClientDeals();
+                            validateDeals(false);
+                            couponValidity();
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex is OperationCanceledException)
+                            {
+                                return;
+                            }
+                        }
                         //_userDialog.HideLoading();
                     }
                     else

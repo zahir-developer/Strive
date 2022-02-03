@@ -162,14 +162,25 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         private async void getRecentContacts()
         {
-            await recentViewModel.GetRecentContactsList();
-            if (recentViewModel.EmployeeList != null)
+            try
             {
-                if (recentViewModel.EmployeeList.ChatEmployeeList.Count > 0)
+                await recentViewModel.GetRecentContactsList();
+                if (recentViewModel.EmployeeList != null)
                 {
-                    setData();
+                    if (recentViewModel.EmployeeList.ChatEmployeeList.Count > 0)
+                    {
+                        setData();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            
         }
 
         void setData()
@@ -185,27 +196,47 @@ namespace StriveEmployee.iOS.Views.Messenger
         {
             if (MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {
-                var employeeLists = await contactSView.GetContactsList();
-
-                if (MessengerTempData.employeeList_Contact != null || employeeLists != null || employeeLists.EmployeeList != null || employeeLists.EmployeeList.Employee != null)
+                try
                 {
-                    contactSource = new Contact_DataSource(employeeLists.EmployeeList.Employee, contactSView);
-                    Messenger_TableView.Source = contactSource;
-                    Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
-                    Messenger_TableView.DelaysContentTouches = false;
-                    Messenger_TableView.ReloadData();
+                    var employeeLists = await contactSView.GetContactsList();
+                    if (MessengerTempData.employeeList_Contact != null || employeeLists != null || employeeLists.EmployeeList != null || employeeLists.EmployeeList.Employee != null)
+                    {
+                        contactSource = new Contact_DataSource(employeeLists.EmployeeList.Employee, contactSView);
+                        Messenger_TableView.Source = contactSource;
+                        Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
+                        Messenger_TableView.DelaysContentTouches = false;
+                        Messenger_TableView.ReloadData();
+                    }
                 }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
+                }
+                
             }
         }
 
         public async void getGroupChat()
         {
-            await groupViewModel.GetGroupsList();
-            if (groupViewModel.GroupList != null)
+            try
             {
-                if (groupViewModel.GroupList.ChatEmployeeList.Count > 0)
+                await groupViewModel.GetGroupsList();
+                if (groupViewModel.GroupList != null)
                 {
-                    setGroupData();
+                    if (groupViewModel.GroupList.ChatEmployeeList.Count > 0)
+                    {
+                        setGroupData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
                 }
             }
         }

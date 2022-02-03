@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Employee.Schedule;
 using StriveEmployee.Android.Adapter.Schedule;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.Schedule
 {
@@ -51,20 +45,29 @@ namespace StriveEmployee.Android.Fragments.Schedule
 
         public async void GetScheduleList()
         {
-            await this.ViewModel.GetScheduleList();
-            if (this.ViewModel.scheduleList != null && this.ViewModel.scheduleList.ScheduleDetailViewModel != null)
+            try
             {
-            scheduleAdapter = new ScheduleAdapter(Context, this.ViewModel.scheduleList);
-            var layoutManager = new LinearLayoutManager(Context);
-            scheduleInfo.SetLayoutManager(layoutManager);
-            scheduleInfo.SetAdapter(scheduleAdapter);
+                await this.ViewModel.GetScheduleList();
+                if (this.ViewModel.scheduleList != null && this.ViewModel.scheduleList.ScheduleDetailViewModel != null)
+                {
+                    scheduleAdapter = new ScheduleAdapter(Context, this.ViewModel.scheduleList);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    scheduleInfo.SetLayoutManager(layoutManager);
+                    scheduleInfo.SetAdapter(scheduleAdapter);
+                }
+                else
+                {
+                    scheduleInfo.SetAdapter(null);
+                    scheduleInfo.SetLayoutManager(null);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                scheduleInfo.SetAdapter(null);
-                scheduleInfo.SetLayoutManager(null);
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
-
         }
     }
 }

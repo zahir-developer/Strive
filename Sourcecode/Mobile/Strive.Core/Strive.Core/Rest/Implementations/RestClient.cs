@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using MvvmCross;
@@ -11,6 +12,8 @@ using Strive.Core.Models;
 using Strive.Core.Resources;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Utils;
+using Strive.Core.ViewModels;
+using Xamarin.Essentials;
 
 namespace Strive.Core.Rest.Implementations
 {
@@ -20,6 +23,7 @@ namespace Strive.Core.Rest.Implementations
         private readonly IMvxLog _mvxLog;
         private static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
         private string URL { get; set; }
+    
         public RestClient(IMvxJsonConverter jsonConverter, IMvxLog mvxLog)
         {
             _jsonConverter = jsonConverter;
@@ -32,6 +36,7 @@ namespace Strive.Core.Rest.Implementations
             BaseResponse baseResponse = new BaseResponse();
             url = ApiUtils.AZURE_URL_TEST + url;
             URL = url;
+             CancellationTokenSource cancellationToken = new CancellationTokenSource();
             //url = url.Replace("http://", "https://");
 
             using (var httpClient = new HttpClient())
@@ -48,12 +53,21 @@ namespace Strive.Core.Rest.Implementations
                     }
 
                     HttpResponseMessage response = new HttpResponseMessage();
-                    try
-                    {
+                      try
+                      {
                         Console.WriteLine(request);
                         response = await httpClient.SendAsync(request).ConfigureAwait(true);
-                        Console.WriteLine(response);
-                        //Console.WriteLine("TermsResponse:--"+Newtonsoft.Json.JsonConvert.SerializeObject(response));
+                         Console.WriteLine(response);
+                        //if ((int)response.StatusCode == 401)
+                        //{
+                        if (!url.Contains("Login"))
+                        {
+                            cancellationToken.Cancel();
+                            if (cancellationToken.IsCancellationRequested)
+                            {
+                                cancellationToken.Token.ThrowIfCancellationRequested();
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -61,7 +75,21 @@ namespace Strive.Core.Rest.Implementations
                         _mvxLog.ErrorException("MakeApiCall failed", ex);
                         if (!url.Contains("Login"))
                         {
-                            await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
+                            if(ex is OperationCanceledException)
+                            {
+                                BaseViewModel baseViewModel = new BaseViewModel();
+                                if (!BaseViewModel.isExitApp)
+                                {
+                                    await baseViewModel.LogoutAppAsync();
+                                    BaseViewModel.isExitApp = true;
+                                }
+                                cancellationToken.Dispose();
+                                throw new OperationCanceledException("OperationCanceledException", ex);
+                            }
+                            else
+                            {
+                                await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
+                            }
                         }
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
@@ -75,14 +103,9 @@ namespace Strive.Core.Rest.Implementations
                     catch (Exception ex)
                     {
                         _userDialog.HideLoading();
-                        if (!url.Contains("Login"))
-                        {
-                            await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
-                        }
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
-
                     if (!WeirdResponse(baseResponse))
                     {
                         _userDialog.HideLoading();
