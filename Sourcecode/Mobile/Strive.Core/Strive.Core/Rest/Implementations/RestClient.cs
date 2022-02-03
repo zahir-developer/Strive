@@ -56,17 +56,17 @@ namespace Strive.Core.Rest.Implementations
                       try
                       {
                         Console.WriteLine(request);
-                        response = await httpClient.SendAsync(request).ConfigureAwait(true);
+                         response = await httpClient.SendAsync(request).ConfigureAwait(true);
                          Console.WriteLine(response);
-                        if ((int)response.StatusCode == 401)
-                        {
-                            cancellationToken.Cancel();
-                            if (cancellationToken.IsCancellationRequested)
+                            if ((int)response.StatusCode == 401)
                             {
-                                cancellationToken.Token.ThrowIfCancellationRequested();
+                                cancellationToken.Cancel();
+                                if (cancellationToken.IsCancellationRequested)
+                                {
+                                    cancellationToken.Token.ThrowIfCancellationRequested();
+                                }
                             }
                         }
-                    }
                     catch (Exception ex)
                     {
                         _userDialog.HideLoading();

@@ -34,10 +34,30 @@
             android:layout_marginLeft="@dimen/ten"
             android:layout_marginBottom="90dp"
             android:background="@drawable/secondarylinearlayout">
+           <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:layout_marginLeft="@dimen/five"
+              android:layout_marginTop="@dimen/ten">
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Location :"
+                 android:textSize="@dimen/textFifteen"
+                 android:textColor="@android:color/black"/>
+             <Spinner
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"           
+                 android:id="@+id/LocationName"
+                 android:layout_marginLeft="@dimen/five"
+                 android:background="@drawable/borderededittext"/>              
+         </LinearLayout>
       <android.support.v4.widget.SwipeRefreshLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           android:id="@+id/swipeRefreshLayout">
+           android:id="@+id/swipeRefreshLayout"
+           android:layout_marginTop="@dimen/four">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/checkout_RecyclerView"
             android:layout_width="match_parent"

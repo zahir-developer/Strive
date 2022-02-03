@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Java.Util;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Employee.Schedule;
@@ -17,7 +18,9 @@ namespace StriveEmployee.Android.Fragments.Schedule
         private RecyclerView scheduleInfo;
         private ScheduleAdapter scheduleAdapter;
         private Button backButton;
-
+        private Calendar calendar;
+        private int day, year, month;
+        private CalendarView schedule_CalendarView;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,9 +33,16 @@ namespace StriveEmployee.Android.Fragments.Schedule
             var rootView = this.BindingInflate(Resource.Layout.Schedule_Fragment, null);
             scheduleInfo = rootView.FindViewById<RecyclerView>(Resource.Id.scheduleInfo);
             backButton = rootView.FindViewById<Button>(Resource.Id.schedule_BackButton);
+            schedule_CalendarView = rootView.FindViewById<CalendarView>(Resource.Id.schedule_Calendar);
+
             this.ViewModel = new ScheduleViewModel();
 
             backButton.Click += BackButton_Click;
+            calendar = Calendar.GetInstance(Java.Util.TimeZone.Default);
+            day = calendar.Get(CalendarField.DayOfMonth);
+            year = calendar.Get(CalendarField.Year);
+            month = calendar.Get(CalendarField.Month);
+            schedule_CalendarView.MinDate = calendar.TimeInMillis;
             GetScheduleList();
             return rootView;
         }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 
 namespace Strive.Core.ViewModels.Owner
@@ -15,7 +16,18 @@ namespace Strive.Core.ViewModels.Owner
         public CheckoutDetails CheckOutVehicleDetails { get; set; }
         public holdCheckoutResponse holdResponse { get; set; }
         public CheckoutResponse status { get; set; }
+        public int locationID { get; set; }
+        public List<EmployeeLocation> EmployeeLocations { get; set; }
+        public string _selectedLocation;
 
+        public string ItemLocation
+        {
+            get
+            {
+                return _selectedLocation;
+            }
+            set { SetProperty(ref _selectedLocation, value); }
+        }
         #endregion Properties
 
         #region Commands
@@ -27,7 +39,7 @@ namespace Strive.Core.ViewModels.Owner
             {
                 startDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
                 endDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
-                locationId = 1,
+                locationId = locationID,
                 pageNo = 1,
                 pageSize = 100,
                 query = "",

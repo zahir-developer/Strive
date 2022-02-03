@@ -39,7 +39,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
         private TextView OTPay;
         private TextView Adjustment;
         private TextView Commission;
-        private TextView WashTips;
+        //private TextView WashTips;
         private TextView Bonus;
         private TextView Total;
         private Button Go_Button;
@@ -81,7 +81,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
             OTPay = rootView.FindViewById<TextView>(Resource.Id.OTPay);
             Adjustment = rootView.FindViewById<TextView>(Resource.Id.Adjustment);
             Commission = rootView.FindViewById<TextView>(Resource.Id.Commission);
-            WashTips = rootView.FindViewById<TextView>(Resource.Id.WashTips);
+            //WashTips = rootView.FindViewById<TextView>(Resource.Id.WashTips);
             Bonus = rootView.FindViewById<TextView>(Resource.Id.Bonus);
             Total = rootView.FindViewById<TextView>(Resource.Id.Total);
             Go_Button = rootView.FindViewById<Button>(Resource.Id.go_btn);
@@ -149,7 +149,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
                 Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
                 CashTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
                 CardTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
-                WashTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
+               //WashTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
                 DetailTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
                 Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
                 Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
@@ -168,7 +168,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
                 Commission.Text = "$" + "0.00";
                 CashTips.Text = "$" + "0.00";
                 CardTips.Text = "$" + "0.00";
-                WashTips.Text = "$" + "0.00";
+               //WashTips.Text = "$" + "0.00";
                 DetailTips.Text = "$" + "0.00";
                 Bonus.Text = "$" + "0.00";
                 Total.Text = "$" + "0.00";
@@ -191,9 +191,9 @@ namespace StriveEmployee.Android.Fragments.Payroll
                 LocationNameSpinner.Adapter = LocationAdapter;
                 LocationNameSpinner.SetSelection(position);
             }
-            var set = this.CreateBindingSet<PayRollFragment, PayRollViewModel>();
-            set.Bind(LocationNameSpinner).To(vm => vm.ItemLocation);
-            set.Apply();
+            //var set = this.CreateBindingSet<PayRollFragment, PayRollViewModel>();
+            //set.Bind(LocationNameSpinner).To(vm => vm.ItemLocation);
+            //set.Apply();
         }
 
         private void FromDate_Click(object sender, EventArgs e)
@@ -269,7 +269,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
                 Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
                 CashTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
                 CardTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
-                WashTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
+                //WashTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
                 DetailTips.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
                 Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
                 Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
@@ -288,7 +288,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
                 Commission.Text = "$" + "0.00";
                 CashTips.Text = "$" + "0.00";
                 CardTips.Text = "$" + "0.00";
-                WashTips.Text = "$" + "0.00";
+                //WashTips.Text = "$" + "0.00";
                 DetailTips.Text = "$" + "0.00";
                 Bonus.Text = "$" + "0.00";
                 Total.Text = "$" + "0.00";

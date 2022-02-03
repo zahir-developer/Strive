@@ -379,7 +379,8 @@
                           android:layout_height="wrap_content"                          
                           android:textSize="@dimen/textFifteen"
                           android:textColor="@android:color/black"
-                          android:layout_weight="0.4"
+                          android:layout_weight="0.5"
+                          android:layout_marginRight="@dimen/twenty"
                           android:id="@+id/Adjustment"/>
                 </LinearLayout>
                 <LinearLayout
@@ -400,10 +401,11 @@
                           android:layout_height="wrap_content"                          
                           android:textSize="@dimen/textFifteen"
                           android:textColor="@android:color/black"
-                          android:layout_weight="0.4"
+                          android:layout_weight="0.45"
+                          android:layout_marginRight="10dp"
                           android:id="@+id/Commission"/>
                 </LinearLayout>
-                <LinearLayout
+               <!-- <LinearLayout
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:orientation="horizontal"
@@ -423,7 +425,7 @@
                           android:textColor="@android:color/black"
                           android:layout_weight="0.5"
                           android:id="@+id/WashTips"/>
-                </LinearLayout>
+                </LinearLayout>-->
                 <LinearLayout
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"

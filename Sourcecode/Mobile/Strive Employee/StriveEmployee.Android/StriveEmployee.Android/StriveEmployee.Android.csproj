@@ -236,7 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
-      <Project>{555AC6E3-2C5A-419F-9D74-D24A839B37EB}</Project>
+      <Project>{1C755594-73BE-46FA-BCA5-D08EC2C4BA9D}</Project>
       <Name>Strive.Core</Name>
     </ProjectReference>
   </ItemGroup>

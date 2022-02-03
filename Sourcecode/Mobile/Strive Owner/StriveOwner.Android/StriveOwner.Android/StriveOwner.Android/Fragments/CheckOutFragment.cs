@@ -7,9 +7,11 @@ using Android.OS;
 using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.CheckOut;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter.CheckOut;
 using StriveOwner.Android.Helper;
@@ -30,6 +32,10 @@ namespace StriveOwner.Android.Fragments.CheckOut
         SwipeRefreshLayout swipeRefreshLayout;
         Context Context;
         static MySwipeHelper mySwipe;
+        private Spinner LocationSpinner;
+        private List<string> Locations;
+        private int position;
+        private ArrayAdapter<string> LocationAdapter;
         public CheckOutFragment(Context context)
         {
             this.Context = context;
@@ -50,13 +56,42 @@ namespace StriveOwner.Android.Fragments.CheckOut
 
             Checkout_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.checkout_RecyclerView);
             swipeRefreshLayout = rootView.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            LocationSpinner = rootView.FindViewById<Spinner>(Resource.Id.LocationName);
             isPullToRefresh = false;
             isSwipeCalled = false;
-            GetCheckoutDetails();
             swipeRefreshLayout.SetOnRefreshListener(this);
+            ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
+            LoadLocations();
+            LocationSpinner.ItemSelected += LocationSpinner_ItemSelected;
             return rootView;
         }
+        private void LocationSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            ViewModel.ItemLocation = ViewModel.EmployeeLocations[e.Position].LocationName;
+            ViewModel.locationID = ViewModel.EmployeeLocations[e.Position].LocationId;
+            GetCheckoutDetails();
 
+        }
+        private void LoadLocations()
+        {
+
+            ViewModel.ItemLocation = ViewModel.EmployeeLocations[0].LocationName;
+            ViewModel.locationID = ViewModel.EmployeeLocations[0].LocationId;
+
+            if (ViewModel.EmployeeLocations.Count != 0)
+            {
+                Locations = new List<string>();
+                var LocationID = this.ViewModel.EmployeeLocations[0].LocationId;
+                position = this.ViewModel.EmployeeLocations.FindIndex(x => x.LocationId == LocationID);
+                foreach (var LocationData in ViewModel.EmployeeLocations)
+                {
+                    Locations.Add(LocationData.LocationName);
+                }
+                LocationAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, Locations);
+                LocationSpinner.Adapter = LocationAdapter;
+                LocationSpinner.SetSelection(position);
+            }
+        }
         private async void GetCheckoutDetails()
         {
             try

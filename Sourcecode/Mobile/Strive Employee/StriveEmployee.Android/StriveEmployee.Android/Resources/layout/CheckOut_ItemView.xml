@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|right"
                 android:layout_marginRight="@dimen/fifteen"
-                android:layout_marginTop = "4dp"
+                android:layout_marginTop = "6dp"
                 android:weightSum="2">
                 <LinearLayout
                     android:id="@+id/membershipStatus_LinearLayout"

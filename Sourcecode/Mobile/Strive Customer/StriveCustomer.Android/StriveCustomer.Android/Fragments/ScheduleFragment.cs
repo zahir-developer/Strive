@@ -55,7 +55,7 @@ namespace StriveCustomer.Android.Fragments
         {
             base.OnActivityCreated(savedInstanceState);
             scheduleAdapter = new ViewPagerAdapter(ChildFragmentManager);
-            scheduleAdapter.AddFragment(vehicleListFragment, "Vehicle List");
+            scheduleAdapter.AddFragment(vehicleListFragment, "Signup Vehicles");
             scheduleAdapter.AddFragment(pastServiceHistoryFragment, "Past Service History");
             schedulePager.Adapter = scheduleAdapter;
             scheduleTabs.SetupWithViewPager(schedulePager);

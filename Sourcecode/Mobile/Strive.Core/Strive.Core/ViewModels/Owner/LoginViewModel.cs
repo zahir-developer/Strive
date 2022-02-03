@@ -36,6 +36,7 @@ namespace Strive.Core.ViewModels.Owner
                         MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;
                         MessengerTempData.LastName = loginResponse.EmployeeDetails.EmployeeLogin.LastName;
                         EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
+                        EmployeeTempData.employeeLocationdata = loginResponse.EmployeeDetails.EmployeeLocations;
 
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                         {

@@ -53,10 +53,10 @@ namespace Strive.Core.ViewModels.Employee
                 }
                 _userDialog.HideLoading();
             }
-            else
-            {
-                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
-            }
+            //else
+            //{
+            //    _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+            //}
 
 
         }
