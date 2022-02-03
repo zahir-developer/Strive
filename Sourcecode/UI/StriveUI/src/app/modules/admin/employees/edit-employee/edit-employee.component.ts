@@ -75,6 +75,7 @@ export class EditEmployeeComponent implements OnInit {
   isHourEdit = 0;
   selectedLocationHour = '';
   isRateAllLocation: boolean;
+  isSalary: boolean;
   errorMessage: boolean;
   dellocationRateList = [];
   constructor(
@@ -93,6 +94,7 @@ export class EditEmployeeComponent implements OnInit {
     this.submitted = false;
     this.Status = ['Active', 'Inactive'];
     this.isRateAllLocation = false;
+    this.isSalary = false;
     this.errorMessage = false;
     this.getImmigrationStatus();
     this.getGenderDropdownValue();
@@ -253,6 +255,7 @@ export class EditEmployeeComponent implements OnInit {
     this.city = this.selectedCityId;
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     this.authId = employee.EmployeeInfo.AuthId;
+    this.isSalary = employee.EmployeeInfo.IsSalary;
     if (employee.EmployeeRoles !== null) {
       this.dropdownSetting();
       this.selectedRole = employee.EmployeeRoles;
@@ -567,6 +570,7 @@ export class EditEmployeeComponent implements OnInit {
       salary: +this.emplistform.value.salary,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
+      isSalary: this.isSalary
     };
     const newlyAddedLocation = [];
     this.emplistform.value.location.forEach(item => {
@@ -757,6 +761,10 @@ export class EditEmployeeComponent implements OnInit {
 
   rateAllLocation(event) {
     this.isRateAllLocation = event.target.checked;
+  }
+
+  isSalaryChecked(event){
+    this.isSalary = event.target.checked;
   }
 
 
