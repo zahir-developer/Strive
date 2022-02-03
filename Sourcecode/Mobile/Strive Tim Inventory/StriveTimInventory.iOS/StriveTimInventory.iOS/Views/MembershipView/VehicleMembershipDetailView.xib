@@ -210,11 +210,6 @@
                         <constraint firstItem="lqE-PT-zMx" firstAttribute="leading" secondItem="PkO-HZ-1PO" secondAttribute="leading" id="mWY-pb-7hk"/>
                         <constraint firstItem="lqE-PT-zMx" firstAttribute="top" secondItem="PkO-HZ-1PO" secondAttribute="bottom" constant="15" id="mhe-N3-lDf"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="subviews">
-                            <exclude reference="2U8-fj-E1B"/>
-                        </mask>
-                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

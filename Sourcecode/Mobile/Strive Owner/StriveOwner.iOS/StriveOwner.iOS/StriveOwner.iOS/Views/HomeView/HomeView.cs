@@ -16,6 +16,7 @@ namespace StriveOwner.iOS.Views.HomeView
     public partial class HomeView : MvxViewController<HomeViewModel>
     {
         public Locations Locations;
+        public int SelectedLocationId = 0;
         public string SelectedLocName;
         bool useRefreshControl = false;
         UIRefreshControl RefreshControl;
@@ -59,6 +60,7 @@ namespace StriveOwner.iOS.Views.HomeView
             ScheduleTableView.ReloadData();
 
             Locations = await ViewModel.GetAllLocationsCommand();
+            Locations.Location.Reverse();
             setSegment();
         }
 
@@ -85,8 +87,8 @@ namespace StriveOwner.iOS.Views.HomeView
                 RefreshControl = new UIRefreshControl();
                 RefreshControl.ValueChanged += async (sender, e) =>
                 {
-                    DoInitialSetup();
-                    LocationSegment.SelectedSegment = 0;
+                    getStatisticsData(SelectedLocationId);
+                    //LocationSegment.SelectedSegment = 0;
                     dashboardService_Seg.SelectedSegment = 0;
                     await RefreshAsync();
                 };
@@ -249,12 +251,16 @@ namespace StriveOwner.iOS.Views.HomeView
             SelectedLocName = LocationSegment.TitleAt(selectedIndex);
 
             var selectedLoc = Locations.Location.Find(x => x.LocationName == SelectedLocName);
-
+            SelectedLocationId = selectedLoc.LocationId;
             getStatisticsData(selectedLoc.LocationId);           
         }
 
         partial void ScatterChart_ButtonTouch(UIButton sender)
         {
+            ScatterChart_Button.SetImage(UIImage.FromBundle("Image-9"), UIControlState.Normal);
+            LineChart_Button.SetImage(UIImage.FromBundle("Image-4"), UIControlState.Normal);
+            BarChart_Button.SetImage(UIImage.FromBundle("Barchart"), UIControlState.Normal);
+            PieChart_Button.SetImage(UIImage.FromBundle("Image-6"), UIControlState.Normal);
             var model = new PlotModel()
             {
                 PlotType = PlotType.XY,
@@ -308,6 +314,10 @@ namespace StriveOwner.iOS.Views.HomeView
         }
         partial void LineChart_ButtonTouch(UIButton sender)
         {
+            LineChart_Button.SetImage(UIImage.FromBundle("Image-5"), UIControlState.Normal);
+            ScatterChart_Button.SetImage(UIImage.FromBundle("Image-8"), UIControlState.Normal);
+            BarChart_Button.SetImage(UIImage.FromBundle("Barchart"), UIControlState.Normal);
+            PieChart_Button.SetImage(UIImage.FromBundle("Image-6"), UIControlState.Normal);
             var model = new PlotModel()
             {
                 PlotType = PlotType.XY,
@@ -382,10 +392,19 @@ namespace StriveOwner.iOS.Views.HomeView
         }
         partial void BarChart_ButtonTouch(UIButton sender)
         {
+            LineChart_Button.SetImage(UIImage.FromBundle("Image-4"), UIControlState.Normal);
+            ScatterChart_Button.SetImage(UIImage.FromBundle("Image-8"), UIControlState.Normal);
+            BarChart_Button.SetImage(UIImage.FromBundle("Barchart_active"), UIControlState.Normal);
+            PieChart_Button.SetImage(UIImage.FromBundle("Image-6"), UIControlState.Normal);
             setChartView();
         }
         partial void PieChart_ButtonTouch(UIButton sender)
         {
+            PieChart_Button.SetImage(UIImage.FromBundle("Image-7"), UIControlState.Normal);
+            LineChart_Button.SetImage(UIImage.FromBundle("Image-4"), UIControlState.Normal);
+            ScatterChart_Button.SetImage(UIImage.FromBundle("Image-8"), UIControlState.Normal);
+            BarChart_Button.SetImage(UIImage.FromBundle("Barchart"), UIControlState.Normal);
+           
             var model = new PlotModel()
             {
                 Title = SelectedLocName
@@ -414,6 +433,7 @@ namespace StriveOwner.iOS.Views.HomeView
 
         public void setChartView()
         {
+
             var model = new PlotModel()
             {               
                 PlotType = PlotType.XY,

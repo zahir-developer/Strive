@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Foundation;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.TIMInventory.Membership;
@@ -30,31 +31,13 @@ namespace StriveTimInventory.iOS.Views.CardList
             dataList = list;
             CardListView.Layer.CornerRadius = 5;
             selectedRow = indexpath;
-            EditVehicleBtn.SetImage(UIImage.FromBundle("icon-edit-personalInfo"), UIControlState.Normal);
-            deleteVehicleBtn.SetImage(UIImage.FromBundle("icon-delete"), UIControlState.Normal);
-            cardno = list.Status[indexpath.Row].CardNumber;
+            cardno = list.CardNumber;
             CardNumber.Text = "xxxxxxxxxxxx" + cardno.Substring(11, 4);
             //CardNumber.Text = "xxxxxxxxxxxx8393";
-            ExpiryDate.Text = list.Status[indexpath.Row].ExpiryDate.Substring(8, 2) + "/" + list.Status[indexpath.Row].ExpiryDate.Substring(2, 2);
+            ExpiryDate.Text = list.ExpiryDate;
             //ExpiryDate.Text = "09/23";
         }
-        partial void DeleteVehicleList_BtnTouch(UIButton sender)
-        {
-            CardListTableSource source = new CardListTableSource(CardViewModel);
-            source.DeleteCard(selectedRow);
-        }
-        partial void EditVehicleList_BtnTouch(UIButton sender)
-        {
-            CustomerCardInfo.cardNumber = cardno;
-            CustomerCardInfo.expiryDate = ExpiryDate.Text;
-            CustomerCardInfo.isAddCard = false;
-            CardListTableSource source = new CardListTableSource(CardViewModel);
-            source.editCardList(selectedRow);
-
-        }
-
-
-
+        
     }
 }
 

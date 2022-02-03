@@ -32,29 +32,25 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             CardDetailsTable.RegisterNibForCellReuse(CardListViewCell.Nib, CardListViewCell.Key);
             CardDetailsTable.BackgroundColor = UIColor.Clear;
             CardDetailsTable.ReloadData();
-            //GetCardList();
+            GetCardList();
         }
 
-        private async void GetCardList()
+        private  void GetCardList()
         {
-            await ViewModel.GetCustomerCardList();
+            ViewModel.FetchCardDetails();
 
             if (ViewModel.response != null)
             {
-                if (ViewModel.noData)
-                {
-                    CardDetailsTable.Hidden = true;
-                    _NoRelatableData.Hidden = false;
-
-                }
-                if (ViewModel.isData)
-                {
-                    CardDetailsTable.Hidden = false;
-                    _NoRelatableData.Hidden = true;
-                }
+                CardDetailsTable.Hidden = false;
+                _NoRelatableData.Hidden = true;
+            }
+            else
+            {
+                CardDetailsTable.Hidden = false;
+                _NoRelatableData.Hidden = true;
             }
 
-            if (!(this.ViewModel.response.Status.Count == 0) || !(this.ViewModel.response == null))
+            if (this.ViewModel.response != null)
             {
                 var CardTableSource = new CardListTableSource(ViewModel);
                 CardDetailsTable.Source = CardTableSource;

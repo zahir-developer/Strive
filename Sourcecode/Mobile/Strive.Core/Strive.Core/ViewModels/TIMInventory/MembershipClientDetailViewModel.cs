@@ -46,7 +46,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateBackCommand()
         {
-            await _navigationService.Close(this);
+            await _navigationService.Navigate<MembershipClientListViewModel>();
         }
 
         public ObservableCollection<MembershipServices> MembershipServiceList { get; set; } = new ObservableCollection<MembershipServices>();

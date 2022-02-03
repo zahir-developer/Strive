@@ -25,17 +25,6 @@
                         <rect key="frame" x="15" y="6" width="305" height="71"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPI-4g-eX1">
-                                <rect key="frame" x="266" y="23" width="25" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="25" id="gLC-GP-8QI"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="icon-edit-personalInfo"/>
-                                <connections>
-                                    <action selector="EditVehicleList_BtnTouch:" destination="kDx-j6-3SX" eventType="touchUpInside" id="d3A-j9-kIY"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="huh-m6-62y">
                                 <rect key="frame" x="8" y="11" width="210.5" height="48"/>
                                 <subviews>
@@ -85,29 +74,12 @@
                                     <constraint firstItem="baX-VR-X1C" firstAttribute="leading" secondItem="rOe-fB-Jp2" secondAttribute="leading" id="ogh-PP-CsM"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzg-NM-7Kl">
-                                <rect key="frame" x="239" y="23" width="26" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="26" id="8rB-m7-vpN"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="icon-delete"/>
-                                <connections>
-                                    <action selector="DeleteVehicleList_BtnTouch:" destination="kDx-j6-3SX" eventType="touchUpInside" id="2oW-aE-kjS"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="nzg-NM-7Kl" firstAttribute="leading" secondItem="huh-m6-62y" secondAttribute="trailing" constant="20.5" id="IA5-cR-Kf4"/>
-                            <constraint firstItem="nzg-NM-7Kl" firstAttribute="baseline" secondItem="BPI-4g-eX1" secondAttribute="baseline" id="Iow-iT-Pzd"/>
-                            <constraint firstItem="BPI-4g-eX1" firstAttribute="leading" secondItem="nzg-NM-7Kl" secondAttribute="trailing" constant="1" id="Nx1-ic-PLK"/>
-                            <constraint firstAttribute="bottom" secondItem="nzg-NM-7Kl" secondAttribute="bottom" constant="23" id="PVL-RQ-4zx"/>
-                            <constraint firstItem="nzg-NM-7Kl" firstAttribute="top" secondItem="BPI-4g-eX1" secondAttribute="top" id="TSp-VI-WNq"/>
                             <constraint firstItem="huh-m6-62y" firstAttribute="top" secondItem="oTf-r6-Wwh" secondAttribute="top" constant="11" id="cXC-un-ha5"/>
                             <constraint firstItem="huh-m6-62y" firstAttribute="leading" secondItem="oTf-r6-Wwh" secondAttribute="leading" constant="8" id="f4g-yw-G3z"/>
                             <constraint firstAttribute="bottom" secondItem="huh-m6-62y" secondAttribute="bottom" constant="12" id="meq-nq-r3E"/>
-                            <constraint firstItem="nzg-NM-7Kl" firstAttribute="top" secondItem="oTf-r6-Wwh" secondAttribute="top" constant="23" id="nty-DS-Bcu"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -115,15 +87,9 @@
             <connections>
                 <outlet property="CardListView" destination="oTf-r6-Wwh" id="Ulr-AW-95v"/>
                 <outlet property="CardNumber" destination="cP1-D7-a4P" id="td4-q9-Z1V"/>
-                <outlet property="EditVehicleBtn" destination="BPI-4g-eX1" id="H7d-ZC-n0y"/>
                 <outlet property="ExpiryDate" destination="bTj-9v-gUs" id="Pzm-An-GuS"/>
-                <outlet property="deleteVehicleBtn" destination="nzg-NM-7Kl" id="LY1-md-14s"/>
             </connections>
             <point key="canvasLocation" x="154.34782608695653" y="-102.12053571428571"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="icon-delete" width="18" height="18"/>
-        <image name="icon-edit-personalInfo" width="18" height="18"/>
-    </resources>
 </document>

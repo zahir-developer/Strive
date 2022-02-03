@@ -51,14 +51,15 @@ namespace StriveTimInventory.iOS.Views
             Title = "Pay";
             securityCodeTextField.Hidden = true;
 
-            if (CustomerCardInfo.SelectedCard != null)
+            if (MembershipData.MembershipDetailView!= null)
             {
-                cardNumberTextField.Text = CustomerCardInfo.SelectedCard.CardNumber;
-                expirationDateTextField.Text = CustomerCardInfo.SelectedCard.ExpiryDate.Substring(8, 2) + "/" + CustomerCardInfo.SelectedCard.ExpiryDate.Substring(2, 2);
-                ViewModel.cardNumber = CustomerCardInfo.SelectedCard.CardNumber;
-                ViewModel.expiryDate = CustomerCardInfo.SelectedCard.ExpiryDate;
-                //securityCodeTextField.Text = string.Empty;
-
+                if (MembershipData.MembershipDetailView.ClientVehicleMembership.cardNumber != null)
+                {
+                    cardNumberTextField.Text = MembershipData.MembershipDetailView.ClientVehicleMembership.cardNumber;
+                    expirationDateTextField.Text = MembershipData.MembershipDetailView.ClientVehicleMembership.expiryDate;
+                    ViewModel.cardNumber = MembershipData.MembershipDetailView.ClientVehicleMembership.cardNumber;
+                    ViewModel.expiryDate = MembershipData.MembershipDetailView.ClientVehicleMembership.expiryDate;
+                }
             }
             else
             {
@@ -132,131 +133,76 @@ namespace StriveTimInventory.iOS.Views
                 ShowAlertMsg("Please fill card details");
                 return;
             }
-
-            try
+            if (MembershipData.MembershipDetailView!= null)
             {
-                var paymentAuthReq = new PaymentAuthReq
+                
+                    ViewModel.accountId = MembershipData.MembershipDetailView.ClientVehicleMembership.accountId;
+                    ViewModel.profileId = MembershipData.MembershipDetailView.ClientVehicleMembership.profileId;
+                    ViewModel.MembershipAgree();
+                
+            }
+            else
+            {
+                try
                 {
-                    CardConnect = new Object(),
-
-                    PaymentDetail = new PaymentDetail()
+                    var paymentAuthReq = new PaymentAuthReq
                     {
-                        Account = cardNo,
-                        Expiry = expiryDate,
-                        //CCV = ccv,
-                        Amount = 1
-                    },
+                        CardConnect = new Object(),
 
-                    BillingDetail = new BillingDetail()
-                    {
-                        Name = MembershipData.SelectedClient.LastName,
-                        Address = MembershipData.SelectedClient.Address1,
-                        City = "Chennai",// status.City,
-                        Country = "India",//status.Country,
-                        Region = "Tamilnadu",//status.State,
-                        Postal = MembershipData.SelectedClient.Zip
-                    }
+                        PaymentDetail = new PaymentDetail()
+                        {
+                            Account = cardNo,
+                            Expiry = expiryDate.Replace("/", ""),
+                            //CCV = ccv,
+                            Amount = 1,
+                            OrderID = ""
 
-                };
+                        },
 
+                        BillingDetail = new BillingDetail()
+                        {
+                            Name = MembershipData.SelectedClient.LastName,
+                            Address = MembershipData.SelectedClient.Address1,
+                            City = "Chennai",// status.City,
+                            Country = "India",//status.Country,
+                            Region = "Tamilnadu",//status.State,
+                            Postal = MembershipData.SelectedClient.Zip
+                        },
+                        Locationid = 1
 
-                Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
-
-
-                var apiService = new PaymentApiService();
-
-                var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
-
-                // if (paymentAuthResponse.IsSuccess())
-                if (paymentAuthResponse.Authcode != null)
-                {
-                    var paymentCaptureReq = new PaymentCaptureReq
-                    {
-                        AuthCode = paymentAuthResponse?.Authcode,
-                        RetRef = paymentAuthResponse?.Retref,
-                        Amount = 1,
                     };
 
-                    Debug.WriteLine("" + JsonConvert.SerializeObject(paymentCaptureReq));
-                    var captureResponse = await apiService.PaymentCapture(paymentCaptureReq);
 
-                    if (captureResponse.Authcode != null)
+                    Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
+
+
+                    var apiService = new PaymentApiService();
+
+                    var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
+
+                    // if (paymentAuthResponse.IsSuccess())
+                    if (paymentAuthResponse.AccountId != null)
                     {
-                        var generalApiService = new GeneralApiService();
-                        var paymentStatusResponse = await generalApiService.GetGlobalData("PAYMENTSTATUS");
-                        //Debug.WriteLine("Payment Status Response : " + JsonConvert.SerializeObject(paymentStatusResponse));
-                        var paymentStatusId = paymentStatusResponse?.Codes.First(x => x.Name.Equals(PaymentStatus.Success.ToString())).ID ?? -1;
-
-                        var paymentTypeResponse = await generalApiService.GetGlobalData("PAYMENTTYPE");
-                        //Debug.WriteLine("Payment Type Response : " + JsonConvert.SerializeObject(paymentTypeResponse));
-
-                        var paymentTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentType.Card.ToString())).ID ?? -1;
-
-                        //var addPaymentReqReq = new AddPaymentReq
-                        //{
-                        //    SalesPaymentDto = new SalesPaymentDto()
-                        //    {
-                        //        JobPayment = new JobPayment()
-                        //        {
-                        //            JobID = JobID,
-                        //            Amount = Amount,
-                        //            PaymentStatus = paymentStatusId
-                        //        },
-
-                        //        JobPaymentDetails = new List<JobPaymentDetail>() {
-                        //                    new JobPaymentDetail()
-                        //                    {
-                        //                        Amount = Amount,
-                        //                        PaymentType = paymentTypeId
-                        //                    }
-                        //                }
-                        //    },
-                        //    LocationID = 1,//AppSettings.LocationID,
-                        //    JobID = JobID
-                        //};
-
-
-                        //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
-
-                        //var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
-                        //Debug.WriteLine(JsonConvert.SerializeObject(paymentResponse));
-
-
-                        //if (paymentResponse.Message == "true")
-                        //{
-                        //    ViewModel.MembershipAgree();
-
-                        //}
-                        //else
-                        //{
-                        //    _userDialog.HideLoading();
-                        //    ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
-                        //}
-                        ViewModel.MembershipAgree();
+                        ViewModel.accountId = paymentAuthResponse.AccountId;
+                        ViewModel.profileId = paymentAuthResponse.ProfileId;
+                        ViewModel.MembershipAgree();  
                     }
                     else
                     {
                         _userDialog.HideLoading();
                         ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
                     }
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    _userDialog.HideLoading();
-                    ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
+                    Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
+
                 }
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
-
-            }
+            
 
         }
-
-
-
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();

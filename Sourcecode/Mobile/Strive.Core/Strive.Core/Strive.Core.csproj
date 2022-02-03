@@ -53,7 +53,5 @@
     <None Remove="Xamarin.Essentials" />
     <None Remove="Microsoft.AppCenter.Crashes" />
     <None Remove="Microsoft.AppCenter.Analytics" />
-    <None Remove="Microsoft.AppCenter.Analytics" />
-    <None Remove="Microsoft.AppCenter.Crashes" />
   </ItemGroup>
 </Project>

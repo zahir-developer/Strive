@@ -291,7 +291,22 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1%402x %281%29.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1%403x %281%29.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Contents.json" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1 %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Barchart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Barchart.imageset\BarChart.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Barchart_active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Barchart_active.imageset\BarChart_active.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-4.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-4.imageset\LineChart.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-5.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-5.imageset\LineChart_active.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-6.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-6.imageset\PieChart.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-7.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-7.imageset\PieChart_active.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-8.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-8.imageset\ScatterPlot.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-9.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Image-9.imageset\ScatterPlot_active.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -344,6 +359,8 @@
         <Folder Include="Resources\Assets.xcassets\lineChart.imageset\" />
         <Folder Include="Resources\Assets.xcassets\select-Contact.imageset\" />
         <Folder Include="Resources\Assets.xcassets\Menu.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Barchart.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Barchart_active.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
