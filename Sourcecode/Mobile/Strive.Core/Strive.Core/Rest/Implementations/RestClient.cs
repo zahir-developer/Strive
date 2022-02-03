@@ -58,9 +58,7 @@ namespace Strive.Core.Rest.Implementations
                         Console.WriteLine(request);
                         response = await httpClient.SendAsync(request).ConfigureAwait(true);
                          Console.WriteLine(response);
-                        //if ((int)response.StatusCode == 401)
-                        //{
-                        if (!url.Contains("Login"))
+                        if ((int)response.StatusCode == 401)
                         {
                             cancellationToken.Cancel();
                             if (cancellationToken.IsCancellationRequested)
@@ -75,7 +73,7 @@ namespace Strive.Core.Rest.Implementations
                         _mvxLog.ErrorException("MakeApiCall failed", ex);
                         if (!url.Contains("Login"))
                         {
-                            if(ex is OperationCanceledException)
+                            if((int)response.StatusCode == 401 && ex is OperationCanceledException)
                             {
                                 BaseViewModel baseViewModel = new BaseViewModel();
                                 if (!BaseViewModel.isExitApp)
