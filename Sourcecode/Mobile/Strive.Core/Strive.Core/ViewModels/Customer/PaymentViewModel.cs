@@ -178,7 +178,7 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.accountId = accountId;
             MembershipDetails.customerVehicleDetails.clientVehicleMembershipModel.clientVehicleMembershipDetails.documentId = documentId;
             
-        ClientVehicless = new ClientVehicle();
+            ClientVehicless = new ClientVehicle();
             ClientVehicless.clientVehicle = new ClientVehicleDetail();
             ClientVehicless.clientVehicle.monthlyCharge = finalmonthlycharge;
             ClientVehicless.clientVehicle.isActive = true;

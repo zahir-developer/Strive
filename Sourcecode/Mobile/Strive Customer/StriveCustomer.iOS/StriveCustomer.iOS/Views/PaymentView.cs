@@ -98,7 +98,7 @@ namespace StriveCustomer.iOS.Views
                 MembershipAmount += MembershipDetails.modelUpcharge.upcharge[0].Price;
             }
             Amount += (float)MembershipAmount;
-            ViewModel.finalmonthlycharge = 0; //Amount;
+            ViewModel.finalmonthlycharge = Amount;
             
             //MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.monthlyCharge = Amount;
 
