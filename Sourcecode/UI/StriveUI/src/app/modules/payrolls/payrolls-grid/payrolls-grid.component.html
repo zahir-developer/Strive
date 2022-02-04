@@ -87,8 +87,8 @@
                                         <th scope="col" class="pointer" (click)="changeSorting('PayeeName')">
                                             Payee Name&nbsp;<i class="fa" [ngClass]="selectedCls('PayeeName')"
                                                 aria-hidden="true"></i></th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('TotalWashHours')">Wash
-                                            Hrs.&nbsp;
+                                        <th scope="col" class="pointer" (click)="changeSorting('TotalWashHours')">Working
+                                            Hours&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('TotalWashHours')"
                                                 aria-hidden="true"></i>
                                         </th>
@@ -99,8 +99,7 @@
                                             Rate&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('WashRate')" aria-hidden="true"></i>
                                         </th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Reg.
-                                            Pay&nbsp;
+                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Pay Rate&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('WashAmount')" aria-hidden="true"></i>
                                         </th>
                                         <th scope="col" class="pointer" (click)="changeSorting('OverTimeHours')">OT
@@ -142,6 +141,9 @@
                                                     (click)="changeSorting('Bonus')">
                                                     Bonus&nbsp;<i class="fa" [ngClass]="selectedCls('Bonus')"
                                                         aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" >
+                                                    Salary&nbsp;
+                                                    <i class="fa" aria-hidden="true"></i></th>
                                         <th scope="col" class="pointer" (click)="changeSorting('PayeeTotal')">
                                             Total&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('PayeeTotal')" aria-hidden="true"></i>
@@ -174,7 +176,8 @@
                                         <td>{{payroll.CardTip | currency}}</td>           
                                         <td>{{payroll.WashTip | currency}}</td>           
                                         <td>{{payroll.DetailTip | currency}}</td>           
-                                        <td>{{payroll.Bonus | currency}}</td>                                                               
+                                        <td>{{payroll.Bonus | currency}}</td>    
+                                        <td></td>                                                           
                                         <td>{{payroll.PayeeTotal | currency}}</td>
 
                                     </tr>
