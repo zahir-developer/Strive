@@ -49,7 +49,8 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/quill/dist/quill.js"
+              "node_modules/quill/dist/quill.js",
+              "src/assets/js/BrowserPrintZebra.js"
             ]
           },
           "configurations": {
