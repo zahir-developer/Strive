@@ -85,7 +85,9 @@ namespace StriveEmployee.Android.Views
 
         private void DisagreeButton_Click(object sender, EventArgs e)
         {
-            
+            termsLayout.Visibility = ViewStates.Gone;
+            loginLayout.Visibility = ViewStates.Visible;
+
         }
 
         private void AgreeButton_Click(object sender, EventArgs e)
@@ -93,6 +95,7 @@ namespace StriveEmployee.Android.Views
             preferenceEditor.PutBoolean("hasAgreedToTerms", true);
             preferenceEditor.Apply();
             termsLayout.Visibility = ViewStates.Gone;
+            loginLayout.Visibility = ViewStates.Visible;
             _ = ViewModel.DoLoginCommand();
 
         }
@@ -110,6 +113,7 @@ namespace StriveEmployee.Android.Views
             if (hasAgreedToTerms)
             {
                 termsLayout.Visibility = ViewStates.Gone;
+                loginLayout.Visibility = ViewStates.Visible;
                 _ = ViewModel.DoLoginCommand();
             }
             else 

@@ -260,7 +260,10 @@ namespace StriveOwner.Android.Helper
                 base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 5), dY, actionState, isCurrentlyActive);
             }
         }
-
+        public void UpdateCheckout(CheckOutViewModel viewModel)
+        {
+            this.checkOut = viewModel;
+        }
         private void DrawButton(Canvas c, View itemView, List<MyButton> buffer, int pos, float translationX)
         {
             float right = itemView.Right;

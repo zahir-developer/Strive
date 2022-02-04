@@ -7,7 +7,6 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
-using Java.Lang;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.CheckOut;
@@ -24,8 +23,6 @@ namespace StriveEmployee.Android.Fragments.CheckOut
     {
         RecyclerView Checkout_RecyclerView;
         CheckOutDetailsAdapter checkOutDetailsAdapter;
-        checkOutViewModel checkOut;
-        CheckoutDetails CheckoutDetails;
         public AlertDialog.Builder Builder;
         private EventHandler<DialogClickEventArgs> okHandler;
         private EventHandler<DialogClickEventArgs> removePhotoHandler;
@@ -34,9 +31,9 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         private bool isPullToRefresh;
         private bool isSwipeCalled;
         static MySwipeHelper mySwipe;
-        private Spinner LocationSpinner;
+        private  Spinner LocationSpinner;
         private List<string> Locations;
-        private int position;
+        private static int position;
         private ArrayAdapter<string> LocationAdapter;
         public CheckOutFragment(Context context)
         {
@@ -63,7 +60,6 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             isPullToRefresh = false;
             isSwipeCalled = false;
             swipeRefreshLayout.SetOnRefreshListener(this);
-            ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
             LoadLocations();
             LocationSpinner.ItemSelected += LocationSpinner_ItemSelected;
             return rootView;
@@ -72,12 +68,13 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         {
             ViewModel.ItemLocation = ViewModel.EmployeeLocations[e.Position].LocationName;
             ViewModel.locationID = ViewModel.EmployeeLocations[e.Position].LocationId;
+            position = ViewModel.locationID;
             GetCheckoutDetails();
 
         }
         private void LoadLocations()
         {
-
+            ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
             ViewModel.ItemLocation = ViewModel.EmployeeLocations[0].LocationName;
             ViewModel.locationID = ViewModel.EmployeeLocations[0].LocationId;
 
@@ -110,15 +107,14 @@ namespace StriveEmployee.Android.Fragments.CheckOut
                         Checkout_RecyclerView.SetLayoutManager(layoutManager);
                         Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
                     }
-                    if (!isPullToRefresh || !isSwipeCalled)
+                    if (!isPullToRefresh && !isSwipeCalled)
                     {
                         mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel);
                         isSwipeCalled = true;
                     }
                     if (mySwipe != null)
                     {
-                        mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
-
+                        mySwipe.UpdateCheckout(ViewModel);
                     }
                 }
                 else
@@ -139,6 +135,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         public async void GetCheckoutDetails(RecyclerView recyclerView)
         {
             Checkout_RecyclerView = recyclerView;
+            ViewModel.locationID = position;
             try
             {
                 await ViewModel.GetCheckOutDetails();
@@ -153,8 +150,11 @@ namespace StriveEmployee.Android.Fragments.CheckOut
                         Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
 
                     }
-                    mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
-                    mySwipe.buttonBuffer.Clear();
+                    if (mySwipe != null)
+                    {
+                        mySwipe.UpdateCheckout(ViewModel);
+                        mySwipe.buttonBuffer.Clear();
+                    }                    
                 }
                 else
                 {
@@ -196,7 +196,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             ViewModel = new CheckOutViewModel();
             try
             {
-                await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
+                await ViewModel.updateHoldStatus((int)checkout.JobId);
 
                 if (ViewModel.holdResponse != null)
                 {
@@ -251,7 +251,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             ViewModel = new CheckOutViewModel();
             try
             {
-                await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
+                await ViewModel.updateCompleteStatus((int)checkout.JobId);
 
                 if (ViewModel.holdResponse != null)
                 {
@@ -322,7 +322,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
             ViewModel = new CheckOutViewModel();
             try
             {
-                await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
+                await ViewModel.DoCheckout((int)checkout.JobId);
 
                 if (ViewModel.status != null)
                 {

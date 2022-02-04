@@ -34,7 +34,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
         static MySwipeHelper mySwipe;
         private Spinner LocationSpinner;
         private List<string> Locations;
-        private int position;
+        private static int position;
         private ArrayAdapter<string> LocationAdapter;
         public CheckOutFragment(Context context)
         {
@@ -69,6 +69,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
         {
             ViewModel.ItemLocation = ViewModel.EmployeeLocations[e.Position].LocationName;
             ViewModel.locationID = ViewModel.EmployeeLocations[e.Position].LocationId;
+            position = ViewModel.locationID;
             GetCheckoutDetails();
 
         }
@@ -107,15 +108,14 @@ namespace StriveOwner.Android.Fragments.CheckOut
                         Checkout_RecyclerView.SetLayoutManager(layoutManager);
                         Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
                     }
-                    if (!isPullToRefresh || !isSwipeCalled)
+                    if (!isPullToRefresh && !isSwipeCalled)
                     {
                         mySwipe = new MyImplementSwipeHelper(Context, Checkout_RecyclerView, 200, ViewModel);
                         isSwipeCalled = true;
                     }
                     if (mySwipe != null)
                     {
-                        mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
-
+                        mySwipe.UpdateCheckout(ViewModel);
                     }
                 }
                 else
@@ -135,8 +135,8 @@ namespace StriveOwner.Android.Fragments.CheckOut
        
         public async void GetCheckoutDetails(RecyclerView recyclerView)
         {
-
             Checkout_RecyclerView = recyclerView;
+            ViewModel.locationID = position;
             try
             {
                 await ViewModel.GetCheckOutDetails();
@@ -150,8 +150,11 @@ namespace StriveOwner.Android.Fragments.CheckOut
                         Checkout_RecyclerView.SetLayoutManager(layoutManager);
                         Checkout_RecyclerView.SetAdapter(checkOutDetailsAdapter);
                     }
-                    mySwipe.checkOut.CheckOutVehicleDetails = ViewModel.CheckOutVehicleDetails;
-                    mySwipe.buttonBuffer.Clear();
+                    if (mySwipe != null)
+                    {
+                        mySwipe.UpdateCheckout(ViewModel);
+                        mySwipe.buttonBuffer.Clear();
+                    }
 
                 }
                 else
@@ -193,7 +196,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
             ViewModel = new CheckOutViewModel();
             try
             {
-                await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
+                await ViewModel.updateHoldStatus((int)checkout.JobId);
 
                 if (ViewModel.holdResponse != null)
                 {
@@ -247,7 +250,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
             ViewModel = new CheckOutViewModel();
             try
             {
-                await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
+                await ViewModel.updateCompleteStatus((int)checkout.JobId);
 
                 if (ViewModel.holdResponse != null)
                 {
@@ -318,7 +321,7 @@ namespace StriveOwner.Android.Fragments.CheckOut
             ViewModel = new CheckOutViewModel();
             try
             {
-                await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
+                await ViewModel.DoCheckout((int)checkout.JobId);
                 if (ViewModel.status != null)
                 {
                     if (ViewModel.status.SaveCheckoutTime)

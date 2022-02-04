@@ -13,7 +13,7 @@ namespace StriveEmployee.Android.Helper
     {
         int buttonWidth, swipePosition = -1;
         float swipeThreshold = 0.5f;
-      public  Dictionary<int, List<MyButton>> buttonBuffer;
+        public  Dictionary<int, List<MyButton>> buttonBuffer;
         Queue<int> removeQueu = new Queue<int>();
         GestureDetector.SimpleOnGestureListener gestureListener;
         View.IOnTouchListener onTouchListener;
@@ -206,7 +206,10 @@ namespace StriveEmployee.Android.Helper
             }
             base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 1.45), dY, actionState, isCurrentlyActive);
         }
-
+		public void UpdateCheckout(CheckOutViewModel viewModel)
+        {
+            this.checkOut = viewModel;
+        }
         private void DrawButton(Canvas c, View itemView, List<MyButton> buffer, int pos, float translationX)
         {
             float right = itemView.Right;
