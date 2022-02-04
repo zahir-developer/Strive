@@ -35,6 +35,23 @@ namespace StriveEmployee.iOS.Views.PayRoll
 
             ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
             InitialSetup();
+            var pickerView = new UIPickerView();
+            var PickerViewModel = new LocationPicker(ViewModel, pickerView);
+            pickerView.Model = PickerViewModel;
+            pickerView.ShowSelectionIndicator = true;
+            AddPickerToolbar(locationTextField, "Location", PickerDone);
+            locationTextField.InputView = pickerView;
+            //PickerDone();
+            ViewModel.ItemLocation = ViewModel.EmployeeLocations[0].LocationName;
+            ViewModel.Location = ViewModel.EmployeeLocations[0].LocationId;
+
+            var set = this.CreateBindingSet<PayRollView, PayRollViewModel>();
+            set.Bind(locationTextField).To(vm => vm.ItemLocation);
+            set.Apply();
+
+            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
+            Tap.CancelsTouchesInView = false;
+            View.AddGestureRecognizer(Tap);
         }
 
         public override void DidReceiveMemoryWarning()
@@ -123,23 +140,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
             };
 
             //Spinner
-            var pickerView = new UIPickerView();
-            var PickerViewModel = new LocationPicker(ViewModel, pickerView);
-            pickerView.Model = PickerViewModel;
-            pickerView.ShowSelectionIndicator = true;
-            AddPickerToolbar(locationTextField, "Location", PickerDone);
-            locationTextField.InputView = pickerView;
-             //PickerDone();
-            ViewModel.ItemLocation = ViewModel.EmployeeLocations[0].LocationName;
-            ViewModel.Location = ViewModel.EmployeeLocations[0].LocationId;
-           
-            var set = this.CreateBindingSet<PayRollView, PayRollViewModel>();
-            set.Bind(locationTextField).To(vm => vm.ItemLocation);
-            set.Apply();
-
-            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
-            Tap.CancelsTouchesInView = false;
-            View.AddGestureRecognizer(Tap);
+            
 
         }
         
@@ -216,6 +217,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
 
         void PickerDone()
         {
+            Console.WriteLine("this is where we need to put out api call after selection spinner");
             //if (locationTextField.Text == "")
             //{
             //    locationTextField.Text = EmployeeTempData.LocationName;
@@ -240,6 +242,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
             {
                 textField.EndEditing(false);
                 action.Invoke();
+                
             });
 
             var barBtnSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);

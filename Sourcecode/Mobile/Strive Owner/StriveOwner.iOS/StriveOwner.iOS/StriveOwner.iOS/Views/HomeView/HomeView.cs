@@ -105,6 +105,85 @@ namespace StriveOwner.iOS.Views.HomeView
             setChartView();
         }
 
+        private void setChartView()
+        {
+            LineChart_Button.SetImage(UIImage.FromBundle("Image-5"), UIControlState.Normal);
+            ScatterChart_Button.SetImage(UIImage.FromBundle("Image-8"), UIControlState.Normal);
+            BarChart_Button.SetImage(UIImage.FromBundle("Barchart"), UIControlState.Normal);
+            PieChart_Button.SetImage(UIImage.FromBundle("Image-6"), UIControlState.Normal);
+            var model = new PlotModel()
+            {
+                PlotType = PlotType.XY,
+                LegendSymbolLength = 5,
+                LegendPlacement = LegendPlacement.Outside,
+                LegendOrientation = LegendOrientation.Vertical,
+                Title = SelectedLocName
+            };
+
+            var washline = new LineSeries()
+            {
+
+                MarkerSize = 3,
+                MarkerType = MarkerType.Circle,
+                Title = "Wash"
+            };
+            var detailline = new LineSeries()
+            {
+
+                MarkerSize = 3,
+                MarkerType = MarkerType.Circle,
+                Title = "Detail"
+            };
+            var employeeline = new LineSeries()
+            {
+
+                MarkerSize = 3,
+                MarkerType = MarkerType.Circle,
+                Title = "Employee"
+            };
+            var scoreline = new LineSeries()
+            {
+
+                MarkerSize = 3,
+                MarkerType = MarkerType.Circle,
+                Title = "Score"
+            };
+
+            CategoryAxis xaxis = new CategoryAxis();
+            xaxis.Position = AxisPosition.Bottom;
+            xaxis.AbsoluteMinimum = -.5;
+            xaxis.AbsoluteMaximum = 6;
+            xaxis.Zoom(0, 3);
+            xaxis.Angle = 45;
+
+
+
+
+            washline.Points.Add(new DataPoint(0, Double.Parse(washCount.Text)));
+            washline.Points.Add(new DataPoint(1, Double.Parse(washCount.Text) + 1));
+            washline.Points.Add(new DataPoint(2, Double.Parse(washCount.Text) + 2));
+            washline.Points.Add(new DataPoint(3, Double.Parse(washCount.Text) + 3));
+            detailline.Points.Add(new DataPoint(0, Double.Parse(detailCount.Text)));
+            detailline.Points.Add(new DataPoint(1, Double.Parse(detailCount.Text) + 1));
+            detailline.Points.Add(new DataPoint(2, Double.Parse(detailCount.Text) + 2));
+            detailline.Points.Add(new DataPoint(3, Double.Parse(detailCount.Text) + 3));
+            employeeline.Points.Add(new DataPoint(0, Double.Parse(employeeCount.Text)));
+            employeeline.Points.Add(new DataPoint(1, Double.Parse(employeeCount.Text) + 1));
+            employeeline.Points.Add(new DataPoint(2, Double.Parse(employeeCount.Text) + 2));
+            employeeline.Points.Add(new DataPoint(3, Double.Parse(employeeCount.Text) + 3));
+            scoreline.Points.Add(new DataPoint(0, Double.Parse(scoreCount.Text)));
+            scoreline.Points.Add(new DataPoint(1, Double.Parse(scoreCount.Text) + 1));
+            scoreline.Points.Add(new DataPoint(2, Double.Parse(scoreCount.Text) + 2));
+            scoreline.Points.Add(new DataPoint(3, Double.Parse(scoreCount.Text) + 3));
+
+            model.Series.Add(washline);
+            model.Series.Add(detailline);
+            model.Series.Add(employeeline);
+            model.Series.Add(scoreline);
+            plotView.Model = model;
+            plotView.Frame = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);
+        }
+
         private void setSegment()
         {
             if (Locations.Location.Count > 3)
@@ -314,81 +393,7 @@ namespace StriveOwner.iOS.Views.HomeView
         }
         partial void LineChart_ButtonTouch(UIButton sender)
         {
-            LineChart_Button.SetImage(UIImage.FromBundle("Image-5"), UIControlState.Normal);
-            ScatterChart_Button.SetImage(UIImage.FromBundle("Image-8"), UIControlState.Normal);
-            BarChart_Button.SetImage(UIImage.FromBundle("Barchart"), UIControlState.Normal);
-            PieChart_Button.SetImage(UIImage.FromBundle("Image-6"), UIControlState.Normal);
-            var model = new PlotModel()
-            {
-                PlotType = PlotType.XY,
-                LegendSymbolLength = 5,
-                LegendPlacement = LegendPlacement.Outside,
-                LegendOrientation = LegendOrientation.Vertical,
-                Title = SelectedLocName
-            };
-
-            var washline = new LineSeries() {
-
-                MarkerSize = 3,
-                MarkerType = MarkerType.Circle,
-                Title = "Wash"
-            };
-            var detailline = new LineSeries()
-            {
-
-                MarkerSize = 3,
-                MarkerType = MarkerType.Circle,
-                Title = "Detail"
-            };
-            var employeeline = new LineSeries()
-            {
-
-                MarkerSize = 3,
-                MarkerType = MarkerType.Circle,
-                Title = "Employee"
-            };
-            var scoreline = new LineSeries()
-            {
-
-                MarkerSize = 3,
-                MarkerType = MarkerType.Circle,
-                Title = "Score"
-            };
-
-            CategoryAxis xaxis = new CategoryAxis();
-            xaxis.Position = AxisPosition.Bottom;
-            xaxis.AbsoluteMinimum = -.5;
-            xaxis.AbsoluteMaximum = 6;
-            xaxis.Zoom(0, 3);
-            xaxis.Angle = 45;
-
-            
-
-            
-            washline.Points.Add(new DataPoint(0, Double.Parse(washCount.Text)));
-            washline.Points.Add(new DataPoint(1, Double.Parse(washCount.Text)+1));
-            washline.Points.Add(new DataPoint(2, Double.Parse(washCount.Text) +2));
-            washline.Points.Add(new DataPoint(3, Double.Parse(washCount.Text) +3));
-            detailline.Points.Add(new DataPoint(0, Double.Parse(detailCount.Text)));
-            detailline.Points.Add(new DataPoint(1, Double.Parse(detailCount.Text) + 1));
-            detailline.Points.Add(new DataPoint(2, Double.Parse(detailCount.Text) + 2));
-            detailline.Points.Add(new DataPoint(3, Double.Parse(detailCount.Text) + 3));
-            employeeline.Points.Add(new DataPoint(0, Double.Parse(employeeCount.Text)));
-            employeeline.Points.Add(new DataPoint(1, Double.Parse(employeeCount.Text) + 1));
-            employeeline.Points.Add(new DataPoint(2, Double.Parse(employeeCount.Text) + 2));
-            employeeline.Points.Add(new DataPoint(3, Double.Parse(employeeCount.Text) + 3));
-            scoreline.Points.Add(new DataPoint(0, Double.Parse(scoreCount.Text)));
-            scoreline.Points.Add(new DataPoint(1, Double.Parse(scoreCount.Text) + 1));
-            scoreline.Points.Add(new DataPoint(2, Double.Parse(scoreCount.Text) + 2));
-            scoreline.Points.Add(new DataPoint(3, Double.Parse(scoreCount.Text) + 3));
-
-            model.Series.Add(washline);
-            model.Series.Add(detailline);
-            model.Series.Add(employeeline);
-            model.Series.Add(scoreline);
-            plotView.Model = model;
-            plotView.Frame = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);
-
+            setChartView();
         }
         partial void BarChart_ButtonTouch(UIButton sender)
         {
@@ -396,7 +401,7 @@ namespace StriveOwner.iOS.Views.HomeView
             ScatterChart_Button.SetImage(UIImage.FromBundle("Image-8"), UIControlState.Normal);
             BarChart_Button.SetImage(UIImage.FromBundle("Barchart_active"), UIControlState.Normal);
             PieChart_Button.SetImage(UIImage.FromBundle("Image-6"), UIControlState.Normal);
-            setChartView();
+            setBarChartView();
         }
         partial void PieChart_ButtonTouch(UIButton sender)
         {
@@ -431,7 +436,7 @@ namespace StriveOwner.iOS.Views.HomeView
             plotView.Frame = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);
         }
 
-        public void setChartView()
+        public void setBarChartView()
         {
 
             var model = new PlotModel()

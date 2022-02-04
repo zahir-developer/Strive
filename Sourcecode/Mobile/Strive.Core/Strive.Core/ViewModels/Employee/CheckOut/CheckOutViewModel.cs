@@ -22,7 +22,7 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
         public int locationID { get; set; }
         public List<EmployeeLocation> EmployeeLocations { get; set; }
         public string _selectedLocation;
-
+        public int Location { get; set; }
         public string ItemLocation
         {
             get

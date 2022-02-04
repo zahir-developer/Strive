@@ -17,17 +17,25 @@ namespace StriveEmployee.iOS.Views
 
 		[Outlet]
 		UIKit.UIView CheckOut_View { get; set; }
+
+		[Outlet]
+		UIKit.UITextField locationTextField { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (CheckOut_TableView != null) {
+				CheckOut_TableView.Dispose ();
+				CheckOut_TableView = null;
+			}
+
 			if (CheckOut_View != null) {
 				CheckOut_View.Dispose ();
 				CheckOut_View = null;
 			}
 
-			if (CheckOut_TableView != null) {
-				CheckOut_TableView.Dispose ();
-				CheckOut_TableView = null;
+			if (locationTextField != null) {
+				locationTextField.Dispose ();
+				locationTextField = null;
 			}
 		}
 	}

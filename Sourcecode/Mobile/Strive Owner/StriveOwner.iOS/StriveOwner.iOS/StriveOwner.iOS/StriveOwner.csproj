@@ -85,6 +85,12 @@
       <PackageReference Include="OxyPlot.Xamarin.iOS">
         <Version>1.0.0</Version>
       </PackageReference>
+      <PackageReference Include="Microsoft.AppCenter.Crashes">
+        <Version>4.5.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.AppCenter.Analytics">
+        <Version>4.5.0</Version>
+      </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -475,6 +481,7 @@
         <Compile Include="Views\Messenger\CreateGroupView.designer.cs">
           <DependentUpon>CreateGroupView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\CheckOut\LocationPicker.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

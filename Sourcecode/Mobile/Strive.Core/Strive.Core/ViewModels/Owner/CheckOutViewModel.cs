@@ -12,7 +12,7 @@ namespace Strive.Core.ViewModels.Owner
     public class CheckOutViewModel : BaseViewModel
     {
         #region Properties
-
+        public int Location { get; set; }
         public CheckoutDetails CheckOutVehicleDetails { get; set; }
         public holdCheckoutResponse holdResponse { get; set; }
         public CheckoutResponse status { get; set; }

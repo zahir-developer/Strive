@@ -5,7 +5,10 @@ using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.ViewModels.Employee.CheckOut;
 using StriveEmployee.iOS.UIUtils;
+using StriveEmployee.iOS.Views.CheckOut;
 using UIKit;
+using MvvmCross.Binding.BindingContext;
+using Strive.Core.Utils.Employee;
 
 namespace StriveEmployee.iOS.Views
 {
@@ -22,8 +25,9 @@ namespace StriveEmployee.iOS.Views
         public override async void ViewDidLoad()
         {
             base.ViewDidLoad();
+            ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
             InitialSetup();
-
+           
             await RefreshAsync();
 
             AddRefreshControl();
@@ -59,7 +63,7 @@ namespace StriveEmployee.iOS.Views
                 RefreshControl = new UIRefreshControl();
                 RefreshControl.ValueChanged += async (sender, e) =>
                 {
-                    InitialSetup();
+                    RefreshSetup();
                     await RefreshAsync();
                 };
                 useRefreshControl = true;
@@ -68,6 +72,53 @@ namespace StriveEmployee.iOS.Views
 
 
         private void InitialSetup()
+        {
+            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+            {
+                Font = DesignUtils.OpenSansBoldFifteen(),
+                ForegroundColor = UIColor.Clear.FromHex(0x24489A),
+            };
+            NavigationItem.Title = "CheckOut";
+            
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
+
+            CheckOut_TableView.Layer.CornerRadius = 5;
+            CheckOut_View.Layer.CornerRadius = 5;
+
+            CheckOut_TableView.RegisterNibForCellReuse(CheckOut_Cell.Nib, CheckOut_Cell.Key);
+            CheckOut_TableView.BackgroundColor = UIColor.Clear;
+            CheckOut_TableView.ReloadData();
+            ViewModel.locationID = ViewModel.EmployeeLocations[0].LocationId;
+            GetCheckoutDetails();
+
+            var pickerView = new UIPickerView();
+            var PickerViewModel = new LocationPicker(ViewModel, pickerView);
+            pickerView.Model = PickerViewModel;
+            pickerView.ShowSelectionIndicator = true;
+            AddPickerToolbar(locationTextField, "Location", PickerDone);
+            locationTextField.InputView = pickerView;
+            //PickerDone();
+            ViewModel.ItemLocation = ViewModel.EmployeeLocations[0].LocationName;
+            ViewModel.Location = ViewModel.EmployeeLocations[0].LocationId;
+
+            var set = this.CreateBindingSet<CheckOutView,CheckOutViewModel>();
+            set.Bind(locationTextField).To(vm => vm.ItemLocation);
+            set.Apply();
+
+            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
+            Tap.CancelsTouchesInView = false;
+            View.AddGestureRecognizer(Tap);
+        }
+        private void RefreshSetup()
         {
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
@@ -95,7 +146,35 @@ namespace StriveEmployee.iOS.Views
             CheckOut_TableView.ReloadData();
 
             GetCheckoutDetails();
+
+            var pickerView = new UIPickerView();
+            var PickerViewModel = new LocationPicker(ViewModel, pickerView);
+            pickerView.Model = PickerViewModel;
+            pickerView.ShowSelectionIndicator = true;
+            AddPickerToolbar(locationTextField, "Location", PickerDone);
+            locationTextField.InputView = pickerView;
+            //PickerDone();
+            var set = this.CreateBindingSet<CheckOutView, CheckOutViewModel>();
+            set.Bind(locationTextField).To(vm => vm.ItemLocation);
+            set.Apply();
+
+            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
+            Tap.CancelsTouchesInView = false;
+            View.AddGestureRecognizer(Tap);
         }
+
+        void PickerDone()
+        {
+            GetCheckoutDetails();
+            CheckOut_TableView.ReloadData();
+            //if (locationTextField.Text == "")
+            //{
+            //    locationTextField.Text = EmployeeTempData.LocationName;
+
+            //}
+            View.EndEditing(true);
+        }
+
         private async void GetCheckoutDetails()
         {
             try
@@ -257,6 +336,39 @@ namespace StriveEmployee.iOS.Views
                 okAlertController.AddAction(UIAlertAction.Create(cancel, UIAlertActionStyle.Cancel, null));
             PresentViewController(okAlertController, true, null);
         }
+
+        public void AddPickerToolbar(UITextField textField, string title, Action action)
+        {
+            const string CANCEL_BUTTON_TXT = "Cancel";
+            const string DONE_BUTTON_TXT = "Done";
+
+            var toolbarDone = new UIToolbar();
+            toolbarDone.SizeToFit();
+
+            var barBtnCancel = new UIBarButtonItem(CANCEL_BUTTON_TXT, UIBarButtonItemStyle.Plain, (sender, s) =>
+            {
+                textField.EndEditing(false);
+            });
+
+            var barBtnDone = new UIBarButtonItem(DONE_BUTTON_TXT, UIBarButtonItemStyle.Done, (sender, s) =>
+            {
+                textField.EndEditing(false);
+                action.Invoke();
+
+            });
+
+            var barBtnSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
+
+            var lbl = new UILabel();
+            lbl.Text = title;
+            lbl.TextAlignment = UITextAlignment.Center;
+            lbl.Font = UIFont.BoldSystemFontOfSize(size: 16.0f);
+            var lblBtn = new UIBarButtonItem(lbl);
+
+            toolbarDone.Items = new UIBarButtonItem[] { barBtnCancel, barBtnSpace, lblBtn, barBtnSpace, barBtnDone };
+            textField.InputAccessoryView = toolbarDone;
+        }
+
     }
 }
 

@@ -2,6 +2,9 @@
 using MvvmCross.Platforms.Ios.Core;
 using StriveOwner.iOS.MvvmCross;
 using UIKit;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace StriveOwner.iOS
 {
@@ -18,6 +21,11 @@ namespace StriveOwner.iOS
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
             var result = base.FinishedLaunching(application, launchOptions);
+            AppCenter.Start("511c28b0-17cd-49ce-b874-b4da2c498f86",
+                   typeof(Analytics), typeof(Crashes));
+            Crashes.SetEnabledAsync(true);
+
+            Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
 
             return result;
         }
