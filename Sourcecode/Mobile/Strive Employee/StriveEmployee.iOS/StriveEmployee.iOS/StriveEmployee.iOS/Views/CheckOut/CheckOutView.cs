@@ -222,7 +222,7 @@ namespace StriveEmployee.iOS.Views
         {
             try
             {
-                await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
+                await ViewModel.updateHoldStatus((int)checkout.JobId);
 
                 if (ViewModel.holdResponse.UpdateJobStatus)
                 {
@@ -255,7 +255,7 @@ namespace StriveEmployee.iOS.Views
         {
             try
             {
-                await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
+                await ViewModel.updateCompleteStatus((int)checkout.JobId);
 
                 if (ViewModel.holdResponse.UpdateJobStatus)
                 {
@@ -296,7 +296,7 @@ namespace StriveEmployee.iOS.Views
         {
             try
             {
-                await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
+                await ViewModel.DoCheckout((int)checkout.JobId);
 
                 if (ViewModel.status.SaveCheckoutTime)
                 {

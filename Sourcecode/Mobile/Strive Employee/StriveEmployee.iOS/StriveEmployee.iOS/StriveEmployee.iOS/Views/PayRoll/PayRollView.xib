@@ -221,6 +221,9 @@
                             <state key="normal" title="Go">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
+                            <connections>
+                                <action selector="GoBtnClicked:" destination="-1" eventType="touchUpInside" id="09l-iB-5sX"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HU2-Ki-sTI">
                             <rect key="frame" x="18" y="148" width="76" height="21"/>

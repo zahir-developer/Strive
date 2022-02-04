@@ -74,6 +74,9 @@ namespace StriveEmployee.iOS.Views.PayRoll
 
 		[Outlet]
 		UIKit.UILabel Washtip { get; set; }
+
+		[Action ("GoBtnClicked:")]
+		partial void GoBtnClicked (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

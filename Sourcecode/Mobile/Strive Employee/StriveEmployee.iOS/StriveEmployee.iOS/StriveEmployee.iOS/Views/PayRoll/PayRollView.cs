@@ -109,41 +109,43 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
                 Cashtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
                 Cardtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
-                Washtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
                 Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
                 Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
                 Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
             }
-            else
-            {
-                WashHrs.Text = "0.00";
-                DetailHrs.Text = "0.00";
-                WashRate.Text = "$" + "0.00";
-                RegPay.Text = "$" + "0.00";
-                OtHrs.Text = "0.00";
-                OtPay.Text = "$" + "0.00";
-                Cols.Text = "$" + "0.00";
-                Adjs.Text = "$" + "0.00";
-                Commission.Text = "$" + "0.00";
-                Cashtip.Text = "$" + "0.00";
-                Cardtip.Text = "$" + "0.00";
-                Washtip.Text = "$" + "0.00";
-                Detailtip.Text = "$" + "0.00";
-                Bonus.Text = "$" + "0.00";
-                Total.Text = "$" + "0.00";
-            }
+            //else
+            //{
+            //    WashHrs.Text = "0.00";
+            //    DetailHrs.Text = "0.00";
+            //    WashRate.Text = "$" + "0.00";
+            //    RegPay.Text = "$" + "0.00";
+            //    OtHrs.Text = "0.00";
+            //    OtPay.Text = "$" + "0.00";
+            //    Cols.Text = "$" + "0.00";
+            //    Adjs.Text = "$" + "0.00";
+            //    Commission.Text = "$" + "0.00";
+            //    Cashtip.Text = "$" + "0.00";
+            //    Cardtip.Text = "$" + "0.00";
+            //    Washtip.Text = "$" + "0.00";
+            //    Detailtip.Text = "$" + "0.00";
+            //    Bonus.Text = "$" + "0.00";
+            //    Total.Text = "$" + "0.00";
+            //}
             
            
-            FindPayRoll.TouchUpInside += (sender, e) =>
-            {  
-                GetDate();
-            };
+            //FindPayRoll.TouchUpInside += (sender, e) =>
+            //{  
+                
+            //};
 
             //Spinner
             
 
         }
-        
+        partial void GoBtnClicked(UIButton sender)
+        {
+            GetDate();
+        }
 
 
         private string SetTwoDecimel(float value)
@@ -188,7 +190,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
                 Cashtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
                 Cardtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
-                Washtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
+                
                 Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
                 Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
                 Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);

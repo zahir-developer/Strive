@@ -51,6 +51,11 @@ namespace Strive.Core.ViewModels.Employee
             {
                 if (result.Result.PayRollRateViewModel.Any(x => x.EmployeeId == employeeid))
                     PayRoll = result.Result.PayRollRateViewModel.First(x => x.EmployeeId == employeeid);
+                else
+                {
+                    PayRoll = null;
+                }
+
             }            
             else
             {

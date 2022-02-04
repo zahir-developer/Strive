@@ -222,7 +222,7 @@ namespace StriveOwner.iOS.Views.CheckOut
 
         public async void HoldCheckout(checkOutViewModel checkout)
         {
-            await ViewModel.updateHoldStatus(int.Parse(checkout.TicketNumber));
+            await ViewModel.updateHoldStatus((int)checkout.JobId);
 
             if (ViewModel.holdResponse.UpdateJobStatus)
             {
@@ -245,7 +245,7 @@ namespace StriveOwner.iOS.Views.CheckOut
 
         public async void CompleteCheckout(checkOutViewModel checkout)
         {
-            await ViewModel.updateCompleteStatus(int.Parse(checkout.TicketNumber));
+            await ViewModel.updateCompleteStatus((int)checkout.JobId);
 
             if (ViewModel.holdResponse.UpdateJobStatus)
             {
@@ -276,7 +276,7 @@ namespace StriveOwner.iOS.Views.CheckOut
 
         public async void Checkout(checkOutViewModel checkout)
         {
-            await ViewModel.DoCheckout(int.Parse(checkout.TicketNumber));
+            await ViewModel.DoCheckout((int)checkout.JobId);
 
             if (ViewModel.status.SaveCheckoutTime)
             {

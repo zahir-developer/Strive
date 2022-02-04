@@ -160,21 +160,21 @@ namespace StriveOwner.iOS.Views.HomeView
 
 
             washline.Points.Add(new DataPoint(0, Double.Parse(washCount.Text)));
-            washline.Points.Add(new DataPoint(1, Double.Parse(washCount.Text) + 1));
-            washline.Points.Add(new DataPoint(2, Double.Parse(washCount.Text) + 2));
-            washline.Points.Add(new DataPoint(3, Double.Parse(washCount.Text) + 3));
+            //washline.Points.Add(new DataPoint(1, Double.Parse(washCount.Text) + 1));
+            //washline.Points.Add(new DataPoint(2, Double.Parse(washCount.Text) + 2));
+            //washline.Points.Add(new DataPoint(3, Double.Parse(washCount.Text) + 3));
             detailline.Points.Add(new DataPoint(0, Double.Parse(detailCount.Text)));
-            detailline.Points.Add(new DataPoint(1, Double.Parse(detailCount.Text) + 1));
-            detailline.Points.Add(new DataPoint(2, Double.Parse(detailCount.Text) + 2));
-            detailline.Points.Add(new DataPoint(3, Double.Parse(detailCount.Text) + 3));
+            //detailline.Points.Add(new DataPoint(1, Double.Parse(detailCount.Text) + 1));
+            //detailline.Points.Add(new DataPoint(2, Double.Parse(detailCount.Text) + 2));
+            //detailline.Points.Add(new DataPoint(3, Double.Parse(detailCount.Text) + 3));
             employeeline.Points.Add(new DataPoint(0, Double.Parse(employeeCount.Text)));
-            employeeline.Points.Add(new DataPoint(1, Double.Parse(employeeCount.Text) + 1));
-            employeeline.Points.Add(new DataPoint(2, Double.Parse(employeeCount.Text) + 2));
-            employeeline.Points.Add(new DataPoint(3, Double.Parse(employeeCount.Text) + 3));
+            //employeeline.Points.Add(new DataPoint(1, Double.Parse(employeeCount.Text) + 1));
+            //employeeline.Points.Add(new DataPoint(2, Double.Parse(employeeCount.Text) + 2));
+            //employeeline.Points.Add(new DataPoint(3, Double.Parse(employeeCount.Text) + 3));
             scoreline.Points.Add(new DataPoint(0, Double.Parse(scoreCount.Text)));
-            scoreline.Points.Add(new DataPoint(1, Double.Parse(scoreCount.Text) + 1));
-            scoreline.Points.Add(new DataPoint(2, Double.Parse(scoreCount.Text) + 2));
-            scoreline.Points.Add(new DataPoint(3, Double.Parse(scoreCount.Text) + 3));
+            //scoreline.Points.Add(new DataPoint(1, Double.Parse(scoreCount.Text) + 1));
+            //scoreline.Points.Add(new DataPoint(2, Double.Parse(scoreCount.Text) + 2));
+            //scoreline.Points.Add(new DataPoint(3, Double.Parse(scoreCount.Text) + 3));
 
             model.Series.Add(washline);
             model.Series.Add(detailline);
