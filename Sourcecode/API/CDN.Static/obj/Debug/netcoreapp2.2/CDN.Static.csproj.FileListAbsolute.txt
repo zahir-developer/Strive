@@ -26,3 +26,17 @@ D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.AssemblyI
 D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.RazorTargetAssemblyInfo.cache
 D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.dll
 D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.pdb
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.deps.json
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.runtimeconfig.json
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.runtimeconfig.dev.json
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.dll
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.pdb
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.csprojAssemblyReference.cache
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.csproj.CoreCompileInputs.cache
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.RazorAssemblyInfo.cache
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.RazorAssemblyInfo.cs
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.AssemblyInfoInputs.cache
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.AssemblyInfo.cs
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.RazorTargetAssemblyInfo.cache
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.dll
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.pdb

@@ -70,5 +70,8 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
 
+        [Column]
+        public bool? IsSalary { get; set; }
+
     }
 }

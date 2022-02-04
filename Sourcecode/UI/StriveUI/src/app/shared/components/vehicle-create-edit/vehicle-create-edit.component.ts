@@ -70,6 +70,7 @@ export class VehicleCreateEditComponent implements OnInit {
   locationId: number = 0;
   upchargePrice: number = 0;
   isEditLoad: boolean = false;
+  isLoaded:boolean = false;
   ccRegex: RegExp = /[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
   card: string;
   profileId: string;
@@ -91,13 +92,15 @@ export class VehicleCreateEditComponent implements OnInit {
       this.isEditLoad = true;
       this.isClientVehicle = false;
       this.vehicleForm.reset();
-
+      
 
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
       this.getMembershipService();
+      
     }
     else {
+      this.isLoaded = true;
       this.locationId = +localStorage.getItem('empLocationId');
 
       this.getMembershipService();
@@ -105,7 +108,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
       this.getVehicleCodes();
     }
-
+    
   }
 
   formInitialize() {
@@ -844,7 +847,7 @@ export class VehicleCreateEditComponent implements OnInit {
         updatedDate: new Date()
       };
 
-      if(!this.vehicleForm.value.cardNumber.includes("xxxx")){
+      if(!this.vehicleForm.value.cardNumber.includes("XXXX")){
         this.client.getClientById(this.vehicleForm.value.client?.id).subscribe(res => {
           if (res.status === 'Success') {
             const clientDetail = JSON.parse(res.resultData);
@@ -853,12 +856,12 @@ export class VehicleCreateEditComponent implements OnInit {
               const clientObj = clientDetail.Status[0];
               
               const billingDetailObj = {
-                name: clientObj.firstName + '' + clientObj.lastName,
-                address: clientObj.address1 ? clientObj.address1 : null,
+                name: clientObj.FirstName + '' + clientObj.LastName,
+                address: clientObj.Address1 ? clientObj.Address1 : null,
                 city: null,  // need too change
                 country: null,  // need too change
                 region: null,  // need too change
-                postal: clientObj.zip ? clientObj.zip : null
+                postal: clientObj.Zip ? clientObj.Zip : null
               };
               const amount = this.decimalPipe.transform(this.vehicleForm.value.monthlyCharge, '.2-2');
               const paymentDetailObj = {
@@ -888,7 +891,8 @@ export class VehicleCreateEditComponent implements OnInit {
           membershipId: this.vehicleForm.value.membership === '' ?
             this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
           startDate: new Date().toLocaleDateString(),
-          endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+          // endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+          endDate: null,
           status: true,
           notes: null,
           isActive: this.vehicleForm.value.membership === '' ? false : true,
@@ -1200,19 +1204,22 @@ export class VehicleCreateEditComponent implements OnInit {
               "upcharge": serviceId,
               "upchargeType": serviceId
             });
-
-
+            
             var newCharge = 0;
-
-            if (applyUpcharge && (membership !== "" && membership !== undefined)) {
+            
+            if (this.isLoaded && applyUpcharge && (membership !== "" && membership !== undefined)) {              
               newCharge = parseFloat(this.vehicleForm.value.monthlyCharge) + parseFloat(service?.Price) - this.upchargePrice;
-
               this.upchargePrice = service?.Price;
 
               this.vehicleForm.patchValue({ monthlyCharge: newCharge.toFixed(2) });
             }
             else {
               this.upchargePrice = service?.Price;
+            }
+
+            if(this.isEdit&& !this.isLoaded)
+            {
+              this.isLoaded = true;
             }
 
             this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
@@ -1259,7 +1266,8 @@ export class VehicleCreateEditComponent implements OnInit {
         membershipId: this.vehicleForm.value.membership === '' ?
           this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
         startDate: new Date().toLocaleDateString(),
-        endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+        //endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
+        endDate:null,
         status: true,
         notes: null,
         isActive: this.vehicleForm.value.membership === '' ? false : true,
