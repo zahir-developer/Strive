@@ -190,7 +190,8 @@ namespace Strive.Core.ViewModels.Customer
             ClientVehicless.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
             ClientVehicless.clientVehicle.vehicleNumber = MembershipDetails.vehicleNumber;
             ClientVehicless.clientVehicle.vehicleModel = MembershipDetails.modelNumber;
-            ClientVehicless.clientVehicle.vehicleMfr = MembershipDetails.vehicleMfr;
+            ClientVehicless.clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
+            
             
             if (MembershipDetails.modelUpcharge.upcharge.Count > 0)
             {

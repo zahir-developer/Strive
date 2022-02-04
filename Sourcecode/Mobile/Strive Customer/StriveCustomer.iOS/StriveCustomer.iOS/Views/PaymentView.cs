@@ -51,13 +51,16 @@ namespace StriveCustomer.iOS.Views
             UpdateData();
             securityCodeTextField.Hidden = true;
 
-            if(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
+            if (CustomerVehiclesInformation.completeVehicleDetails != null)
             {
-                cardNumberTextField.Text =  CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
-                expirationDateTextField.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate;
-                ViewModel.cardNumber = cardNumberTextField.Text;
-                ViewModel.expiryDate = cardNumberTextField.Text;
-                //securityCodeTextField.Text = string.Empty;
+                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                {
+                    cardNumberTextField.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
+                    expirationDateTextField.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate;
+                    ViewModel.cardNumber = cardNumberTextField.Text;
+                    ViewModel.expiryDate = cardNumberTextField.Text;
+                    //securityCodeTextField.Text = string.Empty;
+                }
 
             }
             else
@@ -151,10 +154,14 @@ namespace StriveCustomer.iOS.Views
                 ShowAlertMsg("Please fill card details");
                 return;
             }
-            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+            if (CustomerVehiclesInformation.completeVehicleDetails!= null)
             {
-                ViewModel.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
-                ViewModel.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
+                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership!=null)
+                {
+                    ViewModel.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
+                    ViewModel.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
+                }
+                
                 ViewModel.MembershipAgree();
             }
             else
