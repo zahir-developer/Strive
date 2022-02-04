@@ -31,8 +31,13 @@ namespace StriveEmployee.Android.Views
         private TextView newAccount;
         private TextView signUp;
         private TextView forgotPassword;
+        private Button agreeButton;
+        private Button disagreeButton;
+        private LinearLayout termsLayout;
+        private LinearLayout loginLayout;
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
+        private bool hasAgreedToTerms;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -52,10 +57,15 @@ namespace StriveEmployee.Android.Views
             signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
             signUp.PaintFlags = PaintFlags.UnderlineText;
             forgotPassword = this.FindViewById<TextView>(Resource.Id.forgotPasswordLink);
+            agreeButton = this.FindViewById<Button>(Resource.Id.btnAgree);
+            disagreeButton = this.FindViewById<Button>(Resource.Id.btnDisagree);
+            loginLayout = this.FindViewById<LinearLayout>(Resource.Id.loginLayout);
+            termsLayout = this.FindViewById<LinearLayout>(Resource.Id.termsLayout);
             forgotPassword.PaintFlags = PaintFlags.UnderlineText;
             rememberMe_CheckBox.Click += RememberMe_CheckBox_Click;
             login_Button.Click += Login_Click;
-
+            agreeButton.Click += AgreeButton_Click;
+            disagreeButton.Click += DisagreeButton_Click;
             var bindingset = this.CreateBindingSet<LoginView, LoginViewModel>();
 
             bindingset.Bind(emailPhone_EditText).To(lvm => lvm.loginEmailPhone);
@@ -72,6 +82,21 @@ namespace StriveEmployee.Android.Views
             forgotPassword.Click += navigateToForgotPassword;           
             signUp.Click += navigateToSignUp;
         }
+
+        private void DisagreeButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void AgreeButton_Click(object sender, EventArgs e)
+        {
+            preferenceEditor.PutBoolean("hasAgreedToTerms", true);
+            preferenceEditor.Apply();
+            termsLayout.Visibility = ViewStates.Gone;
+            _ = ViewModel.DoLoginCommand();
+
+        }
+
         private void Login_Click(object sender, EventArgs e)
         {
             if(rememberMe_CheckBox.Checked == true)
@@ -80,8 +105,19 @@ namespace StriveEmployee.Android.Views
                 preferenceEditor.PutString("loginId", emailPhone_EditText.Text);
                 preferenceEditor.PutString("password", password_EditText.Text);
                 preferenceEditor.Apply();
+            }          
+            hasAgreedToTerms = sharedPreferences.GetBoolean("hasAgreedToTerms",false);
+            if (hasAgreedToTerms)
+            {
+                termsLayout.Visibility = ViewStates.Gone;
+                _ = ViewModel.DoLoginCommand();
             }
-            _ = ViewModel.DoLoginCommand();
+            else 
+            {
+                loginLayout.Visibility = ViewStates.Gone;
+                termsLayout.Visibility = ViewStates.Visible;
+            }
+            
         }
         private void navigateToSignUp(object sender, EventArgs e)
         {
