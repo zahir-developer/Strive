@@ -8,15 +8,14 @@ namespace Strive.BusinessEntities.ViewModel
 
         public string ImageName { get; set; }
 
-        public string Description { get; set; }
-
         public DateTimeOffset CreatedDate { get; set; }
 
         public string OriginalImageName { get; set; }
 
         public string ThumbnailFileName { get; set; }
 
-        public string Base64Thumbnail { get; set; } 
-        
+        public string Base64Thumbnail { get; set; }
+
+        public string Base64 { get; set; }
     }
 }

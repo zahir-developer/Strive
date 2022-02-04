@@ -30,15 +30,12 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result AddVehicle(VehicleDto ClientVehicle)
         {
-            foreach (var vehicleImage in ClientVehicle.VehicleImage)
-            {
-                UploadVehicleImage(vehicleImage);
-            }
+
 
             return ResultWrap(new VehicleRal(_tenant).AddVehicle, ClientVehicle, "Status");
         }
 
-        private void UploadVehicleImage(VehicleImage vehicleImage)
+        private void UploadVehicleImage(VehicleIssueImage vehicleImage)
         {
             var docBpl = new DocumentBpl(_cache, _tenant);
             string imageName = docBpl.Upload(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.Base64, vehicleImage.ImageName);
@@ -106,9 +103,9 @@ namespace Strive.BusinessLogic.Vehicle
                 }
             }
 
-            if(vehicleMembership.DeletedClientMembershipId != null && vehicleMembership.DeletedClientMembershipId.GetValueOrDefault(0) > 0)
+            if (vehicleMembership.DeletedClientMembershipId != null && vehicleMembership.DeletedClientMembershipId.GetValueOrDefault(0) > 0)
             {
-                
+
                 if (vehicleMembership.ClientVehicleMembershipModel == null)
                 {
                     var membershipVehicleDiscount = new VehicleRal(_tenant).updateMembershipVehicleDiscount(
@@ -141,28 +138,6 @@ namespace Strive.BusinessLogic.Vehicle
             return ResultWrap(new VehicleRal(_tenant).GetPastDetails, clientId, "PastClientDetails");
         }
 
-        public Result GetAllVehicleThumbnail(int vehicleId)
-        {
-            var vehicleThumnail = new VehicleRal(_tenant).GetAllVehicleThumbnail(vehicleId);
-
-            var documentBpl = new DocumentBpl(_cache, _tenant);
-            foreach(var vehicle in vehicleThumnail)
-            {
-                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ImageName);
-            }
-
-            return ResultWrap(vehicleThumnail, "VehicleThumbnails");
-        }
-
-        public Result GetVehicleImageById(int vehicleImageId)
-        {
-            var vehicleImage = new VehicleRal(_tenant).GetVehicleImageById(vehicleImageId);
-            
-            vehicleImage.Base64Thumbnail= new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.ImageName);
-
-            return ResultWrap(vehicleImage, "VehicleThumbnails");
-        }
-
         public Result DeleteVehicleImage(int vehicleImageId)
         {
             return ResultWrap(new VehicleRal(_tenant).DeleteVehicleImage, vehicleImageId, "Status");
@@ -184,5 +159,41 @@ namespace Strive.BusinessLogic.Vehicle
 
             return ResultWrap(new VehicleRal(_tenant).VehicleMembershipDelete, deleteDto, "Status");
         }
+
+        public Result AddVehicleIssue(VehicleIssueDto vehicleIssueDto)
+        {
+            foreach (var vehicleImage in vehicleIssueDto.VehicleIssueImage)
+            {
+                UploadVehicleImage(vehicleImage);
+            }
+
+            return ResultWrap(new VehicleRal(_tenant).AddVehicleIssue, vehicleIssueDto, "Status");
+        }
+
+        public Result GetAllVehicleIssueImage(int vehicleId)
+        {
+            var vehicleThumnail = new VehicleRal(_tenant).GetAllVehicleIssueImage(vehicleId);
+
+            var documentBpl = new DocumentBpl(_cache, _tenant);
+            foreach (var vehicle in vehicleThumnail?.VehicleIssueImage)
+            {
+                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ThumbnailFileName);
+            }
+
+            return ResultWrap(vehicleThumnail, "VehicleIssueThumbnail");
+        }
+
+        public Result GetVehicleIssueImageById(int vehicleIssueImageId)
+        {
+            var vehicleImage = new VehicleRal(_tenant).GetVehicleIssueImageById(vehicleIssueImageId);
+
+            if (vehicleImage != null)
+                vehicleImage.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.ImageName);
+
+            return ResultWrap(vehicleImage, "VehicleImage");
+        }
+
+
+
     }
 }

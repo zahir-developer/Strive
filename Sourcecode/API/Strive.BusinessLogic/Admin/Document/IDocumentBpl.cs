@@ -15,7 +15,7 @@ namespace Strive.BusinessLogic.Document
         bool SaveEmployeeDocument(EmployeeDocumentModel documentModel);
         List<EmployeeDocument> UploadEmployeeFiles(List<EmployeeDocument> employeeDocuments);
         void ArchiveEmployeeFiles(List<EmployeeDocument> documents);
-        string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName);
+        string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName, bool rename);
         Result GetEmployeeDocumentById(int documentId, string password);
         Result UpdatePassword(int documentId, string password);
         Result GetEmployeeDocumentByEmployeeId(int employeeId);

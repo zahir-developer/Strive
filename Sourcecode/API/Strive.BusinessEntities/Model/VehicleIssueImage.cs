@@ -3,16 +3,18 @@ using System;
 
 namespace Strive.BusinessEntities.Model
 {
-    [OverrideName("tblVehicleImage")]
-    public class VehicleImage
+    [OverrideName("tblVehicleIssueImage")]
+    public class VehicleIssueImage
     {
 
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-        public int VehicleImageId { get; set; }
+        public int VehicleIssueImageId { get; set; }
 
         [Column]
-        public int VehicleId { get; set; }
+        public int VehicleIssueId { get; set; }
 
+        [Column]
+        public string DocumentType { get; set; }
 
         [Column]
         public string ImageName { get; set; }
@@ -26,11 +28,9 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public string FilePath { get; set; }
 
-        [Column]
-        public string Description { get; set; }
-
         [Ignore]
         public string Base64 { get; set; }
+
         [Column]
         public bool? IsActive { get; set; }
 
@@ -48,8 +48,6 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
-
-       
 
     }
 }

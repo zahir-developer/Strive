@@ -95,17 +95,19 @@ namespace Strive.BusinessLogic.Document
             return employeeDocuments;
         }
 
-        public string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName)
+        public string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName, bool rename = true)
         {
             BlobContainerClient container = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
             string uploadPath = GetUploadFolderPath(uploadFolder);
-            fileName = fileName.Replace(Path.GetExtension(fileName), string.Empty) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(fileName);
+
+            if (rename)
+                fileName = fileName.Replace(Path.GetExtension(fileName), string.Empty) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(fileName);
 
             uploadPath = uploadPath + fileName;
             byte[] tempBytes = Convert.FromBase64String(Base64Url);
 
             BlobClient blob = container.GetBlobClient(uploadPath);
-            
+
             // Upload local file
             blob.Upload(new MemoryStream(tempBytes));
             //File.WriteAllBytes(uploadPath, tempBytes);
@@ -317,7 +319,7 @@ namespace Strive.BusinessLogic.Document
             string subPath = string.Empty;
 
             subPath = _tenant.TenantFolder.Replace("DOCUMENT_TYPE", module.ToString());
-            
+
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
             return path + subPath;
@@ -354,8 +356,8 @@ namespace Strive.BusinessLogic.Document
 
                     string base64 = Convert.ToBase64String(byteImage);
 
-                    thumbFileName = Upload(GlobalUpload.DocumentType.PRODUCTIMAGE, base64, fileName);
-                    
+                    thumbFileName = Upload(documentType, base64, thumbFileName, false);
+
                 }
             }
 

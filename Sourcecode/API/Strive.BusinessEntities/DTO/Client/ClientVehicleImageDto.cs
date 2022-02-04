@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 {
     public class VehicleImageDto
     {
-        public VehicleImage VehicleImage { get; set; }
+        public VehicleIssueImage VehicleImage { get; set; }
 
         public GlobalUpload.DocumentType DocumentType { get; set; }
 

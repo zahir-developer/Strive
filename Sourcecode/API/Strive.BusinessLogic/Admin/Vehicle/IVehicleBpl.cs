@@ -22,11 +22,12 @@ namespace Strive.BusinessLogic.Vehicle
         Result GetVehicleMembershipDetailsByVehicleId(int id);
         Result GetMembershipDetailsByVehicleId(int id);
         Result GetPastDetails(int clientId);
-        Result GetAllVehicleThumbnail(int vehicleId);
-        Result GetVehicleImageById(int vehicleImageId);
+        Result GetAllVehicleIssueImage(int vehicleId);
+        Result GetVehicleIssueImageById(int vehicleIssueImageId);
         Result DeleteVehicleImage(int vehicleImageId);
         Result GetMembershipDiscountStatus(int clientId, int vehicleId);
         Result DeleteVehicleMembership(VehicleMembershipDeleteDto deleteDto);
+        Result AddVehicleIssue(VehicleIssueDto vehicleIssueDto);
 
     }
 }

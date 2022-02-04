@@ -79,14 +79,12 @@ namespace Admin.API.Controllers
         /// <param name="vehicleId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("GetAllVehicleThumbnail/{vehicleId}")]
-        public Result GetAllVehicleThumbnail(int vehicleId) => _bplManager.GetAllVehicleThumbnail(vehicleId);
+        [Route("GetAllVehicleIssueImage/{vehicleId}")]
+        public Result GetAllVehicleIssueImage(int vehicleId) => _bplManager.GetAllVehicleIssueImage(vehicleId);
 
         [HttpGet]
-        [Route("GetVehicleImageById/{vehicleImageId}")]
-        public Result GetVehicleImageById(int vehicleImageId) => _bplManager.GetVehicleImageById(vehicleImageId);
-
-
+        [Route("GetVehicleIssueImageById/{vehicleIssueImageId}")]
+        public Result GetVehicleIssueImageById(int vehicleIssueImageId) => _bplManager.GetVehicleIssueImageById(vehicleIssueImageId);
 
         [HttpDelete]
         [Route("DeleteVehicleImage")]
@@ -102,5 +100,10 @@ namespace Admin.API.Controllers
         public Result DeleteVehicleMembership([FromBody] VehicleMembershipDeleteDto deleteDto) => _bplManager.DeleteVehicleMembership(deleteDto);
 
 
+        [HttpPost]
+        [Route("AddVehicleIssue")]
+        public Result AddVehicleIssue([FromBody] VehicleIssueDto vehicleIssueDto) => _bplManager.AddVehicleIssue(vehicleIssueDto);
+
+        
     }
 }

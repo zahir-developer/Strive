@@ -104,16 +104,11 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPK(vehicleImage, "VehicleImageId");
         }
 
-        public List<VehicleImageViewModel> GetAllVehicleThumbnail(int vehicleId)
+
+        public VehicleImageViewModel GetVehicleIssueImageById(int vehicleIssueImageId)
         {
-            _prm.Add("vehicleId", vehicleId);
-            return db.Fetch<VehicleImageViewModel>(SPEnum.USPGETALLVEHICLEIMAGEBYID.ToString(), _prm);
-        }
-        public VehicleImageViewModel GetVehicleImageById(int vehicleImageId)
-        {
-            _prm.Add("vehicleImageId", vehicleImageId);
-            
-            return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETVEHICLEIMAGEBYID.ToString(), _prm);
+            _prm.Add("vehicleIssueImageId", vehicleIssueImageId);
+            return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETVEHICLEISSUEIMAGEBYID.ToString(), _prm);
         }
 
         public bool DeleteVehicleImage(int vehicleImageId)
@@ -152,6 +147,16 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        
+        public bool AddVehicleIssue(VehicleIssueDto vehicleIssueDto)
+        {
+            return dbRepo.SaveAll<VehicleIssueDto>(vehicleIssueDto, "VehicleIssueId");
+        }
+
+        public VehicleIssueImageViewModel GetAllVehicleIssueImage(int vehicleId)
+        {
+            _prm.Add("vehicleId", vehicleId);
+            return db.FetchMultiResult<VehicleIssueImageViewModel>(SPEnum.USPGETALLVEHICLEISSUEIMAGEBYID.ToString(), _prm);
+        }
+
     }
 }
