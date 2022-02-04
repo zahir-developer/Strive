@@ -111,6 +111,13 @@ namespace Strive.ResourceAccess
             return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETVEHICLEISSUEIMAGEBYID.ToString(), _prm);
         }
 
+        public bool DeleteVehicleIssue(int vehicleIssueId)
+        {
+            _prm.Add("VehicleIssueId", vehicleIssueId);
+            db.Save(SPEnum.USPDELETEVEHICLEISSUE.ToString(), _prm);
+            return true;
+        }
+
         public bool DeleteVehicleImage(int vehicleImageId)
         {
             _prm.Add("VehicleImageId", vehicleImageId);

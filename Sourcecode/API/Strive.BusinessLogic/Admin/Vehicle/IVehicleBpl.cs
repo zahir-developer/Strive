@@ -25,6 +25,7 @@ namespace Strive.BusinessLogic.Vehicle
         Result GetAllVehicleIssueImage(int vehicleId);
         Result GetVehicleIssueImageById(int vehicleIssueImageId);
         Result DeleteVehicleImage(int vehicleImageId);
+        Result DeleteVehicleIssue(int vehicleIssueId);
         Result GetMembershipDiscountStatus(int clientId, int vehicleId);
         Result DeleteVehicleMembership(VehicleMembershipDeleteDto deleteDto);
         Result AddVehicleIssue(VehicleIssueDto vehicleIssueDto);

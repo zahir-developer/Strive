@@ -143,6 +143,13 @@ namespace Strive.BusinessLogic.Vehicle
             return ResultWrap(new VehicleRal(_tenant).DeleteVehicleImage, vehicleImageId, "Status");
         }
 
+        public Result DeleteVehicleIssue(int vehicleIssueId)
+        {
+            return ResultWrap(new VehicleRal(_tenant).DeleteVehicleIssue, vehicleIssueId, "Status");
+        }
+
+        
+
         public Result GetMembershipDiscountStatus(int clientId, int vehicleId)
         {
             return ResultWrap(new VehicleRal(_tenant).GetMembershipDiscountStatus, clientId, vehicleId, "Status");

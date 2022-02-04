@@ -90,6 +90,10 @@ namespace Admin.API.Controllers
         [Route("DeleteVehicleImage")]
         public Result DeleteVehicleImage(int id) => _bplManager.DeleteVehicleImage(id);
 
+        [HttpDelete]
+        [Route("DeleteVehicleIssue")]
+        public Result DeleteVehicleIssue(int vehicleIssueId) => _bplManager.DeleteVehicleIssue(vehicleIssueId);
+
 
         [HttpGet]
         [Route("GetMembershipDiscountStatus/{clientId}/{vehicleId}")]
