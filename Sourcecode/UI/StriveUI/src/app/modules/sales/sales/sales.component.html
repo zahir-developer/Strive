@@ -113,10 +113,10 @@
                                         </div>
                                         <div class="icon-btn col-sm"
                                             [class.disabled]="enableButton|| !serviceGroup ||multipleTicketSequence"
-                                            [ngClass]="{'disable': enableButton || !serviceGroup ||multipleTicketSequence, 'accountbtnenable': !enableButton || serviceGroup || !multipleTicketSequence}"
+                                            [ngClass]="calculateAccountbtnClass()"
                                             (click)="processAccount()">
                                             <img src="https://mammothuatapi-cdn.azurewebsites.net/images/Account.png" alt="" />
-                                            <div style="color: white;"> Account </div>
+                                            <div [ngStyle]="{color: (!enableButton && !multipleTicketSequence && serviceGroup )?'#ffffff':'#5F6281'}"> Account </div>
                                         </div>
                                         <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton"
                                             [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
