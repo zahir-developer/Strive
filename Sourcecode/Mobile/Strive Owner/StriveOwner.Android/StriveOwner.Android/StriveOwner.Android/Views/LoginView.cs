@@ -25,6 +25,11 @@ namespace StriveOwner.Android.Views
         private EditText password_EditText;
         private TextView loginHeading_TextView;
         private TextView rememberMe_TextView;
+        private Button agreeButton;
+        private Button disagreeButton;
+        private LinearLayout termsLayout;
+        private LinearLayout loginLayout;
+        private bool hasAgreedToTerms;
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
         private TextView forgotPassword;
@@ -43,10 +48,15 @@ namespace StriveOwner.Android.Views
             loginHeading_TextView = this.FindViewById<TextView>(Resource.Id.loginHeading);
             rememberMe_TextView = this.FindViewById<TextView>(Resource.Id.rememberMeLabel);
             forgotPassword = this.FindViewById<TextView>(Resource.Id.forgotPasswordLink);
+            agreeButton = this.FindViewById<Button>(Resource.Id.btnAgree);
+            disagreeButton = this.FindViewById<Button>(Resource.Id.btnDisagree);
+            loginLayout = this.FindViewById<LinearLayout>(Resource.Id.loginLayout);
+            termsLayout = this.FindViewById<LinearLayout>(Resource.Id.termsLayout);
             forgotPassword.PaintFlags = PaintFlags.UnderlineText;
             rememberMe_CheckBox.Click += RememberMe_CheckBox_Click;
             login_Button.Click += Login_Click;
-
+            agreeButton.Click += AgreeButton_Click;
+            disagreeButton.Click += DisagreeButton_Click;
 
             var bindingset = this.CreateBindingSet<LoginView, LoginViewModel>();
 
@@ -63,6 +73,21 @@ namespace StriveOwner.Android.Views
             forgotPassword.Click += navigateToForgotPassword;
         }
 
+        private void DisagreeButton_Click(object sender, EventArgs e)
+        {
+            termsLayout.Visibility = ViewStates.Gone;
+            loginLayout.Visibility = ViewStates.Visible;
+        }
+
+        private void AgreeButton_Click(object sender, EventArgs e)
+        {
+            preferenceEditor.PutBoolean("hasAgreedToTerms", true);
+            preferenceEditor.Apply();
+            termsLayout.Visibility = ViewStates.Gone;
+            loginLayout.Visibility = ViewStates.Visible;
+            _ = ViewModel.DoLoginCommand();
+        }
+
         private void navigateToForgotPassword(object sender, EventArgs e)
         {
             _ = ViewModel.ForgotPasswordCommand();
@@ -77,7 +102,19 @@ namespace StriveOwner.Android.Views
                 preferenceEditor.PutString("password", password_EditText.Text);
                 preferenceEditor.Apply();
             }
-            await this.ViewModel.DoLoginCommand();
+            hasAgreedToTerms = sharedPreferences.GetBoolean("hasAgreedToTerms", false);
+            if (hasAgreedToTerms)
+            {
+                termsLayout.Visibility = ViewStates.Gone;
+                loginLayout.Visibility = ViewStates.Visible;
+                await this.ViewModel.DoLoginCommand();
+            }
+            else
+            {
+                loginLayout.Visibility = ViewStates.Gone;
+                termsLayout.Visibility = ViewStates.Visible;
+            }
+            //await this.ViewModel.DoLoginCommand();
            
         }
         private void RememberMe_CheckBox_Click(object sender, EventArgs e)

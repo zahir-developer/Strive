@@ -19,6 +19,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using AlertDialog = Android.App.AlertDialog;
 using static Android.Views.View;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -115,35 +116,46 @@ namespace StriveCustomer.Android.Fragments
         }
         public async void getMembershipData()
         {
-            await this.ViewModel.getMembershipDetails();
-            foreach (var data in this.ViewModel.membershipList.Membership)
+            try 
             {
-                RadioButton radioButton = new RadioButton(context);
-                layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
-                layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
-                layoutParams.SetMargins(0, 25, 0, 25);
-                radioButton.LayoutParameters = layoutParams;
-                radioButton.Text = data.MembershipName;
-                radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
-                radioButton.Id = someId;
-                checkedId.Add(data.MembershipId, someId);
-                radioButton.SetTextSize(ComplexUnitType.Sp, (float)16.5);
-                radioButton.SetTypeface(null, TypefaceStyle.Bold);
-                radioButton.TextAlignment = TextAlignment.ViewEnd;
-
-                if (data.MembershipId == MembershipDetails.selectedMembership)
+                await this.ViewModel.getMembershipDetails();
+                foreach (var data in this.ViewModel.membershipList.Membership)
                 {
-                    radioButton.Checked = true;
+                    RadioButton radioButton = new RadioButton(context);
+                    layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+                    layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
+                    layoutParams.SetMargins(0, 25, 0, 25);
+                    radioButton.LayoutParameters = layoutParams;
+                    radioButton.Text = data.MembershipName;
+                    radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
+                    radioButton.Id = someId;
+                    checkedId.Add(data.MembershipId, someId);
+                    radioButton.SetTextSize(ComplexUnitType.Sp, (float)16.5);
+                    radioButton.SetTypeface(null, TypefaceStyle.Bold);
+                    radioButton.TextAlignment = TextAlignment.ViewEnd;
 
-                    MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[ViewModel.membershipList.Membership.IndexOf(data)];
+                    if (data.MembershipId == MembershipDetails.selectedMembership)
+                    {
+                        radioButton.Checked = true;
+
+                        MembershipDetails.selectedMembershipDetail = this.ViewModel.membershipList.Membership[ViewModel.membershipList.Membership.IndexOf(data)];
+                    }
+
+
+                    someId++;
+                    membershipGroup.AddView(radioButton);
                 }
-
-
-                someId++;
-                membershipGroup.AddView(radioButton);
+                backButton.Enabled = true;
+                nextButton.Enabled = true;
             }
-            backButton.Enabled = true;
-            nextButton.Enabled = true;
+            catch (Exception ex) 
+            {
+                if (ex is OperationCanceledException) 
+                {
+                    return;
+                }
+            
+            }            
         }
     }
 }

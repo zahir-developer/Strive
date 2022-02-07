@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -74,12 +75,23 @@ namespace StriveCustomer.Android.Fragments
 
         private async void EditMembershipButton_Click(object sender, EventArgs e)
         {
-            var result = await this.ViewModel.MembershipExists();
-            if (result)
+            try 
             {
-                AppCompatActivity activity = (AppCompatActivity)Context;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, vehicleMembershipFrag).Commit();
-            } 
+                var result = await this.ViewModel.MembershipExists();
+                if (result)
+                {
+                    AppCompatActivity activity = (AppCompatActivity)Context;
+                    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, vehicleMembershipFrag).Commit();
+                }
+            }
+            catch (Exception ex) 
+            { 
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                } 
+            }
+             
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -100,47 +112,59 @@ namespace StriveCustomer.Android.Fragments
         {
             CheckMembership.hasExistingMembership = false;
             CustomerVehiclesInformation.membershipDetails = null;
-            await this.ViewModel.GetSelectedVehicleInfo();
-            await this.ViewModel.GetCompleteVehicleDetails();
-            MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;
-            MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId ?? 0;
-            MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
-            MembershipDetails.barCode = this.ViewModel.clientVehicleDetail.Status.Barcode;
-            MembershipDetails.vehicleMfr = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
-            if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
+            try
             {
-                vehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +
-                                   this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr + " " +
-                                   this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel;
-                vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().Barcode ?? "";
-                vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
-                vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
-                vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
-                if (this.ViewModel.response != null)
+                await this.ViewModel.GetSelectedVehicleInfo();
+                await this.ViewModel.GetCompleteVehicleDetails();
+                MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;
+                MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId ?? 0;
+                MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
+                MembershipDetails.barCode = this.ViewModel.clientVehicleDetail.Status.Barcode;
+                MembershipDetails.vehicleMfr = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
+                if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
                 {
-                    cardNumber.Text = this.ViewModel.response.CardNumber;
-                    expiryDate.Text = this.ViewModel.response.ExpiryDate;
+                    vehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +
+                                       this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr + " " +
+                                       this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel;
+                    vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().Barcode ?? "";
+                    vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
+                    vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
+                    vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
+                    if (this.ViewModel.response != null)
+                    {
+                        cardNumber.Text = this.ViewModel.response.CardNumber;
+                        expiryDate.Text = this.ViewModel.response.ExpiryDate;
+                    }
+                    else
+                    {
+                        cardDetails_cardView.Visibility = ViewStates.Gone;
+                        noCardDetails_Text.Visibility = ViewStates.Visible;
+                    }
+
+                    if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                    {
+                        CheckMembership.hasExistingMembership = true;
+                        vehicleMembership.Text = "Yes";
+                        nextButton.Visibility = ViewStates.Visible;
+                    }
+                    else
+                    {
+                        CheckMembership.hasExistingMembership = false;
+                        vehicleMembership.Text = "No";
+                        nextButton.Visibility = ViewStates.Gone;
+                    }
+
                 }
-                else 
-                {
-                    cardDetails_cardView.Visibility = ViewStates.Gone;
-                    noCardDetails_Text.Visibility = ViewStates.Visible;                
-                }
-                
-                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
-                {
-                    CheckMembership.hasExistingMembership = true;
-                    vehicleMembership.Text = "Yes";
-                    nextButton.Visibility = ViewStates.Visible;
-                }
-                else
-                {
-                    CheckMembership.hasExistingMembership = false;
-                    vehicleMembership.Text = "No";
-                    nextButton.Visibility = ViewStates.Gone;
-                }
-               
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+
+           
         }
     }
     public class CheckMembership

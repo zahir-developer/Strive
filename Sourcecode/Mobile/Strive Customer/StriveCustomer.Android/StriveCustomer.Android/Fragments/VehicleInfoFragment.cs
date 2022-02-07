@@ -18,6 +18,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -59,18 +60,30 @@ namespace StriveCustomer.Android.Fragments
         }
         public async void GetVehicleList()
         {
+            
             if (this.ViewModel == null)
             {
                 ViewModel = new VehicleInfoViewModel();
             }
-            await this.ViewModel.GetCustomerVehicleList();
-            if(!(this.ViewModel.vehicleLists?.Status.Count == 0) || !(this.ViewModel.vehicleLists == null))
-            {
-                vehicleDetailsAdapter = new VehicleDetailsAdapter(Context, this.ViewModel.vehicleLists);
-                var layoutManager = new LinearLayoutManager(Context);
-                vehicleview.SetLayoutManager(layoutManager);
-                vehicleview.SetAdapter(vehicleDetailsAdapter);    
+            try 
+            { 
+                
+                await this.ViewModel.GetCustomerVehicleList();
+                if (!(this.ViewModel.vehicleLists?.Status.Count == 0) || !(this.ViewModel.vehicleLists == null))
+                {
+                    vehicleDetailsAdapter = new VehicleDetailsAdapter(Context, this.ViewModel.vehicleLists);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    vehicleview.SetLayoutManager(layoutManager);
+                    vehicleview.SetAdapter(vehicleDetailsAdapter);
+                }
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }          
             
         }
     }

@@ -34,6 +34,11 @@ namespace StriveCustomer.Android.Views
         private TextView rememberMe;
         private TextView newAccount;
         private TextView loginTextView;
+        private Button agreeButton;
+        private Button disagreeButton;
+        private LinearLayout termsLayout;
+        private LinearLayout loginLayout;
+        private bool hasAgreedToTerms;
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
         protected override void OnCreate(Bundle bundle)
@@ -53,6 +58,10 @@ namespace StriveCustomer.Android.Views
             forgotPassword.PaintFlags = PaintFlags.UnderlineText;
             newAccount = FindViewById<TextView>(Resource.Id.newAccount);
             rememberMeCheck = FindViewById<CheckBox>(Resource.Id.rememberMeCheck);
+            agreeButton = this.FindViewById<Button>(Resource.Id.buttonAgree);
+            disagreeButton = this.FindViewById<Button>(Resource.Id.buttonDisagree);
+            loginLayout = this.FindViewById<LinearLayout>(Resource.Id.loginLayout);
+            termsLayout = this.FindViewById<LinearLayout>(Resource.Id.termsLayout);
 
             var bindingset = this.CreateBindingSet<LoginView, LoginViewModel>();
 
@@ -70,16 +79,35 @@ namespace StriveCustomer.Android.Views
             rememberMeCheck.Click += checkStoredCredentials;
             loginButton.Click += Login_Click;
             signUp.Click += navigateToSignUp;
-             forgotPassword.Click += navigateToForgotPassword;
-//#if DEBUG
-//            emailPhoneInput.Text = "ramtesting21@gmail.com";
-//            passwordInput.Text = "pass@123";
-//#endif
+            forgotPassword.Click += navigateToForgotPassword;
+            //#if DEBUG
+            //            emailPhoneInput.Text = "ramtesting21@gmail.com";
+            //            passwordInput.Text = "pass@123";
+            //#endif
 
-           signUp.Click += navigateToSignUp;
-           forgotPassword.Click += navigateToForgotPassword;
+            signUp.Click += navigateToSignUp;
+            forgotPassword.Click += navigateToForgotPassword;
+            agreeButton.Click += AgreeButton_Click;
+            disagreeButton.Click += DisagreeButton_Click;
+
 
         }
+
+        private void DisagreeButton_Click(object sender, EventArgs e)
+        {
+            termsLayout.Visibility = ViewStates.Gone;
+            loginLayout.Visibility = ViewStates.Visible;
+        }
+
+        private void AgreeButton_Click(object sender, EventArgs e)
+        {
+            preferenceEditor.PutBoolean("hasAgreedToTerms", true);
+            preferenceEditor.Apply();
+            termsLayout.Visibility = ViewStates.Gone;
+            loginLayout.Visibility = ViewStates.Visible;
+            _ = ViewModel.DoLoginCommand();
+        }
+
         private async void Login_Click(object sender, EventArgs e)
         {
             if (rememberMeCheck.Checked == true)
@@ -89,8 +117,19 @@ namespace StriveCustomer.Android.Views
                 preferenceEditor.PutString("password", passwordInput.Text);
                 preferenceEditor.Apply();
             }
-            await this.ViewModel.DoLoginCommand();
-            
+            hasAgreedToTerms = sharedPreferences.GetBoolean("hasAgreedToTerms", false);
+            if (hasAgreedToTerms)
+            {
+                termsLayout.Visibility = ViewStates.Gone;
+                loginLayout.Visibility = ViewStates.Visible;
+                await this.ViewModel.DoLoginCommand();
+            }
+            else
+            {
+                loginLayout.Visibility = ViewStates.Gone;
+                termsLayout.Visibility = ViewStates.Visible;
+            }           
+
         }
         private void checkStoredCredentials(object o, EventArgs e)
         {
@@ -100,7 +139,7 @@ namespace StriveCustomer.Android.Views
             preferenceEditor.Apply();
         }
 
-        private  void isCredentialStored(bool isRemember)
+        private void isCredentialStored(bool isRemember)
         {
             if (isRemember)
             {

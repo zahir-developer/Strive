@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -97,80 +98,90 @@ namespace StriveCustomer.Android.Fragments
 
         private async void ServiceDetails()
         {
-            await this.ViewModel.getServiceList(MembershipDetails.selectedMembership);
-            await this.ViewModel.getAllServiceList();
-            if(MembershipDetails.filteredList != null)
+            try
             {
-                ViewModel.upchargeFullList.ServicesWithPrice.Insert(0, new Strive.Core.Models.TimInventory.ServiceDetail() { Upcharges = "None"});
-                foreach (var result in this.ViewModel.upchargeFullList.ServicesWithPrice)
+                await this.ViewModel.getServiceList(MembershipDetails.selectedMembership);
+                await this.ViewModel.getAllServiceList();
+                if (MembershipDetails.filteredList != null)
                 {
-                    if(!string.IsNullOrEmpty(result.Upcharges))
+                    ViewModel.upchargeFullList.ServicesWithPrice.Insert(0, new Strive.Core.Models.TimInventory.ServiceDetail() { Upcharges = "None" });
+                    foreach (var result in this.ViewModel.upchargeFullList.ServicesWithPrice)
                     {
-
-                        upChargeRadio = new RadioButton(context);
-                        layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
-                        layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
-                        layoutParams.SetMargins(0, 20, 0, 20);
-                        
-                        if(!upchargeRadio.ContainsKey(result.ServiceId))
+                        if (!string.IsNullOrEmpty(result.Upcharges))
                         {
-                            upChargeRadio.LayoutParameters = layoutParams;
-                            upChargeRadio.Text = result.Upcharges;
-                            upChargeRadio.SetButtonDrawable(Resource.Drawable.radioButton);
-                            upChargeRadio.Id = someId;
-                            upchargeRadio.Add(result.ServiceId, someId);
-                            upChargeRadio.SetTypeface(null, TypefaceStyle.Bold);
-                            upChargeRadio.SetTextSize(ComplexUnitType.Sp, (float)16.5);
-                            upChargeRadio.TextAlignment = TextAlignment.ViewEnd;
-                            selectedRadioBtn = upChargeRadio.Text;
-                            if (result.ServiceId == MembershipDetails.selectedUpCharge)
+
+                            upChargeRadio = new RadioButton(context);
+                            layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+                            layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
+                            layoutParams.SetMargins(0, 20, 0, 20);
+
+                            if (!upchargeRadio.ContainsKey(result.ServiceId))
                             {
-                                upChargeRadio.Checked = true;
-                            }
-                            if (MembershipDetails.modelUpcharge.upcharge.Count == 0)
-                            {
-                                if (upChargeRadio.Text == "None")
+                                upChargeRadio.LayoutParameters = layoutParams;
+                                upChargeRadio.Text = result.Upcharges;
+                                upChargeRadio.SetButtonDrawable(Resource.Drawable.radioButton);
+                                upChargeRadio.Id = someId;
+                                upchargeRadio.Add(result.ServiceId, someId);
+                                upChargeRadio.SetTypeface(null, TypefaceStyle.Bold);
+                                upChargeRadio.SetTextSize(ComplexUnitType.Sp, (float)16.5);
+                                upChargeRadio.TextAlignment = TextAlignment.ViewEnd;
+                                selectedRadioBtn = upChargeRadio.Text;
+                                if (result.ServiceId == MembershipDetails.selectedUpCharge)
                                 {
                                     upChargeRadio.Checked = true;
-                                    MembershipDetails.isNoneSelected = true;
-                                    MembershipDetails.selectedUpCharge = 0;
-                                    //MembershipDetails.modelUpcharge.upcharge.Add(new Strive.Core.Models.Customer.Schedule.upchargeList
-                                    //{ ServiceId = result.ServiceId,
-                                    //  Price = 0 ,
-                                    //  ServiceName=result.ServiceName, 
-                                    //  ServiceTypeId=result.ServiceTypeId,
-                                    //  Upcharges=""
-                                    //});
-                                    
+                                }
+                                if (MembershipDetails.modelUpcharge.upcharge.Count == 0)
+                                {
+                                    if (upChargeRadio.Text == "None")
+                                    {
+                                        upChargeRadio.Checked = true;
+                                        MembershipDetails.isNoneSelected = true;
+                                        MembershipDetails.selectedUpCharge = 0;
+                                        //MembershipDetails.modelUpcharge.upcharge.Add(new Strive.Core.Models.Customer.Schedule.upchargeList
+                                        //{ ServiceId = result.ServiceId,
+                                        //  Price = 0 ,
+                                        //  ServiceName=result.ServiceName, 
+                                        //  ServiceTypeId=result.ServiceTypeId,
+                                        //  Upcharges=""
+                                        //});
+
+                                    }
+                                    else
+                                    {
+                                        upChargeRadio.Checked = false;
+                                    }
                                 }
                                 else
                                 {
-                                    upChargeRadio.Checked = false;
+                                    if (result.Upcharges == MembershipDetails.modelUpcharge.upcharge[0].Upcharges)
+                                    {
+                                        MembershipDetails.isNoneSelected = true;
+                                        upChargeRadio.Checked = true;
+                                    }
+                                    else
+                                    {
+                                        upChargeRadio.Checked = false;
+                                    }
                                 }
+
+                                someId++;
+                                upChargeRadio.Clickable = false;
+                                upchargeOptions.AddView(upChargeRadio);
                             }
-                            else
-                            {
-                                if (result.Upcharges == MembershipDetails.modelUpcharge.upcharge[0].Upcharges)
-                                {
-                                    MembershipDetails.isNoneSelected = true;
-                                    upChargeRadio.Checked = true;
-                                }
-                                else
-                                {
-                                    upChargeRadio.Checked = false;
-                                }
-                            }
-                            
-                            someId++;
-                            upChargeRadio.Clickable = false;
-                            upchargeOptions.AddView(upChargeRadio);
+
                         }
-                       
+
                     }
-                   
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
                 }
             }
-
-        }
+        }   
     }
 }

@@ -22,6 +22,7 @@ using Android.Support.V7.App;
 using Android.Text;
 using System.Text.RegularExpressions;
 using Android.Support.Design.Widget;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -159,9 +160,20 @@ namespace StriveCustomer.Android.Fragments
                 paymentVM.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
                 paymentVM.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
                 paymentVM.isAndroid = true;
-                await paymentVM.MembershipAgree();
-                Membershipstatus();
-                
+                try
+                {
+                    await paymentVM.MembershipAgree();
+                    Membershipstatus();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
+                }
+
+
             }
             else
             {
@@ -196,26 +208,46 @@ namespace StriveCustomer.Android.Fragments
 
                 //Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
 
-
-                var apiService = new PaymentApiService();
-
-                var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
-
-                // if (paymentAuthResponse.IsSuccess())
-                if (paymentAuthResponse != null)
+                try
                 {
-                    paymentVM.accountId = paymentAuthResponse.AccountId;
-                    paymentVM.profileId = paymentAuthResponse.ProfileId;
-                    paymentVM.isAndroid = true;
-                    await paymentVM.MembershipAgree();
-                    Membershipstatus();
+                    var apiService = new PaymentApiService();
 
+                    var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
+
+                    // if (paymentAuthResponse.IsSuccess())
+                    if (paymentAuthResponse != null)
+                    {
+                        paymentVM.accountId = paymentAuthResponse.AccountId;
+                        paymentVM.profileId = paymentAuthResponse.ProfileId;
+                        paymentVM.isAndroid = true;
+                        try
+                        {
+                            await paymentVM.MembershipAgree();
+                            Membershipstatus();
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex is OperationCanceledException)
+                            {
+                                return;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        _userDialog.HideLoading();
+                        _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    _userDialog.HideLoading();
-                    _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
+                    if (ex is OperationCanceledException)
+                    {
+                        return;
+                    }
                 }
+
             }
 
             //try

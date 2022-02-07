@@ -6,11 +6,109 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mobile_portrait_bg">
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical"
+         android:id="@+id/termsLayout"
+         android:visibility="gone">
+      <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:layout_margin="@dimen/forty"
+             android:background="@drawable/secondarylinearlayout">        
+        <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Terms And Conditions"
+             android:textSize="16sp"
+             android:textColor="@android:color/black"
+             android:fontFamily="@font/opensans_bold"
+             android:gravity="center_horizontal"
+             android:paddingTop="@dimen/five"
+             android:layout_marginBottom="@dimen/five"/>        
+        <ScrollView
+             android:layout_width="match_parent"
+             android:fillViewport="true"             
+             android:layout_height="500dp">               
+             <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent" 
+                  android:orientation="vertical"
+                  android:layout_marginLeft="@dimen/five"
+                  android:layout_marginRight="@dimen/five"                  
+                  >
+                <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"                     
+                     android:id="@+id/terms0"
+                     android:src="@drawable/Terms0"
+                />
+                <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/terms1"                     
+                     android:src="@drawable/Terms1"
+                />
+                <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/terms2"                     
+                     android:src="@drawable/Terms2"
+                />
+                <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"                     
+                     android:src="@drawable/Terms3"
+                />
+             </LinearLayout>
+        </ScrollView>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/fifteen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+            <Button
+                android:id="@+id/buttonDisagree"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Disagree" 
+                android:textColor="@color/defaultLabelColor"
+                android:background="@drawable/primarybutton"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/opensans_bold"                
+                android:textSize="@dimen/textSixteen"
+                android:layout_margin="@dimen/ten"/>
+            <Button
+                android:id="@+id/buttonAgree"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Agree"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/opensans_semibold"
+                android:textColor="@color/defaultLabelColor"
+                android:textSize="@dimen/textSixteen"
+                android:background="@drawable/primarybutton"
+                android:layout_margin="@dimen/ten"/>        
+
+        </LinearLayout>
+      </LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/forty"    
+        android:layout_marginTop="@dimen/forty"
+        android:id="@+id/loginLayout"
+        android:visibility="visible"
         android:gravity="center">
        <ImageView
            android:layout_width="@dimen/Strive_Logo_Width"

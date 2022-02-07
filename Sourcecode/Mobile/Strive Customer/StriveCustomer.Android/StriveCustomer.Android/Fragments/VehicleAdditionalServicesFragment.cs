@@ -17,6 +17,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -62,10 +63,21 @@ namespace StriveCustomer.Android.Fragments
         }
         private async void getAdditionalServices()
         {
-            await this.ViewModel.AddUpchargesToServiceList();
+            try 
+            {
+                await this.ViewModel.AddUpchargesToServiceList();
 
-            additionalServicesAdapter = new AdditionalServicesAdapter(context, VehicleAdditionalServiceViewModel.serviceList);
-            additionalService.SetAdapter(additionalServicesAdapter);
+                additionalServicesAdapter = new AdditionalServicesAdapter(context, VehicleAdditionalServiceViewModel.serviceList);
+                additionalService.SetAdapter(additionalServicesAdapter);
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            
         }
         private void BackButton_Click(object sender, EventArgs e)
         {

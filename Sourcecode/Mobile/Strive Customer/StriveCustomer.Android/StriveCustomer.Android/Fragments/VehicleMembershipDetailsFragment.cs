@@ -16,6 +16,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.Utils;
 using Strive.Core.ViewModels.Customer;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -57,32 +58,54 @@ namespace StriveCustomer.Android.Fragments
 
         private async void CancelButton_Click(object sender, EventArgs e)
         {
-           await this.ViewModel.CancelMembership();
-            MyProfileInfoNeeds.selectedTab = 1;
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfo).Commit();
+            try 
+            {
+                await this.ViewModel.CancelMembership();
+                MyProfileInfoNeeds.selectedTab = 1;
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfo).Commit();
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+           
         }
 
         private async void GetMembershipInfo()
         {
-            await this.ViewModel.GetMembershipInfo();
-            if(!string.IsNullOrEmpty(this.ViewModel.MembershipName))
+            try
             {
-                membershipName.Text = this.ViewModel.MembershipName;
-            }
-            var CreatedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.StartDate.ToString());
-            var DeletedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.EndDate.ToString());
+                await this.ViewModel.GetMembershipInfo();
+                if (!string.IsNullOrEmpty(this.ViewModel.MembershipName))
+                {
+                    membershipName.Text = this.ViewModel.MembershipName;
+                }
+                var CreatedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.StartDate.ToString());
+                var DeletedDate = DateUtils.ConvertDateTimeFromZ(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.EndDate.ToString());
 
-            createdDate.Text = CreatedDate;
-            cancelledDate.Text = DeletedDate;
-            if (!CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive.HasValue)
-            {
-                status.Text = "Active";
+                createdDate.Text = CreatedDate;
+                cancelledDate.Text = DeletedDate;
+                if (!CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive.HasValue)
+                {
+                    status.Text = "Active";
+                }
+                else
+                {
+                    status.Text = "InActive";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                status.Text = "InActive";
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
+           
         }
 
         private void BackButton_Click(object sender, EventArgs e)
