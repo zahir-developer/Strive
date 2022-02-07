@@ -124,7 +124,7 @@ export class EditEmployeeComponent implements OnInit {
       roles: [[]],
       location: [[]],
       employeeCode: [''],
-      salary: ['']
+      //salary: ['']
     });
     this.roleId = localStorage.getItem('roleId');
     this.locationId = localStorage.getItem('empLocationId');
@@ -332,7 +332,7 @@ export class EditEmployeeComponent implements OnInit {
       status: employeeInfo.Status ? 'Active' : 'Inactive',
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
-      salary: employeeInfo.Salary ? employeeInfo.Salary : '',
+      //salary: employeeInfo.Salary ? employeeInfo.Salary : '',
       roles: this.employeeRole,
       location: this.employeeLocation
     });
@@ -567,7 +567,7 @@ export class EditEmployeeComponent implements OnInit {
       ComType: +this.emplistform.value.comType,
       lrt: null,
       exemptions: +this.emplistform.value.exemptions,
-      salary: +this.emplistform.value.salary,
+      //salary: +this.emplistform.value.salary,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
       isSalary: this.isSalary
