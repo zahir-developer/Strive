@@ -205,6 +205,21 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
+        protected Result ResultErrorWrap<T>(string errorMessage)
+        {
+            try
+            {
+                var res = new Result();
+                _resultContent.Add(res.WithName("InternalError"));
+                _result = Helper.BindFailedResult(errorMessage);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
         protected Result ResultWrap<T>(Func<string, T> RALMethod, string emailId, string ResultName)
         {
             try

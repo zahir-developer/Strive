@@ -145,10 +145,22 @@ namespace Strive.BusinessLogic.Vehicle
 
         public Result DeleteVehicleIssue(int vehicleIssueId)
         {
-            return ResultWrap(new VehicleRal(_tenant).DeleteVehicleIssue, vehicleIssueId, "Status");
+            var documentBpl = new DocumentBpl(_cache, _tenant);
+
+            var vehicleRal = new VehicleRal(_tenant);
+
+            var vehicleImages = vehicleRal.GetAllVehicleImage(vehicleIssueId);
+
+            foreach(var vImage in vehicleImages)
+            {
+                documentBpl.DeleteBlob(GlobalUpload.DocumentType.VEHICLEIMAGE, vImage.ImageName);
+                documentBpl.DeleteBlob(GlobalUpload.DocumentType.VEHICLEIMAGE, vImage.ThumbnailFileName);
+            }
+
+            return ResultWrap(vehicleRal.DeleteVehicleIssue, vehicleIssueId, "Status");
         }
 
-        
+
 
         public Result GetMembershipDiscountStatus(int clientId, int vehicleId)
         {

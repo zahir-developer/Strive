@@ -27,6 +27,7 @@ namespace Strive.BusinessLogic.Document
         Result UpdateDocument(DocumentDto documentModel);
         Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType, int? documentSubType);
         Result DeleteDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
+        bool DeleteBlob(GlobalUpload.DocumentType uploadFolder, string fileName);
         void ArchiveFile(GlobalUpload.DocumentType uploadFolder, string fileName);
         DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType);
         bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType);

@@ -313,6 +313,19 @@ namespace Strive.BusinessLogic.Document
             }
         }
 
+        public bool DeleteBlob(GlobalUpload.DocumentType uploadFolder, string fileName)
+        {
+            BlobContainerClient blobContainer = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
+
+            string rootPath = GetUploadFolderPath(uploadFolder);
+
+            fileName = rootPath + fileName;
+
+            BlobClient blob = blobContainer.GetBlobClient(fileName);
+
+            return blob.DeleteIfExists(Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots);
+        }
+
         public string GetUploadFolderPath(GlobalUpload.DocumentType module)
         {
             string path = string.Empty;
