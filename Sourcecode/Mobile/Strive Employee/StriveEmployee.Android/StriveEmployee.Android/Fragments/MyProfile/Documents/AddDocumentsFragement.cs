@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Android;
 using Android.App;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.Content;
 using Android.Support.V7.App;
@@ -55,6 +57,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             back_Button.Click += Back_Button_Click;
             addDoc_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.editDoc_RecyclerView);
             MyProfFragment = new MyProfileFragment();
+            save_Button.Enabled = false;
+            save_Button.SetTextColor(Color.ParseColor("#DEDDDC"));
             return rootView;
         }
 
@@ -85,9 +89,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
                         return;
                     }
                 }
-                
-
                 AddDocumentsAdapter.fileList.Clear();
+                AddDocumentsAdapter.selectedFile.Clear();
             }
             else
             {
@@ -95,11 +98,16 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
                 AppCompatActivity activity = (AppCompatActivity)this.Context;
                 MyProfileInfoNeeds.selectedTab = 2;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, MyProfFragment).Commit();
+                AddDocumentsAdapter.fileList.Clear();
+                AddDocumentsAdapter.selectedFile.Clear();
+
             }
         }
 
         private void Back_Button_Click(object sender, EventArgs e)
         {
+            AddDocumentsAdapter.fileList.Clear();
+            AddDocumentsAdapter.selectedFile.Clear();
             save_Button.Enabled = true;
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             MyProfileInfoNeeds.selectedTab = 2;
@@ -125,7 +133,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
                 var result = await FilePicker.PickMultipleAsync();
                 if (result != null)
                 {
-                    addDocuments_Adapter = new AddDocumentsAdapter(Context, result);
+
+                    addDocuments_Adapter = new AddDocumentsAdapter(Context, result ,save_Button);
                     var LayoutManager = new LinearLayoutManager(Context);
                     addDoc_RecyclerView.SetLayoutManager(LayoutManager);
                     addDoc_RecyclerView.SetAdapter(addDocuments_Adapter);

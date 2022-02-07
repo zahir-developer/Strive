@@ -109,14 +109,23 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
             if(ClickInfo.ClickAction == ClickInfo.DeleteClickAction)
             {
                 DocumentsViewModel docsViewModel = new DocumentsViewModel();
-                var delete = await docsViewModel.DeleteDocument(employeeDocuments[position].EmployeeDocumentId);
-                if(delete)
+                try
                 {
-                    employeeDocuments.RemoveAt(position);
-                    NotifyItemRemoved(position);
-                    NotifyItemRangeChanged(position, employeeDocuments.Count);
-                    
-                }
+                    if(employeeDocuments.Count > 0 && employeeDocuments[position].EmployeeDocumentId != null)
+                    {
+                        var delete = await docsViewModel.DeleteDocument(employeeDocuments[position].EmployeeDocumentId);
+                        if (delete)
+                        {
+                            employeeDocuments.RemoveAt(position);
+                            NotifyItemRemoved(position);
+                            NotifyItemRangeChanged(position, employeeDocuments.Count);
+
+                        }
+                    }
+                }catch(Exception ex)
+                {
+                    return;
+                }  
 
             }
             else if(ClickInfo.ClickAction == ClickInfo.DownloadClickAction)

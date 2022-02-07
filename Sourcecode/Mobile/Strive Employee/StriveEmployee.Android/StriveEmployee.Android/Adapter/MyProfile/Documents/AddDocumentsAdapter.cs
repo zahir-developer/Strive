@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using Android.Content;
+using Android.Graphics;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -28,46 +29,46 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
 
         Context context;
         private AddDocumentsViewHolder addDocuments_ViewHolder;
-        private ObservableCollection<employeeDocument> selectedFile = new ObservableCollection<employeeDocument>();
+        public static ObservableCollection<employeeDocument> selectedFile = new ObservableCollection<employeeDocument>();
         public static ObservableCollection<FileResult> fileList = new ObservableCollection<FileResult>();
-        
-
-        public AddDocumentsAdapter(Context context, IEnumerable<FileResult> result)
+        private Button saveBtn;
+        CompoundButton compoundBtn;
+        public AddDocumentsAdapter(Context context, IEnumerable<FileResult> result, Button save_Button)
         {
             this.context = context;
-            //this.fileList = new ObservableCollection<FileResult>(result);
-            result.ToList().ForEach(fileList.Add);
+            this.saveBtn = save_Button;
+            foreach(var data in result.ToList())
+            {
+                if (fileList.Any(p => p.FileName == data.FileName) == false)
+                {
+                    //result.ToList().ForEach(fileList.Add);
+                    fileList.Add(data);
+                }
+
+            }
+            
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             addDocuments_ViewHolder = holder as AddDocumentsViewHolder;
-            //if (tempFileList.Count > 0)
-            //{
-            //    foreach (var data in tempFileList)
-            //    {
-            //        if (data.FileName != fileList[position].FileName)
-            //        {
-            //            tempFileList.Add(data);
-            //        }
-            //        else
-            //        {
-            //            tempFileList.Remove(data);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    tempFileList.Add(fileList);
-            //}
+            
             addDocuments_ViewHolder.documentName_TextView.Text = fileList[position].FileName;
             addDocuments_ViewHolder.checkDoc_ImageButton.Tag = position;
+            if (selectedFile.Any(x => x.fileName == fileList[position].FileName))
+            {
+                addDocuments_ViewHolder.checkDoc_ImageButton.Checked = true;
+            }
+            else
+            {
+                addDocuments_ViewHolder.checkDoc_ImageButton.Checked = false;
+            }
             addDocuments_ViewHolder.checkDoc_ImageButton.Click += SelectDocument;
         }
 
         private void SelectDocument(object sender, EventArgs e)
         {
-            var compoundBtn = (CompoundButton)sender;
+             compoundBtn = (CompoundButton)sender;
             int position = (int)compoundBtn.Tag;
             var employeeDocuments = new employeeDocument();
 
@@ -77,7 +78,38 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
             employeeDocuments.filePath = fileList[position].FullPath;
             employeeDocuments.base64 = Convert.ToBase64String(DataArray);
             employeeDocuments.fileType = fileType[1];
-            selectedFile.Add(employeeDocuments);
+            if (compoundBtn.Checked == true)
+            {
+                if (!selectedFile.Any(x => x.fileName == fileList[position].FileName && x.filePath == fileList[position].FullPath))
+                {
+                    selectedFile.Add(employeeDocuments);
+                }
+            }
+            else
+            {
+                if (selectedFile.Any(x => x.fileName == fileList[position].FileName && x.filePath == fileList[position].FullPath))
+                {
+                    foreach (var data in selectedFile.ToList())
+                    {
+                        if (data.fileName == fileList[position].FileName)
+                        {
+                            selectedFile.Remove(data);
+                        }
+                    }
+                }
+            }
+
+            if (selectedFile.Count > 0)
+            {
+                saveBtn.Enabled = true;
+                saveBtn.SetTextColor(Color.ParseColor("#000000"));
+            }
+            else
+            {
+                saveBtn.Enabled = false;
+                saveBtn.SetTextColor(Color.ParseColor("#DEDDDC"));
+            }
+           
         }
 
         public ObservableCollection<employeeDocument> GetFile()
