@@ -275,6 +275,11 @@ namespace Strive.BusinessLogic
 
             return true;
         }
-   
+
+        public Result GetAllClientDetail(string name)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetAllClientDetail, name, "Status");
+        }
+
     }
 }

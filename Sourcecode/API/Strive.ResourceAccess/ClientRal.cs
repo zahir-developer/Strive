@@ -204,6 +204,11 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public List<ClientDetailListViewModel> GetAllClientDetail(string name)
+        {
+            _prm.Add("@Name", name);
+            return db.Fetch<ClientDetailListViewModel>(SPEnum.USPGETALLCLIENTDETAIL.ToString(), _prm);
+        }
         
     }
 }

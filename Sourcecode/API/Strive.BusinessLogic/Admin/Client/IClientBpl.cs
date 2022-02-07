@@ -40,5 +40,6 @@ namespace Strive.BusinessLogic.Client
         //Result AddCreditAccountHistory(CreditHistoryDTO addGiftCardHistory);
         //Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory);
         bool SendClientEmail();
+        Result GetAllClientDetail(string name);
     }
 }
