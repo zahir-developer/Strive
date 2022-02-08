@@ -6,6 +6,8 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public int VehicleImageId { get; set; }
 
+        public int VehicleIssueId { get; set; }
+
         public string ImageName { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
