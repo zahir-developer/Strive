@@ -326,7 +326,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   washService(data) {
     if (this.washItem.length > 0) {
       // Remove duplicate washItem
-      this.washItem = this.washItem.map(e => e.ServiceTypeId).map((e, i, fin) => fin.indexOf(e) === i && i)
+      this.washItem = this.washItem.map(e => e.ServiceId).map((e, i, fin) => fin.indexOf(e) === i && i)
         .filter(e => this.washItem[e]).map(e => this.washItem[e])
     }
     this.isDetails = true;
