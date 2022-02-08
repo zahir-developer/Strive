@@ -7,6 +7,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -34,7 +35,7 @@ namespace StriveEmployee.Android.Views
         private Button agreeButton;
         private Button disagreeButton;
         private LinearLayout termsLayout;
-        private LinearLayout loginLayout;
+        private LinearLayout loginLayout;        
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
         private bool hasAgreedToTerms;
@@ -60,7 +61,7 @@ namespace StriveEmployee.Android.Views
             agreeButton = this.FindViewById<Button>(Resource.Id.btnAgree);
             disagreeButton = this.FindViewById<Button>(Resource.Id.btnDisagree);
             loginLayout = this.FindViewById<LinearLayout>(Resource.Id.loginLayout);
-            termsLayout = this.FindViewById<LinearLayout>(Resource.Id.termsLayout);
+            termsLayout = this.FindViewById<LinearLayout>(Resource.Id.termsLayout);            
             forgotPassword.PaintFlags = PaintFlags.UnderlineText;
             rememberMe_CheckBox.Click += RememberMe_CheckBox_Click;
             login_Button.Click += Login_Click;
@@ -86,7 +87,7 @@ namespace StriveEmployee.Android.Views
         private void DisagreeButton_Click(object sender, EventArgs e)
         {
             termsLayout.Visibility = ViewStates.Gone;
-            loginLayout.Visibility = ViewStates.Visible;
+            loginLayout.Visibility = ViewStates.Visible; 
 
         }
 
@@ -108,7 +109,7 @@ namespace StriveEmployee.Android.Views
                 preferenceEditor.PutString("loginId", emailPhone_EditText.Text);
                 preferenceEditor.PutString("password", password_EditText.Text);
                 preferenceEditor.Apply();
-            }          
+            }            
             hasAgreedToTerms = sharedPreferences.GetBoolean("hasAgreedToTerms",false);
             if (hasAgreedToTerms)
             {
@@ -118,10 +119,20 @@ namespace StriveEmployee.Android.Views
             }
             else 
             {
-                loginLayout.Visibility = ViewStates.Gone;
-                termsLayout.Visibility = ViewStates.Visible;
+                if (ViewModel.validateCommand())
+                {                    
+                    loginLayout.Visibility = ViewStates.Gone;                    
+                    termsLayout.Visibility = ViewStates.Visible;
+                    HideSoftKeyboard(new View(this));                   
+                }                        
+            
             }
             
+        }
+        public void HideSoftKeyboard(View view)
+        {
+            InputMethodManager inputMethod = (InputMethodManager)GetSystemService(Context.InputMethodService);
+            inputMethod.ToggleSoftInput(ShowFlags.Implicit, 0);
         }
         private void navigateToSignUp(object sender, EventArgs e)
         {
