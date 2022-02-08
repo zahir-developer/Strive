@@ -74,6 +74,8 @@ export class VehicleCreateEditComponent implements OnInit {
   ccRegex: RegExp = /[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
   card: string;
   profileId: string;
+  accountId: string;
+  isMembership: boolean = false;
   billingAddress: any = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
     private spinner: NgxSpinnerService, private employeeService: EmployeeService,
@@ -125,8 +127,8 @@ export class VehicleCreateEditComponent implements OnInit {
       membership: ['',],
       wash: [''],
       services: [[]],
-      cardNumber: this.isEdit === true ? ['', Validators.required] : ['',] ,
-      expiryDate: this.isEdit === true ? ['', Validators.required] : ['',],
+      cardNumber: ['',] ,
+      expiryDate: ['',]
     });
     this.vehicleForm.get('vehicleNumber').patchValue(this.vehicleNumber);
     this.vehicleForm.controls.vehicleNumber.disable();
@@ -269,13 +271,19 @@ export class VehicleCreateEditComponent implements OnInit {
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembership !== null) {
           this.memberServiceId = vehicle?.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
           //this.getMemberServices(this.memberServiceId);
+          this.isMembership = true;
+          this.vehicleForm.get('cardNumber').setValidators([Validators.required]); 
+          this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
+          
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId,
             monthlyCharge: vehicle?.VehicleMembershipDetails?.ClientVehicleMembership.TotalPrice.toFixed(2),
             cardNumber:vehicle.VehicleMembershipDetails.ClientVehicleMembership.CardNumber,
             expiryDate:vehicle.VehicleMembershipDetails.ClientVehicleMembership.ExpiryDate
           });
+         
           this.profileId = vehicle.VehicleMembershipDetails.ClientVehicleMembership.ProfileId;
+          this.accountId = vehicle.VehicleMembershipDetails.ClientVehicleMembership.AccountId;
 
           this.clientMembershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.ClientMembershipId;
           this.membershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
@@ -350,7 +358,10 @@ export class VehicleCreateEditComponent implements OnInit {
     this.extraService = [];
     if (data !== "") {
       this.vehicleForm.get('monthlyCharge').reset();
-
+      this.isMembership = true;
+     
+      this.vehicleForm.get('cardNumber').setValidators([Validators.required]); 
+      this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
       if (this.memberOnchangePatchedService.length !== 0) {
         this.memberOnchangePatchedService.forEach(element => {
           this.selectedservice = this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
@@ -481,6 +492,12 @@ export class VehicleCreateEditComponent implements OnInit {
     else {
       this.vehicleForm.patchValue({ upcharge: "", upchargeType: "", wash: "", monthlyCharge: "0.00" });
       this.vehicleForm.get('services').patchValue(null);
+      this.isMembership = false;
+     
+      this.vehicleForm.get('cardNumber').clearValidators(); 
+      this.vehicleForm.get('cardNumber').reset(); 
+      this.vehicleForm.get('expiryDate').clearValidators();
+      this.vehicleForm.get('expiryDate').reset();
     }
   }
 
@@ -846,8 +863,11 @@ export class VehicleCreateEditComponent implements OnInit {
         updatedBy: +localStorage.getItem('empId'),
         updatedDate: new Date()
       };
-
-      if(!this.vehicleForm.value.cardNumber.includes("XXXX")){
+      
+       if(this.vehicleForm.value.cardNumber == null){
+        this.vehicleForm.value.cardNumber = '';
+       }
+     if(this.vehicleForm.value.cardNumber != '' && !this.vehicleForm.value.cardNumber.includes("XXXX")){
         this.client.getClientById(this.vehicleForm.value.client?.id).subscribe(res => {
           if (res.status === 'Success') {
             const clientDetail = JSON.parse(res.resultData);
@@ -863,10 +883,11 @@ export class VehicleCreateEditComponent implements OnInit {
                 region: null,  // need too change
                 postal: clientObj.Zip ? clientObj.Zip : null
               };
+              
               const amount = this.decimalPipe.transform(this.vehicleForm.value.monthlyCharge, '.2-2');
               const paymentDetailObj = {
                 account: this.vehicleForm.value.cardNumber,
-                expiry: this.vehicleForm.value.expiryDate.replace("/",""), 
+                expiry: this.vehicleForm.value.expiryDate != null ? this.vehicleForm.value.expiryDate.replace("/","") : "", 
                 amount: amount.toString().replace(",",""),
                 orderId: "",  // need too change
               };
@@ -880,9 +901,9 @@ export class VehicleCreateEditComponent implements OnInit {
               this.paymentAuth(authObj,memberService,formObj);
             } 
           }
-        });
-        
-      }else{
+       });
+
+     }else{
         const membership = {
           clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
             this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
@@ -904,8 +925,9 @@ export class VehicleCreateEditComponent implements OnInit {
           totalPrice: this.vehicleForm.value.monthlyCharge,
           isDiscount: this.MembershipDiscount,
           cardNumber: this.vehicleForm.value.cardNumber,
-          expiryDate:this.vehicleForm.value.expiryDate.replace("/",""),
-          profileId:this.profileId
+          expiryDate:this.vehicleForm.value.expiryDate != null ? this.vehicleForm.value.expiryDate.replace("/","") : "",
+          profileId:this.profileId,
+          accountId:this.accountId
         };
         let membershipServices = [];
         if (memberService !== undefined && memberService.length) {
@@ -1258,6 +1280,7 @@ export class VehicleCreateEditComponent implements OnInit {
       if (res.status === 'Success') {
         const auth = JSON.parse(res.resultData);        
        this.profileId = auth.profileid;
+       this.accountId = auth.acctid;
        const membership = {
         clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
           this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
@@ -1279,8 +1302,9 @@ export class VehicleCreateEditComponent implements OnInit {
         totalPrice: this.vehicleForm.value.monthlyCharge,
         isDiscount: this.MembershipDiscount,
         cardNumber: this.vehicleForm.value.cardNumber,
-        expiryDate:this.vehicleForm.value.expiryDate.replace("/",""),
-        profileId:this.profileId
+        expiryDate:this.vehicleForm.value.expiryDate != null ? this.vehicleForm.value.expiryDate.replace("/","") : "",
+        profileId:this.profileId,
+        accountId:this.accountId
       };
       let membershipServices = [];
       if (memberService !== undefined && memberService.length) {

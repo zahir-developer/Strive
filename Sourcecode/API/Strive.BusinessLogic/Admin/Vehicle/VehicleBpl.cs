@@ -85,15 +85,17 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel vehicleMembership)
         {
-
-            var cardNumber = vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.CardNumber;
-            if (cardNumber.Length > 0)
+            if (vehicleMembership.ClientVehicleMembershipModel != null)
             {
-                var lastDigits = cardNumber.Substring(cardNumber.Length - 4, 4);
+                var cardNumber = vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.CardNumber;
+                if (cardNumber.Length > 0)
+                {
+                    var lastDigits = cardNumber.Substring(cardNumber.Length - 4, 4);
 
-                var requiredMask = new String('X', cardNumber.Length - lastDigits.Length);
+                    var requiredMask = new String('X', cardNumber.Length - lastDigits.Length);
 
-                vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.CardNumber = string.Concat(requiredMask, lastDigits);
+                    vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.CardNumber = string.Concat(requiredMask, lastDigits);
+                }
             }
             if (vehicleMembership.ClientVehicle.VehicleImage != null)
             {
@@ -151,7 +153,7 @@ namespace Strive.BusinessLogic.Vehicle
 
             var vehicleImages = vehicleRal.GetAllVehicleImage(vehicleIssueId);
 
-            foreach(var vImage in vehicleImages)
+            foreach (var vImage in vehicleImages)
             {
                 documentBpl.DeleteBlob(GlobalUpload.DocumentType.VEHICLEIMAGE, vImage.ImageName);
                 documentBpl.DeleteBlob(GlobalUpload.DocumentType.VEHICLEIMAGE, vImage.ThumbnailFileName);

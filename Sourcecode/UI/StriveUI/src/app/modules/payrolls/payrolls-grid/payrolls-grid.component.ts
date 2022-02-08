@@ -120,6 +120,7 @@ export class PayrollsGridComponent implements OnInit {
           'CardTip': this.payRollList[i].CardTip,
           'WashTip': this.payRollList[i].WashTip,
           'Bonus': this.payRollList[i].Bonus,
+          'Salary': this.payRollList[i].Salary,
           'Payee Total': this.payRollList[i].PayeeTotal,
 
         })

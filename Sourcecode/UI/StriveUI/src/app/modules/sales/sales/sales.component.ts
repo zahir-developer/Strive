@@ -386,7 +386,7 @@ export class SalesComponent implements OnInit {
   removeTicketNumber(ticket) {
     this.newTicketNumber = '';
     if (this.multipleTicketNumber.length > 1) {
-      this.multipleTicketSequence = false;
+      this.multipleTicketSequence = true;
     }
     this.multipleTicketNumber = this.multipleTicketNumber.filter(item => item !== ticket);
     if (this.multipleTicketNumber.length > 10) {
@@ -440,8 +440,12 @@ export class SalesComponent implements OnInit {
             this.isMembership = true;
             this.isAccount = false;
           }
-        }
-      });
+
+          if(this.accountDetails.SalesAccountCreditViewModel?.ClientId == null){
+            this.serviceGroup = false;
+          }
+        }        
+      });      
       this.spinner.show();
       const salesObj =
       {
@@ -566,7 +570,7 @@ export class SalesComponent implements OnInit {
       }, (err) => {
         this.enableAdd = false;
         this.spinner.hide();
-      });
+      });      
     }
   }
 
@@ -1774,6 +1778,9 @@ export class SalesComponent implements OnInit {
   }
 
   processAccount() {
+    if(this.enableButton){
+      return;
+    }
     this.isAccountButton = !this.isAccountButton;
     if (this.serviceGroup && this.isAccount && !this.isMembership) {
       this.removAddedAmount(this.account);
@@ -1904,6 +1911,13 @@ export class SalesComponent implements OnInit {
     $(document).ready(function () {
       $('#ticketNumber').focus();
     });
+  }
+
+  calculateAccountbtnClass(){    
+    return{
+      disable:(this.enableButton || !this.serviceGroup ||this.multipleTicketSequence),
+      accountbtnenable:(!this.enableButton && !this.multipleTicketSequence && this.serviceGroup )
+    }
   }
 
 }
