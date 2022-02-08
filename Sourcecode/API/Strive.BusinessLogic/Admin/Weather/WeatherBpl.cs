@@ -96,9 +96,9 @@ namespace Strive.BusinessLogic
                 foreach (var oLoc in allLocationList)
                 {
                     //Get Current weather:
-                    var now = DateTime.UtcNow;                    
-                    string startTime = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); ;
-                    string endTime = now.AddHours(24).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
+                    var now = DateTime.UtcNow.AddHours(-6);                    
+                    string startTime = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); ;
+                    string endTime = now.AddHours(30).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
                     string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
 
                     var query = "?location=" + oLoc.Latitude + "," + oLoc.Longitude + "&startTime=" + startTime + "&endTime=" + endTime + "&fields=temperature,precipitationProbability,precipitationType&timesteps=1h&units=metric";
@@ -127,9 +127,17 @@ namespace Strive.BusinessLogic
 
                         //Current Weather
                         weatherInfo.Temporature = ConvertToFahrenheit(
-                            res.Data.timelines[0].intervals.OrderByDescending(x => x.values.temperature).Take(1).ToList()[0].values.temperature).ToString();
-                        weatherInfo.RainPercentage = res.Data.timelines[0].intervals.Where(x => x.values.precipitationType == 1).OrderByDescending(x => x.values.precipitationProbability).Take(1).ToList()[0].values.precipitationProbability.ToString();
-
+                            res.Data.timelines[0].intervals.Where(x=> Convert.ToDateTime(x.startTime).ToShortDateString()== Convert.ToDateTime(startTime).ToShortDateString() ).OrderByDescending(x => x.values.temperature).Take(1).ToList()[0].values.temperature).ToString();
+                        var oIntervals = res.Data.timelines[0].intervals.Where(x => x.values.precipitationType == 1 && Convert.ToDateTime(x.startTime).ToShortDateString() == Convert.ToDateTime(startTime).ToShortDateString()).OrderByDescending(x => x.values.precipitationProbability).Take(1).ToList();
+                        if (oIntervals.Count > 0)
+                        {
+                            weatherInfo.RainPercentage = res.Data.timelines[0].intervals.Where(x => x.values.precipitationType == 1 && Convert.ToDateTime(x.startTime).ToShortDateString() == Convert.ToDateTime(startTime).ToShortDateString()).OrderByDescending(x => x.values.precipitationProbability).Take(1).ToList()[0].values.precipitationProbability.ToString();
+                        }
+                        else
+                        {
+                            weatherInfo.RainPercentage = "0";
+                        }
+                        
                         WeatherPredictionDTO weatherPrediction = new WeatherPredictionDTO();
                         weatherPrediction.LocationWeather = new LocationWeather();
                         weatherPrediction.LocationWeather.LocationId = oLoc.LocationId;

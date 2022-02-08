@@ -92,7 +92,7 @@ export class PaymentProcessComponent implements OnInit {
       tipAmount: [''],
       cardNumber: ['', Validators.required],
       expiryDate: ['', Validators.required],
-      ccv: ['', Validators.required],
+      // ccv: ['', Validators.required],
       totalAmount: this.totalAmount
     });
   }
@@ -314,7 +314,7 @@ export class PaymentProcessComponent implements OnInit {
       expiry: this.paymentForm.value.expiryDate, // '0622', //
       amount: amount.toString().replace(",",""),
       orderId: "",  // need too change
-      ccv: this.paymentForm.value.ccv // '291' //
+   //   ccv: this.paymentForm.value.ccv // '291' //
     };
 
     const billingDetailObj = {

@@ -202,6 +202,7 @@ namespace Strive.BusinessLogic.PaymentGateway
             request.Add("profile", profile);
             // Card Number
             request.Add("amount", amount);
+            request.Add("capture", "N");
 
             // Send a captureTransaction request
             JObject response = ccRestClient.captureTransaction(request);
@@ -220,40 +221,36 @@ namespace Strive.BusinessLogic.PaymentGateway
                 var allClientList = new PaymentGatewayRal(_tenant).GetRecurringPaymentDetails(oMerchant.LocationId, 0);
                 foreach (var oClient in allClientList)
                 {
-                    JObject oProfile = AuthProfile(oClient.ProfileId, oClient.Amount, oMerchant.MID, oMerchant.URL, oClient.Username, oClient.Password);
-                    /*
-                    //CardPaymentDto
-                    var BillingDetail = new BillingDetail();
-                    BillingDetail.Name = oClient.Username;
-                    BillingDetail.Address = oClient.Address1;
-
-                    BillingDetail.City = oClient.City;
-
-                    BillingDetail.Country = oClient.Country;
-                    BillingDetail.Region = oClient.State;
-
-                    BillingDetail.Postal = oClient.Zip;
-
-                    //_tenant.MID = oMerchant.MID;
-                    var PaymentDetail = new PaymentDetail();
-                    PaymentDetail.Expiry = oClient.ExpiryDate;
-                    //PaymentDetail.p = oClient.ExpiryDate;
-                    //request.Add("account", cardPaymentDto.PaymentDetail.Account);
-                    */
+                    JObject oProfile = CaptureProfile(oClient.ProfileId, oClient.Amount, oMerchant.MID, oClient.Username, oClient.Password, oMerchant.URL);
                 }
             }
 
             return true;
         }
 
-        private JObject AuthProfile(string profileId, decimal amount, string mID, string username, string password)
+        private JObject CaptureProfile(string profileId, decimal amount, string mID, string username, string password, string url)
         {
-            throw new NotImplementedException();
+            Result result = new Result();
+
+            var ccRestClient = new CardConnectRestClient(url + "auth", username, password);
+
+            // Create Update Transaction request
+            JObject request = new JObject();
+            // Merchant ID
+            request.Add("merchid", mID);
+            // Transaction currency
+            request.Add("currency", "USD");
+            //expiry
+            request.Add("profile", profileId);
+            // Card Number
+            request.Add("amount", amount);
+
+            // Send a authorizeTransaction request
+            JObject response = ccRestClient.authorizeTransaction(request);
+
+            return response;
         }
 
-        //public List<MerchantDetails> GetMerchantDetails(int LocationId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+       
     }
 }
