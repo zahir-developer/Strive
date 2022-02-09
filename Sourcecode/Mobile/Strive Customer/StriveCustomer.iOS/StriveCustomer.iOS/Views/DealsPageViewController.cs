@@ -18,6 +18,7 @@ namespace StriveCustomer.iOS.Views
 
         public List<string> couponCodes = new List<string>();
         private string EndDate;
+        
         public DealsPageViewController() : base("DealsPageViewController", null)
         {
         }
@@ -245,8 +246,37 @@ namespace StriveCustomer.iOS.Views
             }
 
         }
-        private async void ScanQrCodeButton_TouchUpInsideAsync(object sender, EventArgs e)
+        private void ScanQrCodeButton_TouchUpInsideAsync(object sender, EventArgs e)
         {
+            var defaultTime = new TimeSpan(00, 00, 00);
+            if (DealsPageViewModel.scannedTime > defaultTime)
+            {
+                ScanDelay();
+            }
+            else
+            {
+                startScanQrCode();
+            }
+        }      
+
+        private void ScanDelay()
+        {
+            var timePeriod = DateTime.Now.TimeOfDay;            
+            var timeInterval = timePeriod.Subtract(DealsPageViewModel.scannedTime);
+            var span = new TimeSpan(0, 10, 0);
+            if (timeInterval > span)
+            {
+                startScanQrCode();
+            }
+            else
+            {                                
+                showDialog("QR Scan", "Scan after a few minutes");
+            }
+        }
+
+        private async void startScanQrCode()
+        {
+           
             string CurrentDate = DateTime.Today.ToString("yyyy-MM-dd");
             if (DealsViewModel.TimePeriod == 3)
             {
@@ -267,8 +297,9 @@ namespace StriveCustomer.iOS.Views
                             //_userDialog.Loading();
 
                             await ViewModel.AddClientDeals();
+                            DealsPageViewModel.scannedTime = DateTime.Now.TimeOfDay;
                             ValidateDeals(false);
-                            
+
 
                             //_userDialog.HideLoading();
                         }
@@ -304,8 +335,9 @@ namespace StriveCustomer.iOS.Views
                         //_userDialog.Loading();
 
                         await ViewModel.AddClientDeals();
+                        DealsPageViewModel.scannedTime = DateTime.Now.TimeOfDay;
                         ValidateDeals(false);
-                        
+
 
                         //_userDialog.HideLoading();
                     }
@@ -324,6 +356,16 @@ namespace StriveCustomer.iOS.Views
             //    ViewModel.AddClientDeals();
             //}
         }
+
+
+
+        private void showDialog(string Title, string Message)
+        {
+            var okAlertController = UIAlertController.Create(Title, Message, UIAlertControllerStyle.Alert);            
+            okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));            
+            PresentViewController(okAlertController, true, null);
+        }
+
         private void CouponValidity()
         {
 

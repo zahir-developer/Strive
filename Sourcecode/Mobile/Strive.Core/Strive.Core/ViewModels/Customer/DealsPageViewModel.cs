@@ -10,6 +10,7 @@ namespace Strive.Core.ViewModels.Customer
         public int  dealId;
         public int clientID;
         public string Date;
+        public static TimeSpan scannedTime;
 
         public static ClientDeals clientDeal;
         public DealsPageViewModel()
