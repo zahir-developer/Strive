@@ -295,9 +295,9 @@ namespace Strive.BusinessEntities
             USPGETJOBTYPE,
             USPDELETEDETAILSCHEDULE,
             USPGETALLDETAILS,
-
             USPGETDETAILSCHEDULESTATUS,
-            USPUPDATEJOBSTATUS
+            USPUPDATEJOBSTATUS,
+            USPGETEMPLOYEEASSIGNEDDETAIL
         }
         public enum Schedule
         {

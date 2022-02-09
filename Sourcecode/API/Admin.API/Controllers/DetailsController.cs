@@ -111,6 +111,13 @@ namespace Admin.API.Controllers
         [Route("UpdateJobStatus")]
         public Result UpdateJobStatus([FromBody]JobStatusDto jobStatus) => _bplManager.UpdateJobStatus(jobStatus);
 
-        
+        /// <summary>
+        /// Returns list of Job Details Assigned to employee and jobDate
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetEmployeeAssignedDetail/{employeeId}/jobDate")]
+        public Result GetEmployeeAssignedDetail(int employeeId, DateTime jobDate) => _bplManager.GetEmployeeAssignedDetail(employeeId, jobDate);
+
     }
 }

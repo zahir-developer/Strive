@@ -111,5 +111,12 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Details.USPUPDATEJOBSTATUS.ToString(), _prm);
             return true;
         }
+
+        public List<EmployeeDetailJobViewModel> GetEmployeeAssignedDetail(int employeeId, DateTime jobDate)
+        {
+            _prm.Add("EmployeeId", employeeId);
+            _prm.Add("JobDate", jobDate);
+            return db.Fetch<EmployeeDetailJobViewModel>(EnumSP.Details.USPGETEMPLOYEEASSIGNEDDETAIL.ToString(), _prm);
+        }
     }
 }

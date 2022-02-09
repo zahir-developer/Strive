@@ -503,5 +503,9 @@ namespace Strive.BusinessLogic.Details
             return ResultWrap(new DetailsRal(_tenant).UpdateJobStatus, jobStatus, "Status");
         }
 
+        public Result GetEmployeeAssignedDetail(int employeeId, DateTime jobDate)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetEmployeeAssignedDetail, employeeId, jobDate, "Status");
+        }
     }
 }
