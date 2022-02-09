@@ -47,11 +47,15 @@
     <Reference Include="Xamarin.iOS">
       <HintPath>..\..\..\..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\13.18.2.1\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.iOS">
+      <HintPath>..\..\..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\15.4.0.0\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\Employee\PayRoll\" />
     <None Remove="Xamarin.Essentials" />
     <None Remove="Microsoft.AppCenter.Crashes" />
     <None Remove="Microsoft.AppCenter.Analytics" />
+    <None Remove="Xamarin.iOS" />
   </ItemGroup>
 </Project>

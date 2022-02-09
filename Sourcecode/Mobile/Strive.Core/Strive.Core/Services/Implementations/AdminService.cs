@@ -383,7 +383,7 @@ namespace Strive.Core.Services.Implementations
         }
         public async Task<TermsDocument> TermsDocuments(int doctypeid, string doctype)
         {
-            var path = ApiUtils.URL_GET_TERMS_AND_CONDITIONS + doctypeid + "/" + doctype+ "?documentSubType=34551";
+            var path = ApiUtils.URL_GET_TERMS_AND_CONDITIONS + doctypeid + "/" + doctype;
             return await _restClient.MakeApiCall<TermsDocument>(path, HttpMethod.Get);
             
             

@@ -55,5 +55,9 @@
 	<string>Light</string>
 	<key>NSCameraUsageDescription</key>
 	<string>App  wants camera access for scanning the QR code</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App need Library access to save agreement</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Adding terms to library</string>
 </dict>
 </plist>

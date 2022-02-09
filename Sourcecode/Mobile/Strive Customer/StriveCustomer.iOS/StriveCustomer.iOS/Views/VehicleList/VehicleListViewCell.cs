@@ -36,7 +36,7 @@ namespace StriveCustomer.iOS.Views
             selectedRow = indexpath;
             EditVehicleBtn.SetImage(UIImage.FromBundle("icon-edit-personalInfo"), UIControlState.Normal);
             deleteVehicleBtn.SetImage(UIImage.FromBundle("icon-delete"), UIControlState.Normal);
-
+            
             VehicleList_CarNameLabel.Text = list.Status[indexpath.Row].VehicleColor + " " + list.Status[indexpath.Row].VehicleMfr + " " + list.Status[indexpath.Row].VehicleModel ?? "";
             VehicleList_RegNoLabel.Text = list.Status[indexpath.Row].Barcode ?? "";                     
             VehicleList_MembershipLabel.Text = list.Status[indexpath.Row].MembershipName;           
@@ -54,6 +54,12 @@ namespace StriveCustomer.iOS.Views
             CustomerInfo.actionType = 2;
             VehicleListTableSource source = new VehicleListTableSource(vehicleViewModel);
             source.editVehicleList(selectedRow);
+        }
+        partial void DownloadVehicleList_BtnTouch(UIButton sender)
+        {
+            CustomerInfo.actionType = 3;
+            VehicleListTableSource source = new VehicleListTableSource(vehicleViewModel);
+            source.DownloadTerms(selectedRow);
         }
     }
 }

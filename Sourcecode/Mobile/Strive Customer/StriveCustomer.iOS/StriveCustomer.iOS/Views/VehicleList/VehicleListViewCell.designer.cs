@@ -16,6 +16,9 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UIButton deleteVehicleBtn { get; set; }
 
 		[Outlet]
+		UIKit.UIButton DownloadTermsBtn { get; set; }
+
+		[Outlet]
 		UIKit.UIButton EditVehicleBtn { get; set; }
 
 		[Outlet]
@@ -33,6 +36,9 @@ namespace StriveCustomer.iOS.Views
 		[Action ("DeleteVehicleList_BtnTouch:")]
 		partial void DeleteVehicleList_BtnTouch (UIKit.UIButton sender);
 
+		[Action ("DownloadVehicleList_BtnTouch:")]
+		partial void DownloadVehicleList_BtnTouch (UIKit.UIButton sender);
+
 		[Action ("EditVehicleList_BtnTouch:")]
 		partial void EditVehicleList_BtnTouch (UIKit.UIButton sender);
 		
@@ -41,6 +47,11 @@ namespace StriveCustomer.iOS.Views
 			if (deleteVehicleBtn != null) {
 				deleteVehicleBtn.Dispose ();
 				deleteVehicleBtn = null;
+			}
+
+			if (DownloadTermsBtn != null) {
+				DownloadTermsBtn.Dispose ();
+				DownloadTermsBtn = null;
 			}
 
 			if (EditVehicleBtn != null) {
@@ -53,6 +64,11 @@ namespace StriveCustomer.iOS.Views
 				VehicleList_CarNameLabel = null;
 			}
 
+			if (VehicleList_CellView != null) {
+				VehicleList_CellView.Dispose ();
+				VehicleList_CellView = null;
+			}
+
 			if (VehicleList_MembershipLabel != null) {
 				VehicleList_MembershipLabel.Dispose ();
 				VehicleList_MembershipLabel = null;
@@ -61,11 +77,6 @@ namespace StriveCustomer.iOS.Views
 			if (VehicleList_RegNoLabel != null) {
 				VehicleList_RegNoLabel.Dispose ();
 				VehicleList_RegNoLabel = null;
-			}
-
-			if (VehicleList_CellView != null) {
-				VehicleList_CellView.Dispose ();
-				VehicleList_CellView = null;
 			}
 		}
 	}

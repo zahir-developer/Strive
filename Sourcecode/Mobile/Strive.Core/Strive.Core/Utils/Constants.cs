@@ -165,7 +165,7 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT = "/Admin/Vehicle/GetMembershipDiscountStatus";
 
-        public const string URL_GET_TERMS_AND_CONDITIONS = "/Admin/Document/GetDocument/";
+        public const string URL_GET_TERMS_AND_CONDITIONS = "/Admin/Document/GetDocumentById/";
 
         public const string URL_GET_PAYROLL_STATUS = "/Admin/PayRoll/GetPayrollProcessStatus";
 

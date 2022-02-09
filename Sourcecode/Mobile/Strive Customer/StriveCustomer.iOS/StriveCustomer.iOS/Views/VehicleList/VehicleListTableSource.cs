@@ -51,17 +51,17 @@ namespace StriveCustomer.iOS.Views
 
         public async void deleteRow(NSIndexPath selectedRow)
         {
-            if(CustomerInfo.actionType == 1)
+            if (CustomerInfo.actionType == 1)
             {
-                var vehicleViewModel = new VehicleInfoViewModel();
+                //var vehicleViewModel = new VehicleInfoViewModel();
                 var data = CustomerVehiclesInformation.vehiclesList.Status[selectedRow.Row];
                 var deleted = await vehicleViewModel.DeleteCustomerVehicle(data.VehicleId);
                 if (deleted)
-                {                    
-                    vehicleTable.DeleteRows(new NSIndexPath[] { selectedRow}, UITableViewRowAnimation.Fade);              
-                    vehicleViewModel.NavToProfile();                    
+                {
+                    vehicleTable.DeleteRows(new NSIndexPath[] { selectedRow }, UITableViewRowAnimation.Fade);
+                    vehicleViewModel.NavToProfile();
                 }
-            }            
+            }
         }
 
         public void editVehicleList(NSIndexPath indexPath)
@@ -72,6 +72,13 @@ namespace StriveCustomer.iOS.Views
             MembershipDetails.modelNumber = data.VehicleModelId;
             MembershipDetails.vehicleNumber = data.VehicleNumber;
             vehicleViewModel.NavToEditVehicle();
+        }
+
+        public async void DownloadTerms(NSIndexPath indexPath)
+        {
+            var data = CustomerVehiclesInformation.vehiclesList.Status[indexPath.Row];
+
+            await vehicleViewModel.DownloadTerms((int)data.DocumentId);
         }
     }
 }

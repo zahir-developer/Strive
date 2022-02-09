@@ -271,7 +271,8 @@ namespace StriveCustomer.iOS.Views
             double latEnd = lat;
             double lngEnd = lon;
 
-            var currentLocation = await Geolocation.GetLastKnownLocationAsync();           
+            var currentLocation = await Geolocation.GetLastKnownLocationAsync();
+
             double dist = currentLocation.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles);
             if (!dict.ContainsKey(id))
             {
