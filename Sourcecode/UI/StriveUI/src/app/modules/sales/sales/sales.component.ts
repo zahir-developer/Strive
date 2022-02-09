@@ -103,6 +103,7 @@ export class SalesComponent implements OnInit {
   amountCheck = true;
   accountPayType: any;
   paymentType = false;
+  JobDate = new Date;
 
 
   constructor(
@@ -548,6 +549,7 @@ export class SalesComponent implements OnInit {
                 this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp ? +this.grandTotal : 0;
               this.calculateTotalpaid(+this.account);
             }
+            this.JobDate = summary?.JobDate;
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
@@ -1091,6 +1093,7 @@ export class SalesComponent implements OnInit {
     const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.clientId;
     modalRef.componentInstance.totalAmount = this.credit;
+    modalRef.componentInstance.jobDate = this.JobDate;
     modalRef.result.then((result) => {
       if (result.status) {
         this.isCreditPay = true;

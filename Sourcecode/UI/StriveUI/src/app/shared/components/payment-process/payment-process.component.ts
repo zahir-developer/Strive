@@ -21,6 +21,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class PaymentProcessComponent implements OnInit {
   @Input() clientId?: number;
   @Input() totalAmount?: any;
+  @Input() jobDate?: any;
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
   @ViewChild('staticTabs', { static: false }) staticTabs: TabsetComponent;
@@ -93,7 +94,8 @@ export class PaymentProcessComponent implements OnInit {
       cardNumber: ['', Validators.required],
       expiryDate: ['', Validators.required],
       // ccv: ['', Validators.required],
-      totalAmount: this.totalAmount
+      totalAmount: this.totalAmount,
+      jobDate: this.jobDate
     });
   }
   get payment() {
@@ -128,7 +130,8 @@ export class PaymentProcessComponent implements OnInit {
             phone: clientObj.PhoneNumber
           });
           this.paymentForm.patchValue({
-            customerName: clientObj.FirstName + '' + clientObj.LastName
+            customerName: clientObj.FirstName + ' ' + clientObj.LastName,
+            jobDate: this.jobDate
           });
         } else {
           this.isStateLoaded = true;

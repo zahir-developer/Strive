@@ -13,7 +13,16 @@
                             <input type="text" name="customerName" class="form-control" formControlName="customerName">
                         </div>
                     </div>
-                    <br>
+                    <div class="row my-2">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group my-3">
+                            Job Date:
+                        </div>
+                        <div class="col-4 my-3">                            
+                            <span>{{jobDate | date : "dd/MM/yyyy" }}</span>
+                        </div>
+                    </div>
+                    
                     <div class="row">
                         <div class="col-1"></div>
                         <div class="col-4 form-group">
