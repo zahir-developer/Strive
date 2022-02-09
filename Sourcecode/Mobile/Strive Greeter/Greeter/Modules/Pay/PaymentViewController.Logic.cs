@@ -14,7 +14,9 @@ namespace Greeter.Modules.Pay
 {
     public partial class PaymentViewController
     {
+
         public string JobID;
+        public string TicketNumber;
         public string Make;
         public string Model;
         public string Color;
@@ -124,7 +126,7 @@ namespace Greeter.Modules.Pay
                                 }
                             },
                             LocationID = AppSettings.LocationID,
-                            JobID = JobID
+                            TicketNumber = TicketNumber
                         };
 
                         if (tipAmount != 0)
@@ -153,7 +155,7 @@ namespace Greeter.Modules.Pay
                             NavigationController.ViewControllers = navigationViewControllers.ToArray();
 
                             var vc = (PaymentSucessViewController)GetViewController(GetHomeStorybpard(), nameof(PaymentSucessViewController));
-                            vc.TicketID = JobID;
+                            vc.TicketID = TicketNumber;
                             vc.Make = Make;
                             vc.Model = Model;
                             vc.Color = Color;

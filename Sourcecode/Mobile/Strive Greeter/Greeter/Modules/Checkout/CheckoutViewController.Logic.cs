@@ -119,7 +119,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutHoldReq = new HoldCheckoutReq
             {
-                ID = checkout.ID,
+                ID = checkout.TicketNumber,
             };
 
             ShowActivityIndicator();
@@ -150,7 +150,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutCompleteReq = new CompleteCheckoutReq
             {
-                JobID = checkout.ID,
+                JobID = checkout.TicketNumber,
             };
 
             ShowActivityIndicator();
@@ -208,7 +208,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutReq = new DoCheckoutReq
             {
-                JobID = checkout.ID,
+                JobID = checkout.TicketNumber,
             };
 
             ShowActivityIndicator();
@@ -235,7 +235,7 @@ namespace Greeter.Modules.Pay
 
         string MakeServiceReceipt(Checkout checkout)
         {
-            var body = "<p>Ticket Number : </p>" + checkout.ID + "<br /><br />";
+            var body = "<p>Ticket Number : </p>" + checkout.TicketNumber + "<br /><br />";
 
             if (!string.IsNullOrEmpty(checkout.CustomerFirstName))
             {

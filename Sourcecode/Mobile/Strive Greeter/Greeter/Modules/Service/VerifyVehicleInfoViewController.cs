@@ -341,7 +341,9 @@ namespace Greeter.Storyboards
 
                 var apiService = new WashApiService();
                 var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
-                string jobId = ticketResponse.Ticket.TicketNo;
+
+                string ticketNo = ticketResponse.Ticket.TicketNo;
+                string jobId = ticketResponse.Ticket.JobId;
 
                 var jobItems = new List<JobItem>();
 
@@ -390,7 +392,7 @@ namespace Greeter.Storyboards
                         Job = new Job()
                         {
                             JobID = jobId,
-                            TicketNumber = jobId,
+                            TicketNumber = ticketNo,
                             JobTypeID = JobTypeID,
                             MakeID = MakeID,
                             ModelID = ModelID,

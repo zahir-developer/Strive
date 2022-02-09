@@ -83,7 +83,8 @@ namespace Greeter.Modules.Pay
         void NavigateToPayScreen(Checkout checkout)
         {
             var vc = new PaymentViewController();
-            vc.JobID = checkout.ID;
+            vc.JobID = checkout.JobId;
+            vc.TicketNumber = checkout.TicketNumber;
             vc.Make = checkout.VehicleMake;
             vc.Model = checkout.VehicleModel;
             vc.Color = checkout.VehicleColor;
@@ -116,7 +117,7 @@ namespace Greeter.Modules.Pay
 
         string MakeServiceReceipt(Checkout checkout)
         {
-            var body = "<p>Ticket Number : </p>" + checkout.ID + "<br /><br />";
+            var body = "<p>Ticket Number : </p>" + checkout.TicketNumber + "<br /><br />";
 
             if (!string.IsNullOrEmpty(checkout.CustomerFirstName))
             {
@@ -168,7 +169,7 @@ namespace Greeter.Modules.Pay
         List<Checkout> FilterCheckout(string ticketId, List<Checkout> checkouts)
         {
             List<Checkout> filteredCheckouts = null;
-            filteredCheckouts = checkouts.Where(x => x.ID.ToString().Contains(ticketId)).ToList();
+            filteredCheckouts = checkouts.Where(x => x.TicketNumber.ToString().Contains(ticketId)).ToList();
             return filteredCheckouts;
         }
 

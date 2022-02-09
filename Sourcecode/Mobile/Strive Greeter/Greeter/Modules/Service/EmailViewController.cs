@@ -773,6 +773,7 @@ namespace Greeter.Storyboards
         {
             var vc = new PaymentViewController();
             vc.JobID = Service.Job.JobID;
+            vc.TicketNumber = Service.Job.TicketNumber;
             vc.Make = Make;
             vc.Barcode = Barcode;
             vc.CheckInTime = CheckInTime;

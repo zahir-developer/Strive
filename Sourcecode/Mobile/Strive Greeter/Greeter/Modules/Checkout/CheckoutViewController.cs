@@ -135,7 +135,7 @@ namespace Greeter.Modules.Pay
         List<Checkout> FilterCheckout(string ticketId, List<Checkout> checkouts)
         {
             List<Checkout> filteredCheckouts = null;
-            filteredCheckouts = checkouts.Where(x => x.ID.ToString().Contains(ticketId)).ToList();
+            filteredCheckouts = checkouts.Where(x => x.TicketNumber.ToString().Contains(ticketId)).ToList();
             return filteredCheckouts;
         }
 

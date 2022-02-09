@@ -228,8 +228,8 @@ namespace Greeter.DTOs
         [JsonProperty("TicketNumber")]
         public string TicketNo { get; set; }
 
-        //[JsonProperty("JobId")]
-        //public string Name { get; set; }
+        [JsonProperty("JobId")]
+        public string JobId { get; set; }
     }
 
     public class CreateServiceRequest
@@ -483,7 +483,10 @@ namespace Greeter.DTOs
     public class Checkout
     {
         [JsonProperty("TicketNumber")]
-        public string ID { get; set; }
+        public string TicketNumber { get; set; }
+
+        [JsonProperty("JobId")]
+        public string JobId { get; set; }
 
         [JsonProperty("ColorCode")]
         public string ColorCode { get; set; }
@@ -676,6 +679,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("jobId")]
         public string JobID { get; set; }
+
+        [JsonProperty("ticketNumber")]
+        public string TicketNumber { get; set; }
     }
 
     public class JobPayment

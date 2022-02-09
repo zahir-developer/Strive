@@ -88,43 +88,43 @@ namespace Greeter.Storyboards
             vehicleIssueAddRequest.vehicleIssue = vehicleIssues;
 
             vehicleIssueAddRequest.vehicleIssueImage = new List<vehicleIssueImage>();
-            //foreach (var item in imagePaths)
-            //{
-            //    string base64 = item.AsJPEG(0.23f).GetBase64EncodedString(NSDataBase64EncodingOptions.None);
-            //    vehicleIssueImage = new vehicleIssueImage();
-            //    vehicleIssueImage.vehicleIssueImageId = 0;
-            //    vehicleIssueImage.vehicleIssueId = 0;
-            //    vehicleIssueImage.documentType = null;
-            //    vehicleIssueImage.imageName = "issueimage.jpg";
-            //    vehicleIssueImage.originalImageName = "issueimage.jpg";
-            //    vehicleIssueImage.thumbnailFileName = "issueimage.jpg";
-            //    vehicleIssueImage.filePath = "string";//tempFilePath;
-            //    vehicleIssueImage.base64 = base64;
-            //    vehicleIssueImage.isActive = true;
-            //    vehicleIssueImage.isDeleted = false;
-            //    vehicleIssueImage.createdDate = DateTime.Now.ToString("yyyy-MM-dd");
-            //    vehicleIssueImage.createdBy = 0;
-            //    vehicleIssueImage.updatedDate = DateTime.Now.ToString("yyyy-MM-dd");
-            //    vehicleIssueImage.updatedBy = 0;
-            //    vehicleIssueAddRequest.vehicleIssueImage.Add(vehicleIssueImage);
-            //}
+            foreach (var item in imagePaths)
+            {
+                string base64 = item.AsJPEG(0.23f).GetBase64EncodedString(NSDataBase64EncodingOptions.None);
+                vehicleIssueImage = new vehicleIssueImage();
+                vehicleIssueImage.vehicleIssueImageId = 0;
+                vehicleIssueImage.vehicleIssueId = 0;
+                vehicleIssueImage.documentType = null;
+                vehicleIssueImage.imageName = "issueimage.jpg";
+                vehicleIssueImage.originalImageName = "issueimage.jpg";
+                vehicleIssueImage.thumbnailFileName = "issueimage.jpg";
+                vehicleIssueImage.filePath = "string";//tempFilePath;
+                vehicleIssueImage.base64 = base64;
+                vehicleIssueImage.isActive = true;
+                vehicleIssueImage.isDeleted = false;
+                vehicleIssueImage.createdDate = DateTime.Now.ToString("yyyy-MM-dd");
+                vehicleIssueImage.createdBy = 0;
+                vehicleIssueImage.updatedDate = DateTime.Now.ToString("yyyy-MM-dd");
+                vehicleIssueImage.updatedBy = 0;
+                vehicleIssueAddRequest.vehicleIssueImage.Add(vehicleIssueImage);
+            }
 
-            vehicleIssueImage = new vehicleIssueImage();
-            vehicleIssueImage.vehicleIssueImageId = 0;
-            vehicleIssueImage.vehicleIssueId = 0;
-            vehicleIssueImage.documentType = null;
-            vehicleIssueImage.imageName = "issueimage.jpg";
-            vehicleIssueImage.originalImageName = "issueimage.jpg";
-            vehicleIssueImage.thumbnailFileName = "issueimage.jpg";
-            vehicleIssueImage.filePath = "string";//tempFilePath;
-            vehicleIssueImage.base64 = sample;
-            vehicleIssueImage.isActive = true;
-            vehicleIssueImage.isDeleted = false;
-            vehicleIssueImage.createdDate = DateTime.Now.ToString("yyyy-MM-dd");
-            vehicleIssueImage.createdBy = 0;
-            vehicleIssueImage.updatedDate = DateTime.Now.ToString("yyyy-MM-dd");
-            vehicleIssueImage.updatedBy = 0;
-            vehicleIssueAddRequest.vehicleIssueImage.Add(vehicleIssueImage);
+            //vehicleIssueImage = new vehicleIssueImage();
+            //vehicleIssueImage.vehicleIssueImageId = 0;
+            //vehicleIssueImage.vehicleIssueId = 0;
+            //vehicleIssueImage.documentType = null;
+            //vehicleIssueImage.imageName = "issueimage.jpg";
+            //vehicleIssueImage.originalImageName = "issueimage.jpg";
+            //vehicleIssueImage.thumbnailFileName = "issueimage.jpg";
+            //vehicleIssueImage.filePath = "string";//tempFilePath;
+            //vehicleIssueImage.base64 = sample;
+            //vehicleIssueImage.isActive = true;
+            //vehicleIssueImage.isDeleted = false;
+            //vehicleIssueImage.createdDate = DateTime.Now.ToString("yyyy-MM-dd");
+            //vehicleIssueImage.createdBy = 0;
+            //vehicleIssueImage.updatedDate = DateTime.Now.ToString("yyyy-MM-dd");
+            //vehicleIssueImage.updatedBy = 0;
+            //vehicleIssueAddRequest.vehicleIssueImage.Add(vehicleIssueImage);
             var testresponse = await SingleTon.VehicleApiService.AddVehicleIssue(vehicleIssueAddRequest);
             HideActivityIndicator();
             if(testresponse.StatusCode == 200)

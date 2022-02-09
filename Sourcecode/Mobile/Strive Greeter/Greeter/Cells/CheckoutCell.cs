@@ -220,7 +220,7 @@ namespace Greeter.Cells
         {
             if (!checkout.ColorCode.IsEmpty())
                 statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
-            checkoutIdLabel.Text = checkout.ID.ToString();
+            checkoutIdLabel.Text = checkout.TicketNumber.ToString();
             customerNameLabel.Text = checkout.CustomerFirstName + " " + checkout.CustomerLastName;
             serviceInfoLabel.Text = checkout.VehicleMake + "/" + checkout.VehicleModel + "/" + checkout.VehicleColor + "\n" + "Services: " + checkout.Services;
             if (checkout.AdditionalServices is not null)
