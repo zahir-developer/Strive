@@ -9,9 +9,9 @@ namespace Greeter.Sources
 {
     public class ImagesSource : NSObject, IUICollectionViewDataSource, IUICollectionViewDelegateFlowLayout
     {
-        readonly List<string> imagePaths;
+        readonly List<UIImage> imagePaths;
 
-        public ImagesSource(List<string> imagePaths = null) => this.imagePaths = imagePaths;
+        public ImagesSource(List<UIImage> imagePaths = null) => this.imagePaths = imagePaths;
 
         public nint GetItemsCount(UICollectionView collectionView, nint section) => imagePaths?.Count ?? 3;
 

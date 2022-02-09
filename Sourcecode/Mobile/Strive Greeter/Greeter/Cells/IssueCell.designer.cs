@@ -23,9 +23,22 @@ namespace Greeter.Cells
 
 		[Outlet]
 		UIKit.UILabel lblDesc { get; set; }
+
+		[Action ("CloseBtnClicked:")]
+		partial void CloseBtnClicked (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnClose != null) {
+				btnClose.Dispose ();
+				btnClose = null;
+			}
+
+			if (cvImages != null) {
+				cvImages.Dispose ();
+				cvImages = null;
+			}
+
 			if (lblDate != null) {
 				lblDate.Dispose ();
 				lblDate = null;
@@ -34,16 +47,6 @@ namespace Greeter.Cells
 			if (lblDesc != null) {
 				lblDesc.Dispose ();
 				lblDesc = null;
-			}
-
-			if (cvImages != null) {
-				cvImages.Dispose ();
-				cvImages = null;
-			}
-
-			if (btnClose != null) {
-				btnClose.Dispose ();
-				btnClose = null;
 			}
 		}
 	}

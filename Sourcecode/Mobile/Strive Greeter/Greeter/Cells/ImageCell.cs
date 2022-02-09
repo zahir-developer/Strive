@@ -16,6 +16,11 @@ namespace Greeter.Cells
             Nib = UINib.FromName("ImageCell", NSBundle.MainBundle);
         }
 
+        public override void PrepareForReuse()
+        {
+            base.PrepareForReuse();
+
+        }
         protected ImageCell(IntPtr handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
@@ -36,7 +41,7 @@ namespace Greeter.Cells
             // TODO : remove image and reload list
         }
 
-        internal void UpdateData(string path, bool isCloseOptionNeeded = false)
+        internal void UpdateData(UIImage path, bool isCloseOptionNeeded = false)
         {
             //imgvClose.Layer.CornerRadius = 28;
             //imgvClose.Layer.MasksToBounds = true;
@@ -45,7 +50,7 @@ namespace Greeter.Cells
             imgvClose.Hidden = !isCloseOptionNeeded;
 
             if (path is not null)
-                imgv.Image = UIImage.FromFile(path);
+                imgv.Image = path;
         }
     }
 }

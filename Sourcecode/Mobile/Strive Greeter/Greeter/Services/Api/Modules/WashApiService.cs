@@ -21,7 +21,7 @@ namespace Greeter.Services.Api
         Task<LastServiceResponse> GetLastVisitService(long vehicleId);
         Task<UpchargeResponse> GetUpcharge(GetUpchargeReq req);
         Task<BaseResponse> AssignEmployeeToDetailService(AssignEmployeeToServiceReq req);
-        Task<DetailServiceResponse> GetDetailService(long jobId);
+        Task<DetailServiceResponse> GetDetailService(string jobId);
     }
 
     public class WashApiService : IWashApiService
@@ -101,7 +101,7 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<BaseResponse>(Urls.ASSIGN_EMPLOYEE_FOR_DETAIL_SERVICE, HttpMethod.Post, null, req);
         }
 
-        public Task<DetailServiceResponse> GetDetailService(long jobId)
+        public Task<DetailServiceResponse> GetDetailService(string jobId)
         {
             var url = Urls.GET_DETAIL_SERVICE + jobId.ToString();
             return apiService.DoApiCall<DetailServiceResponse>(url, HttpMethod.Get);

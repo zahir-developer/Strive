@@ -21,7 +21,7 @@ namespace Greeter.Storyboards
         // Data
         const string SCREEN_TITLE = "Pay";
 
-        public long TicketID;
+        public string TicketID;
         public string Make;
         public string Model;
         public string model;

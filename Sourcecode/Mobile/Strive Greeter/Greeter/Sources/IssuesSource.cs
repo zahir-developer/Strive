@@ -1,26 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using Foundation;
 using Greeter.Cells;
+using Greeter.DTOs;
 using UIKit;
 
 namespace Greeter.Sources
 {
     public class IssuesSource : UITableViewSource
     {
-        public IssuesSource()
+        private VehicleIssueResponse issues;
+        private List<VehicleIssue> VehicleIssue;
+        public IssuesSource(VehicleIssueResponse Issues)
         {
+            this.issues = Issues;
+            this.VehicleIssue = Issues.VehicleIssueThumbnail.VehicleIssue;
+            
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            IssueCell cell = (IssueCell)tableView.DequeueReusableCell(IssueCell.Key);
-            //cell.UpdateData();
+            var cell = tableView.DequeueReusableCell("IssueCell", indexPath) as IssueCell;
+           
+            cell.UpdateData(issues, indexPath);
+            
             return cell;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return 5;
+            return VehicleIssue.Count;
         }
     }
 }

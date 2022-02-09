@@ -18,6 +18,9 @@ namespace Greeter.Cells
         protected IssueImageCollectionViewCell(IntPtr handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
+            
         }
+
+        
     }
 }

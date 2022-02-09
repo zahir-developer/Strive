@@ -226,7 +226,7 @@ namespace Greeter.DTOs
     public class Ticket
     {
         [JsonProperty("TicketNumber")]
-        public long TicketNo { get; set; }
+        public string TicketNo { get; set; }
 
         //[JsonProperty("JobId")]
         //public string Name { get; set; }
@@ -253,7 +253,7 @@ namespace Greeter.DTOs
         public int JobDetailID { get; set; }
 
         [JsonProperty("jobId")]
-        public long JobID { get; set; }
+        public string JobID { get; set; }
 
         [JsonProperty("bayId")]
         public int BayID { get; set; }
@@ -334,7 +334,7 @@ namespace Greeter.DTOs
         public string JobDate { get; } = DateTime.Now.ToString("yyyy-MM-dd");
 
         [JsonProperty("jobId")]
-        public long JobID { get; set; }
+        public string JobID { get; set; }
 
         [JsonProperty("jobStatus")]
         public long JobStatusID { get; set; }
@@ -355,7 +355,7 @@ namespace Greeter.DTOs
         //public string Notes { get; }
 
         [JsonProperty("ticketNumber")]
-        public long TicketNumber { get; set; }
+        public string TicketNumber { get; set; }
 
         [JsonProperty("timeIn")]
         public DateTime TimeIn { get; set; }
@@ -385,7 +385,7 @@ namespace Greeter.DTOs
         public DateTime CreatedDate { get; } = DateTime.Now;
 
         [JsonProperty("jobId")]
-        public long JobID { get; set; }
+        public string JobID { get; set; }
 
         //[JsonProperty("jobItemId")]
         //public long jobItemId { get; } = 0;
@@ -483,7 +483,7 @@ namespace Greeter.DTOs
     public class Checkout
     {
         [JsonProperty("TicketNumber")]
-        public long ID { get; set; }
+        public string ID { get; set; }
 
         [JsonProperty("ColorCode")]
         public string ColorCode { get; set; }
@@ -540,7 +540,7 @@ namespace Greeter.DTOs
     public class HoldCheckoutReq
     {
         [JsonProperty("id")]
-        public long ID { get; set; }
+        public string ID { get; set; }
 
         //[JsonProperty("email")]
         //public string Email { get; set; }
@@ -555,7 +555,7 @@ namespace Greeter.DTOs
     public class CompleteCheckoutReq
     {
         [JsonProperty("jobId")]
-        public long JobID { get; set; }
+        public string JobID { get; set; }
 
         [JsonProperty("actualTimeOut")]
         public DateTime ActualTimeOut { get; } = DateTime.Now;
@@ -564,7 +564,7 @@ namespace Greeter.DTOs
     public class DoCheckoutReq
     {
         [JsonProperty("jobId")]
-        public long JobID { get; set; }
+        public string JobID { get; set; }
 
         [JsonProperty("checkOut")]
         public bool Checkout { get; } = true;
@@ -675,7 +675,7 @@ namespace Greeter.DTOs
         public long LocationID { get; set; }
 
         [JsonProperty("jobId")]
-        public long JobID { get; set; }
+        public string JobID { get; set; }
     }
 
     public class JobPayment
@@ -687,7 +687,7 @@ namespace Greeter.DTOs
         public string membershipID { get; } = null;
 
         [JsonProperty("jobId")]
-        public long JobID { get; set; }
+        public string JobID { get; set; }
 
         //[JsonProperty("drawerId")]
         //public short DrawerID { get; } = 1;
@@ -1484,7 +1484,7 @@ namespace Greeter.DTOs
     public class AssignEmployeeToServiceReq
     {
         [JsonProperty("jobId")]
-        public long JobID { get; set; }
+        public string JobID { get; set; }
 
         [JsonProperty("jobServiceEmployee")]
         public List<AssignEmployeeToService> JobServiceEmployees { get; set; }
@@ -1555,10 +1555,125 @@ namespace Greeter.DTOs
 
     public class MembershipResponse : BaseResponse
     {
-        [JsonProperty("VehicleMembershipDetails")]
+        [JsonProperty("VehicleMembershipDetail")]
         public VehicleMembershipDetail VehicleMembershipDetail;
     }
 
+    //-----Vehicle Issue Feature
+
+    public class VehicleIssueResponse : BaseResponse
+    {
+        [JsonProperty("VehicleIssueThumbnail")]
+        public VehicleIssueThumbnail VehicleIssueThumbnail;
+    }
+    public class DeleteResponse: BaseResponse
+    {
+        [JsonProperty("Status")]
+        public bool status;
+    }
+    public class VehicleIssueThumbnail
+    {
+        [JsonProperty("VehicleIssue")]
+        public List<VehicleIssue> VehicleIssue;
+        [JsonProperty("VehicleIssueImage")]
+        public List<VehicleIssueImage> VehicleIssueImage;
+    }
+    public class VehicleIssueImage
+    {
+        [JsonProperty("VehicleImageId")]
+        public int VehicleImageId { get; set; }
+        [JsonProperty("VehicleIssueId")]
+        public int VehicleIssueId { get; set; }
+        [JsonProperty("ImageName")]
+        public string ImageName { get; set; }
+        [JsonProperty("CreatedDate")]
+        public string CreatedDate { get; set; }
+        [JsonProperty("OriginalImageName")]
+        public string OriginalImageName { get; set; }
+        [JsonProperty("ThumbnailFileName")]
+        public string ThumbnailFileName { get; set; }
+        [JsonProperty("Base64Thumbnail")]
+        public string Base64Thumbnail { get; set; }
+        [JsonProperty("Base64")]
+        public string Base64 { get; set; }
+    }
+    public class VehicleIssue
+    {
+        [JsonProperty("VehicleIssueId")]
+        public int VehicleIssueid { get; set; }
+        [JsonProperty("Description")]
+        public string Description { get; set; }
+        [JsonProperty("CreatedDate")]
+        public string CreatedDate { get; set; }
+        [JsonProperty("CreatedBy")]
+        public string CreatedBy { get; set; } 
+
+    }
+    public class VehicleIssueAddRequest
+    {
+
+        [JsonProperty("vehicleIssue")]
+        public vehicleIssue vehicleIssue;
+        [JsonProperty("vehicleIssueImage")]
+        public List<vehicleIssueImage> vehicleIssueImage;
+    }
+
+    public class vehicleIssueImage
+    {
+        [JsonProperty("vehicleIssueImageId")]
+        public int vehicleIssueImageId { get; set; }
+        [JsonProperty("vehicleIssueId")]
+        public int vehicleIssueId { get; set; }
+        [JsonProperty("imageName")]
+        public string imageName { get; set; }
+        [JsonProperty("createdDate")]
+        public string createdDate { get; set; }
+        [JsonProperty("originalImageName")]
+        public string originalImageName { get; set; }
+        [JsonProperty("thumbnailFileName")]
+        public string thumbnailFileName { get; set; }
+        [JsonProperty("base64Thumbnail")]
+        public string base64Thumbnail { get; set; }
+        [JsonProperty("base64")]
+        public string base64 { get; set; }
+        [JsonProperty("filePath")]
+        public string filePath{ get; set; }
+        [JsonProperty("documentType")]
+        public string documentType{ get; set; }
+        [JsonProperty("isActive")]
+        public bool isActive { get; set; }
+        [JsonProperty("isDeleted")]
+        public bool isDeleted { get; set; }
+        [JsonProperty("createdBy")]
+        public int createdBy { get; set; }
+        [JsonProperty("updatedDate")]
+        public string updatedDate { get; set; }
+        [JsonProperty("updatedBy")]
+        public int updatedBy { get; set; }
+    }
+
+    public class vehicleIssue
+    {
+        [JsonProperty("vehicleIssueId")]
+        public int vehicleIssueid { get; set; }
+        [JsonProperty("vehicleId")]
+        public long vehicleId { get; set; }
+        [JsonProperty("description")]
+        public string description { get; set; }
+        [JsonProperty("createdDate")]
+        public string createdDate { get; set; }
+        [JsonProperty("createdBy")]
+        public int createdBy { get; set; }
+        [JsonProperty("updatedDate")]
+        public string updatedDate { get; set; }
+        [JsonProperty("updatedBy")]
+        public int updatedBy { get; set; }
+        [JsonProperty("isActive")]
+        public bool isActive { get; set; }
+        [JsonProperty("isDeleted")]
+        public bool isDeleted { get; set; }
+    }
+    //---Vehicle Issue Feature
     public class VehicleMembershipDetail
     {
         [JsonProperty("ClientVehicle")]

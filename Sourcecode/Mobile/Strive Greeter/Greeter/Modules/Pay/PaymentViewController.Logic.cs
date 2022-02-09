@@ -14,7 +14,7 @@ namespace Greeter.Modules.Pay
 {
     public partial class PaymentViewController
     {
-        public long JobID;
+        public string JobID;
         public string Make;
         public string Model;
         public string Color;

@@ -11,6 +11,9 @@ namespace Greeter.Services.Api
         Task<BarcodeResponse> GetBarcode(string barcode);
         Task<ModelResponse> GetModelsByMake(long makeId);
         Task<MembershipResponse> GetVehicleMembershipDetails(long vehicleId);
+        Task<VehicleIssueResponse> GetVehicleIssue(long vehicleId);
+        Task<DeleteResponse> DeleteVehicleIssue(int issueid);
+        Task<BaseResponse> AddVehicleIssue(VehicleIssueAddRequest vehicleIssueAddRequest);
     }
 
     public class VehicleApiService : IVehicleApiService
@@ -29,10 +32,28 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<ModelResponse>(url);
         }
 
+        public Task<VehicleIssueResponse> GetVehicleIssue(long vehicleId)
+        {
+            var url = Urls.GET_VEHICLE_ISSUE + "/" + vehicleId;
+            return apiService.DoApiCall<VehicleIssueResponse>(url);
+        }
+
+        public Task<DeleteResponse> DeleteVehicleIssue(int issueid)
+        {
+            var parameters = new Dictionary<string, string>() { { "vehicleIssueId", issueid.ToString() } };
+            return apiService.DoApiCall<DeleteResponse>(Urls.DELETE_ISSUE, HttpMethod.Delete, parameters);
+
+        }
+
         public Task<MembershipResponse> GetVehicleMembershipDetails(long vehicleId)
         {
             var parameters = new Dictionary<string, string>() { { "id", vehicleId.ToString() } };
             return apiService.DoApiCall<MembershipResponse>(Urls.GET_VEHICLE_MEMBERSHIP_DETAILS, HttpMethod.Get, parameters);
+        }
+
+        public Task<BaseResponse> AddVehicleIssue(VehicleIssueAddRequest vehicleIssueAddRequest)
+        {
+            return apiService.DoApiCall<BaseResponse>(Urls.ADD_VEHICLE_ISSUE, HttpMethod.Post, null ,vehicleIssueAddRequest);
         }
     }
 }

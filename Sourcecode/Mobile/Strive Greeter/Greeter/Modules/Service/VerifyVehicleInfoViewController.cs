@@ -29,7 +29,7 @@ namespace Greeter.Storyboards
         public JobItem Upcharge;
         public JobItem[] AdditionalServices;
         public JobItem AirFreshner;
-
+        public string ClientEmail;
         public string Make = string.Empty;
         public string Model = string.Empty;
         public string Color = string.Empty;
@@ -341,7 +341,7 @@ namespace Greeter.Storyboards
 
                 var apiService = new WashApiService();
                 var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
-                long jobId = ticketResponse.Ticket.TicketNo;
+                string jobId = ticketResponse.Ticket.TicketNo;
 
                 var jobItems = new List<JobItem>();
 
@@ -383,7 +383,7 @@ namespace Greeter.Storyboards
 
                 var jobStatusResponse = await new GeneralApiService().GetGlobalData("JOBSTATUS");
 
-                if (jobId != 0)
+                if (!jobId.IsEmpty())
                 {
                     var req = new CreateServiceRequest()
                     {
@@ -713,6 +713,7 @@ namespace Greeter.Storyboards
                             vc.ServiceType = ServiceType;
                             vc.IsMembershipService = IsMembershipService;
                             vc.ShopPhoneNumber = ShopPhoneNumber;
+                            vc.ClientEmail = ClientEmail;
                             nc.PushViewController(vc, true);
                         }, titleTxt: Common.Messages.SERVICE);
                     }

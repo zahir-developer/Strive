@@ -40,6 +40,7 @@ namespace Greeter.Storyboards
         public long UpchargeID;
         public bool IsNewBarcode;
         public string ShopPhoneNumber;
+        public string ClientEmail;
 
         //int modelId;
         string make;
@@ -949,6 +950,7 @@ namespace Greeter.Storyboards
             vc.ServiceType = ServiceType;
             vc.ShopPhoneNumber = ShopPhoneNumber;
             vc.IsMembershipService = isMembershipService;
+            vc.ClientEmail = ClientEmail;
             NavigateToWithAnim(vc);
         }
 

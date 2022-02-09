@@ -40,7 +40,7 @@ namespace Greeter.Storyboards
         public bool IsMembershipService;
         public string CustPhNumber="";
         public string model;
-
+        public string ClientEmail;
         
 
         List<Employee> Employees;
@@ -67,9 +67,16 @@ namespace Greeter.Storyboards
 
             Initialise();
 
-#if DEBUG
-            tfCust.Text = "karthiknever16@gmail.com";
-#endif
+            if (ClientEmail != null)
+            {
+                tfCust.Text = ClientEmail;
+            }
+            else
+            {
+                tfCust.Text = "karthiknever16@gmail.com";
+            }
+            
+
 
             //Clicks
             btnEmpDropdown.TouchUpInside += delegate
@@ -196,7 +203,7 @@ namespace Greeter.Storyboards
              return employees?.Select(x => Logic.FullName(x.FirstName, x.LastName)).ToArray();
         }
 
-        async Task GetDetailService(long jobId)
+        async Task GetDetailService(string jobId)
         {
             try
             {
