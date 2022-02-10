@@ -13,13 +13,13 @@ namespace StriveTimInventory.iOS.Views
 	partial class EmployeeRolesCell
 	{
 		[Outlet]
-		UIKit.UILabel RolenameLbl { get; set; }
+		UIKit.UIImageView Role { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (RolenameLbl != null) {
-				RolenameLbl.Dispose ();
-				RolenameLbl = null;
+			if (Role != null) {
+				Role.Dispose ();
+				Role = null;
 			}
 		}
 	}

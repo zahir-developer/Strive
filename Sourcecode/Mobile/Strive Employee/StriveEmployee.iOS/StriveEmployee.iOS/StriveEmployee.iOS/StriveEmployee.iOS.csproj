@@ -199,6 +199,12 @@
     </Compile>
     <Compile Include="Views\PayRoll\LocationPicker.cs" />
     <Compile Include="Views\CheckOut\LocationPicker.cs" />
+    <Compile Include="Views\Schedule\Detailer_DataSource.cs" />
+    <InterfaceDefinition Include="Views\Schedule\DetailerTableCell.xib" />
+    <Compile Include="Views\Schedule\DetailerTableCell.cs" />
+    <Compile Include="Views\Schedule\DetailerTableCell.designer.cs">
+      <DependentUpon>DetailerTableCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

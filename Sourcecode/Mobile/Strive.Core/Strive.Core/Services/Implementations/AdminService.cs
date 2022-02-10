@@ -11,6 +11,7 @@ using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
+using Strive.Core.Models.Employee.Detailer;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.PayRoll;
 using Strive.Core.Models.Employee.PersonalDetails;
@@ -462,6 +463,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<GeneralResponse> AddClientCard(AddCardRequest ClientCardDetails)
         {
             return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_UPDATE_CLIENTCARD, HttpMethod.Post, ClientCardDetails);
+        }
+        public async Task<status> GetEmployeeDetailer(int employeeid, string jobdate)
+        {
+            var Url = ApiUtils.URL_GET_DETAILER_STATUS + employeeid.ToString() + "/jobDate?jobDate=" + jobdate;
+            return await _restClient.MakeApiCall<status>(Url, HttpMethod.Get);
         }
 
     }

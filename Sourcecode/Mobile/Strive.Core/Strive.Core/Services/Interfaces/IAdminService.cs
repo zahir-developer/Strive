@@ -7,6 +7,7 @@ using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
+using Strive.Core.Models.Employee.Detailer;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.PayRoll;
@@ -168,5 +169,7 @@ namespace Strive.Core.Services.Interfaces
         Task<Status> UpdateCard(CardLists cardLists);
 
         Task<GeneralResponse> AddClientCard(AddCardRequest cardLists);
+
+        Task<status> GetEmployeeDetailer(int employeeid, string jobdate);
     }
 }

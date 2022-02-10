@@ -192,5 +192,8 @@ namespace Strive.Core.Utils
         //Deals
         public const string URL_ADD_CLIENT_DEAL = "/Admin/DealSetup/AddClientDeal";
 
+        //Detailer
+        public const string URL_GET_DETAILER_STATUS = "/Admin/Details/GetEmployeeAssignedDetail/";
+
 }
 }

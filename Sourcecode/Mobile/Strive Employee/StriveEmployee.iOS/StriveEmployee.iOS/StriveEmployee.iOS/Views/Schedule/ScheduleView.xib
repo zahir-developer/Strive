@@ -1,57 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScheduleView">
             <connections>
+                <outlet property="DetailDateView" destination="xTq-HT-g8k" id="AEf-m8-cH1"/>
+                <outlet property="DetailerView" destination="Qyv-AN-qSJ" id="sTr-3v-PsV"/>
+                <outlet property="ParentView" destination="AdW-CH-DMo" id="hwW-T1-ocf"/>
                 <outlet property="ScheduleDateView" destination="6cV-yt-Raa" id="6KG-N4-WME"/>
                 <outlet property="ScheduleParentView" destination="G67-D2-8YY" id="XiJ-qh-6Mm"/>
+                <outlet property="Scheduledetailer_Seg_Ctrl" destination="W0T-uY-7CM" id="oCx-gw-ChE"/>
+                <outlet property="detailer_TableView" destination="5Yu-1R-wgq" id="TH7-Cj-8DV"/>
                 <outlet property="empSchedule_TableView" destination="DaE-ca-2Ef" id="F1B-Tu-tC8"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="2">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="ZL8-8i-GfU">
-                    <rect key="frame" x="-10" y="-10" width="434" height="916"/>
+                    <rect key="frame" x="-10" y="-10" width="410" height="864"/>
                 </imageView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G67-D2-8YY">
-                    <rect key="frame" x="15" y="148" width="384" height="600"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AdW-CH-DMo">
+                    <rect key="frame" x="24" y="95" width="340" height="659"/>
                     <subviews>
-                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="6cV-yt-Raa">
-                            <rect key="frame" x="15" y="15" width="354" height="327"/>
-                            <date key="minimumDate" timeIntervalSinceReferenceDate="646770600">
-                                <!--2021-06-30 18:30:00 +0000-->
-                            </date>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="W0T-uY-7CM">
+                            <rect key="frame" x="0.0" y="0.0" width="340" height="32"/>
+                            <segments>
+                                <segment title="Schedule"/>
+                                <segment title="Detailer"/>
+                            </segments>
+                            <color key="selectedSegmentTintColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="scheduleDate_Touch:" destination="-1" eventType="valueChanged" id="2vr-7U-Xax"/>
+                                <action selector="Schedule_Segment_Touch:" destination="-1" eventType="valueChanged" id="YJs-a9-GhR"/>
                             </connections>
-                        </datePicker>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DaE-ca-2Ef">
-                            <rect key="frame" x="15" y="352" width="354" height="233"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        </tableView>
+                        </segmentedControl>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qyv-AN-qSJ">
+                            <rect key="frame" x="8" y="56" width="324" height="600"/>
+                            <subviews>
+                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="xTq-HT-g8k">
+                                    <rect key="frame" x="0.0" y="0.0" width="324" height="313"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="313" id="oyi-cr-jiJ"/>
+                                    </constraints>
+                                    <date key="minimumDate" timeIntervalSinceReferenceDate="646770600">
+                                        <!--2021-06-30 18:30:00 +0000-->
+                                    </date>
+                                    <connections>
+                                        <action selector="DetailDate_Touch:" destination="-1" eventType="valueChanged" id="K72-ID-p8S"/>
+                                        <action selector="scheduleDate_Touch:" destination="-1" eventType="valueChanged" id="HAh-Hi-muY"/>
+                                    </connections>
+                                </datePicker>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5Yu-1R-wgq">
+                                    <rect key="frame" x="4" y="306" width="317" height="286"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="317" id="0pV-8V-9w4"/>
+                                        <constraint firstAttribute="height" constant="286" id="zzm-PT-hkd"/>
+                                    </constraints>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="5Yu-1R-wgq" secondAttribute="trailing" constant="3" id="8Tq-Mr-flv"/>
+                                <constraint firstItem="xTq-HT-g8k" firstAttribute="top" secondItem="Qyv-AN-qSJ" secondAttribute="top" id="JcU-NQ-mfz"/>
+                                <constraint firstAttribute="height" constant="600" id="Oxh-a6-6Fa"/>
+                                <constraint firstItem="xTq-HT-g8k" firstAttribute="leading" secondItem="Qyv-AN-qSJ" secondAttribute="leading" id="PbM-9U-Fmv"/>
+                                <constraint firstItem="5Yu-1R-wgq" firstAttribute="top" secondItem="Qyv-AN-qSJ" secondAttribute="top" constant="306" id="Q3u-uO-6Vx"/>
+                                <constraint firstAttribute="trailing" secondItem="xTq-HT-g8k" secondAttribute="trailing" id="sva-IW-wZo"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G67-D2-8YY">
+                            <rect key="frame" x="8" y="39" width="324" height="600"/>
+                            <subviews>
+                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="6cV-yt-Raa">
+                                    <rect key="frame" x="-8" y="8" width="340" height="320"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="320" id="ymW-kY-ufq"/>
+                                    </constraints>
+                                    <date key="minimumDate" timeIntervalSinceReferenceDate="646770600">
+                                        <!--2021-06-30 18:30:00 +0000-->
+                                    </date>
+                                    <connections>
+                                        <action selector="scheduleDate_Touch:" destination="-1" eventType="valueChanged" id="2vr-7U-Xax"/>
+                                    </connections>
+                                </datePicker>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DaE-ca-2Ef">
+                                    <rect key="frame" x="4" y="315" width="320" height="285"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="285" id="Tm9-cW-vZz"/>
+                                        <constraint firstAttribute="width" constant="320" id="hxg-GH-8W6"/>
+                                    </constraints>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="6cV-yt-Raa" secondAttribute="trailing" constant="-8" id="8kb-bW-XTo"/>
+                                <constraint firstAttribute="height" constant="600" id="VCk-TX-tYk"/>
+                                <constraint firstItem="DaE-ca-2Ef" firstAttribute="top" secondItem="6cV-yt-Raa" secondAttribute="bottom" constant="-13" id="bD3-Qf-D38"/>
+                                <constraint firstAttribute="width" constant="324" id="dh2-kd-Pzv"/>
+                                <constraint firstItem="DaE-ca-2Ef" firstAttribute="leading" secondItem="G67-D2-8YY" secondAttribute="leading" constant="4" id="eRv-Uv-w8i"/>
+                                <constraint firstItem="6cV-yt-Raa" firstAttribute="top" secondItem="G67-D2-8YY" secondAttribute="top" constant="8" id="jUb-nF-UAY"/>
+                                <constraint firstItem="6cV-yt-Raa" firstAttribute="leading" secondItem="G67-D2-8YY" secondAttribute="leading" constant="-8" id="u80-9W-WpF"/>
+                                <constraint firstItem="DaE-ca-2Ef" firstAttribute="top" secondItem="6cV-yt-Raa" secondAttribute="bottom" constant="-13" id="yeK-ms-x06"/>
+                            </constraints>
+                        </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstItem="6cV-yt-Raa" firstAttribute="height" secondItem="G67-D2-8YY" secondAttribute="height" multiplier="0.545" id="9JT-Hu-8vh"/>
-                        <constraint firstAttribute="trailing" secondItem="6cV-yt-Raa" secondAttribute="trailing" constant="15" id="AVe-jK-aSs"/>
-                        <constraint firstItem="DaE-ca-2Ef" firstAttribute="centerX" secondItem="G67-D2-8YY" secondAttribute="centerX" id="CBg-Zf-GEr"/>
-                        <constraint firstItem="6cV-yt-Raa" firstAttribute="centerX" secondItem="G67-D2-8YY" secondAttribute="centerX" id="GUJ-dl-Ey6"/>
-                        <constraint firstItem="DaE-ca-2Ef" firstAttribute="width" secondItem="6cV-yt-Raa" secondAttribute="width" id="T3m-Zp-Ew2"/>
-                        <constraint firstAttribute="bottom" secondItem="DaE-ca-2Ef" secondAttribute="bottom" constant="15" id="ToA-92-GF6"/>
-                        <constraint firstItem="6cV-yt-Raa" firstAttribute="leading" secondItem="G67-D2-8YY" secondAttribute="leading" constant="15" id="n6r-q2-pfC"/>
-                        <constraint firstItem="DaE-ca-2Ef" firstAttribute="top" secondItem="6cV-yt-Raa" secondAttribute="bottom" constant="10" id="oNr-q0-zIs"/>
-                        <constraint firstItem="6cV-yt-Raa" firstAttribute="top" secondItem="G67-D2-8YY" secondAttribute="top" constant="15" id="x2f-db-NJe"/>
+                        <constraint firstAttribute="trailing" secondItem="W0T-uY-7CM" secondAttribute="trailing" id="6Pk-Yq-113"/>
+                        <constraint firstAttribute="trailing" secondItem="Qyv-AN-qSJ" secondAttribute="trailing" constant="8" id="6yZ-We-ikL"/>
+                        <constraint firstItem="Qyv-AN-qSJ" firstAttribute="leading" secondItem="AdW-CH-DMo" secondAttribute="leading" constant="8" id="Ebl-yD-1rl"/>
+                        <constraint firstItem="G67-D2-8YY" firstAttribute="centerX" secondItem="AdW-CH-DMo" secondAttribute="centerX" id="Ekp-Zw-4wM"/>
+                        <constraint firstItem="W0T-uY-7CM" firstAttribute="leading" secondItem="AdW-CH-DMo" secondAttribute="leading" id="Qpg-XL-kqC"/>
+                        <constraint firstAttribute="width" constant="340" id="Yzf-Hx-3sX"/>
+                        <constraint firstItem="G67-D2-8YY" firstAttribute="leading" secondItem="AdW-CH-DMo" secondAttribute="leading" constant="8" id="cCX-hu-BOb"/>
+                        <constraint firstItem="Qyv-AN-qSJ" firstAttribute="top" secondItem="W0T-uY-7CM" secondAttribute="bottom" constant="25" id="cS8-a6-fMt"/>
+                        <constraint firstAttribute="bottom" secondItem="G67-D2-8YY" secondAttribute="bottom" constant="20" id="gON-R0-Vwx"/>
+                        <constraint firstItem="W0T-uY-7CM" firstAttribute="centerX" secondItem="AdW-CH-DMo" secondAttribute="centerX" id="gQg-sG-QHf"/>
+                        <constraint firstAttribute="bottom" secondItem="Qyv-AN-qSJ" secondAttribute="bottom" constant="3" id="pP3-X3-m6i"/>
+                        <constraint firstItem="G67-D2-8YY" firstAttribute="top" secondItem="W0T-uY-7CM" secondAttribute="bottom" constant="8" id="txz-Qj-iMW"/>
+                        <constraint firstAttribute="height" constant="659" id="vOZ-s3-wXc"/>
+                        <constraint firstAttribute="trailing" secondItem="G67-D2-8YY" secondAttribute="trailing" constant="8" id="zbG-Fh-i9H"/>
                     </constraints>
                 </view>
             </subviews>
@@ -60,15 +139,13 @@
                 <constraint firstItem="ZL8-8i-GfU" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="2Ob-c0-8BJ"/>
                 <constraint firstItem="ZL8-8i-GfU" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="96p-M9-Bbq"/>
                 <constraint firstItem="ZL8-8i-GfU" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="ChM-Qq-qxO"/>
-                <constraint firstItem="G67-D2-8YY" firstAttribute="centerY" secondItem="ZL8-8i-GfU" secondAttribute="centerY" id="Odp-Cc-Vd4"/>
-                <constraint firstItem="G67-D2-8YY" firstAttribute="height" secondItem="ZL8-8i-GfU" secondAttribute="height" multiplier="0.655022" id="bqt-GV-LjD"/>
-                <constraint firstItem="G67-D2-8YY" firstAttribute="centerX" secondItem="ZL8-8i-GfU" secondAttribute="centerX" id="bys-HM-SQ0"/>
+                <constraint firstItem="AdW-CH-DMo" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" constant="2.5" id="SvJ-1a-x3l"/>
                 <constraint firstItem="ZL8-8i-GfU" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="hAg-fd-bjt"/>
                 <constraint firstAttribute="bottom" secondItem="ZL8-8i-GfU" secondAttribute="bottom" constant="-10" id="kty-VV-KSW"/>
-                <constraint firstItem="G67-D2-8YY" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="15" id="oQM-Ws-fH4"/>
+                <constraint firstItem="AdW-CH-DMo" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" constant="-1" id="mvI-PV-dmn"/>
                 <constraint firstAttribute="trailing" secondItem="ZL8-8i-GfU" secondAttribute="trailing" constant="-10" id="wVn-Rc-uAW"/>
             </constraints>
-            <point key="canvasLocation" x="120.28985507246378" y="0.6696428571428571"/>
+            <point key="canvasLocation" x="118.46153846153845" y="0.0"/>
         </view>
     </objects>
     <resources>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using Strive.Core.Models.Employee.Detailer;
 using Strive.Core.Models.Owner;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
@@ -14,6 +15,7 @@ namespace Strive.Core.ViewModels.Employee.Schedule
     {
         private string date = (System.DateTime.Now).ToString("yyy-MM-dd");
         public static string StartDate { get; set; }
+        public status DetailerList { get; set; }
         #region Properties
 
         public ScheduleDetail scheduleList { get; set; }
@@ -55,6 +57,17 @@ namespace Strive.Core.ViewModels.Employee.Schedule
             }
             _userDialog.HideLoading();
         }
+        public async Task GetDetailer(int employeeid,string jobdate)
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            DetailerList = await AdminService.GetEmployeeDetailer(employeeid,jobdate);
+            if (DetailerList.Status.Count == 0)
+            {
+                _userDialog.Toast("No relatable data");
+            }
+            _userDialog.HideLoading();
+        }
+
 
         public DateTime getEndDate()
         {

@@ -426,6 +426,10 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager%403x%281%29.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -494,6 +498,7 @@
         <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
         <Folder Include="Views\CardList\" />
+        <Folder Include="Resources\Assets.xcassets\Manager.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />

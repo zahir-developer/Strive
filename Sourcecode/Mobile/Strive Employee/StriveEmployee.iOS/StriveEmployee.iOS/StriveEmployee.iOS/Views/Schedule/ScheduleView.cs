@@ -4,6 +4,7 @@ using System.Globalization;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Owner;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.Schedule;
 using StriveEmployee.iOS.UIUtils;   
 using UIKit;
@@ -49,7 +50,8 @@ namespace StriveEmployee.iOS.Views.Schedule
                 ViewModel.LogoutCommand();
             };
 
-            ScheduleParentView.Layer.CornerRadius = 5;
+            ParentView.Layer.CornerRadius = 5;
+
             ScheduleDateView.Layer.CornerRadius = 5;
             ScheduleDateView.MinimumDate = (Foundation.NSDate)System.DateTime.Today;           
             empSchedule_TableView.RegisterNibForCellReuse(empSchedule_Cell.Nib, empSchedule_Cell.Key);
@@ -58,7 +60,48 @@ namespace StriveEmployee.iOS.Views.Schedule
 
             getSheduleDetails();
         }
+        
+        partial void Schedule_Segment_Touch(UISegmentedControl sender)
+        {
+            var segment = Scheduledetailer_Seg_Ctrl.SelectedSegment;
+            if (segment == 0)
+            {
+                ScheduleParentView.Hidden = false;
+                DetailerView.Hidden = true;
+                
 
+                
+            }
+            else if (segment == 1)
+            {
+                ScheduleParentView.Hidden = true;
+                DetailerView.Hidden = false;
+                getdetailer(EmployeeTempData.EmployeeID, DateTime.Now.ToString("yyyy-MM-dd"));
+                
+                
+                detailer_TableView.RegisterNibForCellReuse(DetailerTableCell.Nib, DetailerTableCell.Key);
+                detailer_TableView.BackgroundColor = UIColor.Clear;
+                detailer_TableView.ReloadData();
+
+
+            }
+        }
+
+        private async void getdetailer(int empid, string jobdate)
+        {
+            await ViewModel.GetDetailer(empid,jobdate);
+            if(ViewModel.DetailerList != null)
+            {
+                var empScheduleSource = new Detailer_DataSource(ViewModel.DetailerList);
+                detailer_TableView.Source = empScheduleSource;
+                detailer_TableView.TableFooterView = new UIView(CGRect.Empty);
+                detailer_TableView.DelaysContentTouches = false;
+            }
+            else
+            {
+                detailer_TableView.Hidden = true;
+            }
+        }
         private async void getSheduleDetails()
         {
             try
@@ -100,7 +143,15 @@ namespace StriveEmployee.iOS.Views.Schedule
             
             empSchedule_TableView.ReloadData();
         }
-        
+
+        async partial void DetailDate_Touch(UIDatePicker sender)
+        {
+            DateTime jobDate = (DateTime)DetailDateView.Date;
+            getdetailer(EmployeeTempData.EmployeeID,jobDate.ToString("yyyy-MM-dd"));
+            detailer_TableView.ReloadData();
+
+        }
+
         async partial void scheduleDate_Touch(UIDatePicker sender)
         {
             var  selectedDate = ScheduleDateView.Date;

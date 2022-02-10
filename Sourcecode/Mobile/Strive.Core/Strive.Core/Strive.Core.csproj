@@ -29,6 +29,7 @@
     <Folder Include="Models\TimInventory\Product_Id\" />
     <Folder Include="Models\Owner\" />
     <Folder Include="Models\Employee\PayRoll\" />
+    <Folder Include="Models\Employee\Detailer\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings.resx">
@@ -52,6 +53,9 @@
     <None Remove="Models\Employee\PayRoll\" />
     <None Remove="Xamarin.Essentials" />
     <None Remove="Microsoft.AppCenter.Crashes" />
-    <None Remove="Microsoft.AppCenter.Analytics" />    
+
+    <None Remove="Microsoft.AppCenter.Analytics" />
+    <None Remove="Models\Employee\Detailer\" />
+
   </ItemGroup>
 </Project>
