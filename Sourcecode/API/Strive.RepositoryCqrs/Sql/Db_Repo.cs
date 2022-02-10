@@ -576,11 +576,11 @@ namespace Strive.RepositoryCqrs
                             {
                                 var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
 
-                                if (dynamicListObject.Count > 0)
+                                /*if (dynamicListObject.Count > 0)
                                     insertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
                                 isGeneric = false;
-
-                                /*
+                                */
+                                
                                 List<object> insertList = new List<object>();
                                 List<object> updateList = new List<object>();
                                 foreach (var item in dynamicListObject)
@@ -599,7 +599,6 @@ namespace Strive.RepositoryCqrs
                                     insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction);
 
                                 isGeneric = false;
-                                */
                             }
                             else
                             {
