@@ -170,7 +170,6 @@ namespace StriveCustomer.Android.Adapter
                         byte[] dataconverted = System.Convert.FromBase64String(documentBase64);
                         try
                         {
-
                             string base64 = Base64.EncodeToString(dataconverted,
                                     Base64Flags.Default);
                             byte[] bfile = Base64.Decode(base64, Base64Flags.Default);
@@ -182,7 +181,7 @@ namespace StriveCustomer.Android.Adapter
                         }
                         catch (UnsupportedEncodingException ex)
                         {
-
+                            return;
                         }
                     }
                 }
