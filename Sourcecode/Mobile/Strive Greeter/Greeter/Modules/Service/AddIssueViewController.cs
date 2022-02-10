@@ -71,7 +71,7 @@ namespace Greeter.Storyboards
 
         private async void BtnSave_TouchUpInside(object sender, EventArgs e)
         {
-            ShowActivityIndicator();
+            
             vehicleIssueAddRequest = new VehicleIssueAddRequest();
 
             vehicleIssueAddRequest.vehicleIssue = new vehicleIssue();
@@ -126,7 +126,7 @@ namespace Greeter.Storyboards
             //vehicleIssueImage.updatedBy = 0;
             //vehicleIssueAddRequest.vehicleIssueImage.Add(vehicleIssueImage);
             var testresponse = await SingleTon.VehicleApiService.AddVehicleIssue(vehicleIssueAddRequest);
-            HideActivityIndicator();
+            
             if(testresponse.StatusCode == 200)
             {
                 ShowAlertMsg("Issue Added Successfully");
