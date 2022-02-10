@@ -69,9 +69,9 @@ namespace StriveCustomer.Android.Fragments
             { 
                 
                 await this.ViewModel.GetCustomerVehicleList();
-                if (!(this.ViewModel.vehicleLists?.Status.Count == 0) || !(this.ViewModel.vehicleLists == null))
+                if (this.ViewModel.vehicleLists != null && this.ViewModel.vehicleLists?.Status.Count > 0)
                 {
-                    vehicleDetailsAdapter = new VehicleDetailsAdapter(Context, this.ViewModel.vehicleLists);
+                    vehicleDetailsAdapter = new VehicleDetailsAdapter(Context, this.ViewModel.vehicleLists,this);
                     var layoutManager = new LinearLayoutManager(Context);
                     vehicleview.SetLayoutManager(layoutManager);
                     vehicleview.SetAdapter(vehicleDetailsAdapter);

@@ -14,7 +14,7 @@ namespace Strive.Core.ViewModels.Customer
 
         public VehicleList vehicleLists { get; set; }
         public ClientVehicleRootView membershipDetails { get; set; }
-
+        public string documentFileName;
         #endregion Properties
 
 
@@ -77,7 +77,7 @@ namespace Strive.Core.ViewModels.Customer
                 TermsDocument document = await AdminService.TermsDocuments(documentId, "MEMBERSHIPAGREEMENT");
 
                 _userDialog.HideLoading();
-
+                documentFileName = document.Document.Document.FileName;
                 return document.Document.Document.Base64;
 
             }

@@ -258,11 +258,18 @@ namespace StriveOwner.iOS.Views.CheckOut
 
         public void CheckoutTicket(checkOutViewModel checkout)
         {
-            if (checkout.MembershipNameOrPaymentStatus.Contains("Paid"))
+            if (checkout.MembershipNameOrPaymentStatus.Contains("Paid") && checkout.valuedesc == "Completed")
             {
                 ShowAlertMsg("Are you sure want to change the status to checkout?", () =>
                 {
                     Checkout(checkout);
+                }, true, "Checkout");
+            }
+            else if (checkout.valuedesc != "Completed")
+            {
+                ShowAlertMsg("Cann't Checkout without ticket completion", () =>
+                {
+
                 }, true, "Checkout");
             }
             else

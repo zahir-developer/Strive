@@ -41,5 +41,14 @@ namespace StriveCustomer.Android.Services
             }
             return Task.CompletedTask;
         }
+        public static Task checkExternalStoragePermission(MvxFragment fragment)
+        {
+            var requiredPermissions = new String[] { Manifest.Permission.WriteExternalStorage };
+            if (ActivityCompat.CheckSelfPermission(fragment.Context, requiredPermissions[0]) != ContentPermission.Permission.Granted)
+            {
+                fragment.RequestPermissions(requiredPermissions, PERMISSION_REQUEST_CAMERA);
+            }
+            return Task.CompletedTask;
+        }
     }
 }

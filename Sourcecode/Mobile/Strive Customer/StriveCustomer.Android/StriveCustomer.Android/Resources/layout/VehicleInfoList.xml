@@ -23,7 +23,7 @@
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.6"
+                android:layout_weight="1.2"
                 android:layout_marginLeft="@dimen/ten">
                  <TextView
                     android:id="@+id/carNames"
@@ -54,14 +54,22 @@
                 android:orientation="horizontal"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:layout_marginRight="@dimen/ten">
+                android:layout_weight="0.84"
+                android:gravity="center"
+                >
+                 <ImageButton
+                    android:id="@+id/downloadButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/five"
+                    android:src="@drawable/downloadbutton"
+                    android:background="@android:color/transparent" />
                 <ImageButton
                     android:id="@+id/editButton"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/five"
                     android:src="@drawable/editbutton"
+                    android:layout_marginRight="@dimen/five"
                     android:background="@android:color/transparent" />
                 <ImageButton
                     android:id="@+id/deleteButton"

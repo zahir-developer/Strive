@@ -15,6 +15,7 @@ namespace StriveCustomer.Android.Resources.Enums
     public enum VehicleClickEnums
     {
         Delete = 1,
-        NormalClick = 2
+        NormalClick = 2 ,
+        Download = 3
     }
 }
