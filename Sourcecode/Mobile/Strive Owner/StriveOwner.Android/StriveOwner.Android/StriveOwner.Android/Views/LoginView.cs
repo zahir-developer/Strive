@@ -7,6 +7,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -111,12 +112,22 @@ namespace StriveOwner.Android.Views
             }
             else
             {
-                loginLayout.Visibility = ViewStates.Gone;
-                termsLayout.Visibility = ViewStates.Visible;
+                if(ViewModel.validateCommand())
+                {
+                    loginLayout.Visibility = ViewStates.Gone;
+                    termsLayout.Visibility = ViewStates.Visible;
+                    HideSoftKeyboard(password_EditText);                  
+                }
             }
             //await this.ViewModel.DoLoginCommand();
            
         }
+        protected void HideSoftKeyboard(EditText input)
+        {
+            InputMethodManager inputMethod = (InputMethodManager)GetSystemService(Context.InputMethodService);
+            inputMethod.HideSoftInputFromWindow(input.WindowToken, 0);
+        }
+        
         private void RememberMe_CheckBox_Click(object sender, EventArgs e)
         {
             preferenceEditor.PutBoolean("rememberMe", rememberMe_CheckBox.Checked);

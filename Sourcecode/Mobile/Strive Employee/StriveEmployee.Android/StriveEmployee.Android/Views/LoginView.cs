@@ -123,16 +123,16 @@ namespace StriveEmployee.Android.Views
                 {                    
                     loginLayout.Visibility = ViewStates.Gone;                    
                     termsLayout.Visibility = ViewStates.Visible;
-                    HideSoftKeyboard(new View(this));                   
+                    HideSoftKeyboard(password_EditText);                   
                 }                        
             
             }
             
         }
-        public void HideSoftKeyboard(View view)
+        protected void HideSoftKeyboard(EditText input)
         {
             InputMethodManager inputMethod = (InputMethodManager)GetSystemService(Context.InputMethodService);
-            inputMethod.ToggleSoftInput(ShowFlags.Implicit, 0);
+            inputMethod.HideSoftInputFromWindow(input.WindowToken, 0);
         }
         private void navigateToSignUp(object sender, EventArgs e)
         {

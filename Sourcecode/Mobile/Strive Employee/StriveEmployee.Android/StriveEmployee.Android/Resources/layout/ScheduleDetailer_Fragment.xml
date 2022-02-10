@@ -43,7 +43,7 @@
                     android:layout_marginLeft="10dp"
                      android:background="@drawable/secondarylinearlayout">
                     <CalendarView
-                        android:id="@+id/schedule_Calendar"
+                        android:id="@+id/scheduleDetail_Calendar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>                                    
                 </LinearLayout>
@@ -52,7 +52,7 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"/>
             <android.support.v7.widget.RecyclerView
-                    android:id="@+id/scheduleInfo"
+                    android:id="@+id/scheduleDetailInfo"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"

@@ -80,6 +80,7 @@
     <Compile Include="Adapter\MyProfile\Documents\AddDocumentsAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Documents\DocumentsAdapter.cs" />
     <Compile Include="Adapter\MyTickets\AllTickets.cs" />
+    <Compile Include="Adapter\Schedule\ScheduleDetailerAdapter.cs" />
     <Compile Include="Adapter\Schedule\ScheduleAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="DemoTicketsData\TicketsModule.cs" />
@@ -108,7 +109,9 @@
     <Compile Include="Fragments\MyTicket\MyTicketFragment.cs" />
     <Compile Include="Fragments\MyTicket\PendingTicketsFragment.cs" />
     <Compile Include="Fragments\PayRoll\PayRollFragment.cs" />
+    <Compile Include="Fragments\Schedule\ScheduleDetailerFragment.cs" />
     <Compile Include="Fragments\Schedule\ScheduleFragment.cs" />
+    <Compile Include="Fragments\Schedule\ScheduleMainFragment.cs" />
     <Compile Include="Helper\MyButton.cs" />
     <Compile Include="Helper\MyButtonClickListener.cs" />
     <Compile Include="Helper\MySwipeHelper.cs" />
@@ -1035,6 +1038,23 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\Terms3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleMain_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleDetailer_Fragment.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleDetailer_ItemView.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

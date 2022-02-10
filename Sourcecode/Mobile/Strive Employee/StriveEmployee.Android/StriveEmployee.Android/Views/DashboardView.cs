@@ -35,7 +35,7 @@ namespace StriveEmployee.Android.Views
         private MvxFragment selected_MvxFragment;
         private MessengerFragment messenger_Fragment;
         private MyProfileFragment profile_Fragment;
-        private ScheduleFragment schedule_Fragment;
+        private ScheduleMainFragment schedule_Fragment;
         private MyTicketFragment myTicket_Fragment;
         private CheckOutFragment checkOut_Fragment;
         private PayRollFragment payRoll_Fragment;
@@ -47,7 +47,7 @@ namespace StriveEmployee.Android.Views
             this.ViewModel = new DashboardViewModel();
             messenger_Fragment = new MessengerFragment();
             profile_Fragment = new MyProfileFragment();
-            schedule_Fragment = new ScheduleFragment();
+            schedule_Fragment = new ScheduleMainFragment();
             myTicket_Fragment = new MyTicketFragment();
             checkOut_Fragment = new CheckOutFragment(this);
             payRoll_Fragment = new PayRollFragment();

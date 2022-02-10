@@ -1,5 +1,4 @@
-﻿using Foundation;
-using Strive.Core.Models.Customer;
+﻿using Strive.Core.Models.Customer;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;

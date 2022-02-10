@@ -17,7 +17,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
     {
         private RecyclerView scheduleInfo;
         private ScheduleAdapter scheduleAdapter;
-        private Button backButton;
+       // private Button backButton;
         private Calendar calendar;
         private int day, year, month;
         private CalendarView schedule_CalendarView;
@@ -32,12 +32,12 @@ namespace StriveEmployee.Android.Fragments.Schedule
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.Schedule_Fragment, null);
             scheduleInfo = rootView.FindViewById<RecyclerView>(Resource.Id.scheduleInfo);
-            backButton = rootView.FindViewById<Button>(Resource.Id.schedule_BackButton);
+            //backButton = rootView.FindViewById<Button>(Resource.Id.schedule_BackButton);
             schedule_CalendarView = rootView.FindViewById<CalendarView>(Resource.Id.schedule_Calendar);
 
             this.ViewModel = new ScheduleViewModel();
 
-            backButton.Click += BackButton_Click;
+           // backButton.Click += BackButton_Click;
             calendar = Calendar.GetInstance(Java.Util.TimeZone.Default);
             day = calendar.Get(CalendarField.DayOfMonth);
             year = calendar.Get(CalendarField.Year);
@@ -47,11 +47,11 @@ namespace StriveEmployee.Android.Fragments.Schedule
             return rootView;
         }
 
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-            MessengerFragment messengerFragment = new MessengerFragment();
-            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
-        }
+        //private void BackButton_Click(object sender, EventArgs e)
+        //{
+        //    MessengerFragment messengerFragment = new MessengerFragment();
+        //    FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
+        //}
 
         public async void GetScheduleList()
         {

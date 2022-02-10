@@ -16,6 +16,7 @@ using StriveCustomer.Android.Services;
 using Android.Graphics;
 using Android.Content;
 using OperationCanceledException = System.OperationCanceledException;
+using System.Threading.Tasks;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -27,7 +28,8 @@ namespace StriveCustomer.Android.Fragments
         private CheckBox checkCoupon1,checkCoupon2, checkCoupon3, checkCoupon4, checkCoupon5, checkCoupon6, checkCoupon7, checkCoupon8, checkCoupon9, checkCoupon10;
         private CheckBox checkPrice1, checkPrice2, checkPrice3, checkPrice4, checkPrice5;
         private LinearLayout bounce_linearLayout, buy10_linearLayout;
-        private List<string> couponCodes = new List<string>();
+        private List<string> couponCodes = new List<string>();      
+       
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -131,6 +133,7 @@ namespace StriveCustomer.Android.Fragments
         }
         private void validateDeals(bool firstcall)
         {
+            
             if (DealsPageViewModel.clientDeal != null)
             {
                 if (DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealCount == 10 && DealsPageViewModel.clientDeal.ClientDeal.ClientDealDetail[0].DealId == 1)
@@ -295,20 +298,51 @@ namespace StriveCustomer.Android.Fragments
         }
         private async void scanQrCodeButton_Async(object sender, EventArgs e)
         {
+            
             if (ActivityCompat.CheckSelfPermission(this.Context, Manifest.Permission.Camera) == Permission.Granted)
             {
-                startScanQrCode();
+                ScanLogic();                
             }
             else
             {
                 await AndroidPermissions.checkCameraPermission(this);
+                ScanLogic();            
+
+            }
+        }
+        private void ScanLogic()
+        {
+            var defaultTime = new TimeSpan(00, 00, 00);
+            if (DealsPageViewModel.scannedTime > defaultTime)
+            {
+                ScanDelay();
+            }
+            else
+            {
                 startScanQrCode();
+            }
+
+        }
+
+        private void ScanDelay() 
+        {            
+            var timePeriod = DateTime.Now.TimeOfDay;            
+            var timeInterval = timePeriod.Subtract(DealsPageViewModel.scannedTime);
+            var span = new TimeSpan(0,10,0);
+            if (timeInterval > span)
+            {
+                startScanQrCode();
+            }
+            else 
+            {
+                showDialog("QR Scan", "Scan after a few minutes", "Okay");
             }
         }
         private async void startScanQrCode()
         {
-            string CurrentDate = DateTime.Today.ToString("yyyy-MM-dd");
-
+            var scannedTimings = DateTime.Now;
+            DealsPageViewModel.scannedTime = scannedTimings.TimeOfDay;
+            string CurrentDate = DateTime.Today.ToString("yyyy-MM-dd");            
             if (DealsViewModel.TimePeriod == 3)
             {
                 if ((DateTime.Today.Date <= DateTime.Parse(DealsViewModel.enddate).Date))
@@ -330,6 +364,7 @@ namespace StriveCustomer.Android.Fragments
                             try
                             {
                                 await this.ViewModel.AddClientDeals();
+                                DealsPageViewModel.scannedTime = DateTime.Now.TimeOfDay;                                
                                 validateDeals(false);
                                 couponValidity();
                             }
@@ -379,6 +414,7 @@ namespace StriveCustomer.Android.Fragments
                         try
                         {
                             await this.ViewModel.AddClientDeals();
+                            DealsPageViewModel.scannedTime  = DateTime.Now.TimeOfDay;                            
                             validateDeals(false);
                             couponValidity();
                         }

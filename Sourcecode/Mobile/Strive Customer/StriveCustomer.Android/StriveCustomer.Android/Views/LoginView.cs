@@ -8,6 +8,7 @@ using Android.OS;
 using Android.Preferences;
 using Android.Support.V4.App;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -96,7 +97,7 @@ namespace StriveCustomer.Android.Views
         private void DisagreeButton_Click(object sender, EventArgs e)
         {
             termsLayout.Visibility = ViewStates.Gone;
-            loginLayout.Visibility = ViewStates.Visible;
+            loginLayout.Visibility = ViewStates.Visible;            
         }
 
         private void AgreeButton_Click(object sender, EventArgs e)
@@ -126,10 +127,20 @@ namespace StriveCustomer.Android.Views
             }
             else
             {
-                loginLayout.Visibility = ViewStates.Gone;
-                termsLayout.Visibility = ViewStates.Visible;
+                if (ViewModel.validateCommand())
+                {
+                    
+                    loginLayout.Visibility = ViewStates.Gone;
+                    termsLayout.Visibility = ViewStates.Visible;                    
+                    HideSoftKeyboard(passwordInput);
+                }
             }           
 
+        }
+        protected void HideSoftKeyboard(EditText input)
+        {
+            InputMethodManager inputMethod = (InputMethodManager)GetSystemService(Context.InputMethodService);
+            inputMethod.HideSoftInputFromWindow(input.WindowToken, 0);
         }
         private void checkStoredCredentials(object o, EventArgs e)
         {
