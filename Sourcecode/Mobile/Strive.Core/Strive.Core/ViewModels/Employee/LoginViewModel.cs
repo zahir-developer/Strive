@@ -69,16 +69,16 @@ namespace Strive.Core.ViewModels.Employee
             {
                 isValid = true;
             }
-            else if (String.IsNullOrEmpty(loginEmailPhone)
+            if (String.IsNullOrEmpty(loginEmailPhone)
                 || String.IsNullOrEmpty(loginPassword))
             {
                 isValid = false;
                 _userDialog.Alert("Please provide all the details");
             }
-            else
+            else 
             {
-                isValid = false;
-                _userDialog.Alert("Please enter a valid UserName ");
+                isValid = true;
+               // _userDialog.Alert("Please enter a valid UserName ");
             }
             return isValid;
         }

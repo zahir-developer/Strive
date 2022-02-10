@@ -90,6 +90,7 @@ namespace StriveOwner.Android.Views
             {
                 this.ViewModel.isAndroid = true;
                 this.ViewModel.Logout();
+                DashboardHomeFragment.selectedLocationId = 0;
             }
 
             return true;

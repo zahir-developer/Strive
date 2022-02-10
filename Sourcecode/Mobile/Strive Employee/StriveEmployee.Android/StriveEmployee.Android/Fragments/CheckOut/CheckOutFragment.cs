@@ -282,7 +282,7 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         }
         public void CheckoutTicket(checkOutViewModel checkout, RecyclerView Checkout_RecyclerView)
         {
-            if (checkout.MembershipNameOrPaymentStatus.Contains("Paid"))
+            if (checkout.MembershipNameOrPaymentStatus.Contains("Paid") && checkout.valuedesc == "Completed")
             {
                 Builder = new AlertDialog.Builder(Context);
                 Builder.SetMessage("Are you sure want to change the status to checkout?");
@@ -298,6 +298,21 @@ namespace StriveEmployee.Android.Fragments.CheckOut
                 Builder.SetPositiveButton("Ok", okHandler);
                 Builder.SetNegativeButton("Cancel", removePhotoHandler);
                 Builder.Create();
+                Builder.Show();
+            }
+            else if (checkout.valuedesc != "Completed")
+            {
+                Builder = new AlertDialog.Builder(Context);
+                Builder.SetMessage("Can't Checkout without ticket completion");
+                Builder.SetTitle("Checkout");
+                okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                {
+
+
+                });
+                Builder.SetPositiveButton("Ok", okHandler);
+                Builder.Create();
+
                 Builder.Show();
             }
             else

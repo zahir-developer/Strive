@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Owner;
 using Strive.Core.Utils.Owner;
 using Strive.Core.ViewModels.Owner;
 using OperationCanceledException = System.OperationCanceledException;
@@ -44,12 +45,12 @@ namespace StriveOwner.Android.Resources.Fragments
             score = rootView.FindViewById<TextView>(Resource.Id.score);
             forecastedcars = rootView.FindViewById<TextView>(Resource.Id.forecastedcars);
             avgcarwashtime = rootView.FindViewById<TextView>(Resource.Id.avgcarwashtime);
-            GetStatistics();
+            //GetStatistics();
             return rootView;
         }
         public async void GetStatistics()
         {
-            if (this.ViewModel == null) 
+            if (this.ViewModel == null)
             {
                 this.ViewModel = new ServicesHomeViewModel();
             }
@@ -73,6 +74,23 @@ namespace StriveOwner.Android.Resources.Fragments
                     return;
                 }
             }
-        }        
+        }
+        public void getServiceData(GetDashboardStatisticsForLocationId getDashboardStatisticsForLocation)
+        { 
+            if (getDashboardStatisticsForLocation != null)
+            {
+                noofwashes.Text = getDashboardStatisticsForLocation.WashesCount.ToString();
+                noofdetails.Text = getDashboardStatisticsForLocation.DetailCount.ToString();
+                washemployees.Text = getDashboardStatisticsForLocation.EmployeeCount.ToString();
+                score.Text = getDashboardStatisticsForLocation.Score.ToString();
+                forecastedcars.Text = getDashboardStatisticsForLocation.Currents.ToString() + "/" + getDashboardStatisticsForLocation.ForecastedCar.ToString();
+                avgcarwashtime.Text = getDashboardStatisticsForLocation.WashTime?.ToString();
+                if (score.Text == "")
+                {
+                    score.Text = "0";
+                }
+            }
+        }
     }
+
 }

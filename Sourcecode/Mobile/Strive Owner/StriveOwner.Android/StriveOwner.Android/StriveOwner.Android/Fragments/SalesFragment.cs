@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Owner;
 using Strive.Core.Utils.Owner;
 using Strive.Core.ViewModels.Owner;
 using OperationCanceledException = System.OperationCanceledException;
@@ -45,7 +46,7 @@ namespace StriveOwner.Android.Resources.Fragments
             merchandisesales = rootView.FindViewById<TextView>(Resource.Id.merchandisesales);
             totalsales = rootView.FindViewById<TextView>(Resource.Id.totalsales);
             monthclientsales = rootView.FindViewById<TextView>(Resource.Id.monthclientsales);
-            GetStatistics();
+            //GetStatistics();
             return rootView;
         }
         public async void GetStatistics()
@@ -75,5 +76,17 @@ namespace StriveOwner.Android.Resources.Fragments
                 }
             }
         }
-    }
+        public void getSalesData(GetDashboardStatisticsForLocationId getDashboardStatisticsForLocation)
+        {
+            if (getDashboardStatisticsForLocation != null)
+            {
+                washsales.Text = getDashboardStatisticsForLocation.WashSales.ToString();
+                detailsales.Text = getDashboardStatisticsForLocation.DetailSales.ToString();
+                extraservicesales.Text = getDashboardStatisticsForLocation.ExtraServiceSales.ToString();
+                merchandisesales.Text = getDashboardStatisticsForLocation.MerchandizeSales.ToString();
+                totalsales.Text = getDashboardStatisticsForLocation.TotalSales.ToString();
+                monthclientsales.Text = getDashboardStatisticsForLocation.MonthlyClientSales.ToString();
+            }
+        }
+        }
 }
