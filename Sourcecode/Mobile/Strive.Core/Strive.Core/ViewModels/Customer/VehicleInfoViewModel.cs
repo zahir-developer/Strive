@@ -3,12 +3,8 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using UIKit;
 
 namespace Strive.Core.ViewModels.Customer
 {
@@ -70,7 +66,7 @@ namespace Strive.Core.ViewModels.Customer
             
             return deleted;
         }
-        public async Task<bool> DownloadTerms(int documentId)
+        public async Task<string> DownloadTerms(int documentId)
         {
             //var codeByCategory = await AdminService.GetCodesByCategory();
 
@@ -81,8 +77,9 @@ namespace Strive.Core.ViewModels.Customer
             {
                 TermsDocument document = await AdminService.TermsDocuments(documentId, "MEMBERSHIPAGREEMENT");
 
-                saveBase64StringToPDF(document.Document.Document.Base64, documentId);
                 _userDialog.HideLoading();
+
+                return document.Document.Document.Base64;
 
             }
             else
@@ -94,33 +91,11 @@ namespace Strive.Core.ViewModels.Customer
             }
 
 
-
-            return true;
-        }
-
-        public void saveBase64StringToPDF(string base64String, int documentId)
-        {
-            //var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            //var filename = Path.Combine(documents, documentId+".png");
-            //File.WriteAllBytes(filename, Convert.FromBase64String(base64String));
-
-            try
-            {
-                
-                using (var data = new NSData(base64Data: base64String,NSDataBase64DecodingOptions.IgnoreUnknownCharacters))
-                    UIImage.LoadFromData(data).SaveToPhotosAlbum((image, error) =>
-                    {
-                        var o = image as UIImage;
-                        Console.WriteLine("error:" + error);
-                    });
-            }
-            catch (Exception exx)
-            {
-                throw exx;
-            }
-
+            return "";
 
         }
+
+
 
         public async void NavToAddVehicle()
         {

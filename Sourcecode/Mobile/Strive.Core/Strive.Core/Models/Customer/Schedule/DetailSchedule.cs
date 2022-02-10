@@ -14,7 +14,7 @@ namespace Strive.Core.Models.Customer.Schedule
     public class Job
     {
         public int jobId { get; set; }
-        public int ticketNumber { get; set; }
+        public string ticketNumber { get; set; }
         public string barcode { get; set; }
         public string locationId { get; set; }
         public int clientId { get; set; }

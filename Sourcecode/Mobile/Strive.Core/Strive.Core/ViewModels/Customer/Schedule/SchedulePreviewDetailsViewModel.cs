@@ -90,7 +90,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             Job newJob = new Job()
             {
                 jobId = ticketNumber.JobId,
-                ticketNumber = int.Parse(ticketNumber.TicketNumber),
+                ticketNumber = ticketNumber.TicketNumber,
                 barcode = CustomerScheduleInformation.ScheduleSelectedVehicle.Barcode,
                 locationId = CustomerScheduleInformation.ScheduleLocationCode.ToString(),
                 clientId = CustomerInfo.ClientID,

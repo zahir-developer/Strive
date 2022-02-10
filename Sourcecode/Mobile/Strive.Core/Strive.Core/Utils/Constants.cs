@@ -7,7 +7,7 @@ namespace Strive.Core.Utils
 
         //public const string BASE_URL = "http://14.141.185.75:5004";
         public const string AZURE_URL = "http://40.114.79.101:5004"; 
-        public const string AZURE_URL_TEST = "https://mammothuatapi-qa.azurewebsites.net";
+        public const string AZURE_URL_TEST = "https://mammothuatapi-dev.azurewebsites.net";
             
         public static string Token { get; set; }
           

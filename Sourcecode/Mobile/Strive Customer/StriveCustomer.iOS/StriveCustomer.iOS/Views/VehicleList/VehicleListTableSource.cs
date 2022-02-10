@@ -78,7 +78,34 @@ namespace StriveCustomer.iOS.Views
         {
             var data = CustomerVehiclesInformation.vehiclesList.Status[indexPath.Row];
 
-            await vehicleViewModel.DownloadTerms((int)data.DocumentId);
+            string base64 = await vehicleViewModel.DownloadTerms((int)data.DocumentId);
+
+            if(base64 != "")
+                saveBase64StringToImage(base64, (int)data.DocumentId);
+
+        }
+
+        public void saveBase64StringToImage(string base64String, int documentId)
+        {
+            //var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            //var filename = Path.Combine(documents, documentId+".png");
+            //File.WriteAllBytes(filename, Convert.FromBase64String(base64String));
+
+            try
+            {
+
+                using (var data = new NSData(base64Data: base64String, NSDataBase64DecodingOptions.IgnoreUnknownCharacters))
+                    UIImage.LoadFromData(data).SaveToPhotosAlbum((image, error) =>
+                    {
+                        var o = image as UIImage;
+                        Console.WriteLine("error:" + error);
+                    });
+            }
+            catch (Exception exx)
+            {
+                throw exx;
+            }
+
         }
     }
 }
