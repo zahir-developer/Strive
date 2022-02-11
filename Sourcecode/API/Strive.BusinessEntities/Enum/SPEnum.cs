@@ -40,7 +40,8 @@ namespace Strive.BusinessEntities
             USPVERIFYOTP,
             USPDELETEUSER,
             USPGETCLIENTUSERBYAUTHID,
-            USPEMAILEXIST
+            USPEMAILEXIST,
+            USPUPDATELOGINID
         }
 
 

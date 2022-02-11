@@ -61,6 +61,7 @@ export class EditEmployeeComponent implements OnInit {
   roleId: any;
   locationId: any;
   authId: any;
+  loginId: any = "";
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
   State: any;
@@ -124,6 +125,7 @@ export class EditEmployeeComponent implements OnInit {
       roles: [[]],
       location: [[]],
       employeeCode: [''],
+      LoginId: [''],
       //salary: ['']
     });
     this.roleId = localStorage.getItem('roleId');
@@ -256,6 +258,8 @@ export class EditEmployeeComponent implements OnInit {
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     this.authId = employee.EmployeeInfo.AuthId;
     this.isSalary = employee.EmployeeInfo.IsSalary;
+    const empid = employeeInfo?.EmployeeId + '';
+    this.loginId = "E" + empid.padStart(4,'0');    
     if (employee.EmployeeRoles !== null) {
       this.dropdownSetting();
       this.selectedRole = employee.EmployeeRoles;
@@ -334,7 +338,8 @@ export class EditEmployeeComponent implements OnInit {
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
       //salary: employeeInfo.Salary ? employeeInfo.Salary : '',
       roles: this.employeeRole,
-      location: this.employeeLocation
+      location: this.employeeLocation,
+      LoginId: this.loginId
     });
     if (this.actionType === 'view') {
       this.personalform.disable();
