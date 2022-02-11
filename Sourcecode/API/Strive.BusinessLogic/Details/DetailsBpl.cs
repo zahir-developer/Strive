@@ -23,6 +23,15 @@ namespace Strive.BusinessLogic.Details
 
         public Result AddDetails(DetailsDto details)
         {
+            //Update jobId and ticketNumber
+            var commonRal = new CommonRal(_tenant).GetTicketNumber(details.Job.LocationId);
+            details.Job.JobId = commonRal.JobId;
+            details.Job.TicketNumber = commonRal.TicketNumber;
+            foreach (var item in details.JobItem)
+            {
+                item.JobId = commonRal.JobId;
+            }
+
             //If barcode is not empty, check whether vehicle details is available.                        
             if (!string.IsNullOrEmpty(details.Job.BarCode))
             {
@@ -111,7 +120,7 @@ namespace Strive.BusinessLogic.Details
 
             details.BaySchedule = baySlot;
 
-            return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
+            return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "JobId");
         }
 
         private List<BusinessEntities.Model.BaySchedule> GetBaySlot(int jobId, int bayId, DateTime jobDate, DateTimeOffset initialTimeIn, DateTimeOffset finalDueTime)

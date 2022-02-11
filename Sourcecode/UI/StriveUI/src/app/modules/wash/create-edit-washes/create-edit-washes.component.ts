@@ -108,9 +108,10 @@ export class CreateEditWashesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-
-    this.getTicketNumber();
+    //this.getTicketNumber();
+    this.getWashTimeByLocationID();
+    this.getServiceType();
+    this.getColor();
     this.getAllMake();
     this.getJobStatus();
     this.isPrint = false;
@@ -162,10 +163,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
-
-    this.getWashTimeByLocationID();
-    this.getServiceType();
-    this.getColor();
   }
 
   getWashTimeByLocationID() {
@@ -303,12 +300,14 @@ export class CreateEditWashesComponent implements OnInit {
           const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === this.washId);
           if (washService.length !== 0) {
             this.washService(washService[0].ServiceId);
-          } else {
-            this.washForm.get('washes').reset();
-          }
-        } else {
-          this.washForm.get('washes').reset();
+          } 
+          //else {
+          //  this.washForm.get('washes').reset();
+          //}
         }
+        // else {
+        //  this.washForm.get('washes').reset();
+        //}
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -819,11 +818,11 @@ export class CreateEditWashesComponent implements OnInit {
       return;
     }
 
-    if (!this.ticketNumber) {
-      this.toastr.warning(MessageConfig.TicketNumber, 'Warning!');
-      return;
+    //if (!this.ticketNumber) {
+    //  this.toastr.warning(MessageConfig.TicketNumber, 'Warning!');
+    //  return;
+    //}
 
-    }
     this.additional.forEach(element => {
       if (element.IsChecked) {
         this.additionalService.push(element);
@@ -912,7 +911,7 @@ export class CreateEditWashesComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      this.wash.updateWashes(formObj).subscribe(data => {
+      this.wash.addWashes(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
 
