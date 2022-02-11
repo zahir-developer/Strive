@@ -80,7 +80,6 @@
     <Compile Include="Adapter\MyProfile\Documents\AddDocumentsAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Documents\DocumentsAdapter.cs" />
     <Compile Include="Adapter\MyTickets\AllTickets.cs" />
-    <Compile Include="Adapter\Schedule\ScheduleDetailerAdapter.cs" />
     <Compile Include="Adapter\Schedule\ScheduleAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="DemoTicketsData\TicketsModule.cs" />

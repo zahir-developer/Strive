@@ -1,64 +1,44 @@
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
-     <!--<RelativeLayout
+    android:background="@android:color/white">    
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F2FCFE">
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Schedule"
-            android:textSize="18sp"
-            android:textColor="@color/profileInfoColor"
-            android:fontFamily="@font/opensans_bold"/>
-        <Button
-            android:id="@+id/schedule_BackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:textColor="@color/profileQColor"
-            android:background="@color/mtrl_btn_transparent_bg_color"
-            android:text="Back" />
-
-        </RelativeLayout>-->
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/five"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/secondarylinearlayout">
+            <CalendarView
+                android:id="@+id/scheduleDetail_Calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="300dp">
             <LinearLayout
+                android:id="@+id/scheduleDetailerInfo"                
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:background="@android:color/white"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="@dimen/fifteen"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
-                     android:background="@drawable/secondarylinearlayout">
-                    <CalendarView
-                        android:id="@+id/scheduleDetail_Calendar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>                                    
-                </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"/>
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/scheduleDetailInfo"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="match_parent"
-                    android:background="@android:color/white"
-                    android:layout_height="230dp"/>
-            </LinearLayout>
+            />
+
         </ScrollView>
+    </LinearLayout>
 </LinearLayout>

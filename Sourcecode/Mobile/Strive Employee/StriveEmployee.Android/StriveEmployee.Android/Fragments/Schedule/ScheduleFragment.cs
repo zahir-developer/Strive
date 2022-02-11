@@ -43,8 +43,16 @@ namespace StriveEmployee.Android.Fragments.Schedule
             year = calendar.Get(CalendarField.Year);
             month = calendar.Get(CalendarField.Month);
             schedule_CalendarView.MinDate = calendar.TimeInMillis;
+            schedule_CalendarView.DateChange += Schedule_CalendarView_DateChange;
             GetScheduleList();
             return rootView;
+        }
+
+        private void Schedule_CalendarView_DateChange(object sender, CalendarView.DateChangeEventArgs e)
+        {
+            var date = e.Year + "-" + (e.Month + 1) + "-" + e.DayOfMonth;
+            ScheduleViewModel.StartDate = date;
+            GetScheduleList();
         }
 
         //private void BackButton_Click(object sender, EventArgs e)

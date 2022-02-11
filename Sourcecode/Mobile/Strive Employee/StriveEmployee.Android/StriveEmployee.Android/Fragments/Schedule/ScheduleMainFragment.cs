@@ -9,6 +9,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Adapter;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ using System.Text;
 
 namespace StriveEmployee.Android.Fragments.Schedule
 {
-    public class ScheduleMainFragment : MvxFragment
+    public class ScheduleMainFragment : MvxFragment,ViewPager.IOnPageChangeListener
     {
         private TabLayout schedule_TabLayout;
         private ViewPager schedule_ViewPager;
@@ -44,13 +45,33 @@ namespace StriveEmployee.Android.Fragments.Schedule
             base.OnActivityCreated(savedInstanceState);
             schedule_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
             schedule_ViewPagerAdapter.AddFragment(scheduleFragment, "Schedule");
-            schedule_ViewPagerAdapter.AddFragment(scheduleDetailerFragment, "Detailer");
-            
-
+            schedule_ViewPagerAdapter.AddFragment(scheduleDetailerFragment, "Detailer");            
             schedule_ViewPager.Adapter = schedule_ViewPagerAdapter;
-            schedule_TabLayout.SetupWithViewPager(schedule_ViewPager);
-           // schedule_ViewPager.SetCurrentItem(MyProfileInfoNeeds.selectedTab, false);
-           // schedule_ViewPager.AddOnPageChangeListener(this);
+            schedule_ViewPager.OffscreenPageLimit = 0;
+            schedule_TabLayout.SetupWithViewPager(schedule_ViewPager);           
+            schedule_ViewPager.AddOnPageChangeListener(this);
+        }
+
+        public void OnPageScrollStateChanged(int state)
+        {
+            
+        }
+
+        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+            
+        }
+
+        public void OnPageSelected(int position)
+        {
+            if (position == 0)
+            {
+
+            }
+            if (position == 1) 
+            {
+                scheduleDetailerFragment.GetScheduleDetailList(EmployeeTempData.EmployeeID, DateTime.Now.ToString("yyyy-MM-dd"));
+            }
         }
     }
 }
