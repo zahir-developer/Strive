@@ -153,7 +153,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.getAllMake();
     //this.getEmployeeList();
     this.getAllBayById();
-    this.getTicketNumber();
+    //this.getTicketNumber();
+    this.assignDate();
+    this.getEmployeeList();
+    this.getColor();
+    this.getServiceType();
     this.getJobType();
   }
 
@@ -194,10 +198,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         }
       });
     }
-    this.assignDate();
-    this.getEmployeeList();
-    this.getColor();
-    this.getServiceType();
+    
   }
 
   get f() {
@@ -1010,11 +1011,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.detailForm.invalid) {
       return;
     }
-    if (!this.ticketNumber) {
-      this.toastr.warning(MessageConfig.TicketNumber, 'Warning!');
-      return;
-
-    }
+    //if (!this.ticketNumber) {
+    //  this.toastr.warning(MessageConfig.TicketNumber, 'Warning!');
+    //  return;
+    //}
     this.detailForm.controls.inTime.enable();
     this.detailForm.controls.dueTime.enable();
     this.detailForm.controls.bay.enable();
@@ -1162,8 +1162,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.spinner.hide();
           this.isAssign = true;
           this.isStart = true;
-          const jobID = JSON.parse(res.resultData);
-
+          const result = JSON.parse(res.resultData);
+          this.jobID = result.JobId;
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
@@ -1187,6 +1187,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
         this.selectedData = details.DetailsForDetailId;
+        this.ticketNumber = details.DetailsForDetailId.Details.TicketNumber;
         this.isEdit = true;
         this.washItem = this.selectedData.DetailsItem;
         this.detailItems = this.selectedData.DetailsItem;

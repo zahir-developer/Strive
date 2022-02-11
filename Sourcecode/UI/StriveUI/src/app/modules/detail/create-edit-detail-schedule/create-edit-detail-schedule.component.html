@@ -72,8 +72,11 @@
                     <div class="form-group col-xl-12">
                         <div class="row">
                             <div class="form-group col-sm-3 p-t-5">
-                                <h5 class="d-inline-block font-weight-600">Ticket No. <span style="color: #1dc5b3;">{{ticketNumber}}</span>
-                                </h5> <span class="font-size-1 font-weight-600"></span>
+                                <h5 class="d-inline-block font-weight-600">
+                                    {{isEdit ? 'Ticket No.' : 'New Ticket'}} 
+                                    <span style="color: #1dc5b3;">{{ticketNumber}}</span>
+                                </h5> 
+                                    <span class="font-size-1 font-weight-600"></span>   
                             </div>
                             <div class="col-sm-2">
                                 <select class="form-control" formControlName="bay">
