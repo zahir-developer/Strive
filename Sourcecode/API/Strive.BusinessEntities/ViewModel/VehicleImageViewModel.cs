@@ -4,7 +4,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class VehicleImageViewModel
     {
-        public int VehicleImageId { get; set; }
+        public int VehicleIssueImageId { get; set; }
 
         public int VehicleIssueId { get; set; }
 
