@@ -135,7 +135,7 @@
 
             <select class="form-control" formControlName="location"
             [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
-            <option  selected value="0">Choose</option>
+            <option hidden selected value="0">Choose</option>
             <option *ngFor="let location of Location" value="{{location.LocationId}}">{{location.LocationName}}
             </option>
         </select>

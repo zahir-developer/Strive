@@ -56,7 +56,7 @@ export class ServiceCreateEditComponent implements OnInit {
   CategoryName: any;
   Category: any[];
   Hours: any;
-  pattern: RegExp = /^[ A-Za-z0-9()+]*$/;
+  pattern: RegExp = /^[ A-Za-z0-9()$\-%+]*$/;
   isCommission: boolean = true;
 
   constructor(
