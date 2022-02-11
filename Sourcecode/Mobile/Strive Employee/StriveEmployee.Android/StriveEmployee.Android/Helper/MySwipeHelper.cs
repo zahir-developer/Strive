@@ -21,8 +21,8 @@ namespace StriveEmployee.Android.Helper
         List<MyButton> buttonList;
        public CheckOutViewModel checkOut;
         GestureDetector gestureDetector;
-        public abstract void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
-        public abstract void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
+        public abstract void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer, bool isHold);
+        public abstract void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer, bool isHold);
 
 
         public MySwipeHelper(Context context, RecyclerView recyclerView, int buttonWidth,  CheckOutViewModel viewModel) : base(0, ItemTouchHelper.Left)
@@ -185,13 +185,29 @@ namespace StriveEmployee.Android.Helper
                     {
                         if (checkOut != null)
                         {
+                            
                             if (checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].valuedesc != "Completed")
                             {
-                                InstantiateMyButton(viewHolder, buffer);
+                                if (checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].IsHold == true)
+                                {
+                                    InstantiateMyButton(viewHolder, buffer, true);
+                                }
+                                else
+                                {
+                                    InstantiateMyButton(viewHolder, buffer, false);
+                                }
                             }
                             else
                             {
-                                InstantiateUpdatedMyButton(viewHolder, buffer);
+                                if (checkOut.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[pos].IsHold == true)
+                                {
+                                    InstantiateUpdatedMyButton(viewHolder, buffer,true);
+                                }
+                                else
+                                {
+                                    InstantiateUpdatedMyButton(viewHolder, buffer ,false);
+                                }
+                                
                             }
                             buttonBuffer.Add(pos, buffer);
                         }

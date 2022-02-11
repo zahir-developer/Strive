@@ -71,15 +71,40 @@ namespace StriveEmployee.iOS.Views
                     CheckoutBtnClicked(checkoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[indexPath.Row]);
                 });
             action3.Image = UIImage.FromBundle("select-Contact");
-            //action3.BackgroundColor = colo(29, 201, 183);
 
+            var action4 = UIContextualAction.FromContextualActionStyle(
+                UIContextualActionStyle.Normal,
+                "UnHold",
+                (flagAction, view, success) =>
+                {
+                    tableView.Editing = false;
+                    HoldBtnClicked(checkoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[indexPath.Row]);
+                });
+            action4.Image = UIImage.FromBundle("select-Contact");
+            action4.BackgroundColor = ColorConverters.FromHex("#ff9d00").ToPlatformColor();
+            //action3.BackgroundColor = colo(29, 201, 183);
+          
             if (checkoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[indexPath.Row].valuedesc != "Completed")
             {
-                return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });
+                if (checkoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[indexPath.Row].IsHold == true)
+                {
+                    return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action4, action2, action3 });
+                }
+                else
+                {
+                    return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });
+                }
             }
             else
             {
-                return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action3 });
+                if (checkoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[indexPath.Row].IsHold == true)
+                {
+                    return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action4, action3 });
+                }
+                else
+                {
+                    return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action3 });
+                }
             }
         }
 

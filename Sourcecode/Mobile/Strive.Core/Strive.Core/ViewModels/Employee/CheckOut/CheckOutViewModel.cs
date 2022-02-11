@@ -69,13 +69,13 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
                 }
                 _userDialog.HideLoading();
             }
-        public async Task updateHoldStatus(int Id)
+        public async Task updateHoldStatus(int Id , bool? hold)
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
             var result = await AdminService.CheckOutHold(new holdCheckoutReq
             {
                 id = Id,
-                isHold = true,
+                isHold = (bool)(hold.HasValue ? !hold : true),
             });
 
             if(result != null)

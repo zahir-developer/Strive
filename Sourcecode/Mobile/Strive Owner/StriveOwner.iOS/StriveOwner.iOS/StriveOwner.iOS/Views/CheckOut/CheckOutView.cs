@@ -214,23 +214,44 @@ namespace StriveOwner.iOS.Views.CheckOut
 
         public void HoldTicket(checkOutViewModel checkout)
         {
-            ShowAlertMsg("Are you sure want to change the status to hold?", () =>
+            if (checkout.IsHold == true)
+            {
+                ShowAlertMsg("Are you sure want to change the status to hold?", () =>
             {
                 HoldCheckout(checkout);
             }, true, "Hold");
+            }
+            else
+            {
+                ShowAlertMsg("Are you sure want to change the status to unhold?", () =>
+                {
+                    HoldCheckout(checkout);
+                }, true, "UnHold");
+            }
         }
 
         public async void HoldCheckout(checkOutViewModel checkout)
         {
-            await ViewModel.updateHoldStatus((int)checkout.JobId);
+            await ViewModel.updateHoldStatus((int)checkout.JobId , checkout.IsHold);
 
             if (ViewModel.holdResponse.UpdateJobStatus)
             {
-                ShowAlertMsg("Service status changed to hold successfully", () =>
+                if (checkout.IsHold == true)
+                {
+                    ShowAlertMsg("Service status changed to hold successfully", () =>
                 {
                     // Refreshing checkout list
                     GetCheckoutDetails();
                 }, titleTxt: "Hold");
+                }
+                else
+                {
+                    ShowAlertMsg("Service status changed to unhold successfully", () =>
+                    {
+                        // Refreshing checkout list
+                        GetCheckoutDetails();
+                    }, titleTxt: "UnHold");
+                }
             }
 
         }

@@ -33,7 +33,7 @@ namespace Strive.Core.Models.Employee.CheckOut
         public string PaymentStatus { get; set; }
         public string ColorCode { get; set; }
         public string MembershipNameOrPaymentStatus { get; set; }
-
+        public bool? IsHold { get; set; }
     }
 
     public class holdCheckoutReq
