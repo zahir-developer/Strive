@@ -214,7 +214,8 @@ export class PaymentProcessComponent implements OnInit {
       status: true,
       tipAmount: this.paymentForm.value.tipAmount,
       totalAmount: this.paymentForm.value.totalAmount,
-      authObj: auth
+      authObj: auth,
+      locationId:localStorage.getItem('empLocationId')
     };
     this.activeModal.close(obj);
   }
@@ -331,7 +332,8 @@ export class PaymentProcessComponent implements OnInit {
     const authObj = {
       cardConnect: {},
       paymentDetail: paymentDetailObj,
-      billingDetail: billingDetailObj
+      billingDetail: billingDetailObj,
+      locationId: localStorage.getItem('empLocationId')
     };
     this.paymentAuth(authObj);
   }

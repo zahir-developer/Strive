@@ -1118,7 +1118,8 @@ export class SalesComponent implements OnInit {
       authCode: auth.authcode,
       amount: amount.toString().replace(",", ""),
       retRef: auth.retref,
-      invoiceId: {}
+      invoiceId: {},
+      locationId: this.locationId
     };
     this.salesService.paymentCapture(capObj).subscribe(res => {
       if (res.status === 'Success') {

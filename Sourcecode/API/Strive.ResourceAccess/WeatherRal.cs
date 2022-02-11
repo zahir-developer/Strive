@@ -43,7 +43,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId", locationId);
             _prm.Add("@date", dateTime);
 
-            return db.Fetch<LocationWeatherPredictions>(EnumSP.Location.UPSGETLOCATIONWEATHER.ToString(), _prm);
+            return db.Fetch<LocationWeatherPredictions>(EnumSP.Location.USPGETLOCATIONWEATHER.ToString(), _prm);
 
         }
         public int AddWeather(WeatherDTO weatherPrediction)

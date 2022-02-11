@@ -34,19 +34,28 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public List<RecurringPaymentDetails> GetRecurringPaymentDetails(int locationId, int FailedAttempts)
+        public List<RecurringPaymentDetails> GetRecurringPaymentDetails(int locationId, int FailedAttempts, DateTime paydate)
         {
             _prm.Add("locationId", locationId.toInt());
             _prm.Add("FailedAttempts", FailedAttempts.toInt());
-            return db.Fetch<RecurringPaymentDetails>(EnumSP.Payroll.UPSGETALLRECURRINGPAYMENTDETAILS.ToString(), _prm);
+            _prm.Add("date", paydate);
+            return db.Fetch<RecurringPaymentDetails>(EnumSP.Payroll.USPGETALLRECURRINGPAYMENTDETAILS.ToString(), _prm);
         }
-        public List<MerchantDetails> GetMerchantDetails(int locationId)
+        public List<MerchantDetails> GetMerchantDetails(int locationId, bool IsRecurring)
         {
-            if (locationId > 0)
-            {
-                _prm.Add("locationId", locationId.toInt());
-            }
-            return db.Fetch<MerchantDetails>(EnumSP.Payroll.UPSGETMERCHANTDETAILS.ToString(), _prm);
+
+            _prm.Add("locationId", locationId.toInt());
+            _prm.Add("isRecurring", IsRecurring);
+            return db.Fetch<MerchantDetails>(EnumSP.Payroll.USPGETMERCHANTDETAILS.ToString(), _prm);
+        }
+
+        public bool UpdatePaymentDetail(int ClientMembershipId, int attempts, DateTime oDate)
+        {
+            _prm.Add("ClientMembershipId", ClientMembershipId.toInt());
+            _prm.Add("attempts", attempts);
+            _prm.Add("Date", oDate);
+            db.Save(EnumSP.Payroll.USPUPDATEPAYMENTDETAILS.ToString(), _prm);
+            return true;
         }
     }
 }

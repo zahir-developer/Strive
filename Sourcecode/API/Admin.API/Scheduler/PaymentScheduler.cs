@@ -67,6 +67,7 @@ namespace Admin.API.Scheduler
             _tenant.Port = Pick("SMTP", "Port");
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress");
             _tenant.SchemaName = schemaName;
+            _tenant.ErrorLog = Pick("Logs", "Error");            
 
         }
 
@@ -98,7 +99,8 @@ namespace Admin.API.Scheduler
         {
             try
             {
-                new PaymentGatewayBpl(_cache, _tenant).MakeRecurringPayment(0);
+                new PaymentGatewayBpl(_cache, _tenant).MakeRecurringPayment(0, DateTime.Now);
+                
             }
             catch (Exception ex)
             {

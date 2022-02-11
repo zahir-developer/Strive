@@ -96,8 +96,8 @@ namespace Strive.BusinessLogic
                 foreach (var oLoc in allLocationList)
                 {
                     //Get Current weather:
-                    var now = DateTime.UtcNow.AddHours(-6);                    
-                    string startTime = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); ;
+                    var now = DateTime.Now;                    
+                    string startTime = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); ;
                     string endTime = now.AddHours(30).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
                     string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
 
@@ -144,8 +144,8 @@ namespace Strive.BusinessLogic
                         weatherPrediction.LocationWeather.HighTemperature = weatherInfo.Temporature;
 
                         weatherPrediction.LocationWeather.RainProbability = weatherInfo.RainPercentage;
-                        weatherPrediction.LocationWeather.WeatherDate = DateTime.UtcNow;
-                        weatherPrediction.LocationWeather.CreatedDate = DateTime.UtcNow;
+                        weatherPrediction.LocationWeather.WeatherDate = DateTime.Now;
+                        weatherPrediction.LocationWeather.CreatedDate = DateTime.Now;
                         ResultWrap(new WeatherRal(_tenant).AddWeatherPrediction, weatherPrediction, "Status");
                     }
 

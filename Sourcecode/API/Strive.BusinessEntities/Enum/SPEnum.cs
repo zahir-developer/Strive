@@ -191,7 +191,7 @@ namespace Strive.BusinessEntities
             USPADDBAYSLOT,
             USPGETALLLOCATIONNAME,
             USPGETMERCHANTDETAIL,
-            UPSGETLOCATIONWEATHER
+            USPGETLOCATIONWEATHER
         }
         public enum ServiceSetup
         {
@@ -336,8 +336,9 @@ namespace Strive.BusinessEntities
             USPUPDATEADJUSMENT,
             USPUPDATEEMPLOYEEADJUSTMENT,
             USPDELETEPAYMENTGATEWAY,
-            UPSGETALLRECURRINGPAYMENTDETAILS,
-            UPSGETMERCHANTDETAILS
+            USPGETALLRECURRINGPAYMENTDETAILS,
+            USPGETMERCHANTDETAILS,
+            USPUPDATEPAYMENTDETAILS
         }
         public enum Checkout
         {

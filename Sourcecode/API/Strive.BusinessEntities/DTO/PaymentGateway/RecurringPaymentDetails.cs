@@ -1,4 +1,6 @@
-﻿namespace Strive.BusinessEntities.DTO.PaymentGateway
+﻿using System;
+
+namespace Strive.BusinessEntities.DTO.PaymentGateway
 {
     public class RecurringPaymentDetails
     {
@@ -16,5 +18,6 @@
         public string Username { get; set; }
         public decimal Amount { get; set; }
         public string Password { get; set; }
+        public DateTime LastPaymentDate { get; set; }
     }
 }
