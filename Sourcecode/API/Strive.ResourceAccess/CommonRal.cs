@@ -210,5 +210,15 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<PaymentGatewayViewModel>(SPEnum.USPGETPAYMENTGATEWAYDETAILS.ToString(), _prm);
         }
+        public bool UpdateLoginId(BusinessEntities.Auth.LoginDetailDTO loginInfo)
+        {
+            //db = new TenantHelper().dbAuth;
+            var _prm = new DynamicParameters();
+            _prm.Add("AuthId", loginInfo.AuthId);
+            _prm.Add("LoginId", loginInfo.LoginId);
+            db.Save(EnumSP.Authentication.USPUPDATELOGINID.ToString(), _prm);
+
+            return true;
+        }
     }
 }

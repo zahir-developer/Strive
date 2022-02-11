@@ -154,16 +154,16 @@
                             [style.display]="isDetailCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputLoginid">Login ID <span class="required">*</span></label>
+                                    <label for="inputLoginid">Email ID <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLoginid" formControlName="emailId"
                                         [ngClass]="{ 'is-invalid': submitted && g.emailId.errors || isEmailExists }"
                                         placeholder="Email ID" (change)="checkEmailExist()">
                                     <div *ngIf="submitted && g.emailId.errors" class="invalid-feedback">
-                                        <div *ngIf="g.emailId.errors.required">Login Id is required</div>
+                                        <div *ngIf="g.emailId.errors.required">Email Id is required</div>
                                         <div *ngIf="g.emailId.errors.email">Email must be a valid email address</div>
                                     </div>
                                     <div *ngIf="isEmailExists" class="invalid-feedback">
-                                        <div *ngIf="isEmailExists">Login Id already exist</div>
+                                        <div *ngIf="isEmailExists">Email Id already exist</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">

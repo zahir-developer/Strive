@@ -173,12 +173,12 @@
                             [style.display]="isDetailCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputLoginid">Login ID <span class="required">*</span></label>
+                                    <label for="inputLoginid">Email ID <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLoginid" formControlName="emailId"
                                         placeholder="Email ID" [appMaxLength]="50"
                                         [ngClass]="{ 'is-invalid': submitted && g.emailId.errors }">
                                     <div *ngIf="submitted && g.emailId.errors" class="invalid-feedback">
-                                        <div *ngIf="g.emailId.errors.required">Login Id is required</div>
+                                        <div *ngIf="g.emailId.errors.required">Email Id is required</div>
                                         <div *ngIf="g.emailId.errors.email">Email must be a valid email address</div>
                                     </div>
                                 </div>
@@ -242,6 +242,11 @@
                                         <option value="" hidden selected>Choose</option>
                                         <option *ngFor="let status of Status">{{status}}</option>
                                     </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="txtloginid">LoginId </label>
+                                    <input type="text" class="form-control" formControlName="LoginId" id="txtloginid"
+                                        placeholder="" disabled="true">
                                 </div>
                             </div>
                         </form>

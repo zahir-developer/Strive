@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
     });
     this.getQueryToken();
     this.loginForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.email]),
+      username: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required),
       isRemember: new FormControl(false)
     });
@@ -80,8 +80,8 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
   LoginSubmit(): void {
     this.submitted = true;
-    this.errorFlag = false;
-    if (this.loginForm.invalid) {
+    this.errorFlag = false;    
+    if (this.loginForm.invalid) {      
       this.errorFlag = true;
       return;
     }
