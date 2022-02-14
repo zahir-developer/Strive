@@ -9,8 +9,10 @@ using Java.Util;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Employee.Schedule;
 using StriveEmployee.Android.Adapter.Schedule;
+using StriveEmployee.Android.Views;
 using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.Schedule
@@ -23,7 +25,8 @@ namespace StriveEmployee.Android.Fragments.Schedule
         private CalendarView scheduleDetail_CalendarView;
         private LinearLayout detailer_Layout;
         private View layout;
-        private View rootView;
+        private View rootView;        
+        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);            
@@ -36,22 +39,23 @@ namespace StriveEmployee.Android.Fragments.Schedule
             rootView = this.BindingInflate(Resource.Layout.ScheduleDetailer_Fragment, null);
             scheduleDetail_CalendarView = rootView.FindViewById<CalendarView>(Resource.Id.scheduleDetail_Calendar);
             detailer_Layout = rootView.FindViewById<LinearLayout>(Resource.Id.scheduleDetailerInfo);
-            this.ViewModel = new ScheduleDetailerViewModel();
+            //this.ViewModel = new ScheduleDetailerViewModel();            
             calendar = Calendar.GetInstance(Java.Util.TimeZone.Default);
             day = calendar.Get(CalendarField.DayOfMonth);
             year = calendar.Get(CalendarField.Year);
             month = calendar.Get(CalendarField.Month);
             scheduleDetail_CalendarView.MaxDate = calendar.TimeInMillis;
             scheduleDetail_CalendarView.DateChange += ScheduleDetail_CalendarView_DateChange;
+            
             //GetScheduleDetailList(EmployeeTempData.EmployeeID, DateTime.Now.ToString("yyyy-MM-dd"));
             return rootView;
         }       
 
         private void ScheduleDetail_CalendarView_DateChange(object sender, CalendarView.DateChangeEventArgs e)
         {
-            var date = e.Year + "-" + (e.Month + 1) + "-" + e.DayOfMonth;
+            DashboardView.date = e.Year + "-" + (e.Month + 1) + "-" + e.DayOfMonth;
             detailer_Layout.RemoveAllViews();
-            GetScheduleDetailList(EmployeeTempData.EmployeeID,date);
+            GetScheduleDetailList(EmployeeTempData.EmployeeID, DashboardView.date);
         }
         
         public async void GetScheduleDetailList(int empID,string jobDate)

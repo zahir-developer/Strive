@@ -176,15 +176,15 @@ namespace StriveEmployee.Android.Fragments.CheckOut
 
             Builder = new AlertDialog.Builder(Context);
             if(checkOut.IsHold == true)
-            {
-                Builder.SetMessage("Are you sure want to change the status to hold?");
-                Builder.SetTitle("Hold");
-               
+            {                
+                Builder.SetMessage("Are you sure want to change the status to unhold?");
+                Builder.SetTitle("Unhold");
+
             }
             else
-            {
-                Builder.SetMessage("Are you sure want to change the status to unhold?");
-                Builder.SetTitle("UnHold");
+            {                
+                Builder.SetMessage("Are you sure want to change the status to hold?");
+                Builder.SetTitle("Hold");
             }
             okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
             {
@@ -213,13 +213,13 @@ namespace StriveEmployee.Android.Fragments.CheckOut
                         Builder = new AlertDialog.Builder(Context);
                         if (checkout.IsHold == true)
                         {
-                            Builder.SetMessage("Service status changed to hold successfully");
-                            Builder.SetTitle("Hold");
+                            Builder.SetMessage("Service status changed to unhold successfully");
+                            Builder.SetTitle("Unhold");
                         }
                         else
                         {
-                            Builder.SetMessage("Service status changed to unhold successfully");
-                            Builder.SetTitle("UnHold");
+                            Builder.SetMessage("Service status changed to hold successfully");
+                            Builder.SetTitle("Hold");                            
                         }
                         okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
                         {

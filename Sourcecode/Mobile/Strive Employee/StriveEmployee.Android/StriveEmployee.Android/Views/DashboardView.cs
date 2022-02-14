@@ -15,7 +15,9 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Employee;
+using Strive.Core.ViewModels.Employee.Schedule;
 using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Fragments.CheckOut;
 using StriveEmployee.Android.Fragments.MyProfile;
@@ -39,7 +41,8 @@ namespace StriveEmployee.Android.Views
         private MyTicketFragment myTicket_Fragment;
         private CheckOutFragment checkOut_Fragment;
         private PayRollFragment payRoll_Fragment;
-
+        public static string date = DateTime.Now.ToString("yyyy-MM-dd");
+        
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -67,6 +70,8 @@ namespace StriveEmployee.Android.Views
                     break;
 
                 case Resource.Id.menu_schedule:
+                    date = DateTime.Now.ToString("yyyy-MM-dd");
+                    ScheduleViewModel.isAndroid = false;
                     selected_MvxFragment = schedule_Fragment;
                     break;
 
