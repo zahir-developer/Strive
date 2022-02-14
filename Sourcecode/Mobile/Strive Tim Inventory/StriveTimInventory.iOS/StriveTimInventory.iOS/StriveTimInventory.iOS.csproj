@@ -26,8 +26,9 @@
         <MtouchArch>x86_64</MtouchArch>
         <MtouchLink>SdkOnly</MtouchLink>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignKey>iPhone Developer</CodesignKey>
+        <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
         <IOSDebuggerPort>28844</IOSDebuggerPort>
+        <CodesignProvision>iOS Team Provisioning Profile: com.telliant.strive-tim</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <DebugType>none</DebugType>

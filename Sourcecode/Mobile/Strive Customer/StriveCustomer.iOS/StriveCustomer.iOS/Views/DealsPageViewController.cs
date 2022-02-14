@@ -276,11 +276,11 @@ namespace StriveCustomer.iOS.Views
 
         private async void startScanQrCode()
         {
-<<<<<<< Updated upstream
+
            
-=======
+
             DealsPageViewModel.scannedTime = DateTime.Now.TimeOfDay;
->>>>>>> Stashed changes
+
             string CurrentDate = DateTime.Today.ToString("yyyy-MM-dd");
             if (DealsViewModel.TimePeriod == 3)
             {

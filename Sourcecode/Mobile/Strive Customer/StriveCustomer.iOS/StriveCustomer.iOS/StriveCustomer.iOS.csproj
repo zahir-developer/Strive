@@ -38,6 +38,7 @@
         <MtouchLink>None</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
         <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
+        <CodesignProvision>iOS Team Provisioning Profile: com.Telliant.StriveCustomerMobile</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
@@ -60,9 +61,9 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
-        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
         <MtouchLink>SdkOnly</MtouchLink>
-        <CodesignProvision>StriveCustomerAdHoc</CodesignProvision>
+        <CodesignProvision>iOS Team Provisioning Profile: com.Telliant.StriveCustomerMobile</CodesignProvision>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />

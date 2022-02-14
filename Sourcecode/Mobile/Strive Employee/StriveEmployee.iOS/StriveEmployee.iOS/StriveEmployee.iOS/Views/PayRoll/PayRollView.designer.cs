@@ -61,6 +61,9 @@ namespace StriveEmployee.iOS.Views.PayRoll
 		UIKit.UILabel RegPay { get; set; }
 
 		[Outlet]
+		UIKit.UILabel Salary { get; set; }
+
+		[Outlet]
 		UIKit.UIDatePicker ToDate { get; set; }
 
 		[Outlet]
@@ -183,6 +186,11 @@ namespace StriveEmployee.iOS.Views.PayRoll
 			if (Washtip != null) {
 				Washtip.Dispose ();
 				Washtip = null;
+			}
+
+			if (Salary != null) {
+				Salary.Dispose ();
+				Salary = null;
 			}
 		}
 	}

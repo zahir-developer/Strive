@@ -112,6 +112,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
                 Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
                 Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
+                Salary.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Salary);
             }
             //else
             //{
@@ -190,10 +191,10 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
                 Cashtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
                 Cardtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
-                
                 Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
                 Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonus);
                 Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
+                Salary.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Salary);
             }
             else
             {
@@ -208,10 +209,11 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 Commission.Text = "$" + "0.00";
                 Cashtip.Text = "$" + "0.00";
                 Cardtip.Text = "$" + "0.00";
-                Washtip.Text = "$" + "0.00";
+                //Washtip.Text = "$" + "0.00";
                 Detailtip.Text = "$" + "0.00";
                 Bonus.Text = "$" + "0.00";
                 Total.Text = "$" + "0.00";
+                Salary.Text = "$" + "0.00";
             }
 
 
