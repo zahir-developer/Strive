@@ -191,7 +191,7 @@ namespace StriveOwner.Android.Resources.Fragments
                 this.viewModel = viewModel;
             }
 
-            public override void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
+            public override void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer, bool checkOutFlag)
             {
                 int itemposition = viewHolder.AdapterPosition;
                 var selectedItem = viewModel.FilteredList[itemposition];
@@ -205,7 +205,7 @@ namespace StriveOwner.Android.Resources.Fragments
                     new DeleteButtonClick(fragment, inventoryMain_RecyclerView,viewModel), selectedItem));
 
             }
-            public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
+            public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer, bool checkOutFlag)
             {
 
             }
