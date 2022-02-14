@@ -14,6 +14,7 @@ namespace Greeter.Services.Api
         Task<VehicleIssueResponse> GetVehicleIssue(long vehicleId);
         Task<DeleteResponse> DeleteVehicleIssue(int issueid);
         Task<BaseResponse> AddVehicleIssue(VehicleIssueAddRequest vehicleIssueAddRequest);
+        Task<VehicleImageResponse> GetVehicleIssueImageById(int imageid);
     }
 
     public class VehicleApiService : IVehicleApiService
@@ -54,6 +55,11 @@ namespace Greeter.Services.Api
         public Task<BaseResponse> AddVehicleIssue(VehicleIssueAddRequest vehicleIssueAddRequest)
         {
             return apiService.DoApiCall<BaseResponse>(Urls.ADD_VEHICLE_ISSUE, HttpMethod.Post, null ,vehicleIssueAddRequest);
+        }
+
+        public Task<VehicleImageResponse> GetVehicleIssueImageById(int imageid)
+        {
+            return apiService.DoApiCall<VehicleImageResponse>(Urls.GET_VEHICLE_ISSUE_IMAGE_ID+imageid);
         }
     }
 }

@@ -26,9 +26,9 @@
 		<MtouchArch>x86_64</MtouchArch>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<MtouchDebug>true</MtouchDebug>
-		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+		<CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
 		<LangVersion>latest</LangVersion>
-		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+		<CodesignProvision>iOS Team Provisioning Profile: com.strive.greeter</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
 		<DebugSymbols>true</DebugSymbols>
@@ -40,10 +40,11 @@
 		<WarningLevel>4</WarningLevel>
 		<MtouchArch>ARM64</MtouchArch>
 		<CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-		<CodesignKey>iPhone Distribution</CodesignKey>
+		<CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
 		<MtouchDebug>true</MtouchDebug>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<LangVersion>latest</LangVersion>
+		<CodesignProvision>iOS Team Provisioning Profile: com.strive.greeter</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
 		<DebugType>none</DebugType>

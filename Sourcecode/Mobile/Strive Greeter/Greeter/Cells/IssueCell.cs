@@ -16,8 +16,9 @@ namespace Greeter.Cells
         public static readonly NSString Key = new NSString("IssueCell");
         public static readonly UINib Nib;
         public int issueid = 0;
+        
         ImagesSource imagesSource; 
-        public Dictionary<int,UIImage> Images = new Dictionary<int,UIImage>();
+        
         IssuesViewController IssuesViewController;
         //IssuesSource IssuesSource = new IssuesSource();
         Action<int> DeleteAction = null;
@@ -45,25 +46,28 @@ namespace Greeter.Cells
 
         public void UpdateData( VehicleIssueResponse vehicleIssue, NSIndexPath index)
         {
+             Dictionary<int, UIImage> Images = new Dictionary<int, UIImage>();
+             
             lblDate.Text = vehicleIssue.VehicleIssueThumbnail.VehicleIssue[index.Row].CreatedDate.Substring(0,10);
             lblDesc.Text = vehicleIssue.VehicleIssueThumbnail.VehicleIssue[index.Row].Description;
             issueid = vehicleIssue.VehicleIssueThumbnail.VehicleIssue[index.Row].VehicleIssueid;
-            foreach(var item in vehicleIssue.VehicleIssueThumbnail.VehicleIssueImage)
+            var images = vehicleIssue.VehicleIssueThumbnail.VehicleIssueImage.FindAll(x => x.VehicleIssueId == issueid);
+            foreach (var item in images)
             {
-                if(vehicleIssue.VehicleIssueThumbnail.VehicleIssue[index.Row].VehicleIssueid == item.VehicleIssueId)
-                {
-                    byte[] encodedDataAsBytes = Convert.FromBase64String(item.Base64Thumbnail);
-                    NSData data = NSData.FromArray(encodedDataAsBytes);
-                    var uiImage = UIImage.LoadFromData(data);
+                byte[] encodedDataAsBytes = Convert.FromBase64String(item.Base64Thumbnail);
+                NSData data = NSData.FromArray(encodedDataAsBytes);
+                var uiImage = UIImage.LoadFromData(data);
 
-                    if (!Images.ContainsKey(item.VehicleImageId))
-                        Images.Add(item.VehicleImageId, uiImage);
-                }
-               
-            }
-            imagesSource = new(Images.Values.ToList());
+                if (!Images.ContainsKey(item.VehicleIssueImageId))
+                    Images.Add(item.VehicleIssueImageId, uiImage);
+                
+            }    
+                    
+
+            imagesSource = new(Images.Values.ToList(),Images.Keys.ToList());
             cvImages.WeakDataSource = imagesSource;
-            cvImages.WeakDelegate = imagesSource; 
+            cvImages.WeakDelegate = imagesSource;
+            
         }
         partial void CloseBtnClicked(UIButton sender)
         {

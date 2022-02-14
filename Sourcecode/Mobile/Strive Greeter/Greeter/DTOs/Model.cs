@@ -1577,6 +1577,32 @@ namespace Greeter.DTOs
         [JsonProperty("Status")]
         public bool status;
     }
+
+    
+    public class VehicleImageResponse:BaseResponse
+    {
+        [JsonProperty("VehicleImage")]
+        public VehicleImage VehicleImage;
+    }
+    public class VehicleImage
+    {
+        [JsonProperty("VehicleIssueImageId")]
+        public int VehicleIssueImageId { get; set; }
+        [JsonProperty("VehicleIssueId")]
+        public int VehicleIssueId { get; set; }
+        [JsonProperty("ImageName")]
+        public string ImageName { get; set; }
+        [JsonProperty("CreatedDate")]
+        public string CreatedDate { get; set; }
+        [JsonProperty("OriginalImageName")]
+        public string OriginalImageName { get; set; }
+        [JsonProperty("ThumbnailFileName")]
+        public string ThumbnailFileName { get; set; }
+        [JsonProperty("Base64Thumbnail")]
+        public string Base64Thumbnail { get; set; }
+        [JsonProperty("Base64")]
+        public string Base64 { get; set; }
+    }
     public class VehicleIssueThumbnail
     {
         [JsonProperty("VehicleIssue")]
@@ -1586,8 +1612,8 @@ namespace Greeter.DTOs
     }
     public class VehicleIssueImage
     {
-        [JsonProperty("VehicleImageId")]
-        public int VehicleImageId { get; set; }
+        [JsonProperty("VehicleIssueImageId")]
+        public int VehicleIssueImageId { get; set; }
         [JsonProperty("VehicleIssueId")]
         public int VehicleIssueId { get; set; }
         [JsonProperty("ImageName")]

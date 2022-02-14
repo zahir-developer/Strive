@@ -16,6 +16,15 @@ namespace Greeter.Storyboards
 		UIKit.UIButton btnAddIssue { get; set; }
 
 		[Outlet]
+		UIKit.UIButton CloseButton { get; set; }
+
+		[Outlet]
+		UIKit.UIView ImageContainer { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView IssueImageView { get; set; }
+
+		[Outlet]
 		UIKit.UILabel lblBarcode { get; set; }
 
 		[Outlet]
@@ -68,6 +77,21 @@ namespace Greeter.Storyboards
 			if (viewHeader != null) {
 				viewHeader.Dispose ();
 				viewHeader = null;
+			}
+
+			if (ImageContainer != null) {
+				ImageContainer.Dispose ();
+				ImageContainer = null;
+			}
+
+			if (IssueImageView != null) {
+				IssueImageView.Dispose ();
+				IssueImageView = null;
+			}
+
+			if (CloseButton != null) {
+				CloseButton.Dispose ();
+				CloseButton = null;
 			}
 		}
 	}

@@ -10,8 +10,9 @@ namespace Greeter.Sources
     public class ImagesSource : NSObject, IUICollectionViewDataSource, IUICollectionViewDelegateFlowLayout
     {
         readonly List<UIImage> imagePaths;
-
-        public ImagesSource(List<UIImage> imagePaths = null) => this.imagePaths = imagePaths;
+        readonly List<int> imageid;
+        public ImagesSource(List<UIImage> imagePaths = null, List<int> imageid = null)
+        { this.imagePaths = imagePaths; this.imageid = imageid; }
 
         public nint GetItemsCount(UICollectionView collectionView, nint section) => imagePaths?.Count ?? 3;
 
@@ -20,6 +21,14 @@ namespace Greeter.Sources
             var cell = (ImageCell)collectionView.DequeueReusableCell(ImageCell.Key, indexPath);
             cell.UpdateData(imagePaths[indexPath.Row]);
             return cell;
+        }
+
+        [Export("collectionView:didSelectItemAtIndexPath:")]
+        public void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            var cell = (ImageCell)collectionView.DequeueReusableCell(ImageCell.Key, indexPath);
+            cell.ImageSelected(imageid[indexPath.Row]);
+            
         }
 
         [Export("collectionView:layout:sizeForItemAtIndexPath:")]

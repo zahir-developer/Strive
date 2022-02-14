@@ -52,5 +52,11 @@ namespace Greeter.Cells
             if (path is not null)
                 imgv.Image = path;
         }
+        public void ImageSelected(int row)
+        {
+            Console.WriteLine("Selected image"+row);
+            var dict = new NSDictionary(new NSString("IssueImageId"), new NSString(row.ToString()));
+            NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.View_Clicked"), null, dict);
+        }
     }
 }
