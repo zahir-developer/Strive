@@ -175,8 +175,17 @@ namespace StriveOwner.Android.Fragments.CheckOut
         {
 
             Builder = new AlertDialog.Builder(Context);
-            Builder.SetMessage("Are you sure want to change the status to hold?");
-            Builder.SetTitle("Hold");
+            if (checkOut.IsHold == true)
+            {
+                Builder.SetMessage("Are you sure want to change the status to unhold?");
+                Builder.SetTitle("UnHold");
+              
+            }
+            else
+            {
+                Builder.SetMessage("Are you sure want to change the status to hold?");
+                Builder.SetTitle("Hold");
+            }
             okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
             {
                 HoldCheckout(checkOut, Checkout_RecyclerView);
@@ -196,15 +205,23 @@ namespace StriveOwner.Android.Fragments.CheckOut
             ViewModel = new CheckOutViewModel();
             try
             {
-                await ViewModel.updateHoldStatus((int)checkout.JobId);
+                await ViewModel.updateHoldStatus((int)checkout.JobId , checkout.IsHold);
 
                 if (ViewModel.holdResponse != null)
                 {
                     if (ViewModel.holdResponse.UpdateJobStatus)
                     {
                         Builder = new AlertDialog.Builder(Context);
-                        Builder.SetMessage("Service status changed to hold successfully");
-                        Builder.SetTitle("Hold");
+                        if (checkout.IsHold == true)
+                        {
+                            Builder.SetMessage("Service status changed to unhold successfully");
+                            Builder.SetTitle("UnHold");
+                        }
+                        else
+                        {
+                            Builder.SetMessage("Service status changed to hold successfully");
+                            Builder.SetTitle("Hold");
+                        }
                         okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
                         {
                             recyclerView1 = recyclerView;
@@ -379,7 +396,6 @@ namespace StriveOwner.Android.Fragments.CheckOut
             int buttonWidth;
             CheckOutViewModel CheckoutDetail;
 
-
             public MyImplementSwipeHelper(Context context, RecyclerView checkout_RecyclerView, int buttonWidth, CheckOutViewModel viewModel) : base(context, checkout_RecyclerView, 200,viewModel)
             {
                 Context = context;
@@ -390,14 +406,23 @@ namespace StriveOwner.Android.Fragments.CheckOut
 
             }
 
-            public override void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
+            public override void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer , bool isHold)
             {
                 int itemposition = viewHolder.AdapterPosition;
+                string holdLabel;
                 var selectedItem = CheckoutDetail.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
                 CheckOutFragment fragment = new CheckOutFragment(Context);
+                if (isHold)
+                {
+                    holdLabel = "UnHold";
+                }
+                else
+                {
+                    holdLabel = "Hold";
+                }
                 //button-1
                 buffer.Add(new MyButton(Context,
-                    "Hold",
+                    holdLabel,
                     35,
                     Resource.Drawable.Check,
                     "#FBB80F",
@@ -420,15 +445,23 @@ namespace StriveOwner.Android.Fragments.CheckOut
 
                 
             }
-            public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer)
+            public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer ,bool isHold)
             {
                 int itemposition = viewHolder.AdapterPosition;
+                string holdLabel;
                 var selectedItem = CheckoutDetail.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[itemposition];
                 CheckOutFragment fragment = new CheckOutFragment(Context);
-
+                if (isHold)
+                {
+                    holdLabel = "UnHold";
+                }
+                else
+                {
+                    holdLabel = "Hold";
+                }
                 //button-1
                 buffer.Add(new MyButton(Context,
-                 "Hold",
+                 holdLabel,
                  35,
                  Resource.Drawable.Check,
                  "#FBB80F",
