@@ -235,11 +235,6 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown-hover.imageset\icon-unknow-hover-1.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown-hover.imageset\icon-unknow-hover%402x-1.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\Contents.json" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%403x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown-1.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%402x-1.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-washer-hover.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-washer-hover.imageset\icon-washer-hover.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-washer-hover.imageset\icon-washer-hover%402x.png" />
@@ -431,6 +426,11 @@
         <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager.png" />
         <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager%403x%281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29-3.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29-5.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29-4.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
