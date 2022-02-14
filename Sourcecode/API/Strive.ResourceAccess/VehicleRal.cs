@@ -107,7 +107,7 @@ namespace Strive.ResourceAccess
 
         public VehicleImageViewModel GetVehicleIssueImageById(int vehicleIssueImageId)
         {
-            _prm.Add("vehicleIssueImageId", vehicleIssueImageId);
+            _prm.Add("VehicleIssueId", vehicleIssueImageId);
             return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETALLVEHICLEISSUEIMAGE.ToString(), _prm);
         }
 
