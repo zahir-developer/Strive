@@ -214,17 +214,17 @@ namespace StriveEmployee.iOS.Views
         {
             if (checkout.IsHold == true)
             {
-                ShowAlertMsg("Are you sure want to change the status to hold?", () =>
-                {
-                    HoldCheckout(checkout);
-                }, true, "Hold");               
-            }
-            else
-            {
                 ShowAlertMsg("Are you sure want to change the status to unhold?", () =>
                 {
                     HoldCheckout(checkout);
-                }, true, "UnHold");
+                }, true, "Unhold");               
+            }
+            else
+            {
+                ShowAlertMsg("Are you sure want to change the status to hold?", () =>
+                {
+                    HoldCheckout(checkout);
+                }, true, "Hold");
             }
         }
 
@@ -238,19 +238,19 @@ namespace StriveEmployee.iOS.Views
                 {
                     if (checkout.IsHold == true)
                     {
+                        ShowAlertMsg("Service status changed to unhold successfully", () =>
+                        {
+                            // Refreshing checkout list
+                            GetCheckoutDetails();
+                        }, titleTxt: "Unhold");
+                    }
+                    else
+                    {
                         ShowAlertMsg("Service status changed to hold successfully", () =>
                         {
                             // Refreshing checkout list
                             GetCheckoutDetails();
                         }, titleTxt: "Hold");
-                    }
-                    else
-                    {
-                        ShowAlertMsg("Service status changed to unhold successfully", () =>
-                        {
-                            // Refreshing checkout list
-                            GetCheckoutDetails();
-                        }, titleTxt: "UnHold");
                     }
                    
                 }

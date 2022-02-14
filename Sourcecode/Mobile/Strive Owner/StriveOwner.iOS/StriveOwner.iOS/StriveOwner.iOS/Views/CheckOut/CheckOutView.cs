@@ -216,17 +216,17 @@ namespace StriveOwner.iOS.Views.CheckOut
         {
             if (checkout.IsHold == true)
             {
-                ShowAlertMsg("Are you sure want to change the status to hold?", () =>
+                ShowAlertMsg("Are you sure want to change the status to unhold?", () =>
             {
                 HoldCheckout(checkout);
-            }, true, "Hold");
+            }, true, "Unhold");
             }
             else
             {
-                ShowAlertMsg("Are you sure want to change the status to unhold?", () =>
+                ShowAlertMsg("Are you sure want to change the status to hold?", () =>
                 {
                     HoldCheckout(checkout);
-                }, true, "UnHold");
+                }, true, "Hold");
             }
         }
 
@@ -238,19 +238,19 @@ namespace StriveOwner.iOS.Views.CheckOut
             {
                 if (checkout.IsHold == true)
                 {
-                    ShowAlertMsg("Service status changed to hold successfully", () =>
+                    ShowAlertMsg("Service status changed to unhold successfully", () =>
                 {
                     // Refreshing checkout list
                     GetCheckoutDetails();
-                }, titleTxt: "Hold");
+                }, titleTxt: "Unhold");
                 }
                 else
                 {
-                    ShowAlertMsg("Service status changed to unhold successfully", () =>
+                    ShowAlertMsg("Service status changed to hold successfully", () =>
                     {
                         // Refreshing checkout list
                         GetCheckoutDetails();
-                    }, titleTxt: "UnHold");
+                    }, titleTxt: "Hold");
                 }
             }
 
