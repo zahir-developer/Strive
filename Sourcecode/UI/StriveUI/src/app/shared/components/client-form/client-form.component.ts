@@ -79,7 +79,7 @@ export class ClientFormComponent implements OnInit {
       notes: ['',],
       checkOut: ['',],
       type: ['', Validators.required],
-      location: ['',]
+      location: ['0', [Validators.required, Validators.min(1)]]
     });
     this.clientForm.get('status').patchValue(0);
     // this.clientForm.controls.amount.disable();
