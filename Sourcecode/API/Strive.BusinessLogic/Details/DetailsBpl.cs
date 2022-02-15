@@ -120,7 +120,7 @@ namespace Strive.BusinessLogic.Details
 
             details.BaySchedule = baySlot;
 
-            return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "JobId");
+            return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "JobId");
         }
 
         private List<BusinessEntities.Model.BaySchedule> GetBaySlot(int jobId, int bayId, DateTime jobDate, DateTimeOffset initialTimeIn, DateTimeOffset finalDueTime)

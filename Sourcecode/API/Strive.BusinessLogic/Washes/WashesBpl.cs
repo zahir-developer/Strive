@@ -54,7 +54,7 @@ namespace Strive.BusinessLogic.Washes
                 item.JobId = commonRal.JobId;
             }
 
-            return ResultWrap(new WashesRal(_tenant).AddWashTime, washes, "Status");
+            return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
         }
 
         public Result UpdateWashTime(WashesDto washes)

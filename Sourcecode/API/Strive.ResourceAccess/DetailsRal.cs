@@ -21,9 +21,12 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPK<DetailsDto>(details, "JobId");    
         }
         
-        public bool UpdateDetails(DetailsDto details)
+        public int UpdateDetails(DetailsDto details)
         {
-            return dbRepo.UpdatePc(details, "Job");
+            if (dbRepo.UpdatePc(details, "Job"))
+                return details.Job.JobId;
+            else
+                return 0;
         }
         public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
