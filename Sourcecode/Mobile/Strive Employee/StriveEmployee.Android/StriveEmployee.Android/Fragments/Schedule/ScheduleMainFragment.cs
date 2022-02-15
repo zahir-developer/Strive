@@ -73,16 +73,20 @@ namespace StriveEmployee.Android.Fragments.Schedule
         {
             if (position == 0)
             {
-                ScheduleViewModel.isAndroid = true;
+                ScheduleViewModel.isNoData = true;
                 scheduleFragment.GetScheduleList();
-                if (scheduleFragment != null && scheduleFragment.ViewModel.scheduleList == null && scheduleFragment.ViewModel.scheduleList.ScheduleDetailViewModel.Count == 0) { }
+                if (scheduleFragment != null && scheduleFragment.ViewModel.scheduleList == null) 
                 {
-                    _userDialog.Alert("No relatable data!");                
+                    _userDialog.Toast("No relatable data!");                
+                }
+                else if(scheduleFragment != null && scheduleFragment.ViewModel.scheduleList.ScheduleDetailViewModel == null)
+                {
+                    _userDialog.Toast("No relatable data!");
                 }
             }
             if (position == 1)
             {
-                ScheduleViewModel.isAndroid = true;
+                ScheduleViewModel.isNoData = true;
                 scheduleDetailerFragment.GetScheduleDetailList(EmployeeTempData.EmployeeID, DashboardView.date);
             }
         }

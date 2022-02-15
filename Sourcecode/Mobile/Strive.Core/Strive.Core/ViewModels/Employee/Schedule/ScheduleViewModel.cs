@@ -16,7 +16,7 @@ namespace Strive.Core.ViewModels.Employee.Schedule
         private string date = (System.DateTime.Now).ToString("yyy-MM-dd");
         public static string StartDate { get; set; }
         public status DetailerList { get; set; }
-        public static bool isAndroid = false;
+        public static bool isNoData = false;
         #region Properties
 
         public ScheduleDetail scheduleList { get; set; }
@@ -42,7 +42,7 @@ namespace Strive.Core.ViewModels.Employee.Schedule
             });
             if(result == null)
             {
-                if (!isAndroid)
+                if (!isNoData)
                 {
                     _userDialog.Toast("No relatable data");
                 }
@@ -51,7 +51,7 @@ namespace Strive.Core.ViewModels.Employee.Schedule
             {
                 if(result.ScheduleDetail.ScheduleDetailViewModel == null)
                 {
-                    if (!isAndroid)
+                    if (!isNoData)
                     {
                         _userDialog.Toast("No relatable data");
                     }                    

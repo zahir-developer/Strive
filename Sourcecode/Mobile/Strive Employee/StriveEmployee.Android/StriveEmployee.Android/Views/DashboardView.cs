@@ -71,7 +71,7 @@ namespace StriveEmployee.Android.Views
 
                 case Resource.Id.menu_schedule:
                     date = DateTime.Now.ToString("yyyy-MM-dd");
-                    ScheduleViewModel.isAndroid = false;
+                    ScheduleViewModel.isNoData = false;
                     selected_MvxFragment = schedule_Fragment;
                     break;
 
