@@ -1189,6 +1189,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.selectedData = details.DetailsForDetailId;
         this.ticketNumber = details.DetailsForDetailId.Details.TicketNumber;
         this.isEdit = true;
+        this.title = "Edit Detail";
         this.washItem = this.selectedData.DetailsItem;
         this.detailItems = this.selectedData.DetailsItem;
         this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
@@ -1226,7 +1227,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   deleteDetail() {
     this.deleteDetailList = true
     this.body = 'Are you sure you want to Delete this Detail? All related information will be deleted and the Detail cannot be retrieved?',
-      this.title = 'Delete Detail'
+    this.title = 'Delete Detail'
   }
 
   confirmDelete() {

@@ -104,7 +104,7 @@ export class SalesComponent implements OnInit {
   accountPayType: any;
   paymentType = false;
   JobDate = new Date;
-
+  accountBtnClass : any;
 
   constructor(
     private toastr: ToastrService, private membershipService: MembershipService, private salesService: SalesService, private router: Router,
@@ -170,6 +170,7 @@ export class SalesComponent implements OnInit {
     this.getServiceForDiscount();
     // this.getAllServiceandProduct();
     this.getJobType();
+    this.calculateAccountbtnClass();
   }
 
 
@@ -400,6 +401,7 @@ export class SalesComponent implements OnInit {
       this.enableAdd = false;
     }
     this.getDetailByTicket(false);
+    this.calculateAccountbtnClass();
   }
   getDetailByTicket(flag) {
     this.enableButton = false;
@@ -445,6 +447,7 @@ export class SalesComponent implements OnInit {
           if(this.accountDetails.SalesAccountCreditViewModel?.ClientId == null){
             this.serviceGroup = false;
           }
+          this.calculateAccountbtnClass();
         }        
       });      
       this.spinner.show();
@@ -1918,10 +1921,11 @@ export class SalesComponent implements OnInit {
   }
 
   calculateAccountbtnClass(){    
-    return{
-      disable:(this.enableButton || !this.serviceGroup ||this.multipleTicketSequence),
+    this.accountBtnClass = {
+      disable:( this.enableButton || !this.serviceGroup ||this.multipleTicketSequence),
       accountbtnenable:(!this.enableButton && !this.multipleTicketSequence && this.serviceGroup )
-    }
+        }
+    return this.accountBtnClass;
   }
 
 }
