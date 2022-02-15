@@ -95,11 +95,11 @@
                                         <th scope="col" class="pointer" (click)="changeSorting('TotalDetailHours')">
                                             Detail Hrs.&nbsp;<i class="fa" [ngClass]="selectedCls('TotalDetailHours')"
                                                 aria-hidden="true"></i></th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('WashRate')">Wash
+                                        <th scope="col" class="pointer" (click)="changeSorting('WashRate')">Pay
                                             Rate&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('WashRate')" aria-hidden="true"></i>
                                         </th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Pay Rate&nbsp;
+                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Pay &nbsp;
                                             <i class="fa" [ngClass]="selectedCls('WashAmount')" aria-hidden="true"></i>
                                         </th>
                                         <th scope="col" class="pointer" (click)="changeSorting('OverTimeHours')">OT
@@ -125,10 +125,10 @@
                                             (click)="changeSorting('CashTip')">
                                             Cash Tips&nbsp;<i class="fa" [ngClass]="selectedCls('CashTip')"
                                                 aria-hidden="true"></i></th>
-                                        <th scope="col" class="pointer" ToolTip="Card Tips"
+                                        <!-- <th scope="col" class="pointer" ToolTip="Card Tips"
                                             (click)="changeSorting('CardTip')">
                                             Card Tips&nbsp;<i class="fa" [ngClass]="selectedCls('CardTip')"
-                                                aria-hidden="true"></i></th>
+                                                aria-hidden="true"></i></th> -->
                                         <th scope="col" class="pointer" ToolTip="Wash Tips"
                                             (click)="changeSorting('WashTip')">
                                             Wash Tips&nbsp;<i class="fa" [ngClass]="selectedCls('WashTip')"
@@ -141,9 +141,9 @@
                                                     (click)="changeSorting('Bonus')">
                                                     Bonus&nbsp;<i class="fa" [ngClass]="selectedCls('Bonus')"
                                                         aria-hidden="true"></i></th>
-                                        <th scope="col" class="pointer" >
+                                        <!-- <th scope="col" class="pointer" >
                                                     Salary&nbsp;
-                                                    <i class="fa" aria-hidden="true"></i></th>
+                                                    <i class="fa" aria-hidden="true"></i></th> -->
                                         <th scope="col" class="pointer" (click)="changeSorting('PayeeTotal')">
                                             Total&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('PayeeTotal')" aria-hidden="true"></i>
@@ -173,11 +173,11 @@
                                         </td>
                                         <td>{{payroll.DetailCommission | currency}}</td>
                                         <td>{{payroll.CashTip | currency}}</td>      
-                                        <td>{{payroll.CardTip | currency}}</td>           
+                                        <!-- <td>{{payroll.CardTip | currency}}</td>            -->
                                         <td>{{payroll.WashTip | currency}}</td>           
                                         <td>{{payroll.DetailTip | currency}}</td>           
                                         <td>{{payroll.Bonus | currency}}</td>    
-                                        <td>{{payroll.Salary | currency}}</td>                                                           
+                                        <!-- <td>{{payroll.Salary | currency}}</td>                                                            -->
                                         <td>{{payroll.PayeeTotal | currency}}</td>
 
                                     </tr>
