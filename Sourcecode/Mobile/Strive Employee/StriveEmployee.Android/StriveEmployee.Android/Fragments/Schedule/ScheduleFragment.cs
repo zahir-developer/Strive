@@ -52,6 +52,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         {
             var date = e.Year + "-" + (e.Month + 1) + "-" + e.DayOfMonth;
             ScheduleViewModel.StartDate = date;
+            ScheduleViewModel.isNoData = false;
             GetScheduleList();
         }
 
