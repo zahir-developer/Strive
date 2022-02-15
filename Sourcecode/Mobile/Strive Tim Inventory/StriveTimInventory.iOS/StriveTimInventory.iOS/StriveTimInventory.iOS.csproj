@@ -234,7 +234,6 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown-hover.imageset\icon-unknow-hover%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown-hover.imageset\icon-unknow-hover-1.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown-hover.imageset\icon-unknow-hover%402x-1.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-washer-hover.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-washer-hover.imageset\icon-washer-hover.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-washer-hover.imageset\icon-washer-hover%402x.png" />
@@ -426,11 +425,24 @@
         <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager.png" />
         <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\Manager.imageset\icon-manager%403x%281%29.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29-3.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29-5.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%281%29-4.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%402x%281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-40.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-40%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-40%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-76.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-76%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-40-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-40%402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-40%403x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-76.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-76%402x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -500,6 +512,9 @@
         <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
         <Folder Include="Views\CardList\" />
         <Folder Include="Resources\Assets.xcassets\Manager.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-admin.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-unknown.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-admin-hover.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />

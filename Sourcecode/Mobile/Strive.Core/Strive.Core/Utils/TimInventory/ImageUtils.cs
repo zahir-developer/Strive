@@ -4,6 +4,7 @@ namespace Strive.Core.Utils.TimInventory
     public class ImageUtils
     {
         public const string ICON_WASHER = "icon-washer";
+        public const string ICON_ADMIN = "icon-admin";
         public const string ICON_DETAILER = "icon-detailer";
         public const string ICON_MANAGER = "icon-manager";
         public const string ICON_CASHIER = "icon-cashier";

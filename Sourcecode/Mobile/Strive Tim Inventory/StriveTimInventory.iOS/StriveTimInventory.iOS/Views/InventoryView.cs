@@ -30,7 +30,9 @@ namespace StriveTimInventory.iOS.Views
             //set.Bind(OtherInformationTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
             //set.Bind(BackButton).To(vm => vm.Commands["NavigationBack"]);
             set.Apply();
-
+            InventoryListTableView.Layer.CornerRadius = 5;
+            InventorySearch.Layer.CornerRadius = 5;
+            AddProductButton.Layer.CornerRadius = 5;
             InventoryListTableView.Source = InventoryTableSource;
             InventoryListTableView.TableFooterView = new UIView(CGRect.Empty);
             InventoryListTableView.DelaysContentTouches = false;

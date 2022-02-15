@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -92,13 +92,13 @@
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gcB-WE-Mb8">
-                    <rect key="frame" x="109.5" y="185" width="81" height="32.5"/>
+                    <rect key="frame" x="100.5" y="185" width="99" height="30"/>
                     <state key="normal">
                         <attributedString key="attributedTitle">
-                            <fragment content="Click to edit">
+                            <fragment content="Choose Image">
                                 <attributes>
-                                    <color key="NSColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="15" name="OpenSans-Regular"/>
+                                    <color key="NSColor" red="0.99019607843137258" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <font key="NSFont" metaFont="system" size="15"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     <integer key="NSUnderline" value="1"/>
                                 </attributes>
@@ -107,13 +107,13 @@
                     </state>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSX-cc-nHF">
-                    <rect key="frame" x="118" y="237.5" width="47" height="27.5"/>
+                    <rect key="frame" x="118" y="235" width="47" height="27.5"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
                     <color key="textColor" red="0.60121947529999997" green="0.99664801359999999" blue="0.95195192100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Supplier" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hod-DF-HNb">
-                    <rect key="frame" x="118" y="779" width="83" height="27.5"/>
+                    <rect key="frame" x="118" y="776.5" width="83" height="27.5"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="27.5" id="5l0-RG-CJW"/>
                     </constraints>
@@ -122,7 +122,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ned-Hl-LCU">
-                    <rect key="frame" x="118" y="816.5" width="598" height="48"/>
+                    <rect key="frame" x="118" y="814" width="598" height="48"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="k16-wo-3AZ"/>
                     </constraints>
@@ -131,7 +131,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e31-0o-v6g">
-                    <rect key="frame" x="546" y="884.5" width="170" height="50"/>
+                    <rect key="frame" x="546" y="882" width="170" height="50"/>
                     <color key="backgroundColor" red="0.11558806150000001" green="0.78201174740000001" blue="0.71190595629999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="170" id="RfT-Th-dpx"/>
@@ -143,7 +143,7 @@
                     </state>
                 </button>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Quantity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YRc-0i-7Ob">
-                    <rect key="frame" x="118" y="464" width="598" height="48"/>
+                    <rect key="frame" x="118" y="461.5" width="598" height="48"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="XdW-Tw-1l4"/>
                     </constraints>
@@ -152,7 +152,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Item Description" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="haj-hE-vBz">
-                    <rect key="frame" x="118" y="401" width="598" height="48"/>
+                    <rect key="frame" x="118" y="398.5" width="598" height="48"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="JLG-v4-23p"/>
                     </constraints>
@@ -161,7 +161,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Item Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e2Y-Be-Kx3">
-                    <rect key="frame" x="118" y="338" width="598" height="48"/>
+                    <rect key="frame" x="118" y="335.5" width="598" height="48"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="zYt-3m-IIW"/>
                     </constraints>
@@ -170,7 +170,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Item Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rVN-wk-bcv">
-                    <rect key="frame" x="118" y="275" width="598" height="48"/>
+                    <rect key="frame" x="118" y="272.5" width="598" height="48"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="b7x-2g-FZM"/>
                     </constraints>
@@ -179,31 +179,31 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Item Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FRr-Pv-7as">
-                    <rect key="frame" x="118" y="527" width="598" height="48"/>
+                    <rect key="frame" x="118" y="524.5" width="598" height="48"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lSQ-n1-Dgh">
-                    <rect key="frame" x="118" y="590" width="598" height="48"/>
+                    <rect key="frame" x="118" y="587.5" width="598" height="48"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Cost(Per Unit)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s8c-wb-lY7">
-                    <rect key="frame" x="118" y="653" width="598" height="48"/>
+                    <rect key="frame" x="118" y="650.5" width="598" height="48"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xhh-GL-qbq">
-                    <rect key="frame" x="118" y="716" width="598" height="48"/>
+                    <rect key="frame" x="118" y="713.5" width="598" height="48"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e2A-MS-GA4">
-                    <rect key="frame" x="361" y="884.5" width="170" height="50"/>
+                    <rect key="frame" x="361" y="882" width="170" height="50"/>
                     <color key="backgroundColor" red="0.50552135710000001" green="0.59506636859999995" blue="0.58765536549999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
                     <state key="normal" title="CANCEL">

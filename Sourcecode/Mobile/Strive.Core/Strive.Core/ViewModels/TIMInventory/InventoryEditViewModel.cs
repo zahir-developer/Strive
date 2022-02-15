@@ -284,6 +284,18 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 return;
             }
+            else if (ItemTypeId == 0)
+            {
+                var productType = ProductTypeList.Where(l => l.CodeValue == EditInventoryItem.Product.ProductTypeName).FirstOrDefault();
+                ItemTypeId = productType.CodeId;
+                //return false;
+            }
+            else if(ItemLocationId == 0)
+            {
+                var location = LocationList.Where(l => l.LocationName == EditInventoryItem.Product.LocationName).FirstOrDefault();
+                ItemLocationId = location.LocationId;
+                //return false;
+            }
             var product = PrepareAddProduct(); 
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.AddProduct(product);
@@ -316,23 +328,23 @@ namespace Strive.Core.ViewModels.TIMInventory
                 _userDialog.AlertAsync("Please enter product Type");
                 return false;
             }
-            else if(ItemTypeId == 0)
-            {
-                var productType = ProductTypeList.Where(l => l.CodeValue == EditInventoryItem.Product.ProductTypeName).FirstOrDefault();
-                ItemTypeId = productType.CodeId;
-                return false;
-            }
+            //else if(ItemTypeId == 0)
+            //{
+            //    var productType = ProductTypeList.Where(l => l.CodeValue == EditInventoryItem.Product.ProductTypeName).FirstOrDefault();
+            //    ItemTypeId = productType.CodeId;
+            //    return false;
+            //}
             else if (string.IsNullOrEmpty(ItemLocation) || (ItemLocation == ""))
             {
                 _userDialog.AlertAsync("Please enter location");
                 return false;
             }
-            else if(ItemLocationId == 0)
-            {
-                var location = LocationList.Where(l => l.LocationName == EditInventoryItem.Product.LocationName).FirstOrDefault();
-                ItemLocationId = location.LocationId;
-                return false;
-            }
+            //else if(ItemLocationId == 0)
+            //{
+            //    var location = LocationList.Where(l => l.LocationName == EditInventoryItem.Product.LocationName).FirstOrDefault();
+            //    ItemLocationId = location.LocationId;
+            //    return false;
+            //}
             else if (string.IsNullOrEmpty(ItemCost))
             {
                 _userDialog.AlertAsync("Please enter Item cost");
@@ -417,15 +429,26 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 return;
             }
-
-            if(Filename == null)
+            else if (ItemTypeId == 0)
+            {
+                var productType = ProductTypeList.Where(l => l.CodeValue == EditInventoryItem.Product.ProductTypeName).FirstOrDefault();
+                ItemTypeId = productType.CodeId;
+                //return false;
+            }
+            if (ItemLocationId == 0)
+            {
+                var location = LocationList.Where(l => l.LocationName == EditInventoryItem.Product.LocationName).FirstOrDefault();
+                ItemLocationId = location.LocationId;
+                //return false;
+            }
+            if (Filename == null)
             {
                 System.Random random = new System.Random();
                 Filename = "Image" + random.Next().ToString() + ".png";
             }
             var updateProduct = PrepareUpdateProduct();
             var response = await AdminService.UpdateProduct(updateProduct);
-            if(response == null)
+            if(response.Status != "true")
             {
                await _userDialog.AlertAsync("Something unusal has happened.");
                 return;

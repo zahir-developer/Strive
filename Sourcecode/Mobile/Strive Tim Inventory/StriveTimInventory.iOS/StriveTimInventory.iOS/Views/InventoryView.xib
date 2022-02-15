@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="OpenSans-Bold.ttf">
@@ -18,12 +17,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InventoryView">
             <connections>
+                <outlet property="AddProductButton" destination="nuv-9M-IVA" id="DOz-IB-BPC"/>
                 <outlet property="InventoryListTableView" destination="0U3-OK-xdl" id="name-outlet-0U3-OK-xdl"/>
                 <outlet property="InventorySearch" destination="T24-Sc-S4I" id="name-outlet-T24-Sc-S4I"/>
                 <outlet property="LogoutButton" destination="awe-YI-fVc" id="name-outlet-awe-YI-fVc"/>
                 <outlet property="Title" destination="hz4-Mo-foa" id="name-outlet-hz4-Mo-foa"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
-                <outlet property="AddProductButton" destination="fg8-WW-NaA" id="name-outlet-fg8-WW-NaA"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -43,14 +42,14 @@
                             <color key="textColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="awe-YI-fVc">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="awe-YI-fVc">
                             <rect key="frame" x="25" y="27" width="56" height="36"/>
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <state key="normal" title="Logout">
                                 <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fg8-WW-NaA">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fg8-WW-NaA">
                             <rect key="frame" x="777" y="27" width="32" height="36"/>
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <state key="normal" title="Add">
@@ -69,6 +68,11 @@
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="75" id="ouI-j8-ywW"/>
                         <constraint firstItem="hz4-Mo-foa" firstAttribute="centerX" secondItem="phI-5g-Xun" secondAttribute="centerX" id="p6R-Sv-ydD"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="fg8-WW-NaA"/>
+                        </mask>
+                    </variation>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0U3-OK-xdl">
                     <rect key="frame" x="89.5" y="247" width="655" height="700"/>
@@ -79,11 +83,11 @@
                     <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
                 <searchBar contentMode="redraw" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T24-Sc-S4I">
-                    <rect key="frame" x="89.5" y="176" width="655" height="56"/>
+                    <rect key="frame" x="89.5" y="181" width="655" height="51"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nuv-9M-IVA">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nuv-9M-IVA">
                     <rect key="frame" x="574.5" y="957" width="170" height="50"/>
                     <color key="backgroundColor" red="0.11558806150000001" green="0.78201174740000001" blue="0.71190595629999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -91,19 +95,7 @@
                         <constraint firstAttribute="width" constant="170" id="pba-hO-ACz"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
-                    <state key="normal" title="SAVE">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WrP-1q-Vef">
-                    <rect key="frame" x="399.5" y="957" width="170" height="50"/>
-                    <color key="backgroundColor" red="0.50552135710000001" green="0.59506636859999995" blue="0.58765536549999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="170" id="JUe-3n-7D3"/>
-                        <constraint firstAttribute="height" constant="50" id="JgO-Fp-Li1"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
-                    <state key="normal" title="CANCEL">
+                    <state key="normal" title="Add Product">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                 </button>
@@ -118,10 +110,8 @@
                 <constraint firstItem="dsl-86-20v" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="QwB-tV-GTo"/>
                 <constraint firstItem="0U3-OK-xdl" firstAttribute="top" secondItem="T24-Sc-S4I" secondAttribute="bottom" constant="15" id="SRI-EV-AnI"/>
                 <constraint firstItem="0U3-OK-xdl" firstAttribute="height" secondItem="dsl-86-20v" secondAttribute="height" multiplier="0.576606" id="Yht-49-WeE"/>
-                <constraint firstItem="nuv-9M-IVA" firstAttribute="leading" secondItem="WrP-1q-Vef" secondAttribute="trailing" constant="5" id="cWT-yY-ysN"/>
                 <constraint firstItem="dsl-86-20v" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="fyV-FO-Hr7"/>
                 <constraint firstItem="phI-5g-Xun" firstAttribute="top" secondItem="2" secondAttribute="top" id="lFm-s0-GrS"/>
-                <constraint firstItem="WrP-1q-Vef" firstAttribute="centerY" secondItem="nuv-9M-IVA" secondAttribute="centerY" id="mxP-ku-AFc"/>
                 <constraint firstItem="nuv-9M-IVA" firstAttribute="top" secondItem="0U3-OK-xdl" secondAttribute="bottom" constant="10" id="rZ7-aa-t84"/>
                 <constraint firstItem="T24-Sc-S4I" firstAttribute="leading" secondItem="0U3-OK-xdl" secondAttribute="leading" id="rkq-Xp-Xx5"/>
                 <constraint firstItem="phI-5g-Xun" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="z1B-k5-Dsq"/>
