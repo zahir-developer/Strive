@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -141,7 +141,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yR7-fc-Tru">
-                    <rect key="frame" x="20" y="125" width="350" height="601"/>
+                    <rect key="frame" x="20" y="125" width="350" height="594"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Terms And Conditions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t57-Gz-geO">
                             <rect key="frame" x="84" y="8" width="183" height="21"/>
@@ -1100,7 +1100,7 @@ mammoth3@comcast.net
                             <viewLayoutGuide key="frameLayoutGuide" id="cvY-3g-aMk"/>
                         </scrollView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58S-7G-39m">
-                            <rect key="frame" x="8" y="568" width="106" height="26"/>
+                            <rect key="frame" x="20" y="568" width="106" height="26"/>
                             <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="106" id="Utu-e2-Lba"/>
@@ -1132,9 +1132,11 @@ mammoth3@comcast.net
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="VmR-kV-gc0" secondAttribute="trailing" constant="8" id="2u4-nl-AnQ"/>
                         <constraint firstItem="58S-7G-39m" firstAttribute="top" secondItem="AVN-mZ-Rbk" secondAttribute="bottom" constant="16" id="Hq5-9Z-ss1"/>
-                        <constraint firstAttribute="trailing" secondItem="VmR-kV-gc0" secondAttribute="trailing" constant="8" id="TOS-2j-JUJ"/>
-                        <constraint firstItem="58S-7G-39m" firstAttribute="leading" secondItem="yR7-fc-Tru" secondAttribute="leading" constant="8" id="inS-X9-TPu"/>
+                        <constraint firstAttribute="width" constant="350" id="K1V-UZ-b9h"/>
+                        <constraint firstItem="58S-7G-39m" firstAttribute="leading" secondItem="yR7-fc-Tru" secondAttribute="leading" constant="20" symbolic="YES" id="dtB-Zh-IBm"/>
+                        <constraint firstAttribute="height" constant="594" id="vCc-PK-gGi"/>
                         <constraint firstItem="VmR-kV-gc0" firstAttribute="top" secondItem="AVN-mZ-Rbk" secondAttribute="bottom" constant="16" id="ykC-Zm-Xvw"/>
                     </constraints>
                 </view>
@@ -1157,24 +1159,22 @@ mammoth3@comcast.net
                 <constraint firstItem="yp8-zX-hJ1" firstAttribute="top" secondItem="2E1-qZ-P25" secondAttribute="bottom" constant="60" id="H2q-Y0-yRW"/>
                 <constraint firstItem="70J-84-Sja" firstAttribute="leading" secondItem="kVA-Zu-eJ3" secondAttribute="leading" id="I8X-Et-Qvi"/>
                 <constraint firstItem="mzp-bD-SUp" firstAttribute="centerX" secondItem="kVA-Zu-eJ3" secondAttribute="centerX" id="Ixw-Vj-6m0"/>
-                <constraint firstItem="yR7-fc-Tru" firstAttribute="centerY" secondItem="kVA-Zu-eJ3" secondAttribute="centerY" constant="3.5" id="JUh-7D-Pqu"/>
-                <constraint firstItem="yR7-fc-Tru" firstAttribute="trailing" secondItem="tfd-No-OYy" secondAttribute="trailing" id="NpR-5w-df9"/>
+                <constraint firstAttribute="trailing" secondItem="yR7-fc-Tru" secondAttribute="trailing" constant="20" id="Skp-yR-LI2"/>
                 <constraint firstAttribute="trailing" secondItem="kVA-Zu-eJ3" secondAttribute="trailing" constant="20" id="TBx-iJ-7GV"/>
                 <constraint firstItem="tfd-No-OYy" firstAttribute="width" secondItem="kVA-Zu-eJ3" secondAttribute="width" id="UDg-YJ-WBV"/>
+                <constraint firstItem="yR7-fc-Tru" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="Wil-Ue-cqF"/>
                 <constraint firstItem="mzp-bD-SUp" firstAttribute="top" secondItem="70J-84-Sja" secondAttribute="bottom" constant="20" id="XGJ-dk-O9a"/>
                 <constraint firstItem="yR7-fc-Tru" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="YGw-Jr-3lF"/>
                 <constraint firstItem="mBa-5n-Bdi" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="Z0u-Lf-7nF"/>
                 <constraint firstItem="kVA-Zu-eJ3" firstAttribute="top" secondItem="mzp-bD-SUp" secondAttribute="bottom" constant="10" id="dGb-ux-FSz"/>
                 <constraint firstItem="mBa-5n-Bdi" firstAttribute="width" secondItem="fwZ-gY-5Lc" secondAttribute="width" multiplier="0.3066" id="ela-kf-Eiu"/>
                 <constraint firstItem="yp8-zX-hJ1" firstAttribute="centerX" secondItem="kVA-Zu-eJ3" secondAttribute="centerX" id="evf-Xh-5g6"/>
-                <constraint firstItem="yR7-fc-Tru" firstAttribute="top" secondItem="2" secondAttribute="top" constant="125" id="fjq-A2-bj6"/>
-                <constraint firstItem="yR7-fc-Tru" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" constant="3.5" id="gzM-3A-r4i"/>
+                <constraint firstItem="yR7-fc-Tru" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="gzM-3A-r4i"/>
                 <constraint firstItem="fwZ-gY-5Lc" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="jrs-Fk-5YF"/>
                 <constraint firstItem="mzp-bD-SUp" firstAttribute="height" secondItem="kVA-Zu-eJ3" secondAttribute="height" id="m0b-ys-e0Q"/>
                 <constraint firstItem="ujE-X9-LeZ" firstAttribute="top" secondItem="kVA-Zu-eJ3" secondAttribute="bottom" constant="15" id="qqc-2U-N7t"/>
                 <constraint firstItem="vAd-DW-oHM" firstAttribute="leading" secondItem="ujE-X9-LeZ" secondAttribute="trailing" constant="10" id="uQx-MR-we1"/>
                 <constraint firstAttribute="bottom" secondItem="fwZ-gY-5Lc" secondAttribute="bottom" constant="-10" id="xCp-gX-UKK"/>
-                <constraint firstItem="yR7-fc-Tru" firstAttribute="leading" secondItem="mzp-bD-SUp" secondAttribute="leading" id="xYi-g6-1zC"/>
                 <constraint firstItem="vAd-DW-oHM" firstAttribute="centerY" secondItem="ujE-X9-LeZ" secondAttribute="centerY" id="yPP-6t-XTu"/>
             </constraints>
             <point key="canvasLocation" x="16.822429906542055" y="47.300215982721383"/>
