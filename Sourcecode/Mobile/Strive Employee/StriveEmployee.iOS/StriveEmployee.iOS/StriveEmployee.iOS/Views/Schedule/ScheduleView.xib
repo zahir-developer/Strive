@@ -10,6 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScheduleView">
             <connections>
+                <outlet property="CheckListView" destination="BBl-cO-tFr" id="1gx-MQ-bfE"/>
+                <outlet property="Checklist_TableView" destination="fnD-6t-lxN" id="t5m-tO-nXN"/>
                 <outlet property="DetailDateView" destination="xTq-HT-g8k" id="AEf-m8-cH1"/>
                 <outlet property="DetailerView" destination="Qyv-AN-qSJ" id="sTr-3v-PsV"/>
                 <outlet property="ParentView" destination="AdW-CH-DMo" id="hwW-T1-ocf"/>
@@ -43,6 +45,26 @@
                                 <action selector="Schedule_Segment_Touch:" destination="-1" eventType="valueChanged" id="YJs-a9-GhR"/>
                             </connections>
                         </segmentedControl>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BBl-cO-tFr">
+                            <rect key="frame" x="8" y="29.666666666666686" width="324" height="600"/>
+                            <subviews>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fnD-6t-lxN">
+                                    <rect key="frame" x="4" y="29" width="320" height="579"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="579" id="UXx-iD-5mk"/>
+                                        <constraint firstAttribute="width" constant="320" id="oUV-KJ-FcC"/>
+                                    </constraints>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="fnD-6t-lxN" firstAttribute="leading" secondItem="BBl-cO-tFr" secondAttribute="leading" constant="4" id="BFj-Wo-wDA"/>
+                                <constraint firstAttribute="width" constant="324" id="C9u-VF-r8e"/>
+                                <constraint firstAttribute="height" constant="600" id="Cin-mD-tfu"/>
+                                <constraint firstItem="fnD-6t-lxN" firstAttribute="top" secondItem="BBl-cO-tFr" secondAttribute="top" constant="29" id="HMZ-Cn-jsv"/>
+                            </constraints>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qyv-AN-qSJ">
                             <rect key="frame" x="8" y="56" width="324" height="600"/>
                             <subviews>
@@ -121,6 +143,9 @@
                         <constraint firstAttribute="trailing" secondItem="Qyv-AN-qSJ" secondAttribute="trailing" constant="8" id="6yZ-We-ikL"/>
                         <constraint firstItem="Qyv-AN-qSJ" firstAttribute="leading" secondItem="AdW-CH-DMo" secondAttribute="leading" constant="8" id="Ebl-yD-1rl"/>
                         <constraint firstItem="G67-D2-8YY" firstAttribute="centerX" secondItem="AdW-CH-DMo" secondAttribute="centerX" id="Ekp-Zw-4wM"/>
+                        <constraint firstItem="W0T-uY-7CM" firstAttribute="top" secondItem="AdW-CH-DMo" secondAttribute="top" id="FV0-qL-yKr"/>
+                        <constraint firstItem="BBl-cO-tFr" firstAttribute="centerX" secondItem="W0T-uY-7CM" secondAttribute="centerX" id="LuW-pC-Z4K"/>
+                        <constraint firstItem="BBl-cO-tFr" firstAttribute="centerY" secondItem="AdW-CH-DMo" secondAttribute="centerY" id="Ogo-v5-CVg"/>
                         <constraint firstItem="W0T-uY-7CM" firstAttribute="leading" secondItem="AdW-CH-DMo" secondAttribute="leading" id="Qpg-XL-kqC"/>
                         <constraint firstAttribute="width" constant="340" id="Yzf-Hx-3sX"/>
                         <constraint firstItem="G67-D2-8YY" firstAttribute="leading" secondItem="AdW-CH-DMo" secondAttribute="leading" constant="8" id="cCX-hu-BOb"/>

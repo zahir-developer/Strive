@@ -42,7 +42,8 @@ namespace StriveEmployee.iOS.Views.Schedule
             var leftBtn = new UIButton(UIButtonType.Custom);
             leftBtn.SetTitle("Logout", UIControlState.Normal);
             leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
-
+            //Scheduledetailer_Seg_Ctrl.SelectedSegment = 1;
+            
             var leftBarBtn = new UIBarButtonItem(leftBtn);
             NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
             leftBtn.TouchUpInside += (sender, e) =>
@@ -68,25 +69,34 @@ namespace StriveEmployee.iOS.Views.Schedule
             {
                 ScheduleParentView.Hidden = false;
                 DetailerView.Hidden = true;
-                
-
-                
+                CheckListView.Hidden = true;
             }
             else if (segment == 1)
             {
-                ScheduleParentView.Hidden = true;
-                DetailerView.Hidden = false;
-                getdetailer(EmployeeTempData.EmployeeID, DateTime.Now.ToString("yyyy-MM-dd"));
-                
-                
-                detailer_TableView.RegisterNibForCellReuse(DetailerTableCell.Nib, DetailerTableCell.Key);
-                detailer_TableView.BackgroundColor = UIColor.Clear;
-                detailer_TableView.ReloadData();
 
+                detailerInitialization();
 
             }
+            else if (segment == 2)
+            {
+                ScheduleParentView.Hidden = true;
+                DetailerView.Hidden = true;
+                CheckListView.Hidden = false;
+                //detailerInitialization();
+            }
         }
+        private void detailerInitialization()
+        {
+            ScheduleParentView.Hidden = true;
+            DetailerView.Hidden = false;
+            CheckListView.Hidden = true;
+            getdetailer(EmployeeTempData.EmployeeID, DateTime.Now.ToString("yyyy-MM-dd"));
 
+
+            detailer_TableView.RegisterNibForCellReuse(DetailerTableCell.Nib, DetailerTableCell.Key);
+            detailer_TableView.BackgroundColor = UIColor.Clear;
+            detailer_TableView.ReloadData();
+        }
         private async void getdetailer(int empid, string jobdate)
         {
             await ViewModel.GetDetailer(empid,jobdate);

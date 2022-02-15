@@ -13,6 +13,12 @@ namespace StriveEmployee.iOS.Views.Schedule
 	partial class ScheduleView
 	{
 		[Outlet]
+		UIKit.UITableView Checklist_TableView { get; set; }
+
+		[Outlet]
+		UIKit.UIView CheckListView { get; set; }
+
+		[Outlet]
 		UIKit.UIDatePicker DetailDateView { get; set; }
 
 		[Outlet]
@@ -85,6 +91,16 @@ namespace StriveEmployee.iOS.Views.Schedule
 			if (ScheduleParentView != null) {
 				ScheduleParentView.Dispose ();
 				ScheduleParentView = null;
+			}
+
+			if (CheckListView != null) {
+				CheckListView.Dispose ();
+				CheckListView = null;
+			}
+
+			if (Checklist_TableView != null) {
+				Checklist_TableView.Dispose ();
+				Checklist_TableView = null;
 			}
 		}
 	}

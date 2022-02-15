@@ -216,7 +216,7 @@ namespace StriveCustomer.iOS.Views
         void CenterMap(double lat, double lon)
         {
             var mapCenter = new CLLocationCoordinate2D(lat, lon);
-            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1000, 1000);
+            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 600, 600);
             WashTimeWebView.CenterCoordinate = mapCenter;
             WashTimeWebView.Region = mapRegion;
         }
