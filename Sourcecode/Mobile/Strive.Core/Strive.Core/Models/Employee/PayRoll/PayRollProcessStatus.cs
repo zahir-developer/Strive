@@ -43,6 +43,5 @@ namespace Strive.Core.Models.Employee.PayRoll
         public float WashTip { get; set; }
         public float DetailTip { get; set; }
         public float Bonus { get; set; }
-        public float Salary { get; set; }
     }
 }

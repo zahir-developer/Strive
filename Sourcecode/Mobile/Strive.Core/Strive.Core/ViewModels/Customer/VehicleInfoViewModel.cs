@@ -85,7 +85,7 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.HideLoading();
 
-                _userDialog.Toast("This membeship dosen't have any terms document atached");
+                _userDialog.Toast("This vehicle dosen't have any terms document attached");
 
             }
 
