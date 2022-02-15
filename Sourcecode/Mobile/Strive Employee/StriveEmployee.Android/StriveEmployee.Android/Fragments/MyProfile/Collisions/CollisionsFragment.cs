@@ -65,6 +65,11 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
                     collison_RecyclerView.SetLayoutManager(layoutManager);
                     collison_RecyclerView.SetAdapter(collision_Adapter);
                 }
+                else
+                {
+                    collison_RecyclerView.SetAdapter(null);
+                    collison_RecyclerView.SetLayoutManager(null);
+                }
             }
             catch (Exception ex)
             {

@@ -75,6 +75,11 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
                     documents_RecyclerView.SetLayoutManager(LayoutManager);
                     documents_RecyclerView.SetAdapter(documents_Adapter);
                 }
+                else
+                {
+                    documents_RecyclerView.SetAdapter(null);
+                    documents_RecyclerView.SetLayoutManager(null);
+                }
             }
             catch (Exception ex)
             {

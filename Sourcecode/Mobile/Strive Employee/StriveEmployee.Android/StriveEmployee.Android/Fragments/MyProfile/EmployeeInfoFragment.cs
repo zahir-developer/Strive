@@ -137,8 +137,11 @@ namespace StriveEmployee.Android.Fragments.MyProfile
                   
                     if(this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != 0)
                     {
-                        var genders = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
-                        Gender_TextView.Text = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                        if(this.ViewModel.gender !=null && this.ViewModel.gender.Codes != null)
+                        {
+                            var genders = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                            Gender_TextView.Text = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                        }
                     }
                 }
                 
