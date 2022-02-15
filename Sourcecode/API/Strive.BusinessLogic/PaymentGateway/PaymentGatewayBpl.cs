@@ -210,7 +210,8 @@ namespace Strive.BusinessLogic.PaymentGateway
             // Send a captureTransaction request
             JObject response = ccRestClient.captureTransaction(request);
 
-          
+            string[] lines = { "Request: " + request.ToString(), "Response :" + response.ToString() };
+            File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "Errorlog.txt"), lines);
             return response;
         }
 
@@ -263,7 +264,7 @@ namespace Strive.BusinessLogic.PaymentGateway
                                     new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate);
                                     if (attempts + 1 == 3)
                                     {
-                                     //   _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
+                                        //   _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
                                     }
                                 }
                             }
@@ -272,7 +273,7 @@ namespace Strive.BusinessLogic.PaymentGateway
                                 new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate);
                                 if (attempts + 1 == 3)
                                 {
-                                 //   _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
+                                    //   _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
                                 }
                             }
                         }
@@ -281,7 +282,7 @@ namespace Strive.BusinessLogic.PaymentGateway
                             new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate);
                             if (attempts + 1 == 3)
                             {
-                               // _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
+                                // _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
                             }
                         }
                     }
@@ -318,7 +319,7 @@ namespace Strive.BusinessLogic.PaymentGateway
             // Send a authorizeTransaction request
             JObject response = ccRestClient.authorizeTransaction(request);
             // Create a string array with the additional lines of text
-            string[] lines = { "Request: " +request.ToString(), "Response :"+ response.ToString() };
+            string[] lines = { "Request: " + request.ToString(), "Response :" + response.ToString() };
 
             // Append new lines of text to the file
             File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "Errorlog.txt"), lines);

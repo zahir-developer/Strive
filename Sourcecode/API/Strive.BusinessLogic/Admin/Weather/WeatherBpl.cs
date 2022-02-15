@@ -12,6 +12,7 @@ using Strive.Common;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -90,21 +91,22 @@ namespace Strive.BusinessLogic
 
         public async Task<bool> GetDailyWeatherPredictionAsync(string baseUrl, string apiKey, string apiMethod)
         {
-            try
+
+            var allLocationList = new LocationRal(_tenant).GetAllLocation();
+            foreach (var oLoc in allLocationList)
             {
-                var allLocationList = new LocationRal(_tenant).GetAllLocation();
-                foreach (var oLoc in allLocationList)
+                //Get Current weather:
+                var now = DateTime.Now;
+                string startTime = now.AddHours(-6).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
+                //new DateTime(now.Year, now.Month, now.Day, 0, 0, 0).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); 
+                string endTime = now.AddHours(30).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
+                string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
+
+                var query = "?location=" + oLoc.Latitude + "," + oLoc.Longitude + "&startTime=" + startTime + "&endTime=" + endTime + "&fields=temperature,precipitationProbability,precipitationType&timesteps=1h&units=metric";
+
+                WeatherInfo weatherInfo = new WeatherInfo();
+                try
                 {
-                    //Get Current weather:
-                    var now = DateTime.Now;                    
-                    string startTime = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); ;
-                    string endTime = now.AddHours(30).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
-                    string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
-
-                    var query = "?location=" + oLoc.Latitude + "," + oLoc.Longitude + "&startTime=" + startTime + "&endTime=" + endTime + "&fields=temperature,precipitationProbability,precipitationType&timesteps=1h&units=metric";
-
-                    WeatherInfo weatherInfo = new WeatherInfo();
-
                     using (var client = new HttpClient())
                     {
                         client.BaseAddress = new Uri(baseUrl);
@@ -127,7 +129,7 @@ namespace Strive.BusinessLogic
 
                         //Current Weather
                         weatherInfo.Temporature = ConvertToFahrenheit(
-                            res.Data.timelines[0].intervals.Where(x=> Convert.ToDateTime(x.startTime).ToShortDateString()== Convert.ToDateTime(startTime).ToShortDateString() ).OrderByDescending(x => x.values.temperature).Take(1).ToList()[0].values.temperature).ToString();
+                            res.Data.timelines[0].intervals.Where(x => Convert.ToDateTime(x.startTime).ToShortDateString() == Convert.ToDateTime(startTime).ToShortDateString()).OrderByDescending(x => x.values.temperature).Take(1).ToList()[0].values.temperature).ToString();
                         var oIntervals = res.Data.timelines[0].intervals.Where(x => x.values.precipitationType == 1 && Convert.ToDateTime(x.startTime).ToShortDateString() == Convert.ToDateTime(startTime).ToShortDateString()).OrderByDescending(x => x.values.precipitationProbability).Take(1).ToList();
                         if (oIntervals.Count > 0)
                         {
@@ -137,7 +139,7 @@ namespace Strive.BusinessLogic
                         {
                             weatherInfo.RainPercentage = "0";
                         }
-                        
+
                         WeatherPredictionDTO weatherPrediction = new WeatherPredictionDTO();
                         weatherPrediction.LocationWeather = new LocationWeather();
                         weatherPrediction.LocationWeather.LocationId = oLoc.LocationId;
@@ -148,13 +150,18 @@ namespace Strive.BusinessLogic
                         weatherPrediction.LocationWeather.CreatedDate = DateTime.Now;
                         ResultWrap(new WeatherRal(_tenant).AddWeatherPrediction, weatherPrediction, "Status");
                     }
+                }
+                catch (Exception ex)
+                {
+                    string[] lines = { "Error: " + ex.Message.ToString(), "Location :" + oLoc.LocationId.ToString() + "," + oLoc.Latitude.ToString() + "," + oLoc.Longitude.ToString() };
 
+                    // Append new lines of text to the file
+                    File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "Errorlog.txt"), lines);
                 }
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+
+
+
             return true;
         }
         public Result AddWeatherPrediction(WeatherDTO weatherPrediction)
