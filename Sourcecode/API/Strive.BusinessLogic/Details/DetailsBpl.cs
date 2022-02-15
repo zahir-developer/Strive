@@ -27,6 +27,8 @@ namespace Strive.BusinessLogic.Details
             var commonRal = new CommonRal(_tenant).GetTicketNumber(details.Job.LocationId);
             details.Job.JobId = commonRal.JobId;
             details.Job.TicketNumber = commonRal.TicketNumber;
+            details.JobDetail.JobId = commonRal.JobId;
+
             foreach (var item in details.JobItem)
             {
                 item.JobId = commonRal.JobId;
