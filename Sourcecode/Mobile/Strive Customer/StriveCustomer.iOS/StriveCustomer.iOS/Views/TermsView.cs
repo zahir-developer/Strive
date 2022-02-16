@@ -23,6 +23,7 @@ namespace StriveCustomer.iOS.Views
         public static UIImage contract;
         public static UIImage TermsConfirmView;
         UILabel DisplaySelectedServices = new UILabel();
+        private string Model;
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -43,7 +44,15 @@ namespace StriveCustomer.iOS.Views
                 Font = DesignUtils.OpenSansBoldFifteen(),
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
-            _Vehicle.Text = " "+MembershipDetails.vehicleMakeName +"/"+MembershipDetails.modelName + "/" + MembershipDetails.colorName;
+            if (MembershipDetails.modelName.Contains("/"))
+            {
+                Model = MembershipDetails.modelName.Substring(0, Model.IndexOf("/"));
+            }
+            else
+            {
+                Model = MembershipDetails.modelName;
+            }
+            _Vehicle.Text = " "+MembershipDetails.vehicleMakeName +"/"+ Model + "/" + MembershipDetails.colorName;
             SwitchMembershipFee.Hidden = true;
             UpchargesLbl.Hidden = true;
             NavigationItem.Title = "Vehicle";
