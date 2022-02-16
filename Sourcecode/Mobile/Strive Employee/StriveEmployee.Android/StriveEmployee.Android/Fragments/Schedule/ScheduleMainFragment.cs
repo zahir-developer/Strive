@@ -30,6 +30,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         private ViewPagerAdapter schedule_ViewPagerAdapter;
         private ScheduleFragment scheduleFragment;
         private ScheduleDetailerFragment scheduleDetailerFragment;
+        private ScheduleCheckListFragment scheduleCheckListFragment;
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -44,7 +45,8 @@ namespace StriveEmployee.Android.Fragments.Schedule
             schedule_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.schedule_TabLayout);
             schedule_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.schedule_ViewPager);
             scheduleFragment = new ScheduleFragment();
-            scheduleDetailerFragment = new ScheduleDetailerFragment();            
+            scheduleDetailerFragment = new ScheduleDetailerFragment();
+            scheduleCheckListFragment = new ScheduleCheckListFragment();
             return rootView;
         }        
         public override void OnActivityCreated(Bundle savedInstanceState)
@@ -53,6 +55,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
             schedule_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
             schedule_ViewPagerAdapter.AddFragment(scheduleFragment, "Schedule");
             schedule_ViewPagerAdapter.AddFragment(scheduleDetailerFragment, "Detailer");
+            schedule_ViewPagerAdapter.AddFragment(scheduleCheckListFragment, "Checklist");
             schedule_ViewPager.Adapter = schedule_ViewPagerAdapter;
             schedule_ViewPager.OffscreenPageLimit = 0;
             schedule_TabLayout.SetupWithViewPager(schedule_ViewPager);

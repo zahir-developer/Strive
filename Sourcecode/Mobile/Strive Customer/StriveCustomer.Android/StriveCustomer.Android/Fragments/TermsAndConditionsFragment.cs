@@ -39,7 +39,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView AdditionalServicesCost;
         private TextView SwitchMembershipFee;
         private TextView UpchargesCost;
-        private TextView OptionCode;
+        //private TextView OptionCode;
         private TextView AdvanceFee;
         private TextView Date;
         private TextView TotalCost;
@@ -51,6 +51,8 @@ namespace StriveCustomer.Android.Fragments
         private TextView MonthlyRecurString;
         private LinearLayout parentView;
         public static Bitmap contractImage;
+        private TextView VehicleDetails;
+        private string Model;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -77,7 +79,7 @@ namespace StriveCustomer.Android.Fragments
             SwitchMembershipFee.Visibility = ViewStates.Gone;
             UpchargesCost = rootview.FindViewById<TextView>(Resource.Id.upcharges);
             UpchargesCost.Visibility = ViewStates.Gone;
-            OptionCode = rootview.FindViewById<TextView>(Resource.Id.optionCode);
+            //OptionCode = rootview.FindViewById<TextView>(Resource.Id.optionCode);
             AdvanceFee = rootview.FindViewById<TextView>(Resource.Id.advanceFee);
             Date = rootview.FindViewById<TextView>(Resource.Id.date);
             TotalCost = rootview.FindViewById<TextView>(Resource.Id.total);
@@ -88,6 +90,7 @@ namespace StriveCustomer.Android.Fragments
             EndingDate = rootview.FindViewById<TextView>(Resource.Id.endingDate);
             MonthlyRecurString = rootview.FindViewById<TextView>(Resource.Id.monthlyRecurString);
             parentView = rootview.FindViewById<LinearLayout>(Resource.Id.parentView);
+            VehicleDetails = rootview.FindViewById<TextView>(Resource.Id.vehicleDetails);
             TermsDocumentString();        
 
             string Datenow = DateTime.Now.Date.ToString("yyyy-MM-dd");
@@ -106,7 +109,15 @@ namespace StriveCustomer.Android.Fragments
                 string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName.Substring(8) + "- $" + (VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price);
                 MembershipName.Text = membershipname;
             }
-
+            if (MembershipDetails.modelName.Contains("/"))
+            {
+                Model = MembershipDetails.modelName.Substring(0, Model.IndexOf("/"));
+            }
+            else
+            {
+                Model = MembershipDetails.modelName;
+            }
+            VehicleDetails.Text = " " + MembershipDetails.vehicleMakeName + "/" + MembershipDetails.modelName + "/" + MembershipDetails.colorName;
             GetTotal();
             AgreeTextView.Click += AgreeTextView_Click;
             DisagreeTextView.Click += DisagreeTextView_Click;

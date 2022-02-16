@@ -112,6 +112,7 @@ namespace StriveCustomer.Android.Fragments
         {
             CheckMembership.hasExistingMembership = false;
             CustomerVehiclesInformation.membershipDetails = null;
+
             try
             {
                 await this.ViewModel.GetSelectedVehicleInfo();
@@ -121,6 +122,9 @@ namespace StriveCustomer.Android.Fragments
                 MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
                 MembershipDetails.barCode = this.ViewModel.clientVehicleDetail.Status.Barcode;
                 MembershipDetails.vehicleMfr = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
+                MembershipDetails.vehicleMakeName = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
+                MembershipDetails.modelName = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
+                MembershipDetails.colorName = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
                 if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
                 {
                     vehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +

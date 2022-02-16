@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"    
+    android:layout_height="match_parent"
     android:background="@drawable/mobile_portrait_bg">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,280 +46,303 @@
         android:layout_marginRight="@dimen/thirty"
         android:layout_marginBottom="95dp"
         android:background="@drawable/secondarylinearlayout">
-      <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@color/white"
             android:id="@+id/parentView"
       >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/termsStringHeader"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/termsStringHeader"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:layout_weight="0.7"
+            />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/membershipName"
+                    android:textSize="@dimen/textTen"
+                    android:fontFamily="@font/opensans_bold"
+                    android:layout_weight="0.3"
+            />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/termsStringOne"
                 android:textColor="@android:color/black"
                 android:fontFamily="@font/opensans_bold"
                 android:textSize="@dimen/textTen"
-                android:layout_weight="0.7"
-            />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:id="@+id/membershipName"
-                android:textSize="@dimen/textTen"
-                android:fontFamily="@font/opensans_bold"
-                android:layout_weight="0.3"
-            />
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/termsStringOne"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/opensans_bold"
-            android:textSize="@dimen/textTen"
-            android:inputType="textMultiLine"                    
+                android:inputType="textMultiLine"                    
          />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicle:"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"                    
+            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/vehicleDetails"
+                    android:textSize="@dimen/textTen"
+                    android:fontFamily="@font/opensans_bold"
+                    android:paddingLeft="5dp"
+            />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
             >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:text="Additional Services:"
+            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:id="@+id/additionalServicesCost"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="@dimen/ten"           
+            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/switchMembershipFee"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:text="@string/termsStringTwo"
+                    android:paddingLeft="@dimen/twenty"
+            />
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:textSize="@dimen/textTen"
                 android:textColor="@android:color/black"
-                android:text="Additional Services:"
-            />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:id="@+id/additionalServicesCost"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/ten"           
-            />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/switchMembershipFee"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:text="@string/termsStringTwo"
-                android:paddingLeft="@dimen/twenty"
-            />
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_bold"
-            android:textSize="@dimen/textTen"
-            android:textColor="@android:color/black"
-            android:id="@+id/upcharges"              
+                android:id="@+id/upcharges"              
         />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
+            <!--<LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:text="Option Code:"                  
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:text="Option Code:"                  
              />
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/optionCode"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textTen"
+                    android:paddingLeft="@dimen/twenty"                  
+             />
+            </LinearLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/optionCode"
-                android:fontFamily="@font/opensans_bold"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/textTen"
-                android:paddingLeft="@dimen/twenty"                  
-             />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:text="Advance Fee:"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:text="Advance Fee:"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/advanceFee"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/ten"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/advanceFee"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="@dimen/ten"
                           
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/twenty"
-                android:text="Date:"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="@dimen/twenty"
+                    android:text="Date:"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/date"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/ten"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="@dimen/ten"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:layout_marginLeft="@dimen/ten"
-                android:text="Total:"
-                android:background="#ffff00"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="@dimen/ten"
+                    android:text="Total:"
+                    android:background="#ffff00"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/total"
-                android:fontFamily="@font/opensans_bold"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/textTen"
-                android:layout_marginLeft="@dimen/ten"
-                android:background="#ffff00"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/total"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textTen"
+                    android:layout_marginLeft="@dimen/ten"
+                    android:background="#ffff00"
             />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:text="Additional Services:"                  
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:text="Additional Services:"                  
              />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/additionalSevices"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:paddingLeft="@dimen/ten"                  
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/additionalSevices"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="@dimen/ten"                  
              />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Yearly total of"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/opensans_bold"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yearly total of"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/opensans_bold"
-                android:id="@+id/yearlyTotal"
-                android:background="#ffff00"
-                android:layout_marginLeft="@dimen/five"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
+                    android:id="@+id/yearlyTotal"
+                    android:background="#ffff00"
+                    android:layout_marginLeft="@dimen/five"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/opensans_bold"
-                android:id="@+id/monthlyRecurString"
-                android:paddingLeft="@dimen/five"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
+                    android:id="@+id/monthlyRecurString"
+                    android:paddingLeft="@dimen/five"
             />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/opensans_bold"
-                android:id="@+id/monthlyCharges"
-                android:background="#ffff00"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
+                    android:id="@+id/monthlyCharges"
+                    android:background="#ffff00"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="starting"
-                android:paddingLeft="@dimen/ten"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/opensans_bold"                 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="starting"
+                    android:paddingLeft="@dimen/ten"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"                 
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/startingDate"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/opensans_bold"
-                android:paddingLeft="@dimen/ten"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/startingDate"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
+                    android:paddingLeft="@dimen/ten"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ending"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/opensans_bold"
-                android:paddingLeft="@dimen/ten"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ending"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
+                    android:paddingLeft="@dimen/ten"
             />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/endingDate"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/opensans_bold"
-                android:paddingLeft="@dimen/ten"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/endingDate"
+                    android:textSize="@dimen/textTen"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/opensans_bold"
+                    android:paddingLeft="@dimen/ten"
             />
 
-        </LinearLayout> 
-      </LinearLayout>     
-       
+            </LinearLayout>
+        </LinearLayout>
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_marginTop="@dimen/five"
@@ -358,7 +381,7 @@
                 android:id="@+id/textDisagree"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Disagree"                
+                android:text="Disagree"
                 android:gravity="left"
                 android:layout_weight="1"
                 android:fontFamily="@font/opensans_semibold"

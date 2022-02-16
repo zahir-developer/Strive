@@ -81,6 +81,7 @@
     <Compile Include="Adapter\MyProfile\Documents\DocumentsAdapter.cs" />
     <Compile Include="Adapter\MyTickets\AllTickets.cs" />
     <Compile Include="Adapter\Schedule\ScheduleAdapter.cs" />
+    <Compile Include="Adapter\Schedule\ScheduleCheckListAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="DemoTicketsData\TicketsModule.cs" />
     <Compile Include="Enums\MessageType_Enum.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="MvvmCross\AppStart.cs" />
     <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
     <Compile Include="MvvmCross\Setup.cs" />
+    <Compile Include="Fragments\Schedule\ScheduleCheckListFragment.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Services\Permission_Services.cs" />
@@ -225,6 +227,9 @@
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.v4">
+      <Version>28.0.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.v7.RecyclerView">
       <Version>28.0.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
@@ -1052,6 +1057,16 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ScheduleDetailer_ItemView.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Schedule_ChecklistFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Schedule_ChecklistItemView.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
