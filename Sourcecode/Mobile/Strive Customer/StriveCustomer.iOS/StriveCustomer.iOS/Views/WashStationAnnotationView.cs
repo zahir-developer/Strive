@@ -20,13 +20,13 @@ namespace StriveCustomer.iOS.Views
         void SetupView()
         {
             BackgroundColor = UIColor.Clear;
-            Frame = new CGRect(0, 0, 260, 180);
+            Frame = new CGRect(0, 0, 160, 125);
             CenterOffset = new CGPoint(x: 0, y: -Frame.Size.Height / 2);
 
             var outerCircle = new UIView(CGRect.Empty);
             outerCircle.TranslatesAutoresizingMaskIntoConstraints = false;
             outerCircle.BackgroundColor = UIColor.FromRGBA(153.0f / 255.0f, 254.0f / 255.0f, 243.0f / 255.0f, 0.3f);
-            outerCircle.Layer.CornerRadius = 67;
+            outerCircle.Layer.CornerRadius = 55;
             outerCircle.Layer.MasksToBounds = true;
             Add(outerCircle);
 
@@ -62,14 +62,14 @@ namespace StriveCustomer.iOS.Views
             stationNameLabel = new UILabel(CGRect.Empty);
             stationNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             stationNameLabel.TextColor = UIColor.FromRGB(42.0f / 255.0f, 193.0f / 255.0f, 177.0f / 255.0f);
-            stationNameLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Bold);
+            stationNameLabel.Font = UIFont.SystemFontOfSize(12, UIFontWeight.Bold);
             stationNameLabel.Lines = 2;
             infoContainerView.Add(stationNameLabel);
 
             statusLabel = new UILabel(CGRect.Empty);
             statusLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             statusLabel.TextColor = UIColor.FromRGB(255,255,255);
-            statusLabel.Font = UIFont.SystemFontOfSize(14, UIFontWeight.Bold);
+            statusLabel.Font = UIFont.SystemFontOfSize(10, UIFontWeight.Bold);
             statusLabel.Lines = 1;
             infoContainerView.Add(statusLabel);
 
@@ -88,13 +88,13 @@ namespace StriveCustomer.iOS.Views
             timeLabel = new UILabel(CGRect.Empty);
             timeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             timeLabel.TextColor = UIColor.FromRGB(0f / 255.0f, 46.0f / 255.0f, 41.0f / 255.0f);
-            timeLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Bold);
+            timeLabel.Font = UIFont.SystemFontOfSize(12, UIFontWeight.Bold);
             timeContainerView.Add(timeLabel);
 
             outerCircle.TopAnchor.ConstraintEqualTo(TopAnchor).Active = true;
             outerCircle.CenterXAnchor.ConstraintEqualTo(CenterXAnchor).Active = true;
-            outerCircle.HeightAnchor.ConstraintEqualTo(134).Active = true;
-            outerCircle.WidthAnchor.ConstraintEqualTo(134).Active = true;
+            outerCircle.HeightAnchor.ConstraintEqualTo(110).Active = true;
+            outerCircle.WidthAnchor.ConstraintEqualTo(110).Active = true;
 
             innerCircle1.CenterXAnchor.ConstraintEqualTo(outerCircle.CenterXAnchor).Active = true;
             innerCircle1.CenterYAnchor.ConstraintEqualTo(outerCircle.CenterYAnchor).Active = true;
@@ -116,9 +116,9 @@ namespace StriveCustomer.iOS.Views
             infoContainerView.BottomAnchor.ConstraintEqualTo(BottomAnchor).Active = true;
             infoContainerView.TopAnchor.ConstraintEqualTo(centerCircle.CenterYAnchor).Active = true;
 
-            stationNameLabel.LeadingAnchor.ConstraintEqualTo(infoContainerView.LeadingAnchor, constant: 16).Active = true;
-            stationNameLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: -16).Active = true;
-            stationNameLabel.TopAnchor.ConstraintGreaterThanOrEqualTo(infoContainerView.TopAnchor, constant: 8).Active = true;
+            stationNameLabel.LeadingAnchor.ConstraintEqualTo(infoContainerView.LeadingAnchor, constant: 4).Active = true;
+            stationNameLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: -4).Active = true;
+            stationNameLabel.TopAnchor.ConstraintGreaterThanOrEqualTo(infoContainerView.TopAnchor, constant: 4).Active = true;
             stationNameLabel.BottomAnchor.ConstraintLessThanOrEqualTo(infoContainerView.BottomAnchor, constant: -8).Active = true;
             stationNameLabel.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
             stationNameLabel.SetContentCompressionResistancePriority(249, UILayoutConstraintAxis.Horizontal);
@@ -127,17 +127,17 @@ namespace StriveCustomer.iOS.Views
             statusLabel.LeadingAnchor.ConstraintEqualTo(stationNameLabel.LeadingAnchor).Active = true;
             statusLabel.TopAnchor.ConstraintEqualTo(stationNameLabel.BottomAnchor, constant: 1).Active = true;
 
-            timeContainerView.TrailingAnchor.ConstraintEqualTo(infoContainerView.TrailingAnchor, constant: -16).Active = true;
+            timeContainerView.TrailingAnchor.ConstraintEqualTo(infoContainerView.TrailingAnchor, constant: -4).Active = true;
             timeContainerView.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
-            timeContainerView.HeightAnchor.ConstraintEqualTo(40).Active = true;
+            timeContainerView.HeightAnchor.ConstraintEqualTo(30).Active = true;
 
-            carImageView.LeadingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: 12).Active = true;
-            carImageView.TrailingAnchor.ConstraintEqualTo(timeLabel.LeadingAnchor, constant: -6).Active = true;
+            carImageView.LeadingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: 4).Active = true;
+            carImageView.TrailingAnchor.ConstraintEqualTo(timeLabel.LeadingAnchor, constant: -4).Active = true;
             carImageView.CenterYAnchor.ConstraintEqualTo(timeContainerView.CenterYAnchor).Active = true;
             carImageView.HeightAnchor.ConstraintEqualTo(20).Active = true;
             carImageView.WidthAnchor.ConstraintEqualTo(20).Active = true;
 
-            timeLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.TrailingAnchor, constant: -12).Active = true;
+            timeLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.TrailingAnchor, constant: -4).Active = true;
             timeLabel.CenterYAnchor.ConstraintEqualTo(timeContainerView.CenterYAnchor).Active = true;
         }
 

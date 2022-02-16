@@ -98,7 +98,7 @@ namespace StriveTimInventory.iOS.Views
         void CenterMap(double lat, double lon)
         {
             var mapCenter = new CLLocationCoordinate2D(lat, lon);
-            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1000, 1000);
+            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1600, 1600); //approx 1 mile
             MapView.CenterCoordinate = mapCenter;
             MapView.Region = mapRegion;
         }

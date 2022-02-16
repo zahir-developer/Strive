@@ -288,14 +288,14 @@ namespace StriveOwner.iOS.Views.CheckOut
             }
             else if (checkout.valuedesc != "Completed")
             {
-                ShowAlertMsg("Cann't Checkout without ticket completion", () =>
+                ShowAlertMsg("Can't Checkout without ticket completion", () =>
                 {
 
                 }, true, "Checkout");
             }
             else
             {
-                ShowAlertMsg("Cann't Checkout without payment", () =>
+                ShowAlertMsg("Can't Checkout without payment", () =>
                 {
 
                 }, true, "Checkout");
