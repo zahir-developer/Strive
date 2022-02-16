@@ -43,8 +43,8 @@
                                 <tr>
                                     <th scope="col" class="pointer" (click)="changeSorting('TicketNumber')">Ticket #&nbsp;
                                         <i class="fa" [ngClass]="selectedCls('TicketNumber')" aria-hidden="true"></i> </th>
-                                 
-                                   
+                                    <th scope="col" class="pointer" (click)="changeSorting('JobDate')">Date&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('JobDate')" aria-hidden="true"></i> </th>
                                     <th scope="col" class="pointer" (click)="changeSorting('TimeIn')">Time In&nbsp;
                                         <i class="fa" [ngClass]="selectedCls('TimeIn')" aria-hidden="true"></i> </th>
                                         <th scope="col" class="pointer" (click)="changeSorting('ClientName')">Client&nbsp;
@@ -69,8 +69,8 @@
                                             style="cursor: pointer;">
                                             {{detail.TicketNumber}}</span>
                                     </th>
-                                    <td>{{detail.TimeIn}}
-                                    </td>
+                                    <td>{{detail.JobDate | date: 'MM/dd/yyyy'}}</td>
+                                    <td>{{detail.TimeIn}}</td>
                                     <td>{{detail.ClientName}}
                                     </td>
                                     <td>{{detail.PhoneNumber}}
