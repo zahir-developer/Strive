@@ -443,6 +443,8 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-40%403x-1.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-76.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-76%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-72%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-60%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
