@@ -43,6 +43,7 @@ namespace StriveCustomer.iOS.Views
                 Font = DesignUtils.OpenSansBoldFifteen(),
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
+            _Vehicle.Text = " "+MembershipDetails.vehicleMakeName +"/"+MembershipDetails.modelName + "/" + MembershipDetails.colorName;
             SwitchMembershipFee.Hidden = true;
             UpchargesLbl.Hidden = true;
             NavigationItem.Title = "Vehicle";

@@ -89,7 +89,9 @@ namespace StriveCustomer.iOS.Views
             MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
             MembershipDetails.barCode = this.ViewModel.clientVehicleDetail.Status.Barcode;
             MembershipDetails.vehicleMfr = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
-
+            MembershipDetails.vehicleMakeName = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
+            MembershipDetails.modelName = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
+            MembershipDetails.colorName = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
             {
                 EditVehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +

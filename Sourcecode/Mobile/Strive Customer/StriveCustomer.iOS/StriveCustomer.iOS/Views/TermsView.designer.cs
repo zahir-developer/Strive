@@ -16,6 +16,9 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UIView _TermsConfirmView { get; set; }
 
 		[Outlet]
+		UIKit.UILabel _Vehicle { get; set; }
+
+		[Outlet]
 		UIKit.UILabel AdditionalServicesTotal { get; set; }
 
 		[Outlet]
@@ -122,14 +125,19 @@ namespace StriveCustomer.iOS.Views
 				total = null;
 			}
 
+			if (UpchargesLbl != null) {
+				UpchargesLbl.Dispose ();
+				UpchargesLbl = null;
+			}
+
 			if (Yearlytotal != null) {
 				Yearlytotal.Dispose ();
 				Yearlytotal = null;
 			}
 
-			if (UpchargesLbl != null) {
-				UpchargesLbl.Dispose ();
-				UpchargesLbl = null;
+			if (_Vehicle != null) {
+				_Vehicle.Dispose ();
+				_Vehicle = null;
 			}
 		}
 	}
