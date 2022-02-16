@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ClientActivityPaymentHistoryViewModel
     {
-        public int? TicketNumber { get; set; }
+        public string TicketNumber { get; set; }
         public DateTime TransactionDate { get; set; }
         public string ServiceCompleted { get; set; }
         public decimal Amount { get; set; }
