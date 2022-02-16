@@ -44,18 +44,18 @@ export class ClientListComponent implements OnInit {
     private route: ActivatedRoute,
     private detailService: DetailService
   ) {
-     // Debounce search.
-     this.searchUpdate.pipe(
+    // Debounce search.
+    this.searchUpdate.pipe(
       debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.resetPagination();
         this.getAllClientDetails();
       });
-   }
+  }
 
   ngOnInit() {
-    this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
 
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -70,14 +70,12 @@ export class ClientListComponent implements OnInit {
     this.getAllClientDetails();
   }
 
-  newgetAllClientDetails()
-  {
+  newgetAllClientDetails() {
     this.page = 1;
     this.getAllClientDetails();
   }
 
-  resetPagination()
-  {
+  resetPagination() {
     this.page = 1;
   }
 
@@ -95,7 +93,7 @@ export class ClientListComponent implements OnInit {
     this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-      this.getJobType();
+        this.getJobType();
         this.clientDetails = [];
         const client = JSON.parse(data.resultData);
         if (client.Client.clientViewModel !== null) {
@@ -175,8 +173,8 @@ export class ClientListComponent implements OnInit {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Client.Delete, 'Success!');
-        this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
-        this.page=1;
+        this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+        this.page = 1;
         this.getAllClientDetails();
       } else {
         this.spinner.hide();
@@ -274,8 +272,10 @@ export class ClientListComponent implements OnInit {
           jobtype.GetJobType.forEach(item => {
             if (item.valuedesc === 'Wash') {
               this.jobTypeId = item.valueid;
-              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
-              this.dashboardStaticsComponent.getDashboardDetails();
+              if (this.dashboardStaticsComponent != undefined) {
+                this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+                this.dashboardStaticsComponent.getDashboardDetails();
+              }
             }
           });
         }

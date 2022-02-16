@@ -73,7 +73,8 @@ export const MessageConfig = {
       emailNotExist: 'Email available to create customer!',
       Add: 'Client added successfully !',
       Update: 'Client updated successfully !',
-      Delete: 'Client deleted successfully !'
+      Delete: 'Client deleted successfully !',
+      ActivityPlusMinus: 'Select +/- to add activity !'
    },
    Sales:
    {

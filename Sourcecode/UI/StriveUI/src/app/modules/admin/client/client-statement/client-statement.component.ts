@@ -36,7 +36,8 @@ private toastr : ToastrService,
 
   ngOnInit(): void {
     this.statementGrid = this.statementData;
-    // this.getStatement();
+    this.collectionSize = Math.ceil(this.statementGrid.length / this.pageSize) * 10;
+    //this.getStatement();
   }
 
   closeDocumentModel() {
@@ -54,8 +55,4 @@ private toastr : ToastrService,
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
-
- 
-
- 
 }

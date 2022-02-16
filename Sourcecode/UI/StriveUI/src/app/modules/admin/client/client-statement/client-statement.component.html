@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let statement of statementGrid">
+                    <tr *ngFor="let statement of statementGrid | orderBy: sort.column: 'sequence' : sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                         <td>{{statement.TicketNumber}}</td>
                         <td>{{statement.TransactionDate | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{statement.ServiceCompleted}}</td>
@@ -28,7 +28,7 @@
                     </tr>
                 </tbody>
             </table>
-            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="2" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
             </ngb-pagination>
             <div class="pull-right mw-100 m-t-5">
                 <button type="button" class="btn theme-optional-button-color" (click)="closeDocumentModel()">Done</button>
