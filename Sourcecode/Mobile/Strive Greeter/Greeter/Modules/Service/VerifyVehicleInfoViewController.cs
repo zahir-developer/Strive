@@ -340,10 +340,10 @@ namespace Greeter.Storyboards
                 ShowActivityIndicator();
 
                 var apiService = new WashApiService();
-                var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
+                //var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
 
-                string ticketNo = ticketResponse.Ticket.TicketNo;
-                string jobId = ticketResponse.Ticket.JobId;
+                string ticketNo = "";
+                int  jobId =0 ;
 
                 var jobItems = new List<JobItem>();
 
@@ -385,7 +385,7 @@ namespace Greeter.Storyboards
 
                 var jobStatusResponse = await new GeneralApiService().GetGlobalData("JOBSTATUS");
 
-                if (!jobId.IsEmpty())
+                if (jobId == 0)
                 {
                     var req = new CreateServiceRequest()
                     {
@@ -402,10 +402,13 @@ namespace Greeter.Storyboards
                             LocationID = AppSettings.LocationID,
                             Barcode = Barcode
                         },
-                        JobItems = jobItems
+                        JobItems = jobItems,
+                        isMobileApp = true,
+                        
+                        
                     };
 
-                    BaseResponse createServiceResponse = null;
+                    CreateMembershipResponse createServiceResponse = null;
 
                     if (ServiceType == ServiceType.Wash)
                     {
@@ -415,6 +418,8 @@ namespace Greeter.Storyboards
                         //req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API); ;
                         req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + (serviceTimeMins*60) + (detailTimeMins*60));
                         createServiceResponse = await apiService.CreateService(req);
+                        req.Job.JobID =  createServiceResponse.Status.JobId;
+                        req.Job.TicketNumber = createServiceResponse.Status.TicketNumber;
                     }
                     else // Detail
                     {
@@ -680,7 +685,9 @@ namespace Greeter.Storyboards
                         //req.Job.EstimatedTimeOut = DateTime.Now.Date.AddHours(Convert.ToDouble(edt[0])).AddMinutes(Convert.ToDouble(edt[1])).AddSeconds(0);
                         //req.Job.EstimatedTimeOut = DateTime.Parse(req.Job.TimeIn).AddMinutes(totalTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API);
                         req.Job.EstimatedTimeOut = req.Job.TimeIn.AddMinutes(totalTimeMins);
-                        createServiceResponse = await apiService.CreateDetailService(req);
+                        createServiceResponse = (CreateMembershipResponse)await apiService.CreateDetailService(req);
+                        req.Job.JobID = createServiceResponse.Status.JobId;
+                        req.Job.TicketNumber = createServiceResponse.Status.TicketNumber;
                     }
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));

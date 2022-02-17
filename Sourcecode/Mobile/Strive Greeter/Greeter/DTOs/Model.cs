@@ -229,7 +229,7 @@ namespace Greeter.DTOs
         public string TicketNo { get; set; }
 
         [JsonProperty("JobId")]
-        public string JobId { get; set; }
+        public int JobId { get; set; }
     }
 
     public class CreateServiceRequest
@@ -245,6 +245,12 @@ namespace Greeter.DTOs
 
         [JsonProperty("BaySchedule", NullValueHandling = NullValueHandling.Ignore)]
         public List<BaySchedule> BaySchedules { get; set; } = null;
+
+        [JsonProperty("isMobileApp")]
+        public bool isMobileApp { get; set; }
+
+        //[JsonProperty("deletedJobItemId")]
+        //public string deletedJobItemId{ get; set; }
     }
 
     public class JobDetail
@@ -253,7 +259,7 @@ namespace Greeter.DTOs
         public int JobDetailID { get; set; }
 
         [JsonProperty("jobId")]
-        public string JobID { get; set; }
+        public int JobID { get; set; }
 
         [JsonProperty("bayId")]
         public int BayID { get; set; }
@@ -334,7 +340,7 @@ namespace Greeter.DTOs
         public string JobDate { get; } = DateTime.Now.ToString("yyyy-MM-dd");
 
         [JsonProperty("jobId")]
-        public string JobID { get; set; }
+        public int JobID { get; set; }
 
         [JsonProperty("jobStatus")]
         public long JobStatusID { get; set; }
@@ -385,7 +391,7 @@ namespace Greeter.DTOs
         public DateTime CreatedDate { get; } = DateTime.Now;
 
         [JsonProperty("jobId")]
-        public string JobID { get; set; }
+        public int JobID { get; set; }
 
         //[JsonProperty("jobItemId")]
         //public long jobItemId { get; } = 0;
@@ -486,7 +492,7 @@ namespace Greeter.DTOs
         public string TicketNumber { get; set; }
 
         [JsonProperty("JobId")]
-        public string JobId { get; set; }
+        public int JobId { get; set; }
 
         [JsonProperty("ColorCode")]
         public string ColorCode { get; set; }
@@ -543,7 +549,7 @@ namespace Greeter.DTOs
     public class HoldCheckoutReq
     {
         [JsonProperty("id")]
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         //[JsonProperty("email")]
         //public string Email { get; set; }
@@ -555,10 +561,22 @@ namespace Greeter.DTOs
         public bool IsHold { get; } = true;
     }
 
+    public class CreateMembershipResponse : BaseResponse
+    {
+        public Status Status { get; set; }
+    }
+    public class Status
+    {
+        [JsonProperty("JobId")]
+        public int JobId { get; set; }
+        [JsonProperty("TicketNumber")]
+        public string TicketNumber { get; set; }
+    }
     public class CompleteCheckoutReq
     {
+
         [JsonProperty("jobId")]
-        public string JobID { get; set; }
+        public int JobID { get; set; }
 
         [JsonProperty("actualTimeOut")]
         public DateTime ActualTimeOut { get; } = DateTime.Now;
@@ -567,7 +585,7 @@ namespace Greeter.DTOs
     public class DoCheckoutReq
     {
         [JsonProperty("jobId")]
-        public string JobID { get; set; }
+        public int JobID { get; set; }
 
         [JsonProperty("checkOut")]
         public bool Checkout { get; } = true;
@@ -678,7 +696,7 @@ namespace Greeter.DTOs
         public long LocationID { get; set; }
 
         [JsonProperty("jobId")]
-        public string JobID { get; set; }
+        public int JobID { get; set; }
 
         [JsonProperty("ticketNumber")]
         public string TicketNumber { get; set; }
@@ -693,7 +711,7 @@ namespace Greeter.DTOs
         public string membershipID { get; } = null;
 
         [JsonProperty("jobId")]
-        public string JobID { get; set; }
+        public int JobID { get; set; }
 
         //[JsonProperty("drawerId")]
         //public short DrawerID { get; } = 1;
@@ -1340,7 +1358,7 @@ namespace Greeter.DTOs
         public string BayName { get; set; }
 
         [JsonProperty("JobId")]
-        public long JobID { get; set; }
+        public int JobID { get; set; }
 
         [JsonProperty("TimeIn")]
         public string TimeIn { get; set; }
@@ -1490,7 +1508,7 @@ namespace Greeter.DTOs
     public class AssignEmployeeToServiceReq
     {
         [JsonProperty("jobId")]
-        public string JobID { get; set; }
+        public int JobID { get; set; }
 
         [JsonProperty("jobServiceEmployee")]
         public List<AssignEmployeeToService> JobServiceEmployees { get; set; }

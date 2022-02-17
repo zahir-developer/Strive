@@ -203,7 +203,7 @@ namespace Greeter.Storyboards
              return employees?.Select(x => Logic.FullName(x.FirstName, x.LastName)).ToArray();
         }
 
-        async Task GetDetailService(string jobId)
+        async Task GetDetailService(int jobId)
         {
             try
             {

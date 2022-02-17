@@ -15,7 +15,7 @@ namespace Greeter.Modules.Pay
     public partial class PaymentViewController
     {
 
-        public string JobID;
+        public int JobID;
         public string TicketNumber;
         public string Make;
         public string Model;

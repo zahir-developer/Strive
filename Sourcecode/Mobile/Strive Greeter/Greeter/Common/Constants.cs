@@ -77,7 +77,7 @@ namespace Greeter.Common
         internal const string ALL_SERVICE_DETAILS = "/Admin/ServiceSetup/GetAllServiceDetail";
         //  Url Format Example : /Admin/Common/GetTicketNumber/{locationId}
         internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
-        internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
+        internal const string CREATE_SERVICE = "/Admin/Washes/AddWashTime";
         //internal const string CREATE_DETAIL_SERVICE = "/Admin/Details/UpdateDetails";
         
         internal const string SEND_EMAIL = "/Admin/Common/SendMail";
