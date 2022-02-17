@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <device id="ipad7_9" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
@@ -932,7 +932,7 @@ Cg
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fYJ-uD-EYY">
-                    <rect key="frame" x="92" y="968" width="650" height="56"/>
+                    <rect key="frame" x="92" y="969" width="650" height="56"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r7P-QP-Bwc">
                             <rect key="frame" x="23" y="8" width="78" height="36"/>
@@ -988,7 +988,7 @@ Cg
                 <constraint firstItem="thd-IP-ktX" firstAttribute="top" secondItem="yU2-UJ-WxV" secondAttribute="bottom" constant="24.5" id="TkL-zo-ayS"/>
                 <constraint firstAttribute="trailing" secondItem="Rmv-LM-0Sv" secondAttribute="trailing" id="bIQ-zA-9rk"/>
                 <constraint firstItem="thd-IP-ktX" firstAttribute="centerY" secondItem="sIc-Ni-kL9" secondAttribute="centerY" multiplier="1.1" constant="-32.700000000000045" id="eUI-RG-6ZT"/>
-                <constraint firstItem="fYJ-uD-EYY" firstAttribute="top" secondItem="2" secondAttribute="top" constant="968" id="fh7-u0-VNq"/>
+                <constraint firstItem="fYJ-uD-EYY" firstAttribute="top" secondItem="thd-IP-ktX" secondAttribute="bottom" id="fh7-u0-VNq"/>
                 <constraint firstItem="sIc-Ni-kL9" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="jBy-Bd-J4B"/>
                 <constraint firstAttribute="trailing" secondItem="sIc-Ni-kL9" secondAttribute="trailing" constant="-10" id="jMD-NB-9oY"/>
                 <constraint firstItem="Rmv-LM-0Sv" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="m01-tA-1dk"/>
