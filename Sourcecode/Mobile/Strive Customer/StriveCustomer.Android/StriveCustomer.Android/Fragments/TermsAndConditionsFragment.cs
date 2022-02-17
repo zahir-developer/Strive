@@ -110,14 +110,14 @@ namespace StriveCustomer.Android.Fragments
                 MembershipName.Text = membershipname;
             }
             if (MembershipDetails.modelName.Contains("/"))
-            {
-                Model = MembershipDetails.modelName.Substring(0, Model.IndexOf("/"));
+            {                
+                Model = MembershipDetails.modelName.Substring(0, MembershipDetails.modelName.IndexOf("/"));
             }
             else
             {
                 Model = MembershipDetails.modelName;
             }
-            VehicleDetails.Text = " " + MembershipDetails.vehicleMakeName + "/" + MembershipDetails.modelName + "/" + MembershipDetails.colorName;
+            VehicleDetails.Text = " " + MembershipDetails.vehicleMakeName + "/" + Model + "/" + MembershipDetails.colorName;
             GetTotal();
             AgreeTextView.Click += AgreeTextView_Click;
             DisagreeTextView.Click += DisagreeTextView_Click;

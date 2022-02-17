@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils;
 using System;
@@ -40,30 +41,51 @@ namespace Strive.Core.ViewModels.Customer
             var confirm = await _userDialog.ConfirmAsync("Do you wish to cancel the existing membership?");
             if(confirm)
             {
-                CustomerVehiclesInformation.membershipDetails = new ClientVehicleRoot();
-                CustomerVehiclesInformation.membershipDetails.clientVehicle = new ClientVehicle();
-                CustomerVehiclesInformation.membershipDetails.clientVehicle.clientVehicle = null;
-                CustomerVehiclesInformation.membershipDetails.clientVehicleMembershipModel = new ClientVehicleMembershipModel();
-                CustomerVehiclesInformation.membershipDetails.
-                    clientVehicleMembershipModel.clientVehicleMembershipDetails = new ClientVehicleMembershipDetails();
-                CustomerVehiclesInformation.membershipDetails.
-                    clientVehicleMembershipModel.clientVehicleMembershipService = new List<ClientVehicleMembershipService>();
-                MembershipDetails.selectedMembership = 0;
-                MembershipDetails.selectedMembershipDetail = null;
-                
-                GetClientMembershipData();
+                //CustomerVehiclesInformation.membershipDetails = new ClientVehicleRoot();
+                //CustomerVehiclesInformation.membershipDetails.clientVehicle = new ClientVehicle();
+                //CustomerVehiclesInformation.membershipDetails.clientVehicle.clientVehicle = null;
+                //CustomerVehiclesInformation.membershipDetails.clientVehicleMembershipModel = new ClientVehicleMembershipModel();
+                //CustomerVehiclesInformation.membershipDetails.
+                //    clientVehicleMembershipModel.clientVehicleMembershipDetails = new ClientVehicleMembershipDetails();
+                //CustomerVehiclesInformation.membershipDetails.
+                //    clientVehicleMembershipModel.clientVehicleMembershipService = new List<ClientVehicleMembershipService>();
+                //MembershipDetails.selectedMembership = 0;
+                //MembershipDetails.selectedMembershipDetail = null;
 
-                GetMembershipServicesData();
+                //GetClientMembershipData();
 
-                var data = await AdminService.SaveVehicleMembership(CustomerVehiclesInformation.membershipDetails);
-                if (data.Status)
+                //GetMembershipServicesData();
+
+                //var data = await AdminService.SaveVehicleMembership(CustomerVehiclesInformation.membershipDetails);
+                //if (data.Status)
+                //{
+                //    _userDialog.Toast("Membership has been cancelled");
+                //}
+                //else
+                //{
+                //    _userDialog.Toast("Membership cancel unsuccessful");
+                //}
+                if (CustomerVehiclesInformation.completeVehicleDetails != null)
                 {
-                    _userDialog.Toast("Membership has been cancelled");
+                    if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                    {
+                        deleteMembership Membershipdelete = new deleteMembership();
+                        Membershipdelete.clientId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicle.ClientId;
+                        Membershipdelete.clientMembershipId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId;
+                        Membershipdelete.vehicleId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicle.VehicleId;
+
+                        var isDeleted = await AdminService.DeleteVehicleMembership(Membershipdelete);
+                        if (isDeleted.Status == "true")
+                        {
+                            _userDialog.Toast("Membership has been cancelled");
+                        }
+                        else
+                        {
+                            _userDialog.Toast("Membership cancel unsuccessful");
+                        }
+                    }
                 }
-                else
-                {
-                    _userDialog.Toast("Membership cancel unsuccessful");
-                }
+               
             }
             _userDialog.HideLoading();
         }
