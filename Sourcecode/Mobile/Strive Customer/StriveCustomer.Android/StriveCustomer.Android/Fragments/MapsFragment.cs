@@ -328,7 +328,7 @@ namespace StriveCustomer.Android.Fragments
                 latLngCount++;
 
             }
-            addCarwashGeoFence(carWashLatLng, 240);
+            addCarwashGeoFence(carWashLatLng, 200);
         }
 
        async void getDistance(double lat, double lon, int id)

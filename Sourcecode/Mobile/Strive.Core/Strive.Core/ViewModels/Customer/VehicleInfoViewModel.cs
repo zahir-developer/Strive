@@ -77,9 +77,12 @@ namespace Strive.Core.ViewModels.Customer
                 TermsDocument document = await AdminService.TermsDocuments(documentId, "MEMBERSHIPAGREEMENT");
 
                 _userDialog.HideLoading();
-                documentFileName = document.Document.Document.FileName;
-                return document.Document.Document.Base64;
-
+                document = null;
+                if(document !=null && document.Document !=null && document.Document.Document != null)
+                {
+                    documentFileName = document.Document.Document.FileName;
+                    return document.Document.Document.Base64;
+                }
             }
             else
             {
