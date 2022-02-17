@@ -119,7 +119,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutHoldReq = new HoldCheckoutReq
             {
-                ID = checkout.TicketNumber,
+                ID = checkout.JobId,
             };
 
             ShowActivityIndicator();
@@ -150,7 +150,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutCompleteReq = new CompleteCheckoutReq
             {
-                JobID = checkout.TicketNumber,
+                JobID = checkout.JobId,
             };
 
             ShowActivityIndicator();
@@ -208,7 +208,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutReq = new DoCheckoutReq
             {
-                JobID = checkout.TicketNumber,
+                JobID = checkout.JobId,
             };
 
             ShowActivityIndicator();
