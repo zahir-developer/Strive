@@ -58,6 +58,9 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 		UIKit.UILabel Upchargeslbl { get; set; }
 
 		[Outlet]
+		UIKit.UILabel Vehicle { get; set; }
+
+		[Outlet]
 		UIKit.UILabel YearlyTotal { get; set; }
 
 		[Action ("AgreeButtonTouch:")]
@@ -80,6 +83,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 				BackButton = null;
 			}
 
+			if (ContractView != null) {
+				ContractView.Dispose ();
+				ContractView = null;
+			}
+
 			if (Date != null) {
 				Date.Dispose ();
 				Date = null;
@@ -98,6 +106,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 			if (EndingDate != null) {
 				EndingDate.Dispose ();
 				EndingDate = null;
+			}
+
+			if (Vehicle != null) {
+				Vehicle.Dispose ();
+				Vehicle = null;
 			}
 
 			if (Membership_name != null) {
@@ -133,11 +146,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 			if (YearlyTotal != null) {
 				YearlyTotal.Dispose ();
 				YearlyTotal = null;
-			}
-
-			if (ContractView != null) {
-				ContractView.Dispose ();
-				ContractView = null;
 			}
 		}
 	}

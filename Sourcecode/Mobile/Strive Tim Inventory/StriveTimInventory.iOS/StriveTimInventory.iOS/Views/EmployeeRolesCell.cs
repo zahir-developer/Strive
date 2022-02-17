@@ -33,7 +33,9 @@ namespace StriveTimInventory.iOS.Views
 
         public void SetCell(EmployeeRolesCell cell, EmployeeRole role)
         {
-            cell.Role.Image = UIImage.FromBundle(role.ImageUri);
+            //cell.Role.Image = UIImage.FromBundle(role.ImageUri);
+            cell.Role.Layer.CornerRadius = 5;
+            cell.RolenameLbl.Text = role.Title;
         }
     }
 }

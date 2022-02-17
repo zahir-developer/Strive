@@ -14,12 +14,28 @@ namespace StriveTimInventory.iOS.Views
 	{
 		[Outlet]
 		UIKit.UIImageView Role { get; set; }
+
+		[Outlet]
+		UIKit.UIView RoleContainer { get; set; }
+
+		[Outlet]
+		UIKit.UILabel RolenameLbl { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (Role != null) {
 				Role.Dispose ();
 				Role = null;
+			}
+
+			if (RoleContainer != null) {
+				RoleContainer.Dispose ();
+				RoleContainer = null;
+			}
+
+			if (RolenameLbl != null) {
+				RolenameLbl.Dispose ();
+				RolenameLbl = null;
 			}
 		}
 	}

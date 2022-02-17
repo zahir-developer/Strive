@@ -17,7 +17,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         public TermsView() : base("TermsView", null)
         {
         }
-
+        string Model;
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -40,6 +40,15 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         public void InitialSetup()
         {
             Membership_name.Text = MembershipData.SelectedMembership.MembershipName + ": $"+(MembershipData.SelectedMembershipPrice);
+            if (MembershipData.SelectedVehicle.VehicleModel.Contains("/"))
+            {
+                Model = MembershipData.SelectedVehicle.VehicleModel.Substring(0, Model.IndexOf("/"));
+            }
+            else
+            {
+                Model = MembershipData.SelectedVehicle.VehicleModel;
+            }
+            Vehicle.Text = MembershipData.SelectedVehicle.VehicleMfr + "/" + Model + "/" + MembershipData.SelectedVehicle.VehicleColor;
             Total.Text = "Total: $"+Math.Round(MembershipData.CalculatedPrice).ToString();
             YearlyTotal.Text = "$"+Math.Round(MembershipData.CalculatedPrice * 12).ToString();
             MonthlyTotal.Text = "$"+Math.Round(MembershipData.CalculatedPrice).ToString();
