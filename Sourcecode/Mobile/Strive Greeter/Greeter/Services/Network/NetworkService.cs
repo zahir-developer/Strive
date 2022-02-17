@@ -56,6 +56,8 @@ namespace Greeter.Services.Network
                         using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
                         Debug.WriteLine("Response String : " + responseString);
 
+                        //Debug.WriteLine("Response JSON : " + JsonConvert.SerializeObject(responseString));
+
                         TResult result = Activator.CreateInstance<TResult>();
                         if(!string.IsNullOrEmpty(responseString))
                             result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));

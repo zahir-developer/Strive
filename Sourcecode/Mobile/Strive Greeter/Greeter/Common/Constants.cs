@@ -49,7 +49,7 @@ namespace Greeter.Common
         //Strive Dev By Zahir
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
-        //// Mamooth Dev
+        // Mamooth Dev
         internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         //Mammoth QA

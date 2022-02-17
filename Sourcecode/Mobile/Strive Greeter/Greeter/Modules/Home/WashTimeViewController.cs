@@ -56,7 +56,7 @@ namespace Greeter.Modules.Home
         void CenterMap(double lat, double lon)
         {
             var mapCenter = new CLLocationCoordinate2D(lat, lon);
-            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 600, 600);
+            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1600, 1600);
             mapView.CenterCoordinate = mapCenter;
             mapView.Region = mapRegion;
         }

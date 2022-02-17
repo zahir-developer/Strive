@@ -1561,7 +1561,7 @@ namespace Greeter.DTOs
 
     public class MembershipResponse : BaseResponse
     {
-        [JsonProperty("VehicleMembershipDetail")]
+        [JsonProperty("VehicleMembershipDetails")]
         public VehicleMembershipDetail VehicleMembershipDetail;
     }
 
