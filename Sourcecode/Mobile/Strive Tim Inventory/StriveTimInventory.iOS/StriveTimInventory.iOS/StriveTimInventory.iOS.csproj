@@ -432,19 +432,19 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%402x%281%29.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unknown.imageset\icon-unknown%403x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-40.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-40%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-40%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-76.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-76%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Contents.json" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-40-1.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-40%402x-1.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-40%403x-1.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-76.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\Icon-76%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-72%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-60%401x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-60%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-60%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-60%401x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin.imageset\Icon-60%402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\icon-admin-hover%401x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\icon-admin-hover%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\icon-admin-hover%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\icon-admin-hover%401x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-admin-hover.imageset\icon-admin-hover%402x-1.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
