@@ -93,6 +93,7 @@ export const UrlConfig = {
     sendClientEmail: `Admin/Client/SendClientEmail/`,
     getActivityByClientId: `Admin/Client/GetCreditAccountBalanceHistory/`,
     getClientCreditCard: `Admin/Client/GetClientCardDetailById/`,
+    getClientAccountBalance: `Admin/Client/GetClientAccountBalance/`,
   },
   details: {
     addDetail: `Admin/Details/AddDetails`,

@@ -211,7 +211,7 @@ namespace Strive.BusinessLogic.PaymentGateway
             JObject response = ccRestClient.captureTransaction(request);
 
             string[] lines = { "Request: " + request.ToString(), "Response :" + response.ToString() };
-            File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "Errorlog.txt"), lines);
+            File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "ErrorFile.txt"), lines);
             return response;
         }
 
@@ -322,7 +322,7 @@ namespace Strive.BusinessLogic.PaymentGateway
             string[] lines = { "Request: " + request.ToString(), "Response :" + response.ToString() };
 
             // Append new lines of text to the file
-            File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "Errorlog.txt"), lines);
+            File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "ErrorFile.txt"), lines);
             return response;
         }
 

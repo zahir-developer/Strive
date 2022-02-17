@@ -41,5 +41,6 @@ namespace Strive.BusinessLogic.Client
         //Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory);
         bool SendClientEmail();
         Result GetAllClientDetail(string name);
+        Result GetClientAccountBalance(AccountBalanceDto accountBalance);
     }
 }

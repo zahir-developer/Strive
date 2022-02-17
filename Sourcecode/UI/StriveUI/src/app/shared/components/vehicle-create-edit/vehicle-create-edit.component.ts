@@ -903,7 +903,7 @@ export class VehicleCreateEditComponent implements OnInit {
           }
        });
 
-     }else{
+      }else{        
         const membership = {
           clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
             this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
@@ -911,7 +911,7 @@ export class VehicleCreateEditComponent implements OnInit {
           locationId: localStorage.getItem('empLocationId'),
           membershipId: this.vehicleForm.value.membership === '' ?
             this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
-          startDate: new Date().toLocaleDateString(),
+          startDate: new Date(),
           // endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
           endDate: null,
           status: true,
@@ -1288,7 +1288,7 @@ export class VehicleCreateEditComponent implements OnInit {
         locationId: localStorage.getItem('empLocationId'),
         membershipId: this.vehicleForm.value.membership === '' ?
           this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
-        startDate: new Date().toLocaleDateString(),
+        startDate: new Date(),
         //endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
         endDate:null,
         status: true,

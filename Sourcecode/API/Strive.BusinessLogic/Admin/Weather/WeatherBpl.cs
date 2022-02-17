@@ -156,7 +156,7 @@ namespace Strive.BusinessLogic
                     string[] lines = { "Error: " + ex.Message.ToString(), "Location :" + oLoc.LocationId.ToString() + "," + oLoc.Latitude.ToString() + "," + oLoc.Longitude.ToString() };
 
                     // Append new lines of text to the file
-                    File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "Errorlog.txt"), lines);
+                    File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "ErrorFile.txt"), lines);
                 }
             }
 

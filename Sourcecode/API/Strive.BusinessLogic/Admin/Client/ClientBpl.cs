@@ -280,6 +280,11 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).GetAllClientDetail, name, "Status");
         }
+        public Result GetClientAccountBalance(AccountBalanceDto accountBalance)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientAccountBalance, accountBalance, "AccountBalance");
+        }
+        
 
     }
 }
