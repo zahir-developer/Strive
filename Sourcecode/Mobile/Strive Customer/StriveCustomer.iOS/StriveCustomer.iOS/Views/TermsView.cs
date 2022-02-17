@@ -46,7 +46,7 @@ namespace StriveCustomer.iOS.Views
             };
             if (MembershipDetails.modelName.Contains("/"))
             {
-                Model = MembershipDetails.modelName.Substring(0, Model.IndexOf("/"));
+                Model = MembershipDetails.modelName.Substring(0, MembershipDetails.modelName.IndexOf("/"));
             }
             else
             {

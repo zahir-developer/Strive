@@ -42,7 +42,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             Membership_name.Text = MembershipData.SelectedMembership.MembershipName + ": $"+(MembershipData.SelectedMembershipPrice);
             if (MembershipData.SelectedVehicle.VehicleModel.Contains("/"))
             {
-                Model = MembershipData.SelectedVehicle.VehicleModel.Substring(0, Model.IndexOf("/"));
+                Model = MembershipData.SelectedVehicle.VehicleModel.Substring(0, MembershipData.SelectedVehicle.VehicleModel.IndexOf("/"));
             }
             else
             {
