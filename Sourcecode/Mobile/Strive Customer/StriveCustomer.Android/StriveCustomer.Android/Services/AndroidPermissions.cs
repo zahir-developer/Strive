@@ -22,7 +22,7 @@ namespace StriveCustomer.Android.Services
     {
         const int PERMISSION_REQUEST_CAMERA = 1;
         const int PERMISSION_REQUEST_LOCATION = 99;
-        
+        const int PERMISSION_REQUEST_EXTERNALSTORAGE = 999;
         public static Task checkLocationPermission(MvxFragment fragment)
         {
             var requiredPermissions = new String[] { Manifest.Permission.AccessFineLocation };
@@ -46,7 +46,7 @@ namespace StriveCustomer.Android.Services
             var requiredPermissions = new String[] { Manifest.Permission.WriteExternalStorage };
             if (ActivityCompat.CheckSelfPermission(fragment.Context, requiredPermissions[0]) != ContentPermission.Permission.Granted)
             {
-                fragment.RequestPermissions(requiredPermissions, PERMISSION_REQUEST_CAMERA);
+                fragment.RequestPermissions(requiredPermissions, PERMISSION_REQUEST_EXTERNALSTORAGE);
             }
             return Task.CompletedTask;
         }

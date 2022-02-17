@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
@@ -23,7 +24,7 @@ using OperationCanceledException = System.OperationCanceledException;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class VehicleInfoFragment : MvxFragment<VehicleInfoViewModel>
+    public class VehicleInfoFragment : MvxFragment<VehicleInfoViewModel> 
     {
         private Button addButton;
         private VehicleInfoEditFragment infoEditFragment;
@@ -85,6 +86,24 @@ namespace StriveCustomer.Android.Fragments
                 }
             }          
             
+        }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            if (requestCode == 999)
+            {
+                // Check if the only required permission has been granted
+                if ((grantResults.Length == 1) && (grantResults[0] == Permission.Granted))
+                {
+                  if(vehicleDetailsAdapter != null)
+                    {
+                        vehicleDetailsAdapter.PermissionGranted();
+                    }
+                }
+            }
+            else
+            {
+                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
         }
     }
 }

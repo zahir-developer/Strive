@@ -319,7 +319,7 @@ namespace StriveCustomer.Android.Fragments
                          .SetIcon(BitmapDescriptorFactory.FromBitmap(getMarkerBitmapFromView(shortLoc, Resource.Drawable.bubblePopWindow))));
                 marker[latLngCount].Tag = carWashLatLng[latLngCount];
                 Googlemap.AnimateCamera(CameraUpdateFactory.ZoomTo(10.0f));
-                Googlemap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(carWashLatLng[latLngCount], 16));
+                Googlemap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(carWashLatLng[latLngCount], 15));
                 //Googlemap.MoveCamera(CameraUpdateFactory.NewLatLng(carWashLatLng[latLngCount]));
                 if (!markerDic.ContainsKey(marker[latLngCount].Id))
                 {
@@ -328,7 +328,7 @@ namespace StriveCustomer.Android.Fragments
                 latLngCount++;
 
             }
-            addCarwashGeoFence(carWashLatLng,280f);
+            addCarwashGeoFence(carWashLatLng, 240);
         }
 
        async void getDistance(double lat, double lon, int id)

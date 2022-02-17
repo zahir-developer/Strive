@@ -27,7 +27,7 @@ using File = System.IO.File;
 using Uri = Android.Net.Uri;
 namespace StriveCustomer.Android.Adapter
 {
-    public class VehicleRecyclerHolder : RecyclerView.ViewHolder, View.IOnClickListener, View.IOnLongClickListener
+    public class VehicleRecyclerHolder : RecyclerView.ViewHolder, View.IOnClickListener, View.IOnLongClickListener 
     {
         public IItemClickListener vehicleItemClickListener;
         public TextView vehicleReg;
@@ -55,20 +55,22 @@ namespace StriveCustomer.Android.Adapter
 
         private async void DownloadButton_Click(object sender, EventArgs e)
         {
+            CustomerInfo.actionType = 3;
             if (ActivityCompat.CheckSelfPermission(this.cxt, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
             {
-                CustomerInfo.actionType = 3;
                 vehicleItemClickListener.OnClick(null, AdapterPosition, false);
             }
             else
             {
                 await AndroidPermissions.checkExternalStoragePermission(vehicleInfo);
-                CustomerInfo.actionType = 3;
-                vehicleItemClickListener.OnClick(null, AdapterPosition, false);
             }
             
         }
+        public void DownloadPermission()
+        {
+            vehicleItemClickListener.OnClick(null, AdapterPosition, false);
 
+        }
         private void EditButton_Click(object sender, EventArgs e)
         {
             if (CustomerVehiclesInformation.vehiclesList.Status.Count > 0)
@@ -103,6 +105,8 @@ namespace StriveCustomer.Android.Adapter
         {
             return true;
         }
+
+        
     }
 
     public class VehicleDetailsAdapter : RecyclerView.Adapter, IItemClickListener
@@ -143,7 +147,7 @@ namespace StriveCustomer.Android.Adapter
         {
             return position;
         }
-
+        
         public async void OnClick(View itemView, int position, bool isLongClick)
         {
             if (CustomerInfo.actionType == (int)VehicleClickEnums.Delete)
@@ -161,34 +165,41 @@ namespace StriveCustomer.Android.Adapter
             if (CustomerInfo.actionType == (int)VehicleClickEnums.Download)
             {
                 VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
-                var data = CustomerVehiclesInformation.vehiclesList.Status[position];
-                if (data.DocumentId.HasValue)
+                if(CustomerVehiclesInformation.vehiclesList.Status.Count > 0)
                 {
-                    var documentBase64 = await vehicleInfo.DownloadTerms((int)data.DocumentId);
-                    if (!string.IsNullOrEmpty(documentBase64))
+                    var data = CustomerVehiclesInformation.vehiclesList.Status[position];
+                    if (data.DocumentId.HasValue)
                     {
-                        byte[] dataconverted = System.Convert.FromBase64String(documentBase64);
-                        try
+                        var documentBase64 = await vehicleInfo.DownloadTerms((int)data.DocumentId);
+                        if (!string.IsNullOrEmpty(documentBase64))
                         {
-                            string base64 = Base64.EncodeToString(dataconverted,
-                                    Base64Flags.Default);
-                            byte[] bfile = Base64.Decode(base64, Base64Flags.Default);
-                            var file = SaveBinary(vehicleInfo?.documentFileName, bfile);
-                            if (file != null)
+                            byte[] dataconverted = System.Convert.FromBase64String(documentBase64);
+                            try
                             {
-                                _userDialog.Toast("Document downloaded successfully");
+                                string base64 = Base64.EncodeToString(dataconverted,
+                                        Base64Flags.Default);
+                                byte[] bfile = Base64.Decode(base64, Base64Flags.Default);
+                                var file = SaveBinary(vehicleInfo?.documentFileName, bfile);
+                                if (file != null)
+                                {
+                                    _userDialog.Toast("Document downloaded successfully");
+                                }
                             }
-                        }
-                        catch (UnsupportedEncodingException ex)
-                        {
-                            return;
+                            catch (UnsupportedEncodingException ex)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
+                
             }
         }
         
-       
+       public void PermissionGranted()
+      {
+            vehicleRecyclerHolder.DownloadPermission();
+      }
 
         private string SaveBinary(string filename, byte[] bytes)
             {
