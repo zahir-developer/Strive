@@ -14,7 +14,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
 {
     public class SchedulePreviewDetailsViewModel : BaseViewModel
     {
-        public GetTicketNumber ticketNumber { get; set; }
+        //public GetTicketNumber ticketNumber { get; set; }
         public List<Code> jobStatusCodes = new List<Code>();
         public List<Code> jobTypeCodes = new List<Code>();
         public int jobStatusID = 67;
@@ -24,17 +24,9 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);          
 
-            var ticketResult = await AdminService.GetTicketNumber(1);
             var codeResult = await AdminService.GetCodes();
 
-            if(ticketResult.GetTicketNumber != null)
-            {
-                ticketNumber = ticketResult.GetTicketNumber;
-            }
-            else
-            {
-                _userDialog.Alert("There is no ticket number");
-            }
+            
             if(codeResult.Codes != null)
             {
                 foreach(var item in codeResult.Codes)
@@ -89,8 +81,8 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             
             Job newJob = new Job()
             {
-                jobId = ticketNumber.JobId,
-                ticketNumber = ticketNumber.TicketNumber,
+                jobId = 0,
+                ticketNumber = "",
                 barcode = CustomerScheduleInformation.ScheduleSelectedVehicle.Barcode,
                 locationId = CustomerScheduleInformation.ScheduleLocationCode.ToString(),
                 clientId = CustomerInfo.ClientID,
@@ -118,7 +110,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                     JobItem servicejobItem = new JobItem()
                     {
                         jobItemId = 0,
-                        jobId = ticketNumber.JobId,
+                        jobId = 0,
                         serviceId = item.ServiceId,
                         isActive = true,
                         isDeleted = false,
@@ -135,7 +127,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             JobDetail jobDetail = new JobDetail()
             {
                 jobDetailId = 0,
-                jobId = ticketNumber.JobId,
+                jobId = 0,
                 bayId = CustomerScheduleInformation.ScheduledBayId,
                 isActive = true,
                 isDeleted = false,
@@ -146,7 +138,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             JobItem jobItem = new JobItem()
             {
                 jobItemId = 0,
-                jobId = ticketNumber.JobId,
+                jobId = 0,
                 serviceId = CustomerScheduleInformation.ScheduleServiceID,
                 isActive = true,
                 isDeleted = false,
@@ -169,7 +161,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 {
                     bayScheduleId = 0,
                     bayId = CustomerScheduleInformation.ScheduledBayId,
-                    jobId = ticketNumber.JobId,
+                    jobId = 0,
                     scheduleDate = CustomerScheduleInformation.ScheduleFullDate,
                     scheduleInTime = inTime.TimeOfDay.ToString().Substring(0, 5),
                     //scheduleInTime = inTime.ToShortTimeString().Substring(0,5),
