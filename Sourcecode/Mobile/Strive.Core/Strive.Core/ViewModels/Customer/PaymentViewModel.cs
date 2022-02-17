@@ -55,7 +55,7 @@ namespace Strive.Core.ViewModels.Customer
 
             var termsDocument = new Document()
             {
-                DocumentId = membershipAgreement.CategoryId,
+                DocumentId = 0,//membershipAgreement.CategoryId,
                 DocumentName = "MembershipAgreement",
                 DocumentType = membershipAgreement.CodeId,
                 DocumentSubType = null,
