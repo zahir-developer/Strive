@@ -49,12 +49,15 @@ namespace Strive.BusinessLogic.Washes
             var commonRal = new CommonRal(_tenant).GetTicketNumber(washes.Job.LocationId);
             washes.Job.JobId = commonRal.JobId;
             washes.Job.TicketNumber = commonRal.TicketNumber;
-            foreach(var item in washes.JobItem)
+            foreach (var item in washes.JobItem)
             {
                 item.JobId = commonRal.JobId;
             }
 
-            return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
+            if (!washes.isMobileApp.GetValueOrDefault(false))
+                return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
+            else
+                return ResultWrap(new WashesRal(_tenant).UpdateWash, washes, "Status");
         }
 
         public Result UpdateWashTime(WashesDto washes)
@@ -175,10 +178,10 @@ namespace Strive.BusinessLogic.Washes
             return ResultWrap(new WashesRal(_tenant).GetAllLocationWashTime, locationStoreStatus, "Washes");
         }
 
-       
 
-        
 
-        
+
+
+
     }
 }
