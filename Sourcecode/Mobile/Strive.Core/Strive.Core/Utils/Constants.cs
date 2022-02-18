@@ -195,5 +195,10 @@ namespace Strive.Core.Utils
         //Detailer
         public const string URL_GET_DETAILER_STATUS = "/Admin/Details/GetEmployeeAssignedDetail/";
 
-}
+        //CheckList
+
+        public const string URL_GET_CHECKLIST = "/Admin//Checklist/ChecklistNotification";
+        public const string URL_FINISH_CHECKLIST = "/Admin/Checklist/UpdateChecklistNotification";
+
+    }
 }

@@ -31,9 +31,10 @@ namespace StriveEmployee.iOS.Views.Schedule
             lblDetailService.Text = data.Status[index.Row].DetailService;
             lblAdditionalService.Text = data.Status[index.Row].AdditionalService.Replace(" ", "");
             lblTimeIn.Text = DateTime.Parse(data.Status[index.Row].TimeIn).TimeOfDay.ToString();
-            lblEstimateOut.Text = DateTime.Parse(data.Status[index.Row].EstimatedTimeOut).TimeOfDay.ToString(); ;
+            lblEstimateOut.Text = DateTime.Parse(data.Status[index.Row].EstimatedTimeOut).TimeOfDay.ToString(); 
 
         }
+        
 
 
     }

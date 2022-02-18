@@ -39,6 +39,7 @@
                             <segments>
                                 <segment title="Schedule"/>
                                 <segment title="Detailer"/>
+                                <segment title="CheckList"/>
                             </segments>
                             <color key="selectedSegmentTintColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -46,7 +47,7 @@
                             </connections>
                         </segmentedControl>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BBl-cO-tFr">
-                            <rect key="frame" x="8" y="29.666666666666686" width="324" height="600"/>
+                            <rect key="frame" x="8" y="33" width="324" height="596"/>
                             <subviews>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fnD-6t-lxN">
                                     <rect key="frame" x="4" y="29" width="320" height="579"/>
@@ -61,7 +62,7 @@
                             <constraints>
                                 <constraint firstItem="fnD-6t-lxN" firstAttribute="leading" secondItem="BBl-cO-tFr" secondAttribute="leading" constant="4" id="BFj-Wo-wDA"/>
                                 <constraint firstAttribute="width" constant="324" id="C9u-VF-r8e"/>
-                                <constraint firstAttribute="height" constant="600" id="Cin-mD-tfu"/>
+                                <constraint firstAttribute="height" constant="596" id="Cin-mD-tfu"/>
                                 <constraint firstItem="fnD-6t-lxN" firstAttribute="top" secondItem="BBl-cO-tFr" secondAttribute="top" constant="29" id="HMZ-Cn-jsv"/>
                             </constraints>
                         </view>
@@ -145,7 +146,7 @@
                         <constraint firstItem="G67-D2-8YY" firstAttribute="centerX" secondItem="AdW-CH-DMo" secondAttribute="centerX" id="Ekp-Zw-4wM"/>
                         <constraint firstItem="W0T-uY-7CM" firstAttribute="top" secondItem="AdW-CH-DMo" secondAttribute="top" id="FV0-qL-yKr"/>
                         <constraint firstItem="BBl-cO-tFr" firstAttribute="centerX" secondItem="W0T-uY-7CM" secondAttribute="centerX" id="LuW-pC-Z4K"/>
-                        <constraint firstItem="BBl-cO-tFr" firstAttribute="centerY" secondItem="AdW-CH-DMo" secondAttribute="centerY" id="Ogo-v5-CVg"/>
+                        <constraint firstItem="BBl-cO-tFr" firstAttribute="centerY" secondItem="AdW-CH-DMo" secondAttribute="centerY" constant="1.5" id="Ogo-v5-CVg"/>
                         <constraint firstItem="W0T-uY-7CM" firstAttribute="leading" secondItem="AdW-CH-DMo" secondAttribute="leading" id="Qpg-XL-kqC"/>
                         <constraint firstAttribute="width" constant="340" id="Yzf-Hx-3sX"/>
                         <constraint firstItem="G67-D2-8YY" firstAttribute="leading" secondItem="AdW-CH-DMo" secondAttribute="leading" constant="8" id="cCX-hu-BOb"/>

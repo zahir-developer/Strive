@@ -38,19 +38,16 @@ namespace StriveEmployee.iOS.Views.Schedule
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             NavigationItem.Title = "Schedule";
-
+            //Scheduledetailer_Seg_Ctrl.SelectedSegment = 1;
             var leftBtn = new UIButton(UIButtonType.Custom);
             leftBtn.SetTitle("Logout", UIControlState.Normal);
             leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
-            //Scheduledetailer_Seg_Ctrl.SelectedSegment = 1;
-            
             var leftBarBtn = new UIBarButtonItem(leftBtn);
             NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
             leftBtn.TouchUpInside += (sender, e) =>
             {
                 ViewModel.LogoutCommand();
             };
-
             ParentView.Layer.CornerRadius = 5;
 
             ScheduleDateView.Layer.CornerRadius = 5;
@@ -79,12 +76,55 @@ namespace StriveEmployee.iOS.Views.Schedule
             }
             else if (segment == 2)
             {
+                
                 ScheduleParentView.Hidden = true;
                 DetailerView.Hidden = true;
                 CheckListView.Hidden = false;
-                //detailerInitialization();
+                checklistInitialization();
             }
         }
+        private void checklistInitialization()
+        {
+            //Finish Button in UI
+            UIButton rightBtn = new UIButton(UIButtonType.Custom);
+            rightBtn.SetTitle("Finish", UIControlState.Normal);
+            rightBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+            UIBarButtonItem rightBarBtn = new UIBarButtonItem(rightBtn);
+            NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
+            rightBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.FinishTask();
+                getchecklist();
+                Checklist_TableView.ReloadData();
+            };
+            getchecklist();
+
+            Checklist_TableView.RegisterNibForCellReuse(CheckListTableCell.Nib, CheckListTableCell.Key);
+            Checklist_TableView.BackgroundColor = UIColor.Clear;
+            Checklist_TableView.ReloadData();
+
+            
+            
+        }
+        private async void getchecklist()
+        {
+            await ViewModel.GetTaskList();
+            if (ViewModel.checklist!=null && ViewModel.checklist.ChecklistNotification.Count!=0 )
+            {
+                var checklistsource = new CheckList_DataSource(ViewModel.checklist);
+                Checklist_TableView.Source = checklistsource;
+                Checklist_TableView.TableFooterView = new UIView(CGRect.Empty);
+                Checklist_TableView.DelaysContentTouches = false;
+            }
+            else
+            {
+                Checklist_TableView.Hidden = true;
+            }
+
+        }
+
+
+        //Detailer View Source
         private void detailerInitialization()
         {
             ScheduleParentView.Hidden = true;
@@ -112,6 +152,8 @@ namespace StriveEmployee.iOS.Views.Schedule
                 detailer_TableView.Hidden = true;
             }
         }
+
+        //Schedule View Source
         private async void getSheduleDetails()
         {
             try

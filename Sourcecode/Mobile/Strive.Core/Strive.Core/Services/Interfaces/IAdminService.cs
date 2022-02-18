@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Models.Employee.CheckList;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
@@ -171,5 +172,9 @@ namespace Strive.Core.Services.Interfaces
         Task<GeneralResponse> AddClientCard(AddCardRequest cardLists);
 
         Task<status> GetEmployeeDetailer(int employeeid, string jobdate);
+
+        Task<Checklist> GetCheckList(ChecklistRequest checklistRequest);
+
+        Task<Checklist> FinishCheckList(ChecklistUpdateRequest checklistUpdateRequest);
     }
 }

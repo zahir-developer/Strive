@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using Strive.Core.Models.Employee.CheckList;
 using Strive.Core.Models.Employee.Detailer;
 using Strive.Core.Models.Owner;
 using Strive.Core.Resources;
@@ -17,12 +18,14 @@ namespace Strive.Core.ViewModels.Employee.Schedule
         public static string StartDate { get; set; }
         public status DetailerList { get; set; }
         public static bool isNoData = false;
+        public Checklist checklist { get; set; }
+        public static List<checklistupdate> SelectedChecklist = new List<checklistupdate>();
         #region Properties
 
         public ScheduleDetail scheduleList { get; set; }
         //(System.DateTime.Now).ToString("yyy-MM-dd")
         #endregion Properties
-
+        public ChecklistUpdateRequest checklistUpdateRequest;
         #region Commands
 
         public async Task GetScheduleList()
@@ -89,6 +92,39 @@ namespace Strive.Core.ViewModels.Employee.Schedule
         {
             await _navigationService.Close(this);
             _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit!"));
+        }
+
+        public async Task FinishTask()
+        {
+            //_userDialog.Alert("Do you want to complete the Tasks");
+            checklistUpdateRequest = new ChecklistUpdateRequest();
+            checklistUpdateRequest.CheckListNotification = SelectedChecklist;
+            var result = await AdminService.FinishCheckList(checklistUpdateRequest);
+            if (result != null)
+            {
+                _userDialog.Alert("Successfully completed the tasks");
+            }
+
+            Console.WriteLine("Task Has been completed successfully");
+        }
+        public async Task GetTaskList()
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            ChecklistRequest checklistRequest = new ChecklistRequest();
+            checklistRequest.notificationDate = "2022-02-16T08:02:01.028Z"; //DateTime.Now.ToString("yyyy-MM-dd");
+            checklistRequest.role = 3;
+            checklistRequest.EmployeeId = EmployeeTempData.EmployeeID;
+            var result = await AdminService.GetCheckList(checklistRequest);
+            if (result != null)
+            {
+                checklist = result;
+            }
+            else
+            {
+                _userDialog.Alert("Unable to fetch the data");
+            }  
+            Console.WriteLine("Tasks fetched");
+            _userDialog.HideLoading();
         }
 
         #endregion Commands

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Models.Employee.CheckList;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
@@ -468,6 +469,14 @@ namespace Strive.Core.Services.Implementations
         {
             var Url = ApiUtils.URL_GET_DETAILER_STATUS + employeeid.ToString() + "/jobDate?jobDate=" + jobdate;
             return await _restClient.MakeApiCall<status>(Url, HttpMethod.Get);
+        }
+        public async Task<Checklist> GetCheckList(ChecklistRequest checklistRequest)
+        { 
+            return await _restClient.MakeApiCall<Checklist>(ApiUtils.URL_GET_CHECKLIST, HttpMethod.Post, checklistRequest);
+        }
+        public async Task<Checklist> FinishCheckList(ChecklistUpdateRequest checklistUpdateRequest)
+        {
+            return await _restClient.MakeApiCall<Checklist>(ApiUtils.URL_FINISH_CHECKLIST, HttpMethod.Post, checklistUpdateRequest);
         }
 
     }

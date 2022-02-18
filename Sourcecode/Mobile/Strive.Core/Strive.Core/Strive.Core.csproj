@@ -30,6 +30,7 @@
     <Folder Include="Models\Owner\" />
     <Folder Include="Models\Employee\PayRoll\" />
     <Folder Include="Models\Employee\Detailer\" />
+    <Folder Include="Models\Employee\CheckList\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings.resx">
@@ -57,5 +58,6 @@
     <None Remove="Microsoft.AppCenter.Analytics" />
     <None Remove="Models\Employee\Detailer\" />
 
+    <None Remove="Models\Employee\CheckList\" />
   </ItemGroup>
 </Project>

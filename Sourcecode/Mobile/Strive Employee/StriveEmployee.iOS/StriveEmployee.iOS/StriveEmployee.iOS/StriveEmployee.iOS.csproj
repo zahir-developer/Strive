@@ -205,6 +205,12 @@
     <Compile Include="Views\Schedule\DetailerTableCell.designer.cs">
       <DependentUpon>DetailerTableCell.cs</DependentUpon>
     </Compile>
+    <InterfaceDefinition Include="Views\Schedule\CheckListTableCell.xib" />
+    <Compile Include="Views\Schedule\CheckListTableCell.cs" />
+    <Compile Include="Views\Schedule\CheckListTableCell.designer.cs">
+      <DependentUpon>CheckListTableCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Schedule\CheckList_DataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

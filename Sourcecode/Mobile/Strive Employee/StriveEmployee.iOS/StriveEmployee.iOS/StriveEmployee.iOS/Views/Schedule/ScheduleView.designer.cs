@@ -13,6 +13,9 @@ namespace StriveEmployee.iOS.Views.Schedule
 	partial class ScheduleView
 	{
 		[Outlet]
+		UIKit.UIButton _FinishBtn { get; set; }
+
+		[Outlet]
 		UIKit.UITableView Checklist_TableView { get; set; }
 
 		[Outlet]
@@ -53,6 +56,21 @@ namespace StriveEmployee.iOS.Views.Schedule
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Checklist_TableView != null) {
+				Checklist_TableView.Dispose ();
+				Checklist_TableView = null;
+			}
+
+			if (_FinishBtn != null) {
+				_FinishBtn.Dispose ();
+				_FinishBtn = null;
+			}
+
+			if (CheckListView != null) {
+				CheckListView.Dispose ();
+				CheckListView = null;
+			}
+
 			if (DetailDateView != null) {
 				DetailDateView.Dispose ();
 				DetailDateView = null;
@@ -91,16 +109,6 @@ namespace StriveEmployee.iOS.Views.Schedule
 			if (ScheduleParentView != null) {
 				ScheduleParentView.Dispose ();
 				ScheduleParentView = null;
-			}
-
-			if (CheckListView != null) {
-				CheckListView.Dispose ();
-				CheckListView = null;
-			}
-
-			if (Checklist_TableView != null) {
-				Checklist_TableView.Dispose ();
-				Checklist_TableView = null;
 			}
 		}
 	}
