@@ -209,6 +209,12 @@ namespace Strive.ResourceAccess
             _prm.Add("@Name", name);
             return db.Fetch<ClientDetailListViewModel>(SPEnum.USPGETALLCLIENTDETAIL.ToString(), _prm);
         }
-        
+         public List<ClientAccountBalanceViewModel> GetClientAccountBalance(AccountBalanceDto accountBalance)
+        {
+            _prm.Add("@clientId", accountBalance.ClientId);
+            _prm.Add("@year", accountBalance.Year);
+            _prm.Add("@month", accountBalance.Month);
+            return db.Fetch<ClientAccountBalanceViewModel>(SPEnum.USPGETCREDITACCOUNTBALANCE.ToString(), _prm);
+        }
     }
 }

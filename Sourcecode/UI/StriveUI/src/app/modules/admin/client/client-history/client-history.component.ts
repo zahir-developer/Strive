@@ -25,6 +25,8 @@ export class ClientHistoryComponent implements OnInit {
   historyGrid: any = [];
   page: number;
   pageSize: number;
+  openingBalance: number;
+  closingBalance: number;
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
@@ -42,9 +44,13 @@ export class ClientHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
-    // this.getHistory();
+    const capObj = {
+      clientId: this.clientId,
+      year: 0,
+      month: this.fromDate.getMonth() + 1
+    };
+    this.getHistory(capObj);
     this.historyGrid = this.historyData;
-    
     this.historyCloned = this.historyData;
   }
 
@@ -52,19 +58,17 @@ export class ClientHistoryComponent implements OnInit {
     this.activeModal.close();
   }
 
-  getHistory() {
-    // this.client.getHistoryByClientId(this.clientId).subscribe(res => {
-    //   if (res.status === 'Success') {
-    //     const history = JSON.parse(res.resultData);
-    //     this.historyGrid = history.VehicleHistory;
-    //     this.clonedHistoryGrid = this.historyGrid.map(x => Object.assign({}, x));
-    //     this.historyGrid = this.historyGrid.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage ||
-    //       item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage);
-    //     this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
-    //   }
-    // }, (err) => {
-    //   this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    // });
+  getHistory(capObj) {
+    this.client.getClientAccountBalance(capObj).subscribe(res => {
+      if (res.status === 'Success') {
+        const bal = JSON.parse(res.resultData);
+        this.openingBalance = bal.AccountBalance[0].OpeningBalance;
+        this.closingBalance = bal.AccountBalance[0].ClosingBalance;
+      
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 
   paginate(event) {
@@ -101,8 +105,14 @@ export class ClientHistoryComponent implements OnInit {
     WindowPrt.focus();
     WindowPrt.print();
   }
-  FilterRecords(){  
+  FilterRecords(){ 
+    const capObj = {
+      clientId: this.clientId,
+      year: this.fromDate.getFullYear(),
+      month: this.fromDate.getMonth() + 1
+    };
+   this.getHistory(capObj);
     this.historyCloned = this.historyGrid
-    .filter(x => new Date(x.CreatedDate).getMonth() == this.fromDate.getMonth() && new Date(x.CreatedDate).getFullYear() == this.fromDate.getFullYear())
+    .filter(x => new Date(x.CreatedDate).getMonth() == this.fromDate.getMonth() + 1 && new Date(x.CreatedDate).getFullYear() == this.fromDate.getFullYear())
   }
 }

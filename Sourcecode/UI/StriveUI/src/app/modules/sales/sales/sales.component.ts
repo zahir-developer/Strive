@@ -1554,19 +1554,22 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(accountDet);
 
-      creditAccountHistory = {
-        CreditAccountHistoryId: 0,
-        Amount: (-1 * this.account),
-        IsActive: true,
-        IsDeleted: false,
-        CreatedBy: null,
-        CreatedDate: new Date(),
-        UpdatedBy: null,
-        UpdatedDate: new Date(),
-        JobPaymentId: 0,
-        TransactionType: this.accountPayType,
-        ClientId: this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
+      if(this.isAccount){
+        creditAccountHistory = {
+          CreditAccountHistoryId: 0,
+          Amount: (-1 * this.account),
+          IsActive: true,
+          IsDeleted: false,
+          CreatedBy: null,
+          CreatedDate: new Date(),
+          UpdatedBy: null,
+          UpdatedDate: new Date(),
+          JobPaymentId: 0,
+          TransactionType: this.accountPayType,
+          ClientId: this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
+        }
       }
+      
     }
     if (this.credit !== 0) {
       const creditPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Card)[0].CodeId;

@@ -172,5 +172,9 @@ namespace Admin.API.Controllers
         [Route("GetAllClientDetail/{clientName}")]
         public Result GetAllClientDetail(string clientName) => _bplManager.GetAllClientDetail(clientName);
 
+        [HttpPost]
+        [Route("GetClientAccountBalance")]
+        public Result GetClientAccountBalance([FromBody] AccountBalanceDto searchDto) => _bplManager.GetClientAccountBalance(searchDto);
+
     }
 }

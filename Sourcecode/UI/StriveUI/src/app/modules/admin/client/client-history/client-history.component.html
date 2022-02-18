@@ -1,7 +1,7 @@
 <div class="card  m-b-10">
     <div class="card-body">
         <div class="title-border p-b-5 m-b-5 m-t-10">
-            <h6 class="d-inline-block font-weight-600">History
+            <h6 class="d-inline-block font-weight-600">Statement
             </h6>
         </div>
         <div class="table-responsive m-t-10">
@@ -20,6 +20,10 @@
                     <div class="pull-right col-lg-2">
                         <button type="button" class="btn theme-optional-button-color"
                             (click)="Print()">Print</button>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Opening Balance</label> 
+                        {{openingBalance | currency}}
                     </div>
                 </div>
             </div>
@@ -83,9 +87,15 @@
                 [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
                 class="d-flex justify-content-end" (pageChange)="paginate($event)">
             </ngb-pagination>
-            <div class="pull-right mw-100 m-t-5">
-                <button type="button" class="btn theme-optional-button-color"
-                    (click)="closeHistoryModel()">Close</button>
+            
+            <div class="pull-right mw-100 m-t-5 ">
+                <div class="col-lg-12">
+                    <label >Closing Balance</label>
+                    {{closingBalance | currency}} 
+                    <button type="button" class="btn theme-optional-button-color"
+                        (click)="closeHistoryModel()">Close</button>
+                </div>
+                   
             </div>
         </div>
     </div>

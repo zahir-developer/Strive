@@ -70,5 +70,9 @@ export class ClientService {
 
   sendClientEmail() {
     return this.http.post(`${UrlConfig.client.sendClientEmail}`);
+  } 
+  getClientAccountBalance(obj) {
+    return this.http.post(`${UrlConfig.client.getClientAccountBalance}`,obj);
   }
+ 
 }

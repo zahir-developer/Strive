@@ -96,7 +96,13 @@ namespace Strive.BusinessLogic.Vehicle
 
                     vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.CardNumber = string.Concat(requiredMask, lastDigits);
                 }
+                if (vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails != null)
+                {
+                    var startDate = Convert.ToDateTime(vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.StartDate);
+                    vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.StartDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
+                }
             }
+            
             if (vehicleMembership.ClientVehicle.VehicleImage != null)
             {
                 foreach (var vehicleImage in vehicleMembership.ClientVehicle.VehicleImage)
