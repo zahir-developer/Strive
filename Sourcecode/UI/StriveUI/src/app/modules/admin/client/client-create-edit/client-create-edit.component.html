@@ -142,22 +142,20 @@
                                         <table class="table  table-striped m-t-10">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" >Id&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleNumber')"
-                                                        aria-hidden="true"></i></th>
                                                     <th scope="col" >Amount&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
                                                         aria-hidden="true"></i></th>
                                                     <th scope="col" >Comments&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
                                                         aria-hidden="true"></i></th>
                                                         
-                                                    <th scope="col" >Credited Date&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleMfr')"
+                                                    <th scope="col" >Date&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleMfr')"
                                                         aria-hidden="true"></i></th>
+                                                   
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr
                                                     *ngFor="let activity of activityDetails | orderBy:sort.column:'CreditAccountHistoryId':sort.descending | slice: (activityPage-1) * activityPageSize : (activityPage-1) * activityPageSize + activityPageSize">
-                                                    <td>{{activity.CreditAccountHistoryId}}</td>
                                                     <td>{{activity.Amount }}</td>
                                                     <td>{{activity.Comments }}</td>
                                                     <td>{{activity.CreatedDate | date: 'MM/dd/yyyy'}}</td>
