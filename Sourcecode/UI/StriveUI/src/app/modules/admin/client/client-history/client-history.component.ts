@@ -113,6 +113,6 @@ export class ClientHistoryComponent implements OnInit {
     };
    this.getHistory(capObj);
     this.historyCloned = this.historyGrid
-    .filter(x => new Date(x.CreatedDate).getMonth() == this.fromDate.getMonth() + 1 && new Date(x.CreatedDate).getFullYear() == this.fromDate.getFullYear())
+    .filter(x => new Date(x.CreatedDate).getMonth() == this.fromDate.getMonth() && new Date(x.CreatedDate).getFullYear() == this.fromDate.getFullYear())
   }
 }
