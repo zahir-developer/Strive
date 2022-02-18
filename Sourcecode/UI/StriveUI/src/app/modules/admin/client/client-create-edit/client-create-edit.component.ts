@@ -477,9 +477,10 @@ export class ClientCreateEditComponent implements OnInit {
       this.clonedAccountDetails[0][oExists].isDeleted = true;
       this.clonedAccountDetails[0][oExists].updatedBy = this.employeeId;
       this.clonedAccountDetails[0][oExists].updatedDate =  new Date();
-      this.clonedAccountDetails[0][oExists].isModified = true;
+      this.clonedAccountDetails[0][oExists].isModified = true;      
     }
-    this.TotalAmount = parseFloat((this.TotalAmount - parseFloat(receivedEntry.amount)).toFixed(2));
+    this.TotalAmount = parseFloat((this.TotalAmount - parseFloat(receivedEntry.Amount)).toFixed(2));
+    this.activityDetails = this.activityDetails.filter(s=>s.isDeleted === false || s.isDeleted === undefined );
   }
   editActivity(activity) {
     console.log(activity, 'activity');

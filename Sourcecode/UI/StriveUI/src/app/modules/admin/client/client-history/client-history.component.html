@@ -32,17 +32,14 @@
             <table aria-describedby="statement-grid" class="table border table-hover table-striped">
                 <thead>
                     <tr>
-                        <th scope="col" >Id</th>
                         <th scope="col" >Amount</th>
                         <th scope="col" >Comments</th>
-                            
                         <th scope="col" >Credited Date</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr
                         *ngFor="let activity of historyCloned | orderBy:sort.column:'CreditAccountHistoryId':sort.descending ">
-                        <td>{{activity.CreditAccountHistoryId}}</td>
                         <td>{{activity.Amount }}</td>
                         <td>{{activity.Comments }}</td>
                         <td>{{activity.CreatedDate | date: 'MM/dd/yyyy'}}</td>
