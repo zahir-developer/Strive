@@ -57,7 +57,7 @@ namespace Strive.BusinessLogic.Washes
             if (!washes.isMobileApp.GetValueOrDefault(false))
                 return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
             else
-                return ResultWrap(new WashesRal(_tenant).UpdateWash, washes, "Status");
+                return ResultWrap(new WashesRal(_tenant).UpdateWash, washes, "Result");
         }
 
         public Result UpdateWashTime(WashesDto washes)
