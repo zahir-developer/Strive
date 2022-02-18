@@ -22,12 +22,12 @@
                                         <div class="col-sm-10">
                                             <div>
                                                 <form (ngSubmit)="addTicketNumber()">
-                                                    <input type="text" maxlength="9" id="ticketNumber"
+                                                    <input type="text" maxlength="20" id="ticketNumber"
                                                         (focus)="quantityFocus($event)" *ngIf="isSelected"
                                                         name="ticketNumber"
                                                         class="form-control inputSize  d-inline-block w-23 align-middle"
                                                         [(ngModel)]="ticketNumber" (keyenter)="addTicketNumber()"
-                                                        (keypress)="allowNumbersOnly($event)"
+                                                        appAlphaNumeric
                                                         (clear)="clearpaymentField()">&nbsp;
                                                     <span class="p-r-71" *ngIf="!isSelected">{{newTicketNumber}}</span>
                                                     <button type="submit" class="btn theme-primary-button-color"
