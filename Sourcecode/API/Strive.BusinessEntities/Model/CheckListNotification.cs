@@ -38,6 +38,8 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
 
+        [Column]
+        public DateTime? NotificationDate { get; set; }
 
     }
 }

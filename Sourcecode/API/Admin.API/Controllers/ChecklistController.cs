@@ -39,6 +39,14 @@ namespace Admin.API.Controllers
         [Route("Add")]
         public Result AddChecklist([FromBody]ChecklistDto checklistAdd) => _bplManager.AddChecklist(checklistAdd);
 
+        [HttpPost]
+        [Route("ChecklistNotification")]
+        public Result GetChecklistNotification([FromBody]ChecklistNotificationDto checklist) => _bplManager.GetChecklistNotification(checklist);
+
+        [HttpPost]
+        [Route("UpdateChecklistNotification")]
+        public Result UpdateChecklistNotification([FromBody]ChecklistNotificationUpdateDto checklistUpdate) => _bplManager.UpdateChecklistNotification(checklistUpdate);
+
         /// <summary>
         /// Method to Update Checklist
         /// </summary>
@@ -52,6 +60,6 @@ namespace Admin.API.Controllers
         [Route("Delete")]
         public Result DeleteChecklist(int id) => _bplManager.DeleteChecklist(id);
 
-        
+
     }
 }
