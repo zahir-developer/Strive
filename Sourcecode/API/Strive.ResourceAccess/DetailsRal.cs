@@ -28,6 +28,20 @@ namespace Strive.ResourceAccess
             else
                 return 0;
         }
+
+        public JobResultDto UpdateDetailApp(DetailsDto details)
+        {
+            JobResultDto resultDto = new JobResultDto();
+            
+            if (dbRepo.UpdatePc(details, "Job"))
+            {
+                resultDto.JobId = details.Job.JobId;
+                resultDto.TicketNumber = details.Job.TicketNumber;
+                resultDto.Status = true;
+            }
+            return resultDto;
+        }
+
         public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
             return dbRepo.InsertPc(jobServiceEmployee,"JobServiceEmployeeId");

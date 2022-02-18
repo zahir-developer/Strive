@@ -122,7 +122,11 @@ namespace Strive.BusinessLogic.Details
 
             details.BaySchedule = baySlot;
 
-            return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "JobId");
+            if (!details.isMobileApp.GetValueOrDefault(false))
+                return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "JobId");
+            else
+                return ResultWrap(new DetailsRal(_tenant).UpdateDetailApp, details, "Result");
+
         }
 
         private List<BusinessEntities.Model.BaySchedule> GetBaySlot(int jobId, int bayId, DateTime jobDate, DateTimeOffset initialTimeIn, DateTimeOffset finalDueTime)

@@ -14,5 +14,7 @@ namespace Strive.BusinessEntities.DTO
         public List<Model.BaySchedule> BaySchedule { get; set; }
         public List<JobItem> JobItem { get; set; }
         public string DeletedJobItemId { get; set; }
+        public bool? isMobileApp { get; set; }
+
     }
 }
