@@ -2,10 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
     <RelativeLayout
              android:layout_width="match_parent"
-             android:layout_height="wrap_content">
+             android:layout_height="wrap_content"
+             android:layout_margin="10dp"
+             android:divider="?android:attr/dividerHorizontal">
           <TextView
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -22,6 +25,7 @@
               android:layout_height="wrap_content"
               android:layout_alignParentLeft="true"
               android:layout_marginLeft="5dp"
+              android:layout_marginTop="10dp"
               android:text="CheckList Time"
               android:layout_below="@id/taskName"
               android:id="@+id/checklist_time"
@@ -29,13 +33,12 @@
               android:fontFamily="@font/opensans_regular"
               android:textSize="@dimen/textFourteen"
           />
-          <Button
+          <CheckBox
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:id="@+id/finishButton"
-             android:layout_alignParentRight="true"
-             android:text="Finish"
-             android:background="@drawable/primary_button"          
+             android:id="@+id/completed_CheckBox"
+             android:layout_alignParentRight="true"             
+             android:button="@drawable/radiobutton"             
           />      
 
 

@@ -20,11 +20,12 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:id="@+id/finishButton"
+            android:layout_alignParentRight="true"
             android:gravity="center"
             android:textColor="@color/profileQColor"
             android:background="@color/mtrl_btn_transparent_bg_color"
-            android:text="" />
+            android:text="Finish" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
