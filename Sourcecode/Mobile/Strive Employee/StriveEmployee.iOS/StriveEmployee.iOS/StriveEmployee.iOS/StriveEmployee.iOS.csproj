@@ -211,6 +211,7 @@
       <DependentUpon>CheckListTableCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Schedule\CheckList_DataSource.cs" />
+    <Compile Include="Views\Schedule\RolesPicker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

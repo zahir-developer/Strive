@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
@@ -15,6 +15,7 @@
                 <outlet property="DetailDateView" destination="xTq-HT-g8k" id="AEf-m8-cH1"/>
                 <outlet property="DetailerView" destination="Qyv-AN-qSJ" id="sTr-3v-PsV"/>
                 <outlet property="ParentView" destination="AdW-CH-DMo" id="hwW-T1-ocf"/>
+                <outlet property="Role" destination="QeG-6L-epO" id="Rmi-Kh-bvn"/>
                 <outlet property="ScheduleDateView" destination="6cV-yt-Raa" id="6KG-N4-WME"/>
                 <outlet property="ScheduleParentView" destination="G67-D2-8YY" id="XiJ-qh-6Mm"/>
                 <outlet property="Scheduledetailer_Seg_Ctrl" destination="W0T-uY-7CM" id="oCx-gw-ChE"/>
@@ -25,14 +26,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="2">
-            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="ZL8-8i-GfU">
-                    <rect key="frame" x="-10" y="-10" width="410" height="864"/>
+                    <rect key="frame" x="-10" y="-10" width="395" height="832"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AdW-CH-DMo">
-                    <rect key="frame" x="24" y="95" width="340" height="659"/>
+                    <rect key="frame" x="16.666666666666657" y="79" width="340" height="659"/>
                     <subviews>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="W0T-uY-7CM">
                             <rect key="frame" x="0.0" y="0.0" width="340" height="32"/>
@@ -50,20 +51,36 @@
                             <rect key="frame" x="8" y="33" width="324" height="596"/>
                             <subviews>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fnD-6t-lxN">
-                                    <rect key="frame" x="4" y="29" width="320" height="579"/>
+                                    <rect key="frame" x="4" y="52" width="320" height="556"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="579" id="UXx-iD-5mk"/>
+                                        <constraint firstAttribute="height" constant="556" id="UXx-iD-5mk"/>
                                         <constraint firstAttribute="width" constant="320" id="oUV-KJ-FcC"/>
                                     </constraints>
                                 </tableView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Role:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhZ-ii-gj1">
+                                    <rect key="frame" x="8" y="23" width="90" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QeG-6L-epO">
+                                    <rect key="frame" x="106" y="16" width="210" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstItem="DhZ-ii-gj1" firstAttribute="top" secondItem="BBl-cO-tFr" secondAttribute="top" constant="23" id="AzE-wb-0bv"/>
                                 <constraint firstItem="fnD-6t-lxN" firstAttribute="leading" secondItem="BBl-cO-tFr" secondAttribute="leading" constant="4" id="BFj-Wo-wDA"/>
                                 <constraint firstAttribute="width" constant="324" id="C9u-VF-r8e"/>
                                 <constraint firstAttribute="height" constant="596" id="Cin-mD-tfu"/>
-                                <constraint firstItem="fnD-6t-lxN" firstAttribute="top" secondItem="BBl-cO-tFr" secondAttribute="top" constant="29" id="HMZ-Cn-jsv"/>
+                                <constraint firstItem="fnD-6t-lxN" firstAttribute="top" secondItem="BBl-cO-tFr" secondAttribute="top" constant="52" id="HMZ-Cn-jsv"/>
+                                <constraint firstAttribute="trailing" secondItem="QeG-6L-epO" secondAttribute="trailing" constant="8" id="Ut6-dD-iSM"/>
+                                <constraint firstItem="QeG-6L-epO" firstAttribute="top" secondItem="BBl-cO-tFr" secondAttribute="top" constant="16" id="Y6t-PM-KVI"/>
+                                <constraint firstItem="DhZ-ii-gj1" firstAttribute="leading" secondItem="BBl-cO-tFr" secondAttribute="leading" constant="8" id="gWE-AN-Kym"/>
+                                <constraint firstItem="QeG-6L-epO" firstAttribute="leading" secondItem="DhZ-ii-gj1" secondAttribute="trailing" constant="8" symbolic="YES" id="wPe-2s-N9r"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qyv-AN-qSJ">
@@ -171,7 +188,7 @@
                 <constraint firstItem="AdW-CH-DMo" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" constant="-1" id="mvI-PV-dmn"/>
                 <constraint firstAttribute="trailing" secondItem="ZL8-8i-GfU" secondAttribute="trailing" constant="-10" id="wVn-Rc-uAW"/>
             </constraints>
-            <point key="canvasLocation" x="118.46153846153845" y="0.0"/>
+            <point key="canvasLocation" x="117.59999999999999" y="0.0"/>
         </view>
     </objects>
     <resources>

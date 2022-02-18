@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
@@ -20,6 +21,8 @@ namespace Strive.Core.ViewModels.Employee.Schedule
         public static bool isNoData = false;
         public Checklist checklist { get; set; }
         public static List<checklistupdate> SelectedChecklist = new List<checklistupdate>();
+        public int Roleid { get; set; }
+        public string RoleName { get; set; }
         #region Properties
 
         public ScheduleDetail scheduleList { get; set; }
@@ -111,8 +114,8 @@ namespace Strive.Core.ViewModels.Employee.Schedule
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
             ChecklistRequest checklistRequest = new ChecklistRequest();
-            checklistRequest.notificationDate = "2022-02-16T08:02:01.028Z"; //DateTime.Now.ToString("yyyy-MM-dd");
-            checklistRequest.role = 3;
+            checklistRequest.notificationDate = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss.fff")+"Z";
+            checklistRequest.role = Roleid;
             checklistRequest.EmployeeId = EmployeeTempData.EmployeeID;
             var result = await AdminService.GetCheckList(checklistRequest);
             if (result != null)
@@ -123,7 +126,7 @@ namespace Strive.Core.ViewModels.Employee.Schedule
             {
                 _userDialog.Alert("Unable to fetch the data");
             }  
-            Console.WriteLine("Tasks fetched");
+            
             _userDialog.HideLoading();
         }
 

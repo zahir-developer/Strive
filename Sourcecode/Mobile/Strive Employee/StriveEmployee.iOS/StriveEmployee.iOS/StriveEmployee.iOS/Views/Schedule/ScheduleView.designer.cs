@@ -37,6 +37,9 @@ namespace StriveEmployee.iOS.Views.Schedule
 		UIKit.UIView ParentView { get; set; }
 
 		[Outlet]
+		UIKit.UITextField Role { get; set; }
+
+		[Outlet]
 		UIKit.UIDatePicker ScheduleDateView { get; set; }
 
 		[Outlet]
@@ -56,14 +59,14 @@ namespace StriveEmployee.iOS.Views.Schedule
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (Checklist_TableView != null) {
-				Checklist_TableView.Dispose ();
-				Checklist_TableView = null;
-			}
-
 			if (_FinishBtn != null) {
 				_FinishBtn.Dispose ();
 				_FinishBtn = null;
+			}
+
+			if (Checklist_TableView != null) {
+				Checklist_TableView.Dispose ();
+				Checklist_TableView = null;
 			}
 
 			if (CheckListView != null) {
@@ -109,6 +112,11 @@ namespace StriveEmployee.iOS.Views.Schedule
 			if (ScheduleParentView != null) {
 				ScheduleParentView.Dispose ();
 				ScheduleParentView = null;
+			}
+
+			if (Role != null) {
+				Role.Dispose ();
+				Role = null;
 			}
 		}
 	}

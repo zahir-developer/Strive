@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Owner;
@@ -21,7 +22,12 @@ namespace StriveEmployee.iOS.Views.Schedule
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            ViewModel.Roleid = EmployeeTempData.EmployeeRoles[0].Roleid;
+            ViewModel.RoleName = EmployeeTempData.EmployeeRoles[0].RoleName;
             InitialSetup();
+
+            
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
@@ -50,6 +56,17 @@ namespace StriveEmployee.iOS.Views.Schedule
             };
             ParentView.Layer.CornerRadius = 5;
 
+            Role.Text = ViewModel.RoleName;
+
+            var pickerView = new UIPickerView();
+            var PickerViewModel = new RolesPicker(ViewModel,pickerView);
+            pickerView.Model = PickerViewModel;
+            pickerView.ShowSelectionIndicator = true;
+            AddPickerToolbar(Role, "Role", PickerDone);
+            Role.InputView = pickerView;
+
+
+
             ScheduleDateView.Layer.CornerRadius = 5;
             ScheduleDateView.MinimumDate = (Foundation.NSDate)System.DateTime.Today;           
             empSchedule_TableView.RegisterNibForCellReuse(empSchedule_Cell.Nib, empSchedule_Cell.Key);
@@ -58,7 +75,22 @@ namespace StriveEmployee.iOS.Views.Schedule
 
             getSheduleDetails();
         }
-        
+
+        async void PickerDone()
+        {
+            Role.Text = ViewModel.RoleName;
+            await ViewModel.GetTaskList();
+
+            Checklist_TableView.Hidden = false;
+            var checklistsource = new CheckList_DataSource(ViewModel.checklist);
+            Checklist_TableView.Source = checklistsource;
+            Checklist_TableView.TableFooterView = new UIView(CGRect.Empty);
+            Checklist_TableView.DelaysContentTouches = false;
+            Checklist_TableView.ReloadData();
+
+            View.EndEditing(true);
+        }
+
         partial void Schedule_Segment_Touch(UISegmentedControl sender)
         {
             var segment = Scheduledetailer_Seg_Ctrl.SelectedSegment;
@@ -221,6 +253,38 @@ namespace StriveEmployee.iOS.Views.Schedule
                 }
             }
             
+        }
+
+        public void AddPickerToolbar(UITextField textField, string title, Action action)
+        {
+            const string CANCEL_BUTTON_TXT = "Cancel";
+            const string DONE_BUTTON_TXT = "Done";
+
+            var toolbarDone = new UIToolbar();
+            toolbarDone.SizeToFit();
+
+            var barBtnCancel = new UIBarButtonItem(CANCEL_BUTTON_TXT, UIBarButtonItemStyle.Plain, (sender, s) =>
+            {
+                textField.EndEditing(false);
+            });
+
+            var barBtnDone = new UIBarButtonItem(DONE_BUTTON_TXT, UIBarButtonItemStyle.Done, (sender, s) =>
+            {
+                textField.EndEditing(false);
+                action.Invoke();
+
+            });
+
+            var barBtnSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
+
+            var lbl = new UILabel();
+            lbl.Text = title;
+            lbl.TextAlignment = UITextAlignment.Center;
+            lbl.Font = UIFont.BoldSystemFontOfSize(size: 16.0f);
+            var lblBtn = new UIBarButtonItem(lbl);
+
+            toolbarDone.Items = new UIBarButtonItem[] { barBtnCancel, barBtnSpace, lblBtn, barBtnSpace, barBtnDone };
+            textField.InputAccessoryView = toolbarDone;
         }
     }
 }

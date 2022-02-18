@@ -41,7 +41,8 @@ namespace Strive.Core.ViewModels.Employee
                     EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
                     EmployeeTempData.LocationId = loginResponse.EmployeeDetails.EmployeeLocations[0].LocationId;
                     EmployeeTempData.LocationName = loginResponse.EmployeeDetails.EmployeeLocations[0].LocationName;
-                    EmployeeTempData.employeeLocationdata = loginResponse.EmployeeDetails.EmployeeLocations;                    
+                    EmployeeTempData.employeeLocationdata = loginResponse.EmployeeDetails.EmployeeLocations;
+                    EmployeeTempData.EmployeeRoles = loginResponse.EmployeeDetails.EmployeeRoles;
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
                         await _navigationService.Navigate<DashboardViewModel>();
