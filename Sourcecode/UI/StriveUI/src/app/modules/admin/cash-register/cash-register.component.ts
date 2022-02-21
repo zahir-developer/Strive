@@ -433,6 +433,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
+
+        this.getTargetBusinessData(this.locationId, this.Todaydate);
+        this.getCashRegister();
         const weatherPredictObj = {
           WeatherPrediction: weatherObj
         }
@@ -440,11 +443,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           if (response.status === 'Success') {
             this.spinner.hide();
 
-            this.toggleTab = 0;
-
-            this.weatherService.getWeather();
-            this.getTargetBusinessData(this.locationId, this.Todaydate);
-            this.getCashRegister();
+            this.toggleTab = 0;            
+            this.weatherService.getWeather();            
           } else {
             this.spinner.hide();
           }
