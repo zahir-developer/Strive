@@ -35,6 +35,9 @@ namespace StriveEmployee.iOS.Views.Schedule
             if (TaskCheck.CurrentImage == UIImage.FromBundle("icon-checked-round"))
             {
                 TaskCheck.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                var element = ScheduleViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[indexPath.Row].CheckListEmployeeId);
+                ScheduleViewModel.SelectedChecklist.Remove(element);
+          
             }
             else
             {
@@ -43,7 +46,7 @@ namespace StriveEmployee.iOS.Views.Schedule
                 checklist.CheckListEmployeeId = item.ChecklistNotification[indexPath.Row].CheckListEmployeeId;
                 //checklist.CheckListId = item.ChecklistNotification[indexPath.Row].CheckListId;
                 checklist.IsCompleted = true;
-                checklist.NotificationDate = "2022-02-16T08:02:01.028Z";
+                checklist.NotificationDate = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss.fff") + "Z";
                 checklist.UserId= EmployeeTempData.EmployeeID;
                 ScheduleViewModel.SelectedChecklist.Add(checklist);
 
