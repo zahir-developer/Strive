@@ -48,6 +48,7 @@ namespace StriveEmployee.iOS.Views.Schedule
                 checklist.IsCompleted = true;
                 checklist.NotificationDate = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss.fff") + "Z";
                 checklist.UserId= EmployeeTempData.EmployeeID;
+                
                 ScheduleViewModel.SelectedChecklist.Add(checklist);
 
             }

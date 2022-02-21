@@ -13,6 +13,5 @@ namespace Strive.Core.Models.Employee.CheckList
         public bool IsCompleted { get; set; }
         public string NotificationDate{ get; set; }
         public int UserId { get; set; }
-        
     }
 }

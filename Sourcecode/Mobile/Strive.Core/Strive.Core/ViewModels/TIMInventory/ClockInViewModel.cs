@@ -177,7 +177,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         void RoleSelectedCommand(EmployeeRole role)
         {
             string imagepath = role.ImageUriHover;
-            imagepath += "-hover";
+            imagepath += "";
             role.ImageUri = imagepath;
             _userDialog.Toast("You have selected " + role.Title +" role");
         }
