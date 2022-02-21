@@ -52,6 +52,8 @@ export class ClientHistoryComponent implements OnInit {
     this.getHistory(capObj);
     this.historyGrid = this.historyData;
     this.historyCloned = this.historyData;
+    this.collectionSize = Math.ceil(this.historyCloned.length / this.pageSize) * 10;
+    this.FilterRecords();
   }
 
   closeHistoryModel() {

@@ -586,9 +586,10 @@ export class ClientCreateEditComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef = this.modalService.open(ClientStatementComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
-    modalRef.componentInstance.statementData = this.statementData;
+    // modalRef.componentInstance.historyData = this.historyData;
+    modalRef.componentInstance.historyData = this.activityDetails;
   }
 
   openHistory() {
@@ -597,10 +598,9 @@ export class ClientCreateEditComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(ClientStatementComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
-    // modalRef.componentInstance.historyData = this.historyData;
-    modalRef.componentInstance.historyData = this.activityDetails;
+    modalRef.componentInstance.statementData = this.statementData;
   }
 
   getService() {
@@ -623,7 +623,7 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
+  if (sortingInfo.column === column) {
       sortingInfo.descending = !sortingInfo.descending;
     } else {
       sortingInfo.column = column;

@@ -24,55 +24,6 @@
                         <div id="Clientviewedit" class="collapse show">
                             <app-client-form [selectedData]="selectedData" [isView]="isView" [isEdit]="isEdit" (isCreditAccount)="change($event)">
                             </app-client-form>
-                           <!--  <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="m-t-10 m-b-10">
-                                        <h5 class="d-inline-block font-weight-600">Credit Card Details</h5>&nbsp;
-                                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                                            (click)="addCreditCard()" [disabled]="isView">Add New Credit Card</button>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table  table-striped m-t-10">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" (click)="changeSorting('CardType')">Card Type 
-                                                        &nbsp;<i class="fa" [ngClass]="selectedCls('CardType')"
-                                                        aria-hidden="true"></i></th>
-                                                    <th scope="col" (click)="changeSorting('CardNumber')">Card Number&nbsp;<i class="fa" [ngClass]="selectedCls('CardNumber')"
-                                                        aria-hidden="true"></i></th>
-                                                    <th scope="col" (click)="changeSorting('ExpiryDate')">Expiry Date&nbsp;<i class="fa" [ngClass]="selectedCls('ExpiryDate')"
-                                                        aria-hidden="true"></i></th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr
-                                                    *ngFor="let card of cardDetails | orderBy:sort.column:'sequence':sort.descending | slice: (cardPage-1) * cardPageSize : (cardPage-1) * cardPageSize + cardPageSize">
-                                                    <th scope="row">{{card.CardType}}</th>
-                                                    <td>{{card.CardNumber}}</td>
-                                                    <td>{{card.ExpiryDate}}</td>
-                                                    <td>
-                                                        <em class="fa fa-pencil-square edit-list  m-r-10"
-                                                             [ngClass]="{'theme-disabled-icon-color': !card.IsActive, 'theme-secondary-icon-color': card.IsActive  }" 
-                                                            pTooltip="Edit" tooltipPosition="bottom"
-                                                            (click)="editCreditCard(card)"></em>
-                                                        <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                            style="color:red" pTooltip="Delete"
-                                                            (click)="deleteCreditCard(card)" tooltipPosition="bottom"></em>
-                                                    </td>
-                                                </tr>
-                                                <tr *ngIf="cardDetails.length === 0">
-                                                    <td colspan="7" class="text-center">No Record Found</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <ngb-pagination *ngIf="cardCollectionSize > 10" [collectionSize]="cardCollectionSize"
-                                            [(page)]="cardPage" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                            [boundaryLinks]="true" class="d-flex justify-content-end">
-                                        </ngb-pagination>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="m-t-10 m-b-10">
@@ -134,7 +85,6 @@
                                 <div class="col-lg-12">
                                     <div class="m-t-10 m-b-10">
                                         <h5 class="d-inline-block font-weight-600">Activity</h5>&nbsp;
-                                        <label class="btn btn-md float-right">Credit Amount : {{TotalAmount}}</label>
                                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
                                             (click)="addActivity()" [disabled]="isView">Add Activity</button>
                                     </div>
@@ -175,6 +125,10 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <div class="p-b-55">
+                                            <label class="btn btn-md float-right"><label class="font-weight-600">Credit Balance Amount:</label> {{TotalAmount}}</label>
+                                        </div>
+                                        
                                         <ngb-pagination *ngIf="activityCollectionSize > 10" [collectionSize]="activityCollectionSize"
                                             [(page)]="activityPage" [maxSize]="3" [rotate]="true" [ellipses]="false"
                                             [boundaryLinks]="true" class="d-flex justify-content-end">
