@@ -55,7 +55,7 @@ namespace StriveEmployee.iOS.Views.Schedule
                 ViewModel.LogoutCommand();
             };
             ParentView.Layer.CornerRadius = 5;
-
+            _FinishBtn.Layer.CornerRadius = 5;
             Role.Text = ViewModel.RoleName;
 
             var pickerView = new UIPickerView();
@@ -115,28 +115,25 @@ namespace StriveEmployee.iOS.Views.Schedule
                 checklistInitialization();
             }
         }
-        private void checklistInitialization()
+        partial void FinishBtn_Touch(UIButton sender)
         {
-            //Finish Button in UI
-            UIButton rightBtn = new UIButton(UIButtonType.Custom);
-            rightBtn.SetTitle("Finish", UIControlState.Normal);
-            rightBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
-            UIBarButtonItem rightBarBtn = new UIBarButtonItem(rightBtn);
-            NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
-            rightBtn.TouchUpInside += (sender, e) =>
+            if (ScheduleViewModel.SelectedChecklist.Count!=0)
             {
                 ViewModel.FinishTask();
                 getchecklist();
                 Checklist_TableView.ReloadData();
-            };
+            }
+            else
+            {
+                ViewModel.ChecklistValidate();
+            }
+        }
+        private void checklistInitialization()
+        {
             getchecklist();
-
             Checklist_TableView.RegisterNibForCellReuse(CheckListTableCell.Nib, CheckListTableCell.Key);
             Checklist_TableView.BackgroundColor = UIColor.Clear;
             Checklist_TableView.ReloadData();
-
-            
-            
         }
         private async void getchecklist()
         {

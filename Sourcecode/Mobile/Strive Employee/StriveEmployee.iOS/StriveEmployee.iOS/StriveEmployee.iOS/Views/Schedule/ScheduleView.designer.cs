@@ -51,6 +51,9 @@ namespace StriveEmployee.iOS.Views.Schedule
 		[Action ("DetailDate_Touch:")]
 		partial void DetailDate_Touch (UIKit.UIDatePicker sender);
 
+		[Action ("FinishBtn_Touch:")]
+		partial void FinishBtn_Touch (UIKit.UIButton sender);
+
 		[Action ("Schedule_Segment_Touch:")]
 		partial void Schedule_Segment_Touch (UIKit.UISegmentedControl sender);
 
@@ -99,6 +102,11 @@ namespace StriveEmployee.iOS.Views.Schedule
 				ParentView = null;
 			}
 
+			if (Role != null) {
+				Role.Dispose ();
+				Role = null;
+			}
+
 			if (ScheduleDateView != null) {
 				ScheduleDateView.Dispose ();
 				ScheduleDateView = null;
@@ -112,11 +120,6 @@ namespace StriveEmployee.iOS.Views.Schedule
 			if (ScheduleParentView != null) {
 				ScheduleParentView.Dispose ();
 				ScheduleParentView = null;
-			}
-
-			if (Role != null) {
-				Role.Dispose ();
-				Role = null;
 			}
 		}
 	}

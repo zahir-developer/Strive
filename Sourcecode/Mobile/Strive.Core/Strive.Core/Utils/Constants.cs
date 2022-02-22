@@ -197,7 +197,7 @@ namespace Strive.Core.Utils
 
         //CheckList
 
-        public const string URL_GET_CHECKLIST = "/Admin//Checklist/ChecklistNotification";
+        public const string URL_GET_CHECKLIST = "/Admin/Checklist/ChecklistNotification";
         public const string URL_FINISH_CHECKLIST = "/Admin/Checklist/UpdateChecklistNotification";
 
     }
