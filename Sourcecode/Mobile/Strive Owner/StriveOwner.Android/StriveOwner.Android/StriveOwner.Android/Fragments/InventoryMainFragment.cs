@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.TimInventory;
+using Strive.Core.Utils.TimInventory;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
 using StriveOwner.Android.Helper;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 using OperationCanceledException = System.OperationCanceledException;
 using SearchView = Android.Support.V7.Widget.SearchView;
 
@@ -25,6 +27,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private SearchView inventoryMain_SearchView;
         private Context Context;
         private AlertDialog.Builder Builder;
+        private Button addButton;
         private EventHandler<DialogClickEventArgs> okHandler;
         private EventHandler<DialogClickEventArgs> removePhotoHandler;
         private bool isSwipeCalled;
@@ -50,10 +53,20 @@ namespace StriveOwner.Android.Resources.Fragments
             this.ViewModel = new InventoryViewModel();
             inventoryMain_SearchView = rootView.FindViewById<SearchView>(Resource.Id.inventory_SearchView);
             inventoryMain_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.inventoryMain_RecyclerView);
+            addButton = rootView.FindViewById<Button>(Resource.Id.inventory_Add);
             isSwipeCalled = false;
             GetProducts();
             inventoryMain_SearchView.QueryTextChange += InventoryMain_SearchView_QueryTextChange;
+            addButton.Click += Inventory_AddClick;
             return rootView;
+        }
+
+        private void Inventory_AddClick(object sender, EventArgs e)
+        {
+            EmployeeData.EditableProduct = null;
+            InventoryEditFragment inventoryEdit = new InventoryEditFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Activity;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, inventoryEdit).Commit();
         }
 
         private async void InventoryMain_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:gravity="center"
+	android:layout_height="wrap_content">
+	<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:text="Choose Image"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="30dp"
+		android:textColor="@android:color/black"
+		android:fontFamily="@font/opensans_bold"
+		android:gravity="center"/>
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:weightSum="3"
+		android:orientation="horizontal">
+	<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_weight="1"
+		android:gravity="center"
+		android:layout_marginTop="@dimen/ten">
+	<ImageButton
+		android:id="@+id/btn_camera"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="@android:color/transparent"
+		android:src="@drawable/ic_camera"/>
+		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:textColor="@android:color/black"
+			android:textSize="13sp"
+            android:fontFamily="@font/opensans_semibold"
+			android:text="Take Picture"/>
+		</LinearLayout>
+
+	<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_weight="1"
+		android:layout_marginTop="@dimen/ten">
+	<ImageButton
+		android:id="@+id/btn_gallery"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+		android:background="@android:color/transparent"
+		android:src="@drawable/foldericon"/>
+		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:textColor="@android:color/black"
+			android:textSize="13sp"
+		    android:layout_gravity="center"
+            android:fontFamily="@font/opensans_semibold"
+			android:text="Browse"/>
+		</LinearLayout>
+
+	<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_weight="1"
+		android:gravity="center"
+		android:layout_marginTop="@dimen/ten">
+	<ImageButton
+		android:id="@+id/btn_icon"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="@android:color/transparent"
+		android:src="@drawable/add_box" />
+		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:textColor="@android:color/black"
+			android:textSize="13sp"
+			android:fontFamily="@font/opensans_semibold"
+			android:text="Icon"/>
+		</LinearLayout>
+	</LinearLayout>
+	<TextView
+		android:id="@+id/notNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:gravity="center"
+		android:layout_marginTop="18dp"
+		android:layout_marginBottom="15dp"
+		android:fontFamily="@font/opensans_semibold"
+        android:textColor="#3859a4"
+		android:text="Not Now"/>
+</LinearLayout>

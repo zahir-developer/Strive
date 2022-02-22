@@ -124,10 +124,10 @@ namespace Strive.Core.ViewModels.Owner
             ProductList.Clear();
         }
 
-        public void EditCommand(int index)
+        public async void EditCommand(int index)
         {
             EmployeeData.EditableProduct = FilteredList[index];
-            //await _navigationService.Navigate<InventoryEditViewModel>();
+            await _navigationService.Navigate<InventoryEditViewModel>();
         }
 
         public async void ProductRequestCommand(int quantity, int index)
@@ -147,14 +147,14 @@ namespace Strive.Core.ViewModels.Owner
             if (response.Status == null)
             {
                 _userDialog.HideLoading();
-                _userDialog.AlertAsync("Request has been sent successfully");
+                _ = _userDialog.AlertAsync("Request has been sent successfully");
             }
         }
 
-        //public async void AddProductCommand()
-        //{
-        //    await _navigationService.Navigate<InventoryEditViewModel>();
-        //}
+        public async void AddProductCommand()
+        {
+            await _navigationService.Navigate<InventoryEditViewModel>();
+        }
 
         public async Task<bool> DeleteProductCommand(int index)
         {

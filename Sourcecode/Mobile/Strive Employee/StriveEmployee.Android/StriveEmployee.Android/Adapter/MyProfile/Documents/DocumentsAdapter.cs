@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Xamarin.Essentials;
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
-using Environment = System.Environment;
-using StriveEmployee.Android.Views;
 using File = System.IO.File;
 using Uri = Android.Net.Uri;
 using Android.Webkit;
 using Java.IO;
 using Android.Util;
-using Xamarin.Essentials;
 
 namespace StriveEmployee.Android.Adapter.MyProfile.Documents
 {

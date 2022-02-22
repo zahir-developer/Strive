@@ -44,23 +44,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:gravity="bottom|center"
+        android:gravity="right"
+        android:orientation="horizontal"
         android:layout_marginTop="15dp">
+        
         <Button
-            android:id="@+id/popout_Request"
+            android:id="@+id/inventory_Add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:layout_marginRight="10dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/secondary_button"/>
-        <Button
-            android:id="@+id/inventory_Save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:layout_marginLeft="10dp"
+            android:text="Add Product"
+            android:layout_marginRight="40dp"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:background="@drawable/primary_button"/>
     </LinearLayout>

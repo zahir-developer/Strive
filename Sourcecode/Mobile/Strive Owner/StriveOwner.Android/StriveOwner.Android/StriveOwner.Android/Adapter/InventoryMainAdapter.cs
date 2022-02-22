@@ -6,14 +6,17 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils.Owner;
+using Strive.Core.Utils.TimInventory;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Resources.Fragments;
 using static Android.App.ActionBar;
@@ -56,6 +59,10 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.ItemName = inventorylist[position].Product.ProductName;
             inventoryViewHolder.productDescription.Text = inventorylist[position].Product.ProductDescription;
             OwnerTempData.ItemDescription = inventorylist[position].Product.ProductDescription;
+            if(!string.IsNullOrEmpty(inventorylist[position].Product.Base64))
+            {
+                inventoryViewHolder.productImg.SetImageBitmap(Base64ToBitmap(inventorylist[position].Product.Base64));
+            }
             if (!inventoryViewHolder.productViewMore.HasOnClickListeners)
             {
                 inventoryViewHolder.productViewMore.Click += ProductViewMore_Click;
@@ -77,7 +84,11 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.ItemQuantity = inventorylist[position].Product.Quantity.ToString();
 
         }
-
+        public Bitmap Base64ToBitmap(string base64String)
+        {
+            byte[] imageAsBytes = Base64.Decode(base64String, Base64Flags.Default);
+            return BitmapFactory.DecodeByteArray(imageAsBytes, 0, imageAsBytes.Length);
+        }
         private async void QuantityDec_Click(object sender, EventArgs e)
         {
             var objs = (TextView)sender;
@@ -128,9 +139,9 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.SupplierAddress = inventorylist[positions].Vendor.Address1;
             popout_Email.Text = inventorylist[positions].Vendor.Email;
             OwnerTempData.SupplierEmail = inventorylist[positions].Vendor.Email;
-            //edit_Items.Click += Edit_Items_Click;
+            edit_Items.Click += Edit_Items_Click;
             close.Click += Close_Click;
-            //popout_Request.Click += Popout_Request_Click;
+            popout_Request.Click += Popout_Request_Click;
         }
 
         private void Popout_Request_Click(object sender, EventArgs e)
@@ -151,6 +162,7 @@ namespace StriveOwner.Android.Adapter
         {
             popupRequest.Dismiss();
             popupMainInvetory.Hide();
+            if(int.Parse(quantity.Text) > 0)
             invVM.ProductRequestCommand(int.Parse(quantity.Text), index);
         }
 
@@ -164,6 +176,8 @@ namespace StriveOwner.Android.Adapter
         {
             popupMainInvetory.Dismiss();
             popupMainInvetory.Hide();
+
+            EmployeeData.EditableProduct = inventorylist[index];
             InventoryEditFragment inventoryEdit = new InventoryEditFragment();
             AppCompatActivity activity = (AppCompatActivity)context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, inventoryEdit).Commit();
@@ -202,6 +216,7 @@ namespace StriveOwner.Android.Adapter
         public Button quantityInc;
         public Button quantityDec;
         public TextView quantityProds;
+        public ImageView productImg;
 
         public InventoryMainAdapterViewHolder(View inventoryProd) : base(inventoryProd)
         {
@@ -212,6 +227,8 @@ namespace StriveOwner.Android.Adapter
             quantityInc = inventoryProd.FindViewById<Button>(Resource.Id.quantityInc);
             quantityDec = inventoryProd.FindViewById<Button>(Resource.Id.quantityDec);
             quantityProds = inventoryProd.FindViewById<TextView>(Resource.Id.quantityProds);
+            productImg = inventoryProd.FindViewById<ImageView>(Resource.Id.inventorymain_ImageView);
+
         }
 
     }
