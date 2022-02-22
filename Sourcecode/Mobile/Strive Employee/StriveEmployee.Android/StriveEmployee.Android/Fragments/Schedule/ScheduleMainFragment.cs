@@ -30,8 +30,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         private ViewPagerAdapter schedule_ViewPagerAdapter;
         private ScheduleFragment scheduleFragment;
         private ScheduleDetailerFragment scheduleDetailerFragment;
-        private ScheduleCheckListFragment scheduleCheckListFragment;
-        public static Button finishButton;
+        private ScheduleCheckListFragment scheduleCheckListFragment;        
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -42,9 +41,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            var rootView = this.BindingInflate(Resource.Layout.ScheduleMain_Fragment, null);
-            finishButton = rootView.FindViewById<Button>(Resource.Id.finishButton);
-            finishButton.Visibility = ViewStates.Invisible;
+            var rootView = this.BindingInflate(Resource.Layout.ScheduleMain_Fragment, null);            
             schedule_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.schedule_TabLayout);
             schedule_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.schedule_ViewPager);
             scheduleFragment = new ScheduleFragment();

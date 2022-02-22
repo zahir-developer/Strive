@@ -7,6 +7,9 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android;
 using Strive.Core;
 using StriveCustomer.Android.MvvmCross;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace StriveCustomer.Android
 {
@@ -22,6 +25,12 @@ namespace StriveCustomer.Android
             UserDialogs.Init(() => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
             Xamarin.Essentials.Platform.Init(this);
 
+        }
+        public override void OnCreate()
+        {
+            AppCenter.Start("cff82a33-966f-4d0f-98a2-aa32df60da52",typeof(Analytics), typeof(Crashes));
+            Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
+            base.OnCreate();
         }
     }
 }

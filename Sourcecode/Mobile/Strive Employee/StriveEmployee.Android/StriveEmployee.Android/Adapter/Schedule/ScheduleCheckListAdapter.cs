@@ -5,6 +5,7 @@ using Strive.Core.Models.Employee.CheckList;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.Schedule;
 using System;
+using System.Linq;
 
 namespace StriveEmployee.Android.Adapter.Schedule
 {
@@ -12,7 +13,7 @@ namespace StriveEmployee.Android.Adapter.Schedule
     {
         public event EventHandler<ScheduleCheckListAdapterClickEventArgs> ItemClick;
         public event EventHandler<ScheduleCheckListAdapterClickEventArgs> ItemLongClick;
-        Checklist Checklist;
+        Checklist Checklist = new Checklist();
         int CheckListPosition;
         public ScheduleCheckListAdapter(Checklist checkList)
         {
@@ -40,34 +41,48 @@ namespace StriveEmployee.Android.Adapter.Schedule
             // Replace the contents of the view with that element
             var holder = viewHolder as ScheduleCheckListAdapterViewHolder;
             holder.taskName.Text = item.ChecklistNotification[position].Name;
-            holder.checklist_Time.Text = item.ChecklistNotification[position].NotificationTime;
+            holder.checklist_Time.Text = "Time: " + item.ChecklistNotification[position].NotificationTime;
             holder.completedTask_Checkbox.CheckedChange += CompletedTask_Checkbox_CheckedChange;
+            if (ScheduleViewModel.SelectedChecklist.Count != 0)
+            {
+                var test = ScheduleViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[position].CheckListEmployeeId);
+                if (test != null)
+                {
+                    holder.completedTask_Checkbox.Checked = true;
+                   
+                }
+                else
+                {
+                    holder.completedTask_Checkbox.Checked = false;                    
+                }
+            }
         }
 
         private void CompletedTask_Checkbox_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
+            var item = Checklist;
             if (e.IsChecked)
             {
-                var item = Checklist;
+                
                 var checklist = new checklistupdate();
                 checklist.CheckListEmployeeId = item.ChecklistNotification[CheckListPosition].CheckListEmployeeId;
                 //checklist.CheckListId = item.ChecklistNotification[indexPath.Row].CheckListId;
                 checklist.IsCompleted = true;
-                checklist.NotificationDate = "2022-02-16T08:02:01.028Z";
+                checklist.NotificationDate = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss.fff") + "Z";
                 checklist.UserId = EmployeeTempData.EmployeeID;
+                //checklist.CheckListNotificationId = item.ChecklistNotification[CheckListPosition].ChecklistNotificationId;
                 ScheduleCheckListViewModel.SelectedChecklist.Add(checklist);
             }
-            //else 
-            //{
-            //    var item = Checklist;
-            //    var checklist = new checklistupdate();
-            //    checklist.CheckListEmployeeId = item.ChecklistNotification[CheckListPosition].CheckListEmployeeId;
-            //    //checklist.CheckListId = item.ChecklistNotification[indexPath.Row].CheckListId;
-            //    checklist.IsCompleted = false;
-            //    checklist.NotificationDate = "2022-02-16T08:02:01.028Z";
-            //    checklist.UserId = EmployeeTempData.EmployeeID;
-            //    ScheduleCheckListViewModel.SelectedChecklist.Add(checklist);
-            //}
+            else
+            {
+                if (ScheduleViewModel.SelectedChecklist.Any(x => x.CheckListEmployeeId == item.ChecklistNotification[CheckListPosition].CheckListEmployeeId)) 
+                {                    
+                    var element = ScheduleViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[CheckListPosition].CheckListEmployeeId);
+                    ScheduleViewModel.SelectedChecklist.Remove(element);
+                }                    
+                
+            }     
+           
 
         }
 
@@ -100,3 +115,5 @@ namespace StriveEmployee.Android.Adapter.Schedule
         public int Position { get; set; }
     }
 }
+
+

@@ -32,14 +32,21 @@ namespace Strive.Core.ViewModels.Employee.Schedule
         {
             //_userDialog.Alert("Do you want to complete the Tasks");
             checklistUpdateRequest = new ChecklistUpdateRequest();
-            checklistUpdateRequest.CheckListNotification = SelectedChecklist;
-            var result = await AdminService.FinishCheckList(checklistUpdateRequest);
-            if (result != null)
+            if (SelectedChecklist.Count == 0)
             {
-                _userDialog.Alert("Successfully completed the tasks");
+                _userDialog.Alert("No Tasks Selected");
+            }
+            else
+            {
+                checklistUpdateRequest.CheckListNotification = SelectedChecklist;
+                var result = await AdminService.FinishCheckList(checklistUpdateRequest);
+                if (result != null)
+                {
+                    _userDialog.Alert("Successfully completed the tasks");
+                }
             }
 
-            Console.WriteLine("Task Has been completed successfully");
+            //Console.WriteLine("Task Has been completed successfully");
         }
         public async Task GetTaskList()
         {

@@ -26,6 +26,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         private ScheduleCheckListAdapter checkListAdapter;
         private ArrayAdapter<string> rolesAdapter;
         private Spinner rolesSpinner;
+        public  Button finishButton;
         Context context;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -39,13 +40,15 @@ namespace StriveEmployee.Android.Fragments.Schedule
             var rootView = this.BindingInflate(Resource.Layout.Schedule_ChecklistFragment, null);
             rolesSpinner = rootView.FindViewById<Spinner>(Resource.Id.role_Spinner);
             checkList_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.checkList_RecyclerView);
-            ScheduleMainFragment.finishButton.Visibility = ViewStates.Visible;
-            ScheduleMainFragment.finishButton.Click += FinishButton_Click;
+            finishButton = rootView.FindViewById<Button>(Resource.Id.finishButton);
+            
+            finishButton.Click += FinishButton_Click;
             rolesSpinner.ItemSelected += RoleSpinner_ItemSelected;
             context = this.Context;
             this.ViewModel = new ScheduleCheckListViewModel();
+            ScheduleCheckListViewModel.SelectedChecklist.Clear();
             SetRoleSpinner();
-            
+
 
             return rootView;
         }
@@ -80,12 +83,8 @@ namespace StriveEmployee.Android.Fragments.Schedule
 
         private async void FinishButton_Click(object sender, EventArgs e)
         {
-            if (ScheduleCheckListViewModel.SelectedChecklist.Count != 0)
-            {
-                await ViewModel.FinishTask();
-                GetCheckListData();
-            }
-
+            await ViewModel.FinishTask();
+            GetCheckListData();
         }
 
         private async void GetCheckListData()

@@ -21,6 +21,8 @@ using Android.Graphics;
 using Path = System.IO.Path;
 using Android.Provider;
 using System.IO;
+using Android.Support.V7.App;
+using StriveOwner.Android.Fragments;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -47,6 +49,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private List<string> ProductTypes;
         Dialog chooseImageDialog;
         private string PhotoPath;
+        private InventoryEditImagePickerFragment inventoryEditImagePickerFragment;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -133,6 +136,9 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private void IconBtn_Click(object sender, EventArgs e)
         {
+            inventoryEditImagePickerFragment = new InventoryEditImagePickerFragment();
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame,inventoryEditImagePickerFragment).Commit();
         }
 
         private void GalleryBtn_Click(object sender, EventArgs e)
