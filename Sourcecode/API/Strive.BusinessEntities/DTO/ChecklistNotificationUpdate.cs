@@ -12,8 +12,6 @@ namespace Strive.BusinessEntities.DTO
         public int UserId { get; set; }
         public DateTime NotificationDate { get; set; }
         public bool IsCompleted { get; set; }
-        public int CheckListNotificationId { get; set; }
-        public int EmployeeId { get; set; }
-    }
+       }
 }
 

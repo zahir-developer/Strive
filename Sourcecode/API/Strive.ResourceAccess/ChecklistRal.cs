@@ -25,7 +25,7 @@ namespace Strive.ResourceAccess
                 _prm.Add("@userId", oItem.UserId);
                 _prm.Add("@Date", oItem.NotificationDate);
                 _prm.Add("@IsCompleted", oItem.IsCompleted);
-                _prm.Add("@CheckListNotificationId", oItem);
+                //_prm.Add("@CheckListNotificationId", oItem);
                 db.Save(EnumSP.Checklist.USPUPDATECHECKLISTNOTIFICATION.ToString(), _prm);
             }
            

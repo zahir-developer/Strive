@@ -10,9 +10,8 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public string Name { get; set; }
         public int CheckListId { get; set; }
-        public int ChecklistNotificationId { get; set; }
+        public int CheckListEmployeeId { get; set; }
         public TimeSpan NotificationTime { get; set; }
-        public bool? IsCompleted { get; set; }
         
     }
 }
