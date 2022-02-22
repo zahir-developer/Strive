@@ -28,7 +28,7 @@ namespace StriveEmployee.iOS.Views.Schedule
         }
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 120;
+            return 110;
         }
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
