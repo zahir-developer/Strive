@@ -7,13 +7,15 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
+using Firebase.CloudMessaging;
+using UserNotifications;
 
 namespace StriveEmployee.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : MvxApplicationDelegate<Setup, App>
+    public class AppDelegate : MvxApplicationDelegate<Setup, App>, IMessagingDelegate, IUNUserNotificationCenterDelegate
     {
         // class-level declarations
 
@@ -32,6 +34,54 @@ namespace StriveEmployee.iOS
             Crashes.SetEnabledAsync(true);
            
             Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
+
+            // Setting up for Firebase Notification
+            Firebase.Core.App.Configure();
+
+            Messaging.SharedInstance.Delegate = this;
+
+            // Register your app for remote notifications.
+            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+
+                // For iOS 10 display notification (sent via APNS)
+                UNUserNotificationCenter.Current.Delegate = this;
+
+                var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
+                UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) => {
+                    Console.WriteLine(granted);
+                });
+            }
+            else
+            {
+                // iOS 9 or before
+                var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
+                var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+            }
+
+            UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
+            //Locan notification
+            if (launchOptions != null)
+            {
+                // check for a local notification
+                if (launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+                {
+                    var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+                    if (localNotification != null)
+                    {
+                        UIAlertController okayAlertController = UIAlertController.Create(localNotification.AlertAction, localNotification.AlertBody, UIAlertControllerStyle.Alert);
+                        okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+                        Window.RootViewController.PresentViewController(okayAlertController, true, null);
+
+                        // reset our badge
+                        UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+                    }
+                }
+            }
+
             return result;
         }
 
@@ -64,6 +114,33 @@ namespace StriveEmployee.iOS
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+
+        [Export("messaging:didReceiveRegistrationToken:")]
+        public void DidReceiveRegistrationToken(Messaging messaging, string fcmToken)
+        {
+            Console.WriteLine("DidReceiveRegistrationToken");
+            Console.WriteLine($"Firebase registration token: {fcmToken}");
+
+            // TODO: If necessary send token to application server.
+            // Note: This callback is fired at each app startup and whenever a new token is generated.
+        }
+
+        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        {
+            Messaging.SharedInstance.ApnsToken = deviceToken;
+        }
+
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            // show an alert
+            UIAlertController okayAlertController = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
+            okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+            UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(okayAlertController, true, null);
+
+            // reset our badge
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
     }
 }
