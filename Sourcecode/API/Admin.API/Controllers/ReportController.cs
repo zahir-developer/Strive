@@ -168,7 +168,7 @@ namespace Admin.API.Controllers
                         currentRow++;
 
                         worksheet2.Cell(currentRow, 1).Value = oItem.JobDate;
-                        worksheet2.Cell(currentRow, 2).Value = oItem.JobDate.ToString("ddd");
+                        worksheet2.Cell(currentRow, 2).Value = oItem.JobDate.GetValueOrDefault().ToString("ddd");
                         worksheet2.Cell(currentRow, 3).Value = oItem.Account;
                         worksheet2.Cell(currentRow, 4).Value = oItem.Total + oItem.Tips;
                         worksheet2.Cell(currentRow, 5).Value = oItem.Credit;

@@ -9,7 +9,7 @@ namespace Strive.BusinessEntities.ViewModel
     public class SalesSummaryViewModel
     {
         public int LocationId { get; set; }
-        public DateTime JobDate { get; set; }
+        public DateTime? JobDate { get; set; }
         public string PaymentDate { get; set; }
         public decimal? Cash { get; set; }
         public decimal? Credit { get; set; }
