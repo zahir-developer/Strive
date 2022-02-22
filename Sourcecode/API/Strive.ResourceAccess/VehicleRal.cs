@@ -74,6 +74,20 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
         }
+
+        public bool UpdateVehicleNumberSequence(int? vehicleId, int clientId)
+        {
+            if (clientId != 0)
+            {
+                _prm.Add("@ClientId", clientId);
+                _prm.Add("@VehicleId", vehicleId.GetValueOrDefault());
+                db.Save(EnumSP.Vehicle.USPUPDATEVEHICLENUMBERSEQUENCE.ToString(), _prm);
+                return true;
+            }
+            else
+                return false;
+        }
+
         public bool SaveClientVehicleMembership(ClientVehicleMembershipModel ClientVehicleMembershipModel)
         {
             return dbRepo.SaveAll(ClientVehicleMembershipModel, "ClientMembershipId");

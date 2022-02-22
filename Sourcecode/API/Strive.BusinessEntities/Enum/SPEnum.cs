@@ -266,7 +266,8 @@ namespace Strive.BusinessEntities
             USPGETUPCHARGEBYTYPE,
             USPADDDRIVEUPVEHICLE,
             USPUPDATEMEMBERSHIPVEHICLEDISCOUNT,
-            USPDELETEVEHICLEMEMBERSHIP
+            USPDELETEVEHICLEMEMBERSHIP,
+            USPUPDATEVEHICLENUMBERSEQUENCE,
         }
         public enum Vendor
         {

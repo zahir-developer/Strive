@@ -30,8 +30,6 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result AddVehicle(VehicleDto ClientVehicle)
         {
-
-
             return ResultWrap(new VehicleRal(_tenant).AddVehicle, ClientVehicle, "Status");
         }
 
@@ -67,9 +65,24 @@ namespace Strive.BusinessLogic.Vehicle
             return _result;
         }
 
-        public Result DeleteVehicle(int vehicleId)
+        public Result DeleteVehicle(int id, int? clientId)
         {
-            return ResultWrap(new VehicleRal(_tenant).DeleteVehicleById, vehicleId, "Status");
+            var vehRal = new VehicleRal(_tenant);
+
+            bool result = false;
+            if (vehRal.DeleteVehicleById(id))
+            {
+                if (vehRal.UpdateVehicleNumberSequence(id, clientId.GetValueOrDefault()))
+                {
+                    result = true;
+                }
+                else
+                    result = false;
+            }
+            else
+                result = false;
+
+            return ResultWrap(result, "Status");
         }
         public Result GetVehicleByClientId(int clientId)
         {
@@ -102,7 +115,7 @@ namespace Strive.BusinessLogic.Vehicle
                     vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.StartDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
                 }
             }
-            
+
             if (vehicleMembership.ClientVehicle.VehicleImage != null)
             {
                 foreach (var vehicleImage in vehicleMembership.ClientVehicle.VehicleImage)
@@ -124,8 +137,6 @@ namespace Strive.BusinessLogic.Vehicle
                 var clientMembershipDelete = new MembershipSetupRal(_tenant).DeleteVehicleMembershipById(vehicleMembership.DeletedClientMembershipId.GetValueOrDefault());
 
             }
-
-
 
             var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
             if (!saveVehicle)

@@ -28,7 +28,7 @@ namespace Admin.API.Controllers
 
         [HttpDelete]
         [Route("Delete")]
-        public Result DeleteVehicle(int id) => _bplManager.DeleteVehicle(id);
+        public Result DeleteVehicle(int id, int? clientId) => _bplManager.DeleteVehicle(id, clientId.GetValueOrDefault());
 
 
         [HttpGet]
