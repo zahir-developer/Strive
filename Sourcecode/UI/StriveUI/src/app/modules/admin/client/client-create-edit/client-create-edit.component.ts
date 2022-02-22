@@ -452,6 +452,7 @@ export class ClientCreateEditComponent implements OnInit {
       this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
       this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
       this.toastr.info(MessageConfig.Admin.Vehicle.Delete, 'Delete Vehicle!');
+      this.page = 1;
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       if (data.ClientVehicleId !== 0) {
         this.deleteIds.push(data);
