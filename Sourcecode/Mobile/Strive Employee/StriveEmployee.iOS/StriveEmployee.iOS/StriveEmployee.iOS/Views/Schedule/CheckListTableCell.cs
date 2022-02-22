@@ -14,6 +14,8 @@ namespace StriveEmployee.iOS.Views.Schedule
         public static readonly NSString Key = new NSString("CheckListTableCell");
         public static readonly UINib Nib;
         public bool ischecked = false;
+        public Checklist Checklist = new Checklist();
+        public NSIndexPath index;
         static CheckListTableCell()
         {
             Nib = UINib.FromName("CheckListTableCell", NSBundle.MainBundle);
@@ -43,7 +45,8 @@ namespace StriveEmployee.iOS.Views.Schedule
         }
         public void updateServices(Checklist item,NSIndexPath indexPath)
         {
-            
+            Checklist = item;
+            index = indexPath;
             if (ScheduleViewModel.SelectedChecklist.Any(x => x.CheckListEmployeeId == item.ChecklistNotification[indexPath.Row].CheckListEmployeeId))
             {
                 TaskCheck.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
@@ -60,10 +63,11 @@ namespace StriveEmployee.iOS.Views.Schedule
                 checklist.IsCompleted = true;
                 checklist.NotificationDate = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss.fff") + "Z";
                 checklist.UserId= EmployeeTempData.EmployeeID;
-                checklist.CheckListNotificationId = item.ChecklistNotification[indexPath.Row].ChecklistNotificationId;
+                //checklist.CheckListNotificationId = item.ChecklistNotification[indexPath.Row].ChecklistNotificationId;
                 ScheduleViewModel.SelectedChecklist.Add(checklist);
 
             }
         }
+       
     }
 }

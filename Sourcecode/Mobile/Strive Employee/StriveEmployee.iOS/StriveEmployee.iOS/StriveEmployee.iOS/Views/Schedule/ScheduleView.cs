@@ -44,6 +44,7 @@ namespace StriveEmployee.iOS.Views.Schedule
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             NavigationItem.Title = "Schedule";
+            ScheduleViewModel.SelectedChecklist.Clear();
             //Scheduledetailer_Seg_Ctrl.SelectedSegment = 1;
             var leftBtn = new UIButton(UIButtonType.Custom);
             leftBtn.SetTitle("Logout", UIControlState.Normal);

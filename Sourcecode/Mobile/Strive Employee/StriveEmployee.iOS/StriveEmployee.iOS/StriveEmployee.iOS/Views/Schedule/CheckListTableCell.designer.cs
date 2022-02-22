@@ -13,7 +13,7 @@ namespace StriveEmployee.iOS.Views.Schedule
 	partial class CheckListTableCell
 	{
 		[Outlet]
-		UIKit.UITextView Task { get; set; }
+		UIKit.UILabel Task { get; set; }
 
 		[Outlet]
 		UIKit.UIButton TaskCheck { get; set; }
