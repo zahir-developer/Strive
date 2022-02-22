@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ClientAccountBalanceViewModel
     {
-        public int OpeningBalance { get; set; }
-        public int ClosingBalance { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public decimal ClosingBalance { get; set; }
     }
 }
