@@ -118,7 +118,7 @@ namespace StriveOwner.Android.Resources.Fragments
             var cameraBtn = chooseImageDialog.FindViewById<ImageView>(Resource.Id.btn_camera);
             var galleryBtn = chooseImageDialog.FindViewById<ImageView>(Resource.Id.btn_gallery);
             var iconBtn = chooseImageDialog.FindViewById<ImageView>(Resource.Id.btn_icon);
-            var notNowTxt = chooseImageDialog.FindViewById<TextView>(Resource.Id.notNow);
+            var notNowTxt = chooseImageDialog.FindViewById<TextView>(Resource.Id.notNowtxt);
             notNowTxt.PaintFlags = PaintFlags.UnderlineText;
             cameraBtn.Click += CameraBtn_Click;
             galleryBtn.Click += GalleryBtn_Click;

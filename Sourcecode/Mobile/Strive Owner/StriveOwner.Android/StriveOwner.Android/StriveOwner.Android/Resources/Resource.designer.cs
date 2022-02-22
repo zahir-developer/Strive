@@ -12709,7 +12709,7 @@ namespace StriveOwner.Android
 			public const int notification_main_column_container = 2131296505;
 			
 			// aapt resource value: 0x7F0900F5
-			public const int notNow = 2131296501;
+			public const int notNowtxt = 2131296501;
 			
 			// aapt resource value: 0x7F0900F6
 			public const int notReceiveOTPTextView = 2131296502;
