@@ -359,7 +359,7 @@ namespace Strive.RepositoryCqrs
                                 //insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                                 //pkId = Convert.ToInt32(insertId);
 
-                                var propValue = GetPropertyValue(model, prp.Name.Replace("ClientVehicle", "Vehicle") + "Id");
+                                var propValue = GetPropertyValue(model, prp.Name.Replace("ClientVehicle", "Vehicle").Replace("WeatherPrediction", "Weather") + "Id");
                                 if (propValue == 0 && propValue != null)
                                 {
                                     insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
