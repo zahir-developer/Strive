@@ -236,7 +236,7 @@ export class VehicleListComponent implements OnInit {
   // Delete vehicle
   confirmDelete(data) {
     this.spinner.show();
-    this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
+    this.vehicle.deleteVehicle(data.ClientVehicleId, data.ClientId).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
 

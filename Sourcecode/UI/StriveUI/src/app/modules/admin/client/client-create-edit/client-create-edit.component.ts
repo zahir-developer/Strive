@@ -62,8 +62,8 @@ export class ClientCreateEditComponent implements OnInit {
   // clonedCardDetails=[];
   clonedVehicleDetails = [];
   clonedAccountDetails = [];
-  showActivity : boolean;
-  TotalAmount:number = 0;
+  showActivity: boolean;
+  TotalAmount: number = 0;
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
@@ -94,19 +94,16 @@ export class ClientCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const activityData = JSON.parse(data.resultData);
         this.TotalAmount = activityData.CreditAccountDetail?.CreditAmount[0]?.CreditAmount;
-        if(activityData.CreditAccountDetail.ClientActivityHistoryViewModel)
-        {
-          this.activityDetails=activityData.CreditAccountDetail.ClientActivityHistoryViewModel;
+        if (activityData.CreditAccountDetail.ClientActivityHistoryViewModel) {
+          this.activityDetails = activityData.CreditAccountDetail.ClientActivityHistoryViewModel;
 
           this.clonedAccountDetails.push(this.activityDetails);
           this.activityCollectionSize = Math.ceil(this.activityDetails.length / this.activityPageSize) * 10;
         }
-        if(activityData.CreditAccountDetail.ClientActivityStatementViewModel)
-        {
+        if (activityData.CreditAccountDetail.ClientActivityStatementViewModel) {
           this.statementData = activityData.CreditAccountDetail.ClientActivityStatementViewModel;
         }
-        if(activityData.CreditAccountDetail.ClientActivityPaymentHistoryViewModel)
-        {
+        if (activityData.CreditAccountDetail.ClientActivityPaymentHistoryViewModel) {
           this.historyData = activityData.CreditAccountDetail.ClientActivityPaymentHistoryViewModel;
 
         }
@@ -238,15 +235,15 @@ export class ClientCreateEditComponent implements OnInit {
         0 : this.clientFormComponent.clientForm.value.type,
       amount: this.clientFormComponent.clientForm.value.amount,
       authId: this.selectedData.AuthId,
-      locationId : this.clientFormComponent.clientForm.value.location == '0' ? null : this.clientFormComponent.clientForm.value.location
+      locationId: this.clientFormComponent.clientForm.value.location == '0' ? null : this.clientFormComponent.clientForm.value.location
     };
     debugger;
-    this.clonedAccountDetails[0] = this.clonedAccountDetails[0].filter(s=>s.isAdded === true || s.isModified === true);
+    this.clonedAccountDetails[0] = this.clonedAccountDetails[0].filter(s => s.isAdded === true || s.isModified === true);
     const myObj = {
       client: formObj,
       clientVehicle: this.vehicleDet.length === 0 ? null : this.vehicleDet,
       clientAddress: this.address,
-      CreditAccountHistory:  this.clonedAccountDetails.length > 0 ? this.clonedAccountDetails[0] : null,
+      CreditAccountHistory: this.clonedAccountDetails.length > 0 ? this.clonedAccountDetails[0] : null,
       //  ClientCardDetails: this.clonedCardDetails.length > 0 ? this.clonedCardDetails[0] : null,
       token: null,
       password: ''
@@ -258,7 +255,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.spinner.hide();
 
           this.deleteIds.forEach(element => {
-            this.vehicle.deleteVehicle(element.VehicleId).subscribe(res => {
+            this.vehicle.deleteVehicle(element.VehicleId, element.ClientId).subscribe(res => {
               if (res.status === 'Success') {
                 this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
               } else {
@@ -335,7 +332,7 @@ export class ClientCreateEditComponent implements OnInit {
         clientId: this.isEdit ? this.selectedData.ClientId : 0,
         CreditAccountHistoryId: receivedEntry.CreditAccountHistoryId == undefined ? 0 : receivedEntry.CreditAccountHistoryId,
         Amount: parseFloat(receivedEntry.amount),
-        Comments:receivedEntry.notes,
+        Comments: receivedEntry.notes,
         IsActive: true,
         isDeleted: false,
         createdBy: this.employeeId,
@@ -344,7 +341,7 @@ export class ClientCreateEditComponent implements OnInit {
         isModified: receivedEntry.CreditAccountHistoryId !== undefined ? true : false,
       };
 
-      this.clonedAccountDetails.length>0 ? this.clonedAccountDetails[0].push(activityObj) : this.clonedAccountDetails.push([activityObj]);
+      this.clonedAccountDetails.length > 0 ? this.clonedAccountDetails[0].push(activityObj) : this.clonedAccountDetails.push([activityObj]);
       if (this.clonedAccountDetails.length > 0) {
         this.activityDetails = [];
         this.clonedAccountDetails[0].forEach(item => {
@@ -432,26 +429,33 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.isView) {
       return;
     }
-    this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
+
+    if (data.MembershipName === null) {
+      this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
-      .then((confirmed) => {
-        if (confirmed === true) {
-          this.confirmDelete(data);
-        }
-      })
-      .catch(() => { });
+        .then((confirmed) => {
+          if (confirmed === true) {
+            this.confirmDelete(data);
+          }
+        })
+        .catch(() => { });
+    }
+    else
+      this.toastr.warning(MessageConfig.Admin.Vehicle.memberShip, 'Warning!');
   }
 
   // Delete Vehicle 
   confirmDelete(data) {
-    this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
-    let len = this.vehicleDetails.length;
-    this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
-    this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
-    this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
-    this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
-    if (data.ClientVehicleId !== 0) {
-      this.deleteIds.push(data);
+    if (data.MembershipName === null) {
+      this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
+      let len = this.vehicleDetails.length;
+      this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
+      this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
+      this.toastr.info(MessageConfig.Admin.Vehicle.Delete, 'Delete Vehicle!');
+      this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
+      if (data.ClientVehicleId !== 0) {
+        this.deleteIds.push(data);
+      }
     }
   }
   deleteActivity(data) {
@@ -470,17 +474,17 @@ export class ClientCreateEditComponent implements OnInit {
 
   // Delete Vehicle 
   confirmDeleteActivity(receivedEntry) {
-    if(this.clonedAccountDetails.length > 0){
+    if (this.clonedAccountDetails.length > 0) {
       var oExists = this.clonedAccountDetails[0].findIndex(x => x.CreditAccountHistoryId === receivedEntry.CreditAccountHistoryId);
 
-      this.clonedAccountDetails[0][oExists].IsActive  = false;
+      this.clonedAccountDetails[0][oExists].IsActive = false;
       this.clonedAccountDetails[0][oExists].isDeleted = true;
       this.clonedAccountDetails[0][oExists].updatedBy = this.employeeId;
-      this.clonedAccountDetails[0][oExists].updatedDate =  new Date();
-      this.clonedAccountDetails[0][oExists].isModified = true;      
+      this.clonedAccountDetails[0][oExists].updatedDate = new Date();
+      this.clonedAccountDetails[0][oExists].isModified = true;
     }
     this.TotalAmount = parseFloat((this.TotalAmount - parseFloat(receivedEntry.Amount)).toFixed(2));
-    this.activityDetails = this.activityDetails.filter(s=>s.isDeleted === false || s.isDeleted === undefined );
+    this.activityDetails = this.activityDetails.filter(s => s.isDeleted === false || s.isDeleted === undefined);
   }
   editActivity(activity) {
     console.log(activity, 'activity');
@@ -503,10 +507,10 @@ export class ClientCreateEditComponent implements OnInit {
 
     modalRef.componentInstance.userActivity.subscribe((receivedEntry) => {
       const activityObj = {
-        clientId:this.selectedData.ClientId,
+        clientId: this.selectedData.ClientId,
         CreditAccountHistoryId: receivedEntry.CreditAccountHistoryId == undefined ? 0 : receivedEntry.CreditAccountHistoryId,
-        Amount:receivedEntry.amount,
-        Comments:receivedEntry.notes,
+        Amount: receivedEntry.amount,
+        Comments: receivedEntry.notes,
         IsActive: true,
         isDeleted: false,
         createdBy: this.employeeId,
@@ -516,14 +520,14 @@ export class ClientCreateEditComponent implements OnInit {
         isAdded: receivedEntry.CreditAccountHistoryId == undefined ? true : false,
         isModified: receivedEntry.CreditAccountHistoryId !== undefined ? true : false,
       };
-      if(this.clonedAccountDetails.length > 0){
+      if (this.clonedAccountDetails.length > 0) {
         var oExists = this.clonedAccountDetails[0].findIndex(x => x.CreditAccountHistoryId === receivedEntry.CreditAccountHistoryId);
         this.clonedAccountDetails[0][oExists].Amount = receivedEntry.amount;
         this.clonedAccountDetails[0][oExists].Comments = receivedEntry.notes;
-        this.clonedAccountDetails[0][oExists].IsActive  = true;
+        this.clonedAccountDetails[0][oExists].IsActive = true;
         this.clonedAccountDetails[0][oExists].isDeleted = false;
         this.clonedAccountDetails[0][oExists].updatedBy = this.employeeId;
-        this.clonedAccountDetails[0][oExists].updatedDate =  new Date();
+        this.clonedAccountDetails[0][oExists].updatedDate = new Date();
         this.clonedAccountDetails[0][oExists].isModified = true;
         if (this.clonedAccountDetails.length > 0) {
           this.activityDetails = [];
@@ -531,7 +535,7 @@ export class ClientCreateEditComponent implements OnInit {
             this.activityDetails.push(item);
           });
         }
-      }else{
+      } else {
         this.clonedAccountDetails.push([activityObj]);
         if (this.clonedAccountDetails.length > 0) {
           this.activityDetails = [];
@@ -623,7 +627,7 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   changeSortingDescending(column, sortingInfo) {
-  if (sortingInfo.column === column) {
+    if (sortingInfo.column === column) {
       sortingInfo.descending = !sortingInfo.descending;
     } else {
       sortingInfo.column = column;
@@ -640,7 +644,7 @@ export class ClientCreateEditComponent implements OnInit {
     }
     return '';
   }
-  addCreditCard(){
+  addCreditCard() {
     /*
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',

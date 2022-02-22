@@ -151,6 +151,7 @@ export const MessageConfig = {
          Update: 'Vehicle updated successfully !',
          Save: 'Vehicle saved successfully !',
          Delete: 'Vehicle deleted successfully !',
+         AddedForDelete: 'Vehicle has been added for deletion !',
          memberShip: 'Vehicle cannot be deleted, Vehicle has a active membership.',
          membershipDiscountAvailable: 'Membership discount available !',
          membershipDiscountNotAvailable: 'No membership discount available !',
