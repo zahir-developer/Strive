@@ -593,6 +593,13 @@ export class ClientCreateEditComponent implements OnInit {
     };
     const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
+
+    modalRef.componentInstance.clientDetail = 
+    {
+      clientId: this.selectedData.ClientId,
+      clientName: this.selectedData.FirstName + " " +this.selectedData.LastName
+    }
+    
     // modalRef.componentInstance.historyData = this.historyData;
     modalRef.componentInstance.historyData = this.activityDetails;
   }

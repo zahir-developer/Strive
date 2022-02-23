@@ -46,6 +46,11 @@ body .ui-widget {
     color: red;
 }
 
+.font-bold
+{
+    font-weight: bold;
+}
+
 .MyDialog.ui-dialog {
     width: 60%;
 }

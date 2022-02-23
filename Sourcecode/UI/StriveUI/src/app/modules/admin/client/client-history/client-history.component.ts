@@ -21,6 +21,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 })
 export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;
+  @Input() clientDetail: any;
   @Input() historyData?: any;
   historyGrid: any = [];
   page: number;
@@ -30,8 +31,8 @@ export class ClientHistoryComponent implements OnInit {
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
-  clonedHistoryGrid = [];  
-  historyCloned =[];
+  clonedHistoryGrid = [];
+  historyCloned = [];
   fromDate = new Date();
   constructor(
     private activeModal: NgbActiveModal,
@@ -66,7 +67,7 @@ export class ClientHistoryComponent implements OnInit {
         const bal = JSON.parse(res.resultData);
         this.openingBalance = bal.AccountBalance[0].OpeningBalance;
         this.closingBalance = bal.AccountBalance[0].ClosingBalance;
-      
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -99,22 +100,26 @@ export class ClientHistoryComponent implements OnInit {
     this.fromDate.setFullYear(event);
   }
 
-  Print(){
-    const printContent = document.getElementById("clientHistory");
-    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    WindowPrt.document.write(printContent.innerHTML);
-    WindowPrt.document.close();
-    WindowPrt.focus();
-    WindowPrt.print();
+  Print() {
+    if (this.historyCloned.length !== 0) {
+      const printContent = document.getElementById("clientHistory");
+      const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+      WindowPrt.document.write(printContent.innerHTML);
+      WindowPrt.document.close();
+      WindowPrt.focus();
+      WindowPrt.print();
+    }
+    else
+      this.toastr.warning(MessageConfig.NoRecordsFound, 'Warning!');
   }
-  FilterRecords(){ 
+  FilterRecords() {
     const capObj = {
       clientId: this.clientId,
       year: this.fromDate.getFullYear(),
       month: this.fromDate.getMonth() + 1
     };
-   this.getHistory(capObj);
+    this.getHistory(capObj);
     this.historyCloned = this.historyGrid
-    .filter(x => new Date(x.CreatedDate).getMonth() == this.fromDate.getMonth() && new Date(x.CreatedDate).getFullYear() == this.fromDate.getFullYear())
+      .filter(x => new Date(x.CreatedDate).getMonth() == this.fromDate.getMonth() && new Date(x.CreatedDate).getFullYear() == this.fromDate.getFullYear())
   }
 }
