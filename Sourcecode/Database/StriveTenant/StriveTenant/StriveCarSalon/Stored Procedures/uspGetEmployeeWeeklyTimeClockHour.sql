@@ -1,4 +1,9 @@
-﻿
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetEmployeeWeeklyTimeClockHour] 
+@LocationId int,
+@EmployeeId int = NULL,
+@StartDate Date = NULL,
+@EndDate Date = NULL
+AS
 -- =============================================
 -- Author:		Zahir Hussain
 -- Create date: 09-10-2020
@@ -6,13 +11,6 @@
 -- [StriveCarSalon].[uspGetEmployeeWeeklyTimeClockHour] 1 , 144, '2020-11-01' , '2020-12-30'
 
 -- =============================================
-
-CREATE PROC [StriveCarSalon].[uspGetEmployeeWeeklyTimeClockHour] 
-@LocationId int,
-@EmployeeId int = NULL,
-@StartDate Date = NULL,
-@EndDate Date = NULL
-AS
 BEGIN  
 
 DECLARE @WorkhourThreshold DECIMAL(4,2);

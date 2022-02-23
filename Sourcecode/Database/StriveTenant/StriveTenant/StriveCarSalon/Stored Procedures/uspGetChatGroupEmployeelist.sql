@@ -1,11 +1,10 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		<Author, Zahir>
 -- Create date: 21-10-2010
 -- Description:	Returns the list of Employees using employeeId
 -- =============================================
 
-CREATE PROC [StriveCarSalon].[uspGetChatGroupEmployeelist] -- 21
+CREATE PROCEDURE [StriveCarSalon].[uspGetChatGroupEmployeelist]
 @GroupId INT
 AS
 BEGIN

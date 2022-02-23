@@ -17,7 +17,7 @@ as begin
 		   From tblJob tbljb
 		   INNER JOIN tblJobItem tbljbI ON tbljb.JobId = tbljbI.JobId
 		   INNER JOIN tblService tblsr ON tbljbI.ServiceId = tblsr.ServiceId
-		   INNER JOIN tblJobPayment tbljp ON tbljb.JobId = tbljp.JobId
+		   INNER JOIN tblJobPayment tbljp ON tbljb.JobPaymentId = tbljp.JobPaymentId
 		   --INNER JOIN tblGiftCard tblgc ON tbljp.GiftCardId = tblgc.GiftCardId
 		   LEFT JOIN [CON].[GetTable]('ServiceType') tbler ON  (tblsr.ServiceType = tbler.valueid)
 		    

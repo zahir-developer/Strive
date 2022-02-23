@@ -1,4 +1,4 @@
-﻿CREATE PROC [StriveCarSalon].[uspDeleteSalesItemById] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspDeleteSalesItemById] 
 (@JobItemId int, @IsJobItem bit = 1)
 AS
 BEGIN

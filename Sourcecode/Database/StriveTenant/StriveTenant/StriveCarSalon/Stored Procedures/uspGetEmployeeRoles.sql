@@ -1,10 +1,4 @@
-﻿
-
-
-
-
-
-CREATE proc [StriveCarSalon].[uspGetEmployeeRoles]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetEmployeeRoles]
 as
 -- =============================================
 -- Author:		Vineeth B

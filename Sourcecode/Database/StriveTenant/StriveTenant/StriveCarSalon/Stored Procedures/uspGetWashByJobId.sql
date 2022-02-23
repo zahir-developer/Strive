@@ -1,7 +1,7 @@
 ﻿-- ================================================
 -- ---------------History--------------------------
 -- ================================================
--- Sample Input: [StriveCarSalon].[uspGetWashByJobId]206271 205978--35746
+-- Sample Input: [StriveCarSalon].[uspGetWashByJobId] 593285 205978--35746
 --05-05-2021 - Zahir - Make/Model Change - tblVehiclMake/Model table used instead of tblCodeValue table.
 --06-05-2021 - Zahir - Make/Model/Color NULL handled.
 -- 19-05-2021 -Shalini -Make/Model/Color added alias name
@@ -34,6 +34,7 @@ Select
 tbj.JobId
 ,tbj.TicketNumber
 ,tbj.LocationId
+,tbj.Barcode
 ,tbj.ClientId
 ,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tblca.PhoneNumber
@@ -57,7 +58,6 @@ tbj.JobId
 ,tblji.Price
 ,tblji.Quantity
 ,tbj.Notes as ReviewNote
-,tblclv.Barcode
 --,@ReviewNote AS PastHistoryNote
 ,tbj.JobPaymentId
 ,ISNULL(ps.valuedesc,'NotPaid') AS Paymentstatus
@@ -74,12 +74,12 @@ LEFT JOIN tblClientAddress tblca on tbj.ClientId = tblca.ClientId
 LEFT JOIN tblClient tblc on tbj.ClientId = tblc.ClientId
 LEFT JOIN tblJobItem tblji on tbj.JobId = tblji.JobId
 LEFT JOIN tblService tbls on tblji.ServiceId = tbls.ServiceId
-LEFT JOIN GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid
+LEFT JOIN StriveCarSalon.tblcodevalue tblcv on tbls.ServiceType = tblcv.id
 
 Left join tblVehicleMake make on tbj.Make=make.MakeId
 Left join tblvehicleModel model on tbj.Model= model.ModelId
 LEFT JOIN GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.valueid
-WHERE tblcv.valuedesc='Wash Package'
+WHERE tblcv.codevalue='Wash Package'
 AND isnull(tbj.IsDeleted,0)=0
 AND isnull(tblji.IsActive,1)=1
 AND ((tbj.JobId = @JobId) OR @JobId IS NULL)
@@ -91,12 +91,18 @@ JobId,
 tblji.ServiceId,
 s.ServiceName,
 s.ServiceType as ServiceTypeId,
+tblcv.codevalue as ServiceType,
 Commission,
 tblji.Price,
 Quantity,
-ReviewNote
+ReviewNote,
+tblji.IsActive,
+tblji.IsDeleted,
+tblji.CreatedBy,
+tblji.CreatedDate
 from tblJobItem tblji
 LEFT JOIN tblService s on s.ServiceId = tblji.ServiceId
+LEFT JOIN StriveCarSalon.tblcodevalue tblcv on s.ServiceType = tblcv.id
 WHERE (JobId = @JobId OR @JobId IS NULL)
 AND isnull(tblji.IsDeleted,0)=0
 

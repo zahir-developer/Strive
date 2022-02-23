@@ -1,9 +1,11 @@
 ﻿---------------------History---------------------------
 -- ====================================================
--- 08-jun-2021, shalini - pagenumber and count for nullquery changes					 
+-- 08-jun-2021, shalini - pagenumber and count for nullquery changes
+
+--2021-06-16,   shalini  -removed wildcard from query					 
 
 -------------------------------------------------------
---EXEC [StriveCarSalon].[uspGetServices] null,1,null,27,10,'ASC',null,1
+--EXEC [StriveCarSalon].[uspGetServices] null,1,'upcharge',1,null,'ASC','ServiceName',1
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetServices]
 
@@ -49,24 +51,26 @@ SELECT
 	svc.ServiceCategory,
 	svc.IsCeramic,
 	svc.LocationId,
+	--loc.locationName,
 	--added price
 		svc.Price,
 	svc.Description,	
 	svc.DiscountServiceType,
 	svc.DiscountType,
-	 convert(varchar(5),svc.Hours,108) as hours,
+	svc.EstimatedTime,
 	 isnull(svc.IsActive,1) as IsActive
 	into #GetAllServices
 	FROM tblService svc 
-	INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
+	--INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
 	LEFT JOIN GetTable('ServiceType') cv ON (svc.ServiceType = cv.valueid)
 	LEFT JOIN GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
 	LEFT JOIN GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
-WHERE  (@ServiceId is null or svc.ServiceId = @ServiceId) and   isnull(svc.IsDeleted,0)=0
-AND (
- @Query is null or cv.valuedesc like '%'+@Query+'%'
-  or svc.ServiceName  like '%'+@Query+'%' ) AND  
-   (isnull(svc.IsActive,1)=@Status or @Status is null  ) 
+WHERE (@ServiceId is null or svc.ServiceId = @ServiceId)
+--AND ((svc.locationId = @locationId) OR (@locationId is NULL AND @locationId = 0))
+AND isnull(svc.IsDeleted,0)=0
+AND ((@Query is null OR (cv.valuedesc like '%'+@Query+'%') OR svc.ServiceName  like '%'+ @Query+'%')) 
+AND (isnull(svc.IsActive,1)= @Status or (@Status is null))
+
   Group By
   svc.ServiceId,
 	svc.ServiceType ,
@@ -82,12 +86,13 @@ AND (
 	svc.ServiceName,
 	svc.Cost,
 	svc.LocationId,
+	--loc.LocationName,
 	--added price
 		svc.Price,
 	svc.Description,	
 	svc.DiscountServiceType,
 	svc.DiscountType,	
-	svc.Hours,
+	svc.EstimatedTime,
 
 	svc.IsActive
 ORDER BY 
@@ -119,9 +124,9 @@ select * from #GetAllServices
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count 
+select COUNT(1) as [Count] 
 	FROM tblService svc 
-	INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
+	--INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
 	LEFT JOIN GetTable('ServiceType') cv ON (svc.ServiceType = cv.valueid)
 	LEFT JOIN GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
 	LEFT JOIN GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
@@ -132,17 +137,19 @@ END
 
 IF @Query IS Not NULL AND @Query != ''
 BEGIN
-select count(1) as Count 
+SELECT 
+	COUNT(1) as [Count] 
 	FROM tblService svc 
-	INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
+	--INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
 	LEFT JOIN GetTable('ServiceType') cv ON (svc.ServiceType = cv.valueid)
 	LEFT JOIN GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
 	LEFT JOIN GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
-WHERE  (@ServiceId is null or svc.ServiceId = @ServiceId) and   isnull(svc.IsDeleted,0)=0
-AND (
- @Query is null or cv.valuedesc like '%'+@Query+'%'
-  or svc.ServiceName  like '%'+@Query+'%' ) AND  
-   (isnull(svc.IsActive,1)=@Status or @Status is null  ) 
+WHERE (@ServiceId is null or svc.ServiceId = @ServiceId)
+--AND ((svc.locationId = @locationId) OR (@locationId is NULL AND @locationId = 0))
+AND isnull(svc.IsDeleted,0)=0
+AND ((@Query is null OR (cv.valuedesc like '%'+@Query+'%') OR svc.ServiceName  like '%'+ @Query+'%')) 
+AND (isnull(svc.IsActive,1)= @Status or (@Status is null))
+ 
 END
 
 

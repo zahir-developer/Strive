@@ -1,12 +1,6 @@
-﻿
-
-
-
-
-
-
-
-
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetDailyClockDetail]
+(@Date Date = null, @locationId int = null)
+AS
 -- =============================================
 -- Author:		Arunkumae S
 -- Create date: 09-11-2020
@@ -14,10 +8,6 @@
 -- =============================================
  -- [StriveCarSalon].[uspGetDailyClockDetail] '2020-11-09', 1
 
-
-CREATE PROC [StriveCarSalon].[uspGetDailyClockDetail]
-(@Date Date = null, @locationId int = null)
-AS
 BEGIN
 
 ;WITH Hours_Data

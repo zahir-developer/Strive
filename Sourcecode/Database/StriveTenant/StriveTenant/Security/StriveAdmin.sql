@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [StriveAdmin]
+    WITH PASSWORD = N'eqsm1qac!RBausjf@lcu~hy0msFT7_&#$!~<jyo`joV!csmh', SID = 0xEA564577E3CCED4BBB51D8A4BCD74AFC, DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+

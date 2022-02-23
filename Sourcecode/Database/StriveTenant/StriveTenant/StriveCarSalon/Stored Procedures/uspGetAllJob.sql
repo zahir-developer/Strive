@@ -10,11 +10,18 @@
 -- 26-08-2020, Zahir Hussain -- 1. Change Join from INNER to LEFT, 2.Vehicle details taken from Job table instead of Client Vehicle table. 
 -- 25-01-2020, Zahir Hussain -- Added Offset and Skip logic for pagination. EXEC [StriveCarSalon].[uspGetAllJob] 1, NULL, 1, 50, NULL, NULL
 -- 07-jun-2021, shalini - pagenumber and count for nullquery changes					 
--- 07-jun-2021, shalini - added unk for null make and model			 
+-- 07-jun-2021, shalini - added unk for null make and model	
+-- 16-06-2021, Shalini -removed wildcard from Query
+-- 21-06-2021,shalini - added location filter in query 
+-- 26-08-2021,Vertriselvi - Get only active records
+-- 05-01-2022, Juki - Added membership name with ticket
+-- 06-01-2022, Zahir - TicketNumber changes.
+-- 14-02-2022, Juki - fixed returning empty records when searching with ticket number
+-- 16-02-2022, Zahir - Added Jobdate sorting
 
-
+------------------------------------------------		 
 -------------------------------------------------------
---	EXEC [StriveCarSalon].[uspGetAllJob] 1, 'Brady', 1, 800, 'ASC', null,'2021-01-02','2021-05-02'
+--	EXEC [StriveCarSalon].[uspGetAllJob] 1, NULL, 1, 800, 'ASC', 'Date','2021-01-02','2021-01-26'
 -- ====================================================
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllJob]
@@ -29,12 +36,18 @@ CREATE PROCEDURE [StriveCarSalon].[uspGetAllJob]
 @EndDate date
  
 AS
-
 BEGIN
-
 
 DECLARE @WashJobType INT = (Select top 1 valueId from GetTable('JobType') where valuedesc = 'Wash')
 
+DROP TABLE IF EXISTS #tblJob
+
+Select tbj.JobId, tbj.TicketNumber, tbj.locationId, ClientId, JobDate, TimeIn, EstimatedTimeOut, JobPaymentId, Make, Model, Color, tbls.ServiceName, tblcv.valuedesc as ServiceType, VehicleId into #tblJob from tblJob tbj
+INNER join tblJobItem tblji on tbj.JobId = tblji.JobId AND ISNULL(tblji.IsDeleted,0) = 0
+INNER join tblService tbls on tblji.ServiceId = tbls.ServiceId
+INNER join GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid and tblcv.valuedesc='Wash Package'
+
+where tbj.IsDeleted =0 AND JobDate Between @StartDate and @EndDate AND tbj.JobType = @WashJobType --AND ISNULL(tblji.IsActive,0) = 1
 
 DECLARE @Skip INT = 0;
 
@@ -59,13 +72,13 @@ tbj.JobId
 ,tbj.TicketNumber
 ,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tblca.PhoneNumber
-,IsNull(model.ModelValue,'Unk') AS Model,
- IsNull(make.MakeValue,'Unk') As Make,
-cvCo.valuedesc AS Color
+,IsNull(model.ModelValue,'Unk') AS Model
+,IsNull(make.MakeValue,'Unk') As Make
+,IsNull(cvCo.valuedesc,'Unk') As Color
 ,tbj.TimeIn
 ,tbj.EstimatedTimeOut
-,tbls.ServiceName
-,tbls.ServiceType
+,tbj.ServiceName
+,tbj.ServiceType
 ,tbj.JobPaymentId
 ,ps.valuedesc
 ,tbljp.paymentstatus,
@@ -73,46 +86,51 @@ CASE
 when (ps.valuedesc != 'Success'OR tbljp.PaymentStatus IS NULL) then 'False'
 when ps.valuedesc = 'Success' then 'True'
 End AS IsPaid
+,ISNULL(tblm.MembershipName,'') AS MembershipName 
+
 into #GetAllJobs
 from 
-tblJob tbj 
-INNER join tblJobItem tblji on tbj.JobId = tblji.JobId AND ISNULL(tblji.IsDeleted,0) = 0
-INNER join tblService tbls on tblji.ServiceId = tbls.ServiceId
+#tblJob tbj 
 LEFT join tblClient tblc on tbj.ClientId = tblc.ClientId
 LEFT JOIN tblJobPayment tbljp  WITH(NOLOCK) ON tbj.JobPaymentId = tbljp.JobPaymentId AND tbljp.IsProcessed=1 AND ISNULL(tbljp.IsRollBack,0)=0 AND tbljp.IsActive = 1 AND ISNULL(tbljp.IsDeleted,0)=0 
 LEFT JOIN GetTable('PaymentStatus') ps ON(tbljp.PaymentStatus = ps.valueid)
 --LEFT join StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
 LEFT join tblClientAddress tblca on tbj.ClientId = tblca.ClientId
-INNER join GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid and tblcv.valuedesc='Wash Package'
+
+LEFT JOIN tblClientVehicle tblcv  WITH(NOLOCK) ON(tbj.VehicleId = tblcv.VehicleId)  
+LEFT JOIN tblClientVehicleMembershipDetails tblcvmd  WITH(NOLOCK) 
+ON tblcv.VehicleId = tblcvmd.ClientVehicleId AND  ISNULL(tblcvmd.IsActive,1) = 1 AND ISNULL(tblcvmd.IsDeleted,0) = 0  
+LEFT JOIN tblMembership tblm  WITH(NOLOCK) ON(tblm.MembershipId = tblcvmd.MembershipId) AND ISNULL(tblm.IsActive, 1) = 1 AND ISNULL(tblm.IsDeleted,0)=0  
+
 Left join tblVehicleMake make on tbj.Make=make.MakeId
 Left join tblvehicleModel model on tbj.Model= model.ModelId	and make.MakeId = model.MakeId
 LEFT JOIN GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.valueid
 WHERE
 (tbj.locationId = @locationId OR @locationId is NULL)
  and (tbj.jobdate between @StartDate and @EndDate or (@StartDate is NULL and @EndDate is Null))
-AND tbj.JobType = @WashJobType
+
 --AND tblcv.valuedesc='Wash Package' 
-AND tbj.IsDeleted =0
+
 --AND isnull(tblc.IsDeleted,0)=0
 --AND isnull(tblji.IsDeleted,0)=0
 --AND isnull(tbls.IsDeleted,0)=0 
 AND
-(@Query is null OR (@Query != '' AND	
-(tbj.TicketNumber like '%' +@Query+ '%' 
+((@Query is null OR @Query = '') OR (@Query != '' AND	
+(tbj.TicketNumber like @Query + '%'
 OR CONCAT(model.ModelValue,' , ',make.MakeValue,' , ',cvCo.valuedesc) like '%' +@Query+ '%' 
-OR	tblc.FirstName like '%'+@Query+'%'
-OR	tblc.lastName like '%'+@Query+'%'
-OR	tbls.ServiceName like '%'+@Query+'%'
-OR	model.ModelValue like '%'+@Query+'%'								
-OR	make.MakeValue like '%'+@Query+'%'
-OR	cvCo.valuedesc like '%'+@Query+'%'
+OR	tblc.FirstName like @Query+'%'
+OR	tblc.lastName like @Query+'%'
+OR	tbj.ServiceName like @Query+'%'
+OR	model.ModelValue like @Query+'%'								
+OR	make.MakeValue like @Query+'%'
+OR	cvCo.valuedesc like @Query+'%'
 OR CONCAT(tblc.FirstName,' ',tblc.LastName)like '%'+@Query+'%' )))
 
 GROUP BY 
 
 tbj.JobId
-,tbj.JobDate
 ,tbj.TicketNumber
+,tbj.JobDate
 ,tblc.FirstName
 ,tblc.LastName
 ,tblca.PhoneNumber
@@ -121,30 +139,31 @@ tbj.JobId
 ,cvCo.valuedesc
 ,tbj.TimeIn
 ,tbj.EstimatedTimeOut
-,tbls.ServiceName
-,tbls.ServiceType,
-tbj.IsDeleted
+,tbj.ServiceName
+,tbj.ServiceType
 ,tbj.JobPaymentId
 ,ps.valuedesc
 ,tbljp.paymentstatus
+,tblm.MembershipName
 ORDER BY 
---tbj.TicketNumber
+CASE WHEN @SortBy = 'Date' AND @SortOrder='ASC' THEN tbj.JobDate END ASC,
 CASE WHEN @SortBy = 'TicketNumber' AND @SortOrder='ASC' THEN tbj.TicketNumber END ASC,
 CASE WHEN @SortBy = 'FirstName' AND @SortOrder='ASC' THEN tblc.FirstName END ASC,
 CASE WHEN @SortBy = 'PhoneNumber' AND @SortOrder='ASC' THEN tblca.PhoneNumber END ASC,
 CASE WHEN @SortBy = 'Make' AND @SortOrder='ASC' THEN make.MakeValue END ASC,
 CASE WHEN @SortBy = 'TimeIn' AND @SortOrder='ASC' THEN tbj.TimeIn END ASC,
 CASE WHEN @SortBy = 'EstimatedTimeOut' AND @SortOrder='ASC' THEN tbj.EstimatedTimeOut END ASC,
-CASE WHEN @SortBy = 'ServiceName' AND @SortOrder='ASC' THEN tbls.ServiceName END ASC,
+CASE WHEN @SortBy = 'ServiceName' AND @SortOrder='ASC' THEN tbj.ServiceName END ASC,
 CASE WHEN @SortBy IS NULL AND @SortOrder='ASC' THEN 1 END ASC,
 ----DESC
-CASE WHEN @SortBy = 'TicketNumber' AND @SortOrder='DESC' THEN tbj.TicketNumber END DESC,
+CASE WHEN @SortBy = 'Date' AND @SortOrder='DESC' THEN tbj.JobDate END ASC,
+CASE WHEN @SortBy = 'TicketNumber' AND @SortOrder='DESC' THEN tbj.JobId END DESC,
 CASE WHEN @SortBy = 'FirstName' AND @SortOrder='DESC' THEN tblc.FirstName END DESC,
 CASE WHEN @SortBy = 'PhoneNumber' AND @SortOrder='DESC' THEN tblca.PhoneNumber END DESC,
 CASE WHEN @SortBy = 'Make' AND @SortOrder='DESC' THEN make.MakeValue END DESC,
 CASE WHEN @SortBy = 'TimeIn' AND @SortOrder='DESC' THEN tbj.TimeIn END DESC,
 CASE WHEN @SortBy = 'EstimatedTimeOut' AND @SortOrder='DESC' THEN tbj.EstimatedTimeOut END DESC,
-CASE WHEN @SortBy = 'ServiceName' AND @SortOrder='DESC' THEN tbls.ServiceName END DESC,
+CASE WHEN @SortBy = 'ServiceName' AND @SortOrder='DESC' THEN tbj.ServiceName END DESC,
 CASE WHEN @SortBy IS NULL AND @SortOrder='DESC' THEN tbj.JobId END ASC,
 CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN tbj.JobId END ASC
 
@@ -154,35 +173,27 @@ select * from #GetAllJobs
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from tbljob tbj
-INNER join tblJobItem tblji on tbj.JobId = tblji.JobId AND ISNULL(tblji.IsDeleted,0) = 0 
-INNER join tblService tbls on tblji.ServiceId = tbls.ServiceId
-INNER join GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid and tblcv.valuedesc='Wash Package'
-where JobDate BETWEEN @StartDate AND @EndDate
-AND JobType = @WashJobType AND tbj.IsDeleted =0
+
+select count(distinct jobId) as Count from #tblJob tbj
 
 END
 
 IF @Query IS Not NULL AND @Query != ''
 BEGIN
 
-select count(1) from tbljob tbj 
-INNER join tblJobItem tblji on tbj.JobId = tblji.JobId AND ISNULL(tblji.IsDeleted,0) = 0
-INNER join tblService tbls on tblji.ServiceId = tbls.ServiceId
+select count(distinct jobId) as Count from #tblJob tbj 
 LEFT join tblClient tblc on tbj.ClientId = tblc.ClientId
-INNER join GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid and tblcv.valuedesc='Wash Package'
 Left join tblVehicleMake make on tbj.Make=make.MakeId
 Left join tblvehicleModel model on tbj.Model= model.ModelId	and make.MakeId = model.MakeId
 LEFT JOIN GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.valueid
-WHERE tbj.IsDeleted =0 
-AND (tbj.TicketNumber like '%' +@Query+ '%' 
-OR CONCAT(model.ModelValue,' , ',make.MakeValue,' , ',cvCo.valuedesc) like '%' +@Query+ '%' 
-OR	tblc.FirstName like '%'+@Query+'%'
-OR	tblc.lastName like '%'+@Query+'%'
-OR	tbls.ServiceName like '%'+@Query+'%'
-OR	model.ModelValue like '%'+@Query+'%'								
-OR	make.MakeValue like '%'+@Query+'%'
-OR	cvCo.valuedesc like '%'+@Query+'%'
+WHERE (tbj.JobId like @Query + '%'
+OR	tblc.FirstName like @Query+'%'
+OR	tblc.lastName like @Query+'%'
+OR	tbj.ServiceName like @Query+'%'
+OR	model.ModelValue like @Query+'%'								
+OR	make.MakeValue like @Query+'%'
+OR  cvCo.valuedesc like @Query+'%'
+OR	cvCo.valuedesc like @Query+'%'
 OR CONCAT(tblc.FirstName,' ',tblc.LastName)like '%'+@Query+'%' )
 
 END

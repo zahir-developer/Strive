@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspUpdateProduct] (
+﻿CREATE PROCEDURE [StriveCarSalon].[uspUpdateProduct] 
  @ProductId int,
  @ProductName nvarchar(60),
  @ProductType int,
@@ -12,7 +12,8 @@
  @IsTaxable bit,
  @TaxAmount float,
  @IsActive bit,
- @ThresholdLimit int)
+ @ThresholdLimit int
+
 AS
 BEGIN
 UPDATE [tblProduct]

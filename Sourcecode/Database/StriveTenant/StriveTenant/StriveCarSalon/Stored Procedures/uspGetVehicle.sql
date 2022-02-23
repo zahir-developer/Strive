@@ -1,4 +1,10 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetVehicle]
+﻿---------------------History---------------------------
+-- ====================================================
+-- 21-jun-2021, shalini - pagenumber and count for nullquery changes 					 
+
+-------------------------------------------------------
+--[StriveCarSalon].[uspGetVehicle] null,1,10000,null,null
+CREATE PROCEDURE [StriveCarSalon].[uspGetVehicle]
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
 @PageSize INT = NULL,	
@@ -36,24 +42,25 @@ SELECT
 	,cvl.VehicleColor AS ColorId
 	,cvl.Upcharge
 	,cvl.Barcode
+	,cvmd.DocumentId
 	,tblm.MembershipName  into #GetAllVehicle
-FROM
-tblclient cl
-INNER JOIN tblClientVehicle cvl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
+FROM tblClientVehicle cvl 
+LEFT JOIN tblClient cl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
 LEFT JOIN  tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 0 AND ISNULL(cvmd.IsActive,1) = 1
 LEFT JOIN  tblmembership tblm on cvmd.MembershipId = tblm.MembershipId AND ISNULL(tblm.IsDeleted, 0) = 0 AND ISNULL(tblm.IsActive,1) = 1  
 LEFT JOIN tblVehicleMake cvMfr ON cvl.VehicleMfr = cvMfr.MakeId
 LEFT JOIN tblVehicleModel cvMo ON cvl.VehicleModel = cvMo.ModelId and cvMo.MakeId = cvMfr.MakeId
-INNER JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+LEFT JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND
-
- ((@Query is null or cl.FirstName  like '%'+@Query+'%') OR
-  (@Query is null or cl.LastName  like '%'+@Query+'%') OR
-  (@Query is null or cvl.Barcode  like '%'+@Query+'%') OR
-  (@Query is null or cvMfr.MakeValue  like '%'+@Query+'%') OR
-  (@Query is null or cvmo.ModelValue  like '%'+@Query+'%') OR
-  (@Query is null or cvCo.valuedesc  like '%'+@Query+'%') OR
-  (@Query is null or cvl.VehicleNumber  like '%'+@Query+'%'))
+ ((@Query is null or cl.FirstName  like @Query+'%') OR
+  (@Query is null or cl.LastName  like @Query+'%') OR  
+   (CONCAT_WS(' ',cl.FirstName,cl.LastName) like '%'+@Query+'%')OR
+  (@Query is null or cvl.Barcode  like @Query+'%') OR
+  (@Query is null or cvMfr.MakeValue  like @Query+'%') OR
+  (@Query is null or cvmo.ModelValue  like @Query+'%') OR
+  (@Query is null or cvCo.valuedesc  like @Query+'%') OR
+  (@Query is null or cvl.VehicleNumber  like @Query+'%') OR
+  (@Query is null or tblm.MembershipName  like @Query+'%'))
 GROUP BY
 	cvl.VehicleId
 	,cl.ClientId
@@ -69,6 +76,7 @@ GROUP BY
 	,cvl.Upcharge
 	,cvl.Barcode
 	,tblm.MembershipName
+	,cvmd.DocumentId
 
 
 order by 
@@ -101,14 +109,39 @@ select * from #GetAllVehicle
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from tblClientVehicle where 
-ISNULL(IsDeleted,0) = 0 
+select count(1) as Count 
+FROM tblClientVehicle cvl 
+LEFT JOIN tblClient cl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
+LEFT JOIN  tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 0 AND ISNULL(cvmd.IsActive,1) = 1
+LEFT JOIN  tblmembership tblm on cvmd.MembershipId = tblm.MembershipId AND ISNULL(tblm.IsDeleted, 0) = 0 AND ISNULL(tblm.IsActive,1) = 1  
+LEFT JOIN tblVehicleMake cvMfr ON cvl.VehicleMfr = cvMfr.MakeId
+LEFT JOIN tblVehicleModel cvMo ON cvl.VehicleModel = cvMo.ModelId and cvMo.MakeId = cvMfr.MakeId
+LEFT JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1
 
 END
 
 IF @Query IS Not NULL AND @Query != ''
 BEGIN
-select count(1) as Count from #GetAllVehicle
+select count(1) as Count 
+FROM tblClientVehicle cvl 
+LEFT JOIN tblClient cl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
+LEFT JOIN  tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 0 AND ISNULL(cvmd.IsActive,1) = 1
+LEFT JOIN  tblmembership tblm on cvmd.MembershipId = tblm.MembershipId AND ISNULL(tblm.IsDeleted, 0) = 0 AND ISNULL(tblm.IsActive,1) = 1  
+LEFT JOIN tblVehicleMake cvMfr ON cvl.VehicleMfr = cvMfr.MakeId
+LEFT JOIN tblVehicleModel cvMo ON cvl.VehicleModel = cvMo.ModelId and cvMo.MakeId = cvMfr.MakeId
+LEFT JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND
+
+ ((@Query is null or cl.FirstName  like @Query+'%') OR
+  (@Query is null or cl.LastName  like @Query+'%') OR 
+   (CONCAT_WS(' ',cl.FirstName,cl.LastName) like '%'+@Query+'%')OR
+  (@Query is null or cvl.Barcode  like @Query+'%') OR
+  (@Query is null or cvMfr.MakeValue  like @Query+'%') OR
+  (@Query is null or cvmo.ModelValue  like @Query+'%') OR
+  (@Query is null or cvCo.valuedesc  like @Query+'%') OR
+  (@Query is null or cvl.VehicleNumber  like @Query+'%') OR
+  (@Query is null or tblm.MembershipName  like @Query+'%'))
 END
 
 

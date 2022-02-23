@@ -1,4 +1,9 @@
-﻿-- ==============================================================
+﻿
+CREATE PROCEDURE [StriveCarSalon].[uspGetBaySchedulesDetails]
+(@JobDate DateTime, @LocationId int)
+
+AS
+-- ==============================================================
 -- Author:		Vineeth B
 -- Create date: 08-09-2020
 -- Description:	To get Schedule Details for LocationId and JobDate
@@ -11,10 +16,6 @@
 ---------------------------------------------------------------
  -- [StriveCarSalon].[uspGetBaySchedulesDetails] '2021-03-15' ,20
 -- ============================================================
-CREATE proc [StriveCarSalon].[uspGetBaySchedulesDetails]
-(@JobDate DateTime, @LocationId int)
-
-AS
 BEGIN
 
 SELECT BayId,BayName FROM tblBay WHERE LocationId=@LocationId AND IsActive=1 AND IsDeleted = 0 AND 

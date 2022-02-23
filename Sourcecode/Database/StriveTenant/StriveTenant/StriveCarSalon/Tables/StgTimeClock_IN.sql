@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [StriveCarSalon].[StgTimeClock_IN] (
     [LocationID] INT      NOT NULL,
-    [UserID]     INT      NOT NULL,
+    [UserID]     INT      NULL,
     [ClockID]    INT      NOT NULL,
     [Cdate]      DATE     NULL,
     [Cdatetime]  DATETIME NULL,
@@ -11,4 +11,6 @@
     [CType]      CHAR (2) NULL,
     [RNK]        INT      NULL
 );
+
+
 

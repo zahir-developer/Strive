@@ -27,7 +27,19 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_tblTimeClock_EmployeeId]
     ON [StriveCarSalon].[tblTimeClock]([EmployeeId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [Missing_Index_tblTimeClock_RoleId_IsActive_IsDeleted_EventDate]
+    ON [StriveCarSalon].[tblTimeClock]([RoleId] ASC, [IsActive] ASC, [IsDeleted] ASC, [EventDate] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [Index_tblTimeClock_EventDate]
+    ON [StriveCarSalon].[tblTimeClock]([EventDate] ASC);
 

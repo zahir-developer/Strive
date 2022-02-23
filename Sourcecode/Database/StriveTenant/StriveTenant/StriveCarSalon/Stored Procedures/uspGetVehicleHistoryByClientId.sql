@@ -37,7 +37,7 @@ left join [StriveCarSalon].GetTable('JobStatus') gt on(tblj.JobStatus = gt.value
 left join [StriveCarSalon].GetTable('JobType') jt on(tblj.JobType = jt.valueid)
 left join [StriveCarSalon].[tblService] tbls on(tblji.ServiceId = tbls.ServiceId)
 left join [StriveCarSalon].GetTable('ServiceType') St on(tbls.ServiceType = St.valueid)
-left join [StriveCarSalon].[tblJobPayment] tbljp on(tblji.JobId = tbljp.JobId)
+left join [StriveCarSalon].[tblJobPayment] tbljp on(tblj.JobPaymentId = tbljp.JobPaymentId)
 WHERE
 tblj.ClientId=@ClientId
 

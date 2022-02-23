@@ -19,17 +19,25 @@
 -- 09-12-2020, Vineeth - Add outside service condition
 -- 23-04-2021, Zahir - Added JobType table to avoid invalid job records.
 -- 05-05-2021, Zahir - Used VehicleMake and VehicleModel table instead of Codevalue.
+-- 16-06-2021, Shalini - Removed first wildcard from Query
+-- 08-10-2021, Zahir - Drive up customer changes.
 
 ------------------------------------------------
- --[StriveCarSalon].[uspGetAllDetails] null,null,89
+ --[StriveCarSalon].[uspGetAllDetails] null,1,NULL,'zahir', null, null, 'ASC', 'TicketNo','2022-01-04','2022-01-04'
 -- =============================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllDetails]
-(@JobDate Date = NULL, @LocationId int = NULL, @ClientId int = NULL
-, @Search varchar(50)=null
-)
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllDetails] 
+(@JobDate Date = NULL, @LocationId int = NULL, @ClientId int = NULL, @Search varchar(50)=null,
+@PageNo INT = NULL, 
+@PageSize INT = NULL,
+@SortOrder VARCHAR(5) = NULL, 
+@SortBy VARCHAR(50) = NULL,
+@StartDate date = NULL, 
+@EndDate date = NULL)
 AS
 BEGIN
+
+--DECLARE @JobDate Date = NULL, @LocationId int = NULL, @ClientId int = 55477, @Search varchar(50)=null
 
 
 SELECT
@@ -42,56 +50,63 @@ and ISNULL(IsDeleted,0)=0
 and (LocationId=@LocationId OR( @LocationId is null OR @LocationId=0)) and BayName like '%Detail%'
 order by BayId
 
-DROP TABLE IF EXISTS #Upcharge
-SELECT tblj.JobId,tblji.Price 
-INTO #Upcharge FROM tblJob tblj INNER JOIN tblJobItem tblji ON(tblj.JobId = tblji.JobId)
+
+DROP TABLE IF EXISTS #ServiceType
+Select valueid,valuedesc into #ServiceType from GetTable('ServiceType')
+
+DROP TABLE IF EXISTS #Services
+SELECT tblj.JobId, tblji.Price, tbls.ServiceName, tbls.ServiceId, st.valuedesc as ServiceType, tblj.ClientId 
+INTO #Services FROM tblJob tblj 
+INNER JOIN tblJobItem tblji ON(tblj.JobId = tblji.JobId)
 INNER JOIN tblService tblS ON(tblji.ServiceId = tbls.ServiceId)
 INNER JOIN GetTable('ServiceType') st ON(tbls.ServiceType = st.valueid)
-WHERE st.valuedesc='Upcharges' AND  
-(@JobDate is null OR tblj.JobDate=@JobDate)
-AND ((@LocationId is null  OR @LocationId=0)OR tblj.LocationId=@LocationId)
+WHERE (@JobDate is null OR tblj.JobDate=@JobDate) AND ((tblj.JobDate Between @StartDate and @EndDate) OR (@StartDate is null and @EndDate is null))
+AND (@ClientId is null OR tblj.ClientId = @ClientId)
+AND ((@LocationId is null OR @LocationId=0)OR tblj.LocationId=@LocationId)
 AND tblj.IsActive = 1 AND tbljI.IsActive = 1 AND tblS.IsActive = 1
 AND ISNULL(tblj.IsDeleted,0)=0 AND ISNULL(tbljI.IsDeleted,0)=0
-AND ISNULL(tblS.IsDeleted,0)=0 
+--AND ISNULL(tblS.IsDeleted,0)=0 
+
+--Select * from #Services
+
+DROP TABLE IF EXISTS #Upcharge
+SELECT JobId, ServiceName, Price 
+INTO #Upcharge FROM #Services
+WHERE ServiceType ='Upcharges'
+
+--Select * from #Upcharge
 
 DROP TABLE IF EXISTS #OutsideServices
-SELECT tblj.JobId,tbls.ServiceName AS OutsideService INTO #OutsideServices FROM tblJobItem tblji INNER JOIN tblJob tblj ON tblj.JobId = tblji.JobId AND tblj.IsActive=1 AND ISNULL(tblj.IsDeleted,0)=0
-AND tblji.IsActive=1 AND ISNULL(tblji.IsDeleted,0)=0
-INNER JOIN tblService tbls ON tblji.ServiceId = tbls.ServiceId AND tbls.IsActive=1 AND ISNULL(tbls.IsDeleted,0)=0
-INNER JOIN GetTable('ServiceType') st ON(st.valueid = tbls.ServiceType) 
-AND st.valuedesc ='Outside Services'
-AND (@JobDate IS NULL OR tblj.JobDate=@JobDate) AND  (@LocationId is null OR @LocationId= 0 OR tblj.LocationId =@LocationId)
+SELECT JobId, ServiceName AS OutsideService INTO #OutsideServices 
+FROM #Services
+WHERE ServiceType = 'Outside Services'
+
+--Select * from #OutsideServices
 
 DROP TABLE IF EXISTS #Details
-SELECT tblj.JobId,tbls.ServiceName AS ServiceTypeName INTO #Details FROM tblJobItem tblji INNER JOIN tblJob tblj ON tblj.JobId = tblji.JobId AND tblj.IsActive=1 AND ISNULL(tblj.IsDeleted,0)=0
-AND tblji.IsActive=1 AND ISNULL(tblji.IsDeleted,0)=0
-INNER JOIN tblService tbls ON tblji.ServiceId = tbls.ServiceId AND tbls.IsActive=1 AND ISNULL(tbls.IsDeleted,0)=0
-INNER JOIN GetTable('ServiceType') st ON(st.valueid = tbls.ServiceType) 
-AND st.valuedesc ='Detail Package'
-AND (@JobDate is null OR tblj.JobDate=@JobDate) AND (@LocationId is null  OR @LocationId= 0 OR tblj.LocationId =@LocationId)
+SELECT JobId, ServiceName AS ServiceTypeName INTO #Details 
+FROM #Services
+WHERE ServiceType = 'Detail Package'
 
+--Select * from #Details
 
 DROP TABLE IF EXISTS #AirFresheners
-SELECT tblj.JobId,tbls.ServiceName AS OutsideService INTO #AirFresheners FROM tblJobItem tblji INNER JOIN tblJob tblj ON tblj.JobId = tblji.JobId AND tblj.IsActive=1 AND ISNULL(tblj.IsDeleted,0)=0
-AND tblji.IsActive=1 AND ISNULL(tblji.IsDeleted,0)=0
-INNER JOIN tblService tbls ON tblji.ServiceId = tbls.ServiceId AND tbls.IsActive=1 AND ISNULL(tbls.IsDeleted,0)=0
-INNER JOIN GetTable('ServiceType') st ON(st.valueid = tbls.ServiceType) 
-AND st.valuedesc ='Air Fresheners'
-AND (@JobDate IS NULL OR tblj.JobDate=@JobDate) AND  (@LocationId is null  Or @LocationId= 0 OR tblj.LocationId =@LocationId)
+SELECT JobId, ServiceName AS OutsideService INTO #AirFresheners 
+FROM #Services
+WHERE ServiceType = 'Air Fresheners'
+
+--Select * from #AirFresheners
 
 DROP TABLE IF EXISTS #ServicePrice
-SELECT tblj.JobId,SUM(tblji.Price)Price
-INTO #ServicePrice FROM tblJob tblj INNER JOIN tblJobItem tblji ON(tblj.JobId = tblji.JobId)
-INNER JOIN tblService tblS ON(tblji.ServiceId = tbls.ServiceId)
-INNER JOIN GetTable('ServiceType') st ON(tbls.ServiceType = st.valueid)
-WHERE (@JobDate is null OR tblj.JobDate=@JobDate)
-AND ((@LocationId is null  OR @LocationId=0)OR tblj.LocationId=@LocationId)
-AND tblj.IsActive = 1 AND tbljI.IsActive = 1 AND tblS.IsActive = 1
-AND ISNULL(tblj.IsDeleted,0)=0 AND ISNULL(tbljI.IsDeleted,0)=0
-AND ISNULL(tblS.IsDeleted,0)=0 GROUP BY tblj.JobId
+SELECT JobId, SUM(Price) Price
+INTO #ServicePrice FROM #Services
+GROUP BY JobId
+
+--Select * from #ServicePrice
+
+DROP TABLE IF EXISTS #Detailslist
 
 SELECT 
-DISTINCT
 tblb.BayId,
 tblb.BayName
 ,tblj.JobId 
@@ -102,27 +117,26 @@ tblb.BayName
 --,tblji.JobItemId
 ,ISnULL(sp.Price, 0) AS Cost
 ,SUBSTRING(CONVERT(VARCHAR(8),tblj.TimeIn,108),0,6) AS TimeIn
-,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
+,CONCAT(ISNULL(tblc.FirstName, 'Drive'),' ',ISNULL(tblc.LastName, 'Up')) AS ClientName
 ,tblca.PhoneNumber
 ,SUBSTRING(CONVERT(VARCHAR(8),tblj.EstimatedTimeOut,108),0,6) AS EstimatedTimeOut
-,(det.ServiceTypeName)ServiceTypeName
+,(det.ServiceTypeName) ServiceTypeName
 ,cvMfr.MakeValue AS VehicleMake
 ,cvMo.ModelValue AS VehicleModel
 ,cvCo.valuedesc AS VehicleColor
 ,ISNULL(upc.Price,0.00) AS Upcharge
-,ISNULL(outs.OutsideService,'None')AS OutsideService
-,tblcv.Barcode
-FROM 
-tblJob tblj 
+,ISNULL(outs.OutsideService,'None') AS OutsideService
+,tblcv.Barcode into #Detailslist
+FROM tbljob tblj 
 INNER JOIN GetTable('JobType') jt ON(tblj.JobType = jt.valueid)
-inner join tblClient tblc ON(tblj.ClientId = tblc.ClientId) 
-inner join tblJobDetail tbljd ON(tblj.JobId = tbljd.JobId)
-inner join tblClientAddress tblca ON(tblj.ClientId = tblca.ClientId)
-inner join tblClientVehicle tblcv ON(tblc.ClientId = tblcv.ClientId and tblj.VehicleId = tblcv.VehicleId)
-LEFT JOIN tblVehicleMake cvMfr ON(tblcv.VehicleMfr = cvMfr.MakeId)
-LEFT JOIN tblVehicleModel cvMo ON(tblcv.VehicleModel = cvMo.ModelId) and cvMfr.MakeId = cvMo.MakeId
-inner join GetTable('VehicleColor') cvCo ON tblcv.VehicleColor = cvCo.valueid
-inner join tblJobItem tblji ON(tblj.JobId = tblji.JobId)
+LEFT join tblClient tblc ON (tblj.ClientId = tblc.ClientId OR @ClientId = NULL) OR (tblj.ClientId = @ClientId OR @ClientId IS NOT NULL)
+INNER join tblJobDetail tbljd ON(tblj.JobId = tbljd.JobId)
+left join tblClientAddress tblca ON(tblj.ClientId = tblca.ClientId)
+LEFT join tblClientVehicle tblcv ON (tblc.ClientId = tblcv.ClientId and tblj.VehicleId = tblcv.VehicleId)
+LEFT JOIN tblVehicleMake cvMfr ON(tblj.Make = cvMfr.MakeId)
+LEFT JOIN tblVehicleModel cvMo ON(tblj.Model = cvMo.ModelId) and cvMfr.MakeId = cvMo.MakeId
+LEFT join GetTable('VehicleColor') cvCo ON tblj.Color = cvCo.valueid
+inner join #Services tblji ON(tblj.JobId = tblji.JobId)
 inner join tblService tbls ON(tblji.ServiceId = tbls.ServiceId)
 right join tblBay tblb ON(tbljd.BayId = tblb.BayId)
 inner join tblLocation tbll on tblj.LocationId =tbll.LocationId
@@ -146,28 +160,54 @@ and
 tblj.IsActive=1
 and
 tbljd.IsActive=1
-and
-tblji.IsActive=1
+--and
+--tblji.IsActive=1
 and
 tblb.IsActive=1
-and
-tblcv.IsActive=1
+--and
+--tblcv.IsActive=1
 and
 ISNULL(tblb.IsDeleted,0)=0
 and
 ISNULL(tblj.IsDeleted,0)=0
 and
 ISNULL(tbljd.IsDeleted,0)=0
-and
-ISNULL(tblji.IsDeleted,0)=0
-and
-ISNULL(tblcv.IsDeleted,0)=0
+--and
+--ISNULL(tblji.IsDeleted,0)=0
+--and
+--ISNULL(tblcv.IsDeleted,0)=0
 and 
- (@Search is null or tblj.TicketNumber like '%'+@Search+'%'
- or det.ServiceTypeName like '%'+@Search+'%' or cvMfr.MakeValue like '%'+@Search+'%'
- or cvMo.ModelValue like '%'+@Search+'%'
- or cvCo.valuedesc like '%'+@Search+'%')
-order by tblj.JobId
+ (@Search is null or tblj.TicketNumber like @Search+'%'
+ or det.ServiceTypeName like @Search+'%' or cvMfr.MakeValue like @Search+'%'
+ or cvMo.ModelValue like @Search+'%'
+ or cvCo.valuedesc like @Search+'%'
+ or tblc.FirstName like @Search+'%'
+ or tblc.LastName like @Search+'%'
+ or outs.OutsideService like @Search+'%'
+ or tblj.TimeIn like @Search+ '%'
+ or tblj.EstimatedTimeOut like @Search+ '%')
+ 
+ ORDER BY 
+ CASE WHEN @SortBy = 'TicketNo' AND @SortOrder = 'ASC' THEN tblj.TicketNumber END ASC,
+ CASE WHEN @SortBy = 'TimeIn' AND @SortOrder = 'ASC' THEN tblj.TimeIn END ASC,
+ CASE WHEN @SortBy = 'TimeOut' AND @SortOrder = 'ASC' THEN tblj.EstimatedTimeOut END ASC,
+ CASE WHEN @SortBy = 'ClientName' AND @SortOrder = 'ASC' THEN tblc.FirstName END ASC,
+ --CASE WHEN @SortBy = 'PhoneNo' AND @SortOrder = 'ASC' THEN tblca.PhoneNumber END ASC,
+ CASE WHEN @SortBy = 'Service' AND @SortOrder = 'ASC' THEN det.ServiceTypeName END ASC,
+ CASE WHEN @SortBy = 'OutSideService' AND @SortOrder = 'ASC' THEN outs.OutsideService END ASC,
+ --DESC
+ CASE WHEN @SortBy = 'TicketNo' AND @SortOrder = 'DESC' THEN tblj.TicketNumber END DESC,
+ CASE WHEN @SortBy = 'TimeIn' AND @SortOrder = 'DESC' THEN tblj.TimeIn END DESC,
+ CASE WHEN @SortBy = 'TimeOut' AND @SortOrder = 'DESC' THEN tblj.EstimatedTimeOut END DESC,
+ CASE WHEN @SortBy = 'ClientName' AND @SortOrder = 'DESC' THEN tblc.FirstName END DESC,
+ --CASE WHEN @SortBy = 'PhoneNo' AND @SortOrder = 'DESC' THEN tblc.PhoneNumber END DESC,
+ CASE WHEN @SortBy = 'Service' AND @SortOrder = 'DESC' THEN det.ServiceTypeName END DESC,
+ CASE WHEN @SortBy = 'OutSideService' AND @SortOrder = 'DESC' THEN outs.OutsideService END DESC,
+ 
+ CASE WHEN @SortBy IS NULL AND @SortOrder='DESC' THEN tblj.JobId END ASC,
+ CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN tblj.JobId END ASC
+
+ SELECT DISTINCT * FROM #Detailslist
 
 END
 GO

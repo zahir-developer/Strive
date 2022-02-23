@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [TestUser]
+    WITH PASSWORD = N'|U|es5kP4durg!oTy>gwbsq2msFT7_&#$!~<bxhwwnnm{%{{', SID = 0xA93A7D7BB243E94A920DAC63F4B51537, DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+

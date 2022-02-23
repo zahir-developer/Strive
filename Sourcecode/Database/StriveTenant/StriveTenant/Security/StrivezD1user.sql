@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [StrivezD1user]
+    WITH PASSWORD = N'^<|877H|oes~kRCdugoRygSwmsFT7_&#$!~<Rbsx&hVwUwnn', SID = 0x19344E8E54F2AB4AA443B75F56B52C2B, DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+

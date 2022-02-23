@@ -1,4 +1,5 @@
-﻿CREATE USER [StriveClient] FOR LOGIN [StriveClient]
+﻿CREATE LOGIN
+CREATE USER [StriveClient] FOR LOGIN [StriveClient]
     WITH DEFAULT_SCHEMA = [StriveCarSalon];
 
 

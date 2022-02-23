@@ -1,3 +1,17 @@
-﻿
+﻿CREATE PROCEDURE [StriveCarSalon].uspUpdateCheckListNotification
+@CheckListEmployeeId INT,
+@userId INT,
+@IsCompleted BIT,
+@date DATETIME
+AS
+BEGIN
 
-ALTER TABLE [StriveCarSalon].[tblVendorAddress] DROP COLUMN  [Email] 
+	UPDATE [tblCheckListEmployeeNotification]
+	SET IsCompleted = @IsCompleted,
+	UpdatedBy = @userId,
+	UpdatedDate = @date
+	WHERE CheckListEmployeeId = @CheckListEmployeeId
+
+END
+GO
+

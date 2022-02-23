@@ -1,6 +1,4 @@
-﻿
-
-CREATE PROC [StriveCarSalon].[uspGetPastJobsVisitsByClientId] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetPastJobsVisitsByClientId] 
 @ClientId INT--=76
 -- ===============================================================
 -- Author:		Vineeth

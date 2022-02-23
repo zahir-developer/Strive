@@ -1,6 +1,7 @@
 ﻿-------------history-----------------
 -- =============================================
 -- 1  shalini 2021-06-01  -added order by desc jobdate
+-- 2  shalini 2021-06-16  -removed wildcard from query
 
 -- =============================================
 --[uspGetCustomerHistory]1,'2021-01-01','2021-12-31',null,1,10,'asc','FirstName'
@@ -87,15 +88,15 @@ AND tblji.IsActive = 1 AND tbls.IsActive = 1
 AND ISNULL(tblj.IsDeleted,0) = 0 AND ISNULL(tblc.IsDeleted,0) = 0 AND ISNULL(tblcv.IsDeleted,0) = 0 
 AND ISNULL(tblji.IsDeleted,0) = 0 AND ISNULL(tbls.IsDeleted,0) = 0 AND ISNULL(tblcvmd.IsDeleted,0) = 0 
 and 
- ((@Query is null or tblc.FirstName  like '%'+@Query+'%') OR
-  (@Query is null or tblc.LastName  like '%'+@Query+'%') OR
-  (@Query is null or tblc.ClientId  like '%'+@Query+'%') OR
-  (@Query is null or tblj.JobDate  like '%'+@Query+'%') OR
-  (@Query is null or tblcv.VehicleId  like '%'+@Query+'%') OR
-  (@Query is null or tblj.TicketNumber  like '%'+@Query+'%') OR
-  (@Query is null or tblm.MembershipName  like '%'+@Query+'%') OR
-  (@Query is null or tblcv.Barcode  like '%'+@Query+'%') OR
-  (@Query is null or tbls.ServiceName  like '%'+@Query+'%'))
+ ((@Query is null or tblc.FirstName  like @Query+'%') OR
+  (@Query is null or tblc.LastName  like @Query+'%') OR
+  (@Query is null or tblc.ClientId  like @Query+'%') OR
+  (@Query is null or tblj.JobDate  like @Query+'%') OR
+  (@Query is null or tblcv.VehicleId  like @Query+'%') OR
+  (@Query is null or tblj.TicketNumber  like @Query+'%') OR
+  (@Query is null or tblm.MembershipName  like @Query+'%') OR
+  (@Query is null or tblcv.Barcode  like @Query+'%') OR
+  (@Query is null or tbls.ServiceName  like @Query+'%'))
 ORDER BY  tblj.Jobdate desc
 
 SELECT 

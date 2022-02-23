@@ -21,9 +21,12 @@
     [UpdatedBy]        INT                NULL,
     [UpdatedDate]      DATETIMEOFFSET (7) NULL,
     [ComType]          INT                NULL,
+    [IsSalary]         BIT                DEFAULT ('FALSE') NULL,
     CONSTRAINT [PK_tblEmployeeDetail] PRIMARY KEY CLUSTERED ([EmployeeDetailId] ASC),
     CONSTRAINT [FK_tblEmployeeDetail_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
+
+
 
 
 

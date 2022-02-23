@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [MPOSApp]
+    WITH PASSWORD = N'eqscmn?z9qa7ausjfWcuyjyomsFT7_&#$!~<olcsEsDmhltw', SID = 0x775AA6DA73B2E54EB9F8CBEB6B12769A, DEFAULT_LANGUAGE = [us_english];
+

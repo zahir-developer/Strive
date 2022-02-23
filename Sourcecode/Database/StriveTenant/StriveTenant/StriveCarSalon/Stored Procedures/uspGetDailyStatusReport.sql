@@ -8,7 +8,10 @@ AS
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- strivecarsalon.uspGetDailyStatusReport 1,'2021-05-17',0
+-- strivecarsalon.uspGetDailyStatusReport 1,'2021-10-12'
+
+-- =============================================
+--  Vetriselvi 2021-10-12  - Removed Inactive items
 -- =============================================
 
 BEGIN
@@ -23,7 +26,7 @@ INNER join tblService S on S.ServiceId = JI.ServiceId
 INNER join GetTable('JobType') JT on JT.valueId = J.JobType-- and GT.valuedesc = 'Completed'
 INNER join GetTable('ServiceType') ST on ST.valueId = S.ServiceType AND (ST.valuedesc = 'Wash Package' OR ST.valuedesc = 'Detail Package')-- and GT.valuedesc = 'Completed'
 where  JobDate = @Date  and (J.LocationId = @LocationId or @LocationId = 0 )--and( j.ClientId =@ClientId or @ClientId=0) -- commented since it is not used 
-and ji.IsActive =1 
+and ji.IsActive =1 and j.isDeleted = 0 and ji.isDeleted = 0
 group by S.ServiceName, JT.valueid, JT.valuedesc, JobDate,
 --j.ClientId,-- commented since it is not used 
 j.LocationId
@@ -36,7 +39,7 @@ left join tblJobServiceEmployee JS on JS.JobItemId = JI.JobItemId
 left join tblService S on S.ServiceId = JI.ServiceId
 JOIN tblEmployee e on e.EmployeeId = js.EmployeeId
 left join GetTable('JobStatus') GT on GT.id = JobStatus and GT.valuedesc = 'Completed'
-where L.LocationId = @LocationId and JobDate = @Date and JS.EmployeeId is Not Null
+where L.LocationId = @LocationId and JobDate = @Date and JS.EmployeeId is Not Null and j.isDeleted = 0 and ji.isDeleted = 0
 group by L.LocationId,TicketNumber,js.EmployeeId, e.FirstName, e.LastName
 
 

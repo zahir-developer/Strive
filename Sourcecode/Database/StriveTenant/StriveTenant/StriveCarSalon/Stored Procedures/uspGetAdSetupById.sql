@@ -1,5 +1,5 @@
 ﻿--[StriveCarSalon].[uspGetAdSetupById] 4
-CREATE proc [StriveCarSalon].[uspGetAdSetupById]
+CREATE PROCEDURE [StriveCarSalon].[uspGetAdSetupById]
 @AdSetupid int
 as
 begin
