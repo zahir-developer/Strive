@@ -62,6 +62,7 @@
                                             <th scope="col">Emp. Name</th>
                                             <th scope="col">Wash Hours</th>
                                             <th scope="col">Detail Hours</th>
+                                            <th scope="col">Other Hours</th>
                                             <th scope="col">Total Hours</th>
                                         </tr>
                                     </thead>
@@ -70,6 +71,7 @@
                                             <td>{{clock?.LastName}}&nbsp;{{clock?.FirstName}}</td>
                                             <td >{{clock?.WashHours}}</td>
                                             <td >{{clock?.DetailHours}}</td>
+                                            <td >{{clock?.OtherHours}}</td>
                                             <td >{{clock?.TotalHours}}</td>
                                         </tr>
                                         <tr *ngIf="clockDetail.length === 0">
@@ -81,8 +83,9 @@
                                     <tfoot class="font-weight-700" *ngIf="clockDetail?.length > 0">
                                         <tr>
                                             <td colspan="1" class="text-right">Total: </td>
-                                            <td>{{totalWashHours}}</td>
-                                            <td>{{totalDetailHours}}</td>
+                                            <td>{{totalWashHours.toFixed(2)}}</td>
+                                            <td>{{totalDetailHours.toFixed(2)}}</td>
+                                            <td>{{totalOtherHours.toFixed(2)}}</td>
                                             <td colspan="9"></td>
                                         </tr>
                                     </tfoot>

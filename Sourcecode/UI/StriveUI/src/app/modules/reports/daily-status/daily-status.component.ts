@@ -29,8 +29,10 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   washTotal = 0;
   detailTotal = 0;
   washHours = 0;
+  otherHours = 0;
   totalWashHours = "";
   totalDetailHours = "";
+  totalOtherHours = "";
   detailHours = 0;
   totalAmount = 0;
   detailInfoTotal = 0;
@@ -122,8 +124,10 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     let tableBody = '';
     this.washHours = 0;
     this.detailHours = 0;
+    this.otherHours = 0;
+    
     const count = Math.max(...this.clockDetail?.map(val => val.count));
-    tableheader = `<tr><th scope="col">Employee Name</th><th scope="col">Wash Hours</th><th scope="col">Detail Hours</th>
+    tableheader = `<tr><th scope="col">Employee Name</th><th scope="col">Wash Hours</th><th scope="col">Detail Hours</th><th scope="col">Other Hours</th>
     <th scope="col">Total Hours</th>`
     for (let i = 0; i < count; i++) {
       tableheader += `<th scope="col">In</th><th scope="col">Out</th><th scope="col">Role</th>`;
@@ -139,6 +143,10 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         tableBody += (item?.DetailHours ?
         (item?.DetailHours)
         : "0") + `</td><td>`;
+
+        tableBody += (item?.OtherHours ?
+          (item?.OtherHours)
+          : "0") + `</td><td>`;
 /*
         var decimalTimeString = (item?.WashHours + item?.DetailHours).toFixed(2);
         const hrs = decimalTimeString.toString().split(".");
@@ -169,7 +177,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
           (item[RoleName] != undefined ? item[RoleName] : '') + `</td>`;
       }
       this.washHours += item.WashHours;
-      this.detailHours += item.DetailHours;
+      this.detailHours += item.DetailHours; 
+      this.otherHours += item.OtherHours;     
       this.totalAmount += item.TotalAmount;
     });
     tableBody += `</tr>`;
@@ -181,6 +190,10 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
     this.totalDetailHours = this.detailHours > 0 ?
     this.detailHours.toFixed(2).toString()
+      : "0";
+
+      this.totalOtherHours = this.otherHours > 0 ?
+    this.otherHours.toFixed(2).toString()
       : "0";
    // this.totalWashHours = (this.washHours +this.detailHours).toString().replace(".",":");
 /*
