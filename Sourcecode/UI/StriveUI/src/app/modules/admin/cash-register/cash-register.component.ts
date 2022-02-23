@@ -423,7 +423,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
       rainProbability: (this.weatherDetails?.currentWeather?.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather?.rainPercentage).toString() : null,
       predictedBusiness: '-',
-      targetBusiness: this.cashRegisterForm.controls.goal.value,
+      targetBusiness: this.cashRegisterForm.controls.goal.value?? this.target,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
     };
     this.spinner.show();
