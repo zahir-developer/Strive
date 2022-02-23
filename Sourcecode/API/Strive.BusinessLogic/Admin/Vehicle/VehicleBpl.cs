@@ -84,6 +84,7 @@ namespace Strive.BusinessLogic.Vehicle
 
             return ResultWrap(result, "Status");
         }
+        
         public Result GetVehicleByClientId(int clientId)
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleByClientId, clientId, "Status");
@@ -231,6 +232,12 @@ namespace Strive.BusinessLogic.Vehicle
             return ResultWrap(vehicleImage, "VehicleImage");
         }
 
+        public Result UpdateVehicleNumberSequence(int? vehicleId, int clientId)
+        {
+            var result = new VehicleRal(_tenant).UpdateVehicleNumberSequence(vehicleId, clientId);
+
+            return ResultWrap(result, "Status");
+        }
 
 
     }

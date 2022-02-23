@@ -6,7 +6,8 @@ export const MessageConfig = {
    TicketNumber: 'Ticket Number is invalid',
    locationError: 'No location assigned, Please contact Administrator ',
    Reset: 'Reset Successfully !',
-   save: 'Saved Successfully !',
+   Save: 'Saved Successfully !',
+   NoRecordsFound: 'No Records found !',
 
    Schedule:
    {
@@ -74,7 +75,8 @@ export const MessageConfig = {
       Add: 'Client added successfully !',
       Update: 'Client updated successfully !',
       Delete: 'Client deleted successfully !',
-      ActivityPlusMinus: 'Select +/- to add activity !'
+      ActivityPlusMinus: 'Select +/- to add activity !',
+     
    },
    Sales:
    {
@@ -158,7 +160,8 @@ export const MessageConfig = {
          membershipDiscountNotUpdated: 'Discount Amount not updated in Membership setup !',
          UpchargeApplied: 'Upcharge applied successfully!',
          UpchargeNotAvailable: 'No Upcharge available !',
-         ServiceZeroPrice: 'Selected service have Price: 0'
+         ServiceZeroPrice: 'Selected service have Price: 0',
+         VehicleNumberUpdated: 'Vehicle number sequence updated !'
       },
 
       GiftCard:

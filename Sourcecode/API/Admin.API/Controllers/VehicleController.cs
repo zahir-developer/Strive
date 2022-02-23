@@ -30,7 +30,6 @@ namespace Admin.API.Controllers
         [Route("Delete")]
         public Result DeleteVehicle(int id, int? clientId) => _bplManager.DeleteVehicle(id, clientId.GetValueOrDefault());
 
-
         [HttpGet]
         [Route("GetVehicleByClientId")]
         public Result GetVehicleByClientId(int id) => _bplManager.GetVehicleByClientId(id);
@@ -108,6 +107,8 @@ namespace Admin.API.Controllers
         [Route("AddVehicleIssue")]
         public Result AddVehicleIssue([FromBody] VehicleIssueDto vehicleIssueDto) => _bplManager.AddVehicleIssue(vehicleIssueDto);
 
-        
+        [HttpGet]
+        [Route("UpdateVehicleNumber")]
+        public Result UpdateVehicleNumberSequence(int clientId, int? vehicleId) => _bplManager.UpdateVehicleNumberSequence(vehicleId, clientId);
     }
 }

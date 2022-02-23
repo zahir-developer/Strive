@@ -57,4 +57,8 @@ export class VehicleService {
     GetMembershipDiscountStatus(clientId, vehicleId) {
         return this.http.get(`${UrlConfig.vehicle.getMembershipDiscountStatus}` + clientId + '/' + vehicleId);
     }
+
+    updateVehicleNumber(clientId: number) {
+        return this.http.get(`${UrlConfig.vehicle.UpdateVehicleNumber}`, { params: { clientId: clientId, vehicleId: null } });
+    }
 }

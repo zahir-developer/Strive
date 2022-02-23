@@ -30,5 +30,7 @@ namespace Strive.BusinessLogic.Vehicle
         Result DeleteVehicleMembership(VehicleMembershipDeleteDto deleteDto);
         Result AddVehicleIssue(VehicleIssueDto vehicleIssueDto);
 
+        Result UpdateVehicleNumberSequence(int? vehicleId, int clientId);
+
     }
 }
