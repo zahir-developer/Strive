@@ -49,11 +49,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 Model = MembershipData.SelectedVehicle.VehicleModel;
             }
             Vehicle.Text = MembershipData.SelectedVehicle.VehicleMfr + "/" + Model + "/" + MembershipData.SelectedVehicle.VehicleColor;
-            Total.Text = "Total: $"+Math.Round(MembershipData.CalculatedPrice).ToString();
-            YearlyTotal.Text = "$"+Math.Round(MembershipData.CalculatedPrice * 12).ToString();
-            MonthlyTotal.Text = "$"+Math.Round(MembershipData.CalculatedPrice).ToString();
-            AdditionalServicesTotal.Text = "Additional Services: $"+(MembershipData.AdditionalServicesPrice != 0 ? Math.Round(MembershipData.AdditionalServicesPrice).ToString() : "0.00");
-            Upchargeslbl.Text = "Upcharge: $" + (MembershipData.UpchargesPrice != 0 ? MembershipData.UpchargesPrice.ToString() : "0.00");
+            Total.Text = "Total: $" + MembershipData.CalculatedPrice.ToString("0.00");
+            YearlyTotal.Text = "$" + (MembershipData.CalculatedPrice * 12).ToString("0.00");
+            MonthlyTotal.Text = "$"+MembershipData.CalculatedPrice.ToString("0.00");
+            AdditionalServicesTotal.Text = "Additional Services: $"+(MembershipData.AdditionalServicesPrice != 0 ? MembershipData.AdditionalServicesPrice.ToString("0.00")  : "0.00");
+            Upchargeslbl.Text = "Upcharge: $" + (MembershipData.UpchargesPrice != 0 ? MembershipData.UpchargesPrice.ToString("0.00") : "0.00");
             Date.Text = "Date:" + DateTime.Now.ToString("dd-MM-yyyy");
             StartingDate.Text = DateTime.Now.ToString("dd-MM-yyyy");
             EndingDate.Text = "Open";

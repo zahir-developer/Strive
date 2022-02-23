@@ -104,12 +104,13 @@ namespace Strive.Core.ViewModels.Employee.Schedule
             
                 checklistUpdateRequest.CheckListNotification = SelectedChecklist;
                 var result = await AdminService.FinishCheckList(checklistUpdateRequest);
-                if (result != null)
+                if (result.ChecklistNotification==true)
                 {
+                    SelectedChecklist.Clear();
                     _userDialog.Alert("Successfully completed the tasks");
                 }
             
-            Console.WriteLine("Task Has been completed successfully");
+            //Console.WriteLine("Task Has been completed successfully");
         }
         public async Task GetTaskList()
         {

@@ -175,6 +175,6 @@ namespace Strive.Core.Services.Interfaces
 
         Task<Checklist> GetCheckList(ChecklistRequest checklistRequest);
 
-        Task<Checklist> FinishCheckList(ChecklistUpdateRequest checklistUpdateRequest);
+        Task<ChecklistUpdateResponse> FinishCheckList(ChecklistUpdateRequest checklistUpdateRequest);
     }
 }

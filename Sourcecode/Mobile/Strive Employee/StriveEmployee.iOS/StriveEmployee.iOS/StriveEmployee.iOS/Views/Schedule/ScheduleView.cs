@@ -120,14 +120,19 @@ namespace StriveEmployee.iOS.Views.Schedule
         {
             if (ScheduleViewModel.SelectedChecklist.Count!=0)
             {
-                ViewModel.FinishTask();
-                getchecklist();
+                finishtask();
+                checklistInitialization();
                 Checklist_TableView.ReloadData();
             }
             else
             {
                 ViewModel.ChecklistValidate();
             }
+        }
+        private async void finishtask()
+        {
+            await ViewModel.FinishTask();
+            
         }
         private void checklistInitialization()
         {

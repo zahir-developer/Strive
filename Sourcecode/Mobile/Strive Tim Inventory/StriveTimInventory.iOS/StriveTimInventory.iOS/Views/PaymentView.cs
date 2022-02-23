@@ -307,6 +307,7 @@ namespace StriveTimInventory.iOS.Views
             cardNumberTextField.Font = UIFont.SystemFontOfSize(18);
             cardNumberTextField.TextColor = UIColor.Black;
             cardNumberTextField.KeyboardType = UIKeyboardType.NumberPad;
+            cardNumberTextField.SecureTextEntry = true;
             backgroundView.Add(cardNumberTextField);
 
             var expirationDateLabel = new UILabel(CGRect.Empty);

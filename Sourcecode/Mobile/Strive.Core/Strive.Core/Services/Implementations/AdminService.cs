@@ -474,9 +474,9 @@ namespace Strive.Core.Services.Implementations
         { 
             return await _restClient.MakeApiCall<Checklist>(ApiUtils.URL_GET_CHECKLIST, HttpMethod.Post, checklistRequest);
         }
-        public async Task<Checklist> FinishCheckList(ChecklistUpdateRequest checklistUpdateRequest)
+        public async Task<ChecklistUpdateResponse> FinishCheckList(ChecklistUpdateRequest checklistUpdateRequest)
         {
-            return await _restClient.MakeApiCall<Checklist>(ApiUtils.URL_FINISH_CHECKLIST, HttpMethod.Post, checklistUpdateRequest);
+            return await _restClient.MakeApiCall<ChecklistUpdateResponse>(ApiUtils.URL_FINISH_CHECKLIST, HttpMethod.Post, checklistUpdateRequest);
         }
 
     }
