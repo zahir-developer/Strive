@@ -105,10 +105,10 @@ export class PayrollsGridComponent implements OnInit {
         excelReport.push({
           'Emp.ID': this.payRollList[i].EmployeeId,
           'Payee Name': this.payRollList[i].PayeeName,
-          'Wash Hrs.': this.payRollList[i].TotalWashHours,
+          'Working Hours': this.payRollList[i].TotalWashHours,
           'Detail Hrs.': this.payRollList[i].TotalDetailHours,
-          'Rate': this.payRollList[i].WashRate,
-          'Reg. pay': this.payRollList[i].WashAmount,
+          'Pay Rate': this.payRollList[i].WashRate,
+          'Pay': this.payRollList[i].WashAmount,
           'OT Hrs.': this.payRollList[i].OverTimeHours,
           'OT Pay': this.payRollList[i].OverTimePay,
           'Collision': this.payRollList[i].Collision,
@@ -117,9 +117,10 @@ export class PayrollsGridComponent implements OnInit {
           'Details com.': this.payRollList[i].DetailCommission,
           'CashTip': this.payRollList[i].CashTip,
           'DetailTip': this.payRollList[i].DetailTip,
-          'CardTip': this.payRollList[i].CardTip,
+          // 'CardTip': this.payRollList[i].CardTip,
           'WashTip': this.payRollList[i].WashTip,
           'Bonus': this.payRollList[i].Bonus,
+          // 'Salary': this.payRollList[i].Salary,
           'Payee Total': this.payRollList[i].PayeeTotal,
 
         })

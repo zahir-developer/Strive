@@ -11,5 +11,6 @@ namespace Strive.BusinessEntities.DTO.PaymentGateway
         public string RetRef { get; set; }
 
         public JToken InvoiceId { get; set; }
+        public int LocationId { get; set; }
     }
 }

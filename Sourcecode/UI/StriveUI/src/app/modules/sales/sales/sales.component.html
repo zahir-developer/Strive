@@ -22,12 +22,12 @@
                                         <div class="col-sm-10">
                                             <div>
                                                 <form (ngSubmit)="addTicketNumber()">
-                                                    <input type="text" maxlength="9" id="ticketNumber"
+                                                    <input type="text" maxlength="20" id="ticketNumber"
                                                         (focus)="quantityFocus($event)" *ngIf="isSelected"
                                                         name="ticketNumber"
                                                         class="form-control inputSize  d-inline-block w-23 align-middle"
                                                         [(ngModel)]="ticketNumber" (keyenter)="addTicketNumber()"
-                                                        (keypress)="allowNumbersOnly($event)"
+                                                        appAlphaNumeric
                                                         (clear)="clearpaymentField()">&nbsp;
                                                     <span class="p-r-71" *ngIf="!isSelected">{{newTicketNumber}}</span>
                                                     <button type="submit" class="btn theme-primary-button-color"
@@ -112,11 +112,11 @@
                                             <div> Discount </div>
                                         </div>
                                         <div class="icon-btn col-sm"
-                                            [class.disabled]="enableButton|| !serviceGroup ||multipleTicketSequence"
-                                            [ngClass]="{'disable': enableButton || !serviceGroup ||multipleTicketSequence, 'enable': !enableButton || serviceGroup || !multipleTicketSequence}"
+                                            [class.disabled]="enableButton|| !serviceGroup || multipleTicketSequence"
+                                            [ngClass]="accountBtnClass"
                                             (click)="processAccount()">
                                             <img src="https://mammothuatapi-cdn.azurewebsites.net/images/Account.png" alt="" />
-                                            <div> Account </div>
+                                            <div [ngStyle]="{color: (!enableButton && !multipleTicketSequence && serviceGroup )?'#ffffff':'#5F6281'}"> Account </div>
                                         </div>
                                         <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton"
                                             [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
@@ -134,7 +134,7 @@
                                             (click)="deleteItem('', 'rollback')">RollBack</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
                                             [disabled]="enableButton || multipleTicketNumber.length === 0"
-                                            (click)="deleteItem('', 'deleteJob')">Del</button>
+                                            (click)="deleteItem('', 'deleteJob')">Delete</button>
                                         <button type="button" class="btn col-sm btn-payment actived m-r-0"
                                             [disabled]="!enableButton || multipleTicketNumber.length === 0"
                                             (click)="print()">Print</button>
@@ -229,7 +229,7 @@
                                             </div>
                                             <div class="form-row p-b-12 m-t-40 float-right" *ngIf="giftcards.length>0">
                                                 <button type="button" class="btn theme-primary-button-color btn-sm"
-                                                    (click)="giftCardProcess()">Process</button>
+                                                    (click)="giftCardProcess()">Add</button>
                                             </div>
                                         </div>
                                     </div>
@@ -368,7 +368,7 @@
                                                     <button type="button" class="btn theme-optional-button-color"
                                                         (click)="closecash()">Cancel</button>&nbsp;
                                                     <button type="button" class="btn theme-primary-button-color"
-                                                        (click)="cashProcess()">Process</button>
+                                                        (click)="cashProcess()">Add</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -424,7 +424,7 @@
                                                     <button type="button" class="btn theme-optional-button-color"
                                                         (click)="closediscount()">Cancel</button>&nbsp;
                                                     <button type="button" class="btn theme-primary-button-color"
-                                                        (click)="discountProcess()">Process</button>
+                                                        (click)="discountProcess()">Add</button>
                                                 </div>
                                             </div>
                                         </div>

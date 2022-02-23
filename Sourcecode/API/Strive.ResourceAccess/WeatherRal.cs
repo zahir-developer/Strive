@@ -38,8 +38,21 @@ namespace Strive.ResourceAccess
             return db.Fetch<WeatherPredictions>(EnumSP.CashRegister.USPGETPASTWEATHERINFO.ToString(), _prm);
 
         }
+        public List<LocationWeatherPredictions> GetWeatherPredictionDetails(int locationId, DateTime dateTime)
+        {
+            _prm.Add("@LocationId", locationId);
+            _prm.Add("@date", dateTime);
 
+            return db.Fetch<LocationWeatherPredictions>(EnumSP.Location.USPGETLOCATIONWEATHER.ToString(), _prm);
+
+        }
         public int AddWeather(WeatherDTO weatherPrediction)
+        {
+            return dbRepo.InsertPK(weatherPrediction, "WeatherId");
+
+            /*return WeatherPredictionId > 0;*/
+        }
+        public int AddWeatherPrediction(WeatherPredictionDTO weatherPrediction)
         {
             return dbRepo.InsertPK(weatherPrediction, "WeatherId");
 

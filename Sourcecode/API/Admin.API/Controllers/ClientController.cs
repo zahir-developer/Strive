@@ -76,16 +76,9 @@ namespace Admin.API.Controllers
             return _bplManager.GetClientCodes();
         }
 
-        #region
         [HttpGet]
         [Route("GetStatementByClientId/{id}")]
         public Result GetStatementByClientId(int id) => _bplManager.GetStatementByClientId(id);
-        #endregion
-        #region
-        [HttpGet]
-        [Route("GetHistoryByClientId/{id}")]
-        public Result GetHistoryByClientId(int id) => _bplManager.GetHistoryByClientId(id);
-        #endregion
 
         [HttpPost]
         [Route("IsClientName")]
@@ -98,6 +91,7 @@ namespace Admin.API.Controllers
             return _bplManager.GetAllClientName(name);
 
         }
+
         [HttpGet]
         [Route("ClientEmailExist")]
         public Result ClientEmailExist(string email)
@@ -163,15 +157,24 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("EmailBlastCSV")]
-
         public Result GetClientListCSV([FromBody] EmailBlastDto emailBlast) => _bplManager.ClientCSVExport(emailBlast);
 
         [HttpGet]
         [Route("GetCreditAccountBalanceHistory/{clientId}")]
         public Result GetCreditAccountBalanceHistory(string clientId) => _bplManager.GetCreditAccountBalanceHistory(clientId);
 
+
         //[HttpPost]
         //[Route("SendClientEmail")]
         //public Result SendClientEmail() => _bplManager.SendClientEmail();
+
+        [HttpGet]
+        [Route("GetAllClientDetail/{clientName}")]
+        public Result GetAllClientDetail(string clientName) => _bplManager.GetAllClientDetail(clientName);
+
+        [HttpPost]
+        [Route("GetClientAccountBalance")]
+        public Result GetClientAccountBalance([FromBody] AccountBalanceDto searchDto) => _bplManager.GetClientAccountBalance(searchDto);
+
     }
 }

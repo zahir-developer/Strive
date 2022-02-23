@@ -77,13 +77,13 @@ export class SelectServicesComponent implements OnInit {
       status: true
     };
     this.spinner.show();
-    this.customerService.getServices(serviceObj).subscribe(res => {
+    this.customerService.getAllServiceDetail().subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
         const serviceDetails = JSON.parse(res.resultData);
-        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
-          this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-            item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage);
+        if (serviceDetails.AllServiceDetail !== null) {
+          this.detailService = serviceDetails.AllServiceDetail.filter(item =>
+            item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.DetailPackage);
           this.patchServiceValue();
         }
       }

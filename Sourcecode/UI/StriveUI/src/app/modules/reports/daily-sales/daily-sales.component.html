@@ -83,7 +83,7 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    *ngFor="let dailySales of dailySalesReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                    *ngFor="let dailySales of dailySalesReport">
                                     <th scope="row">{{dailySales.TicketNumber}}</th>
                                     <td>{{dailySales.TimeIn |date:'shortTime'}}</td>
                                     <td>{{dailySales.TimeOut|date:'shortTime'}}</td>
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 <ul class="pagination justify-content-end">
-                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page"
+                    <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize" [(page)]="page"
                         [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
                         class="d-flex justify-content-end">
                     </ngb-pagination>

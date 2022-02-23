@@ -75,6 +75,7 @@ export class CreateEditComponent implements OnInit {
   isHourEdit = 0;
   selectedLocationHour = '';
   isRateAllLocation: boolean;
+  isSalary: boolean;
   errorMessage: boolean;
   fileSize: number;
   isEmailExists: boolean;
@@ -93,6 +94,7 @@ export class CreateEditComponent implements OnInit {
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'Inactive'];
     this.isRateAllLocation = false;
+    this.isSalary = false;
     this.errorMessage = false;
     this.fileSize = ApplicationConfig.UploadSize.EmployeeDocument;
     this.isEmailExists = false;
@@ -127,7 +129,7 @@ export class CreateEditComponent implements OnInit {
       exemptions: [''],
       roles: [[]],
       location: [[]],
-      salary: ['']
+      //salary: ['']
     });
     this.emplistform.controls.status.disable();
     this.documentForm = this.fb.group({
@@ -429,9 +431,10 @@ export class CreateEditComponent implements OnInit {
       ComType: +this.emplistform.value.comType,
       lrt: null,
       exemptions: +this.emplistform.value.exemptions,
-      salary: +this.emplistform.value.salary,
+      //salary: +this.emplistform.value.salary,
       isActive: true,
       isDeleted: false,
+      isSalary: this.isSalary
     };
     const locationObj = this.emplistform.value.location.map(item => {
       return {
@@ -626,5 +629,9 @@ export class CreateEditComponent implements OnInit {
         }
       }
     });
+  }
+
+  isSalaryChecked(event){
+    this.isSalary = event.target.checked;
   }
 }

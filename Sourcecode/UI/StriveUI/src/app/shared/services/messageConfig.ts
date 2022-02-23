@@ -6,7 +6,8 @@ export const MessageConfig = {
    TicketNumber: 'Ticket Number is invalid',
    locationError: 'No location assigned, Please contact Administrator ',
    Reset: 'Reset Successfully !',
-   save: 'Saved Successfully !',
+   Save: 'Saved Successfully !',
+   NoRecordsFound: 'No Records found !',
 
    Schedule:
    {
@@ -73,7 +74,9 @@ export const MessageConfig = {
       emailNotExist: 'Email available to create customer!',
       Add: 'Client added successfully !',
       Update: 'Client updated successfully !',
-      Delete: 'Client deleted successfully !'
+      Delete: 'Client deleted successfully !',
+      ActivityPlusMinus: 'Select +/- to add activity !',
+     
    },
    Sales:
    {
@@ -104,7 +107,9 @@ export const MessageConfig = {
       MembershipApplied : 'Membership applied for below services: ',
       MembershipServicesNotMatching : 'Membership services not matching.',
       InvalidCharacters: 'Ticket number have Invalid characters.', 
-      DiscountServiceNotMatching: 'Service Discount Type not matching with any of the Job service.'
+      DiscountServiceNotMatching: 'Service Discount Type not matching with any of the Job service.',
+      ItemAlreadyAdded: 'Item already exists, can not be added.',
+      PackageAlreadyAdded: 'Base package(Wash/Detail) already exists.'
    },
    Messenger: {
       Message: 'Please enter a message!',
@@ -126,7 +131,7 @@ export const MessageConfig = {
       Add: 'Vehicle has been CheckedOut successfully !',
       Hold: 'Vehicle Hold status updated !',
       Complete: 'Services have been completed successfully !',
-      checkoutRestriction: 'Only Comleted ticket can be Checkedout !',
+      checkoutRestriction: 'Only Completed ticket can be Checkedout !',
       unPaidTicket: 'Only Paid ticket can be Checkedout !'
    },
    Admin: {
@@ -148,13 +153,15 @@ export const MessageConfig = {
          Update: 'Vehicle updated successfully !',
          Save: 'Vehicle saved successfully !',
          Delete: 'Vehicle deleted successfully !',
+         AddedForDelete: 'Vehicle has been added for deletion !',
          memberShip: 'Vehicle cannot be deleted, Vehicle has a active membership.',
          membershipDiscountAvailable: 'Membership discount available !',
          membershipDiscountNotAvailable: 'No membership discount available !',
          membershipDiscountNotUpdated: 'Discount Amount not updated in Membership setup !',
          UpchargeApplied: 'Upcharge applied successfully!',
          UpchargeNotAvailable: 'No Upcharge available !',
-         ServiceZeroPrice: 'Selected service have Price: 0'
+         ServiceZeroPrice: 'Selected service have Price: 0',
+         VehicleNumberUpdated: 'Vehicle number sequence updated !'
       },
 
       GiftCard:

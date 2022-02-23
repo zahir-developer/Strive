@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.DTO.Vehicle
     {
         public Model.ClientVehicle ClientVehicle { get; set; }
 
-        public List<VehicleImage> VehicleImage { get; set; }
+        public List<VehicleIssueImage> VehicleImage { get; set; }
     }
 }
  

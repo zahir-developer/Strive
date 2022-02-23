@@ -103,7 +103,8 @@ export class SalesComponent implements OnInit {
   amountCheck = true;
   accountPayType: any;
   paymentType = false;
-
+  JobDate = new Date;
+  accountBtnClass : any;
 
   constructor(
     private toastr: ToastrService, private membershipService: MembershipService, private salesService: SalesService, private router: Router,
@@ -169,6 +170,7 @@ export class SalesComponent implements OnInit {
     this.getServiceForDiscount();
     // this.getAllServiceandProduct();
     this.getJobType();
+    this.calculateAccountbtnClass();
   }
 
 
@@ -244,7 +246,8 @@ export class SalesComponent implements OnInit {
               id: item.ServiceId,
               name: item.ServiceName.trim(),
               price: item.Cost,
-              type: 'service'
+              type: 'service',
+              serviceTypeId: item.ServiceType
             };
           });
         }
@@ -385,7 +388,7 @@ export class SalesComponent implements OnInit {
   removeTicketNumber(ticket) {
     this.newTicketNumber = '';
     if (this.multipleTicketNumber.length > 1) {
-      this.multipleTicketSequence = false;
+      this.multipleTicketSequence = true;
     }
     this.multipleTicketNumber = this.multipleTicketNumber.filter(item => item !== ticket);
     if (this.multipleTicketNumber.length > 10) {
@@ -398,6 +401,7 @@ export class SalesComponent implements OnInit {
       this.enableAdd = false;
     }
     this.getDetailByTicket(false);
+    this.calculateAccountbtnClass();
   }
   getDetailByTicket(flag) {
     this.enableButton = false;
@@ -439,8 +443,13 @@ export class SalesComponent implements OnInit {
             this.isMembership = true;
             this.isAccount = false;
           }
-        }
-      });
+
+          if(this.accountDetails.SalesAccountCreditViewModel?.ClientId == null){
+            this.serviceGroup = false;
+          }
+          this.calculateAccountbtnClass();
+        }        
+      });      
       this.spinner.show();
       const salesObj =
       {
@@ -543,6 +552,7 @@ export class SalesComponent implements OnInit {
                 this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp ? +this.grandTotal : 0;
               this.calculateTotalpaid(+this.account);
             }
+            this.JobDate = summary?.JobDate;
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
@@ -565,7 +575,7 @@ export class SalesComponent implements OnInit {
       }, (err) => {
         this.enableAdd = false;
         this.spinner.hide();
-      });
+      });      
     }
   }
 
@@ -609,7 +619,8 @@ export class SalesComponent implements OnInit {
               id: item.ServiceId,
               name: item.ServiceName.trim(),
               price: item.Cost,
-              type: 'service'
+              type: 'service',
+              serviceTypeId: item.ServiceType
             };
           });
         } else {
@@ -833,6 +844,11 @@ export class SalesComponent implements OnInit {
     // this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
+    //Set cashback amount
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;    
+     if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
+    }
   }
   addItem() {
     if (this.selectedService.name === 'Gift Card') {
@@ -860,7 +876,7 @@ export class SalesComponent implements OnInit {
           this.submitted = false;
         }
       });
-    } else {
+    } else if (this.isPackageAlreadyAdded()) {
       this.submitted = true;
       if (+this.addItemForm.controls.quantity.value === 0) {
         this.addItemForm.patchValue({ quantity: '' });
@@ -955,7 +971,44 @@ export class SalesComponent implements OnInit {
         });
       }
     }
+    else
+    {
+      this.addItemForm.controls.quantity.enable();
+      this.addItemFormInit();
+    }
   }
+
+  isPackageAlreadyAdded() {
+    var itemExists = this.itemList?.Status?.SalesItemViewModel?.filter(s => s.ServiceId === this.selectedService?.id);
+
+    if (itemExists?.length > 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.ItemAlreadyAdded });
+      return false;
+    }
+
+    var detailServiceType = this.serviceType.filter(type => type.CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage)
+
+    var washServiceType = this.serviceType.filter(type => type.CodeValue === ApplicationConfig.Enum.ServiceType.WashPackage)
+
+    var detailPackageExists = this.details.filter(s => s.ServiceType === detailServiceType[0]?.CodeValue)
+
+    var washPackageExists = this.washes.filter(s => s.ServiceType === washServiceType[0]?.CodeValue)
+
+    if ((detailPackageExists?.length > 0 && (detailServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId)) || (washPackageExists?.length > 0 && (washServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId))) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.PackageAlreadyAdded });
+      return false;
+    }
+
+    if ((detailPackageExists?.length > 0 && (washServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId)) || (washPackageExists?.length > 0 && (detailServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId))) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.PackageAlreadyAdded });
+      return false;
+    }
+
+
+
+    return true;
+  }
+
   updateListItem(formObj, flag) {
     formObj.job = null;
     this.salesService.updateListItem(formObj).subscribe(data => {
@@ -1043,10 +1096,11 @@ export class SalesComponent implements OnInit {
     const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.clientId;
     modalRef.componentInstance.totalAmount = this.credit;
+    modalRef.componentInstance.jobDate = this.JobDate;
     modalRef.result.then((result) => {
       if (result.status) {
         this.isCreditPay = true;
-        this.tips = result.tipAmount;
+        this.tips = result.tipAmount == "" ? 0 : parseFloat(result.tipAmount);
         this.credit = result.totalAmount
         this.captureObj = result.authObj;
         this.calculateTotalpaid(+this.credit);
@@ -1065,9 +1119,10 @@ export class SalesComponent implements OnInit {
     const amount = this.decimalPipe.transform(totalAmount, '.2-2');
     const capObj = {
       authCode: auth.authcode,
-      amount: amount.toString().replace(",",""),
+      amount: amount.toString().replace(",", ""),
       retRef: auth.retref,
-      invoiceId: {}
+      invoiceId: {},
+      locationId: this.locationId
     };
     this.salesService.paymentCapture(capObj).subscribe(res => {
       if (res.status === 'Success') {
@@ -1101,9 +1156,10 @@ export class SalesComponent implements OnInit {
     this.removAddedAmount(+this.cash);
     this.cash = this.cashTotal;
     this.calculateTotalpaid(+this.cash);
-    if (this.totalPaid > +this.grandTotal) {
-      this.cashback = this.totalPaid - (+this.grandTotal);
-    }
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;    
+     if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
+    }  
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -1210,7 +1266,7 @@ export class SalesComponent implements OnInit {
           }
           //Detail Upcharge
           else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge) {
-            this.upCharges.filter(s=>s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
+            this.upCharges.filter(s => s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
             item.Price = String(item.Price).replace('-', '');
@@ -1224,7 +1280,7 @@ export class SalesComponent implements OnInit {
           }
           // Detail Ceramic Upcharge
           else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge) {
-            this.upCharges.filter(s=>s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
+            this.upCharges.filter(s => s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
             item.Price = String(item.Price).replace('-', '');
@@ -1271,6 +1327,11 @@ export class SalesComponent implements OnInit {
     else {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.DiscountServiceNotMatching });
       return;
+    }
+    //Calculate cashback amount
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;    
+     if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
     }
     document.getElementById('discountpopup').style.width = '0';
   }
@@ -1382,7 +1443,7 @@ export class SalesComponent implements OnInit {
         transactionType: 1,
         transactionAmount: -(+item.amount),
         transactionDate: new Date(),
-        comments: null,
+        comments: 'Ticket payment: ' + this.multipleTicketNumber.toString(),
         isActive: true,
         isDeleted: false,
         createdBy: null,
@@ -1493,19 +1554,23 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(accountDet);
 
-      creditAccountHistory = {
-        CreditAccountHistoryId :0,
-        Amount : (-1 * this.account) ,
-        IsActive : true,
-        IsDeleted : false,
-        CreatedBy : null,
-        CreatedDate: new Date(),
-        UpdatedBy : null,
-        UpdatedDate: new Date(),
-        JobPaymentId : 0,
-        TransactionType : this.accountPayType,
-        ClientId : this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
+      if(this.isAccount){
+        creditAccountHistory = {
+          CreditAccountHistoryId: 0,
+          Amount: (-1 * this.account),
+          IsActive: true,
+          IsDeleted: false,
+          CreatedBy: null,
+          CreatedDate: new Date(),
+          UpdatedBy: null,
+          UpdatedDate: new Date(),
+          Comments: 'Ticket payment: ' + this.multipleTicketNumber.toString(), 
+          JobPaymentId: 0,
+          TransactionType: this.accountPayType,
+          ClientId: this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
         }
+      }
+      
     }
     if (this.credit !== 0) {
       const creditPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Card)[0].CodeId;
@@ -1543,7 +1608,7 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(gift);
     }
-   
+
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -1554,7 +1619,7 @@ export class SalesComponent implements OnInit {
         taxAmount: 0,
         approval: true,
         paymentStatus: +this.PaymentStatus.filter(i => i.CodeValue === 'Success')[0].CodeId,
-        comments: '',
+        comments: 'Ticket payment:' +this.multipleTicketNumber.toString(),
         isActive: true,
         isDeleted: false,
         createdBy: 1,
@@ -1566,7 +1631,7 @@ export class SalesComponent implements OnInit {
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
-      creditAccountHistory : creditAccountHistory,
+      creditAccountHistory: creditAccountHistory,
       jobPaymentCreditCard: null
     };
 
@@ -1724,6 +1789,9 @@ export class SalesComponent implements OnInit {
   }
 
   processAccount() {
+    if(this.enableButton){
+      return;
+    }
     this.isAccountButton = !this.isAccountButton;
     if (this.serviceGroup && this.isAccount && !this.isMembership) {
       this.removAddedAmount(this.account);
@@ -1736,10 +1804,10 @@ export class SalesComponent implements OnInit {
           this.totalAmount += (ele.Price * ele.Quantity) + ele.TaxAmount;
         });
       }
-      if(this.totalPaid > 0){
+      if (this.totalPaid > 0) {
         this.totalAmount = this.totalAmount - this.totalPaid;
       }
-      if(this.discountAmount > 0){
+      if (this.discountAmount > 0) {
         this.totalAmount = this.totalAmount - this.discountAmount;
       }
       this.account = this.totalAmount;
@@ -1792,8 +1860,8 @@ export class SalesComponent implements OnInit {
                 }
 
                 if (services !== '') {
-                  
-                  services = services.slice(0,services.length-2);
+
+                  services = services.slice(0, services.length - 2);
                   services += ".";
 
                   this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + services });
@@ -1854,6 +1922,14 @@ export class SalesComponent implements OnInit {
     $(document).ready(function () {
       $('#ticketNumber').focus();
     });
+  }
+
+  calculateAccountbtnClass(){    
+    this.accountBtnClass = {
+      disable:( this.enableButton || !this.serviceGroup ||this.multipleTicketSequence),
+      accountbtnenable:(!this.enableButton && !this.multipleTicketSequence && this.serviceGroup )
+        }
+    return this.accountBtnClass;
   }
 
 }

@@ -55,9 +55,12 @@ namespace Strive.BusinessLogic
         {
             return (JObject)send(ENDPOINT_AUTH, OPERATIONS.PUT, request);
         }
-
-
-		/**
+        
+public JObject profileTransaction(JObject request)
+        {
+            return (JObject)send(ENDPOINT_PROFILE, OPERATIONS.PUT, request);
+        }
+        /**
         * Capture transaction
         * @param request JObject representing a Capture transaction request
         * @return JObject representing a Capture transaction response

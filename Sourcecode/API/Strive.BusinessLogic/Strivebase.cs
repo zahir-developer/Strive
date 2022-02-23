@@ -205,6 +205,21 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
+        protected Result ResultErrorWrap<T>(string errorMessage)
+        {
+            try
+            {
+                var res = new Result();
+                _resultContent.Add(res.WithName("InternalError"));
+                _result = Helper.BindFailedResult(errorMessage);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
         protected Result ResultWrap<T>(Func<string, T> RALMethod, string emailId, string ResultName)
         {
             try
@@ -271,6 +286,21 @@ namespace Strive.BusinessLogic
             try
             {
                 var res = RALMethod.Invoke(id, str);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        protected Result ResultWrap<T>(Func<int, DateTime, T> RALMethod, int id, DateTime date, string ResultName)
+        {
+            try
+            {
+                var res = RALMethod.Invoke(id, date);
                 _resultContent.Add(res.WithName(ResultName));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

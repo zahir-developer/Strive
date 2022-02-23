@@ -33,13 +33,13 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getTicketNumber();
+    //this.getTicketNumber();
     this.getJobStatus();
     this.getJobType();
   }
 
   getTicketNumber() {
-      this.detailService.getTicketNumber().subscribe(data => {
+      this.detailService.getTicketNumber(this.scheduleDetailObj.locationObj.LocationId).subscribe(data => {
         const ticket = JSON.parse(data.resultData);
         if (data.status === 'Success') {
           const ticket = JSON.parse(data.resultData);
@@ -160,7 +160,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      this.detailService.updateDetail(formObj).subscribe(res => {
+      this.detailService.addDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.spinner.hide();
 

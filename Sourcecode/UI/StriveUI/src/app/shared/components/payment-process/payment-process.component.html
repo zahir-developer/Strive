@@ -13,7 +13,16 @@
                             <input type="text" name="customerName" class="form-control" formControlName="customerName">
                         </div>
                     </div>
-                    <br>
+                    <div class="row my-2">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group my-3">
+                            Job Date:
+                        </div>
+                        <div class="col-4 my-3">                            
+                            <span>{{jobDate | date : "dd/MM/yyyy" }}</span>
+                        </div>
+                    </div>
+                    
                     <div class="row">
                         <div class="col-1"></div>
                         <div class="col-4 form-group">
@@ -107,7 +116,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-1"></div>
                         <div class="col-4 form-group">
                             Security Code(CVV)<span class="required">*</span>
@@ -119,7 +128,7 @@
                                 <div *ngIf="payment.ccv.errors.required">Security Code(CVV) is required</div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
                 <!-- <p class="text-center text-danger m-t-15">{{errorMessage}}</p> -->
                 <div class="alert alert-danger text-center m-t-15 m-l-60 m-r-160" role="alert" *ngIf="errorMessage">

@@ -21,8 +21,8 @@ export class VehicleService {
     saveVehicle(obj) {
         return this.http.post(`${UrlConfig.vehicle.addVehicle}`, obj);
     }
-    deleteVehicle(vehicleId: number) {
-        return this.http.delete(`${UrlConfig.vehicle.deleteVehicle}`, { params: { id: vehicleId } });
+    deleteVehicle(id, clientId) {
+        return this.http.delete(`${UrlConfig.vehicle.deleteVehicle}`, { params: { id, clientId } });
     }
     getVehicleByClientId(clientId: number) {
         return this.http.get(`${UrlConfig.vehicle.getVehicleByClientId}`, { params: { id: clientId } });
@@ -42,7 +42,7 @@ export class VehicleService {
     getAllServiceDetail(locationId = 0): Observable<any> {
         return this.http.get(`${UrlConfig.ServiceSetup.getAllServiceDetail}`, { params: { locationId } });
     }
-    getVehicleMembershipDetailsByVehicleId(id) {
+    getVehicleMembershipDetailsByVehicleId(id, ) {
         return this.http.get(`${UrlConfig.vehicle.getVehicleMembershipDetailsByVehicleId}`, { params: { id } });
     }
 
@@ -56,5 +56,9 @@ export class VehicleService {
 
     GetMembershipDiscountStatus(clientId, vehicleId) {
         return this.http.get(`${UrlConfig.vehicle.getMembershipDiscountStatus}` + clientId + '/' + vehicleId);
+    }
+
+    updateVehicleNumber(clientId: number) {
+        return this.http.get(`${UrlConfig.vehicle.UpdateVehicleNumber}`, { params: { clientId: clientId, vehicleId: null } });
     }
 }

@@ -39,6 +39,7 @@ namespace Strive.Common
         string MobileUrl { get; set; }
         string OSMUri { get; set; }
         string UserAgent { get; set; }
+        string ErrorLog { get; set; }
 
 
         #region CardConnect
@@ -113,6 +114,7 @@ namespace Strive.Common
         public string MobileUrl { get; set; }
         public string OSMUri { get; set; }
         public string UserAgent { get; set; }
+        public string ErrorLog { get; set; }
 
         #region
 

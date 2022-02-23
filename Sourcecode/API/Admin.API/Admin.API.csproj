@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Scheduler\WeatherScheduler.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="EmployeeThreshold.html" />
   </ItemGroup>
 

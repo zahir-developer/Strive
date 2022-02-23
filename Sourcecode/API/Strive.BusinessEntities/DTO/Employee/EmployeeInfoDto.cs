@@ -36,5 +36,8 @@ namespace Strive.BusinessEntities.DTO.Employee
 
         public decimal? Salary { get; set; }
         public bool IsNotified { get; set; }
+
+        //Is salary or hourly basis pay
+        public bool IsSalary { get; set; }
     }
 }

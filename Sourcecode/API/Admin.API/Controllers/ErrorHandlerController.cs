@@ -58,15 +58,10 @@ namespace Admin.API.Controllers
 
         [Route("Log")]
         [AllowAnonymous]
-        [HttpGet]
-        public Result Log()
+        [HttpPut]
+        public void Log(string log, string Environment)
         {
-            //var ex = HttpContext.Features.Get<IExceptionHandlerFeature>();
-
-            _logger.LogInformation("Error log called...!");
-
-            return Helper.BindValidationErrorResult("testing");
-
+            _logger.LogInformation("Log: "+ log + "Environment: " +Environment);
         }
     }
 }

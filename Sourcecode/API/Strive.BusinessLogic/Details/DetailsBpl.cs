@@ -23,6 +23,17 @@ namespace Strive.BusinessLogic.Details
 
         public Result AddDetails(DetailsDto details)
         {
+            //Update jobId and ticketNumber
+            var commonRal = new CommonRal(_tenant).GetTicketNumber(details.Job.LocationId);
+            details.Job.JobId = commonRal.JobId;
+            details.Job.TicketNumber = commonRal.TicketNumber;
+            details.JobDetail.JobId = commonRal.JobId;
+
+            foreach (var item in details.JobItem)
+            {
+                item.JobId = commonRal.JobId;
+            }
+
             //If barcode is not empty, check whether vehicle details is available.                        
             if (!string.IsNullOrEmpty(details.Job.BarCode))
             {
@@ -111,7 +122,11 @@ namespace Strive.BusinessLogic.Details
 
             details.BaySchedule = baySlot;
 
-            return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
+            if (!details.isMobileApp.GetValueOrDefault(false))
+                return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "JobId");
+            else
+                return ResultWrap(new DetailsRal(_tenant).UpdateDetailApp, details, "Result");
+
         }
 
         private List<BusinessEntities.Model.BaySchedule> GetBaySlot(int jobId, int bayId, DateTime jobDate, DateTimeOffset initialTimeIn, DateTimeOffset finalDueTime)
@@ -448,6 +463,10 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllDetails, detailsGrid, "DetailsGrid");
         }
+        public Result GetAllDetailSearch(SearchDto searchDto)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetAllDetailSearch, searchDto, "DetailsGrid");
+        }
         public Result DeleteDetails(int id)
         {
             return ResultWrap(new DetailsRal(_tenant).DeleteDetails, id, "DeleteRespectiveDetail");
@@ -499,5 +518,9 @@ namespace Strive.BusinessLogic.Details
             return ResultWrap(new DetailsRal(_tenant).UpdateJobStatus, jobStatus, "Status");
         }
 
+        public Result GetEmployeeAssignedDetail(int employeeId, DateTime jobDate)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetEmployeeAssignedDetail, employeeId, jobDate, "Status");
+        }
     }
 }

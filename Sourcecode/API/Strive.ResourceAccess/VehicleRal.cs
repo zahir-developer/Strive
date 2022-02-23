@@ -74,6 +74,20 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
         }
+
+        public bool UpdateVehicleNumberSequence(int? vehicleId, int clientId)
+        {
+            if (clientId != 0)
+            {
+                _prm.Add("@ClientId", clientId);
+                _prm.Add("@VehicleId", vehicleId.GetValueOrDefault());
+                db.Save(EnumSP.Vehicle.USPUPDATEVEHICLENUMBERSEQUENCE.ToString(), _prm);
+                return true;
+            }
+            else
+                return false;
+        }
+
         public bool SaveClientVehicleMembership(ClientVehicleMembershipModel ClientVehicleMembershipModel)
         {
             return dbRepo.SaveAll(ClientVehicleMembershipModel, "ClientMembershipId");
@@ -104,16 +118,18 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPK(vehicleImage, "VehicleImageId");
         }
 
-        public List<VehicleImageViewModel> GetAllVehicleThumbnail(int vehicleId)
+
+        public VehicleImageViewModel GetVehicleIssueImageById(int vehicleIssueImageId)
         {
-            _prm.Add("vehicleId", vehicleId);
-            return db.Fetch<VehicleImageViewModel>(SPEnum.USPGETALLVEHICLEIMAGEBYID.ToString(), _prm);
+            _prm.Add("vehicleIssueImageId", vehicleIssueImageId);
+            return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETVEHICLEISSUEIMAGEBYID.ToString(), _prm);
         }
-        public VehicleImageViewModel GetVehicleImageById(int vehicleImageId)
+
+        public bool DeleteVehicleIssue(int vehicleIssueId)
         {
-            _prm.Add("vehicleImageId", vehicleImageId);
-            
-            return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETVEHICLEIMAGEBYID.ToString(), _prm);
+            _prm.Add("VehicleIssueId", vehicleIssueId);
+            db.Save(SPEnum.USPDELETEVEHICLEISSUE.ToString(), _prm);
+            return true;
         }
 
         public bool DeleteVehicleImage(int vehicleImageId)
@@ -152,6 +168,22 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        
+        public bool AddVehicleIssue(VehicleIssueDto vehicleIssueDto)
+        {
+            return dbRepo.SaveAll<VehicleIssueDto>(vehicleIssueDto, "VehicleIssueId");
+        }
+
+        public VehicleIssueImageViewModel GetAllVehicleIssueImage(int vehicleId)
+        {
+            _prm.Add("vehicleId", vehicleId);
+            return db.FetchMultiResult<VehicleIssueImageViewModel>(SPEnum.USPGETALLVEHICLEISSUE.ToString(), _prm);
+        }
+
+        public List<VehicleImageViewModel> GetAllVehicleImage(int vehicleIssueId)
+        {
+            _prm.Add("vehicleIssueId", vehicleIssueId);
+            return db.Fetch<VehicleImageViewModel> (SPEnum.USPGETALLVEHICLEISSUEIMAGE.ToString(), _prm);
+        }
+
     }
 }

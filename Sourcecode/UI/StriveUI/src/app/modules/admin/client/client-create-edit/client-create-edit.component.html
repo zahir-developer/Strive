@@ -85,7 +85,6 @@
                                 <div class="col-lg-12">
                                     <div class="m-t-10 m-b-10">
                                         <h5 class="d-inline-block font-weight-600">Activity</h5>&nbsp;
-                                        <label class="btn btn-md float-right">Credit Amount : {{TotalAmount}}</label>
                                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
                                             (click)="addActivity()" [disabled]="isView">Add Activity</button>
                                     </div>
@@ -93,41 +92,42 @@
                                         <table class="table  table-striped m-t-10">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" >Id&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleNumber')"
-                                                        aria-hidden="true"></i></th>
                                                     <th scope="col" >Amount&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
                                                         aria-hidden="true"></i></th>
                                                     <th scope="col" >Comments&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
                                                         aria-hidden="true"></i></th>
                                                         
-                                                    <th scope="col" >Credited Date&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleMfr')"
+                                                    <th scope="col" >Date&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleMfr')"
                                                         aria-hidden="true"></i></th>
+                                                   
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr
                                                     *ngFor="let activity of activityDetails | orderBy:sort.column:'CreditAccountHistoryId':sort.descending | slice: (activityPage-1) * activityPageSize : (activityPage-1) * activityPageSize + activityPageSize">
-                                                    <td>{{activity.CreditAccountHistoryId}}</td>
                                                     <td>{{activity.Amount }}</td>
                                                     <td>{{activity.Comments }}</td>
                                                     <td>{{activity.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                                                     <td>
-                                                        <em class="fa fa-pencil-square edit-list  m-r-10"
+                                                        <em *ngIf="activity.CreditAccountHistoryId !== 0" class="fa fa-pencil-square edit-list  m-r-10"
                                                             [ngClass]="{'theme-disabled-icon-color': !activity.Status, 'theme-secondary-icon-color': activity.Status  }"
                                                             pTooltip="Edit" tooltipPosition="bottom"
                                                             (click)="editActivity(activity)"></em>
-                                                        <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                        <em *ngIf="activity.CreditAccountHistoryId !== 0" class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                             style="color:red" pTooltip="Delete"
                                                             (click)="deleteActivity(activity)" tooltipPosition="bottom"></em>
                                                     </td>
-                                                    
                                                 </tr>
                                                 <tr *ngIf="activityDetails.length === 0">
                                                     <td colspan="7" class="text-center">No Record Found</td>
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <div class="p-b-55">
+                                            <label class="btn btn-md float-right"><label class="font-weight-600">Credit Balance Amount:</label> {{TotalAmount}}</label>
+                                        </div>
+                                        
                                         <ngb-pagination *ngIf="activityCollectionSize > 10" [collectionSize]="activityCollectionSize"
                                             [(page)]="activityPage" [maxSize]="3" [rotate]="true" [ellipses]="false"
                                             [boundaryLinks]="true" class="d-flex justify-content-end">
@@ -138,10 +138,10 @@
                             <div class="m-t-12">
                                 <span class="mw-100" *ngIf="isEdit">
                                     <button type="button" class="btn theme-primary-button-color"
-                                        (click)="openStatement()">Statement</button>&nbsp;
+                                        (click)="openHistory()">History</button>&nbsp;
                                     <button type="button" class="btn theme-primary-button-color"
-                                        (click)="openHistory()">History</button>
-                                </span>
+                                        (click)="openStatement()">Statement</button>
+                                 </span>
                                 <span class="mw-100 pull-right">
                                     <button type="button" class="btn theme-optional-button-color"
                                         (click)="cancel()">Cancel</button>&nbsp;

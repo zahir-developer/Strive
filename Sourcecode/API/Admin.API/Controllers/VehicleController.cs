@@ -28,8 +28,7 @@ namespace Admin.API.Controllers
 
         [HttpDelete]
         [Route("Delete")]
-        public Result DeleteVehicle(int id) => _bplManager.DeleteVehicle(id);
-
+        public Result DeleteVehicle(int id, int? clientId) => _bplManager.DeleteVehicle(id, clientId.GetValueOrDefault());
 
         [HttpGet]
         [Route("GetVehicleByClientId")]
@@ -79,18 +78,20 @@ namespace Admin.API.Controllers
         /// <param name="vehicleId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("GetAllVehicleThumbnail/{vehicleId}")]
-        public Result GetAllVehicleThumbnail(int vehicleId) => _bplManager.GetAllVehicleThumbnail(vehicleId);
+        [Route("GetAllVehicleIssueImage/{vehicleId}")]
+        public Result GetAllVehicleIssueImage(int vehicleId) => _bplManager.GetAllVehicleIssueImage(vehicleId);
 
         [HttpGet]
-        [Route("GetVehicleImageById/{vehicleImageId}")]
-        public Result GetVehicleImageById(int vehicleImageId) => _bplManager.GetVehicleImageById(vehicleImageId);
-
-
+        [Route("GetVehicleIssueImageById/{vehicleIssueImageId}")]
+        public Result GetVehicleIssueImageById(int vehicleIssueImageId) => _bplManager.GetVehicleIssueImageById(vehicleIssueImageId);
 
         [HttpDelete]
         [Route("DeleteVehicleImage")]
         public Result DeleteVehicleImage(int id) => _bplManager.DeleteVehicleImage(id);
+
+        [HttpDelete]
+        [Route("DeleteVehicleIssue")]
+        public Result DeleteVehicleIssue(int vehicleIssueId) => _bplManager.DeleteVehicleIssue(vehicleIssueId);
 
 
         [HttpGet]
@@ -102,5 +103,12 @@ namespace Admin.API.Controllers
         public Result DeleteVehicleMembership([FromBody] VehicleMembershipDeleteDto deleteDto) => _bplManager.DeleteVehicleMembership(deleteDto);
 
 
+        [HttpPost]
+        [Route("AddVehicleIssue")]
+        public Result AddVehicleIssue([FromBody] VehicleIssueDto vehicleIssueDto) => _bplManager.AddVehicleIssue(vehicleIssueDto);
+
+        [HttpGet]
+        [Route("UpdateVehicleNumber")]
+        public Result UpdateVehicleNumberSequence(int clientId, int? vehicleId) => _bplManager.UpdateVehicleNumberSequence(vehicleId, clientId);
     }
 }

@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Weather;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.BusinessLogic.Weather;
@@ -11,6 +12,7 @@ using Strive.Common;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -87,7 +89,81 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-     
+        public async Task<bool> GetDailyWeatherPredictionAsync(string baseUrl, string apiKey, string apiMethod)
+        {
+
+            var allLocationList = new LocationRal(_tenant).GetAllLocation();
+            foreach (var oLoc in allLocationList)
+            {
+                //Get Current weather:
+                var now = DateTime.Now;
+                string startTime = now.AddHours(-6).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
+                //new DateTime(now.Year, now.Month, now.Day, 0, 0, 0).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); 
+                string endTime = now.AddHours(30).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
+                string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
+
+                var query = "?location=" + oLoc.Latitude + "," + oLoc.Longitude + "&startTime=" + startTime + "&endTime=" + endTime + "&fields=temperature,precipitationProbability,precipitationType&timesteps=1h&units=metric";
+
+                WeatherInfo weatherInfo = new WeatherInfo();
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(baseUrl);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Add("apiKey", apiKey);
+
+
+                        var responselink = baseUrl + apiMethod + query;
+
+                        var response = await client.GetAsync(responselink);
+                        response.EnsureSuccessStatusCode();
+                        var result = "";
+                        if (response.IsSuccessStatusCode)
+                        {
+                            result = await response.Content.ReadAsStringAsync();
+                        }
+                        var res = JsonConvert.DeserializeObject<WeatherData>(result);
+
+
+                        //Current Weather
+                        weatherInfo.Temporature = ConvertToFahrenheit(
+                            res.Data.timelines[0].intervals.Where(x => Convert.ToDateTime(x.startTime).ToShortDateString() == Convert.ToDateTime(startTime).ToShortDateString()).OrderByDescending(x => x.values.temperature).Take(1).ToList()[0].values.temperature).ToString();
+                        var oIntervals = res.Data.timelines[0].intervals.Where(x => x.values.precipitationType == 1 && Convert.ToDateTime(x.startTime).ToShortDateString() == Convert.ToDateTime(startTime).ToShortDateString()).OrderByDescending(x => x.values.precipitationProbability).Take(1).ToList();
+                        if (oIntervals.Count > 0)
+                        {
+                            weatherInfo.RainPercentage = res.Data.timelines[0].intervals.Where(x => x.values.precipitationType == 1 && Convert.ToDateTime(x.startTime).ToShortDateString() == Convert.ToDateTime(startTime).ToShortDateString()).OrderByDescending(x => x.values.precipitationProbability).Take(1).ToList()[0].values.precipitationProbability.ToString();
+                        }
+                        else
+                        {
+                            weatherInfo.RainPercentage = "0";
+                        }
+
+                        WeatherPredictionDTO weatherPrediction = new WeatherPredictionDTO();
+                        weatherPrediction.LocationWeather = new LocationWeather();
+                        weatherPrediction.LocationWeather.LocationId = oLoc.LocationId;
+                        weatherPrediction.LocationWeather.HighTemperature = weatherInfo.Temporature;
+
+                        weatherPrediction.LocationWeather.RainProbability = weatherInfo.RainPercentage;
+                        weatherPrediction.LocationWeather.WeatherDate = DateTime.Now;
+                        weatherPrediction.LocationWeather.CreatedDate = DateTime.Now;
+                        ResultWrap(new WeatherRal(_tenant).AddWeatherPrediction, weatherPrediction, "Status");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string[] lines = { "Error: " + ex.Message.ToString(), "Location :" + oLoc.LocationId.ToString() + "," + oLoc.Latitude.ToString() + "," + oLoc.Longitude.ToString() };
+
+                    // Append new lines of text to the file
+                    File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "ErrorFile.txt"), lines);
+                }
+            }
+
+
+
+            return true;
+        }
         public Result AddWeatherPrediction(WeatherDTO weatherPrediction)
         {
             try
@@ -114,19 +190,27 @@ namespace Strive.BusinessLogic
         {
             WeatherView weatherInfoView = new WeatherView();
 
-            var addresssDetail = new LocationRal(_tenant).GetLocationAddressDetails(locationId);
+            var weather = new WeatherRal(_tenant).GetWeatherPredictionDetails(locationId, DateTime.UtcNow);
+            if (weather.Count() > 0)
+            {
+                weatherInfoView.CurrentWeather = new WeatherInfo();
+                weatherInfoView.CurrentWeather.RainPercentage = weather[0].RainProbability;
+                weatherInfoView.CurrentWeather.Temporature = weather[0].HighTemperature;
+            }
+            /*
+                var addresssDetail = new LocationRal(_tenant).GetLocationAddressDetails(locationId);
 
             //Get Current weather:
             string startTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); ;
             string endTime = DateTime.UtcNow.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
             string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
 
-            var query = "?location=" + addresssDetail.Latitude + "," + addresssDetail.Longitude  + "&startTime=" + startTime + "&endTime=" + endTime+ "&fields=temperature,precipitationProbability,precipitationType&timesteps=1h&units=metric";
+            var query = "?location=" + addresssDetail.Latitude + "," + addresssDetail.Longitude + "&startTime=" + startTime + "&endTime=" + endTime + "&fields=temperature,precipitationProbability,precipitationType&timesteps=1h&units=metric";
 
             weatherInfoView = await GetWeatherInfoAsync(baseUrl, apiKey, apiMethod, query);
-
+            
             _result = Helper.BindSuccessResult(_resultContent);
-
+            */
             return weatherInfoView;
 
         }
@@ -164,7 +248,7 @@ namespace Strive.BusinessLogic
 
                     //Current Weather
                     weatherInfo.Temporature = ConvertToFahrenheit(res.Data.timelines[0].intervals[0].values.temperature).ToString();
-                    weatherInfo.RainPercentage = res.Data.timelines[0].intervals[0].values.precipitationType ==1? res.Data.timelines[0].intervals[0].values.precipitationProbability.ToString("0.00"): "0";
+                    weatherInfo.RainPercentage = res.Data.timelines[0].intervals[0].values.precipitationType == 1 ? res.Data.timelines[0].intervals[0].values.precipitationProbability.ToString("0.00") : "0";
                     weatherInfoView.CurrentWeather = weatherInfo;
 
                     //LastWeekWeather
@@ -174,6 +258,7 @@ namespace Strive.BusinessLogic
                     //LastMonthWeather
                     weatherInfoView.LastMonthWeather.Temporature = Temperature;
                     weatherInfoView.LastMonthWeather.RainPercentage = rainPercentage;
+
                 }
             }
             catch (Exception ex)

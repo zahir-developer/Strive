@@ -1,36 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Cocoon.ORM;
-using System;
 
 namespace Strive.BusinessEntities.Model
 {
-    [OverrideName("tblVehicleImage")]
-    public class VehicleImage
+    [OverrideName("tblPaymentGateway")]
+    public class PaymentGateway
     {
-
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-        public int VehicleImageId { get; set; }
+        public int? PaymentGatewayId { get; set; }
 
         [Column]
-        public int VehicleId { get; set; }
-
-
-        [Column]
-        public string ImageName { get; set; }
+        public string PaymentGatewayName { get; set; }
 
         [Column]
-        public string OriginalImageName { get; set; }
+        public string BaseURL { get; set; }
 
         [Column]
-        public string ThumbnailFileName { get; set; }
+        public string APIKey { get; set; }
 
-        [Column]
-        public string FilePath { get; set; }
-
-        [Column]
-        public string Description { get; set; }
-
-        [Ignore]
-        public string Base64 { get; set; }
         [Column]
         public bool? IsActive { get; set; }
 
@@ -48,8 +39,5 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
-
-       
-
     }
 }

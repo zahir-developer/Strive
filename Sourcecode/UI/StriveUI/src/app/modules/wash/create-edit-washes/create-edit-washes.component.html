@@ -16,9 +16,11 @@
                         <form [formGroup]="washForm">
                             <div class="form-row border-bottom m-b-8">
                                 <div class="form-group col-xl-3">
-                                    <h5 class="d-inline-block font-weight-600">Ticket No. <span
-                                            style="color: #1dc5b3;">{{ticketNumber}}</span></h5> <span
-                                        class="font-size-1 font-weight-600"></span>
+                                    <h5 class="d-inline-block font-weight-600">
+                                        {{isEdit ? 'Ticket No.' : 'New Ticket'}} 
+                                        <span style="color: #1dc5b3;">{{ticketNumber}}</span>
+                                    </h5> 
+                                        <span class="font-size-1 font-weight-600"></span>
                                 </div>
                                 <div class="form-group col-xl-9">
                                     <div class="pull-right">
@@ -125,7 +127,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputWashes">Washes<span class="required">*</span></label>
@@ -209,10 +210,13 @@
                             <span *ngIf="isEdit">
                                 <button type="button"  (click)="pay()"  [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled' : 'btn theme-primary-button-color '"> 
                                    {{paidLabel}}</button>
-                                 
-                              &nbsp;
+                                   &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="print()">Print</button>
+                                    (click)="zebraPrint()">Vehicle Copy</button>
+                                    &nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="zebraPrintCustomerCopy()">Customer Copy</button>
+                                    
                             </span>
                             <span class="pull-right">
                                 <button type="button" class="btn theme-optional-button-color"

@@ -11,7 +11,7 @@ namespace Strive.BusinessEntities.Model
         public int JobId { get; set; }
 
         [Column]
-        public Int64 TicketNumber { get; set; }
+        public string TicketNumber { get; set; }
 
         [Column]
         public int LocationId { get; set; }

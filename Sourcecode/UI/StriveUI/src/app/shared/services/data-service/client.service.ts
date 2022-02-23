@@ -40,6 +40,9 @@ export class ClientService {
   getClientById(id: number) {
     return this.http.get(`${UrlConfig.client.getClientById}` + id);
   }
+  getClientCreditCard(id:number){
+    return this.http.get(`${UrlConfig.client.getClientCreditCard}` + id);
+  }
   ClientSearch(obj) {
     return this.http.post(`${UrlConfig.client.getClientByName}`, obj);
   }
@@ -67,5 +70,9 @@ export class ClientService {
 
   sendClientEmail() {
     return this.http.post(`${UrlConfig.client.sendClientEmail}`);
+  } 
+  getClientAccountBalance(obj) {
+    return this.http.post(`${UrlConfig.client.getClientAccountBalance}`,obj);
   }
+ 
 }

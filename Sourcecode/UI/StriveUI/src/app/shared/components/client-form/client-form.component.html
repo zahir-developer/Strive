@@ -2,7 +2,8 @@
     <div class="form-row">
         <div class="form-group col-lg-3">
             <label for="inputFirstName">First Name<span class="required">*</span></label>
-            <input type="text" tabindex="1" (change) = "sameClientName()" [appMaxLength] class="form-control" formControlName="fName" placeholder="First Name"
+            <input type="text" tabindex="1" (change)="sameClientName()" [appMaxLength] class="form-control"
+                formControlName="fName" placeholder="First Name"
                 [ngClass]="{ 'is-invalid': submitted && f.fName.errors }">
             <div *ngIf="submitted && f.fName.errors" class="invalid-feedback">
                 <div *ngIf="f.fName.errors.required">First Name is required</div>
@@ -10,7 +11,8 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputLastName">Last Name<span class="required">*</span></label>
-            <input type="text" tabindex="2" (change) = "sameClientName()" [appMaxLength] class="form-control" formControlName="lName" placeholder="Last Name"
+            <input type="text" tabindex="2" (change)="sameClientName()" [appMaxLength] class="form-control"
+                formControlName="lName" placeholder="Last Name"
                 [ngClass]="{ 'is-invalid': submitted && f.lName.errors }">
             <div *ngIf="submitted && f.lName.errors" class="invalid-feedback">
                 <div *ngIf="f.lName.errors.required">Last Name is required</div>
@@ -18,15 +20,16 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputAddress">Address</label>
-            <input type="text" tabindex="3" [appMaxLength] class="form-control" formControlName="address" placeholder="Address"
-                [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+            <input type="text" tabindex="3" [appMaxLength] class="form-control" formControlName="address"
+                placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
             <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                 <div *ngIf="f.address.errors.required">Address is required</div>
             </div>
         </div>
         <div class="form-group col-lg-3">
             <label for="inputEmail">Email<span class="required">*</span></label>
-            <input tabindex="4" (change) = "clientEmailExist()" type="email" maxlength="50" [pKeyFilter]="emailregex"  class="form-control" formControlName="email" placeholder="Email"
+            <input tabindex="4" (change)="clientEmailExist()" type="email" maxlength="50" [pKeyFilter]="emailregex"
+                class="form-control" formControlName="email" placeholder="Email"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors.required">Email is required</div>
@@ -39,8 +42,9 @@
             <div class="row no-gutter   form-row">
                 <div class="col-md-6  form-group">
                     <label for="inputPhoneNumber1">Phone 1<span class="required">*</span></label>
-                    <input tabindex="5" (change) = "sameClientName()" appPhoneMask maxlength="14" type="text" class="form-control" formControlName="phone1"
-                        placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid': submitted && f.phone1.errors }">
+                    <input tabindex="5" (change)="sameClientName()" appPhoneMask maxlength="14" type="text"
+                        class="form-control" formControlName="phone1" placeholder="(XXX) XXX-XXXX"
+                        [ngClass]="{ 'is-invalid': submitted && f.phone1.errors }">
                     <div *ngIf="submitted && f.phone1.errors" class="invalid-feedback">
                         <div *ngIf="f.phone1.errors.required">Phone Number is required</div>
                         <div *ngIf="f.phone1.errors.minlength">Phone Number must be at least 10 characters</div>
@@ -60,8 +64,9 @@
             <div class="row  no-gutter form-row">
                 <div class="col-md-6 col-ipad form-group">
                     <label for="inputPhoneNumber2">Phone 2</label>
-                    <input  tabindex="7" appPhoneMask type="text" maxlength="14" class="form-control"
-                        formControlName="phone2" placeholder="(XXX) XXX-XXXX"> </div>
+                    <input tabindex="7" appPhoneMask type="text" maxlength="14" class="form-control"
+                        formControlName="phone2" placeholder="(XXX) XXX-XXXX">
+                </div>
                 <div class="col-lg-6 p-r-0 col-ipad form-group">
                     <label></label>
                     <select class="form-control  m-t-8" [disabled]="isView">
@@ -74,13 +79,14 @@
         </div>
         <div class="form-group col-lg-6 col-xl-3">
             <label for="inputState">State</label>
-           <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)"
+            <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)"
                 [isView]="isView">
-            </app-state-dropdown>           
+            </app-state-dropdown>
         </div>
         <div class="form-group col-lg-6 col-xl-3" [disabled]="isView">
             <label for="inputCity">City</label>
-            <app-city [State] = "State" (selectCity)="selectCity($event)" [selectedCityId]="selectedCityId" [selectedStateId]="selectedStateId" [isView]="isView"></app-city>
+            <app-city [State]="State" (selectCity)="selectCity($event)" [selectedCityId]="selectedCityId"
+                [selectedStateId]="selectedStateId" [isView]="isView"></app-city>
         </div>
     </div>
     <div class="form-row">
@@ -88,12 +94,13 @@
             <div class="row no-gutter   form-row">
                 <div class="col-md-6  form-group">
                     <label for="inputZipcode">ZipCode</label>
-                    <input numbersOnly type="text" [appMaxLength]="9" [ngClass]="{ 'is-invalid': submitted && f.zipcode.errors }" class="form-control" placeholder="Zip"
-                        formControlName="zipcode">
-                        <div *ngIf="submitted && f.zipcode.errors" class="invalid-feedback">
-                            <div *ngIf="f.zipcode.errors.required">ZipCode is required</div>
-                            <div *ngIf="f.zipcode.errors.minlength">ZipCode must be Minimum 5 digit</div>
-                        </div>
+                    <input numbersOnly type="text" [appMaxLength]="9"
+                        [ngClass]="{ 'is-invalid': submitted && f.zipcode.errors }" class="form-control"
+                        placeholder="Zip" formControlName="zipcode">
+                    <div *ngIf="submitted && f.zipcode.errors" class="invalid-feedback">
+                        <div *ngIf="f.zipcode.errors.required">ZipCode is required</div>
+                        <div *ngIf="f.zipcode.errors.minlength">ZipCode must be Minimum 5 digit</div>
+                    </div>
                 </div>
                 <div class="col-md-6 p-r-0  form-group">
                     <label for="inputStatus">Status<span class="required">*</span></label>
@@ -109,44 +116,50 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-lg-6 col-xl-3 ">
-            <label for="inputScore">Score</label>
-            <select class="form-control" formControlName="score">
-                <option hidden selected value="">Choose</option>
-                <option *ngFor="let score of Score" value="{{score.CodeId}}">
-                    {{score.CodeValue}}
-                </option>
-            </select>
-        </div>
-        <div class="form-group col-lg-6 col-xl-2">
-            <label for="inputType">Type<span class="required">*</span></label>
-            <select class="form-control" formControlName="type"
-                [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
-                <option hidden selected value="">Choose</option>
-                <option *ngFor="let type of Type" value="{{type.CodeId}}">{{type.CodeValue}}
-                </option>
-            </select>
-            <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
-                <div *ngIf="f.type.errors">Type is required</div>
-            </div>
-        </div>
-        <div class="form-group col-lg-6 col-xl-2  m-t-40">
-            <div class="custom-control custom-checkbox custom-control-inline m-r-0">
-                <div class="form-check">
-                    <input class="form-check-input" tabindex="15" type="checkbox" [(ngModel)]="creditCheck" formControlName="creditAccount"
-                        (change)="change($event.target.checked)">
-                    <label class="form-check-label" for="gridCheck">Credit Account</label>
+        <div class="col-lg-6 col-xl-3">
+            <div class="row no-gutter   form-row">
+                <div class="col-md-6  form-group">
+                    <label for="inputScore">Score</label>
+                    <select class="form-control" formControlName="score">
+                        <option hidden selected value="">Choose</option>
+                        <option *ngFor="let score of Score" value="{{score.CodeId}}">
+                            {{score.CodeValue}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-6 p-r-0  form-group">
+                    <label for="inputType">Type<span class="required">*</span></label>
+                    <select class="form-control" formControlName="type"
+                        [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                        <option hidden selected value="">Choose</option>
+                        <option *ngFor="let type of Type" value="{{type.CodeId}}">{{type.CodeValue}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                        <div *ngIf="f.type.errors">Type is required</div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!--  <div class="form-group col-lg-2">
-            <label for="Amount">Amount<span *ngIf="isAmount" class="required">*</span></label>
-            <label class="form-control" formControlName="amount" placeholder="$0.00"
-                ></label>
-               <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
-                    <div *ngIf="f.amount.errors">Amount is required</div>
-                </div> 
-        </div>-->
+        <div class="col-lg-6 col-xl-3">
+            <label for="inputLocation">Location<span class="required">*</span></label>
+            <select class="form-control" formControlName="location"
+                [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                <option hidden selected value="0">Choose</option>
+                <option *ngFor="let location of Location" value="{{location.LocationId}}">{{location.LocationName}}
+                </option>
+            </select>
+            <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                <div *ngIf="f.location.errors">Location is required</div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-2  m-t-40">
+            <div class="custom-control custom-checkbox custom-control-inline m-r-0">
+                    <input class="form-check-input" tabindex="15" type="checkbox" [(ngModel)]="creditCheck"
+                        formControlName="creditAccount" (change)="change($event.target.checked)">
+                    <label class="form-check-label" for="gridCheck">Credit Account</label>
+            </div>
+        </div>
     </div>
     <div class="form-row">
         <div class="col-md-6">

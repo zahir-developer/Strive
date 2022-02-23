@@ -7,12 +7,13 @@
         <div class="login-panel-container my-auto w-100">
           <div class="login-form">
             <h1 class="form-title p-b-20 text-uppercase"> Login </h1>
-            <p *ngIf="errorFlag" class="alert alert-danger">Email address or password was incorrect.</p>
+            <p *ngIf="errorFlag" class="alert alert-danger">User name or password was incorrect.</p>
             <form [formGroup]="loginForm" (ngSubmit)="LoginSubmit()">
               <div class="form-group">
-                <label for="emailId">Email address</label>
-                <input type="email" class="form-control" id="emailId"
-                  formControlName="username" aria-describedby="emailHelp" placeholder="Enter email" [pKeyFilter]="emailregex">
+                <label for="emailId">User Name </label>
+                <input type="text" class="form-control" id="emailId"
+                  formControlName="username" placeholder="Enter Username" >
+                  <!--aria-describedby="emailHelp"  [pKeyFilter]="emailregex" -->
               </div>
               <div class="form-group">
                 <label for="password">Password</label>

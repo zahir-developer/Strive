@@ -58,10 +58,26 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(washes, "JobId");
         }
+
         public bool UpdateWashTime(WashesDto washes)
         {
             return dbRepo.UpdatePc(washes);
         }
+
+        public JobResultDto UpdateWash(WashesDto washes)
+        {
+            JobResultDto jobResultDto = new JobResultDto();
+            bool result = dbRepo.UpdatePc(washes);
+            if (result)
+            {
+                jobResultDto.JobId = washes.Job.JobId;
+                jobResultDto.TicketNumber = washes.Job.TicketNumber;
+                jobResultDto.Status = result;
+            }
+
+            return jobResultDto;
+        }
+
         public WashesDashboardViewModel GetDailyDashboard(WashesDashboardDto dashboard)
         {
 

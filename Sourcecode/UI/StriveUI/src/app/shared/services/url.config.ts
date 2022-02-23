@@ -43,9 +43,12 @@ export const UrlConfig = {
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
     MakeList: `Admin/Common/GetAllMake`,
-
     countryList: `Admin/Common/CountryList`,
     getTicketNumber: `Admin/Common/GetTicketNumber/`,
+    getCustomerPrint: `Admin/Common/GetCustomerPrint`,
+    getVehiclePrint: `Admin/Common/GetVehiclePrint`,
+    getPaymentGateway: `Admin/Common/GetPaymentGateway/`,
+    addPaymentGateway: `Admin/Common/InsertPaymentGateway/`,
 
   },
   collision: {
@@ -88,7 +91,9 @@ export const UrlConfig = {
     getClientList: `Admin/Client/EmailBlast/`,
     getCSVClientList: `Admin/Client/EmailBlastCSV/`,
     sendClientEmail: `Admin/Client/SendClientEmail/`,
-    getActivityByClientId: `Admin/Client/GetCreditAccountBalanceHistory/`
+    getActivityByClientId: `Admin/Client/GetCreditAccountBalanceHistory/`,
+    getClientCreditCard: `Admin/Client/GetClientCardDetailById/`,
+    getClientAccountBalance: `Admin/Client/GetClientAccountBalance/`,
   },
   details: {
     addDetail: `Admin/Details/AddDetails`,
@@ -100,9 +105,10 @@ export const UrlConfig = {
     deleteDetail: `Admin/Details/Delete`,
     getJobType: `Admin/Details/GetJobType`,
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
+    getAllDetailSearch: `Admin/Details/GetAllDetailSearch`,
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     getDetailScheduleStatus: `Admin/Details/GetDetailScheduleStatus`,
-    updateJobStatus: `Admin/Details/UpdateJobStatus`
+    updateJobStatus: `Admin/Details/UpdateJobStatus`,
   },
 
 
@@ -192,6 +198,8 @@ export const UrlConfig = {
     updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
     editRestrict: `Admin/PayRoll/GetPayrollProcessStatus`,
     addPayrollProcess: `Admin/PayRoll/AddPayRollProcess`,
+    deletePayment: `Payroll/PaymentGateway/Delete`,
+    authProfile: `Payroll/PaymentGateway/AuthProfile`
   },
   product: {
     getProduct: `Admin/Product/GetAll`,
@@ -299,7 +307,8 @@ export const UrlConfig = {
     addVehicle: 'Admin/Vehicle/AddVehicle',
     getAllVehicleThumbnail: `Admin/Vehicle/GetAllVehicleThumbnail/`,
     getVehicleImageById: `Admin/Vehicle/GetVehicleImageById/`,
-    getMembershipDiscountStatus: `Admin/Vehicle/GetMembershipDiscountStatus/`
+    getMembershipDiscountStatus: `Admin/Vehicle/GetMembershipDiscountStatus/`,
+    UpdateVehicleNumber: `Admin/Vehicle/UpdateVehicleNumber/`
   },
   washes: {
     getAllWash: `Admin/Washes/GetAllWashes`,
@@ -309,7 +318,7 @@ export const UrlConfig = {
     deleteWash: `Admin/washes/Delete`,
     getDashBoardCount: `Admin/Washes/DashboardCount`,
     getByBarcode: `Admin/Washes/GetByBarCode/`,
-    getWashTimeByLocationId: `Admin/Washes/GetAllLocationWashTime`
+    getWashTimeByLocationId: `Admin/Washes/GetAllLocationWashTime`,   
   },
   weather: {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,

@@ -8,7 +8,6 @@ namespace Strive.BusinessEntities.DTO.Sales
 {
     public class JobPaymentTicketsDto
     {
-       
-        public int TicketNumber { get; set; }
+        public string TicketNumber { get; set; }
     }
 }

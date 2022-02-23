@@ -3,6 +3,7 @@ import { BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/da
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -47,12 +48,14 @@ export class EodComponent implements OnInit, AfterViewInit {
   difference = 0;  
   totalWashHours:number = 0;
   totalDetailHours:number  = 0;
+  totalOtherHours:number = 0;
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
     private excelService: ExcelService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -318,9 +321,12 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   getClockDetail() {
+    var curDate = new Date();
+    var curr_date = curDate.getDate();
     const obj = {
       locationId: +this.locationId,
-      date: moment(this.date).format('YYYY-MM-DD')
+      date: moment(this.date).format('YYYY-MM-DD'),
+      CurrentDate: this.date.getDate() == curr_date ?  this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss') : moment(this.date).format('YYYY-MM-DD')
     };
     this.clockDetail = [];
 
@@ -333,6 +339,7 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.clockDetail = clockDetail.Result.TimeClockEmployeeDetails;
           this.totalWashHours = 0;
           this.totalDetailHours = 0;
+          this.totalOtherHours = 0;
           this.clockDetail.forEach(item => {
             this.empTotalHours = this.empTotalHours + item.HoursPerDay;
     
@@ -343,7 +350,8 @@ export class EodComponent implements OnInit, AfterViewInit {
             
           this.totalWashHours  += item.WashHours;
           this.totalDetailHours  += item.DetailHours;
-          });         
+          this.totalOtherHours +=item.OtherHours;
+          });           
         }
       }
     }, (err) => {

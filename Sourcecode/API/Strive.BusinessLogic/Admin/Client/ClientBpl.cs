@@ -250,7 +250,7 @@ namespace Strive.BusinessLogic
 
                                 commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
                                 var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
-                            }
+                            }/*
                             else
                             {
                                 var clientLogin = commonBpl.GetUserPassword(email, UserType.Client);
@@ -265,7 +265,7 @@ namespace Strive.BusinessLogic
                                 commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
                                 var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
                             }
-
+                            */
                             return false;
                         }
                     }
@@ -275,5 +275,16 @@ namespace Strive.BusinessLogic
 
             return true;
         }
+
+        public Result GetAllClientDetail(string name)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetAllClientDetail, name, "Status");
+        }
+        public Result GetClientAccountBalance(AccountBalanceDto accountBalance)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientAccountBalance, accountBalance, "AccountBalance");
+        }
+        
+
     }
 }

@@ -111,6 +111,37 @@ namespace Admin.API.Controllers
             return _commonBpl.Template(templateName);
         }
 
+        /// <summary>
+        /// Get the print format for the Zebra Print - Vehicle Copy
+        /// </summary>
+        /// <param name="printTicketDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetVehiclePrint")]
+        public Result GetWashVehiclePrint([FromBody] PrintTicketDto printTicketDto) => _commonBpl.GetVehiclePrint(printTicketDto);
+
+
+        /// <summary>
+        /// Get the print format for the Zebra Print - Customer Copy
+        /// </summary>
+        /// <param name="printTicketDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetCustomerPrint")]
+        public Result GetCustomerPrint([FromBody] PrintTicketDto printTicketDto) => _commonBpl.GetCustomerPrint(printTicketDto);
+        
+        [HttpGet]
+        [Route("GetPaymentGateway")]
+        public Result GetPaymentGateway()
+        {
+            return _commonBpl.GetAllPaymentGateway();
+        }
+
+        [HttpPost]
+        [Route("InsertPaymentGateway")]
+        public Result InsertPaymentGateway([FromBody]PaymentGatewayDTO oPayment) => _commonBpl.InsertPaymentGateway(oPayment);
+
+      
 
     }
 }

@@ -18,6 +18,10 @@ import { CodeValueService } from 'src/app/shared/common-service/code-value.servi
   .ngx-timepicker {
     border-bottom: none !important;
   }
+  .disabled {
+    cursor: not-allowed;
+    opacity:0.7;
+  }
   `]
 })
 export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
@@ -66,7 +70,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   detailerTip: any;
   today: Date;
   locationId: number;
-  cashTipsEnable: boolean;
+  cashTipsEnable: boolean;  
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe,
@@ -319,7 +323,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       cashRegisterType: this.CloseRegisterId,
       locationId: +localStorage.getItem('empLocationId'),
       drawerId: +this.drawerId,
-      cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
+      cashRegisterDate: moment(this.selectDate).format('YYYY-MM-DD'),
+      //cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,
       isDeleted: false,
       createdBy: +localStorage.getItem('empId'),

@@ -21,6 +21,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class PaymentProcessComponent implements OnInit {
   @Input() clientId?: number;
   @Input() totalAmount?: any;
+  @Input() jobDate?: any;
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
   @ViewChild('staticTabs', { static: false }) staticTabs: TabsetComponent;
@@ -92,8 +93,9 @@ export class PaymentProcessComponent implements OnInit {
       tipAmount: [''],
       cardNumber: ['', Validators.required],
       expiryDate: ['', Validators.required],
-      ccv: ['', Validators.required],
-      totalAmount: this.totalAmount
+      // ccv: ['', Validators.required],
+      totalAmount: this.totalAmount,
+      jobDate: this.jobDate
     });
   }
   get payment() {
@@ -128,7 +130,8 @@ export class PaymentProcessComponent implements OnInit {
             phone: clientObj.PhoneNumber
           });
           this.paymentForm.patchValue({
-            customerName: clientObj.FirstName + '' + clientObj.LastName
+            customerName: clientObj.FirstName + ' ' + clientObj.LastName,
+            jobDate: this.jobDate
           });
         } else {
           this.isStateLoaded = true;
@@ -211,7 +214,8 @@ export class PaymentProcessComponent implements OnInit {
       status: true,
       tipAmount: this.paymentForm.value.tipAmount,
       totalAmount: this.paymentForm.value.totalAmount,
-      authObj: auth
+      authObj: auth,
+      locationId:localStorage.getItem('empLocationId')
     };
     this.activeModal.close(obj);
   }
@@ -314,7 +318,7 @@ export class PaymentProcessComponent implements OnInit {
       expiry: this.paymentForm.value.expiryDate, // '0622', //
       amount: amount.toString().replace(",",""),
       orderId: "",  // need too change
-      ccv: this.paymentForm.value.ccv // '291' //
+   //   ccv: this.paymentForm.value.ccv // '291' //
     };
 
     const billingDetailObj = {
@@ -328,7 +332,8 @@ export class PaymentProcessComponent implements OnInit {
     const authObj = {
       cardConnect: {},
       paymentDetail: paymentDetailObj,
-      billingDetail: billingDetailObj
+      billingDetail: billingDetailObj,
+      locationId: localStorage.getItem('empLocationId')
     };
     this.paymentAuth(authObj);
   }

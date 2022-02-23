@@ -61,6 +61,7 @@ export class EditEmployeeComponent implements OnInit {
   roleId: any;
   locationId: any;
   authId: any;
+  loginId: any = "";
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
   State: any;
@@ -75,6 +76,7 @@ export class EditEmployeeComponent implements OnInit {
   isHourEdit = 0;
   selectedLocationHour = '';
   isRateAllLocation: boolean;
+  isSalary: boolean;
   errorMessage: boolean;
   dellocationRateList = [];
   constructor(
@@ -93,6 +95,7 @@ export class EditEmployeeComponent implements OnInit {
     this.submitted = false;
     this.Status = ['Active', 'Inactive'];
     this.isRateAllLocation = false;
+    this.isSalary = false;
     this.errorMessage = false;
     this.getImmigrationStatus();
     this.getGenderDropdownValue();
@@ -122,7 +125,8 @@ export class EditEmployeeComponent implements OnInit {
       roles: [[]],
       location: [[]],
       employeeCode: [''],
-      salary: ['']
+      LoginId: [''],
+      //salary: ['']
     });
     this.roleId = localStorage.getItem('roleId');
     this.locationId = localStorage.getItem('empLocationId');
@@ -253,6 +257,9 @@ export class EditEmployeeComponent implements OnInit {
     this.city = this.selectedCityId;
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     this.authId = employee.EmployeeInfo.AuthId;
+    this.isSalary = employee.EmployeeInfo.IsSalary;
+    const empid = employeeInfo?.EmployeeId + '';
+    this.loginId = "E" + empid.padStart(4,'0');    
     if (employee.EmployeeRoles !== null) {
       this.dropdownSetting();
       this.selectedRole = employee.EmployeeRoles;
@@ -329,9 +336,10 @@ export class EditEmployeeComponent implements OnInit {
       status: employeeInfo.Status ? 'Active' : 'Inactive',
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
-      salary: employeeInfo.Salary ? employeeInfo.Salary : '',
+      //salary: employeeInfo.Salary ? employeeInfo.Salary : '',
       roles: this.employeeRole,
-      location: this.employeeLocation
+      location: this.employeeLocation,
+      LoginId: this.loginId
     });
     if (this.actionType === 'view') {
       this.personalform.disable();
@@ -564,9 +572,10 @@ export class EditEmployeeComponent implements OnInit {
       ComType: +this.emplistform.value.comType,
       lrt: null,
       exemptions: +this.emplistform.value.exemptions,
-      salary: +this.emplistform.value.salary,
+      //salary: +this.emplistform.value.salary,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
+      isSalary: this.isSalary
     };
     const newlyAddedLocation = [];
     this.emplistform.value.location.forEach(item => {
@@ -757,6 +766,10 @@ export class EditEmployeeComponent implements OnInit {
 
   rateAllLocation(event) {
     this.isRateAllLocation = event.target.checked;
+  }
+
+  isSalaryChecked(event){
+    this.isSalary = event.target.checked;
   }
 
 

@@ -1,5 +1,5 @@
-<p-dialog [style]="{width: '50vw'}" header="View Image" [(visible)]="imagePopup" [blockScroll]="true" 
-    appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
+<p-dialog [style]="{width: '50vw'}" header="View Image" [(visible)]="imagePopup" [blockScroll]="true" appendTo="body"
+    [modal]="true" [focusOnShow]="false" [closable]="true">
     <div class="row" *ngIf="imagePopup && imageList.length > 0">
         <br>
         <div class="col-sm-3 text-center" *ngFor="let image of imageList">
@@ -12,10 +12,10 @@
         <div class="text-center">No image availabe </div>
     </div>
 </p-dialog>
-<p-dialog styleClass="MyDialog"  [(visible)]="isOpenImage" [blockScroll]="true" [resizable]="true"
-    appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
+<p-dialog styleClass="MyDialog" [(visible)]="isOpenImage" [blockScroll]="true" [resizable]="true" appendTo="body"
+    [modal]="true" [focusOnShow]="false" [closable]="true">
     <div *ngIf="isOpenImage">
-        <img [src]="originalImage"   />
+        <img [src]="originalImage" />
     </div>
 </p-dialog>
 <div id="page-content">
@@ -102,14 +102,20 @@
                                                     style="cursor: pointer;" (click)="previewImage(vehicle)">View</td>
                                                 <td>
                                                     <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
-                                                        style="color:orange; cursor: pointer;" pTooltip="View" tooltipPosition="bottom"
-                                                        (click)="add('view', vehicle)"></em>&nbsp;&nbsp;
+                                                        style="color:orange; cursor: pointer;" pTooltip="View"
+                                                        tooltipPosition="bottom"
+                                                        (click)="add('view', vehicle)"></em>&nbsp;
                                                     <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
-                                                        style="color:green; cursor: pointer;" pTooltip="Edit" tooltipPosition="bottom"
-                                                        (click)="add('edit', vehicle)"></em>&nbsp;&nbsp;
+                                                        style="color:green; cursor: pointer;" pTooltip="Edit"
+                                                        tooltipPosition="bottom"
+                                                        (click)="add('edit', vehicle)"></em>&nbsp;
+                                                    <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-5 font-size-1-1"
+                                                        [ngClass]="{'icon-disabled disable' : vehicle.DocumentId === null }"
+                                                        pTooltip="Download" tooltipPosition="bottom"
+                                                        (click)="downloadPDF(vehicle.DocumentId)"></em>&nbsp;
                                                     <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                        style="color:red; cursor: pointer;" pTooltip="Delete" tooltipPosition="bottom"
-                                                        (click)="delete(vehicle)"></em>
+                                                        style="color:red; cursor: pointer;" pTooltip="Delete"
+                                                        tooltipPosition="bottom" (click)="delete(vehicle)"></em>
                                                 </td>
                                             </tr>
                                             <tr *ngIf="vehicleDetails.length === 0">

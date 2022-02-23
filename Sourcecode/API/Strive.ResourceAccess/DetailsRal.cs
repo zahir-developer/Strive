@@ -16,15 +16,32 @@ namespace Strive.ResourceAccess
     {
         public DetailsRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool AddDetails(DetailsDto details)
+        public int AddDetails(DetailsDto details)
         {
-            return dbRepo.UpdatePc<DetailsDto>(details, "JobId");    
+            return dbRepo.InsertPK<DetailsDto>(details, "JobId");    
         }
         
-        public bool UpdateDetails(DetailsDto details)
+        public int UpdateDetails(DetailsDto details)
         {
-            return dbRepo.UpdatePc(details, "Job");
+            if (dbRepo.UpdatePc(details, "Job"))
+                return details.Job.JobId;
+            else
+                return 0;
         }
+
+        public JobResultDto UpdateDetailApp(DetailsDto details)
+        {
+            JobResultDto resultDto = new JobResultDto();
+            
+            if (dbRepo.UpdatePc(details, "Job"))
+            {
+                resultDto.JobId = details.Job.JobId;
+                resultDto.TicketNumber = details.Job.TicketNumber;
+                resultDto.Status = true;
+            }
+            return resultDto;
+        }
+
         public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
             return dbRepo.InsertPc(jobServiceEmployee,"JobServiceEmployeeId");
@@ -67,9 +84,26 @@ namespace Strive.ResourceAccess
             _prm.Add("@JobDate", detailsGrid.JobDate);
             _prm.Add("@LocationId", detailsGrid.LocationId);
             _prm.Add("@ClientId", detailsGrid.ClientId);
+
             var result = db.FetchMultiResult<DetailsGridViewModel>(EnumSP.Details.USPGETALLDETAILS.ToString(), _prm);
             return result;
         }
+
+        public DetailsGridViewModel GetAllDetailSearch(SearchDto searchDto)
+        {
+            _prm.Add("@LocationId", searchDto.LocationId);
+            _prm.Add("@ClientId", searchDto.ClientId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Search", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+            _prm.Add("@EndDate", searchDto.EndDate);
+            var result = db.FetchMultiResult<DetailsGridViewModel>(EnumSP.Details.USPGETALLDETAILS.ToString(), _prm);
+            return result;
+        }
+        
         public bool DeleteDetails(int id)
         {
             _prm.Add("@JobId", id);
@@ -93,6 +127,13 @@ namespace Strive.ResourceAccess
             _prm.Add("@JobStatusId", jobStatus.JobStatusId);
             db.Save(EnumSP.Details.USPUPDATEJOBSTATUS.ToString(), _prm);
             return true;
+        }
+
+        public List<EmployeeDetailJobViewModel> GetEmployeeAssignedDetail(int employeeId, DateTime jobDate)
+        {
+            _prm.Add("EmployeeId", employeeId);
+            _prm.Add("JobDate", jobDate);
+            return db.Fetch<EmployeeDetailJobViewModel>(EnumSP.Details.USPGETEMPLOYEEASSIGNEDDETAIL.ToString(), _prm);
         }
     }
 }

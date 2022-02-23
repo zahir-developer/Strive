@@ -8,6 +8,7 @@ import { CityComponent } from '../city/city.component';
 import { MessageConfig } from '../../services/messageConfig';
 import { ApplicationConfig } from '../../services/ApplicationConfig';
 import { CodeValueService } from '../../common-service/code-value.service';
+import { LocationService } from '../../services/data-service/location.service';
 
 @Component({
   selector: 'app-client-form',
@@ -21,6 +22,7 @@ export class ClientFormComponent implements OnInit {
   Status: any;
   State: any;
   Score: any;
+  Location: any;
   @Output() isCreditAccount: EventEmitter<any> = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
@@ -36,9 +38,10 @@ export class ClientFormComponent implements OnInit {
   ClientEmailAvailable: boolean;
   isAmount: boolean;
   creditCheck = false;
-  emailregex: RegExp = /^[ A-Za-z0-9@.]*$/;
+  emailregex: RegExp = /^[ A-Za-z0-9_@.]*$/;
+  LocationId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
-    private client: ClientService, private getCode: GetCodeService, private codeService: CodeValueService) { }
+    private client: ClientService, private getCode: GetCodeService, private codeService: CodeValueService, private locationService: LocationService,) { }
 
 
   ngOnInit() {
@@ -76,12 +79,13 @@ export class ClientFormComponent implements OnInit {
       notes: ['',],
       checkOut: ['',],
       type: ['', Validators.required],
-      // amount: ['',]
+      location: ['0', [Validators.required, Validators.min(1)]]
     });
     this.clientForm.get('status').patchValue(0);
     // this.clientForm.controls.amount.disable();
     this.getClientType();
     this.getScore();
+    this.getLocation();
   }
 
   get f() {
@@ -126,6 +130,25 @@ export class ClientFormComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+  getLocation() {
+    this.locationService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.Location = location.Location;
+        // this.getLocationNameById(this.locationId);
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
+  
+  // getLocationNameById(id) {
+  //   const locationName = this.Location.filter(item => +item.LocationId === +id);
+  //   this.locationName = locationName[0].LocationName;
+  // }
 
   // Get ClientType
   getClientType() {
@@ -166,7 +189,8 @@ export class ClientFormComponent implements OnInit {
       phone1: this.selectedData.PhoneNumber,
       zipcode: this.selectedData.Zip,
       phone2: this.selectedData.PhoneNumber2,
-      email: this.selectedData.Email
+      email: this.selectedData.Email,
+      location: this.selectedData.LocationId
     });
     this.clientId = this.selectedData.ClientId;
     if (this.selectedData.IsCreditAccount) {
@@ -206,6 +230,7 @@ export class ClientFormComponent implements OnInit {
   selectCity(event) {
     this.city = event;
   }
+
   clientEmailExist() {
     if (this.clientForm.controls.email.errors !== null) {
       return;
