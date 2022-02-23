@@ -16,6 +16,9 @@
     <android.support.v7.widget.RecyclerView
          android:layout_width="match_parent"
          android:layout_height="match_parent"
+         android:scrollbars="vertical"
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
          android:layout_weight="1"
          android:id="@+id/imagePickerRecyclerView"/>
     <Button
@@ -24,7 +27,9 @@
          android:id="@+id/cancelButton"
          android:text="Cancel"
          android:layout_gravity="right"
-         android:layout_margin="20dp"
+         android:layout_marginTop="10dp"
+         android:layout_marginRight="40dp"
+         android:layout_marginBottom="70dp"
          android:background="@drawable/secondary_button"/>
 
 

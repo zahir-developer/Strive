@@ -109,6 +109,7 @@ namespace StriveEmployee.Android.Views
         {
             if (keyCode == Keycode.Back)
             {
+                ScheduleCheckListViewModel.SelectedChecklist.Clear();
                 this.ViewModel.Logout();
             }
 

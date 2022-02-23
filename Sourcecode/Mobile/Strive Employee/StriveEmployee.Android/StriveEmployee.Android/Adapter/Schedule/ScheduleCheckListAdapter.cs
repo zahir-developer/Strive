@@ -9,12 +9,13 @@ using System.Linq;
 
 namespace StriveEmployee.Android.Adapter.Schedule
 {
-    class ScheduleCheckListAdapter : RecyclerView.Adapter
+    class ScheduleCheckListAdapter : RecyclerView.Adapter, View.IOnClickListener
     {
         public event EventHandler<ScheduleCheckListAdapterClickEventArgs> ItemClick;
         public event EventHandler<ScheduleCheckListAdapterClickEventArgs> ItemLongClick;
         Checklist Checklist = new Checklist();
         int CheckListPosition;
+        ScheduleCheckListAdapterViewHolder holder;
         public ScheduleCheckListAdapter(Checklist checkList)
         {
             Checklist = checkList;
@@ -29,7 +30,7 @@ namespace StriveEmployee.Android.Adapter.Schedule
             var id = Resource.Layout.Schedule_ChecklistItemView;
             itemView = LayoutInflater.From(parent.Context).Inflate(id, parent, false);
 
-            var vh = new ScheduleCheckListAdapterViewHolder(itemView, OnClick, OnLongClick);            
+            var vh = new ScheduleCheckListAdapterViewHolder(itemView, OnClick, OnLongClick);
             return vh;
         }
 
@@ -37,31 +38,47 @@ namespace StriveEmployee.Android.Adapter.Schedule
         public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
             var item = Checklist;
-            CheckListPosition = position;
+           
             // Replace the contents of the view with that element
-            var holder = viewHolder as ScheduleCheckListAdapterViewHolder;
+            holder = viewHolder as ScheduleCheckListAdapterViewHolder;
             holder.taskName.Text = item.ChecklistNotification[position].Name;
             holder.checklist_Time.Text = "Time: " + item.ChecklistNotification[position].NotificationTime;
-            holder.completedTask_Checkbox.CheckedChange += CompletedTask_Checkbox_CheckedChange;
-            if (ScheduleViewModel.SelectedChecklist.Count != 0)
+            holder.checkList_ItemView.Tag = position;
+            holder.checkList_ItemView.SetOnClickListener(this);
+            holder.completedTask_Checkbox.Clickable = false;
+            
+            if (ScheduleCheckListViewModel.SelectedChecklist.Count != 0)
             {
-                var test = ScheduleViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[position].CheckListEmployeeId);
+                var test = ScheduleCheckListViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[position].CheckListEmployeeId);
                 if (test != null)
                 {
                     holder.completedTask_Checkbox.Checked = true;
-                   
+
                 }
                 else
                 {
-                    holder.completedTask_Checkbox.Checked = false;                    
+                    holder.completedTask_Checkbox.Checked = false;
                 }
             }
-        }
+        }       
 
-        private void CompletedTask_Checkbox_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        public override int ItemCount => Checklist.ChecklistNotification.Count;
+
+        void OnClick(ScheduleCheckListAdapterClickEventArgs args) => ItemClick?.Invoke(this, args);
+        void OnLongClick(ScheduleCheckListAdapterClickEventArgs args) => ItemLongClick?.Invoke(this, args);
+
+        public void OnClick(View v)
         {
-            var item = Checklist;
-            if (e.IsChecked)
+            var item = Checklist; 
+            int CheckListPosition = (int)v.Tag;
+            if (ScheduleCheckListViewModel.SelectedChecklist.Any(x => x.CheckListEmployeeId == item.ChecklistNotification[CheckListPosition].CheckListEmployeeId))
+            {                
+                var element = ScheduleCheckListViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[CheckListPosition].CheckListEmployeeId);
+                ScheduleCheckListViewModel.SelectedChecklist.Remove(element);
+                holder.completedTask_Checkbox.Checked = false;             
+
+            }
+            else
             {
                 
                 var checklist = new checklistupdate();
@@ -72,25 +89,10 @@ namespace StriveEmployee.Android.Adapter.Schedule
                 checklist.UserId = EmployeeTempData.EmployeeID;
                 //checklist.CheckListNotificationId = item.ChecklistNotification[CheckListPosition].ChecklistNotificationId;
                 ScheduleCheckListViewModel.SelectedChecklist.Add(checklist);
+                holder.completedTask_Checkbox.Checked = true;
             }
-            else
-            {
-                if (ScheduleViewModel.SelectedChecklist.Any(x => x.CheckListEmployeeId == item.ChecklistNotification[CheckListPosition].CheckListEmployeeId)) 
-                {                    
-                    var element = ScheduleViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[CheckListPosition].CheckListEmployeeId);
-                    ScheduleViewModel.SelectedChecklist.Remove(element);
-                }                    
-                
-            }     
-           
-
+            NotifyDataSetChanged();
         }
-
-        public override int ItemCount => Checklist.ChecklistNotification.Count;
-
-        void OnClick(ScheduleCheckListAdapterClickEventArgs args) => ItemClick?.Invoke(this, args);
-        void OnLongClick(ScheduleCheckListAdapterClickEventArgs args) => ItemLongClick?.Invoke(this, args);
-
     }
 
     public class ScheduleCheckListAdapterViewHolder : RecyclerView.ViewHolder
@@ -98,12 +100,14 @@ namespace StriveEmployee.Android.Adapter.Schedule
         public TextView taskName { get; set; }
         public TextView checklist_Time { get; set; }
         public CheckBox completedTask_Checkbox { get; set; }
+        public RelativeLayout checkList_ItemView { get; set; }
         public ScheduleCheckListAdapterViewHolder(View itemView, Action<ScheduleCheckListAdapterClickEventArgs> clickListener,
                             Action<ScheduleCheckListAdapterClickEventArgs> longClickListener) : base(itemView)
         {
             taskName = itemView.FindViewById<TextView>(Resource.Id.taskName);
             checklist_Time = itemView.FindViewById<TextView>(Resource.Id.checklist_time);
             completedTask_Checkbox = itemView.FindViewById<CheckBox>(Resource.Id.completed_CheckBox);
+            checkList_ItemView = itemView.FindViewById<RelativeLayout>(Resource.Id.checkList_ItemView);
             itemView.Click += (sender, e) => clickListener(new ScheduleCheckListAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
             itemView.LongClick += (sender, e) => longClickListener(new ScheduleCheckListAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
         }

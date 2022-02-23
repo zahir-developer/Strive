@@ -26,8 +26,11 @@ namespace StriveEmployee.Android.Fragments.Schedule
         private ScheduleCheckListAdapter checkListAdapter;
         private ArrayAdapter<string> rolesAdapter;
         private Spinner rolesSpinner;
-        public  Button finishButton;
+        public Button finishButton;
+        private List<string> roles;
         Context context;
+        private static int selectedPosition;
+        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -41,13 +44,13 @@ namespace StriveEmployee.Android.Fragments.Schedule
             rolesSpinner = rootView.FindViewById<Spinner>(Resource.Id.role_Spinner);
             checkList_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.checkList_RecyclerView);
             finishButton = rootView.FindViewById<Button>(Resource.Id.finishButton);
-            
+            SetRoleSpinner();
             finishButton.Click += FinishButton_Click;
             rolesSpinner.ItemSelected += RoleSpinner_ItemSelected;
             context = this.Context;
             this.ViewModel = new ScheduleCheckListViewModel();
-            ScheduleCheckListViewModel.SelectedChecklist.Clear();
-            SetRoleSpinner();
+            //ScheduleCheckListViewModel.SelectedChecklist.Clear();
+            
 
 
             return rootView;
@@ -57,27 +60,35 @@ namespace StriveEmployee.Android.Fragments.Schedule
         {
             if (EmployeeTempData.EmployeeRoles.Count != 0)
             {
-                var roles = new List<string>();
-                roles.Insert(0, "Select Role");
+                roles = new List<string>();
+                var roleId = EmployeeTempData.EmployeeRoles[0].Roleid;
+                selectedPosition = EmployeeTempData.EmployeeRoles.FindIndex(x => x.Roleid == roleId);
                 foreach (var RolesData in EmployeeTempData.EmployeeRoles)
                 {
                     roles.Add(RolesData.RoleName);
                 }
                 rolesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, roles);
                 rolesSpinner.Adapter = rolesAdapter;
-                rolesSpinner.SetSelection(0);
+                rolesSpinner.SetSelection(selectedPosition);
+
+                //if (selectedPosition != -1)
+                //{
+                //    rolesSpinner.SetSelection(selectedPosition);
+                //}
+                //else
+                //{
+                //    rolesSpinner.SetSelection(0);
+                //}
+
 
             }
         }
 
         private void RoleSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            if (e.Position > 0)
-            {
-                ViewModel.Roleid = EmployeeTempData.EmployeeRoles[e.Position - 1].Roleid;
-                ViewModel.RoleName = EmployeeTempData.EmployeeRoles[e.Position - 1].RoleName;
-
-            }
+            ViewModel.Roleid = EmployeeTempData.EmployeeRoles[e.Position].Roleid;
+            ViewModel.RoleName = EmployeeTempData.EmployeeRoles[e.Position].RoleName;
+            selectedPosition = ViewModel.Roleid;
             GetCheckListData();
         }
 

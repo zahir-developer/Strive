@@ -37,7 +37,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private EditText item_cost;
         private EditText item_price;
         private EditText supplier_name;
-        private ImageView edit_image;
+        public  ImageView edit_image;
         private Button cancelButton;
         private Button saveButton;
         private Button editImageBtn;
@@ -137,6 +137,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private void IconBtn_Click(object sender, EventArgs e)
         {
             inventoryEditImagePickerFragment = new InventoryEditImagePickerFragment();
+            chooseImageDialog.Dismiss();
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame,inventoryEditImagePickerFragment).Commit();
         }

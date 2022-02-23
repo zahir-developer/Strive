@@ -40,8 +40,9 @@ namespace Strive.Core.ViewModels.Employee.Schedule
             {
                 checklistUpdateRequest.CheckListNotification = SelectedChecklist;
                 var result = await AdminService.FinishCheckList(checklistUpdateRequest);
-                if (result != null)
+                if (result.ChecklistNotification == true)
                 {
+                    SelectedChecklist.Clear();
                     _userDialog.Alert("Successfully completed the tasks");
                 }
             }

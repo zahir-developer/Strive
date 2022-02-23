@@ -9,9 +9,9 @@ namespace StriveOwner.Android.Adapter
     {
         public event EventHandler<InventoryEditImagePickerAdapterClickEventArgs> ItemClick;
         public event EventHandler<InventoryEditImagePickerAdapterClickEventArgs> ItemLongClick;
-        string[] items;
+        int[] items;
 
-        public InventoryEditImagePickerAdapter(string[] data)
+        public InventoryEditImagePickerAdapter(int[] data)
         {
             items = data;
         }
@@ -22,9 +22,8 @@ namespace StriveOwner.Android.Adapter
 
             //Setup your layout here
             View itemView = null;
-            //var id = Resource.Layout.__YOUR_ITEM_HERE;
-            //itemView = LayoutInflater.From(parent.Context).
-            //       Inflate(id, parent, false);
+            var id = Resource.Layout.InventoryEditImagePicker_ItemView;
+            itemView = LayoutInflater.From(parent.Context).Inflate(id, parent, false);
 
             var vh = new InventoryEditImagePickerAdapterViewHolder(itemView, OnClick, OnLongClick);
             return vh;
@@ -37,7 +36,7 @@ namespace StriveOwner.Android.Adapter
 
             // Replace the contents of the view with that element
             var holder = viewHolder as InventoryEditImagePickerAdapterViewHolder;
-            //holder.TextView.Text = items[position];
+            holder.ProductImages.SetImageResource(item);
         }
 
         public override int ItemCount => items.Length;
@@ -49,13 +48,13 @@ namespace StriveOwner.Android.Adapter
 
     public class InventoryEditImagePickerAdapterViewHolder : RecyclerView.ViewHolder
     {
-        //public TextView TextView { get; set; }
+        public ImageView ProductImages { get; set; }
 
 
         public InventoryEditImagePickerAdapterViewHolder(View itemView, Action<InventoryEditImagePickerAdapterClickEventArgs> clickListener,
                             Action<InventoryEditImagePickerAdapterClickEventArgs> longClickListener) : base(itemView)
         {
-            //TextView = v;
+            ProductImages = ItemView.FindViewById<ImageView>(Resource.Id.inventoryProductImages);
             itemView.Click += (sender, e) => clickListener(new InventoryEditImagePickerAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
             itemView.LongClick += (sender, e) => longClickListener(new InventoryEditImagePickerAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
         }
