@@ -121,8 +121,6 @@ namespace StriveEmployee.iOS.Views.Schedule
             if (ScheduleViewModel.SelectedChecklist.Count!=0)
             {
                 finishtask();
-                checklistInitialization();
-                Checklist_TableView.ReloadData();
             }
             else
             {
@@ -132,7 +130,12 @@ namespace StriveEmployee.iOS.Views.Schedule
         private async void finishtask()
         {
             await ViewModel.FinishTask();
-            
+            await ViewModel.GetTaskList();
+            var checklistsource = new CheckList_DataSource(ViewModel.checklist);
+            Checklist_TableView.Source = checklistsource;
+            Checklist_TableView.TableFooterView = new UIView(CGRect.Empty);
+            Checklist_TableView.DelaysContentTouches = false;
+            Checklist_TableView.ReloadData();
         }
         private void checklistInitialization()
         {
