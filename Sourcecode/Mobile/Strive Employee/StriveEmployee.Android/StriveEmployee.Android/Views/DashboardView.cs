@@ -58,6 +58,8 @@ namespace StriveEmployee.Android.Views
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;
             SelectInitial_Fragment();
+            ScheduleCheckListViewModel.SelectedChecklist.Clear();
+            ScheduleCheckListViewModel.SelectedPosition = 0;
         }
 
         private void Bottom_NavigationView_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
@@ -109,7 +111,6 @@ namespace StriveEmployee.Android.Views
         {
             if (keyCode == Keycode.Back)
             {
-                ScheduleCheckListViewModel.SelectedChecklist.Clear();
                 this.ViewModel.Logout();
             }
 

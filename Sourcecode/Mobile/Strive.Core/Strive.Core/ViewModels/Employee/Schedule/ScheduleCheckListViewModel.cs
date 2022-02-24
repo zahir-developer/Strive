@@ -20,6 +20,8 @@ namespace Strive.Core.ViewModels.Employee.Schedule
         public int Roleid { get; set; }
         public string RoleName { get; set; }
         public static List<checklistupdate> SelectedChecklist = new List<checklistupdate>();
+        public static int SelectedPosition;
+
         #region Properties
 
         public ScheduleDetail scheduleList { get; set; }

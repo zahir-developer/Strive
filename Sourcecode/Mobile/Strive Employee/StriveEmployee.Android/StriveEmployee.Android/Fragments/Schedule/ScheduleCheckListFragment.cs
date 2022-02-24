@@ -1,9 +1,6 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
@@ -13,8 +10,6 @@ using Strive.Core.ViewModels.Employee.Schedule;
 using StriveEmployee.Android.Adapter.Schedule;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveEmployee.Android.Fragments.Schedule
@@ -29,7 +24,6 @@ namespace StriveEmployee.Android.Fragments.Schedule
         public Button finishButton;
         private List<string> roles;
         Context context;
-        private static int selectedPosition;
         
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -44,43 +38,37 @@ namespace StriveEmployee.Android.Fragments.Schedule
             rolesSpinner = rootView.FindViewById<Spinner>(Resource.Id.role_Spinner);
             checkList_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.checkList_RecyclerView);
             finishButton = rootView.FindViewById<Button>(Resource.Id.finishButton);
+            this.ViewModel = new ScheduleCheckListViewModel();
             SetRoleSpinner();
             finishButton.Click += FinishButton_Click;
             rolesSpinner.ItemSelected += RoleSpinner_ItemSelected;
             context = this.Context;
-            this.ViewModel = new ScheduleCheckListViewModel();
-            //ScheduleCheckListViewModel.SelectedChecklist.Clear();
-            
-
-
+            //ScheduleCheckListViewModel.SelectedChecklist.Clear();         
             return rootView;
         }
 
         private void SetRoleSpinner()
         {
+            ViewModel.Roleid = EmployeeTempData.EmployeeRoles[0].Roleid;
+            ViewModel.RoleName = EmployeeTempData.EmployeeRoles[0].RoleName;
             if (EmployeeTempData.EmployeeRoles.Count != 0)
             {
                 roles = new List<string>();
-                var roleId = EmployeeTempData.EmployeeRoles[0].Roleid;
-                selectedPosition = EmployeeTempData.EmployeeRoles.FindIndex(x => x.Roleid == roleId);
                 foreach (var RolesData in EmployeeTempData.EmployeeRoles)
                 {
                     roles.Add(RolesData.RoleName);
                 }
                 rolesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, roles);
                 rolesSpinner.Adapter = rolesAdapter;
-                rolesSpinner.SetSelection(selectedPosition);
-
-                //if (selectedPosition != -1)
-                //{
-                //    rolesSpinner.SetSelection(selectedPosition);
-                //}
-                //else
-                //{
-                //    rolesSpinner.SetSelection(0);
-                //}
-
-
+                if(ScheduleCheckListViewModel.SelectedPosition != 0)
+                {
+                    rolesSpinner.SetSelection(ScheduleCheckListViewModel.SelectedPosition);
+                }
+                else
+                {
+                    rolesSpinner.SetSelection(0);
+                }
+               
             }
         }
 
@@ -88,7 +76,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         {
             ViewModel.Roleid = EmployeeTempData.EmployeeRoles[e.Position].Roleid;
             ViewModel.RoleName = EmployeeTempData.EmployeeRoles[e.Position].RoleName;
-            selectedPosition = ViewModel.Roleid;
+            ScheduleCheckListViewModel.SelectedPosition = e.Position;
             GetCheckListData();
         }
 

@@ -1,8 +1,6 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
@@ -10,13 +8,12 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils.TimInventory;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
 using StriveOwner.Android.Resources.Fragments;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 
 namespace StriveOwner.Android.Fragments
 {
@@ -90,10 +87,31 @@ namespace StriveOwner.Android.Fragments
 
         private void ImagePickerAdapter_ItemClick(object sender, InventoryEditImagePickerAdapterClickEventArgs e)
         {
-            e.View.SetBackgroundColor(Color.Blue);
-            inventoryEditFragment.edit_image.SetImageResource(productIcons[e.Position]);            
+            inventoryEditFragment = new InventoryEditFragment();
+           // e.View.SetBackgroundColor(Color.Blue);
+            int pos = e.Position;
+            inventoryEditFragment.selectedIcon = ConvertImagetoBase64(productIcons[pos]);           
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, inventoryEditFragment).Commit();
         }
 
+        private string ConvertImagetoBase64(int imageId)
+        {
+            try
+            {
+                string base64;
+                Bitmap bitmap = BitmapFactory.DecodeResource(Resources, imageId);
+                MemoryStream stream = new MemoryStream();
+                bitmap.Compress(Bitmap.CompressFormat.Png, 100, stream);
+                byte[] ba = stream.ToArray();
+                base64 = Base64.EncodeToString(ba, Base64Flags.Default);
+                return base64;
+            }catch(Exception ex)
+            {
+                return "";
+            }
+           
+        }
         private void ImagePickerCancelButton_Click(object sender, EventArgs e)
         {
             inventoryEditFragment = new InventoryEditFragment();

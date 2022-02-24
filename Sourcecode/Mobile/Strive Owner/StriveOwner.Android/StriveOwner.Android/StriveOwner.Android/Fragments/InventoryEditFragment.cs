@@ -51,11 +51,13 @@ namespace StriveOwner.Android.Resources.Fragments
         private string PhotoPath;
         private InventoryEditImagePickerFragment inventoryEditImagePickerFragment;
 
+        public string selectedIcon;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             context = this.Context;
-            Platform.Init((Activity)this.Context, savedInstanceState);
+            Platform.Init((Activity)context, savedInstanceState);
             // Create your fragment here
         }
 
@@ -92,6 +94,10 @@ namespace StriveOwner.Android.Resources.Fragments
                 supplier_name.Text = ViewModel.SupplierName;
                 item_cost.Text = ViewModel.ItemCost;
                 item_price.Text = ViewModel.ItemPrice;
+                if (!string.IsNullOrEmpty(selectedIcon))
+                {
+                    ViewModel.Base64String = selectedIcon;
+                }
                 if (!string.IsNullOrEmpty(ViewModel.Base64String))
                 {
                     edit_image.SetImageBitmap(Base64ToBitmap(ViewModel.Base64String));
@@ -113,7 +119,7 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private void EditImageBtn_Click(object sender, EventArgs e)
         {
-            chooseImageDialog = new Dialog(this.context);
+            chooseImageDialog = new Dialog(context);
             chooseImageDialog.SetContentView(Resource.Layout.ChooseImageDialog);
             chooseImageDialog.Window.SetSoftInputMode(SoftInput.AdjustResize);
             chooseImageDialog.Show();
@@ -138,14 +144,14 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             inventoryEditImagePickerFragment = new InventoryEditImagePickerFragment();
             chooseImageDialog.Dismiss();
-            AppCompatActivity activity = (AppCompatActivity)Context;
+            AppCompatActivity activity = (AppCompatActivity)context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame,inventoryEditImagePickerFragment).Commit();
         }
 
         private void GalleryBtn_Click(object sender, EventArgs e)
         {
             chooseImageDialog.Dismiss();
-            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) == Permission.Granted)
+            if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.ReadExternalStorage) == Permission.Granted)
             {
                 _ = PickPhotoAsync();
             }
@@ -158,7 +164,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private void CameraBtn_Click(object sender, EventArgs e)
         {
             chooseImageDialog.Dismiss();
-            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.Camera) == Permission.Granted)
+            if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.Camera) == Permission.Granted)
             {
                 _ = TakePhotoAsync();
             }
@@ -172,7 +178,7 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             if (requestCode == 1)
             {
-                if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+                if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
                 {
                     _ = TakePhotoAsync();
                 }
@@ -254,7 +260,7 @@ namespace StriveOwner.Android.Resources.Fragments
             try
             {
                 byte[] data = File.ReadAllBytes(path);
-                byte[] resizedImage = ResizeImage(data, 150, 150);
+                byte[] resizedImage = ResizeImage(data, 140, 140);
                 string base64 = Convert.ToBase64String(resizedImage);
                 if(ViewModel != null)
                 {
@@ -328,7 +334,7 @@ namespace StriveOwner.Android.Resources.Fragments
                     position = this.ViewModel.LocationList.IndexOf(this.ViewModel.LocationList.Where(X => X.LocationName == locName).FirstOrDefault());
                 }
                 
-                LocationAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, ViewModel.LocationNames);
+                LocationAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, ViewModel.LocationNames);
                 item_location.Adapter = LocationAdapter;
                 item_location.SetSelection(position);
             }
@@ -359,7 +365,7 @@ namespace StriveOwner.Android.Resources.Fragments
                 {
                     ProductTypes.Add(data.CodeValue);
                 }
-                ProductAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, ProductTypes);
+                ProductAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, ProductTypes);
                 item_type.Adapter = ProductAdapter;
                 item_type.SetSelection(position);
             }

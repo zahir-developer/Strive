@@ -13,12 +13,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_margin="8dp">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/inventoryProductImages"
-                android:scaleType="fitXY" />
+                android:src="@drawable/bottle"
+                android:background="@android:color/transparent"
+                android:id="@+id/inventoryProductImages"/>
             
         </LinearLayout>
     </android.support.v7.widget.CardView>
