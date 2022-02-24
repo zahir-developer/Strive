@@ -93,7 +93,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             if (await ValidateCredentialsAsync())
             {
                 _userDialog.ShowLoading(Strings.LoggingIn, Acr.UserDialogs.MaskType.Gradient);
-                var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
+                var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password, ""));
                 if (response.Token != null)
                 {
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;

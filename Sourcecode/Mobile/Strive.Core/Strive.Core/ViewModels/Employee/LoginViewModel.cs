@@ -16,7 +16,7 @@ namespace Strive.Core.ViewModels.Employee
         {
 
         }
-        
+        public string token;
 
         #region Commands
 
@@ -32,7 +32,7 @@ namespace Strive.Core.ViewModels.Employee
             {
 
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-                var loginResponse = await AdminService.EmployeeLogin( new EmployeeLoginRequest(loginEmailPhone, loginPassword));
+                var loginResponse = await AdminService.EmployeeLogin( new EmployeeLoginRequest(loginEmailPhone, loginPassword, token));
                 if (loginResponse != null)
                 {
                     ApiUtils.Token = loginResponse.Token;

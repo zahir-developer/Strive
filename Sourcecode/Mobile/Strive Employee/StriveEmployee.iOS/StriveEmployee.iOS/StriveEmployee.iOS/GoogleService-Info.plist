@@ -19,16 +19,16 @@
 	<key>STORAGE_BUCKET</key>
 	<string>tellaintstrive.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:999690260710:ios:689e03d163cf806f816b27</string>
+	<string>1:999690260710:ios:747c6e4daef5351c816b27</string>
 </dict>
 </plist>

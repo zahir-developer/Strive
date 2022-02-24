@@ -1,4 +1,5 @@
 ﻿using System;
+using Firebase.CloudMessaging;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
@@ -43,6 +44,7 @@ namespace StriveEmployee.iOS.Views.Login
             UITapGestureRecognizer tap = new UITapGestureRecognizer(action);
             SignUPLbl.AddGestureRecognizer(tap);
 
+            
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
@@ -79,6 +81,8 @@ namespace StriveEmployee.iOS.Views.Login
 
         partial void LoginBtnClicked(UIButton sender)
         {
+            ViewModel.token = Messaging.SharedInstance.FcmToken;
+
             if (Persistance.BoolForKey(TermsKey) == true)
             {
                 ViewModel.DoLoginCommand();

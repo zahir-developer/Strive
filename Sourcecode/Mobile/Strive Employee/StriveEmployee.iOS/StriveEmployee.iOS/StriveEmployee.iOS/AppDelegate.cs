@@ -5,10 +5,9 @@ using UIKit;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using System;
-using System.Collections.Generic;
-using Firebase.CloudMessaging;
 using UserNotifications;
+using System;
+using Firebase.CloudMessaging;
 
 namespace StriveEmployee.iOS
 {
@@ -29,16 +28,12 @@ namespace StriveEmployee.iOS
         {
             // create a new window instance based on the screen size
             var result = base.FinishedLaunching(application, launchOptions);
-            AppCenter.Start("9ea0f580-b800-45c5-9565-81f442eddc04",
-                   typeof(Analytics), typeof(Crashes));
-            Crashes.SetEnabledAsync(true);
-           
-            Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
 
             // Setting up for Firebase Notification
             Firebase.Core.App.Configure();
 
             Messaging.SharedInstance.Delegate = this;
+
 
             // Register your app for remote notifications.
             if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
@@ -62,7 +57,7 @@ namespace StriveEmployee.iOS
 
             UIApplication.SharedApplication.RegisterForRemoteNotifications();
 
-            //Locan notification
+            //Local notification
             if (launchOptions != null)
             {
                 // check for a local notification
@@ -81,6 +76,14 @@ namespace StriveEmployee.iOS
                     }
                 }
             }
+
+
+            AppCenter.Start("9ea0f580-b800-45c5-9565-81f442eddc04",
+                  typeof(Analytics), typeof(Crashes));
+            Crashes.SetEnabledAsync(true);
+
+            Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
+
 
             return result;
         }
@@ -119,18 +122,15 @@ namespace StriveEmployee.iOS
         [Export("messaging:didReceiveRegistrationToken:")]
         public void DidReceiveRegistrationToken(Messaging messaging, string fcmToken)
         {
-            Console.WriteLine("DidReceiveRegistrationToken");
             Console.WriteLine($"Firebase registration token: {fcmToken}");
 
             // TODO: If necessary send token to application server.
             // Note: This callback is fired at each app startup and whenever a new token is generated.
         }
-
         public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
             Messaging.SharedInstance.ApnsToken = deviceToken;
         }
-
         public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
         {
             // show an alert
@@ -142,6 +142,34 @@ namespace StriveEmployee.iOS
             // reset our badge
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
+        public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        {
+            // If you are receiving a notification message while your app is in the background,
+            // this callback will not be fired till the user taps on the notification launching the application.
+            // TODO: Handle data of notification
+
+            // With swizzling disabled you must let Messaging know about the message, for Analytics
+            //Messaging.SharedInstance.AppDidReceiveMessage (userInfo);
+
+            // Print full message.
+            Console.WriteLine("ReceivedRemoteNotification : " + userInfo);
+        }
+
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+            // If you are receiving a notification message while your app is in the background,
+            // this callback will not be fired till the user taps on the notification launching the application.
+            // TODO: Handle data of notification
+
+            // With swizzling disabled you must let Messaging know about the message, for Analytics
+            //Messaging.SharedInstance.AppDidReceiveMessage (userInfo);
+
+            // Print full message.
+            Console.WriteLine("DidReceiveRemoteNotification : " +userInfo);
+
+            completionHandler(UIBackgroundFetchResult.NewData);
+        }
+
     }
 }
 

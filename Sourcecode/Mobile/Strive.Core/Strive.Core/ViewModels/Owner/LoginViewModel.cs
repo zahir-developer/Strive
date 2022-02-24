@@ -29,7 +29,7 @@ namespace Strive.Core.ViewModels.Owner
                 if (validateCommand())
                 {
                     _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-                    var loginResponse = await AdminService.EmployeeLogin(new EmployeeLoginRequest(loginEmailPhone, loginPassword));
+                    var loginResponse = await AdminService.EmployeeLogin(new EmployeeLoginRequest(loginEmailPhone, loginPassword, ""));
                     if (loginResponse != null)
                     {
                         ApiUtils.Token = loginResponse.Token;
