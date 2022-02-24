@@ -38,6 +38,7 @@ export class ClientFormComponent implements OnInit {
   ClientEmailAvailable: boolean;
   isAmount: boolean;
   creditCheck = false;
+  chkCreditDisable: boolean = false;
   emailregex: RegExp = /^[ A-Za-z0-9_@.]*$/;
   LocationId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
@@ -173,7 +174,8 @@ export class ClientFormComponent implements OnInit {
     this.State = this.selectedStateId;
     this.selectedCityId = this.selectedData.City;
     this.city = this.selectedCityId;
-    this.creditCheck = this.selectedData.IsCreditAccount
+    this.creditCheck = this.selectedData.IsCreditAccount;    
+    this.chkCreditDisable = this.selectedData.IsCreditAccount;
     this.isCreditAccount.emit(this.selectedData.IsCreditAccount);      
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
