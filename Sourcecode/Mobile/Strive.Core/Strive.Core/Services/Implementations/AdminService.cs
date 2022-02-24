@@ -279,9 +279,10 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_ADD_VEHICLE_INFO, HttpMethod.Post, addVehicle);
         }
 
-        public async Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID)
+        public async Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID,int clientid)
         {
             var url = RestUtils.BuildQuery(ApiUtils.URL_DELETE_VEHICLE_INFO, "id", VehicleID);
+            url += "&clientid=" + clientid;
             return await _restClient.MakeApiCall<GeneralResponse>(url, HttpMethod.Delete);
         }
 

@@ -90,7 +90,7 @@
                                         <constraint firstAttribute="height" constant="18" id="qgs-Kz-CtU"/>
                                     </constraints>
                                     <attributedString key="attributedText">
-                                        <fragment content="Addtional Services:">
+                                        <fragment content="Additional Services:">
                                             <attributes>
                                                 <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>

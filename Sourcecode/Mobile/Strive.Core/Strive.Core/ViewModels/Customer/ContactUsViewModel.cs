@@ -40,7 +40,7 @@ namespace Strive.Core.ViewModels.Customer
                 Locations.Location = new List<Location>();
                 foreach (var locations in washLocations.Location)
                 {
-                    if (locations.Latitude != null && locations.Longitude != null)
+                    if (locations.Latitude != 0 && locations.Longitude != 0)
                     {
                         Locations.Location.Add(locations);
                     }
@@ -69,7 +69,7 @@ namespace Strive.Core.ViewModels.Customer
                 locationStatus.Washes = new List<LocationStatus>();
                 foreach (var locationItem in washLocations.Washes)
                 {
-                    if (locationItem.Latitude != null && locationItem.Longitude != null)
+                    if (locationItem.Latitude != 0 && locationItem.Longitude != 0)
                     {
                         locationStatus.Washes.Add(locationItem);
                     }

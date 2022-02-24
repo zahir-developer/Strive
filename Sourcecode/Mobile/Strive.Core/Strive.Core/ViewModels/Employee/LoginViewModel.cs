@@ -4,6 +4,7 @@ using Strive.Core.Resources;
 using Strive.Core.Rest.Implementations;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels.Employee.Schedule;
 using System;
 using System.Threading.Tasks;
 
@@ -45,7 +46,14 @@ namespace Strive.Core.ViewModels.Employee
                     EmployeeTempData.EmployeeRoles = loginResponse.EmployeeDetails.EmployeeRoles;
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
-                        await _navigationService.Navigate<DashboardViewModel>();
+                        if (EmployeeTempData.fromnotification)
+                        {
+                            await _navigationService.Navigate<ScheduleViewModel>();
+                        }
+                        else
+                        {
+                            await _navigationService.Navigate<DashboardViewModel>();
+                        }
                     }
                 }
                 else

@@ -19,6 +19,8 @@ namespace Strive.Core.Utils.Employee
         public static PersonalDetails EmployeePersonalDetails { get; set; }
         public static List<EmployeeLocation> employeeLocationdata { get; set; }
         public static List<EmployeeRoleApi> EmployeeRoles { get; set; }
+        public static int EmployeeRole { get; set; }
+        public static bool FromNotification { get; set; }
         public static void ResetAll()
         {
             MessengerTempData.FirstName = null;

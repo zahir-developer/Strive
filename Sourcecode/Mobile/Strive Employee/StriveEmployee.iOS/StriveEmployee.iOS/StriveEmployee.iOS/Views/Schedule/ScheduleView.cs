@@ -22,12 +22,23 @@ namespace StriveEmployee.iOS.Views.Schedule
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            ViewModel.Roleid = EmployeeTempData.EmployeeRoles[0].Roleid;
-            ViewModel.RoleName = EmployeeTempData.EmployeeRoles[0].RoleName;
+            if (EmployeeTempData.fromnotification)
+            {
+                ViewModel.Roleid = EmployeeTempData.employeerole;
+                var rolename = EmployeeTempData.EmployeeRoles.Find(x => x.Roleid == EmployeeTempData.employeerole);
+                ViewModel.RoleName = rolename.RoleName;
+                Scheduledetailer_Seg_Ctrl.SelectedSegment = 2;
+                ScheduleParentView.Hidden = true;
+                DetailerView.Hidden = true;
+                CheckListView.Hidden = false;
+                checklistInitialization();
+            }
+            else
+            {
+                ViewModel.Roleid = EmployeeTempData.EmployeeRoles[0].Roleid;
+                ViewModel.RoleName = EmployeeTempData.EmployeeRoles[0].RoleName;
+            } 
             InitialSetup();
-
-            
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
@@ -45,7 +56,7 @@ namespace StriveEmployee.iOS.Views.Schedule
             };
             NavigationItem.Title = "Schedule";
             ScheduleViewModel.SelectedChecklist.Clear();
-            //Scheduledetailer_Seg_Ctrl.SelectedSegment = 1;
+            
             var leftBtn = new UIButton(UIButtonType.Custom);
             leftBtn.SetTitle("Logout", UIControlState.Normal);
             leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);

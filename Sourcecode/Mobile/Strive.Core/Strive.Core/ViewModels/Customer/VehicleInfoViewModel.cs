@@ -44,7 +44,7 @@ namespace Strive.Core.ViewModels.Customer
             _userDialog.ShowLoading(Strings.Loading);
             if (confirm)
             {
-                var data = await AdminService.DeleteCustomerVehicle(vehicleID);
+                var data = await AdminService.DeleteCustomerVehicle(vehicleID,  CustomerInfo.ClientID);
                 if (data.Status)
                 {
                     _userDialog.HideLoading();

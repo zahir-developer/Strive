@@ -101,7 +101,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<GeneralResponse> AddCustomerVehicle(CustomerVehicles addVehicle);
 
-        Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID);
+        Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID, int clientid);
 
         Task<CustomerCompleteDetails> GetVehicleCompleteDetails(int VehicleID);
 
