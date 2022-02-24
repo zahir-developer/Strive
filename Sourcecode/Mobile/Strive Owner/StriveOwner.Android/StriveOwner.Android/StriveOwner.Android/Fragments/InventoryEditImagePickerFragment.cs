@@ -17,7 +17,7 @@ using System.IO;
 
 namespace StriveOwner.Android.Fragments
 {
-    public class InventoryEditImagePickerFragment : MvxFragment<IconsViewModel>, View.IOnClickListener
+    public class InventoryEditImagePickerFragment : MvxFragment<IconsViewModel>
     {
         private Button imagePickerCancelButton;
         private RecyclerView imagePickerRecyclerView;
@@ -37,8 +37,7 @@ namespace StriveOwner.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.InventoryEditImagePicker_Layout, null);
             imagePickerCancelButton =rootView.FindViewById<Button>(Resource.Id.cancelButton);
-            imagePickerRecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.imagePickerRecyclerView);
-            //imagePickerRecyclerView.SetOnClickListener(I);
+            imagePickerRecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.imagePickerRecyclerView);            
             context = this.Context;
             AddProductImages();
             SetImages();
@@ -118,10 +117,6 @@ namespace StriveOwner.Android.Fragments
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, inventoryEditFragment).Commit();
         }
-
-        public void OnClick(View v)
-        {
-            
-        }
+       
     }
 }

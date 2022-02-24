@@ -157,6 +157,7 @@ namespace StriveCustomer.Android.Fragments
         public async void OnMapReady(GoogleMap googleMap)
         {
             Googlemap = googleMap;
+            Googlemap.MapType = GoogleMap.MapTypeHybrid;
             Googlemap.UiSettings.CompassEnabled = false;
             await AndroidPermissions.checkLocationPermission(this);
             Googlemap.SetInfoWindowAdapter(this);
@@ -505,7 +506,7 @@ namespace StriveCustomer.Android.Fragments
                     geofenceCircles[geofenceCirclesCount].InvokeCenter(latlng);
                     geofenceCircles[geofenceCirclesCount].InvokeRadius(Radius);
                     geofenceCircles[geofenceCirclesCount].InvokeStrokeColor(Color.Argb(255, 144, 224, 221));
-                    geofenceCircles[geofenceCirclesCount].InvokeFillColor(Color.Argb(255, 198, 223, 221));
+                    geofenceCircles[geofenceCirclesCount].InvokeFillColor(Color.Argb(100, 198, 223, 221));
                     geofenceCircles[geofenceCirclesCount].InvokeStrokeWidth(4);
                     Googlemap.AddCircle(geofenceCircles[geofenceCirclesCount]);
                 }

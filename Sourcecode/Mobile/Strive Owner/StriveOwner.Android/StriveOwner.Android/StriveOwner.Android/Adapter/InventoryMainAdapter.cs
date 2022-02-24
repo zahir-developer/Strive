@@ -9,6 +9,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
@@ -43,13 +44,13 @@ namespace StriveOwner.Android.Adapter
             //GetData();
 
         }
-       
+
 
         public override long GetItemId(int position)
         {
             return position;
         }
-       
+
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             inventoryViewHolder = holder as InventoryMainAdapterViewHolder;
@@ -59,7 +60,7 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.ItemName = inventorylist[position].Product.ProductName;
             inventoryViewHolder.productDescription.Text = inventorylist[position].Product.ProductDescription;
             OwnerTempData.ItemDescription = inventorylist[position].Product.ProductDescription;
-            if(!string.IsNullOrEmpty(inventorylist[position].Product.Base64))
+            if (!string.IsNullOrEmpty(inventorylist[position].Product.Base64))
             {
                 inventoryViewHolder.productImg.SetImageBitmap(Base64ToBitmap(inventorylist[position].Product.Base64));
             }
@@ -70,7 +71,8 @@ namespace StriveOwner.Android.Adapter
             }
             inventoryViewHolder.productViewMore.Tag = "Tag" + position;
             inventoryViewHolder.quantityInc.Tag = "Tag" + position;
-            if(!inventoryViewHolder.quantityInc.HasOnClickListeners){
+            if (!inventoryViewHolder.quantityInc.HasOnClickListeners)
+            {
                 inventoryViewHolder.quantityInc.Click += QuantityInc_Click;
 
             }
@@ -127,7 +129,7 @@ namespace StriveOwner.Android.Adapter
             var popout_FAX = popupMainInvetory.FindViewById<TextView>(Resource.Id.popout_FAX);
             var popout_Address = popupMainInvetory.FindViewById<TextView>(Resource.Id.popout_Address);
             var popout_Email = popupMainInvetory.FindViewById<TextView>(Resource.Id.popout_Email);
-            var popout_Request = popupMainInvetory.FindViewById<Button>(Resource.Id.popout_Request); 
+            var popout_Request = popupMainInvetory.FindViewById<Button>(Resource.Id.popout_Request);
             var edit_Items = popupMainInvetory.FindViewById<TextView>(Resource.Id.edit_Items);
             popout_Name.Text = inventorylist[positions].Vendor.VendorName;
             OwnerTempData.SupplierName = inventorylist[positions].Vendor.VendorName;
@@ -160,12 +162,30 @@ namespace StriveOwner.Android.Adapter
 
         private async void Confirm_Click(object sender, EventArgs e)
         {
-            popupRequest.Dismiss();
-            popupMainInvetory.Hide();
-            if(int.Parse(quantity.Text) > 0)
-            invVM.ProductRequestCommand(int.Parse(quantity.Text), index);
-        }
+            var alert = Toast.MakeText(context, "Please enter a positive integer", ToastLength.Short);
+            if (string.IsNullOrEmpty(quantity.Text))
+            {
 
+                alert.Show();
+            }
+            else
+            {
+                if (int.Parse(quantity.Text) <= 0)
+                {
+                    alert.Show();
+                }
+                else
+                {
+                    popupRequest.Dismiss();
+                    popupMainInvetory.Hide();
+                    invVM.ProductRequestCommand(int.Parse(quantity.Text), index);
+                }
+
+            }
+
+
+        }
+       
         private void Close_ClickRequest(object sender, EventArgs e)
         {
             popupRequest.Dismiss();
