@@ -13,7 +13,7 @@ namespace Greeter.Services.Api
         Task<TicketResponse> GetWashTime(int locationId);
         Task<TicketResponse> GetTicketNumber(int locationId);
         Task<CreateMembershipResponse> CreateService(CreateServiceRequest req);
-        Task<BaseResponse> CreateDetailService(CreateServiceRequest req);
+        Task<CreateMembershipResponse> CreateDetailService(CreateServiceRequest req);
         Task<EmployeeListResponse> GetDetailEmployees(GetDetailEmployeeReq req);
         Task<BaseResponse> SendEmail(string email, string subject, string body);
         Task<AvailableScheduleResponse> GetAvailablilityScheduleTime(GetAvailableScheduleReq req);
@@ -22,6 +22,9 @@ namespace Greeter.Services.Api
         Task<UpchargeResponse> GetUpcharge(GetUpchargeReq req);
         Task<BaseResponse> AssignEmployeeToDetailService(AssignEmployeeToServiceReq req);
         Task<DetailServiceResponse> GetDetailService(int jobId);
+
+        Task<BaseResponse> AddLog(string log);
+
     }
 
     public class WashApiService : IWashApiService
@@ -91,9 +94,9 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<UpchargeResponse>(Urls.GET_UPCHARGE, HttpMethod.Post, null, req);
         }
 
-        public Task<BaseResponse> CreateDetailService(CreateServiceRequest req)
+        public Task<CreateMembershipResponse> CreateDetailService(CreateServiceRequest req)
         {
-            return apiService.DoApiCall<BaseResponse>(Urls.CREATE_DETAIL_SERVICE, HttpMethod.Post, null, req);
+            return apiService.DoApiCall<CreateMembershipResponse>(Urls.CREATE_DETAIL_SERVICE, HttpMethod.Post, null, req);
         }
 
         public Task<BaseResponse> AssignEmployeeToDetailService(AssignEmployeeToServiceReq req)
@@ -103,8 +106,18 @@ namespace Greeter.Services.Api
 
         public Task<DetailServiceResponse> GetDetailService(int jobId)
         {
+
             var url = Urls.GET_DETAIL_SERVICE + jobId.ToString();
             return apiService.DoApiCall<DetailServiceResponse>(url, HttpMethod.Get);
+        }
+
+        public Task<BaseResponse> AddLog(string log)
+        {
+            //LogReq logReq = new LogReq { Log = log, Environment = "Mobile" };
+
+            var parameters = new Dictionary<string, string>() { { "log", log }, { "Environment", "Mobile" } };
+
+            return apiService.DoApiCall<BaseResponse>(Urls.ERROR_LOG, HttpMethod.Put, parameters);
         }
     }
 }

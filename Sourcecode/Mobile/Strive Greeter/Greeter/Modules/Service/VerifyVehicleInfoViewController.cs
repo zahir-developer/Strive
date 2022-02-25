@@ -327,7 +327,7 @@ namespace Greeter.Storyboards
         //    }
         //    catch (Exception ex)
         //    {
-        //        Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
+        //        Debug.WriteLine("vException happened and the reason is : " + ex.Message);
         //        HideActivityIndicator();
         //    }
         //}
@@ -417,9 +417,12 @@ namespace Greeter.Storyboards
                         req.Job.TimeIn = DateTime.Now;
                         //req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API); ;
                         req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + (serviceTimeMins*60) + (detailTimeMins*60));
+                        await apiService.AddLog(JsonConvert.SerializeObject(req).ToString());
                         createServiceResponse = await apiService.CreateService(req);
-                        req.Job.JobID =  createServiceResponse.Status.JobId;
-                        req.Job.TicketNumber = createServiceResponse.Status.TicketNumber;
+                        req.Job.JobID =  createServiceResponse.Result.JobId;
+                        req.Job.TicketNumber = createServiceResponse.Result.TicketNumber;
+                        await apiService.AddLog("Ticket num: " + createServiceResponse.Result.TicketNumber + "JOb id: " + createServiceResponse.Result.JobId);
+
                     }
                     else // Detail
                     {
@@ -434,19 +437,19 @@ namespace Greeter.Storyboards
 
                         var distinct = availableScheduleResponse.GetTimeInDetails.Distinct();
                         var datetime = DateTime.Now;
-#if DEBUG
-                        datetime = new DateTime(2021, 12, 08, 07, 0, 0);
+//#if DEBUG
+//                        datetime = new DateTime(2021, 12, 08, 07, 0, 0);
 
-                        for (int i = 0; i < availableScheduleResponse.GetTimeInDetails.Count; i++)
-                        {
-                            Debug.WriteLine("GetTimeIn : " + DateTime.ParseExact(availableScheduleResponse.GetTimeInDetails[i].TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay);
-                            Debug.WriteLine(TimeSpan.Compare(DateTime.ParseExact(availableScheduleResponse.GetTimeInDetails[i].TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay, datetime.TimeOfDay));
-                        }
+//                        for (int i = 0; i < availableScheduleResponse.GetTimeInDetails.Count; i++)
+//                        {
+//                            Debug.WriteLine("GetTimeIn : " + DateTime.ParseExact(availableScheduleResponse.GetTimeInDetails[i].TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay);
+//                            Debug.WriteLine(TimeSpan.Compare(DateTime.ParseExact(availableScheduleResponse.GetTimeInDetails[i].TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay, datetime.TimeOfDay));
+//                        }
 
-                        //totalTimeMins = 60;
-#endif
+//                        //totalTimeMins = 60;
+//#endif
                         Debug.WriteLine("Current time of day : " + datetime.TimeOfDay);
-
+                        await apiService.AddLog("Current time of day : " + datetime.TimeOfDay);
                         availableScheduleResponse.GetTimeInDetails.RemoveAll(x => TimeSpan.Compare(DateTime.ParseExact(x.TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay, datetime.TimeOfDay) == -1);
                         Debug.WriteLine("Distinct GetTimeInDetails : " + JsonConvert.SerializeObject(availableScheduleResponse.GetTimeInDetails));
 
@@ -623,7 +626,7 @@ namespace Greeter.Storyboards
                         //    HideActivityIndicator();
                         //    return;
                         //}
-
+                        
                         if (bayId is -1)
                         {
                             ShowAlertMsg(Common.Messages.NO_SLOTS);
@@ -685,9 +688,14 @@ namespace Greeter.Storyboards
                         //req.Job.EstimatedTimeOut = DateTime.Now.Date.AddHours(Convert.ToDouble(edt[0])).AddMinutes(Convert.ToDouble(edt[1])).AddSeconds(0);
                         //req.Job.EstimatedTimeOut = DateTime.Parse(req.Job.TimeIn).AddMinutes(totalTimeMins).ToString(Constants.DATE_TIME_FORMAT_FOR_API);
                         req.Job.EstimatedTimeOut = req.Job.TimeIn.AddMinutes(totalTimeMins);
-                        createServiceResponse = (CreateMembershipResponse)await apiService.CreateDetailService(req);
-                        req.Job.JobID = createServiceResponse.Status.JobId;
-                        req.Job.TicketNumber = createServiceResponse.Status.TicketNumber;
+
+                        await apiService.AddLog(JsonConvert.SerializeObject(req)); //for logs
+
+                        createServiceResponse = await apiService.CreateDetailService(req);
+                        req.Job.JobID = createServiceResponse.Result.JobId;
+                        req.Job.TicketNumber = createServiceResponse.Result.TicketNumber;
+
+                        await apiService.AddLog("Ticket num: " + createServiceResponse.Result.TicketNumber + "JOb id: " + createServiceResponse.Result.JobId);
                     }
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));

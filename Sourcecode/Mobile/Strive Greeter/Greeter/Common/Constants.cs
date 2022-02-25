@@ -122,6 +122,7 @@ namespace Greeter.Common
         internal const string ADD_VEHICLE_ISSUE = "/Admin/Vehicle/AddVehicleIssue";
         internal const string GET_DETAIL_SERVICE = "/Admin/Details/GetDetailsById/";
         internal const string GET_VEHICLE_ISSUE_IMAGE_ID = "/Admin/Vehicle/GetVehicleIssueImageById/";
+        internal const string ERROR_LOG = "/Admin/ErrorHandler/Log";
     }
 
     public class UIConstants
@@ -226,7 +227,7 @@ namespace Greeter.Common
         internal const string USER_ADDED_SUCCESS_MSG = "User added successfully";
         internal const string NOT_PAID_ALERT_MSG = "Only Paid ticket can be checkedout!";
         internal const string NOT_COMPLETED_ALERT_MSG = "Only completed ticket can be checkedout!";
-        internal const string NO_SLOTS = "No slots avaibale";
+        internal const string NO_SLOTS = "No slots available";
         internal const string ADD_EMAIL_ACCOUNT = "Please add your account in mail application";
         internal const string MEMBERSHIP_MESSAGE = " This customer has membership for this vechicle. Please ask him to pay at the cashier inside.";
 

@@ -563,9 +563,9 @@ namespace Greeter.DTOs
 
     public class CreateMembershipResponse : BaseResponse
     {
-        public Status Status { get; set; }
+        public Result Result { get; set; }
     }
-    public class Status
+    public class Result
     {
         [JsonProperty("JobId")]
         public int JobId { get; set; }
@@ -1779,5 +1779,14 @@ namespace Greeter.DTOs
 
         [JsonProperty("communicationId")]
         public string CommunicationID { get; set; }
+    }
+
+    public class LogReq
+    {
+        [JsonProperty("log")]
+        public string Log { get; set; }
+
+        [JsonProperty("Environment")]
+        public string Environment { get; set; }
     }
 }

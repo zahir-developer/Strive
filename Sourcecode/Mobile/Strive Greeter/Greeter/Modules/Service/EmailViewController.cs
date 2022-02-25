@@ -71,13 +71,8 @@ namespace Greeter.Storyboards
             {
                 tfCust.Text = ClientEmail;
             }
-            else
-            {
-                tfCust.Text = "karthiknever16@gmail.com";
-            }
             
-
-
+            
             //Clicks
             btnEmpDropdown.TouchUpInside += delegate
             {
