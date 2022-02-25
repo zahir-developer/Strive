@@ -30,6 +30,7 @@ namespace StriveEmployee.Android
             AppCenter.Start("6abbcdd4-bc5a-42b4-9077-db8006de8e3f", typeof(Analytics), typeof(Crashes));
             Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
             base.OnCreate();
+           
         }
     }
 }

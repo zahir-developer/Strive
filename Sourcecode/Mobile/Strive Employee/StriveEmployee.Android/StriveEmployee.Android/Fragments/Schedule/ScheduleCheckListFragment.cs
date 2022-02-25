@@ -8,6 +8,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.Schedule;
 using StriveEmployee.Android.Adapter.Schedule;
+using StriveEmployee.Android.NotificationConstants;
 using System;
 using System.Collections.Generic;
 using OperationCanceledException = System.OperationCanceledException;
@@ -43,7 +44,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
             finishButton.Click += FinishButton_Click;
             rolesSpinner.ItemSelected += RoleSpinner_ItemSelected;
             context = this.Context;
-            //ScheduleCheckListViewModel.SelectedChecklist.Clear();         
+            EmployeeTempData.FromNotification = false;
             return rootView;
         }
 

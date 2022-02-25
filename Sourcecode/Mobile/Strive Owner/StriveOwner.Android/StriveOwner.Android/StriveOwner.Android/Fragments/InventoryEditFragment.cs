@@ -19,10 +19,11 @@ using Android.Content.PM;
 using System.Threading.Tasks;
 using Android.Graphics;
 using Path = System.IO.Path;
-using Android.Provider;
 using System.IO;
 using Android.Support.V7.App;
 using StriveOwner.Android.Fragments;
+using OperationCanceledException = System.OperationCanceledException;
+using MvvmCross.Binding.BindingContext;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -36,7 +37,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private Spinner item_location;
         private EditText item_cost;
         private EditText item_price;
-        private EditText supplier_name;
+        private Spinner supplier_name;
         public  ImageView edit_image;
         private Button cancelButton;
         private Button saveButton;
@@ -45,8 +46,11 @@ namespace StriveOwner.Android.Resources.Fragments
         private Context context;
         private ArrayAdapter<string> LocationAdapter;
         private ArrayAdapter<string> ProductAdapter;
+        private ArrayAdapter<string> SupplierAdapter;
         private int position;
         private List<string> ProductTypes;
+        private List<string> Locations;
+        private List<string> Vendors;
         Dialog chooseImageDialog;
         private string PhotoPath;
         private InventoryEditImagePickerFragment inventoryEditImagePickerFragment;
@@ -75,25 +79,21 @@ namespace StriveOwner.Android.Resources.Fragments
             item_cost = rootView.FindViewById<EditText>(Resource.Id.item_cost);
             item_price = rootView.FindViewById<EditText>(Resource.Id.item_price);
             edit_image = rootView.FindViewById<ImageView>(Resource.Id.edit_Image);
-            supplier_name = rootView.FindViewById<EditText>(Resource.Id.supplier_name);
+            supplier_name = rootView.FindViewById<Spinner>(Resource.Id.supplier_name);
             editImageBtn = rootView.FindViewById<Button>(Resource.Id.edit_ImageView);
-            //var supplier_contact = rootView.FindViewById<EditText>(Resource.Id.supplier_contact);
-            //var supplier_fax = rootView.FindViewById<EditText>(Resource.Id.supplier_fax);
-            //var supplier_address = rootView.FindViewById<EditText>(Resource.Id.supplier_address);
-            //var supplier_email = rootView.FindViewById<EditText>(Resource.Id.supplier_email);  
+            editImageBtn.PaintFlags = PaintFlags.UnderlineText;
             cancelButton = rootView.FindViewById<Button>(Resource.Id.edit_cancel);
             saveButton = rootView.FindViewById<Button>(Resource.Id.edit_save);
-
-            //inventoryMainFragment = new InventoryMainFragment(context);
-            if (ViewModel != null && EmployeeData.EditableProduct !=null)
+            var set = this.CreateBindingSet<InventoryEditFragment, InventoryEditViewModel>();
+            set.Bind(item_name).To(vm => vm.ItemName);
+            set.Bind(item_code).To(vm => vm.ItemCode);
+            set.Bind(item_description).To(vm => vm.ItemDescription);
+            set.Bind(item_quantity).To(vm => vm.ItemQuantity);
+            set.Bind(item_cost).To(vm => vm.ItemCost);
+            set.Bind(item_price).To(vm => vm.ItemPrice);
+            set.Apply();
+            if (ViewModel != null)
             {
-                item_code.Text = ViewModel.ItemCode;
-                item_name.Text = ViewModel.ItemName;
-                item_description.Text = ViewModel.ItemDescription;
-                item_quantity.Text = ViewModel.ItemQuantity;
-                supplier_name.Text = ViewModel.SupplierName;
-                item_cost.Text = ViewModel.ItemCost;
-                item_price.Text = ViewModel.ItemPrice;
                 if (!string.IsNullOrEmpty(selectedIcon))
                 {
                     ViewModel.Base64String = selectedIcon;
@@ -103,6 +103,23 @@ namespace StriveOwner.Android.Resources.Fragments
                     edit_image.SetImageBitmap(Base64ToBitmap(ViewModel.Base64String));
                 }
             }
+            //if (ViewModel != null && EmployeeData.EditableProduct !=null)
+            //{
+            //    item_code.Text = ViewModel.ItemCode;
+            //    item_name.Text = ViewModel.ItemName;
+            //    item_description.Text = ViewModel.ItemDescription;
+            //    item_quantity.Text = ViewModel.ItemQuantity;
+            //    item_cost.Text = ViewModel.ItemCost;
+            //    item_price.Text = ViewModel.ItemPrice;
+            //    if (!string.IsNullOrEmpty(selectedIcon))
+            //    {
+            //        ViewModel.Base64String = selectedIcon;
+            //    }
+            //    if (!string.IsNullOrEmpty(ViewModel.Base64String))
+            //    {
+            //        edit_image.SetImageBitmap(Base64ToBitmap(ViewModel.Base64String));
+            //    }
+            //}
             //supplier_contact.Text = OwnerTempData.SupplierContact;
             //supplier_fax.Text = OwnerTempData.SupplierFax;
             //supplier_address.Text = OwnerTempData.SupplierAddress;
@@ -113,6 +130,8 @@ namespace StriveOwner.Android.Resources.Fragments
             editImageBtn.Click += EditImageBtn_Click;
             item_location.ItemSelected += LocationSpinner_ItemSelected;
             item_type.ItemSelected += ProductTypeSpinner_ItemSelected;
+            supplier_name.ItemSelected += SupplierSpinner_ItemSelected;
+
             LoadProductTypes();      
             return rootView;
         }
@@ -312,71 +331,158 @@ namespace StriveOwner.Android.Resources.Fragments
             byte[] imageAsBytes = Base64.Decode(base64String, Base64Flags.Default);
             return BitmapFactory.DecodeByteArray(imageAsBytes, 0, imageAsBytes.Length);
         }
+        private void SupplierSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            ViewModel.PickerSelectionCommand(ViewModel.VendorList[e.Position]);
+            position = e.Position;
+            if (e.Position == 0)
+            {
+                ((TextView)supplier_name.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+            }
+
+        }
+        private void LoadSuppliers()
+        {
+            if (ViewModel != null && ViewModel.LocationList.Count != 0)
+            {
+                Vendors = new List<string>();
+                foreach (var data in ViewModel.VendorList)
+                {
+                    Vendors.Add(data.VendorName);
+                }
+                if (string.IsNullOrEmpty(this.ViewModel.SupplierName))
+                {
+                    Vendors.Insert(0, "Name");
+                    position = 0;
+                }
+                else
+                {
+                    var Name = this.ViewModel.SupplierName;
+                    position = this.ViewModel.VendorList.IndexOf(this.ViewModel.VendorList.Where(X => X.VendorName == Name).FirstOrDefault());
+                }
+
+                SupplierAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, Vendors);
+                supplier_name.Adapter = SupplierAdapter;
+                supplier_name.SetSelection(position);
+            }
+        }
         private void LocationSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             ViewModel.setLocationCommand(ViewModel.LocationList[e.Position]);
             position = e.Position;
+            if (e.Position == 0)
+            {
+                ((TextView)item_location.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+            }
 
         }
         private async void LoadLocations()
         {
-           await ViewModel.GetAllLocNameCommand();
-            if (ViewModel != null && ViewModel.LocationList.Count != 0)
+            try
             {
-                if (string.IsNullOrEmpty(this.ViewModel.ItemLocation))
+                await ViewModel.GetAllLocNameCommand();
+                if (ViewModel != null && ViewModel.LocationList.Count != 0)
                 {
-                    var locName = this.ViewModel.LocationList[0].LocationName;
-                    position = this.ViewModel.LocationList.IndexOf(this.ViewModel.LocationList.Where(X => X.LocationName == locName).FirstOrDefault());
+                    Locations = new List<string>();
+                    foreach (var data in ViewModel.LocationList)
+                    {
+                        Locations.Add(data.LocationName);
+                    }
+                    if (string.IsNullOrEmpty(this.ViewModel.ItemLocation))
+                    {
+                        Locations.Insert(0, "Location");
+                        position = 0;
+                        //var locName = this.ViewModel.LocationList[0].LocationName;
+                        //position = this.ViewModel.LocationList.IndexOf(this.ViewModel.LocationList.Where(X => X.LocationName == locName).FirstOrDefault());
+                    }
+                    else
+                    {
+                        var locName = this.ViewModel.ItemLocation;
+                        position = this.ViewModel.LocationList.IndexOf(this.ViewModel.LocationList.Where(X => X.LocationName == locName).FirstOrDefault());
+                    }
+
+                    LocationAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, Locations);
+                    item_location.Adapter = LocationAdapter;
+                    item_location.SetSelection(position);
                 }
-                else
-                {
-                    var locName = this.ViewModel.ItemLocation;
-                    position = this.ViewModel.LocationList.IndexOf(this.ViewModel.LocationList.Where(X => X.LocationName == locName).FirstOrDefault());
-                }
-                
-                LocationAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, ViewModel.LocationNames);
-                item_location.Adapter = LocationAdapter;
-                item_location.SetSelection(position);
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            
+            LoadSuppliers();
         }
         private void ProductTypeSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             ViewModel.setProdTypeCommand(ViewModel.ProductTypeList[e.Position]);
             position = e.Position;
+            if(e.Position == 0)
+            {
+                ((TextView)item_type.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+            }
 
         }
         private async void LoadProductTypes()
         {
-            await ViewModel.GetProductTypeCommand();
-            if (ViewModel !=null && ViewModel.ProductTypeList.Count != 0)
+            try
             {
-                ProductTypes = new List<string>();
-                if(string.IsNullOrEmpty(this.ViewModel.ItemType))
+                await ViewModel.GetProductTypeCommand();
+                if (ViewModel != null && ViewModel.ProductTypeList.Count != 0)
                 {
-                    var type = this.ViewModel.ProductTypeList[0].CodeValue;
-                    position = this.ViewModel.ProductTypeList.IndexOf(this.ViewModel.ProductTypeList.Where(X => X.CodeValue == type).FirstOrDefault());
+                    ProductTypes = new List<string>();
+                    foreach (var data in ViewModel.ProductTypeList)
+                    {
+                        ProductTypes.Add(data.CodeValue);
+                    }
+                    if (string.IsNullOrEmpty(this.ViewModel.ItemType))
+                    {
+                        ProductTypes.Insert(0, "Item Type");
+                        position = 0;
+                        // var type = this.ViewModel.ProductTypeList[0].CodeValue;
+                        //position = this.ViewModel.ProductTypeList.IndexOf(this.ViewModel.ProductTypeList.Where(X => X.CodeValue == type).FirstOrDefault());
+                    }
+                    else
+                    {
+                        var type = this.ViewModel.ItemType;
+                        position = this.ViewModel.ProductTypeList.IndexOf(this.ViewModel.ProductTypeList.Where(X => X.CodeValue == type).FirstOrDefault());
+                    }
+                    ProductAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, ProductTypes);
+                    item_type.Adapter = ProductAdapter;
+                    item_type.SetSelection(position);
                 }
-                else
-                {
-                    var type = this.ViewModel.ItemType;
-                    position = this.ViewModel.ProductTypeList.IndexOf(this.ViewModel.ProductTypeList.Where(X => X.CodeValue == type).FirstOrDefault());
-                }      
-                foreach (var data in ViewModel.ProductTypeList)
-                {
-                    ProductTypes.Add(data.CodeValue);
-                }
-                ProductAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, ProductTypes);
-                item_type.Adapter = ProductAdapter;
-                item_type.SetSelection(position);
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }     
             LoadLocations();
         }
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            this.ViewModel.isAndroid = true;
-            this.ViewModel.AddorUpdateCommand();
-            var selected_MvxFragment = new InventoryMainFragment(context);
-            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+            try
+            {
+                this.ViewModel.AddorUpdateCommand();
+                if(this.ViewModel.isValidationError == false)
+                {
+                    var selected_MvxFragment = new InventoryMainFragment(context);
+                    FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+                } 
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+
         }
 
         private void CancelButton_Click(object sender, EventArgs e)

@@ -15,6 +15,7 @@ using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Employee.Schedule;
 using StriveEmployee.Android.Adapter;
+using StriveEmployee.Android.NotificationConstants;
 using StriveEmployee.Android.Views;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,11 @@ namespace StriveEmployee.Android.Fragments.Schedule
             scheduleFragment = new ScheduleFragment();
             scheduleDetailerFragment = new ScheduleDetailerFragment();
             scheduleCheckListFragment = new ScheduleCheckListFragment();
+            if (EmployeeTempData.FromNotification)
+            {
+                ScheduleInfoNeeds.selectedTab = 2;
+            }
+            
             return rootView;
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
@@ -58,6 +64,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
             schedule_ViewPagerAdapter.AddFragment(scheduleCheckListFragment, "Checklist");
             schedule_ViewPager.Adapter = schedule_ViewPagerAdapter;
             schedule_ViewPager.OffscreenPageLimit = 0;
+            schedule_ViewPager.SetCurrentItem(ScheduleInfoNeeds.selectedTab, false);
             schedule_TabLayout.SetupWithViewPager(schedule_ViewPager);
             schedule_ViewPager.AddOnPageChangeListener(this);
         }
@@ -99,5 +106,10 @@ namespace StriveEmployee.Android.Fragments.Schedule
             //    scheduleCheckListFragment.GetCheckListData();
             //}
         }
+        
+    }
+    public static class ScheduleInfoNeeds
+    {
+        public static int selectedTab { get; set; } = 0;
     }
 }

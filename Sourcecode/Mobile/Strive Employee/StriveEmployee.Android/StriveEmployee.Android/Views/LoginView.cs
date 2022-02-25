@@ -3,19 +3,23 @@ using Acr.UserDialogs;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Gms.Common;
 using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using Firebase;
 using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.Utils;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Employee;
+using StriveEmployee.Android.NotificationConstants;
 using Xamarin.Essentials;
 
 namespace StriveEmployee.Android.Views
@@ -84,6 +88,57 @@ namespace StriveEmployee.Android.Views
             basicSetup();
             forgotPassword.Click += navigateToForgotPassword;           
             signUp.Click += navigateToSignUp;
+            FirebaseApp.InitializeApp(Application.Context);
+            bool isfromNotification = Intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
+            EmployeeTempData.FromNotification = isfromNotification;
+        }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            IsPlayServicesAvailable();
+            CreateNotificationChannel();
+        }
+        public bool IsPlayServicesAvailable()
+        {
+            int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+            if (resultCode != ConnectionResult.Success)
+            {
+                if (GoogleApiAvailability.Instance.IsUserResolvableError(resultCode))
+                {
+                    Console.WriteLine(GoogleApiAvailability.Instance.GetErrorString(resultCode));
+                }
+                else
+                {
+                    Console.WriteLine("This device is not supported");
+                    Finish();
+                }
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("Google Play Services is available.");
+                return true;
+            }
+        }
+        void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                // Notification channels are new in API 26 (and not a part of the
+                // support library). There is no need to create a notification
+                // channel on older versions of Android.
+                return;
+            }
+
+            var name = Resources.GetString(Resource.String.channel_name);
+            var description = GetString(Resource.String.channel_description);
+            var channel = new NotificationChannel(Constants.CHANNEL_ID, name, NotificationImportance.Default)
+            {
+                Description = description
+            };
+
+            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
         }
 
         private void DisagreeButton_Click(object sender, EventArgs e)
@@ -106,7 +161,11 @@ namespace StriveEmployee.Android.Views
         private void Login_Click(object sender, EventArgs e)
         {
             var current = Connectivity.NetworkAccess;
-
+            string fcmToken = Intent.GetStringExtra("FCMToken");
+            if (!string.IsNullOrEmpty(fcmToken))
+            {
+                ViewModel.token = fcmToken;
+            }
             if (current == NetworkAccess.Internet)
             {
                 // Connection to internet is available

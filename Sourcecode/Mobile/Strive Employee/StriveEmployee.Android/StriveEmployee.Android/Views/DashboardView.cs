@@ -9,12 +9,14 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Employee;
 using Strive.Core.ViewModels.Employee.Schedule;
@@ -25,6 +27,7 @@ using StriveEmployee.Android.Fragments.MyTicket;
 using StriveEmployee.Android.Fragments.Payroll;
 using StriveEmployee.Android.Fragments.Schedule;
 using StriveEmployee.Android.Helper;
+using StriveEmployee.Android.NotificationConstants;
 
 namespace StriveEmployee.Android.Views
 {
@@ -60,6 +63,12 @@ namespace StriveEmployee.Android.Views
             SelectInitial_Fragment();
             ScheduleCheckListViewModel.SelectedChecklist.Clear();
             ScheduleCheckListViewModel.SelectedPosition = 0;
+            bool isNotification = Intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
+            if (isNotification)
+            {
+                bottom_NavigationView.SelectedItemId = Resource.Id.menu_schedule;
+ 
+            }
         }
 
         private void Bottom_NavigationView_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)

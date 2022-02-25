@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.ViewModels.Owner
@@ -19,7 +20,8 @@ namespace Strive.Core.ViewModels.Owner
         public ObservableCollection<LocationDetail> LocationList = new ObservableCollection<LocationDetail>();
         public ObservableCollection<Code> ProductTypeList = new ObservableCollection<Code>();
         public EditProduct.ProductDetail_Id editableProduct = new EditProduct.ProductDetail_Id();
-        public bool isAndroid;
+        public bool isValidationError;
+        DevicePlatform platform = DeviceInfo.Platform;
         private VendorDetail CurrentVendor = new VendorDetail();
 
         public InventoryEditViewModel()
@@ -279,7 +281,7 @@ namespace Strive.Core.ViewModels.Owner
         public async Task NavigateBackCommand()
         {
             EmployeeData.EditableProduct = null;
-            if (!isAndroid)
+            if (platform != DevicePlatform.Android)
             {
                 await _navigationService.Close(this);
             }
@@ -321,6 +323,7 @@ namespace Strive.Core.ViewModels.Owner
         {
             if (ValidateCommand() == false)
             {
+                isValidationError = true;
                 return;
             }
             else if (ItemTypeId == 0)
@@ -340,12 +343,13 @@ namespace Strive.Core.ViewModels.Owner
             var result = await AdminService.AddProduct(product);
             if (result.Status == "true")
             {
+                isValidationError = false;
                 NavigateBackCommand();
             }
             _userDialog.HideLoading();
         }
 
-        bool ValidateCommand()
+       public bool ValidateCommand()
         {
             if (string.IsNullOrEmpty(ItemName))
             {

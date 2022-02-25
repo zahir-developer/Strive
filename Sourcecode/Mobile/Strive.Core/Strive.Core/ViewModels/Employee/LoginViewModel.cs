@@ -7,12 +7,13 @@ using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.Schedule;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace Strive.Core.ViewModels.Employee
 {
     public class LoginViewModel : BaseViewModel
     {
-       
+
         public LoginViewModel()
         {
 
@@ -31,7 +32,7 @@ namespace Strive.Core.ViewModels.Employee
             isExitApp = false;
             if (validateCommand())
             {
-
+                var platform = DeviceInfo.Platform;
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                 var loginResponse = await AdminService.EmployeeLogin( new EmployeeLoginRequest(loginEmailPhone, loginPassword, token));
                 if (loginResponse != null)
@@ -46,9 +47,17 @@ namespace Strive.Core.ViewModels.Employee
                     EmployeeTempData.EmployeeRoles = loginResponse.EmployeeDetails.EmployeeRoles;
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
-                        if (EmployeeTempData.fromnotification)
+                        if (EmployeeTempData.FromNotification)
                         {
-                            await _navigationService.Navigate<ScheduleViewModel>();
+                            if(platform != DevicePlatform.Android)
+                            {
+                                await _navigationService.Navigate<ScheduleViewModel>();
+                            }
+                            else if (platform == DevicePlatform.Android)
+                            {
+                                await _navigationService.Navigate<DashboardViewModel>();
+                            }
+                            
                         }
                         else
                         {

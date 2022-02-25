@@ -236,11 +236,10 @@ namespace StriveOwner.Android.Resources.Fragments
 
                 public void OnClick(InventoryDataModel selectedItem)
                 {
-                    if (selectedItem.Product.Quantity <= 0)
-                    {
+                    //if (selectedItem.Product.Quantity <= 0)
+                    //{
                         fragment.DeleteItem(selectedItem, inventoryMain_RecyclerView,viewModel);
-
-                    }
+                   // }
                     
                 }
 

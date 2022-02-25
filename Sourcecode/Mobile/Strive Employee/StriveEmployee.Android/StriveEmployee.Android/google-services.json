@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "999690260710",
+    "project_id": "tellaintstrive",
+    "storage_bucket": "tellaintstrive.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999690260710:android:08b8686eca967ad8816b27",
+        "android_client_info": {
+          "package_name": "com.telliant.StriveEmployee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999690260710-qjalkk1vnim7nceiqj6tq1187kgmoj0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYCYffcYqNCWKbI_S0uv6zZt88a4YfKH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999690260710-qjalkk1vnim7nceiqj6tq1187kgmoj0q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "999690260710-bacqjpf7s74irc66c1fvhvsd7c2bnkdh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Telliant.StriveCustomerMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

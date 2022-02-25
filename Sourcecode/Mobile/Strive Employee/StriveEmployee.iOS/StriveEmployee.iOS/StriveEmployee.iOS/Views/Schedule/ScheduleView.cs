@@ -22,10 +22,10 @@ namespace StriveEmployee.iOS.Views.Schedule
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            if (EmployeeTempData.fromnotification)
+            if (EmployeeTempData.FromNotification)
             {
-                ViewModel.Roleid = EmployeeTempData.employeerole;
-                var rolename = EmployeeTempData.EmployeeRoles.Find(x => x.Roleid == EmployeeTempData.employeerole);
+                ViewModel.Roleid = EmployeeTempData.EmployeeRole;
+                var rolename = EmployeeTempData.EmployeeRoles.Find(x => x.Roleid == EmployeeTempData.EmployeeRole);
                 ViewModel.RoleName = rolename.RoleName;
                 Scheduledetailer_Seg_Ctrl.SelectedSegment = 2;
                 ScheduleParentView.Hidden = true;
