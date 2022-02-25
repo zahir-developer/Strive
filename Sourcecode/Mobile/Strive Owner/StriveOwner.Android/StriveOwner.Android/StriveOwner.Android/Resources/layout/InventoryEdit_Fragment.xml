@@ -39,8 +39,7 @@
             <ImageView
                 android:id="@+id/edit_Image"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/details"
+                android:layout_height="wrap_content"                
                 android:background="@android:color/transparent"
                 android:layout_margin="20dp"/>
             <Button
@@ -235,9 +234,9 @@
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
                     android:hint="Cost(Per Unit)"
+                    android:inputType="numberDecimal"
                     android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
-                    android:inputType="text"
+                    android:background="@drawable/edit_text"                    
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_regular"/>
             </android.support.design.widget.TextInputLayout>
@@ -255,9 +254,9 @@
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
                     android:hint="Price"
+                    android:inputType="numberDecimal"
                     android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
-                    android:inputType="text"
+                    android:background="@drawable/edit_text"                    
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_regular"/>
             </android.support.design.widget.TextInputLayout>

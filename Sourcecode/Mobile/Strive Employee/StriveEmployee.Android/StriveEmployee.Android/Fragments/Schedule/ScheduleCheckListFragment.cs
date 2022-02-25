@@ -86,8 +86,12 @@ namespace StriveEmployee.Android.Fragments.Schedule
             GetCheckListData();
         }
 
-        private async void GetCheckListData()
+        public async void GetCheckListData()
         {
+            if (this.ViewModel == null) 
+            {
+                this.ViewModel = new ScheduleCheckListViewModel();
+            }
             try
             {
                 await ViewModel.GetTaskList();

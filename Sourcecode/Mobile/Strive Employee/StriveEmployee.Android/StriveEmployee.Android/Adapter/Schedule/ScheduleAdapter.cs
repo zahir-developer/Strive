@@ -23,16 +23,16 @@ namespace StriveEmployee.Android.Adapter.Schedule
         private List<ScheduleDetailViewModel> scheduleDetailViewModels = new List<ScheduleDetailViewModel>();
         private string getStartTime;
         private string getEndTime;
-        public ScheduleAdapter(Context context, ScheduleDetail scheduleDetail)
+        public ScheduleAdapter(Context context, List<ScheduleDetailViewModel> scheduleDetail)
         {
             this.context = context;
             this.scheduleDetail = new ScheduleDetail();
             this.scheduleDetail.ScheduleDetailViewModel = new List<ScheduleDetailViewModel>();
             this.scheduleDetail.ScheduleEmployeeViewModel = new ScheduleEmployeeViewModel();
             this.scheduleDetail.ScheduleHoursViewModel = new ScheduleHoursViewModel();
-            
-            this.scheduleDetail = scheduleDetail;
-            scheduleDetailViewModels = scheduleDetail.ScheduleDetailViewModel;
+
+            //this.scheduleDetail = scheduleDetail;
+            scheduleDetailViewModels = scheduleDetail; //.ScheduleDetailViewModel;
         }
 
         public override long GetItemId(int position)

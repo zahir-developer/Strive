@@ -16,9 +16,10 @@
                  android:textColor="@android:color/black"
                  android:layout_marginLeft="@dimen/five"/>
              <Spinner
-                 android:layout_width="wrap_content"
+                 android:layout_width="match_parent"
                  android:layout_height="wrap_content"           
                  android:layout_marginLeft="@dimen/five"
+                 android:layout_marginRight="@dimen/ten"
                  android:id="@+id/role_Spinner"
                  android:background="@drawable/borderededittext"/>
     </LinearLayout>

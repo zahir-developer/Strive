@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Acr.UserDialogs;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -9,6 +9,7 @@ using Android.Preferences;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
@@ -39,6 +40,7 @@ namespace StriveEmployee.Android.Views
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
         private bool hasAgreedToTerms;
+        public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -103,30 +105,41 @@ namespace StriveEmployee.Android.Views
 
         private void Login_Click(object sender, EventArgs e)
         {
-            if(rememberMe_CheckBox.Checked == true)
+            var current = Connectivity.NetworkAccess;
+
+            if (current == NetworkAccess.Internet)
             {
-                preferenceEditor.PutBoolean("rememberMe", rememberMe_CheckBox.Checked);
-                preferenceEditor.PutString("loginId", emailPhone_EditText.Text);
-                preferenceEditor.PutString("password", password_EditText.Text);
-                preferenceEditor.Apply();
-            }            
-            hasAgreedToTerms = sharedPreferences.GetBoolean("hasAgreedToTerms",false);
-            if (hasAgreedToTerms)
-            {
-                termsLayout.Visibility = ViewStates.Gone;
-                loginLayout.Visibility = ViewStates.Visible;
-                _ = ViewModel.DoLoginCommand();
+                // Connection to internet is available
+                if (rememberMe_CheckBox.Checked == true)
+                {
+                    preferenceEditor.PutBoolean("rememberMe", rememberMe_CheckBox.Checked);
+                    preferenceEditor.PutString("loginId", emailPhone_EditText.Text);
+                    preferenceEditor.PutString("password", password_EditText.Text);
+                    preferenceEditor.Apply();
+                }
+                hasAgreedToTerms = sharedPreferences.GetBoolean("hasAgreedToTerms", false);
+                if (hasAgreedToTerms)
+                {
+                    termsLayout.Visibility = ViewStates.Gone;
+                    loginLayout.Visibility = ViewStates.Visible;
+                    _ = ViewModel.DoLoginCommand();
+                }
+                else
+                {
+                    if (ViewModel.validateCommand())
+                    {
+                        loginLayout.Visibility = ViewStates.Gone;
+                        termsLayout.Visibility = ViewStates.Visible;
+                        HideSoftKeyboard(password_EditText);
+                    }
+
+                }
             }
             else 
             {
-                if (ViewModel.validateCommand())
-                {                    
-                    loginLayout.Visibility = ViewStates.Gone;                    
-                    termsLayout.Visibility = ViewStates.Visible;
-                    HideSoftKeyboard(password_EditText);                   
-                }                        
-            
-            }
+                _userDialog.AlertAsync("Please connect to the Internet!","No Internet","Okay");
+                
+            }            
             
         }
         protected void HideSoftKeyboard(EditText input)

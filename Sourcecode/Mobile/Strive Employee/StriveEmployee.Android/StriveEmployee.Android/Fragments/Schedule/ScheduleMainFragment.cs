@@ -30,7 +30,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         private ViewPagerAdapter schedule_ViewPagerAdapter;
         private ScheduleFragment scheduleFragment;
         private ScheduleDetailerFragment scheduleDetailerFragment;
-        private ScheduleCheckListFragment scheduleCheckListFragment;        
+        private ScheduleCheckListFragment scheduleCheckListFragment;
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -41,14 +41,14 @@ namespace StriveEmployee.Android.Fragments.Schedule
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            var rootView = this.BindingInflate(Resource.Layout.ScheduleMain_Fragment, null);            
+            var rootView = this.BindingInflate(Resource.Layout.ScheduleMain_Fragment, null);
             schedule_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.schedule_TabLayout);
             schedule_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.schedule_ViewPager);
             scheduleFragment = new ScheduleFragment();
             scheduleDetailerFragment = new ScheduleDetailerFragment();
             scheduleCheckListFragment = new ScheduleCheckListFragment();
             return rootView;
-        }        
+        }
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
@@ -72,17 +72,19 @@ namespace StriveEmployee.Android.Fragments.Schedule
 
         }
 
-        public void OnPageSelected(int position)
+        public async void OnPageSelected(int position)
         {
             if (position == 0)
             {
                 ScheduleViewModel.isNoData = true;
-                scheduleFragment.GetScheduleList();
-                if (scheduleFragment != null && scheduleFragment.ViewModel.scheduleList == null) 
+                scheduleFragment.SetupCalender();
+                ScheduleViewModel.StartDate = (System.DateTime.Now).ToString("yyy-MM-dd");
+                await scheduleFragment.GetScheduleList();
+                if (scheduleFragment != null && scheduleFragment.ViewModel.scheduleList == null)
                 {
-                    _userDialog.Toast("No relatable data!");                
+                    _userDialog.Toast("No relatable data!");
                 }
-                else if(scheduleFragment != null && scheduleFragment.ViewModel.scheduleList.ScheduleDetailViewModel == null)
+                else if (scheduleFragment != null && scheduleFragment.ViewModel.scheduleList.ScheduleDetailViewModel == null)
                 {
                     _userDialog.Toast("No relatable data!");
                 }
@@ -92,6 +94,10 @@ namespace StriveEmployee.Android.Fragments.Schedule
                 ScheduleViewModel.isNoData = true;
                 scheduleDetailerFragment.GetScheduleDetailList(EmployeeTempData.EmployeeID, DashboardView.date);
             }
+            //if (position == 2) 
+            //{
+            //    scheduleCheckListFragment.GetCheckListData();
+            //}
         }
     }
 }

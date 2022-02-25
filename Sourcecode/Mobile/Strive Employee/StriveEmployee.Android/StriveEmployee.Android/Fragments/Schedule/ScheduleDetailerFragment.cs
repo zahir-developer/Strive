@@ -44,7 +44,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
             day = calendar.Get(CalendarField.DayOfMonth);
             year = calendar.Get(CalendarField.Year);
             month = calendar.Get(CalendarField.Month);
-            scheduleDetail_CalendarView.MaxDate = calendar.TimeInMillis;
+            // scheduleDetail_CalendarView.MaxDate = calendar.TimeInMillis;
             scheduleDetail_CalendarView.DateChange += ScheduleDetail_CalendarView_DateChange;
             
             //GetScheduleDetailList(EmployeeTempData.EmployeeID, DateTime.Now.ToString("yyyy-MM-dd"));
