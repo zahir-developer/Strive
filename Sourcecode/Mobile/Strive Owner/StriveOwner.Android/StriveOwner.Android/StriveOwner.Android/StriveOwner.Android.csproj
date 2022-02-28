@@ -113,6 +113,7 @@
     <Compile Include="Views\LoginView.cs" />
     <Compile Include="Views\OTPView.cs" />
     <Compile Include="Views\sampleView.cs" />
+    <Compile Include="Adapter\SpinnerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -444,6 +445,10 @@
       </SubType>
       <Generator>
       </Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\SpinnerDefault_Text.xml">
+      <SubType></SubType>
+      <Generator></Generator>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>

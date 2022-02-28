@@ -24,6 +24,7 @@ using Android.Support.V7.App;
 using StriveOwner.Android.Fragments;
 using OperationCanceledException = System.OperationCanceledException;
 using MvvmCross.Binding.BindingContext;
+using StriveOwner.Android.Adapter;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -44,15 +45,16 @@ namespace StriveOwner.Android.Resources.Fragments
         private Button editImageBtn;
         //private InventoryMainFragment inventoryMainFragment;
         private Context context;
-        private ArrayAdapter<string> LocationAdapter;
-        private ArrayAdapter<string> ProductAdapter;
-        private ArrayAdapter<string> SupplierAdapter;
+        private SpinnerAdapter<string> LocationAdapter;
+        private SpinnerAdapter<string> ProductAdapter;
+        private SpinnerAdapter<string> SupplierAdapter;
         private int position;
         private List<string> ProductTypes;
         private List<string> Locations;
         private List<string> Vendors;
         Dialog chooseImageDialog;
         private string PhotoPath;
+        private bool isDefaultText;
         private InventoryEditImagePickerFragment inventoryEditImagePickerFragment;
 
         public string selectedIcon;
@@ -335,7 +337,7 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             ViewModel.PickerSelectionCommand(ViewModel.VendorList[e.Position]);
             position = e.Position;
-            if (e.Position == 0)
+            if (e.Position == 0 && supplier_name.SelectedItem.ToString() == "Name")
             {
                 ((TextView)supplier_name.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
             }
@@ -354,14 +356,18 @@ namespace StriveOwner.Android.Resources.Fragments
                 {
                     Vendors.Insert(0, "Name");
                     position = 0;
+                    isDefaultText = true;
+                    SupplierAdapter = new SpinnerAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, Vendors, isDefaultText);
                 }
                 else
                 {
                     var Name = this.ViewModel.SupplierName;
                     position = this.ViewModel.VendorList.IndexOf(this.ViewModel.VendorList.Where(X => X.VendorName == Name).FirstOrDefault());
+                    isDefaultText = false;
+                    SupplierAdapter = new SpinnerAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, Vendors ,isDefaultText);
+
                 }
 
-                SupplierAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, Vendors);
                 supplier_name.Adapter = SupplierAdapter;
                 supplier_name.SetSelection(position);
             }
@@ -370,7 +376,7 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             ViewModel.setLocationCommand(ViewModel.LocationList[e.Position]);
             position = e.Position;
-            if (e.Position == 0)
+            if (e.Position == 0 && item_location.SelectedItem.ToString() == "Location")
             {
                 ((TextView)item_location.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
             }
@@ -392,16 +398,17 @@ namespace StriveOwner.Android.Resources.Fragments
                     {
                         Locations.Insert(0, "Location");
                         position = 0;
-                        //var locName = this.ViewModel.LocationList[0].LocationName;
-                        //position = this.ViewModel.LocationList.IndexOf(this.ViewModel.LocationList.Where(X => X.LocationName == locName).FirstOrDefault());
+                        isDefaultText = true;
+                        LocationAdapter = new SpinnerAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, Locations , isDefaultText);
                     }
                     else
                     {
                         var locName = this.ViewModel.ItemLocation;
                         position = this.ViewModel.LocationList.IndexOf(this.ViewModel.LocationList.Where(X => X.LocationName == locName).FirstOrDefault());
+                        isDefaultText = false;
+                        LocationAdapter = new SpinnerAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, Locations ,isDefaultText);
                     }
 
-                    LocationAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, Locations);
                     item_location.Adapter = LocationAdapter;
                     item_location.SetSelection(position);
                 }
@@ -420,7 +427,7 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             ViewModel.setProdTypeCommand(ViewModel.ProductTypeList[e.Position]);
             position = e.Position;
-            if(e.Position == 0)
+            if (e.Position == 0 && item_type.SelectedItem.ToString() == "Item Type")
             {
                 ((TextView)item_type.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
             }
@@ -442,15 +449,17 @@ namespace StriveOwner.Android.Resources.Fragments
                     {
                         ProductTypes.Insert(0, "Item Type");
                         position = 0;
-                        // var type = this.ViewModel.ProductTypeList[0].CodeValue;
-                        //position = this.ViewModel.ProductTypeList.IndexOf(this.ViewModel.ProductTypeList.Where(X => X.CodeValue == type).FirstOrDefault());
+                        isDefaultText = true;
+                        ProductAdapter = new SpinnerAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, ProductTypes , isDefaultText);
                     }
                     else
                     {
                         var type = this.ViewModel.ItemType;
                         position = this.ViewModel.ProductTypeList.IndexOf(this.ViewModel.ProductTypeList.Where(X => X.CodeValue == type).FirstOrDefault());
+                        isDefaultText = false;
+                        ProductAdapter = new SpinnerAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, ProductTypes , isDefaultText);
+
                     }
-                    ProductAdapter = new ArrayAdapter<string>(context, Resource.Layout.support_simple_spinner_dropdown_item, ProductTypes);
                     item_type.Adapter = ProductAdapter;
                     item_type.SetSelection(position);
                 }

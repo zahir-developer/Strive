@@ -13621,10 +13621,13 @@ namespace StriveOwner.Android
 			public const int Services_Fragment = 2131492959;
 			
 			// aapt resource value: 0x7F0C0060
-			public const int SuppliersPopOut = 2131492960;
+			public const int SpinnerDefault_Text = 2131492960;
 			
 			// aapt resource value: 0x7F0C0061
-			public const int support_simple_spinner_dropdown_item = 2131492961;
+			public const int SuppliersPopOut = 2131492961;
+			
+			// aapt resource value: 0x7F0C0062
+			public const int support_simple_spinner_dropdown_item = 2131492962;
 			
 			static Layout()
 			{

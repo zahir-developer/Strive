@@ -51,6 +51,10 @@ namespace StriveOwner.Android.Adapter
             return position;
         }
 
+        public override int GetItemViewType(int position)
+        {
+            return position;
+        }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             inventoryViewHolder = holder as InventoryMainAdapterViewHolder;
@@ -62,7 +66,7 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.ItemDescription = inventorylist[position].Product.ProductDescription;
             if (!string.IsNullOrEmpty(inventorylist[position].Product.Base64))
             {
-                inventoryViewHolder.productImg.SetImageBitmap(Base64ToBitmap(inventorylist[position].Product.Base64));
+                UpdateImage(position);
             }
             if (!inventoryViewHolder.productViewMore.HasOnClickListeners)
             {
@@ -185,7 +189,10 @@ namespace StriveOwner.Android.Adapter
 
 
         }
-       
+        private void UpdateImage(int position)
+        {
+            inventoryViewHolder.productImg.SetImageBitmap(Base64ToBitmap(inventorylist[position].Product.Base64));
+        }
         private void Close_ClickRequest(object sender, EventArgs e)
         {
             popupRequest.Dismiss();
