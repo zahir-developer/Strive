@@ -21,7 +21,7 @@ namespace StriveCustomer.iOS.Views
         public Locations Locations;
         public List<Double> distanceList = new List<double>();
         Dictionary<int, double> dict = new Dictionary<int, double>();
-
+        List<LocationStatus> locationStatuses = new List<LocationStatus>();
         CLLocationManager locationManager = new CLLocationManager();
         public ContactUsView() : base("ContactUsView", null)
         {
@@ -164,10 +164,17 @@ namespace StriveCustomer.iOS.Views
         void PlaceLocationDetailsToMap(List<LocationStatus> locations)
         {
             if (locations == null) return;
+            
 
             locations = locations.FindAll(location => location.Latitude != 0 && location.Longitude != 0);
-
-            var annotations = locations.ConvertAll(location => new MKPointAnnotation
+            foreach (var locationItem in locations)
+            {
+                if (locationItem.Latitude != null && locationItem.Longitude != null)
+                {
+                    locationStatuses.Add(locationItem);
+                }
+            }
+            var annotations = locationStatuses.ConvertAll(location => new MKPointAnnotation
             {
                 Coordinate = new CLLocationCoordinate2D((double)location.Latitude, (double)location.Longitude)
             }).ToArray();
@@ -183,7 +190,11 @@ namespace StriveCustomer.iOS.Views
 
             foreach (var item in locations.Washes)
             {
-                getDistance((double)item.Latitude, (double)item.Longitude, item.LocationId);
+                if(item.Latitude!=null && item.Longitude != null)
+                {
+                    getDistance((double)item.Latitude, (double)item.Longitude, item.LocationId);
+                }
+                
             }
             distanceList.Sort();
             foreach (var item in dict)

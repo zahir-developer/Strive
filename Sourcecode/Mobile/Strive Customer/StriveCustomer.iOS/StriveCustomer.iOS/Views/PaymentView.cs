@@ -154,15 +154,14 @@ namespace StriveCustomer.iOS.Views
                 ShowAlertMsg("Please fill card details");
                 return;
             }
-            if (CustomerVehiclesInformation.completeVehicleDetails!= null)
+            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership!= null)
             {
-                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership!=null)
+                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId!=null)
                 {
                     ViewModel.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
                     ViewModel.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
+                    ViewModel.MembershipAgree();
                 }
-                
-                ViewModel.MembershipAgree();
             }
             else
             {
@@ -175,7 +174,7 @@ namespace StriveCustomer.iOS.Views
                         Account = cardNo,
                         Expiry = expiryDate.Replace("/", ""),
                         //CCV = ccv,
-                        Amount = 1,
+                        Amount = 0,
                         OrderID = ""
                     },
 
@@ -193,15 +192,9 @@ namespace StriveCustomer.iOS.Views
 
 
                 };
-
-
                 Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
-
-
                 var apiService = new PaymentApiService();
-
                 var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
-
                 // if (paymentAuthResponse.IsSuccess())
                 if (paymentAuthResponse != null)
                 {

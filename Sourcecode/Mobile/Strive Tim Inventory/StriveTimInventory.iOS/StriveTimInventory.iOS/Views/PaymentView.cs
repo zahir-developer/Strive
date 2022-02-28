@@ -135,73 +135,84 @@ namespace StriveTimInventory.iOS.Views
             }
             if (MembershipData.MembershipDetailView!= null)
             {
-                
+                if (MembershipData.MembershipDetailView.ClientVehicleMembership.cardNumber!=null)
+                {
                     ViewModel.accountId = MembershipData.MembershipDetailView.ClientVehicleMembership.accountId;
                     ViewModel.profileId = MembershipData.MembershipDetailView.ClientVehicleMembership.profileId;
                     ViewModel.MembershipAgree();
+                }
+                else
+                {
+                    await Payment(cardNo, expiryDate);
+                }    
                 
             }
             else
             {
-                try
-                {
-                    var paymentAuthReq = new PaymentAuthReq
-                    {
-                        CardConnect = new Object(),
-
-                        PaymentDetail = new PaymentDetail()
-                        {
-                            Account = cardNo,
-                            Expiry = expiryDate.Replace("/", ""),
-                            //CCV = ccv,
-                            Amount = 1,
-                            OrderID = ""
-
-                        },
-
-                        BillingDetail = new BillingDetail()
-                        {
-                            Name = MembershipData.SelectedClient.LastName,
-                            Address = MembershipData.SelectedClient.Address1,
-                            City = "Chennai",// status.City,
-                            Country = "India",//status.Country,
-                            Region = "Tamilnadu",//status.State,
-                            Postal = MembershipData.SelectedClient.Zip
-                        },
-                        Locationid = 1
-
-                    };
-
-
-                    Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
-
-
-                    var apiService = new PaymentApiService();
-
-                    var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
-
-                    // if (paymentAuthResponse.IsSuccess())
-                    if (paymentAuthResponse.AccountId != null)
-                    {
-                        ViewModel.accountId = paymentAuthResponse.AccountId;
-                        ViewModel.profileId = paymentAuthResponse.ProfileId;
-                        ViewModel.MembershipAgree();  
-                    }
-                    else
-                    {
-                        _userDialog.HideLoading();
-                        ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
-
-                }
+                await Payment(cardNo, expiryDate);
             }
             
 
+        }
+
+        public async  Task Payment(string cardNo,string expiryDate)
+        {
+            try
+            {
+                var paymentAuthReq = new PaymentAuthReq
+                {
+                    CardConnect = new Object(),
+
+                    PaymentDetail = new PaymentDetail()
+                    {
+                        Account = cardNo,
+                        Expiry = expiryDate.Replace("/", ""),
+                        //CCV = ccv,
+                        Amount = 0,
+                        OrderID = ""
+
+                    },
+
+                    BillingDetail = new BillingDetail()
+                    {
+                        Name = MembershipData.SelectedClient.LastName,
+                        Address = MembershipData.SelectedClient.Address1,
+                        City = "Chennai",// status.City,
+                        Country = "India",//status.Country,
+                        Region = "Tamilnadu",//status.State,
+                        Postal = MembershipData.SelectedClient.Zip
+                    },
+                    Locationid = 1
+
+                };
+
+
+                Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
+
+
+                var apiService = new PaymentApiService();
+
+                var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
+
+                // if (paymentAuthResponse.IsSuccess())
+                if (paymentAuthResponse.AccountId != null)
+                {
+                    ViewModel.accountId = paymentAuthResponse.AccountId;
+                    ViewModel.profileId = paymentAuthResponse.ProfileId;
+                    ViewModel.MembershipAgree();
+                }
+                else
+                {
+                    _userDialog.HideLoading();
+                    ShowAlertMsg("The operation cannot be completed at this time.Unexpected Error!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
+
+            }
         }
         public override void DidReceiveMemoryWarning()
         {

@@ -47,9 +47,8 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
+    <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>Strive Employee Development</CodesignProvision>
     <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -371,6 +370,10 @@
     <ImageAsset Include="Resources\Assets.xcassets\pay.imageset\Contents.json" />
     <ImageAsset Include="Resources\Assets.xcassets\pay.imageset\Group 58%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\pay.imageset\Group 58%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\badge-star.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\badge-star.imageset\tag.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\badge-star.imageset\tag%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\badge-star.imageset\tag%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -403,6 +406,7 @@
     <Folder Include="Resources\Assets.xcassets\menu-options.imageset\" />
     <Folder Include="Resources\Assets.xcassets\select-Contact.imageset\" />
     <Folder Include="Views\PayRoll\" />
+    <Folder Include="Resources\Assets.xcassets\badge-star.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

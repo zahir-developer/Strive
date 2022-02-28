@@ -315,6 +315,10 @@
         <ImageAsset Include="Resources\Assets.xcassets\Image-8.imageset\ScatterPlot.png" />
         <ImageAsset Include="Resources\Assets.xcassets\Image-9.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\Image-9.imageset\ScatterPlot_active.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\badge-star.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\badge-star.imageset\tag.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\badge-star.imageset\tag%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\badge-star.imageset\tag%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -369,6 +373,7 @@
         <Folder Include="Resources\Assets.xcassets\Menu.imageset\" />
         <Folder Include="Resources\Assets.xcassets\Barchart.imageset\" />
         <Folder Include="Resources\Assets.xcassets\Barchart_active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\badge-star.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />

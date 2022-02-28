@@ -21,6 +21,12 @@ namespace StriveOwner.iOS.Views.CheckOut
         UILabel paidStatusLabel;
         UILabel amountLabel;
         UIView paidStatusContainer;
+        UIView membershipNameContainer;
+        UILabel membershipNameLabel;
+
+
+        NSLayoutConstraint membershipContainerTopConstraintToBottomOfPaid;
+        NSLayoutConstraint membershipContainerTopConstraintToTopOfParent;
 
         static CheckOut_Cell()
         {
@@ -73,6 +79,26 @@ namespace StriveOwner.iOS.Views.CheckOut
             checkInAndOutTimingLabel.Layer.CornerRadius = 5;
             containerView.Add(checkInAndOutTimingLabel);
 
+            membershipNameContainer = new UIView(CGRect.Empty);
+            membershipNameContainer.TranslatesAutoresizingMaskIntoConstraints = false;
+            membershipNameContainer.Layer.CornerRadius = 5;
+            membershipNameContainer.BackgroundColor = ColorConverters.FromHex("#E3E3E3").ToPlatformColor();
+            membershipNameContainer.Layer.MaskedCorners = CoreAnimation.CACornerMask.MinXMinYCorner | CoreAnimation.CACornerMask.MinXMaxYCorner;
+            membershipNameContainer.Layer.CornerRadius = 5;
+            membershipNameContainer.Hidden = true;
+            containerView.Add(membershipNameContainer);
+
+            var membershipImage = new UIImageView(CGRect.Empty);
+            membershipImage.TranslatesAutoresizingMaskIntoConstraints = false;
+            membershipImage.Image = UIImage.FromBundle("badge-star");
+            membershipNameContainer.Add(membershipImage);
+
+            membershipNameLabel = new UILabel(CGRect.Empty);
+            membershipNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            membershipNameLabel.TextColor = UIColor.FromRGB(2.0f / 255.0f, 20.0f / 255.0f, 61.0f / 255.0f);
+            membershipNameLabel.Font = UIFont.SystemFontOfSize(12);
+            membershipNameContainer.Add(membershipNameLabel);
+
             paidStatusContainer = new UIView(CGRect.Empty);
             paidStatusContainer.TranslatesAutoresizingMaskIntoConstraints = false;
             paidStatusContainer.Layer.CornerRadius = 5;
@@ -88,7 +114,7 @@ namespace StriveOwner.iOS.Views.CheckOut
             paidStatusLabel = new UILabel(CGRect.Empty);
             paidStatusLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             paidStatusLabel.TextColor = UIColor.FromRGB(2.0f / 255.0f, 20.0f / 255.0f, 61.0f / 255.0f);
-            paidStatusLabel.Font = UIFont.SystemFontOfSize(16);
+            paidStatusLabel.Font = UIFont.SystemFontOfSize(14);
             paidStatusContainer.Add(paidStatusLabel);
 
             paidStatusContainer.Hidden = true;
@@ -125,17 +151,32 @@ namespace StriveOwner.iOS.Views.CheckOut
             checkInAndOutTimingLabel.BottomAnchor.ConstraintEqualTo(containerView.BottomAnchor, constant: -15).Active = true;
 
             paidStatusContainer.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor).Active = true;
-            paidStatusContainer.TopAnchor.ConstraintEqualTo(containerView.TopAnchor, constant: 10).Active = true;
-            paidStatusContainer.HeightAnchor.ConstraintEqualTo(40).Active = true;
+            paidStatusContainer.TopAnchor.ConstraintEqualTo(containerView.TopAnchor, constant: 40).Active = true;
+            paidStatusContainer.HeightAnchor.ConstraintEqualTo(30).Active = true;
 
             statusIndicatorImage.LeadingAnchor.ConstraintEqualTo(paidStatusContainer.LeadingAnchor, constant: 12).Active = true;
-            statusIndicatorImage.HeightAnchor.ConstraintEqualTo(24).Active = true;
-            statusIndicatorImage.WidthAnchor.ConstraintEqualTo(24).Active = true;
+            statusIndicatorImage.HeightAnchor.ConstraintEqualTo(20).Active = true;
+            statusIndicatorImage.WidthAnchor.ConstraintEqualTo(20).Active = true;
             statusIndicatorImage.CenterYAnchor.ConstraintEqualTo(paidStatusContainer.CenterYAnchor).Active = true;
 
             paidStatusLabel.LeadingAnchor.ConstraintEqualTo(statusIndicatorImage.TrailingAnchor, constant: 16).Active = true;
             paidStatusLabel.TrailingAnchor.ConstraintEqualTo(paidStatusContainer.TrailingAnchor, constant: -20).Active = true;
             paidStatusLabel.CenterYAnchor.ConstraintEqualTo(paidStatusContainer.CenterYAnchor).Active = true;
+
+            membershipNameContainer.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor).Active = true;
+            membershipNameContainer.HeightAnchor.ConstraintEqualTo(35).Active = true;
+            membershipContainerTopConstraintToBottomOfPaid = membershipNameContainer.TopAnchor.ConstraintEqualTo(paidStatusContainer.BottomAnchor, constant: 8);
+            membershipContainerTopConstraintToTopOfParent = membershipNameContainer.TopAnchor.ConstraintEqualTo(containerView.TopAnchor, constant: 20);
+
+            membershipImage.LeadingAnchor.ConstraintEqualTo(membershipNameContainer.LeadingAnchor, constant: 4).Active = true;
+            membershipImage.HeightAnchor.ConstraintEqualTo(20).Active = true;
+            membershipImage.WidthAnchor.ConstraintEqualTo(20).Active = true;
+            membershipImage.CenterYAnchor.ConstraintEqualTo(membershipNameContainer.CenterYAnchor).Active = true;
+
+            membershipNameLabel.LeadingAnchor.ConstraintEqualTo(membershipImage.TrailingAnchor, constant: 2).Active = true;
+            membershipNameLabel.TrailingAnchor.ConstraintEqualTo(membershipNameContainer.TrailingAnchor, constant: -10).Active = true;
+            membershipNameLabel.CenterYAnchor.ConstraintEqualTo(membershipNameContainer.CenterYAnchor).Active = true;
+
 
             amountLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -10).Active = true;
             amountLabel.TopAnchor.ConstraintEqualTo(customerNameLabel.BottomAnchor, constant: 5).Active = true;
@@ -154,6 +195,16 @@ namespace StriveOwner.iOS.Views.CheckOut
             serviceInfoLabel.Text += "\n" + "Services: " + checkout.Services;
             checkInAndOutTimingLabel.Text = "Check in " + checkout.Checkin + " - " + "Check out " + checkout.Checkout;
             statusIndicatorImage.Image = new UIImage();
+            if (string.IsNullOrEmpty(checkout.MembershipName) || string.IsNullOrWhiteSpace(checkout.MembershipName))
+            {
+                membershipNameContainer.Hidden = true;
+            }
+            else
+            {
+                membershipNameContainer.Hidden = false;
+                membershipNameLabel.Text = checkout.MembershipName;
+            }
+
             if (checkout.PaymentStatus.Equals("Success"))
             {
                 paidStatusLabel.Text = "Paid";
