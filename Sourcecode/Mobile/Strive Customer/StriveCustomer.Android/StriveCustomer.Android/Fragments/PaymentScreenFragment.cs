@@ -70,7 +70,7 @@ namespace StriveCustomer.Android.Fragments
             if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
             {
                 cardNo.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
-                expirationDate.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate;
+                expirationDate.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(0, 2) + "/" + CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(2, 2);
                 paymentVM.cardNumber = cardNo.Text;
                 paymentVM.expiryDate = expirationDate.Text;
 
@@ -157,98 +157,38 @@ namespace StriveCustomer.Android.Fragments
             }
             if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
             {
-                paymentVM.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
-                paymentVM.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
-                paymentVM.isAndroid = true;
-                try
+                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId != null)
                 {
-                    await paymentVM.MembershipAgree();
-                    Membershipstatus();
-                }
-                catch (Exception ex)
-                {
-                    if (ex is OperationCanceledException)
+                    paymentVM.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
+                    paymentVM.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
+                    paymentVM.isAndroid = true;
+                    try
                     {
-                        return;
+                        await paymentVM.MembershipAgree();
+                        Membershipstatus();
                     }
+                    catch (Exception ex)
+                    {
+                        if (ex is OperationCanceledException)
+                        {
+                            return;
+                        }
+                    }
+                }
+                else 
+                {
+                   await Payment(cardNo,expiryDate );
                 }
 
 
             }
             else
             {
-                var paymentAuthReq = new PaymentAuthReq
-                {
-                    CardConnect = new Object(),
 
-                    PaymentDetail = new PaymentDetail()
-                    {
-                        Account = cardNo,
-                        Expiry = expiryDate.Replace("/", ""),
-                        //CCV = ccv,
-                        Amount = 1,
-                        OrderID = ""
-                    },
-
-                    BillingDetail = new BillingDetail()
-                    {
-                        Name = CustomerInfo.customerPersonalInfo.Status[0].FirstName,
-                        Address = CustomerInfo.customerPersonalInfo.Status[0].Address1,
-                        City = "Chennai",// status.City,
-                        Country = "India",//status.Country,
-                        Region = "Tamilnadu",//status.State,
-                        Postal = CustomerInfo.customerPersonalInfo.Status[0].Zip
-                    },
-
-                    Locationid = 1
-
-
-                };
-
-
-                //Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
-
-                try
-                {
-                    var apiService = new PaymentApiService();
-
-                    var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
-
-                    // if (paymentAuthResponse.IsSuccess())
-                    if (paymentAuthResponse != null)
-                    {
-                        paymentVM.accountId = paymentAuthResponse.AccountId;
-                        paymentVM.profileId = paymentAuthResponse.ProfileId;
-                        paymentVM.isAndroid = true;
-                        try
-                        {
-                            await paymentVM.MembershipAgree();
-                            Membershipstatus();
-                        }
-                        catch (Exception ex)
-                        {
-                            if (ex is OperationCanceledException)
-                            {
-                                return;
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        _userDialog.HideLoading();
-                        _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (ex is OperationCanceledException)
-                    {
-                        return;
-                    }
-                }
+               await Payment(cardNo,expiryDate);
 
             }
+            
 
             //try
             //{
@@ -375,6 +315,81 @@ namespace StriveCustomer.Android.Fragments
             //}
 
         }
+        public async Task Payment(string cardNo, string expiryDate)
+        {
+            var paymentAuthReq = new PaymentAuthReq
+            {
+                CardConnect = new Object(),
+
+                PaymentDetail = new PaymentDetail()
+                {
+                    Account = cardNo,
+                    Expiry = expiryDate.Replace("/", ""),
+                    //CCV = ccv,
+                    Amount = 0,
+                    OrderID = ""
+                },
+
+                BillingDetail = new BillingDetail()
+                {
+                    Name = CustomerInfo.customerPersonalInfo.Status[0].FirstName,
+                    Address = CustomerInfo.customerPersonalInfo.Status[0].Address1,
+                    City = "Chennai",// status.City,
+                    Country = "India",//status.Country,
+                    Region = "Tamilnadu",//status.State,
+                    Postal = CustomerInfo.customerPersonalInfo.Status[0].Zip
+                },
+
+                Locationid = 1
+
+
+            };
+
+
+            //Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
+
+            try
+            {
+                var apiService = new PaymentApiService();
+
+                var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
+
+                // if (paymentAuthResponse.IsSuccess())
+                if (paymentAuthResponse != null)
+                {
+                    paymentVM.accountId = paymentAuthResponse.AccountId;
+                    paymentVM.profileId = paymentAuthResponse.ProfileId;
+                    paymentVM.isAndroid = true;
+                    try
+                    {
+                        await paymentVM.MembershipAgree();
+                        Membershipstatus();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is OperationCanceledException)
+                        {
+                            return;
+                        }
+                    }
+
+                }
+                else
+                {
+                    _userDialog.HideLoading();
+                    _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+
+        }
 
         private async void Membershipstatus()
         {
@@ -384,7 +399,7 @@ namespace StriveCustomer.Android.Fragments
             }
             else
             {
-                await _userDialog.AlertAsync("Error membership not created");
+                await _userDialog.AlertAsync("Error, membership not created!");
             }
             AppCompatActivity activity = (AppCompatActivity)Context;
             MyProfileInfoNeeds.selectedTab = 0;

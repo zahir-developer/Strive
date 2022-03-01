@@ -43,6 +43,7 @@ namespace StriveEmployee.Android.FCMService
 
         private void sendRegistrationToServer(string token)
         {
+            sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(this);
             preferenceEditor = sharedPreferences.Edit();
             preferenceEditor.PutString("RefreshToken", token);
             preferenceEditor.Apply();
