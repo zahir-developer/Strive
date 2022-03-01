@@ -2,6 +2,7 @@
 using Strive.Core.Services.HubServices;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels.Employee.Schedule;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,12 @@ namespace Strive.Core.ViewModels.Employee
         {
             _navigationService.Navigate<MessengerCreateGroupViewModel>();
         }
+        public void navigateToChecklist()
+        {
+            _navigationService.Navigate<ScheduleViewModel>();
+        }
 
+        
         public async Task LogoutCommand()
         {
             await _navigationService.Close(this);

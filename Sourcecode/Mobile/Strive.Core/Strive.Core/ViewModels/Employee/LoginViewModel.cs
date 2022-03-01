@@ -47,22 +47,9 @@ namespace Strive.Core.ViewModels.Employee
                     EmployeeTempData.EmployeeRoles = loginResponse.EmployeeDetails.EmployeeRoles;
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
-                        if (EmployeeTempData.FromNotification)
-                        {
-                            if(platform != DevicePlatform.Android)
-                            {
-                                await _navigationService.Navigate<ScheduleViewModel>();
-                            }
-                            else if (platform == DevicePlatform.Android)
-                            {
-                                await _navigationService.Navigate<DashboardViewModel>();
-                            }
-                            
-                        }
-                        else
-                        {
-                            await _navigationService.Navigate<DashboardViewModel>();
-                        }
+
+                        await _navigationService.Navigate<DashboardViewModel>();
+                        
                     }
                 }
                 else

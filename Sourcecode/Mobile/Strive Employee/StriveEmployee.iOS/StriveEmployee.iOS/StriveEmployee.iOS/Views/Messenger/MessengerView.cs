@@ -76,9 +76,14 @@ namespace StriveEmployee.iOS.Views.Messenger
             Messenger_SearchBar.TextChanged += SearchTextchanged;
 
             getRecentContacts();
+
+            if (EmployeeTempData.FromNotification)
+                ViewModel.navigateToChecklist();
+            
+
         }
 
-        
+
 
         partial void Messenger_SegmentTouch(UISegmentedControl sender)
         {

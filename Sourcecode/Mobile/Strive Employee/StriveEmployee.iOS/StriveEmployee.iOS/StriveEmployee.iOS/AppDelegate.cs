@@ -8,6 +8,7 @@ using Microsoft.AppCenter.Crashes;
 using UserNotifications;
 using System;
 using Firebase.CloudMessaging;
+using Strive.Core.Utils.Employee;
 
 namespace StriveEmployee.iOS
 {
@@ -166,9 +167,35 @@ namespace StriveEmployee.iOS
 
             // Print full message.
             Console.WriteLine("DidReceiveRemoteNotification : " +userInfo);
+            var keys = userInfo.Keys;
+            foreach(var key in keys)
+            {
+                Console.WriteLine(key);
+                Console.WriteLine(userInfo[key]);
+
+            }
+            EmployeeTempData.FromNotification = true;
+            //EmployeeTempData.EmployeeRole = 3;
+            EmployeeTempData.EmployeeRole = int.Parse(userInfo["RoleId"] as NSString);
 
             completionHandler(UIBackgroundFetchResult.NewData);
         }
+
+        [Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
+        public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+        {
+            // Do your magic to handle the notification data
+            Console.WriteLine("WillPresentNotification : "+notification.Request.Content.UserInfo);
+
+            string checklist = (string)(notification.Request.Content.UserInfo["Name"] as NSString);
+            UIAlertController okayAlertController = UIAlertController.Create("Checklist Reminder", checklist , UIAlertControllerStyle.Alert);
+            okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+            UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(okayAlertController, true, null);
+        }
+
+
+       
 
     }
 }
