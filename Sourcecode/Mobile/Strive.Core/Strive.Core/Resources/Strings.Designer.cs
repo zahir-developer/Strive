@@ -286,15 +286,7 @@ namespace Strive.Core.Resources {
                 return ResourceManager.GetString("Manager", resourceCulture);
             }
         }
-
-        internal static string Admin
-        {
-            get
-            {
-                return ResourceManager.GetString("Admin", resourceCulture);
-            }
-        }
-
+        
         internal static string GreetBay {
             get {
                 return ResourceManager.GetString("GreetBay", resourceCulture);

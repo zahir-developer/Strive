@@ -137,7 +137,7 @@ namespace StriveCustomer.Android.Fragments
                     if (this.ViewModel.response != null)
                     {
                         cardNumber.Text = this.ViewModel.response.CardNumber;
-                        expiryDate.Text = this.ViewModel.response.ExpiryDate;
+                        expiryDate.Text = this.ViewModel.response.ExpiryDate.Substring(0,2)+"/"+ this.ViewModel.response.ExpiryDate.Substring(2,2);
                     }
                     else
                     {

@@ -9,8 +9,6 @@ namespace Strive.Core.Utils
         public const string AZURE_URL = "http://40.114.79.101:5004";
         public const string AZURE_URL_TEST = "https://mammothuatapi-qa.azurewebsites.net";//"https://mammothuatapi-dev.azurewebsites.net";
 
-
-
         public static string Token { get; set; }
           
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";

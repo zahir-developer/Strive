@@ -28,6 +28,9 @@ namespace StriveEmployee.Android.Adapter.CheckOut
         public ImageView checkOut_ImageView;
         public LinearLayout verticalLine_LinearLayout;
         public LinearLayout membershipStatus_LinearLayout;
+        public LinearLayout membershipDetails_LinearLayout;
+        public ImageView checkOut_MembershipBadge;
+        public TextView checkOut_MembershipName;
         public CheckOutDetailsViewHolder(View itemView) : base(itemView)
         {
             checkOutNumber_TextView = itemView.FindViewById<TextView>(Resource.Id.checkOutNumber_TextView);
@@ -41,7 +44,9 @@ namespace StriveEmployee.Android.Adapter.CheckOut
             checkOut_ImageView = itemView.FindViewById<ImageView>(Resource.Id.checkOut_ImageView);
             verticalLine_LinearLayout = itemView.FindViewById<LinearLayout>(Resource.Id.verticalLine_LinearLayout);
             membershipStatus_LinearLayout = itemView.FindViewById<LinearLayout>(Resource.Id.membershipStatus_LinearLayout);
-
+            membershipDetails_LinearLayout = itemView.FindViewById<LinearLayout>(Resource.Id.membershipDetail_LinearLayout);
+            checkOut_MembershipBadge = itemView.FindViewById<ImageView>(Resource.Id.checkOutMembership_ImageView);
+            checkOut_MembershipName = itemView.FindViewById<TextView>(Resource.Id.checkoutMembership_TextView);
         }
     }
     public class CheckOutDetailsAdapter : RecyclerView.Adapter
@@ -79,6 +84,18 @@ namespace StriveEmployee.Android.Adapter.CheckOut
             {
                 detailViewHolder.verticalLine_LinearLayout.SetBackgroundColor(Color.ParseColor(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode));
                 detailViewHolder.checkOutNumber_TextView.SetTextColor(Color.ParseColor(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode));
+
+            }
+            if (string.IsNullOrEmpty(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipName) || string.IsNullOrWhiteSpace(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipName))
+            {
+                detailViewHolder.membershipDetails_LinearLayout.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                detailViewHolder.membershipDetails_LinearLayout.Visibility = ViewStates.Visible;
+                detailViewHolder.checkOut_MembershipName.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipName;
+                detailViewHolder.checkOut_MembershipBadge.SetImageResource(Resource.Drawable.membershipMark);
+                detailViewHolder.membershipDetails_LinearLayout.SetBackgroundColor(Color.ParseColor("#AFE9E3"));
 
             }
             if (vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "In Progress")

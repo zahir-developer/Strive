@@ -26,6 +26,35 @@
                 android:layout_marginTop = "6dp"
                 android:weightSum="2">
                 <LinearLayout
+                    android:id="@+id/membershipDetail_LinearLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    >
+                    <ImageView
+                        android:id="@+id/checkOutMembership_ImageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"                        
+                        android:layout_marginRight="1dp" />                    
+                    <TextView
+                        android:id="@+id/checkoutMembership_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"                
+                        android:textColor="#02143D"
+                        android:text="Test"
+                        android:fontFamily="@font/opensans_bold"
+                        android:layout_marginTop="@dimen/five"
+                        android:layout_marginRight="@dimen/twenty"/>
+                </LinearLayout>               
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:layout_marginRight="@dimen/fifteen"
+                android:layout_marginTop = "6dp"
+                android:weightSum="2">
+                <LinearLayout
                     android:id="@+id/membershipStatus_LinearLayout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

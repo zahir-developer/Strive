@@ -335,11 +335,23 @@ namespace StriveOwner.Android.Resources.Fragments
         }
         private void SupplierSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            ViewModel.PickerSelectionCommand(ViewModel.VendorList[e.Position]);
-            position = e.Position;
             if (e.Position == 0 && supplier_name.SelectedItem.ToString() == "Name")
             {
                 ((TextView)supplier_name.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+                position = e.Position;
+            }
+            else
+            {
+                if (ViewModel.VendorList.ElementAtOrDefault(e.Position) != null)
+                {
+                    ViewModel.PickerSelectionCommand(ViewModel.VendorList[e.Position]); //while add and edit
+                    position = e.Position;
+                }
+                else
+                {
+                    ViewModel.PickerSelectionCommand(ViewModel.VendorList[e.Position - 1]); //while add last item
+                    position = e.Position;
+                }
             }
 
         }
@@ -374,13 +386,24 @@ namespace StriveOwner.Android.Resources.Fragments
         }
         private void LocationSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            ViewModel.setLocationCommand(ViewModel.LocationList[e.Position]);
-            position = e.Position;
             if (e.Position == 0 && item_location.SelectedItem.ToString() == "Location")
             {
                 ((TextView)item_location.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+                position = e.Position;
             }
-
+            else
+            {
+                if (ViewModel.LocationList.ElementAtOrDefault(e.Position)!= null) // while add and edit
+                {
+                    ViewModel.setLocationCommand(ViewModel.LocationList[e.Position]);
+                    position = e.Position;
+                }
+                else
+                {
+                    ViewModel.setLocationCommand(ViewModel.LocationList[e.Position - 1]);// while add last item
+                    position = e.Position;
+                }
+            }
         }
         private async void LoadLocations()
         {
@@ -425,13 +448,24 @@ namespace StriveOwner.Android.Resources.Fragments
         }
         private void ProductTypeSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            ViewModel.setProdTypeCommand(ViewModel.ProductTypeList[e.Position]);
-            position = e.Position;
             if (e.Position == 0 && item_type.SelectedItem.ToString() == "Item Type")
             {
                 ((TextView)item_type.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+                position = e.Position;
             }
-
+            else
+            {
+                if (ViewModel.ProductTypeList.ElementAtOrDefault(e.Position) != null) // While add and edit
+                {
+                    ViewModel.setProdTypeCommand(ViewModel.ProductTypeList[e.Position]);
+                    position = e.Position;
+                }
+                else
+                {
+                    ViewModel.setProdTypeCommand(ViewModel.ProductTypeList[e.Position - 1]); // while add last item
+                    position = e.Position;
+                }
+            }
         }
         private async void LoadProductTypes()
         {

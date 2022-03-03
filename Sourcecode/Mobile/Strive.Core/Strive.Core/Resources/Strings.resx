@@ -333,7 +333,7 @@
     <comment>General</comment>
   </data>
    <data name="CustomerPackageName" xml:space="preserve">
-    <value>com.telliant.StriveCustomer</value>
+    <value>com.Mammoth.StriveCustomerMobile</value>
     <comment>General</comment>
   </data>
 </root>

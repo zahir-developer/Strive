@@ -182,7 +182,7 @@ namespace StriveCustomer.Android.Fragments
             dict.Clear();
             foreach (var carWashLocation in washlocations.Washes)
             {
-                if (carWashLocation.Latitude != 0 && carWashLocation.Longitude != 0)
+                if (carWashLocation.Latitude != null && carWashLocation.Longitude != null)
                 {
                     getDistance((double)carWashLocation.Latitude, (double)carWashLocation.Longitude, carWashLocation.LocationId);
 
