@@ -150,7 +150,7 @@ namespace Admin.API
 
                 {
 
-                    builder.WithOrigins("http://localhost:4200", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat.azurewebsites.net")
+                    builder.WithOrigins("http://localhost:4200", "http://localhost:4300", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat.azurewebsites.net")
 
                             .AllowAnyHeader()
 
@@ -302,7 +302,7 @@ namespace Admin.API
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "https://mammothuat.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "http://localhost:4300", "https://mammothuat.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // global cors policy

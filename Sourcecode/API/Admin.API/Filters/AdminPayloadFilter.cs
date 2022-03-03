@@ -148,6 +148,8 @@ namespace Admin.API.Filters
 
             }
             _tenant.TokenExpiryMintues = Pick("Jwt", "TokenExpiryMinutes").toInt();
+            _tenant.RefreshTokenExpiryMinutes = Pick("Jwt", "RefreshTokenExpiryMinutes").toFloat();
+            _tenant.SessionExpiryWarning = Pick("Jwt", "SessionExpiryWarning").toFloat();
 
             _tenant.SMTPClient = Pick("SMTP", "SMTPClient");
             _tenant.SMTPPassword = Pick("SMTP", "Password");

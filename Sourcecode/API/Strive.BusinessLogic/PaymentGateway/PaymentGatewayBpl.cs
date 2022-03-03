@@ -149,7 +149,7 @@ namespace Strive.BusinessLogic.PaymentGateway
 
         public JObject CreateUpdateProfile(CardPaymentDto cardPaymentDto)// string UserName, string Password, string url, string MID)
         {
-            var oMerchantDetails = new PaymentGatewayRal(_tenant).GetMerchantDetails(0, true);
+            var oMerchantDetails = new PaymentGatewayRal(_tenant).GetMerchantDetails(cardPaymentDto.LocationId, true);
             Result result = new Result();
             if (oMerchantDetails.Count > 0)
             {
