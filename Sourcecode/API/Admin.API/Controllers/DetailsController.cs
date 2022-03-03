@@ -84,6 +84,13 @@ namespace Admin.API.Controllers
         public Result GetAllDetails(DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
 
         /// <summary>
+        /// Method to retrieve All jobs based on given ClientId.
+        /// </summary>
+        [HttpGet]
+        [Route("GetAllJobByClientId")]
+        public Result GetAllJobByClientId(JobsGridDTO detailsGrid) => _bplManager.GetAllJobByClientId(detailsGrid);
+
+        /// <summary>
         /// Method to retrieve Detail job based on search input.
         /// </summary>
         [HttpPost]
