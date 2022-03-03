@@ -66,14 +66,17 @@ namespace StriveCustomer.Android.Fragments
             paymentVM = new PaymentViewModel();
             infoFragment = new MyProfileInfoFragment();
             signatureFragment = new MembershipSignatureFragment();
-
-            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
+            if (CustomerVehiclesInformation.completeVehicleDetails != null)
             {
-                cardNo.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
-                expirationDate.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(0, 2) + "/" + CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(2, 2);
-                paymentVM.cardNumber = cardNo.Text;
-                paymentVM.expiryDate = expirationDate.Text;
+                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
+                {
+                    cardNo.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
+                    expirationDate.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(0, 2) + "/" + CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(2, 2);
+                    paymentVM.cardNumber = cardNo.Text;
+                    paymentVM.expiryDate = expirationDate.Text;
 
+                }
+                
             }
             else
             {
@@ -81,6 +84,7 @@ namespace StriveCustomer.Android.Fragments
                 expirationDate.Text = string.Empty;
 
             }
+
             //#if DEBUG
             //            cardNo.Text = "6011000995500000";
             //            expirationDate.Text = "12/22";
@@ -155,40 +159,49 @@ namespace StriveCustomer.Android.Fragments
                 _userDialog.Alert("Please fill card details");
                 return;
             }
-            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+            if (CustomerVehiclesInformation.completeVehicleDetails != null) 
             {
-                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId != null)
+                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
                 {
-                    paymentVM.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
-                    paymentVM.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
-                    paymentVM.isAndroid = true;
-                    try
+                    if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId != null)
                     {
-                        await paymentVM.MembershipAgree();
-                        Membershipstatus();
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex is OperationCanceledException)
+                        paymentVM.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
+                        paymentVM.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
+                        paymentVM.isAndroid = true;
+                        try
                         {
-                            return;
+                            await paymentVM.MembershipAgree();
+                            Membershipstatus();
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex is OperationCanceledException)
+                            {
+                                return;
+                            }
                         }
                     }
+                    else
+                    {
+                        await Payment(cardNo, expiryDate);
+                    }
+
+
                 }
-                else 
+                else
                 {
-                   await Payment(cardNo,expiryDate );
+
+                    await Payment(cardNo, expiryDate);
+
                 }
-
-
             }
             else
             {
 
-               await Payment(cardNo,expiryDate);
+                await Payment(cardNo, expiryDate);
 
             }
-            
+
 
             //try
             //{

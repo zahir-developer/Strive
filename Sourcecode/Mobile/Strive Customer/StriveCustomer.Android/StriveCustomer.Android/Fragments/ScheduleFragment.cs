@@ -38,7 +38,7 @@ namespace StriveCustomer.Android.Fragments
         public Button tipCancelButton;
         public static FloatingActionButton floatingActionButton;
         public static BottomNavigationView bottomNavigationView;
-       
+        private TextView amount;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -68,10 +68,10 @@ namespace StriveCustomer.Android.Fragments
             pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet);
             
 
-            tipAmountOne.Click += TipAmountOne_Click;
-            tipAmountTwo.Click += TipAmountTwo_Click;
-            tipAmountThree.Click += TipAmountThree_Click;
-            tipAmountFour.Click += TipAmountFour_Click;
+            //tipAmountOne.Click += TipAmountOne_Click;
+            //tipAmountTwo.Click += TipAmountTwo_Click;
+            //tipAmountThree.Click += TipAmountThree_Click;
+            //tipAmountFour.Click += TipAmountFour_Click;
             tipCancelButton.Click += TipCancelButton_Click;
             CustomerScheduleInformation.ClearScheduleData();
 
@@ -87,25 +87,29 @@ namespace StriveCustomer.Android.Fragments
 
         private void TipAmountFour_Click(object sender, EventArgs e)
         {
-            ViewModel.WashTip = double.Parse(e.ToString());
+            amount = (TextView)sender;
+            ViewModel.WashTip = double.Parse(amount.Text);
             ViewModel.TipPayment();
         }
 
         private void TipAmountThree_Click(object sender, EventArgs e)
         {
-            ViewModel.WashTip = double.Parse(e.ToString());
+            amount = (TextView)sender;
+            ViewModel.WashTip = double.Parse(amount.Text);
             ViewModel.TipPayment();
         }
 
         private void TipAmountTwo_Click(object sender, EventArgs e)
         {
-            ViewModel.WashTip = double.Parse(e.ToString());
+            amount = (TextView)sender;
+            ViewModel.WashTip = double.Parse(amount.Text);
             ViewModel.TipPayment();
         }
 
         private void TipAmountOne_Click(object sender, EventArgs e)
         {
-            ViewModel.WashTip = double.Parse(e.ToString());
+            amount = (TextView)sender;
+            ViewModel.WashTip = double.Parse(amount.Text);
             ViewModel.TipPayment();
         }
 
