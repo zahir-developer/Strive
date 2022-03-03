@@ -3,13 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>StriveCustomer</string>
+	<string>Strive Wash Client</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.Telliant.StriveCustomerMobile</string>
-	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
-	<key>CFBundleVersion</key>
-	<string>2.25</string>
+	<string>com.Mammoth.StriveCustomerMobile</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -59,5 +55,9 @@
 	<string>App need Library access to save agreement</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Adding terms to library</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1.01</string>
 </dict>
 </plist>
