@@ -1,10 +1,14 @@
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent"    
     android:background ="@drawable/mobile_portrait_bg">
+    <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,5 +50,9 @@
                 android:id="@+id/Schedule_ProfilePager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-    </LinearLayout>
-</LinearLayout>
+       </LinearLayout>
+    </LinearLayout>    
+      <include             
+             layout="@layout/detailfragmentbottomsheet"/> 
+    
+</android.support.design.widget.CoordinatorLayout>

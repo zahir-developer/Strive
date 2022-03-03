@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white">
     <android.support.v7.widget.CardView
-        android:id="@+id/DetailHistory_InfoCard"
+        android:id="@+id/washHistory_CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFF"
@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/seven"
-                android:weightSum = "1.5">
+                android:weightSum = "1">
                 <TextView
                     android:id="@+id/scheduleTicket_TextView"
                     android:layout_width="0dp"
@@ -34,20 +34,10 @@
                     android:id="@+id/scheduleTicketValue_TextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.3"
                     android:textSize="@dimen/textFifteen"
                     android:textColor="#1DC9B7"
                     android:fontFamily="@font/opensans_bold"/>
-                <Button
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:id="@+id/tipButton"
-                     android:layout_marginLeft="2dp"
-                     android:text="Tip"
-                     android:textSize="15sp"                     
-                     android:layout_weight="0.4"
-                     android:background="@drawable/circularedgedrectangle_button"/>
-
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"

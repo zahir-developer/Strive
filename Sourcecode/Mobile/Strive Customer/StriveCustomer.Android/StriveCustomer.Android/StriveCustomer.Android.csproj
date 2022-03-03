@@ -99,6 +99,7 @@
     <Compile Include="Fragments\ScheduleConfirmationFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Fragments\ScheduleLocationsFragment.cs" />
+    <Compile Include="Fragments\ScheduleWashHistoryFragment.cs" />
     <Compile Include="Fragments\SchedulePastServiceHistoryFragment.cs" />
     <Compile Include="Fragments\SchedulePreviewFragment.cs" />
     <Compile Include="Fragments\ScheduleSelectServiceFragment.cs" />
@@ -1052,7 +1053,28 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\Terms3.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\WashHistoryFragment.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\WashHistoryItemView.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\DetailFragmentBottomSheet.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\CurvedBottomSheet.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

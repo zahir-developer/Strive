@@ -28,6 +28,17 @@ namespace StriveCustomer.Android.Fragments
         ViewPagerAdapter scheduleAdapter;
         SchedulePastServiceHistoryFragment pastServiceHistoryFragment;
         ScheduleVehicleListFragment vehicleListFragment;
+        ScheduleWashHistoryFragment washHistoryFragment;
+        BottomSheetBehavior tipBottomSheet;
+        private FrameLayout tipFrameLayout;
+        public TextView tipAmountOne;
+        public TextView tipAmountTwo;
+        public TextView tipAmountThree;
+        public TextView tipAmountFour;
+        public Button tipCancelButton;
+        public static FloatingActionButton floatingActionButton;
+        public static BottomNavigationView bottomNavigationView;
+       
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,19 +55,75 @@ namespace StriveCustomer.Android.Fragments
 
             scheduleTabs = rootView.FindViewById<TabLayout>(Resource.Id.Schedule_TabLayout);
             schedulePager = rootView.FindViewById<ViewPager>(Resource.Id.Schedule_ProfilePager);
-            pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment();
+            
             vehicleListFragment = new ScheduleVehicleListFragment();
+            washHistoryFragment = new ScheduleWashHistoryFragment();
+            tipFrameLayout = rootView.FindViewById<FrameLayout>(Resource.Id.tipBottomSheet);
+            tipBottomSheet = BottomSheetBehavior.From(tipFrameLayout);
+            tipAmountOne = rootView.FindViewById<TextView>(Resource.Id.tipAmountOne);
+            tipAmountTwo = rootView.FindViewById<TextView>(Resource.Id.tipAmountTwo);
+            tipAmountThree = rootView.FindViewById<TextView>(Resource.Id.tipAmountThree);
+            tipAmountFour = rootView.FindViewById<TextView>(Resource.Id.tipAmountFour);
+            tipCancelButton = rootView.FindViewById<Button>(Resource.Id.tipCancelButton);
+            pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet);
+            
 
+            tipAmountOne.Click += TipAmountOne_Click;
+            tipAmountTwo.Click += TipAmountTwo_Click;
+            tipAmountThree.Click += TipAmountThree_Click;
+            tipAmountFour.Click += TipAmountFour_Click;
+            tipCancelButton.Click += TipCancelButton_Click;
             CustomerScheduleInformation.ClearScheduleData();
 
             return rootView;
         }
+
+        private void TipCancelButton_Click(object sender, EventArgs e)
+        {            
+            tipBottomSheet.State = BottomSheetBehavior.StateHidden;
+            floatingActionButton.Visibility=ViewStates.Visible;
+            bottomNavigationView.Visibility = ViewStates.Visible;
+        }
+
+        private void TipAmountFour_Click(object sender, EventArgs e)
+        {
+            ViewModel.WashTip = double.Parse(e.ToString());
+            ViewModel.TipPayment();
+        }
+
+        private void TipAmountThree_Click(object sender, EventArgs e)
+        {
+            ViewModel.WashTip = double.Parse(e.ToString());
+            ViewModel.TipPayment();
+        }
+
+        private void TipAmountTwo_Click(object sender, EventArgs e)
+        {
+            ViewModel.WashTip = double.Parse(e.ToString());
+            ViewModel.TipPayment();
+        }
+
+        private void TipAmountOne_Click(object sender, EventArgs e)
+        {
+            ViewModel.WashTip = double.Parse(e.ToString());
+            ViewModel.TipPayment();
+        }
+
+        public void TipAmounts(double[] TipAmounts)
+        {
+            tipAmountOne.Text = "$" + TipAmounts[0].ToString();
+            tipAmountTwo.Text = "$" + TipAmounts[1].ToString();
+            tipAmountThree.Text = "$" + TipAmounts[2].ToString();
+            tipAmountFour.Text = "$" + TipAmounts[3].ToString();
+        }
+
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
             scheduleAdapter = new ViewPagerAdapter(ChildFragmentManager);
             scheduleAdapter.AddFragment(vehicleListFragment, "Signup Vehicles");
-            scheduleAdapter.AddFragment(pastServiceHistoryFragment, "Service History");
+            scheduleAdapter.AddFragment(pastServiceHistoryFragment, "Detail History");
+            scheduleAdapter.AddFragment(washHistoryFragment,"Wash History");
             schedulePager.Adapter = scheduleAdapter;
             scheduleTabs.SetupWithViewPager(schedulePager);
             schedulePager.SetOnPageChangeListener(this);

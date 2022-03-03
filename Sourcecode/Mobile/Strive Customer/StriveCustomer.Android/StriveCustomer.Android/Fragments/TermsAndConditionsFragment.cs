@@ -53,6 +53,7 @@ namespace StriveCustomer.Android.Fragments
         public static Bitmap contractImage;
         private TextView VehicleDetails;
         private string Model;
+        private TextView CustomerName;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -91,8 +92,10 @@ namespace StriveCustomer.Android.Fragments
             MonthlyRecurString = rootview.FindViewById<TextView>(Resource.Id.monthlyRecurString);
             parentView = rootview.FindViewById<LinearLayout>(Resource.Id.parentView);
             VehicleDetails = rootview.FindViewById<TextView>(Resource.Id.vehicleDetails);
-            TermsDocumentString();        
+            CustomerName = rootview.FindViewById<TextView>(Resource.Id.clientDetails);
+            TermsDocumentString();
 
+            CustomerName.Text = MyProfileCustomerInfo.FullName;
             string Datenow = DateTime.Now.Date.ToString("yyyy-MM-dd");
             StartingDate.Text = new DateTime(DateTime.Now.Date.AddMonths(1).Year, DateTime.Now.Date.AddMonths(1).Month, 1).ToString("yyyy-MM-dd");
             EndingDate.Text = "Open";

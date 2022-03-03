@@ -352,7 +352,7 @@ namespace StriveCustomer.Android.Fragments
             {
                 var apiService = new PaymentApiService();
 
-                var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
+                var paymentAuthResponse = await apiService.PaymentAuthProfile(paymentAuthReq);
 
                 // if (paymentAuthResponse.IsSuccess())
                 if (paymentAuthResponse != null)

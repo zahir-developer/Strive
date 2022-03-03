@@ -27,13 +27,20 @@ namespace StriveCustomer.Android.Views
     [Activity(Label = "Dashboard View", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DashboardView : MvxAppCompatActivity<DashboardViewModel>
     {
-        private BottomNavigationView bottomNav;
-        private FloatingActionButton dashActionButton;
+        public BottomNavigationView bottomNav;
+        public FloatingActionButton dashActionButton;
         private NotificationSettingsView notificationSettingsView;
+        //public  BottomSheetBehavior tipBottomSheet;
+        //private FrameLayout tipFrameLayout;
+        //public TextView tipAmountOne;
+        //public TextView tipAmountTwo;
+        //public TextView tipAmountThree;
+        //public TextView tipAmountFour;
+
         MvxFragment fragment = null;
-        MapsFragment mapFrag = new MapsFragment();
-        DealsFragment dealFrag = new DealsFragment();
         ScheduleFragment scheduleFrag = new ScheduleFragment();
+        MapsFragment mapFrag = new MapsFragment();
+        DealsFragment dealFrag = new DealsFragment();        
         PastDetailsFragment pastDetailsFrag = new PastDetailsFragment();
         MyProfileInfoFragment myProfileFrag = new MyProfileInfoFragment();
         ContactUsFragment contactFrag = new ContactUsFragment();
@@ -47,14 +54,20 @@ namespace StriveCustomer.Android.Views
             bottomNav.InflateMenu(Resource.Menu.bottomNavMenu);
             bottomNav.NavigationItemSelected += NavigateFrag;
             dashActionButton = FindViewById<FloatingActionButton>(Resource.Id.dashActionButton);
+            ScheduleFragment.floatingActionButton = dashActionButton;
+            ScheduleFragment.bottomNavigationView = bottomNav;
+           // tipFrameLayout = FindViewById<FrameLayout>(Resource.Id.tipBottomSheet);
+            //tipBottomSheet = BottomSheetBehavior.From(tipFrameLayout);
+            //tipAmountOne = FindViewById<TextView>(Resource.Id.tipAmountOne);
+            //tipAmountTwo = FindViewById<TextView>(Resource.Id.tipAmountTwo);
+            //tipAmountThree = FindViewById<TextView>(Resource.Id.tipAmountThree);
+            //tipAmountFour = FindViewById<TextView>(Resource.Id.tipAmountFour);
             dashActionButton.Click += DashActionButton_Click;
             setInitialFrag();
-
-
         }
 
-        private void DashActionButton_Click(object sender, EventArgs e)
-        {
+        private void DashActionButton_Click(object sender, EventArgs e)        {
+            
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFrag).Commit();
         }
         private void NavigateFrag(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
@@ -71,7 +84,7 @@ namespace StriveCustomer.Android.Views
                 case Resource.Id.menu_AboutUs:
                     fragment = myProfileFrag;
                     break;
-                case Resource.Id.menu_Schedule:
+                case Resource.Id.menu_Schedule:                    
                     fragment = contactFrag;
                     break;
             }
