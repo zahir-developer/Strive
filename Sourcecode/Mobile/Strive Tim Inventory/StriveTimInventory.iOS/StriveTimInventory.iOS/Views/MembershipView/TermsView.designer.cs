@@ -27,6 +27,9 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 		UIKit.UIView ContractView { get; set; }
 
 		[Outlet]
+		UIKit.UILabel CustomerName { get; set; }
+
+		[Outlet]
 		UIKit.UILabel Date { get; set; }
 
 		[Outlet]
@@ -108,9 +111,9 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 				EndingDate = null;
 			}
 
-			if (Vehicle != null) {
-				Vehicle.Dispose ();
-				Vehicle = null;
+			if (CustomerName != null) {
+				CustomerName.Dispose ();
+				CustomerName = null;
 			}
 
 			if (Membership_name != null) {
@@ -141,6 +144,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 			if (Upchargeslbl != null) {
 				Upchargeslbl.Dispose ();
 				Upchargeslbl = null;
+			}
+
+			if (Vehicle != null) {
+				Vehicle.Dispose ();
+				Vehicle = null;
 			}
 
 			if (YearlyTotal != null) {

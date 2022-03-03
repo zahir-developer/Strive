@@ -55,7 +55,8 @@ namespace Strive.Core.ViewModels.Customer
                     {
                         CustomerInfo.ClientID = loginResponse.ClientDetails.ClientDetail.ClientId;
                         CustomerInfo.AuthID = loginResponse.ClientDetails.ClientDetail.AuthId;
-                        CustomerInfo.custName =loginResponse.ClientDetails.ClientDetail.FirstName;
+                        CustomerInfo.custName =loginResponse.ClientDetails.ClientDetail.FirstName +" "+loginResponse.ClientDetails.ClientDetail.LastName;
+                        
                         if (!string.IsNullOrEmpty(loginResponse.Token))
                         {
                             

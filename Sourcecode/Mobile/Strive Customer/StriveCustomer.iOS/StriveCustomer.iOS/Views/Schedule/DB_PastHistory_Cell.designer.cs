@@ -22,6 +22,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 		UIKit.UIView PastHis_ShortView { get; set; }
 
 		[Outlet]
+		UIKit.UIButton PayTip { get; set; }
+
+		[Outlet]
 		UIKit.UILabel PH_AddService_Lbl { get; set; }
 
 		[Outlet]
@@ -48,11 +51,19 @@ namespace StriveCustomer.iOS.Views.Schedule
 		[Outlet]
 		UIKit.UIButton ViewMore_Btn { get; set; }
 
+		[Action ("Pay_BtnTouch:")]
+		partial void Pay_BtnTouch (UIKit.UIButton sender);
+
 		[Action ("ViewMore_BtnTouch:")]
 		partial void ViewMore_BtnTouch (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Height != null) {
+				Height.Dispose ();
+				Height = null;
+			}
+
 			if (PastHis_FullView != null) {
 				PastHis_FullView.Dispose ();
 				PastHis_FullView = null;
@@ -108,9 +119,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 				ViewMore_Btn = null;
 			}
 
-			if (Height != null) {
-				Height.Dispose ();
-				Height = null;
+			if (PayTip != null) {
+				PayTip.Dispose ();
+				PayTip = null;
 			}
 		}
 	}

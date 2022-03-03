@@ -14,9 +14,13 @@ namespace Strive.Core.Services.Implementations
     {
         public IRestClient _restClient = Mvx.IoCProvider.Resolve<IRestClient>();
 
-        public Task<PayAuthResponse> PaymentAuth(PaymentAuthReq req)
+        public Task<PayAuthResp> PaymentAuth(PaymentAuthRequest req)
         {
-            return _restClient.MakeApiCall<PayAuthResponse>(ApiUtils.PAYMENT_AUTH, HttpMethod.Post, req);
+            return _restClient.MakeApiCall<PayAuthResp>(ApiUtils.PAYMENT_AUTH, HttpMethod.Post, req);
+        }
+        public Task<PayAuthResponse> PaymentAuthProfile(PaymentAuthReq req)
+        {
+            return _restClient.MakeApiCall<PayAuthResponse>(ApiUtils.PAYMENT_AUTH_PROFILE, HttpMethod.Post, req);
         }
 
         public Task<PayAuthResponse> PaymentCapture(PaymentCaptureReq req)

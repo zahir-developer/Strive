@@ -27,6 +27,9 @@ namespace StriveCustomer.iOS.Views
 		[Outlet]
 		UIKit.UITableView ScheduleVehicle_TableView { get; set; }
 
+		[Outlet]
+		UIKit.UITableView WashHistory_TableView { get; set; }
+
 		[Action ("Schedule_SegTouch:")]
 		partial void Schedule_SegTouch (UIKit.UISegmentedControl sender);
 		
@@ -47,14 +50,19 @@ namespace StriveCustomer.iOS.Views
 				Schedule_SegmentView = null;
 			}
 
+			if (SchedulePastHis_TableView != null) {
+				SchedulePastHis_TableView.Dispose ();
+				SchedulePastHis_TableView = null;
+			}
+
 			if (ScheduleVehicle_TableView != null) {
 				ScheduleVehicle_TableView.Dispose ();
 				ScheduleVehicle_TableView = null;
 			}
 
-			if (SchedulePastHis_TableView != null) {
-				SchedulePastHis_TableView.Dispose ();
-				SchedulePastHis_TableView = null;
+			if (WashHistory_TableView != null) {
+				WashHistory_TableView.Dispose ();
+				WashHistory_TableView = null;
 			}
 		}
 	}

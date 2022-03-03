@@ -31,8 +31,12 @@ namespace Strive.Core.Utils
 
         public static string ConvertDateTimeFromZ(string date)
         {
-          var Date = DateTime.Parse(date);
-           return Date.ToString("MM/dd/yyyy");
+            if (!date.IsEmpty())
+            {
+                var Date = DateTime.Parse(date);
+                return Date.ToString("MM/dd/yyyy");
+            }
+            return null;
         }
 
         public static string GetClockInTypeString(string DateString)

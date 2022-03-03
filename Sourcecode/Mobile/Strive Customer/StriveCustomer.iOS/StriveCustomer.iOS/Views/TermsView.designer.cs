@@ -22,6 +22,9 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UILabel AdditionalServicesTotal { get; set; }
 
 		[Outlet]
+		UIKit.UILabel CustomerName { get; set; }
+
+		[Outlet]
 		UIKit.UILabel Date { get; set; }
 
 		[Outlet]
@@ -70,6 +73,11 @@ namespace StriveCustomer.iOS.Views
 				_TermsConfirmView = null;
 			}
 
+			if (_Vehicle != null) {
+				_Vehicle.Dispose ();
+				_Vehicle = null;
+			}
+
 			if (AdditionalServicesTotal != null) {
 				AdditionalServicesTotal.Dispose ();
 				AdditionalServicesTotal = null;
@@ -78,6 +86,11 @@ namespace StriveCustomer.iOS.Views
 			if (Date != null) {
 				Date.Dispose ();
 				Date = null;
+			}
+
+			if (CustomerName != null) {
+				CustomerName.Dispose ();
+				CustomerName = null;
 			}
 
 			if (DisplaySelectedAddtionals != null) {
@@ -133,11 +146,6 @@ namespace StriveCustomer.iOS.Views
 			if (Yearlytotal != null) {
 				Yearlytotal.Dispose ();
 				Yearlytotal = null;
-			}
-
-			if (_Vehicle != null) {
-				_Vehicle.Dispose ();
-				_Vehicle = null;
 			}
 		}
 	}

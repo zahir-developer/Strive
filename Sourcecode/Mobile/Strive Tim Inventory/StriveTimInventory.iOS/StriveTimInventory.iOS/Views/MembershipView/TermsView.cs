@@ -48,6 +48,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 Model = MembershipData.SelectedVehicle.VehicleModel;
             }
+            CustomerName.Text = MembershipData.SelectedClient.FirstName + MembershipData.SelectedClient.MiddleName + MembershipData.SelectedClient.LastName;
             Vehicle.Text = MembershipData.SelectedVehicle.VehicleMfr + "/" + Model + "/" + MembershipData.SelectedVehicle.VehicleColor;
             Total.Text = "Total: $" + MembershipData.CalculatedPrice.ToString("0.00");
             YearlyTotal.Text = "$" + (MembershipData.CalculatedPrice * 12).ToString("0.00");

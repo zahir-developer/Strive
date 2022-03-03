@@ -39,18 +39,6 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9e-Tp-8hx">
-                                <rect key="frame" x="239.5" y="6.5" width="61.5" height="19.5"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="$250.00">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0078431372550000003" green="0.25490196079999999" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" metaFont="system" size="16"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KmB-P3-G0p">
                                 <rect key="frame" x="10" y="37" width="54" height="18"/>
                                 <attributedString key="attributedText">
@@ -161,10 +149,23 @@
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bb3-0g-Jcd">
+                                <rect key="frame" x="256" y="7" width="45" height="20"/>
+                                <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="kiK-EW-cWx"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Tip">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="Pay_BtnTouch:" destination="cxk-wN-pdQ" eventType="touchUpInside" id="ecu-d6-0Re"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="F9e-Tp-8hx" secondAttribute="trailing" constant="10" id="0QT-uq-TAc"/>
                             <constraint firstItem="WU4-lC-EDF" firstAttribute="top" secondItem="BhX-GK-wPC" secondAttribute="bottom" constant="5" id="1zQ-25-6bp"/>
                             <constraint firstItem="qpg-qT-fwV" firstAttribute="centerY" secondItem="nzp-IO-Typ" secondAttribute="centerY" id="2Jd-mf-FHM"/>
                             <constraint firstItem="yxa-Tb-x1R" firstAttribute="leading" secondItem="jWl-oK-CUR" secondAttribute="leading" id="4JH-Cn-NbQ"/>
@@ -175,9 +176,11 @@
                             <constraint firstItem="EMw-IF-HSZ" firstAttribute="centerY" secondItem="60P-GD-Nnk" secondAttribute="centerY" id="E56-Wx-ljO"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="190" id="Fph-hN-gYf"/>
                             <constraint firstItem="yxa-Tb-x1R" firstAttribute="centerY" secondItem="WU4-lC-EDF" secondAttribute="centerY" id="JkN-y3-7LL"/>
+                            <constraint firstItem="Bb3-0g-Jcd" firstAttribute="top" secondItem="AAE-OV-SGg" secondAttribute="top" constant="7" id="K9w-WD-HDL"/>
                             <constraint firstItem="KmB-P3-G0p" firstAttribute="leading" secondItem="Hmb-37-lYq" secondAttribute="leading" id="KaL-GI-beX"/>
                             <constraint firstItem="qpg-qT-fwV" firstAttribute="leading" secondItem="yxa-Tb-x1R" secondAttribute="leading" id="Kgo-DW-guG"/>
                             <constraint firstItem="nzp-IO-Typ" firstAttribute="top" secondItem="WU4-lC-EDF" secondAttribute="bottom" constant="5" id="Lkt-q7-Xrc"/>
+                            <constraint firstAttribute="trailing" secondItem="Bb3-0g-Jcd" secondAttribute="trailing" constant="10" id="OiN-s0-NUD"/>
                             <constraint firstItem="Jf9-RH-mYZ" firstAttribute="centerY" secondItem="KmB-P3-G0p" secondAttribute="centerY" id="P6b-Ar-pau"/>
                             <constraint firstItem="pnN-yg-7r7" firstAttribute="centerY" secondItem="Pm6-hr-Klp" secondAttribute="centerY" id="TER-PV-1oW"/>
                             <constraint firstItem="pnN-yg-7r7" firstAttribute="leading" secondItem="qpg-qT-fwV" secondAttribute="leading" id="Uwh-OP-psE"/>
@@ -193,7 +196,6 @@
                             <constraint firstItem="EMw-IF-HSZ" firstAttribute="leading" secondItem="pnN-yg-7r7" secondAttribute="leading" id="qzu-nK-bW8"/>
                             <constraint firstItem="Pm6-hr-Klp" firstAttribute="top" secondItem="nzp-IO-Typ" secondAttribute="bottom" constant="5" id="sOm-JT-DLn"/>
                             <constraint firstItem="KmB-P3-G0p" firstAttribute="top" secondItem="Hmb-37-lYq" secondAttribute="bottom" constant="10" id="u1e-8j-z6e"/>
-                            <constraint firstItem="F9e-Tp-8hx" firstAttribute="centerY" secondItem="Hmb-37-lYq" secondAttribute="centerY" id="vYf-wp-HQl"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -208,7 +210,6 @@
                 <outlet property="Height" destination="aco-Pa-1pb" id="4yi-va-XfM"/>
                 <outlet property="PH_AddService_Lbl" destination="EMw-IF-HSZ" id="b5b-tW-yAr"/>
                 <outlet property="PH_Barcode_Lbl" destination="qpg-qT-fwV" id="9Bs-JZ-HOW"/>
-                <outlet property="PH_Cost_Lbl" destination="F9e-Tp-8hx" id="SjO-LY-k1Z"/>
                 <outlet property="PH_Date_Lbl" destination="jWl-oK-CUR" id="AH2-3q-tt5"/>
                 <outlet property="PH_DetService_Lbl" destination="yxa-Tb-x1R" id="ffh-Y8-ag1"/>
                 <outlet property="PH_Price_Lbl" destination="pnN-yg-7r7" id="okp-Il-4rS"/>
@@ -216,6 +217,7 @@
                 <outlet property="PH_VehicleName_Lbl" destination="Jf9-RH-mYZ" id="Xl3-GB-inh"/>
                 <outlet property="PastHis_FullView" destination="AAE-OV-SGg" id="Aro-SI-ArL"/>
                 <outlet property="PastHis_ShortView" destination="YTl-1W-gDM" id="RGb-Mm-ATt"/>
+                <outlet property="PayTip" destination="Bb3-0g-Jcd" id="Iph-CS-Va1"/>
             </connections>
             <point key="canvasLocation" x="126.81159420289856" y="51.897321428571423"/>
         </tableViewCell>

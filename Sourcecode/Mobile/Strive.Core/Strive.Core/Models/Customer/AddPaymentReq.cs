@@ -13,5 +13,8 @@ namespace Strive.Core.Models.Customer
 
         [JsonProperty("jobId")]
         public long JobID { get; set; }
+
+        [JsonProperty("ticketNumber")]
+        public string TicketNumber { get; set; }
     }
 }

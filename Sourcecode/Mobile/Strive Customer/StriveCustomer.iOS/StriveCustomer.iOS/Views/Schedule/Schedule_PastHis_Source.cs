@@ -14,13 +14,21 @@ namespace StriveCustomer.iOS.Views.Schedule
         ScheduleViewModel ViewModel;
         public bool isClicked = false;
         public NSIndexPath selectedCell;
+        
         public List<BayJobDetailViewModel> PastHis_List = new List<BayJobDetailViewModel>();
+        public static List<BayJobDetailViewModel> SavedList = new List<BayJobDetailViewModel>();
         public Schedule_PastHis_Source(ScheduleViewModel viewModel)
         {
             this.ViewModel = viewModel;
-            var JobDetailsViewModel = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel;
-            this.PastHis_List = JobDetailsViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
-
+            if (viewModel.pastServiceHistory != null)
+            {
+                var JobDetailsViewModel = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel;
+                this.PastHis_List = JobDetailsViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
+                SavedList = PastHis_List;
+            }
+            //var JobDetailsViewModel = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel;
+            //this.PastHis_List = JobDetailsViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
+            //test = PastHis_List;
             //this.PastHis_List = (List<BayJobDetailViewModel>)ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)); ;
 
 
@@ -82,6 +90,15 @@ namespace StriveCustomer.iOS.Views.Schedule
                 cell.Selected = false;
             }
             
+        }
+
+       public void AddWashTip( NSIndexPath indexPath)
+        {
+            float Price = SavedList[indexPath.Row].Cost;
+            ScheduleViewModel.Jobid = SavedList[indexPath.Row].JobId;
+            ScheduleViewModel.TicketNumber = SavedList[indexPath.Row].TicketNumber;
+            var dict = new NSDictionary(new NSString("Price"), new NSString(Price.ToString()));
+            NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.employee.Pay"), null, dict);
         }
 
         //public override void RowDeselected(UITableView tableView, NSIndexPath indexPath) commented for now becasue of crash

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Services.Implementations;
 using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.Customer
@@ -20,6 +22,15 @@ namespace Strive.Core.ViewModels.Customer
         public ScheduleModel pastServiceHistory { get; set; }
         public ScheduleModel pastServiceHistory1 { get; set; }
 
+        //Properties Used in Tip Feature
+        public double WashTip { get; set; }
+        public string CardNumber { get; set; }
+        public string ExpiryDate { get; set; }
+        public string ProfileId { get; set; }
+        public string AccountId { get; set; }
+        public static int VehicleId { get; set; }
+        public static long Jobid { get; set; }
+        public static string TicketNumber { get; set; }
         #endregion Properties
 
         #region Commands
@@ -96,8 +107,123 @@ namespace Strive.Core.ViewModels.Customer
             };
             _userDialog.Confirm(confirmconfig);
         }
+        public async void TipPayment()
+        {
+            CustomerVehiclesInformation.completeVehicleDetails = new ClientVehicleRootView();
+            CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails = new VehicleMembershipDetailsView();
+            CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership = new ClientVehicleMembershipView();
+            CustomerVehiclesInformation.completeVehicleDetails = await AdminService.GetVehicleMembership(VehicleId);
+            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
+            {
 
+                CardNumber = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
+                AccountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
+                ProfileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
+                ExpiryDate = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate;
+            }
+            //_navigationService.Navigate<PaymentViewModel>();
+
+            var paymentAuthReq = new PaymentAuthRequest
+            {
+                CardConnect = new object(),
+                PaymentDetail = new PaymentDetail()
+                {
+                    Account = "6011000995500000",//CardNumber,
+                    Expiry = ExpiryDate,
+                    Amount = (float)WashTip,
+                    OrderID = ""
+                },
+                BillingDetail = new BillingDetail()
+                {
+
+                }
+
+                
+            };
+
+            //Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
+            _userDialog.ShowLoading();
+
+
+            var apiService = new PaymentApiService();
+            var paymentAuthResponse = await apiService.PaymentAuth(paymentAuthReq);
+
+            if (paymentAuthResponse != null && paymentAuthResponse.SucessType.Equals("b", StringComparison.OrdinalIgnoreCase) || paymentAuthResponse.SucessType.Equals("c", StringComparison.OrdinalIgnoreCase))
+            {
+                _userDialog.Alert(paymentAuthResponse.ErrorMessage);
+            }
+            Console.WriteLine(paymentAuthResponse.IsSuccess());
+            if ((!paymentAuthResponse.IsSuccess()) && paymentAuthResponse.SucessType.Equals("a", StringComparison.OrdinalIgnoreCase))
+            {
+                var paymentCaptureReq = new PaymentCaptureReq
+                {
+                    AuthCode = paymentAuthResponse?.Authcode,
+                    RetRef = paymentAuthResponse?.Retref,
+                    Amount = (float)WashTip,
+                };
+
+                //Debug.WriteLine("" + JsonConvert.SerializeObject(paymentCaptureReq));
+                var captureResponse = await apiService.PaymentCapture(paymentCaptureReq);
+
+                if (!captureResponse.IsSuccess())
+                {
+                    var generalApiService = new GeneralApiService();
+                    var paymentStatusResponse = await generalApiService.GetGlobalData("PAYMENTSTATUS");
+                    //Debug.WriteLine("Payment Status Response : " + JsonConvert.SerializeObject(paymentStatusResponse));
+                    var paymentStatusId = paymentStatusResponse?.Codes.First(x => x.Name.Equals(PaymentStatus.Success.ToString())).ID ?? -1;
+
+                    var paymentTypeResponse = await generalApiService.GetGlobalData("PAYMENTTYPE");
+                    //Debug.WriteLine("Payment Type Response : " + JsonConvert.SerializeObject(paymentTypeResponse));
+
+                    var paymentTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentType.Tips.ToString())).ID ?? -1;
+
+                    var addPaymentReqReq = new AddPaymentReq
+                    {
+                        SalesPaymentDto = new SalesPaymentDto()
+                        {
+                            JobPayment = new JobPayment()
+                            {
+                                JobID = Jobid,
+                                Amount = (float)WashTip,
+                                PaymentStatus = paymentStatusId
+                            },
+
+                            JobPaymentDetails = new List<JobPaymentDetail>() {
+                                    new JobPaymentDetail()
+                                    {
+                                        Amount = (float)WashTip,
+                                        PaymentType = paymentTypeId
+                                    }
+                                }
+                        },
+                        LocationID = 1,
+                        TicketNumber = TicketNumber
+                    };
+
+                    //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
+
+                    var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
+                    _userDialog.HideLoading();
+                    if(paymentResponse.Message == "true")
+                    {
+                        //_userDialog.Alert("Tip Added Successfully");
+                       await  _navigationService.Navigate<ScheduleViewModel>();
+                    }
+
+                }
+            }
+        }
         #endregion Commands
+        public enum PaymentStatus
+        {
+            Success
+        }
 
+        public enum PaymentType
+        {
+            Card,
+            Account,
+            Tips
+        }
     }
 }

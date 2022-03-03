@@ -8,7 +8,8 @@ namespace Strive.Core.Services.Interfaces
     public interface IPaymentService
     {
         Task<BaseResponsePayment> AddPayment(AddPaymentReq req);
-        Task<PayAuthResponse> PaymentAuth(PaymentAuthReq req);
+        Task<PayAuthResp> PaymentAuth(PaymentAuthRequest req);
+        Task<PayAuthResponse> PaymentAuthProfile(PaymentAuthReq req);
         Task<PayAuthResponse> PaymentCapture(PaymentCaptureReq req);
     }
 }

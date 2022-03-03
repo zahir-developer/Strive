@@ -52,6 +52,7 @@ namespace StriveCustomer.iOS.Views
             {
                 Model = MembershipDetails.modelName;
             }
+            CustomerName.Text = CustomerInfo.custName;
             _Vehicle.Text = " "+MembershipDetails.vehicleMakeName +"/"+ Model + "/" + MembershipDetails.colorName;
             SwitchMembershipFee.Hidden = true;
             UpchargesLbl.Hidden = true;

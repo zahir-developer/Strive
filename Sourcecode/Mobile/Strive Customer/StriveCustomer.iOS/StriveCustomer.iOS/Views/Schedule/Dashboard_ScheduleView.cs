@@ -1,6 +1,8 @@
 ﻿using System;
 using CoreGraphics;
+using Foundation;
 using MvvmCross.Platforms.Ios.Views;
+using Newtonsoft.Json;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
@@ -53,10 +55,23 @@ namespace StriveCustomer.iOS.Views
             Schedule_Seg1.Layer.CornerRadius = 5;
             ScheduleVehicle_TableView.Hidden = false;
             SchedulePastHis_TableView.Hidden = true;
+            WashHistory_TableView.Hidden = true;    
             ScheduleVehicle_TableView.RegisterNibForCellReuse(DB_VehicleList_Cell.Nib, DB_VehicleList_Cell.Key);
             ScheduleVehicle_TableView.ReloadData();
             ScheduleVehicle_TableView.Layer.CornerRadius = 5;
             getVehicleList();
+
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.employee.Pay"), notify: (notification) =>
+            {
+                if (notification.UserInfo is null)
+                    return;
+                var Price = notification.UserInfo["Price"] as NSString;
+                //var ID = JsonConvert.DeserializeObject<string>("Price");
+                InvokeOnMainThread(() =>
+                {
+                    GetActionSheet(float.Parse(Price));
+                });
+            });
         }
 
         public override void ViewWillAppear(bool animated)
@@ -70,21 +85,30 @@ namespace StriveCustomer.iOS.Views
         {
             var index = Schedule_SegmentView.SelectedSegment;
 
-            if(index == 0)
+            if (index == 0)
             {
                 ScheduleVehicle_TableView.Hidden = false;
                 SchedulePastHis_TableView.Hidden = true;
+                WashHistory_TableView.Hidden = true;
                 getVehicleList();
             }
-            else if(index == 1)
+            else if (index == 1)
             {
                 SchedulePastHis_TableView.Hidden = false;
+                WashHistory_TableView.Hidden = true;
                 ScheduleVehicle_TableView.Hidden = true;
                 SchedulePastHis_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
                 SchedulePastHis_TableView.ReloadData();
                 SchedulePastHis_TableView.Layer.CornerRadius = 5;
 
-                getPastServiceDetails();                
+                getPastServiceDetails();
+            }
+            else if (index == 2)
+            {
+                SchedulePastHis_TableView.Hidden = true;
+                ScheduleVehicle_TableView.Hidden = true;
+                WashHistory_TableView.Hidden = false;
+
             }
         }
 
@@ -104,6 +128,7 @@ namespace StriveCustomer.iOS.Views
 
         private async void getPastServiceDetails()
         {
+            
             await this.ViewModel.GetPastServiceDetails();
 
             if(this.ViewModel.pastServiceHistory != null)
@@ -121,6 +146,33 @@ namespace StriveCustomer.iOS.Views
                     }
                 }                
             }            
+        }
+        public  void GetActionSheet(float price)
+        {
+            double TenPercent = (10 * price)/100;
+            double FifteenPercent = (15 * price) / 100;
+            double TwentyPercent = (20 * price) / 100;
+            double TwentyFivePercent = (25 * price) / 100;
+
+            var alert = UIAlertController.Create("Add Tip", "", UIAlertControllerStyle.ActionSheet);
+            alert.AddAction(UIAlertAction.Create("$"+ TenPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
+                ViewModel.WashTip = TenPercent;
+                ViewModel.TipPayment();
+            }));
+            alert.AddAction(UIAlertAction.Create("$" + FifteenPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
+                ViewModel.WashTip = FifteenPercent;
+                ViewModel.TipPayment();
+            }));
+            alert.AddAction(UIAlertAction.Create("$" + TwentyPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
+                ViewModel.WashTip = TwentyPercent;
+                ViewModel.TipPayment();
+            }));
+            alert.AddAction(UIAlertAction.Create("$" + TwentyFivePercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
+                ViewModel.WashTip = TwentyFivePercent;
+                ViewModel.TipPayment();  
+            }));
+            alert.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
+            this.PresentViewController(alert,true,null);
         }
     }
 }
