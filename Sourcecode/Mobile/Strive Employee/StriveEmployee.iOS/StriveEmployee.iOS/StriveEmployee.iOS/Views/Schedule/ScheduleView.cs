@@ -169,7 +169,8 @@ namespace StriveEmployee.iOS.Views.Schedule
             {
                 Checklist_TableView.Hidden = true;
             }
-
+            EmployeeTempData.FromNotification = false;
+            EmployeeTempData.EmployeeRole = 0;
         }
 
 

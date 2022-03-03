@@ -32,6 +32,13 @@ namespace StriveEmployee.iOS.Views.Messenger
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+
+            if (EmployeeTempData.FromNotification)
+                ViewModel.navigateToChecklist();
+        }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
@@ -76,9 +83,6 @@ namespace StriveEmployee.iOS.Views.Messenger
             Messenger_SearchBar.TextChanged += SearchTextchanged;
 
             getRecentContacts();
-
-            if (EmployeeTempData.FromNotification)
-                ViewModel.navigateToChecklist();
             
 
         }
