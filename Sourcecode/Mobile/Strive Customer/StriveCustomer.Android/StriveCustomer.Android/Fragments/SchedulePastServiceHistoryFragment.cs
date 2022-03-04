@@ -67,15 +67,15 @@ namespace StriveCustomer.Android.Fragments
                 await this.ViewModel.GetPastServiceDetails();
                 if (this.ViewModel.pastServiceHistory != null)
                 {
-                    if (this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel != null)
+                    if (this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel != null)
                     {
-                        if (this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count > 0)
+                        if (this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count > 0)
                         {
-                            var sortedBayJobDetail = this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
-                            TicketNumber = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count];
-                            moreInfo_LinearLayout = new LinearLayout[this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count];
-                            tipButton = new Button[this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count];
-                            price = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count];
+                            var sortedBayJobDetail = this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
+                            TicketNumber = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                            moreInfo_LinearLayout = new LinearLayout[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                            tipButton = new Button[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                            price = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
                             // for (int services = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count-1; services >= 0; services--)
                             foreach (var services in sortedBayJobDetail)
                             {
@@ -102,7 +102,7 @@ namespace StriveCustomer.Android.Fragments
 
                                     detailVisitDate.Text = orderedDate;
                                     detailService.Text = services.ServiceTypeName;
-                                    additionalServices.Text = services.OutsideService;
+                                   // additionalServices.Text = services.OutsideService;
                                     detailedServiceCost.Text = "$" + services.Cost;
                                     barcode.Text = services.Barcode;
                                     price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
