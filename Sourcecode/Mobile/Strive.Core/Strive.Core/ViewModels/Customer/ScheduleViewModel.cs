@@ -31,6 +31,7 @@ namespace Strive.Core.ViewModels.Customer
         public static int VehicleId { get; set; }
         public static long Jobid { get; set; }
         public static string TicketNumber { get; set; }
+        public static int JobPaymentId { get; set; }
         #endregion Properties
 
         #region Commands
@@ -74,8 +75,32 @@ namespace Strive.Core.ViewModels.Customer
         public async Task GetPastServiceDetails()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var result = await AdminService.GetSchedulePastService(CustomerInfo.ClientID);
+            
+            int ClientId = CustomerInfo.ClientID;
+            string JobType = "Detail";
+            int LocationId = 0;
+            string JobDate = string.Empty;
+            ScheduleModel result = await AdminService.GetSchedulePastService(JobType, JobDate, LocationId, ClientId);
             if(result == null)
+            {
+                _userDialog.Toast("No Schedules have been found !");
+            }
+            else
+            {
+                pastServiceHistory = result;
+            }
+            _userDialog.HideLoading();
+        }
+        public async Task GetPastWashDetails()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+
+            int ClientId = CustomerInfo.ClientID;
+            string JobType = "Wash";
+            int LocationId = 0;
+            string JobDate = string.Empty;
+            ScheduleModel result = await AdminService.GetSchedulePastService(JobType, JobDate, LocationId, ClientId);
+            if (result == null)
             {
                 _userDialog.Toast("No Schedules have been found !");
             }
@@ -136,9 +161,7 @@ namespace Strive.Core.ViewModels.Customer
                 BillingDetail = new BillingDetail()
                 {
 
-                }
-
-                
+                } 
             };
 
             //Debug.WriteLine(JsonConvert.SerializeObject(paymentAuthReq));
@@ -179,25 +202,15 @@ namespace Strive.Core.ViewModels.Customer
 
                     var addPaymentReqReq = new AddPaymentReq
                     {
-                        SalesPaymentDto = new SalesPaymentDto()
-                        {
-                            JobPayment = new JobPayment()
-                            {
-                                JobID = Jobid,
-                                Amount = (float)WashTip,
-                                PaymentStatus = paymentStatusId
-                            },
-
                             JobPaymentDetails = new List<JobPaymentDetail>() {
                                     new JobPaymentDetail()
                                     {
                                         Amount = (float)WashTip,
-                                        PaymentType = paymentTypeId
+                                        PaymentType = paymentTypeId,
+                                        //JobPaymentID = JobPaymentId
+
                                     }
                                 }
-                        },
-                        LocationID = 1,
-                        TicketNumber = TicketNumber
                     };
 
                     //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));

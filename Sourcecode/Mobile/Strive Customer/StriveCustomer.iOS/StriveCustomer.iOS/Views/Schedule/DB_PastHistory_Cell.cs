@@ -26,7 +26,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        public void SetData(List<BayJobDetailViewModel> datalist, NSIndexPath indexPath)
+        public void SetData(List<JobViewModel> datalist, NSIndexPath indexPath)
         {
             SelectedIndex = indexPath;
             PayTip.Layer.CornerRadius = 10;
@@ -45,7 +45,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             PH_Barcode_Lbl.Text = datalist[indexPath.Row].Barcode;
             PH_Price_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
            // Price = datalist[indexPath.Row].Cost;
-            ScheduleViewModel.VehicleId = 214796;
+            //ScheduleViewModel.VehicleId = 214796;
             //ScheduleViewModel.JobID = datalist[indexPath.Row].JobId;
             //ScheduleViewModel.TicketNumber = datalist[indexPath.Row].TicketNumber;
             //PH_Cost_Lbl.Text = datalist[indexPath.Row].Cost.ToString();

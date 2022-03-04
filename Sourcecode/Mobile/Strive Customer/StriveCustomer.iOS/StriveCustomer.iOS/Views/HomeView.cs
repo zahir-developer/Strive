@@ -49,7 +49,7 @@ namespace StriveCustomer.iOS.Views
             ScheduleSetMap();
            
             CustomerInfo.setMapInfo();
-            WashTimeWebView.MapType = MKMapType.Hybrid;
+            WashTimeWebView.MapType = MKMapType.Standard;
             WashTimeWebView.WeakDelegate = this;
             WashTimeWebView.ZoomEnabled = true;
             WashTimeWebView.ScrollEnabled = true;

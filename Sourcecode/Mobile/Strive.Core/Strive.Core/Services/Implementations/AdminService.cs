@@ -352,9 +352,11 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CheckoutResponse>(ApiUtils.URL_CHECKOUT_UPDATE, HttpMethod.Post, request);
         }
 
-        public async Task<ScheduleModel> GetSchedulePastService(int clientID)
+        public async Task<ScheduleModel> GetSchedulePastService(string Jobtype, string JobDate, int LocationID, int ClientId)
         {
-            return await _restClient.MakeApiCall<ScheduleModel>(ApiUtils.URL_SCHEDULE_PAST_SERVICE+ "?ClientId=" +clientID, HttpMethod.Get);
+            var Uri = ApiUtils.URL_SCHEDULE_PAST_SERVICE + "?ClientId=" + ClientId + "&JobType=" + Jobtype;
+            //"?JobDate=" + JobDate+ "&LocationId=" + LocationID+
+            return await _restClient.MakeApiCall<ScheduleModel>(Uri, HttpMethod.Get);
         }
 
         public async Task<PostResponse> ScheduleDetail(DetailSchedule request)

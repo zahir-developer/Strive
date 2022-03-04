@@ -97,6 +97,11 @@ namespace Strive.Core.ViewModels.Customer
         }
 
 
+        public  bool CheckDelete()
+        {
+            _userDialog.Alert("You cannot delete this vehicle because there is an active membership");
+            return true;
+        }
 
         public async void NavToAddVehicle()
         {

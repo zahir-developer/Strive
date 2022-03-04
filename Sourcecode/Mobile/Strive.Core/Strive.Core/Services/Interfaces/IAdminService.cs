@@ -135,7 +135,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<CheckoutResponse> DoCheckout(doCheckoutReq checkoutReq);
 
-        Task<ScheduleModel> GetSchedulePastService(int clientID);
+        Task<ScheduleModel> GetSchedulePastService(string Jobtype, string JobDate, int LocationID, int ClientId);
 
         Task<PostResponse> ScheduleDetail(DetailSchedule detailScheduleRequest);
 

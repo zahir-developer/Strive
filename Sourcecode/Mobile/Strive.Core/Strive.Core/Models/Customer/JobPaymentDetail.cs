@@ -9,7 +9,7 @@ namespace Strive.Core.Models.Customer
         public int JobPaymentDetailID { get; } = 0;
 
         [JsonProperty("jobPaymentId")]
-        public int JobPaymentID { get; } = 0;
+        public int JobPaymentID { get; set; } 
 
         [JsonProperty("paymentType")]
         public long PaymentType { get; set; }
@@ -30,15 +30,15 @@ namespace Strive.Core.Models.Customer
         public bool IsDeleted { get; } = false;
 
         [JsonProperty("createdBy")]
-        public long CreatedBy { get; } // = AppSettings.UserID;
+        public long CreatedBy { get; }  = CustomerInfo.ClientID;
 
         [JsonProperty("createdDate")]
         public DateTime CreatedDate { get; } = DateTime.Now;
 
-        //[JsonProperty("updatedBy")]
-        //public long UpdatedBy { get; } = AppSettings.UserID;
+        [JsonProperty("updatedBy")]
+        public long UpdatedBy { get; } = CustomerInfo.ClientID;
 
-        //[JsonProperty("updatedDate")]
-        //public DateTime UpdatedDate { get; } = DateTime.Now;
+        [JsonProperty("updatedDate")]
+        public DateTime UpdatedDate { get; } = DateTime.Now;
     }
 }
