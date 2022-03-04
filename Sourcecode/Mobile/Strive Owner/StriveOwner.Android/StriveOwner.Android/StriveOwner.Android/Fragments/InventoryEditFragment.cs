@@ -342,14 +342,11 @@ namespace StriveOwner.Android.Resources.Fragments
             }
             else
             {
-                if (ViewModel.VendorList.ElementAtOrDefault(e.Position) != null)
+                var vendorName = Vendors[e.Position];
+                var vendor = this.ViewModel.VendorList.IndexOf(this.ViewModel.VendorList.Where(X => X.VendorName == vendorName).FirstOrDefault());
+                if (vendor != null)
                 {
-                    ViewModel.PickerSelectionCommand(ViewModel.VendorList[e.Position]); //while add and edit
-                    position = e.Position;
-                }
-                else
-                {
-                    ViewModel.PickerSelectionCommand(ViewModel.VendorList[e.Position - 1]); //while add last item
+                    ViewModel.PickerSelectionCommand(ViewModel.VendorList[vendor]);
                     position = e.Position;
                 }
             }
@@ -393,14 +390,11 @@ namespace StriveOwner.Android.Resources.Fragments
             }
             else
             {
-                if (ViewModel.LocationList.ElementAtOrDefault(e.Position)!= null) // while add and edit
+                var locName = Locations[e.Position];
+                var location = this.ViewModel.LocationList.IndexOf(this.ViewModel.LocationList.Where(X => X.LocationName == locName).FirstOrDefault());
+                if (location != null)
                 {
-                    ViewModel.setLocationCommand(ViewModel.LocationList[e.Position]);
-                    position = e.Position;
-                }
-                else
-                {
-                    ViewModel.setLocationCommand(ViewModel.LocationList[e.Position - 1]);// while add last item
+                    ViewModel.setLocationCommand(ViewModel.LocationList[location]);
                     position = e.Position;
                 }
             }
@@ -455,14 +449,11 @@ namespace StriveOwner.Android.Resources.Fragments
             }
             else
             {
-                if (ViewModel.ProductTypeList.ElementAtOrDefault(e.Position) != null) // While add and edit
+                var itemValue = ProductTypes[e.Position];
+                var productItem = this.ViewModel.ProductTypeList.IndexOf(this.ViewModel.ProductTypeList.Where(X => X.CodeValue == itemValue).FirstOrDefault());
+                if (productItem != null)
                 {
-                    ViewModel.setProdTypeCommand(ViewModel.ProductTypeList[e.Position]);
-                    position = e.Position;
-                }
-                else
-                {
-                    ViewModel.setProdTypeCommand(ViewModel.ProductTypeList[e.Position - 1]); // while add last item
+                    ViewModel.setProdTypeCommand(ViewModel.ProductTypeList[productItem]);
                     position = e.Position;
                 }
             }
