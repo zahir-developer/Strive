@@ -19,13 +19,13 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qdo-rC-5md">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="796"/>
                 </mapView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.015686274509803921" green="0.023529411764705882" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Qdo-rC-5md" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="GQT-eU-IDt"/>
-                <constraint firstAttribute="bottom" secondItem="Qdo-rC-5md" secondAttribute="bottom" id="S1k-gR-179"/>
+                <constraint firstAttribute="bottom" secondItem="Qdo-rC-5md" secondAttribute="bottom" constant="100" id="S1k-gR-179"/>
                 <constraint firstItem="Qdo-rC-5md" firstAttribute="top" secondItem="2" secondAttribute="top" id="ZyO-du-ksu"/>
                 <constraint firstAttribute="trailing" secondItem="Qdo-rC-5md" secondAttribute="trailing" id="vyM-Jv-W68"/>
             </constraints>

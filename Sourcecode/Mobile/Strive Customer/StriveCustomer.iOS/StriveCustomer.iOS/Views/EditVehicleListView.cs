@@ -23,7 +23,7 @@ namespace StriveCustomer.iOS.Views
         public  override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            
+            Cancel_Membership.Hidden = true;
             InitialSetup();
             // Perform any additional setup after loading the view, typically from a nib.
         }
@@ -56,7 +56,7 @@ namespace StriveCustomer.iOS.Views
         private async void GetCardList()
         {
             await this.ViewModel.GetSelectedVehicleInfo();
-            if (ViewModel.response != null)
+            if (ViewModel.response!= null)
             {
                 CardDetails_TableView.Hidden = false;
                 NoData.Hidden = true;
@@ -102,28 +102,25 @@ namespace StriveCustomer.iOS.Views
                 EditVehicleModel_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
                 EditVehicleColor_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
 
-                if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                if (this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().MembershipName!=null)
                 {
                     CheckMembership.hasExistingMembership = true;
                     EditVehicleMembership_Value.Text = "Yes";
-
-                    var rightBtn = new UIButton(UIButtonType.Custom);
-                    rightBtn.SetTitle("Next", UIControlState.Normal);
-                    rightBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
-
-                    var rightBarBtn = new UIBarButtonItem(rightBtn);
-                    NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
-                    rightBtn.TouchUpInside += (sender, e) =>
-                    {
-                        ViewModel.NavToMembershipDetail();
-                    };
+                    Cancel_Membership.Layer.CornerRadius = 5;
+                    Cancel_Membership.Hidden = false;       
                 }
                 else
                 {
+                    Cancel_Membership.Hidden = true;
                     CheckMembership.hasExistingMembership = false;
                     EditVehicleMembership_Value.Text = "No";                    
                 }
             }
+        }
+
+        partial void Touch_Cancel_Membership(UIButton sender)
+        {
+            ViewModel.NavToMembershipDetail();
         }
 
         partial void EditVehicleList_BtnTouch(UIButton sender)
@@ -141,11 +138,7 @@ namespace StriveCustomer.iOS.Views
             }
         }
 
-        partial void Touch_CardDetails_AddBtn(UIButton sender)
-        {
-            ViewModel.NavigatetoAddCard();
-
-        }
+ 
         
     }
 

@@ -55,12 +55,20 @@ namespace StriveCustomer.iOS.Views
             {
                 //var vehicleViewModel = new VehicleInfoViewModel();
                 var data = CustomerVehiclesInformation.vehiclesList.Status[selectedRow.Row];
-                var deleted = await vehicleViewModel.DeleteCustomerVehicle(data.VehicleId);
-                if (deleted)
+                if (data.MembershipName != null)
                 {
-                    vehicleTable.DeleteRows(new NSIndexPath[] { selectedRow }, UITableViewRowAnimation.Fade);
-                    vehicleViewModel.NavToProfile();
+                    vehicleViewModel.CheckDelete();
                 }
+                else
+                {
+                    var deleted = await vehicleViewModel.DeleteCustomerVehicle(data.VehicleId);
+                    if (deleted)
+                    {
+                        vehicleTable.DeleteRows(new NSIndexPath[] { selectedRow }, UITableViewRowAnimation.Fade);
+                        vehicleViewModel.NavToProfile();
+                    }
+                }
+                
             }
         }
 

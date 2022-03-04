@@ -108,7 +108,11 @@ namespace StriveCustomer.iOS.Views
                 SchedulePastHis_TableView.Hidden = true;
                 ScheduleVehicle_TableView.Hidden = true;
                 WashHistory_TableView.Hidden = false;
+                WashHistory_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
+                WashHistory_TableView.ReloadData();
+                WashHistory_TableView.Layer.CornerRadius = 5;
 
+                getPastWashDetails();
             }
         }
 
@@ -126,6 +130,28 @@ namespace StriveCustomer.iOS.Views
             }
         }
 
+        private async void getPastWashDetails()
+        {
+            await this.ViewModel.GetPastWashDetails();
+
+            if (this.ViewModel.pastServiceHistory != null)
+            {
+                if (this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel != null)
+                {
+                    if (this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count > 0)
+                    {
+                        var pastHis_Source = new Schedule_PastHis_Source(this.ViewModel);
+                        WashHistory_TableView.Source = pastHis_Source;
+                        WashHistory_TableView.TableFooterView = new UIView(CGRect.Empty);
+                        WashHistory_TableView.DelaysContentTouches = false;
+                        WashHistory_TableView.RowHeight = UITableView.AutomaticDimension;
+                        WashHistory_TableView.EstimatedRowHeight = 90;
+                        WashHistory_TableView.ReloadData();
+                    }
+                }
+            }
+        }
+
         private async void getPastServiceDetails()
         {
             
@@ -133,8 +159,8 @@ namespace StriveCustomer.iOS.Views
 
             if(this.ViewModel.pastServiceHistory != null)
             {
-                if(this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel != null) {
-                    if (this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count > 0)
+                if(this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel != null) {
+                    if (this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count > 0)
                     {
                         var pastHis_Source = new Schedule_PastHis_Source(this.ViewModel);
                         SchedulePastHis_TableView.Source = pastHis_Source;

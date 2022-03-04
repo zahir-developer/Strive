@@ -15,14 +15,14 @@ namespace StriveCustomer.iOS.Views.Schedule
         public bool isClicked = false;
         public NSIndexPath selectedCell;
         
-        public List<BayJobDetailViewModel> PastHis_List = new List<BayJobDetailViewModel>();
-        public static List<BayJobDetailViewModel> SavedList = new List<BayJobDetailViewModel>();
+        public List<JobViewModel> PastHis_List = new List<JobViewModel>();
+        public static List<JobViewModel> SavedList = new List<JobViewModel>();
         public Schedule_PastHis_Source(ScheduleViewModel viewModel)
         {
             this.ViewModel = viewModel;
             if (viewModel.pastServiceHistory != null)
             {
-                var JobDetailsViewModel = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel;
+                var JobDetailsViewModel = ViewModel.pastServiceHistory.DetailsGrid.JobViewModel;
                 this.PastHis_List = JobDetailsViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
                 SavedList = PastHis_List;
             }
@@ -55,7 +55,7 @@ namespace StriveCustomer.iOS.Views.Schedule
         
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count;
+            return ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -95,8 +95,10 @@ namespace StriveCustomer.iOS.Views.Schedule
        public void AddWashTip( NSIndexPath indexPath)
         {
             float Price = SavedList[indexPath.Row].Cost;
+            ScheduleViewModel.VehicleId = int.Parse(SavedList[indexPath.Row].VehicleId);
             ScheduleViewModel.Jobid = SavedList[indexPath.Row].JobId;
             ScheduleViewModel.TicketNumber = SavedList[indexPath.Row].TicketNumber;
+            ScheduleViewModel.JobPaymentId = int.Parse(SavedList[indexPath.Row].TipPaymentId);
             var dict = new NSDictionary(new NSString("Price"), new NSString(Price.ToString()));
             NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.employee.Pay"), null, dict);
         }

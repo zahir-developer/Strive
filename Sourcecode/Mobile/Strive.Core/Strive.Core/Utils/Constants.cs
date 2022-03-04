@@ -7,7 +7,12 @@ namespace Strive.Core.Utils
 
         //public const string BASE_URL = "http://14.141.185.75:5004";
         public const string AZURE_URL = "http://40.114.79.101:5004";
-        public const string AZURE_URL_TEST = "https://mammothuatapi-dev.azurewebsites.net"; //"https://mammothuatapi.azurewebsites.net";//"https://mammothuatapi-dev.azurewebsites.net";
+
+        //Mammoth DEV/QA
+        public const string AZURE_URL_TEST = "https://mammothuatapi-dev.azurewebsites.net"; 
+
+        //Mammoth UAT
+        //public const string AZURE_URL_TEST = "https://mammothuatapi.azurewebsites.net";
 
         public static string Token { get; set; }
           
@@ -143,7 +148,7 @@ namespace Strive.Core.Utils
 
         public const string URL_CHECKOUT_UPDATE = "/Admin/Checkout/UpdateCheckoutDetails/";
 
-        public const string URL_SCHEDULE_PAST_SERVICE = "/Admin/Details/GetAllDetails";
+        public const string URL_SCHEDULE_PAST_SERVICE = "/Admin/Details/GetAllJobByClientId";
 
         public const string URL_SCHEDULE_DETAILBAY = "/Admin/Details/AddDetails";
 
@@ -183,7 +188,7 @@ namespace Strive.Core.Utils
         internal const string PAYMENT_AUTH = "/Payroll/PaymentGateway/Auth";
         internal const string PAYMENT_AUTH_PROFILE = "/Payroll/PaymentGateway/AuthProfile";
         internal const string PAYMENT_CAPTURE = "/Payroll/PaymentGateway/Capture";
-        internal const string ADD_PAYMENT = "/Admin/Sales/AddPayment";
+        internal const string ADD_PAYMENT = "/Admin/Sales/AddTipPayment";
         internal const string GLOBAL_DATA = "/Admin/Common/GetCodesByCategory/";
 
         //Document

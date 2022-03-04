@@ -13,7 +13,7 @@ namespace StriveCustomer.iOS.Views
 	partial class EditVehicleListView
 	{
 		[Outlet]
-		UIKit.UIButton CardDetails_AddBtn { get; set; }
+		UIKit.UIButton Cancel_Membership { get; set; }
 
 		[Outlet]
 		UIKit.UITableView CardDetails_TableView { get; set; }
@@ -45,14 +45,14 @@ namespace StriveCustomer.iOS.Views
 		[Action ("EditVehicleList_BtnTouch:")]
 		partial void EditVehicleList_BtnTouch (UIKit.UIButton sender);
 
-		[Action ("Touch_CardDetails_AddBtn:")]
-		partial void Touch_CardDetails_AddBtn (UIKit.UIButton sender);
+		[Action ("Touch_Cancel_Membership:")]
+		partial void Touch_Cancel_Membership (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (CardDetails_AddBtn != null) {
-				CardDetails_AddBtn.Dispose ();
-				CardDetails_AddBtn = null;
+			if (Cancel_Membership != null) {
+				Cancel_Membership.Dispose ();
+				Cancel_Membership = null;
 			}
 
 			if (CardDetails_TableView != null) {
