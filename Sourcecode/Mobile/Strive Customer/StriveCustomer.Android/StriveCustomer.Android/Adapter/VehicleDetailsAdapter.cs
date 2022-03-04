@@ -154,12 +154,19 @@ namespace StriveCustomer.Android.Adapter
             {
                 VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
                 var data = CustomerVehiclesInformation.vehiclesList.Status[position];
-                var deleted = await vehicleInfo.DeleteCustomerVehicle(data.VehicleId);
-                if (deleted)
+                if (data.MembershipName != null)
                 {
-                    vehicleLists.Status.RemoveAt(position);
-                    NotifyItemRemoved(position);
-                    NotifyItemRangeChanged(position, vehicleLists.Status.Count);
+                    vehicleInfo.CheckDelete();
+                }
+                else
+                {
+                    var deleted = await vehicleInfo.DeleteCustomerVehicle(data.VehicleId);
+                    if (deleted)
+                    {
+                        vehicleLists.Status.RemoveAt(position);
+                        NotifyItemRemoved(position);
+                        NotifyItemRangeChanged(position, vehicleLists.Status.Count);
+                    }
                 }
             }
             if (CustomerInfo.actionType == (int)VehicleClickEnums.Download)
