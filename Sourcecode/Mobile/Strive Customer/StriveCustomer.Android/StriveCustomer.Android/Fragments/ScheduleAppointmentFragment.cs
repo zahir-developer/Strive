@@ -123,12 +123,13 @@ namespace StriveCustomer.Android.Fragments
             {
 
                 //dt = DateTime.ParseExact(str, "MM/dd/yyyy", System.Globalization.CultureInfo.CurrentUICulture);//Convert.ToDateTime(str);//DateTime.Parse(str, System.Globalization.CultureInfo.CurrentCulture);
-                // dt = Convert.ToDateTime(str);
-                dt = DateTime.ParseExact(str, "M-dd-yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentUICulture);
+                 dt = Convert.ToDateTime(str);
+                //dt = DateTime.ParseExact(str, "M-dd-yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentUICulture);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                dt = DateTime.ParseExact(str, "M-dd-yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentUICulture);
             }
             GetAvailableSlot(e.Month + 1, e.Year, e.DayOfMonth);
         }
