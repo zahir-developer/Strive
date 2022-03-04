@@ -17,6 +17,21 @@ export class SessionExpiredComponent implements OnInit {
      $('#footerSec').css('display','none');
      $('#headerSec').css('display','none');
     });
+
+    this.clearCacheValue();
+  
+  }
+
+  clearCacheValue() {
+    localStorage.setItem('isAuthenticated', 'false');
+    localStorage.removeItem('authorizationToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('empLocation');
+    localStorage.removeItem('tokenExpiry');
+    localStorage.removeItem('tokenExpiryMinutes');
+    localStorage.removeItem('refreshTokenExpiry');
+    localStorage.removeItem('refreshTokenExpiryMinutes');
+    localStorage.removeItem('refreshTokenCalled');
   }
 
   ngOnDestroy() { 

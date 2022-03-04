@@ -35,6 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   sessionRefresh = []
   RefreshTokenLog: any;
+
+
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -51,15 +53,19 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
-  ngOnInit() {
-    this.initializeTimeOut();
-    if (localStorage.getItem('isAuthenticated') === 'true') {
-      this.getTheme();
-      this.setHeaderName();
-      this.setNavList();
-    }
 
+  stopTimer() {
+    this.idle.stop();
   }
+
+  ngOnInit() {
+      this.initializeTimeOut();
+      if (localStorage.getItem('isAuthenticated') === 'true') {
+        this.getTheme();
+        this.setHeaderName();
+        this.setNavList();
+      }
+    }
   setNavList() {
     this.userService.navName.subscribe(data => {
       this.navData = data;
@@ -85,21 +91,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = ApplicationConfig.refreshTime.refreshTime * 60;    // 60
-      this.subscribeTheIdle(this.idle, seconds);
+      var expiry = +localStorage.getItem('tokenExpiryMinutes');
+      const seconds = (expiry - 1) * 60;
+      if (expiry !== null) {
+        this.subscribeTheIdle(this.idle, seconds);
+      }
     }
   }
 
-  subscribeTheIdle(idle, seconds) {
-    console.log('step');
+  subscribeTheIdle(idle, idleSeconds) {
     // console.log(seconds);
-    //  const idleTimeoutPeriod = seconds - this.TimeoutPeriod;
-    const idleTimeoutPeriod = seconds;
+    // const idleTimeoutPeriod = seconds - this.TimeoutPeriod;
+    const idleTimeoutPeriod = idleSeconds;
     if (idleTimeoutPeriod < 0) {
       return false;
     }
     // sets an idle timeout of 5 seconds, for testing purposes.
-    idle.setIdle(seconds);
+    idle.setIdle(idleSeconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
     const timer = 60;
     idle.setTimeout(timer);  // 60

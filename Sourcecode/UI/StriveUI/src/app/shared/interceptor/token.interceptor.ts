@@ -29,7 +29,28 @@ export class TokenInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
         const accessToken = localStorage.getItem('authorizationToken');
+
+        if (localStorage.getItem('isAuthenticated') === 'true') {
+
+            let expirySession = localStorage.getItem('tokenExpiry');
+
+            if (expirySession !== null) {
+
+                var tokenExpiry = new Date(expirySession);
+
+                var refreshTokenExpiry = new Date(localStorage.getItem('refreshTokenExpiry'));
+
+                var currentTime = new Date();
+
+                if (currentTime >= tokenExpiry)
+                    this.router.navigate(['/unauthorized']);
+                else if (refreshTokenExpiry <= currentTime && +localStorage.getItem('refreshTokenCalled') <= 0) {
+                    return this.refreshToken(req, next);
+                }
+            }
+        }
 
         return next.handle(this.addAuthorizationHeader(req, accessToken)).pipe(
             catchError(err => {
@@ -44,7 +65,8 @@ export class TokenInterceptor implements HttpInterceptor {
                     //    return this.refreshToken(req, next);
                     // }
                     // otherwise logout and redirect to login page
-                    return this.logoutAndRedirect(err);
+                    this.router.navigate(['/unauthorized']);
+                    return;
                 }
 
                 // in case of 403 http error (refresh token failed)
@@ -63,35 +85,49 @@ export class TokenInterceptor implements HttpInterceptor {
         if (token) {
             return request.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
         }
-
         return request;
     }
 
     private logoutAndRedirect(err): Observable<HttpEvent<any>> {
 
-        if (err.status === 404) {
+        if (err?.status === 404) {
             this.messageService.showMessage({ severity: 'warning', title: 'Authentication refresh token failed.', body: 'Please relogin and try again.!' });
         }
-        else if (err.status === 401) {
+        else if (err?.status === 401) {
             this.messageService.showMessage({ severity: 'warning', title: 'Access Denied.', body: 'UnAuthenticated access. Please relogin and try again.!' });
-            //this.router.navigateByUrl('/session-expired');
+            this.router.navigateByUrl('/session-expired');
         }
+        else if (err == null)
+            this.messageService.showMessage({ severity: 'warning', title: 'Authentication refresh token failed.', body: 'Please relogin and try again.!' });
+
+
         this.authService.logout();
         // this.router.navigateByUrl('/login');
 
-        return throwError(err);
+        localStorage.setItem('isAuthenticated', 'false');
+        localStorage.removeItem('authorizationToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('empLocation');
+        localStorage.removeItem('tokenExpiry');
+        localStorage.removeItem('refreshTokenExpiry');
+        localStorage.removeItem('tokenExpiryMinutes');
+        localStorage.removeItem('refreshTokenCalled');
+
+        return;
     }
 
     private refreshToken(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (!this.refreshingInProgress) {
+            localStorage.setItem('refreshTokenCalled', (+localStorage.getItem('refreshTokenCalled') + 1).toString());
             this.refreshingInProgress = true;
             this.accessTokenSubject.next(null);
             return this.authService.refreshToken().pipe(
                 switchMap((res) => {
-                    console.log(res, 'refresh')
+                    console.log(res, 'refresh');
                     this.refreshingInProgress = false;
                     const token = JSON.parse(res.resultData);
                     this.accessTokenSubject.next(token.Token);
+
                     // repeat failed request with new token
                     return next.handle(this.addAuthorizationHeader(request, token.Token));
                 })
@@ -105,6 +141,40 @@ export class TokenInterceptor implements HttpInterceptor {
                     // repeat failed request with new token
                     return next.handle(this.addAuthorizationHeader(request, token));
                 }));
+        }
+    }
+
+    private refreshTokenNew(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        localStorage.setItem('refreshTokenCalled', (+localStorage.getItem('refreshTokenCalled') + 1).toString());
+        if (!this.refreshingInProgress) {
+            this.accessTokenSubject.next(null);
+            var token = this.authService.refreshToken();
+
+            this.refreshingInProgress = true;
+            console.log(token, 'refresh')
+            this.refreshingInProgress = false;
+            /*
+            const token = JSON.parse(result.resultData);
+
+            // If token refresh is successful, set new tokens in local storage.
+            localStorage.setItem("token", token.Token);
+            localStorage.setItem("refreshToken", token.RefreshToken);
+            
+            this.accessTokenSubject.next(token.Token);
+*/
+
+            // repeat failed request with new token
+            return next.handle(this.addAuthorizationHeader(request, <any>token));
+        } else {
+            // wait while getting new token
+            return this.accessTokenSubject.pipe(
+                filter(token => token !== null),
+                take(1),
+                switchMap(token => {
+                    // repeat failed request with new token
+                    return next.handle(this.addAuthorizationHeader(request, token));
+                }));
+
         }
     }
 

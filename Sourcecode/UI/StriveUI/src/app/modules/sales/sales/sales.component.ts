@@ -104,7 +104,7 @@ export class SalesComponent implements OnInit {
   accountPayType: any;
   paymentType = false;
   JobDate = new Date;
-  accountBtnClass: any;
+  accountBtnClass : any;
 
   constructor(
     private toastr: ToastrService, private membershipService: MembershipService, private salesService: SalesService, private router: Router,
@@ -448,7 +448,7 @@ export class SalesComponent implements OnInit {
             this.isAccount = false;
           }
 
-          if (this.accountDetails.SalesAccountCreditViewModel?.ClientId == null) {
+          if(this.accountDetails.SalesAccountCreditViewModel?.ClientId == null){
             this.serviceGroup = false;
           }
           this.calculateAccountbtnClass();
@@ -849,7 +849,7 @@ export class SalesComponent implements OnInit {
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
     //Set cashback amount
-    let Balanceamt = (+this.grandTotal) - this.totalPaid - this.discountAmount;
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
     if (Balanceamt < 0) {
       this.cashback = Math.abs(Balanceamt);
     }
@@ -975,7 +975,8 @@ export class SalesComponent implements OnInit {
         });
       }
     }
-    else {
+    else
+{
       this.addItemForm.controls.quantity.enable();
       this.addItemFormInit();
     }
@@ -1159,7 +1160,7 @@ export class SalesComponent implements OnInit {
     this.removAddedAmount(+this.cash);
     this.cash = this.cashTotal;
     this.calculateTotalpaid(+this.cash);
-    let Balanceamt = (+this.grandTotal) - this.totalPaid - this.discountAmount;
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
     if (Balanceamt < 0) {
       this.cashback = Math.abs(Balanceamt);
     }
@@ -1332,7 +1333,7 @@ export class SalesComponent implements OnInit {
       return;
     }
     //Calculate cashback amount
-    let Balanceamt = (+this.grandTotal) - this.totalPaid - this.discountAmount;
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
     if (Balanceamt < 0) {
       this.cashback = Math.abs(Balanceamt);
     }
@@ -1557,7 +1558,7 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(accountDet);
 
-      if (this.isAccount) {
+      if(this.isAccount){
         creditAccountHistory = {
           CreditAccountHistoryId: 0,
           Amount: (-1 * this.account),
@@ -1622,7 +1623,7 @@ export class SalesComponent implements OnInit {
         taxAmount: 0,
         approval: true,
         paymentStatus: +this.PaymentStatus.filter(i => i.CodeValue === 'Success')[0].CodeId,
-        comments: 'Ticket payment:' + this.multipleTicketNumber.toString(),
+        comments: 'Ticket payment:' +this.multipleTicketNumber.toString(),
         isActive: true,
         isDeleted: false,
         createdBy: 1,
@@ -1927,7 +1928,7 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  calculateAccountbtnClass() {
+  calculateAccountbtnClass(){
     this.accountBtnClass = {
       disable: (!this.enableButton ? (!this.serviceGroup || this.multipleTicketSequence) : true),
       accountbtnenable: (!this.enableButton ? (!this.multipleTicketSequence && this.serviceGroup) : false)
