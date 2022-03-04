@@ -246,7 +246,7 @@ namespace StriveOwner.iOS.Views.HomeView
 
         private void setScheduleData()
         {
-            if (ViewModel.dbSchedule != null && ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
+            if (ViewModel.dbSchedule != null && ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel!= null)
             {              
                 var scheduleSource = new DBSchedule_DataSource(ScheduleTableView,ViewModel.dbSchedule);
                 ScheduleTableView.Source = scheduleSource;

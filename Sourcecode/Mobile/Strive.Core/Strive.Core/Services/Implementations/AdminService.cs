@@ -352,11 +352,11 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CheckoutResponse>(ApiUtils.URL_CHECKOUT_UPDATE, HttpMethod.Post, request);
         }
 
-        public async Task<ScheduleModel> GetSchedulePastService(string Jobtype, string JobDate, int LocationID, int ClientId)
+        public async Task<ServiceHistoryModel> GetSchedulePastService(string Jobtype, string JobDate, int LocationID, int ClientId)
         {
             var Uri = ApiUtils.URL_SCHEDULE_PAST_SERVICE + "?ClientId=" + ClientId + "&JobType=" + Jobtype;
             //"?JobDate=" + JobDate+ "&LocationId=" + LocationID+
-            return await _restClient.MakeApiCall<ScheduleModel>(Uri, HttpMethod.Get);
+            return await _restClient.MakeApiCall<ServiceHistoryModel>(Uri, HttpMethod.Get);
         }
 
         public async Task<PostResponse> ScheduleDetail(DetailSchedule request)
@@ -432,9 +432,11 @@ namespace Strive.Core.Services.Implementations
             var url = ApiUtils.URL_GET_PAYROLL + "?Locationid=" + LocationId + "&StartDate=" + StartDate + "&EndDate=" + EndDate+ "&empid = " + EmpId ;
             return await _restClient.MakeApiCall<PayRoll>(url, HttpMethod.Get);
         }
+        
+
         public async Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId)
         {
-            var uriBuilder = ApiUtils.URL_SCHEDULE_PAST_SERVICE;
+            var uriBuilder = ApiUtils.URL_GET_DASHBORD;
             var string1 = "?JobDate=" + jobDate;
             var string2 = "&LocationId=" + locationId;
 

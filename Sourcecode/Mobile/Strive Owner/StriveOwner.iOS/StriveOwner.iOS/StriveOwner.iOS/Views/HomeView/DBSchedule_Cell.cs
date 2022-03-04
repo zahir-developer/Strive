@@ -29,7 +29,7 @@ namespace StriveOwner.iOS.Views.HomeView
             
         }
 
-        public void SetupView(BayJobDetailViewModel item, Boolean expand)
+        public void SetupView(BayJobViewModel item, Boolean expand)
         {
             isexpanded = expand;
             BayNameLbl.Text = item.BayName;

@@ -15,8 +15,8 @@ namespace StriveCustomer.iOS.Views.Schedule
         public bool isClicked = false;
         public NSIndexPath selectedCell;
         
-        public List<JobViewModel> PastHis_List = new List<JobViewModel>();
-        public static List<JobViewModel> SavedList = new List<JobViewModel>();
+        public List<jobViewModel> PastHis_List = new List<jobViewModel>();
+        public static List<jobViewModel> SavedList = new List<jobViewModel>();
         public Schedule_PastHis_Source(ScheduleViewModel viewModel)
         {
             this.ViewModel = viewModel;

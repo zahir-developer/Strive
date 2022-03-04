@@ -19,8 +19,8 @@ namespace Strive.Core.ViewModels.Customer
         public VehicleList scheduleVehicleList { get; set; }
 
         public PastClientServices pastClientServices { get; set; }
-        public ScheduleModel pastServiceHistory { get; set; }
-        public ScheduleModel pastServiceHistory1 { get; set; }
+        public ServiceHistoryModel pastServiceHistory { get; set; }
+        public ServiceHistoryModel pastServiceHistory1 { get; set; }
 
         //Properties Used in Tip Feature
         public double WashTip { get; set; }
@@ -80,7 +80,7 @@ namespace Strive.Core.ViewModels.Customer
             string JobType = "Detail";
             int LocationId = 0;
             string JobDate = string.Empty;
-            ScheduleModel result = await AdminService.GetSchedulePastService(JobType, JobDate, LocationId, ClientId);
+            ServiceHistoryModel result = await AdminService.GetSchedulePastService(JobType, JobDate, LocationId, ClientId);
             if(result == null)
             {
                 _userDialog.Toast("No Schedules have been found !");
@@ -99,7 +99,7 @@ namespace Strive.Core.ViewModels.Customer
             string JobType = "Wash";
             int LocationId = 0;
             string JobDate = string.Empty;
-            ScheduleModel result = await AdminService.GetSchedulePastService(JobType, JobDate, LocationId, ClientId);
+            ServiceHistoryModel result = await AdminService.GetSchedulePastService(JobType, JobDate, LocationId, ClientId);
             if (result == null)
             {
                 _userDialog.Toast("No Schedules have been found !");

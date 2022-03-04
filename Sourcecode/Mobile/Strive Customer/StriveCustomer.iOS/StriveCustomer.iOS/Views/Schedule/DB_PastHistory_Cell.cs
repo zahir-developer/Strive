@@ -26,7 +26,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        public void SetData(List<JobViewModel> datalist, NSIndexPath indexPath)
+        public void SetData(List<jobViewModel> datalist, NSIndexPath indexPath)
         {
             SelectedIndex = indexPath;
             PayTip.Layer.CornerRadius = 10;
@@ -44,12 +44,12 @@ namespace StriveCustomer.iOS.Views.Schedule
             PH_DetService_Lbl.Text = datalist[indexPath.Row].ServiceTypeName;
             PH_Barcode_Lbl.Text = datalist[indexPath.Row].Barcode;
             PH_Price_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
-           // Price = datalist[indexPath.Row].Cost;
+            // Price = datalist[indexPath.Row].Cost;
             //ScheduleViewModel.VehicleId = 214796;
             //ScheduleViewModel.JobID = datalist[indexPath.Row].JobId;
             //ScheduleViewModel.TicketNumber = datalist[indexPath.Row].TicketNumber;
             //PH_Cost_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
-
+            PayTip.Hidden = true;
 
         }
         partial void Pay_BtnTouch(UIButton sender)
