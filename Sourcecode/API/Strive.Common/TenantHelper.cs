@@ -121,6 +121,7 @@ namespace Strive.Common
         public string OSMUri { get; set; }
         public string UserAgent { get; set; }
         public string ErrorLog { get; set; }
+        public string TimeZone { get; set; }
 
         #region
 

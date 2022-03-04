@@ -50,7 +50,7 @@ namespace Strive.BusinessLogic.Auth
                 if (tSchema.UserType != (int)UserType.Client)
                 {
 
-                    EmployeeLoginViewModel employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tSchema.AuthId);
+                    EmployeeLoginViewModel employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tSchema.AuthId, authentication.Token);
                     (token, refreshToken) = GetTokens(tSchema, employee, secretKey);
                     _resultContent.Add(employee.WithName("EmployeeDetails"));
                 }

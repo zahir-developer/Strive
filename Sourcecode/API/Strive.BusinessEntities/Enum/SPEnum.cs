@@ -142,6 +142,7 @@ namespace Strive.BusinessEntities
             USPGETCHECKLISTBYID,
             USPGETCHECKNOTIFICATIONLIST,
             USPUPDATECHECKLISTNOTIFICATION,
+            USPGETCHECKLISTNOTIFICATION,
         }
 
         public enum Client

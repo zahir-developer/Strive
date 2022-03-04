@@ -64,9 +64,10 @@ namespace Strive.ResourceAccess
             return lstEmployee;
         }
 
-        public EmployeeLoginViewModel GetEmployeeByAuthId(int authId)
+        public EmployeeLoginViewModel GetEmployeeByAuthId(int authId,string token)
         {
             _prm.Add("AuthId", authId);
+            _prm.Add("token", token);
             var lstResult = db.FetchMultiResult<EmployeeLoginViewModel>(EnumSP.Employee.USPGETUSERBYAUTHID.ToString(), _prm);
             return lstResult;
         }
