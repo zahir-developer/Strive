@@ -27,7 +27,7 @@
             android:textColor="@color/profileQColor"
             android:background="@color/mtrl_btn_transparent_bg_color"
             android:text="Back" />
-        <Button
+        <!--<Button
             android:id="@+id/vehicleInfoNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:gravity="center"
             android:textColor="@color/profileQColor"
             android:background="@color/mtrl_btn_transparent_bg_color"
-            android:text="Next" />
+            android:text="Next" />-->
     </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
@@ -206,7 +206,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fifteen"
-                android:weightSum="2">
+                android:weightSum="3">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -223,7 +223,15 @@
                     android:textColor="@color/profileQColor"
                     android:textSize ="@dimen/textFourteen"
                     android:fontFamily="@font/opensans_bold"
-                    android:layout_weight="1"/>
+                    android:layout_weight="0.5"/>
+                <Button
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/cancelMembershipButton"
+                     android:layout_weight="1.5"
+                     android:text="Cancel Membership"
+                     android:textSize="10sp"
+                    android:background="@drawable/circularedgedrectangle_button"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -270,7 +278,7 @@
                             android:textColor="@color/profileQColor"
                             android:textSize ="@dimen/textFourteen"
                             android:fontFamily="@font/opensans_regular"
-                            android:layout_weight="1"/>
+                            android:layout_weight="0.8"/>
                         <TextView
                             android:id="@+id/cardNumber"
                             android:layout_width="0dp"
@@ -278,7 +286,7 @@
                             android:textColor="@color/profileQColor"
                             android:textSize ="@dimen/textFourteen"
                             android:fontFamily="@font/opensans_bold"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1.2"/>
                     </LinearLayout>
                     <LinearLayout
                         android:orientation="horizontal"

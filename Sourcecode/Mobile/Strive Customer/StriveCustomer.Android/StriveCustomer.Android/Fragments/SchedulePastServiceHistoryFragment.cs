@@ -74,7 +74,7 @@ namespace StriveCustomer.Android.Fragments
                             var sortedBayJobDetail = this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
                             TicketNumber = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
                             moreInfo_LinearLayout = new LinearLayout[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
-                            tipButton = new Button[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                            tipButton = new Button[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];                            
                             price = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
                             // for (int services = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count-1; services >= 0; services--)
                             foreach (var services in sortedBayJobDetail)
@@ -107,16 +107,16 @@ namespace StriveCustomer.Android.Fragments
                                     barcode.Text = services.Barcode;
                                     price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
 
-                                    tipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.tipButton);
-                                    tipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
+                                   // tipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.tipButton);
+                                   // tipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
                                     TicketNumber[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<TextView>(Resource.Id.scheduleTicket_TextView);
-                                    TicketNumber[sortedBayJobDetail.IndexOf(services)].Text = services.TicketNumber;
+                                    TicketNumber[sortedBayJobDetail.IndexOf(services)].Text = services.TicketNumber;                                    
                                     //TicketNumber[services].PaintFlags = PaintFlags.UnderlineText;
                                     moreInfo_LinearLayout[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<LinearLayout>(Resource.Id.moreInfo_LinearLayout);
                                     moreInfo_LinearLayout[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Gone;
                                     TicketNumber[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
                                     TicketNumber[sortedBayJobDetail.IndexOf(services)].Click += SchedulePastServiceHistoryFragment_Click;
-                                    tipButton[sortedBayJobDetail.IndexOf(services)].Click += TipButton_Click;
+                                  //  tipButton[sortedBayJobDetail.IndexOf(services)].Click += TipButton_Click;
                                     //AssignListeners(sortedBayJobDetail.IndexOf(services));                           
                                     PastServiceList_LinearLayout.AddView(layout);
                                 }

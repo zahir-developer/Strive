@@ -29,7 +29,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView vehicleMembership;
         private TextView vehicleName;
         private Button backButton;
-        private Button nextButton;
+       // private Button nextButton;
         private ImageButton editMembershipButton;
         private TextView cardNumber;
         private TextView expiryDate;
@@ -38,6 +38,7 @@ namespace StriveCustomer.Android.Fragments
         private MyProfileInfoFragment profileFragment;
         private VehicleMembershipDetailsFragment membershipDetailFrag;
         private VehicleMembershipFragment vehicleMembershipFrag;
+        private Button cancelMembershipButton;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -60,17 +61,25 @@ namespace StriveCustomer.Android.Fragments
             vehicleName = rootview.FindViewById<TextView>(Resource.Id.vehicleName);
             vehicleMembership = rootview.FindViewById<TextView>(Resource.Id.vehicleMembershipName);
             backButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoBack);
-            nextButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoNext);
+            //nextButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoNext);
             cardNumber = rootview.FindViewById<TextView>(Resource.Id.cardNumber);
             expiryDate = rootview.FindViewById<TextView>(Resource.Id.expiryDate);
             cardDetails_cardView = rootview.FindViewById<CardView>(Resource.Id.cardDetails_cardView);
             noCardDetails_Text = rootview.FindViewById<TextView>(Resource.Id.noCardDetailsText);
+            cancelMembershipButton = rootview.FindViewById<Button>(Resource.Id.cancelMembershipButton);
             this.ViewModel = new VehicleInfoDisplayViewModel();
             backButton.Click += BackButton_Click;
-            nextButton.Click += NextButton_Click;
-            editMembershipButton.Click += EditMembershipButton_Click; 
+            //nextButton.Click += NextButton_Click;
+            editMembershipButton.Click += EditMembershipButton_Click;
+            cancelMembershipButton.Click += CancelMembershipButton_Click;
             getSelectVehicleInfo();
             return rootview;
+        }
+
+        private void CancelMembershipButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipDetailFrag).Commit();
         }
 
         private async void EditMembershipButton_Click(object sender, EventArgs e)
@@ -149,13 +158,13 @@ namespace StriveCustomer.Android.Fragments
                     {
                         CheckMembership.hasExistingMembership = true;
                         vehicleMembership.Text = "Yes";
-                        nextButton.Visibility = ViewStates.Visible;
+                        cancelMembershipButton.Visibility = ViewStates.Visible;
                     }
                     else
                     {
                         CheckMembership.hasExistingMembership = false;
                         vehicleMembership.Text = "No";
-                        nextButton.Visibility = ViewStates.Gone;
+                        cancelMembershipButton.Visibility = ViewStates.Gone;
                     }
 
                 }

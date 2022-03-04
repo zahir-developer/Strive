@@ -601,14 +601,14 @@ namespace StriveOwner.Android.Resources.Fragments
         private void BayDetails()
         {
 
-            if (ViewModel.dbSchedule != null && ViewModel.dbSchedule.DetailsGrid != null && ViewModel.dbSchedule.DetailsGrid.JobViewModel != null)
+            if (ViewModel.dbSchedule != null && ViewModel.dbSchedule.DetailsGrid != null && ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
             {
                 BayDetailsScrollView.Visibility = ViewStates.Visible;
                 NoRecord.Visibility = ViewStates.Gone;            
                 
-                if (ViewModel.dbSchedule.DetailsGrid.JobViewModel.Count > 0)
+                if (ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel.Count > 0)
                 {
-                    foreach (var data in ViewModel.dbSchedule.DetailsGrid.JobViewModel)
+                    foreach (var data in ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel)
                     {
                         if (Context != null)
                         {
@@ -625,7 +625,7 @@ namespace StriveOwner.Android.Resources.Fragments
                             var bay_services = layout.FindViewById<TextView>(Resource.Id.serviceshome_TextView);
                             var bay_upcharges = layout.FindViewById<TextView>(Resource.Id.upchargeshome_TextView);
 
-                            //bay_number.Text = data.BayName;
+                            bay_number.Text = data.BayName;
                             ticket_number.Text = "Ticket#: " + data.TicketNumber;
                             bay_timein.Text = data.TimeIn;
                             bay_client.Text = data.ClientName;
