@@ -430,9 +430,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       this.isTimechange = false;
       if (data.status === 'Success') {
         this.spinner.hide();
-        this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
-
-        this.getTargetBusinessData(this.locationId, this.Todaydate);
+        this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');        
         this.getCashRegister();
         const weatherPredictObj = {
           WeatherPrediction: weatherObj
@@ -440,6 +438,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.weatherService.UpdateWeather(weatherPredictObj).subscribe(response => {
           if (response.status === 'Success') {
             this.spinner.hide();
+            this.getTargetBusinessData(this.locationId, this.Todaydate);
 
             this.toggleTab = 0;            
             this.weatherService.getWeather();            
