@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Acr.UserDialogs;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -13,6 +13,7 @@ using Android.Util;
 using Android.Views;
 using Android.Webkit;
 using Android.Widget;
+using MvvmCross;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
@@ -39,6 +40,7 @@ namespace StriveCustomer.Android.Fragments
         public static FloatingActionButton floatingActionButton;
         public static BottomNavigationView bottomNavigationView;
         private TextView amount;
+        public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -144,7 +146,7 @@ namespace StriveCustomer.Android.Fragments
             
         }
 
-        public void OnPageSelected(int position)
+        public async void OnPageSelected(int position)
         {
             if (position == 0) 
             { 
@@ -152,7 +154,16 @@ namespace StriveCustomer.Android.Fragments
             }
             if (position == 1) 
             {
-                pastServiceHistoryFragment.GetPastServices();
+                await pastServiceHistoryFragment.GetPastServices();
+                if (this.ViewModel == null)
+                {
+                    this.ViewModel = new ScheduleViewModel();
+                }
+                if (ViewModel.pastServiceHistory == null)
+                {
+
+                    _userDialog.Toast("No Schedules have been found !");
+                }
             }
         }
     }

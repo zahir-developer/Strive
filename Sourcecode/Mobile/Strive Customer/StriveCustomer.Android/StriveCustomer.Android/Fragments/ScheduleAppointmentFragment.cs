@@ -87,6 +87,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void Back_Button_Click(object sender, EventArgs e)
         {
+            CustomerScheduleInformation.ScheduleServiceTime = null;
             selectServiceFragment = new ScheduleSelectServiceFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectServiceFragment).Commit();

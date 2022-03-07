@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string name="app_name">StriveCustomer</string>
+    <string name="app_name">Strive Wash Client</string>
     <string name="action_settings">Settings</string>
     <string name="email_or_phone">Email or Phone</string>
     <string name="password">Password</string>

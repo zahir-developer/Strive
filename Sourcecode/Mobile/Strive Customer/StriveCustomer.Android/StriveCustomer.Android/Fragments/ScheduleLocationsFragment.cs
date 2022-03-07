@@ -65,12 +65,12 @@ namespace StriveCustomer.Android.Fragments
 
         private void ScheduleLocations_NextButton_Click(object sender, EventArgs e)
         {
-            if(this.ViewModel.checkSelectedLocation())
+            if (this.ViewModel.checkSelectedLocation())
             {
                 selectServiceFragment = new ScheduleSelectServiceFragment();
                 AppCompatActivity activity = (AppCompatActivity)this.Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectServiceFragment).Commit();
-            }         
+            }
         }
 
         private void ScheduleLocations_BackButton_Click(object sender, EventArgs e)
@@ -118,24 +118,28 @@ namespace StriveCustomer.Android.Fragments
                     return;
                 }
             }
-}
+        }
 
         private void RadioButton_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             var radiobtn = sender as RadioButton;
             var text = radiobtn.Text;
-            for(int data = 0;  data < this.ViewModel.Locations.Location.Count; data ++)
+            for (int data = 0; data < this.ViewModel.Locations.Location.Count; data++)
             {
-                if(string.Equals(this.ViewModel.Locations.Location[data].Address1, text))
+                if (string.Equals(this.ViewModel.Locations.Location[data].Address1, text))
                 {
-                    CustomerScheduleInformation.ScheduleLocationCode = this.ViewModel.Locations.Location[data].LocationId;
-                    CustomerScheduleInformation.ScheduleLocationAddress = this.ViewModel.Locations.Location[data].Address1;
-                    if(firstTime == 0)
+                    if (e.IsChecked) 
+                    {
+                        CustomerScheduleInformation.ScheduleLocationCode = this.ViewModel.Locations.Location[data].LocationId;
+                        CustomerScheduleInformation.ScheduleLocationAddress = this.ViewModel.Locations.Location[data].Address1;
+                    }
+                    
+                    if (firstTime == 0)
                     {
                         CustomerScheduleInformation.ScheduleServiceLocationNumber = data;
                         firstTime++;
                     }
-                    else if(count == 0)
+                    else if (count == 0)
                     {
                         CustomerScheduleInformation.ScheduleServiceLocationNumber = data;
                         count++;
@@ -144,8 +148,8 @@ namespace StriveCustomer.Android.Fragments
                     {
                         count = 0;
                     }
-                }              
-            }           
+                }
+            }
         }
     }
 }

@@ -87,20 +87,23 @@ namespace StriveCustomer.Android.Adapter
             {
                 slotSelection[oldSelection]?.SetBackgroundResource(Resource.Drawable.TimeSlots);
                 Selected[oldSelection] = 0;
+                CustomerScheduleInformation.ScheduleServiceTime = null;
             }
             if (Selected[position] == 0)
             {
                 slotSelection[position]?.SetBackgroundResource(Resource.Drawable.TimeSlotSelected);
                 Selected[position] = 1;
+                CustomerScheduleInformation.ScheduleServiceTime = button.Text;
 
             }
             else
             {
                 slotSelection[position]?.SetBackgroundResource(Resource.Drawable.TimeSlots);
                 Selected[position] = 0;
+                CustomerScheduleInformation.ScheduleServiceTime = null;
             }
             oldSelection = position;
-            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
+            
             CustomerScheduleInformation.ScheduleServiceSlotNumber = oldSelection;
             CustomerScheduleInformation.ScheduleTime = CustomerScheduleInformation.ScheduleFullDate + "T" + CustomerScheduleInformation.ScheduleServiceTime;
             CustomerScheduleInformation.ScheduledBayId = availableScheduleSlots.GetTimeInDetails[position].BayId;

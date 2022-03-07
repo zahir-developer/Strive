@@ -61,7 +61,8 @@ namespace StriveCustomer.Android.Fragments
         }
 
         private void ScheduleServices_BackButton_Click1(object sender, EventArgs e)
-        {
+        {            
+            CustomerScheduleInformation.ScheduleServiceID = -1;                       
             locationsFragment = new ScheduleLocationsFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationsFragment).Commit();
@@ -69,6 +70,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
+            CustomerScheduleInformation.ScheduleServiceID = -1;
             scheduleFragment = new ScheduleFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
@@ -87,6 +89,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void ScheduleServices_BackButton_Click(object sender, EventArgs e)
         {
+            CustomerScheduleInformation.ScheduleServiceID = -1;
             scheduleFragment = new ScheduleFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
@@ -121,7 +124,7 @@ namespace StriveCustomer.Android.Fragments
 
                     assignListeners(service);
 
-                    if(CustomerScheduleInformation.ScheduleServiceSelectedNumber == service)
+                    if(CustomerScheduleInformation.ScheduleServiceSelectedNumber == service && CustomerScheduleInformation.ScheduleServiceID != -1)
                     {
                         checkBoxes[service].Checked = true;
                     }
@@ -174,6 +177,7 @@ namespace StriveCustomer.Android.Fragments
             if (!e.IsChecked)
             {
                 checkBoxes[position].Checked = false;
+                CustomerScheduleInformation.ScheduleServiceID = -1;
             }
             else
             {
@@ -197,6 +201,7 @@ namespace StriveCustomer.Android.Fragments
             if(oldSelection != -1)
             {
                 checkBoxes[oldSelection].Checked = false;
+                CustomerScheduleInformation.ScheduleServiceID = -1;
             }
            
         }

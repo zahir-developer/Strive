@@ -9,6 +9,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Utils;
+using Xamarin.Essentials;
 
 namespace Strive.Core.ViewModels.Customer
 {
@@ -35,6 +36,8 @@ namespace Strive.Core.ViewModels.Customer
         #endregion Properties
 
         #region Commands
+
+        DevicePlatform platform = DeviceInfo.Platform;
 
         public async Task GetScheduleVehicleList()
         {
@@ -81,9 +84,12 @@ namespace Strive.Core.ViewModels.Customer
             int LocationId = 0;
             string JobDate = string.Empty;
             ServiceHistoryModel result = await AdminService.GetSchedulePastService(JobType, JobDate, LocationId, ClientId);
-            if(result == null)
-            {
-                _userDialog.Toast("No Schedules have been found !");
+            if(result == null)            {
+                
+                if (platform == DevicePlatform.iOS)
+                {
+                    _userDialog.Toast("No Schedules have been found !");
+                }                
             }
             else
             {
@@ -102,7 +108,11 @@ namespace Strive.Core.ViewModels.Customer
             ServiceHistoryModel result = await AdminService.GetSchedulePastService(JobType, JobDate, LocationId, ClientId);
             if (result == null)
             {
-                _userDialog.Toast("No Schedules have been found !");
+                if (platform == DevicePlatform.iOS)
+                {
+                    _userDialog.Toast("No Schedules have been found !");
+                }
+                
             }
             else
             {
