@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -50,6 +51,10 @@ namespace Strive.BusinessLogic.Checklist
         public Result GetChecklistById(int id)
         {
             return ResultWrap(new ChecklistRal(_tenant).GetChecklistById, id, "ChecklistById");
+        }
+        public ChecklistNotificationDetailViewModel GetChecklistNotificationByDate(DateTime date)
+        {
+            return new ChecklistRal(_tenant).GetChecklistNotificationByDate(date);
         }
     }
 }

@@ -18,9 +18,9 @@ namespace Strive.ResourceAccess
 
         public int AddDetails(DetailsDto details)
         {
-            return dbRepo.InsertPK<DetailsDto>(details, "JobId");    
+            return dbRepo.InsertPK<DetailsDto>(details, "JobId");
         }
-        
+
         public int UpdateDetails(DetailsDto details)
         {
             if (dbRepo.UpdatePc(details, "Job"))
@@ -32,7 +32,7 @@ namespace Strive.ResourceAccess
         public JobResultDto UpdateDetailApp(DetailsDto details)
         {
             JobResultDto resultDto = new JobResultDto();
-            
+
             if (dbRepo.UpdatePc(details, "Job"))
             {
                 resultDto.JobId = details.Job.JobId;
@@ -44,7 +44,7 @@ namespace Strive.ResourceAccess
 
         public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
-            return dbRepo.InsertPc(jobServiceEmployee,"JobServiceEmployeeId");
+            return dbRepo.InsertPc(jobServiceEmployee, "JobServiceEmployeeId");
         }
         public BaySchedulesDetails GetBaySchedulesDetails(DetailsGridDto detailsGrid)
         {
@@ -73,7 +73,7 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<VehiclePastHistoryViewModel>(EnumSP.Details.USPGETPASTCLIENTNOTESBYCLIENTID.ToString(), _prm);
             return result;
         }
-        
+
         public List<JobTypeViewModel> GetJobType()
         {
             var result = db.Fetch<JobTypeViewModel>(EnumSP.Details.USPGETJOBTYPE.ToString(), null);
@@ -86,6 +86,17 @@ namespace Strive.ResourceAccess
             _prm.Add("@ClientId", detailsGrid.ClientId);
 
             var result = db.FetchMultiResult<DetailsGridViewModel>(EnumSP.Details.USPGETALLDETAILS.ToString(), _prm);
+            return result;
+        }
+
+        public JobsViewModel GetAllJobByClientId(JobsGridDTO detailsGrid)
+        {
+            _prm.Add("@JobDate", detailsGrid.JobDate);
+            _prm.Add("@LocationId", detailsGrid.LocationId);
+            _prm.Add("@ClientId", detailsGrid.ClientId);
+            _prm.Add("@Type", detailsGrid.JobType);
+
+            var result = db.FetchMultiResult<JobsViewModel>(EnumSP.Details.USPGETALLJOBBYCLIENTID.ToString(), _prm);
             return result;
         }
 
@@ -103,7 +114,7 @@ namespace Strive.ResourceAccess
             var result = db.FetchMultiResult<DetailsGridViewModel>(EnumSP.Details.USPGETALLDETAILS.ToString(), _prm);
             return result;
         }
-        
+
         public bool DeleteDetails(int id)
         {
             _prm.Add("@JobId", id);

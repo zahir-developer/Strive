@@ -383,6 +383,10 @@ export class SalesComponent implements OnInit {
       this.isTenTicketNumber = false;
     }
     this.getDetailByTicket(false);
+    if (this.multipleTicketNumber.length > 1) {
+      this.multipleTicketSequence = true;
+    }
+    this.calculateAccountbtnClass();
   }
 
   removeTicketNumber(ticket) {
@@ -448,8 +452,8 @@ export class SalesComponent implements OnInit {
             this.serviceGroup = false;
           }
           this.calculateAccountbtnClass();
-        }        
-      });      
+        }
+      });
       this.spinner.show();
       const salesObj =
       {
@@ -575,7 +579,7 @@ export class SalesComponent implements OnInit {
       }, (err) => {
         this.enableAdd = false;
         this.spinner.hide();
-      });      
+      });
     }
   }
 
@@ -845,8 +849,8 @@ export class SalesComponent implements OnInit {
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
     //Set cashback amount
-    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;    
-     if (Balanceamt < 0) {
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    if (Balanceamt < 0) {
       this.cashback = Math.abs(Balanceamt);
     }
   }
@@ -972,7 +976,7 @@ export class SalesComponent implements OnInit {
       }
     }
     else
-    {
+{
       this.addItemForm.controls.quantity.enable();
       this.addItemFormInit();
     }
@@ -1156,10 +1160,10 @@ export class SalesComponent implements OnInit {
     this.removAddedAmount(+this.cash);
     this.cash = this.cashTotal;
     this.calculateTotalpaid(+this.cash);
-    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;    
-     if (Balanceamt < 0) {
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    if (Balanceamt < 0) {
       this.cashback = Math.abs(Balanceamt);
-    }  
+    }
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -1329,8 +1333,8 @@ export class SalesComponent implements OnInit {
       return;
     }
     //Calculate cashback amount
-    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;    
-     if (Balanceamt < 0) {
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    if (Balanceamt < 0) {
       this.cashback = Math.abs(Balanceamt);
     }
     document.getElementById('discountpopup').style.width = '0';
@@ -1564,13 +1568,13 @@ export class SalesComponent implements OnInit {
           CreatedDate: new Date(),
           UpdatedBy: null,
           UpdatedDate: new Date(),
-          Comments: 'Ticket payment: ' + this.multipleTicketNumber.toString(), 
+          Comments: 'Ticket payment: ' + this.multipleTicketNumber.toString(),
           JobPaymentId: 0,
           TransactionType: this.accountPayType,
           ClientId: this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
         }
       }
-      
+
     }
     if (this.credit !== 0) {
       const creditPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Card)[0].CodeId;
@@ -1789,7 +1793,7 @@ export class SalesComponent implements OnInit {
   }
 
   processAccount() {
-    if(this.enableButton){
+    if (this.enableButton || this.multipleTicketSequence) {
       return;
     }
     this.isAccountButton = !this.isAccountButton;
@@ -1924,11 +1928,11 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  calculateAccountbtnClass(){    
+  calculateAccountbtnClass(){
     this.accountBtnClass = {
-      disable:( this.enableButton || !this.serviceGroup ||this.multipleTicketSequence),
-      accountbtnenable:(!this.enableButton && !this.multipleTicketSequence && this.serviceGroup )
-        }
+      disable: (!this.enableButton ? (!this.serviceGroup || this.multipleTicketSequence) : true),
+      accountbtnenable: (!this.enableButton ? (!this.multipleTicketSequence && this.serviceGroup) : false)
+    }
     return this.accountBtnClass;
   }
 

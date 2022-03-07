@@ -62,6 +62,8 @@ using Admin.API.Scheduler;
 using Quartz.Spi;
 using Quartz;
 using Quartz.Impl;
+using Google.Apis.Auth.OAuth2;
+using FirebaseAdmin;
 
 namespace Admin.API
 {
@@ -150,7 +152,7 @@ namespace Admin.API
 
                 {
 
-                    builder.WithOrigins("http://localhost:4200", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat.azurewebsites.net")
+                    builder.WithOrigins("http://localhost:4200", "http://localhost:4300", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat.azurewebsites.net")
 
                             .AllowAnyHeader()
 
@@ -242,6 +244,7 @@ namespace Admin.API
             services.AddSingleton<SecPaymentScheduler>();
             services.AddSingleton<ThirdPaymentScheduler>();
             services.AddSingleton<WeatherScheduler>();
+            services.AddSingleton<ChecklistJob>();
             //EmailScheduler
             string cronExp = Configuration.GetSection("EmailScheduler")["CRON"];
             services.AddSingleton(new JobSchedule(jobType: typeof(EmailScheduler), cronExpression: cronExp));
@@ -257,8 +260,25 @@ namespace Admin.API
             services.AddSingleton(new JobSchedule(jobType: typeof(ThirdPaymentScheduler), cronExpression: thirdPaymentExp));
 
             string weatherExp = Configuration.GetSection("CRON")["WeatherCRON"];
-            services.AddSingleton(new JobSchedule(jobType: typeof(WeatherScheduler), cronExpression: weatherExp));
+            services.AddSingleton(new JobSchedule(jobType: typeof(WeatherScheduler), cronExpression: thirdPaymentExp));
 
+            string checkExp = Configuration.GetSection("CRON")["ChecklistCRON"];
+            services.AddSingleton(new JobSchedule(jobType: typeof(ChecklistJob), cronExpression: checkExp));
+
+
+            var fileName = Configuration.GetSection("GoogleFirebase")["fileName"];
+            var filePath = Configuration.GetSection("GoogleFirebase")["filePath"];
+
+            if (File.Exists(filePath + fileName))
+            {
+                var credential = GoogleCredential.FromFile(filePath + fileName);
+                FirebaseApp.Create(new AppOptions()
+                {
+
+                    Credential = credential
+                });
+
+            }
             services.AddSwagger();
 
             services.AddSignalR();
@@ -302,7 +322,7 @@ namespace Admin.API
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "https://mammothuat.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "http://localhost:4300", "https://mammothuat.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // global cors policy

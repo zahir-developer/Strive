@@ -142,6 +142,7 @@ namespace Strive.BusinessEntities
             USPGETCHECKLISTBYID,
             USPGETCHECKNOTIFICATIONLIST,
             USPUPDATECHECKLISTNOTIFICATION,
+            USPGETCHECKLISTNOTIFICATION,
         }
 
         public enum Client
@@ -301,7 +302,8 @@ namespace Strive.BusinessEntities
             USPGETALLDETAILS,
             USPGETDETAILSCHEDULESTATUS,
             USPUPDATEJOBSTATUS,
-            USPGETEMPLOYEEASSIGNEDDETAIL
+            USPGETEMPLOYEEASSIGNEDDETAIL,
+            USPGETALLJOBBYCLIENTID
         }
         public enum Schedule
         {

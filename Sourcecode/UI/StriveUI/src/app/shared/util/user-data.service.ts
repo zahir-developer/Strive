@@ -30,6 +30,8 @@ export class UserDataService {
     const token = JSON.parse(loginToken);
     console.log(token, 'token');
     localStorage.setItem('isAuthenticated', 'true');
+    var dateTime = new Date();
+    var expireMinutes = 0;
     if (token.EmployeeDetails !== undefined) {
       this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
       localStorage.setItem('authorizationToken', token.Token);
@@ -50,6 +52,8 @@ export class UserDataService {
           this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
           this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
         }
+        expireMinutes = +token?.EmployeeDetails.TokenExpireMinutes.TokenExpireMinutes;
+
       }
 
       this.weatherService.getWeather()
@@ -85,14 +89,28 @@ export class UserDataService {
       localStorage.setItem('employeeName', token.ClientDetails.ClientDetail.FirstName + ' ' +
         token.ClientDetails.ClientDetail.LastName);
       this.setHeaderName(token.ClientDetails.ClientDetail.FirstName + ' ' +
-      token.ClientDetails.ClientDetail.LastName);
+        token.ClientDetails.ClientDetail.LastName);
       localStorage.setItem('roleId', token.ClientDetails.RolePermissionViewModel[0].RoleId);
       localStorage.setItem('employeeFirstName', token.ClientDetails.ClientDetail.FirstName);
       localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail.LastName);
 
       localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);
-     // localStorage.setItem('isAuthenticated', 'true');
+      // localStorage.setItem('isAuthenticated', 'true');
+      expireMinutes = +token?.EmployeeDetails.TokenExpireMinutes.TokenExpireMinutes;
     }
+
+    if (expireMinutes !== 0) {
+      var expireTime = new Date(dateTime.getTime() + ((+expireMinutes) * 60000));
+      
+      localStorage.setItem('tokenExpiry', expireTime.toString());
+      localStorage.setItem('tokenExpiryMinutes', expireMinutes.toString());
+      
+      var refreshExpireMinutes = +localStorage.getItem('refreshTokenExpiryMinutes');
+
+      var refreshExpireTime = new Date(dateTime.getTime() + (expireMinutes - refreshExpireMinutes * 60000));
+      localStorage.setItem('refreshTokenExpiry', refreshExpireTime.toString());
+    }
+
 
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }

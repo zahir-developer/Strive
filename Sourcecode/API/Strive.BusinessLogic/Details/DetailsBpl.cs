@@ -463,6 +463,10 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllDetails, detailsGrid, "DetailsGrid");
         }
+        public Result GetAllJobByClientId(JobsGridDTO detailsGrid)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetAllJobByClientId, detailsGrid, "DetailsGrid");
+        }
         public Result GetAllDetailSearch(SearchDto searchDto)
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllDetailSearch, searchDto, "DetailsGrid");

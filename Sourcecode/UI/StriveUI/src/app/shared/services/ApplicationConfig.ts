@@ -1,6 +1,11 @@
 export const ApplicationConfig = {
 
 
+    Token: {
+        RefreshTokenMinute: 0.25,
+        refreshTime: 1
+    },
+
     PaginationConfig: {
         page: 1,
         TableGridSize: 10,
@@ -104,7 +109,7 @@ export const ApplicationConfig = {
             Washes: 'TicketNumber',
             Detail: 'TicketNumber',
             GiftCard: 'GiftCardCode',
-            customerHistory : 'ClientId',
+            customerHistory: 'ClientId',
             tenantSetup: 'CompanyName'
         }
     },
@@ -268,9 +273,6 @@ export const ApplicationConfig = {
         itemsShowLimit: 1,
         enableCheckAll: false,
         allowSearchFilter: true
-    },
-    refreshTime: {
-        refreshTime: 30
     },
 
     debounceTime: {

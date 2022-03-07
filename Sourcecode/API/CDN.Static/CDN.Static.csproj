@@ -9,6 +9,11 @@
     <Description>This is a starter for building a static website that runs on ASP.NET Core.</Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Privacy-Policy.html" />
+    <None Include="wwwroot\PrivacyPolicy.html" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />

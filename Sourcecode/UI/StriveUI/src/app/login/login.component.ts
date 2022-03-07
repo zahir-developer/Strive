@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.clearCacheValue();
     this.authService.isLoggedIn.subscribe(data => {
     });
     this.getQueryToken();
@@ -57,7 +58,6 @@ export class LoginComponent implements OnInit {
     });
     this.bindValue();
     this.sidenavsHide();
-    this.clearCacheValue();
   }
 
   bindValue() {
