@@ -99,7 +99,7 @@ namespace Admin.API.Scheduler
         {
             try
             {
-                new PaymentGatewayBpl(_cache, _tenant).MakeRecurringPayment(3, DateTime.Now);
+                new PaymentGatewayBpl(_cache, _tenant).MakeRecurringPayment(2, DateTime.Now);
             }
             catch (Exception ex)
             {

@@ -225,6 +225,74 @@ namespace Admin.API.Controllers
                 throw;
             }
         }
-        
+
+        [HttpPost]
+        [Route("AuthTips")]
+        public Result AuthTips([FromBody] ProfilePaymentDto paymentDto)
+        {
+
+            try
+            {
+                var authResponse = _bplManager.AuthProfile(paymentDto);
+
+                if (authResponse != null)
+                {
+                    try
+                    {
+                        string respText = string.Empty;
+
+                        var respStat = authResponse.GetValue("respstat");
+                        if (respStat != null)
+                        {
+                            string resp = respStat.ToString();
+
+                            var respTextObj = authResponse.GetValue("resptext");
+
+                            string respMessage = string.Empty;
+
+                            if (respTextObj != null)
+                            {
+                                respMessage = respTextObj.ToString();
+                            }
+
+                            if (resp == "A")
+                            {
+                                var retRefObj = authResponse.GetValue("retref");
+                                var authcodeObj = authResponse.GetValue("authcode");
+                                //Capture
+                                if (retRefObj != null & authcodeObj != null)
+                                {
+                                    return Helper.BindSuccessResult(authResponse);
+                                }
+                                else
+                                    return SendValidationErrorResult(respMessage, authResponse);
+                            }
+                            else if (resp == "B" || resp == "C")
+                            {
+                                return Helper.BindValidationErrorResult(respMessage, authResponse);
+                            }
+                            else
+                                return Helper.BindValidationErrorResult("Transaction Error", authResponse);
+                        }
+                        else
+                        {
+                            return Helper.BindValidationErrorResult("Trasaction Failed", authResponse);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Helper.BindFailedResultWithContent(authResponse, ex, System.Net.HttpStatusCode.BadRequest);
+                    }
+                }
+                else
+                    return Helper.BindValidationErrorResult("Trasaction Error", authResponse);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

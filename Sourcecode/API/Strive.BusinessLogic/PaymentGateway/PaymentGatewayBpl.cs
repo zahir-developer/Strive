@@ -188,42 +188,23 @@ namespace Strive.BusinessLogic.PaymentGateway
                 return null;
             }
         }
-        public JObject AuthProfile(string profile, decimal amount, string MID, string url, string UserName, string Password)
+        public JObject AuthProfile(ProfilePaymentDto paymentDto)
         {
+            var oMerchant = new PaymentGatewayRal(_tenant).GetMerchantDetails(paymentDto.LocationId, true);
 
-            Result result = new Result();
-
-            var ccRestClient = new CardConnectRestClient(url + "auth", UserName, Password);
-
-            // Create Update Transaction request
-            JObject request = new JObject();
-            // Merchant ID
-            request.Add("merchid", MID);
-            // Transaction currency
-            request.Add("currency", "USD");
-            //expiry
-            request.Add("profile", profile);
-            // Card Number
-            request.Add("amount", amount);
-            request.Add("capture", "N");
-
-            // Send a captureTransaction request
-            JObject response = ccRestClient.captureTransaction(request);
-
-            string[] lines = { "Request: " + request.ToString(), "Response :" + response.ToString() };
-            File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "ErrorFile.txt"), lines);
-            return response;
+            JObject authResponse = CaptureProfile(paymentDto.Profile, paymentDto.Amount, oMerchant[0].MID, oMerchant[0].UserName, oMerchant[0].Password, oMerchant[0].URL);
+            return authResponse;
         }
 
         public void MakeRecurringPayment(int attempts, DateTime paydate)
         {
             var paymentBpl = new PaymentGatewayBpl(_cache, _tenant);
 
-            var allMerchantList = new PaymentGatewayRal(_tenant).GetMerchantDetails(attempts, true);
+            var allMerchantList = new PaymentGatewayRal(_tenant).GetMerchantDetails(0, true);
 
             foreach (var oMerchant in allMerchantList)
             {
-                var allClientList = new PaymentGatewayRal(_tenant).GetRecurringPaymentDetails(oMerchant.LocationId, 0, paydate);
+                var allClientList = new PaymentGatewayRal(_tenant).GetRecurringPaymentDetails(oMerchant.LocationId, attempts, paydate);
 
                 foreach (var oClient in allClientList)
                 {

@@ -49,7 +49,7 @@ namespace Strive.ResourceAccess
             return db.Fetch<MerchantDetails>(EnumSP.Payroll.USPGETMERCHANTDETAILS.ToString(), _prm);
         }
 
-        public bool UpdatePaymentDetail(int ClientMembershipId, int attempts, DateTime oDate)
+        public bool UpdatePaymentDetail(int ClientMembershipId, int attempts, DateTime? oDate)
         {
             _prm.Add("ClientMembershipId", ClientMembershipId.toInt());
             _prm.Add("attempts", attempts);

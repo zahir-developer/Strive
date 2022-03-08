@@ -165,6 +165,7 @@ namespace Admin.API.Filters
             _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
             _tenant.GeneralDocumentFolder = Pick("FolderPath", "GeneralDocument");
             _tenant.VehicleImageFolder = Pick("FolderPath", "VehicleImage");
+            _tenant.ErrorLog = Pick("Logs", "Error");
 
             //File Format
             _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");
