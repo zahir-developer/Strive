@@ -582,7 +582,10 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatMessage.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetCheckListNotification.sql" />
     <Build Include="StriveCarSalon\Tables\tblClientVehicleMembershipPaymentDetails.sql" />
-    <Build Include="CON_\Stored Procedures\uspUpdateMemebrshiptoJobPayment.sql" />
+    <Build Include="dbo\Tables\Membershiplist.sql" />
+    <Build Include="StriveCarSalon\Tables\Stg_CustAccHist.sql" />
+    <Build Include="StriveCarSalon\Tables\Stg_CustAcc.sql" />
+    <Build Include="StriveCarSalon\Tables\membershiplist.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dev.scmp" />
