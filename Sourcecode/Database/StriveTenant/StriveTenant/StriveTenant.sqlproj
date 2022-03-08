@@ -92,6 +92,9 @@
     <Folder Include="Scripts\Data\" />
     <Folder Include="Scripts\Data\VehicleMakeModel" />
     <Folder Include="Scripts\Data\CodeValue" />
+    <Folder Include="Database Update" />
+    <Folder Include="Database Update\UAT" />
+    <Folder Include="Database Update\QA" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StriveCarSalon\Tables\tblJobPaymentCreditCard.sql" />
@@ -446,7 +449,6 @@
     <Build Include="Security\StriveMigrationUser.sql" />
     <Build Include="Security\StriveDevUser_1.sql" />
     <Build Include="Security\StriveDev_1.sql" />
-    <Build Include="Security\StriveClient_2.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetWashByJobId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetUpchargeTypeByModel_1.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetForcasted_1.sql" />
@@ -502,7 +504,6 @@
     <Build Include="Security\MPOSUser.sql" />
     <Build Include="Security\MPOSApp.sql" />
     <Build Include="Security\BUILTIN_Users.sql" />
-    <Build Include="Security\StriveUser.sql" />
     <Build Include="dbo\Stored Procedures\uspUserCreation.sql" />
     <Build Include="StriveCarSalon\Tables\tblVMakeModel.sql" />
     <Build Include="StriveCarSalon\Tables\tblVehicleIssueImage.sql" />
@@ -586,6 +587,9 @@
     <Build Include="StriveCarSalon\Tables\Stg_CustAccHist.sql" />
     <Build Include="StriveCarSalon\Tables\Stg_CustAcc.sql" />
     <Build Include="StriveCarSalon\Tables\membershiplist.sql" />
+    <Build Include="Security\StriveClient.sql" />
+    <None Include="Database Update\QA\StriveTenant_UAT_QA_Update_20220308.publish.sql" />
+    <None Include="Database Update\UAT\StriveTenant_UAT_QA_Jan22_Update_20220308.publish.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dev.scmp" />

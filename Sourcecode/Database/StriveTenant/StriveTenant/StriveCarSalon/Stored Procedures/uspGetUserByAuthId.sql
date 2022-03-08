@@ -62,7 +62,7 @@ INNER JOIN tblEmployeeDetail EmpDet ON EmpDet.EmployeeId = EmpLo.EmployeeId
 LEFT JOIN tbllocationaddress la on Lo.LocationId = la.LocationId  
 LEFT JOIN [GetTable]('City') tblc ON (la.City = tblc.valueid)  
 WHERE  
-EmpDet.AuthId = @AuthId AND EmpLo.IsDeleted=0 ORDER BY LocationId  
+EmpDet.AuthId = @AuthId AND EmpLo.IsDeleted=0 ORDER BY EmpLo.LocationId  
   
 SELECT EmpLoDr.drawerid,EmpLoDr.DrawerName, Lo.LocationId  
 FROM  

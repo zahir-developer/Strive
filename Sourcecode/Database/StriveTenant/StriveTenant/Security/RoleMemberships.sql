@@ -1,11 +1,6 @@
 ﻿ALTER ROLE [db_owner] ADD MEMBER [SCSAdmin];
 
 
-GO
-ALTER ROLE [db_owner] ADD MEMBER [StriveUser];
-
-
-
 
 GO
 
