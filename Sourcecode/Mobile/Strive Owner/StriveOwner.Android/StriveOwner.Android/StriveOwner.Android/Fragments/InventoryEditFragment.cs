@@ -25,6 +25,8 @@ using StriveOwner.Android.Fragments;
 using OperationCanceledException = System.OperationCanceledException;
 using MvvmCross.Binding.BindingContext;
 using StriveOwner.Android.Adapter;
+using System.Collections.ObjectModel;
+using Strive.Core.Models.TimInventory;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -55,6 +57,7 @@ namespace StriveOwner.Android.Resources.Fragments
         Dialog chooseImageDialog;
         private string PhotoPath;
         private bool isDefaultText;
+        private bool isSaveClicked;
         private InventoryEditImagePickerFragment inventoryEditImagePickerFragment;
 
         public string selectedIcon;
@@ -71,7 +74,10 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.InventoryEdit_Fragment, null);
-            this.ViewModel = new InventoryEditViewModel();
+            if(ViewModel == null)
+            {
+             this.ViewModel = new InventoryEditViewModel();
+            }
             item_code = rootView.FindViewById<EditText>(Resource.Id.item_code);
             item_name = rootView.FindViewById<EditText>(Resource.Id.item_name);
             item_description = rootView.FindViewById<EditText>(Resource.Id.item_description);
@@ -93,6 +99,7 @@ namespace StriveOwner.Android.Resources.Fragments
             set.Bind(item_quantity).To(vm => vm.ItemQuantity);
             set.Bind(item_cost).To(vm => vm.ItemCost);
             set.Bind(item_price).To(vm => vm.ItemPrice);
+           // set.Bind(saveButton).To(vm => vm.Commands["AddorUpdate"]);
             set.Apply();
             if (ViewModel != null)
             {
@@ -105,30 +112,9 @@ namespace StriveOwner.Android.Resources.Fragments
                     edit_image.SetImageBitmap(Base64ToBitmap(ViewModel.Base64String));
                 }
             }
-            //if (ViewModel != null && EmployeeData.EditableProduct !=null)
-            //{
-            //    item_code.Text = ViewModel.ItemCode;
-            //    item_name.Text = ViewModel.ItemName;
-            //    item_description.Text = ViewModel.ItemDescription;
-            //    item_quantity.Text = ViewModel.ItemQuantity;
-            //    item_cost.Text = ViewModel.ItemCost;
-            //    item_price.Text = ViewModel.ItemPrice;
-            //    if (!string.IsNullOrEmpty(selectedIcon))
-            //    {
-            //        ViewModel.Base64String = selectedIcon;
-            //    }
-            //    if (!string.IsNullOrEmpty(ViewModel.Base64String))
-            //    {
-            //        edit_image.SetImageBitmap(Base64ToBitmap(ViewModel.Base64String));
-            //    }
-            //}
-            //supplier_contact.Text = OwnerTempData.SupplierContact;
-            //supplier_fax.Text = OwnerTempData.SupplierFax;
-            //supplier_address.Text = OwnerTempData.SupplierAddress;
-            //supplier_email.Text = OwnerTempData.SupplierEmail;
-
+            isSaveClicked = false;
             cancelButton.Click += CancelButton_Click;
-            saveButton.Click += SaveButton_Click;
+            saveButton.Click += SaveButton_ClickAsync;
             editImageBtn.Click += EditImageBtn_Click;
             item_location.ItemSelected += LocationSpinner_ItemSelected;
             item_type.ItemSelected += ProductTypeSpinner_ItemSelected;
@@ -163,10 +149,12 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private void IconBtn_Click(object sender, EventArgs e)
         {
-            inventoryEditImagePickerFragment = new InventoryEditImagePickerFragment();
+            inventoryEditImagePickerFragment = new InventoryEditImagePickerFragment((parameter) => {
+                selectedIcon = parameter;
+            });
             chooseImageDialog.Dismiss();
             AppCompatActivity activity = (AppCompatActivity)context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame,inventoryEditImagePickerFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().AddToBackStack("tag").Replace(Resource.Id.content_Frame,inventoryEditImagePickerFragment).Commit();
         }
 
         private void GalleryBtn_Click(object sender, EventArgs e)
@@ -354,7 +342,7 @@ namespace StriveOwner.Android.Resources.Fragments
         }
         private void LoadSuppliers()
         {
-            if (ViewModel != null && ViewModel.LocationList.Count != 0)
+            if (ViewModel != null && ViewModel.VendorList.Count != 0)
             {
                 Vendors = new List<string>();
                 foreach (var data in ViewModel.VendorList)
@@ -403,6 +391,7 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             try
             {
+                ViewModel.LocationList = new ObservableCollection<LocationDetail>();
                 await ViewModel.GetAllLocNameCommand();
                 if (ViewModel != null && ViewModel.LocationList.Count != 0)
                 {
@@ -462,6 +451,7 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             try
             {
+                ViewModel.ProductTypeList = new ObservableCollection<Code>();
                 await ViewModel.GetProductTypeCommand();
                 if (ViewModel != null && ViewModel.ProductTypeList.Count != 0)
                 {
@@ -498,16 +488,16 @@ namespace StriveOwner.Android.Resources.Fragments
             }     
             LoadLocations();
         }
-        private void SaveButton_Click(object sender, EventArgs e)
+        private async void SaveButton_ClickAsync(object sender, EventArgs e)
         {
             try
             {
-                this.ViewModel.AddorUpdateCommand();
-                if(this.ViewModel.isValidationError == false)
+               await this.ViewModel.AddorUpdateCommandAndroid();
+                if (this.ViewModel.isValidationError == false)
                 {
                     var selected_MvxFragment = new InventoryMainFragment(context);
                     FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
-                } 
+                }
             }
             catch (Exception ex)
             {

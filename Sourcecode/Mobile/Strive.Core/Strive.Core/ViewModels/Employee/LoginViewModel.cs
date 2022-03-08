@@ -1,13 +1,10 @@
 ﻿using Acr.UserDialogs;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
-using Strive.Core.Rest.Implementations;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
-using Strive.Core.ViewModels.Employee.Schedule;
 using System;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 
 namespace Strive.Core.ViewModels.Employee
 {
@@ -32,7 +29,6 @@ namespace Strive.Core.ViewModels.Employee
             isExitApp = false;
             if (validateCommand())
             {
-                var platform = DeviceInfo.Platform;
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                 var loginResponse = await AdminService.EmployeeLogin( new EmployeeLoginRequest(loginEmailPhone, loginPassword, token));
                 if (loginResponse != null)

@@ -1,6 +1,7 @@
 ﻿using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
@@ -25,6 +26,12 @@ namespace StriveOwner.Android.Fragments
         private InventoryEditFragment inventoryEditFragment;
         private static int[] productIcons;
         Context context;
+        private Action<string> _onCompletionAction;
+        private string updatedIcon;
+        public InventoryEditImagePickerFragment(Action<string> onCompletionAction)
+        {
+            _onCompletionAction = onCompletionAction;
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,8 +43,8 @@ namespace StriveOwner.Android.Fragments
             // Use this to return your custom view for this Fragment
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.InventoryEditImagePicker_Layout, null);
-            imagePickerCancelButton =rootView.FindViewById<Button>(Resource.Id.cancelButton);
-            imagePickerRecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.imagePickerRecyclerView);            
+            imagePickerCancelButton = rootView.FindViewById<Button>(Resource.Id.cancelButton);
+            imagePickerRecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.imagePickerRecyclerView);
             context = this.Context;
             AddProductImages();
             SetImages();
@@ -48,7 +55,7 @@ namespace StriveOwner.Android.Fragments
 
         private void AddProductImages()
         {
-            productIcons=new int[]
+            productIcons = new int[]
             {
               Resource.Drawable.Artboard,
               Resource.Drawable.bottle,
@@ -70,28 +77,30 @@ namespace StriveOwner.Android.Fragments
               Resource.Drawable.trainers,
               Resource.Drawable.water,
               Resource.Drawable.Wiper,
-              
-            };          
-           
-        }       
+
+            };
+
+        }
         private void SetImages()
         {
             var layoutManager = new GridLayoutManager(context, 3, (int)GridOrientation.Vertical, false);
             imagePickerRecyclerView.SetLayoutManager(layoutManager);
             imagePickerAdapter = new InventoryEditImagePickerAdapter(productIcons);
-            imagePickerAdapter.ItemClick += ImagePickerAdapter_ItemClick;           
+            imagePickerAdapter.ItemClick += ImagePickerAdapter_ItemClick;
             imagePickerRecyclerView.SetAdapter(imagePickerAdapter);
-           
+
         }
 
         private void ImagePickerAdapter_ItemClick(object sender, InventoryEditImagePickerAdapterClickEventArgs e)
         {
             inventoryEditFragment = new InventoryEditFragment();
-           // e.View.SetBackgroundColor(Color.Blue);
+            // e.View.SetBackgroundColor(Color.Blue);
             int pos = e.Position;
-            inventoryEditFragment.selectedIcon = ConvertImagetoBase64(productIcons[pos]);           
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, inventoryEditFragment).Commit();
+            updatedIcon = ConvertImagetoBase64(productIcons[pos]);
+            //inventoryEditFragment.selectedIcon = ConvertImagetoBase64(productIcons[pos]);
+            Activity.SupportFragmentManager.PopBackStack();
+            // AppCompatActivity activity = (AppCompatActivity)Context;
+            //activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, inventoryEditFragment).Commit();
         }
 
         private string ConvertImagetoBase64(int imageId)
@@ -105,11 +114,11 @@ namespace StriveOwner.Android.Fragments
                 byte[] ba = stream.ToArray();
                 base64 = Base64.EncodeToString(ba, Base64Flags.Default);
                 return base64;
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 return "";
             }
-           
+
         }
         private void ImagePickerCancelButton_Click(object sender, EventArgs e)
         {
@@ -118,5 +127,12 @@ namespace StriveOwner.Android.Fragments
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, inventoryEditFragment).Commit();
         }
        
+
+        public override void OnDestroyView()
+        {
+            base.OnResume();
+
+            _onCompletionAction(updatedIcon);
+    }
     }
 }

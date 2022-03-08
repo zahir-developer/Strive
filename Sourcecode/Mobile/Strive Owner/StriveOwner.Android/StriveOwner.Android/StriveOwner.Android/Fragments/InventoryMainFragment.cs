@@ -20,6 +20,7 @@ using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
+
     public class InventoryMainFragment : MvxFragment<InventoryViewModel> //, SwipeControllerActions
     {
         private InventoryMainAdapter inventoryMainAdapter;
@@ -36,9 +37,10 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             this.Context = context;
         }
+        public InventoryMainFragment()
+        {
 
-
-
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -192,59 +194,59 @@ namespace StriveOwner.Android.Resources.Fragments
         }
     }
 
-        public class MyImplementSwipeHelper : MySwipeHelper
+    public class MyImplementSwipeHelper : MySwipeHelper
+    {
+        Context Context;
+        RecyclerView inventoryMain_RecyclerView;
+        InventoryViewModel viewModel;
+        public MyImplementSwipeHelper(Context context, RecyclerView inventoryMain_RecyclerView, int buttonWidth, InventoryViewModel viewModel) : base(context, inventoryMain_RecyclerView, 200, viewModel)
         {
-            Context Context;
+            Context = context;
+            this.inventoryMain_RecyclerView = inventoryMain_RecyclerView;
+            this.viewModel = viewModel;
+        }
+
+        public override void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer, bool checkOutFlag)
+        {
+            int itemposition = viewHolder.AdapterPosition;
+            var selectedItem = viewModel.FilteredList[itemposition];
+            InventoryMainFragment fragment = new InventoryMainFragment(Context);
+            //button-1
+            buffer.Add(new MyButton(Context,
+                "",
+                35,
+                Resource.Drawable.DeleteText,
+                "#FF0000",
+                new DeleteButtonClick(fragment, inventoryMain_RecyclerView, viewModel), selectedItem));
+
+        }
+        public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer, bool checkOutFlag)
+        {
+
+        }
+        public class DeleteButtonClick : DeleteButtonClickListener
+        {
             RecyclerView inventoryMain_RecyclerView;
+            InventoryMainFragment fragment;
             InventoryViewModel viewModel;
-            public MyImplementSwipeHelper(Context context, RecyclerView inventoryMain_RecyclerView, int buttonWidth, InventoryViewModel viewModel) : base(context, inventoryMain_RecyclerView, 200, viewModel)
+            public DeleteButtonClick(InventoryMainFragment fragment, RecyclerView recyclerView, InventoryViewModel viewModel)
             {
-                Context = context;
-                this.inventoryMain_RecyclerView = inventoryMain_RecyclerView;   
+                this.fragment = fragment;
+                this.inventoryMain_RecyclerView = recyclerView;
                 this.viewModel = viewModel;
             }
 
-            public override void InstantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer, bool checkOutFlag)
+            public void OnClick(InventoryDataModel selectedItem)
             {
-                int itemposition = viewHolder.AdapterPosition;
-                var selectedItem = viewModel.FilteredList[itemposition];
-                InventoryMainFragment fragment = new InventoryMainFragment(Context);
-                //button-1
-                buffer.Add(new MyButton(Context,
-                    "",
-                    35,
-                    Resource.Drawable.DeleteText,
-                    "#FF0000",
-                    new DeleteButtonClick(fragment, inventoryMain_RecyclerView,viewModel), selectedItem));
+                //if (selectedItem.Product.Quantity <= 0)
+                //{
+                fragment.DeleteItem(selectedItem, inventoryMain_RecyclerView, viewModel);
+                // }
 
             }
-            public override void InstantiateUpdatedMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer, bool checkOutFlag)
-            {
 
-            }
-            public class DeleteButtonClick : DeleteButtonClickListener
-            {
-                RecyclerView inventoryMain_RecyclerView;
-                InventoryMainFragment fragment;
-                InventoryViewModel viewModel;
-                public DeleteButtonClick(InventoryMainFragment fragment, RecyclerView recyclerView, InventoryViewModel viewModel)
-                {
-                    this.fragment = fragment;
-                    this.inventoryMain_RecyclerView = recyclerView;
-                    this.viewModel = viewModel;
-                }
-
-                public void OnClick(InventoryDataModel selectedItem)
-                {
-                    //if (selectedItem.Product.Quantity <= 0)
-                    //{
-                        fragment.DeleteItem(selectedItem, inventoryMain_RecyclerView,viewModel);
-                   // }
-                    
-                }
-
-            }
         }
+    }
 
-    
+
 }

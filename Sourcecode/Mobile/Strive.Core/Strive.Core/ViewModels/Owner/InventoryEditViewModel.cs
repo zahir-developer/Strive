@@ -455,6 +455,15 @@ namespace Strive.Core.ViewModels.Owner
             };
             return newProduct;
         }
+        public async Task AddorUpdateCommandAndroid()
+        {
+            if (EmployeeData.EditableProduct != null)
+            {
+                await UpdateProductCommand();
+                return;
+            }
+           await AddProductCommand();
+        }
 
         public void AddorUpdateCommand()
         {
@@ -466,10 +475,11 @@ namespace Strive.Core.ViewModels.Owner
             AddProductCommand();
         }
 
-        public async void UpdateProductCommand()
+        public async Task UpdateProductCommand()
         {
             if (ValidateCommand() == false)
             {
+                isValidationError = true;
                 return;
             }
             else if (ItemTypeId == 0)
@@ -495,6 +505,10 @@ namespace Strive.Core.ViewModels.Owner
             {
                 await _userDialog.AlertAsync("Something unusal has happened.");
                 return;
+            }
+            else
+            {
+                isValidationError = false;
             }
             NavigateBackCommand();
         }
