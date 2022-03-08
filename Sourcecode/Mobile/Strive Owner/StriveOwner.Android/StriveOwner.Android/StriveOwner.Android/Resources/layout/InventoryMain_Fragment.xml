@@ -34,19 +34,27 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         app:queryHint="Search"/>
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:orientation="vertical">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/inventoryMain_RecyclerView"
             android:layout_marginTop="@dimen/ten"
             android:layout_marginLeft="@dimen/ten"
             android:layout_marginRight="@dimen/ten"
             android:layout_width="match_parent"
-            android:layout_height="400dp"/>
+            android:background="@android:color/background_light"
+            android:layout_weight="1.6"
+            android:layout_height="0dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
         android:gravity="right"
-        android:orientation="horizontal"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
         
         <Button
             android:id="@+id/inventory_Add"
@@ -58,4 +66,5 @@
             android:textColor="@android:color/white"
             android:background="@drawable/primary_button"/>
     </LinearLayout>
+           </LinearLayout>
 </LinearLayout>

@@ -211,9 +211,9 @@ namespace StriveOwner.Android.Resources.Fragments
                 InventoryMainFragment fragment = new InventoryMainFragment(Context);
                 //button-1
                 buffer.Add(new MyButton(Context,
-                    "Delete",
+                    "",
                     35,
-                    Resource.Drawable.delete,
+                    Resource.Drawable.DeleteText,
                     "#FF0000",
                     new DeleteButtonClick(fragment, inventoryMain_RecyclerView,viewModel), selectedItem));
 

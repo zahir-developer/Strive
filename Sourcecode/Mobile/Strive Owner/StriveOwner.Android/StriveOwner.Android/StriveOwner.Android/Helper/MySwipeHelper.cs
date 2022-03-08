@@ -271,7 +271,7 @@ namespace StriveOwner.Android.Helper
             }
             else
             {
-                base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 5), dY, actionState, isCurrentlyActive);
+                base.OnChildDraw(c, recyclerView, viewHolder, (float)(dX / 4.65), dY, actionState, isCurrentlyActive);
             }
         }
         public void UpdateCheckout(CheckOutViewModel viewModel)
@@ -285,7 +285,14 @@ namespace StriveOwner.Android.Helper
             foreach (MyButton button in buffer)
             {
                 float left = right - dButtonWidth;
-                button.OnDraw(c, new RectF(left, itemView.Top, right, itemView.Bottom), pos);
+                if (flag)
+                {
+                    button.OnDraw(c, new RectF(left, itemView.Top, right, itemView.Bottom), pos);
+                }
+                else
+                {
+                    button.OnDraw(c, new RectF(left, itemView.Top + 15, right, itemView.Bottom - 15), pos);
+                }
                 right = left;
             }
         }
