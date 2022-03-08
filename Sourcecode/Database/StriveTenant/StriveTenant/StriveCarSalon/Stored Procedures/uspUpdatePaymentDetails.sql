@@ -10,9 +10,7 @@
 
 -- =============================================   
   
-    
-    
-CREATE PROCEDURE uspUpdatePaymentDetails      
+CREATE PROCEDURE [StriveCarSalon].[uspUpdatePaymentDetails]
 @date DATETIME null,      
 @attempts INT,      
 @ClientMembershipId INT      

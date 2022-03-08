@@ -1,15 +1,17 @@
-﻿-- =============================================
+-- =============================================
 -- Author:		Zahir Hussain
 -- Create date: 09-10-2020
 -- Description:	Retrieves the chat messages 
 -- Example: [StriveCarSalon].[GetChatMessage] 1462, 1489, NULL
 -- =============================================
-CREATE PROCEDURE [StriveCarSalon].[GetChatMessage] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetChatMessage] 
 	@SenderId INT = NULL,
 	@RecipientId INT = NULL,
 	@GroupId INT = NULL
 AS
 BEGIN
+
+
 
 Select chatMsg.ChatMessageId, emp.employeeId as SenderId, emp.firstName as SenderFirstName, emp.lastName as SenderLastName, chatMsg.Messagebody, chatMsg.CreatedDate,
 emp2.employeeId as RecipientId, emp2.firstName as RecipientFirstName, emp2.lastName as RecipientLastName
@@ -23,3 +25,5 @@ OR (chatRecp.SenderId = @RecipientId and chatRecp.RecipientId = @SenderId)
 
 
 END
+GO
+

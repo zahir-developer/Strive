@@ -8,10 +8,12 @@
     [UpdatedDate]             DATETIMEOFFSET (7) NULL,
     [NotificationTime]        TIME (7)           NULL,
     [ChecklistId]             INT                NULL,
-    [NotificationDate]        DATETIME           NULL,
+    [NotificationDate]        DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblCheckListNotification] PRIMARY KEY CLUSTERED ([CheckListNotificationId] ASC),
     CONSTRAINT [FK_tblCheckListNotification_ChecklistId] FOREIGN KEY ([ChecklistId]) REFERENCES [StriveCarSalon].[tblChecklist] ([ChecklistId])
 );
+
+
 
 
 

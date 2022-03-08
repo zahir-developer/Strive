@@ -312,7 +312,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\UpdateChatCommunicationDetail.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\GetChatMessagePrevious.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\GetChatMessageCount.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\GetChatMessage.sql" />
     <Build Include="dbo\Stored Procedures\uspGetChatEmployeeAndGroupHistory.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateEmployeeAdjustment.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspMonthlyCustomerDetail.sql" />
@@ -451,7 +450,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetWashByJobId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetUpchargeTypeByModel_1.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetForcasted_1.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetClientById_Dup_Delete.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeAndGroupHistory.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllEmployeeName.sql" />
     <Build Include="CON_\Stored Procedures\uspUserCreation.sql" />
@@ -580,9 +578,14 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspAddClientDeal.sql" />
     <Build Include="StriveCarSalon\Tables\tblJob_Backup.sql" />
     <Build Include="StriveCarSalon\Tables\StgMembershipPaymentDetail.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllJobByClientId.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetChatMessage.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetCheckListNotification.sql" />
+    <Build Include="StriveCarSalon\Tables\tblClientVehicleMembershipPaymentDetails.sql" />
+    <Build Include="CON_\Stored Procedures\uspUpdateMemebrshiptoJobPayment.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SqlSchemaCompare1.scmp" />
+    <None Include="Dev.scmp" />
     <None Include="QA.scmp" />
     <None Include="Client.scmp" />
     <None Include="Strive_Tenant.sql" />
