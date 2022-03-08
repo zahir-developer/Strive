@@ -22,6 +22,7 @@
 --14-09-2021 - Vetriselvi - Added Tips,Products and tax in cost  
 --13-10-2021 - Zahir - JobType, JobStatus, IsHold added. 
 --17-12-2021 - Lakshmana - TipAmount removed from pay amount field - #1415
+--08-03-2022 - Juki - Fixed duplicate record
   
   
   
@@ -397,7 +398,7 @@ ELSE
 IF (@Query IS Not NULL AND @Query != ' ') OR (@StartDate IS NOT NULL AND @EndDate IS NOT NULL)  
 BEGIN  
 SELECT   
-DISTINCT count(1)  
+DISTINCT count(tblj.JobId)  
 FROM   
  #Jobs tblj WITH(NOLOCK)  
 INNER JOIN  
@@ -439,4 +440,4 @@ OR CONCAT_WS(' ',tblc.FirstName, tblc.LastName) like +@Query+'%'))
   
 END  
   
-END
+END  

@@ -10,6 +10,7 @@
 --  Vetriselvi 2021-10-12  - Addind time to hh mm format
 --  Vetriselvi 2021-11-10  - Added total hours and hours should be in decimal format
 --  Juki	   2022-02-23  - Added other hours with total hours.
+--  Juki       2022-03-08  - Removed deleted employees record
 -- =============================================
 CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClockEmployeeHourDetail]
 	@locationId INT,
@@ -43,7 +44,7 @@ from tblTimeClock TC
 inner join tblEmployee E on TC.EmployeeId = E.EmployeeId
 inner join tblRoleMaster rm on rm.RoleMasterId = tc.RoleId
 where LocationId = @LocationId and EventDate = @Date and tc.InTime is Not NULL
-AND ISNULL(TC.IsDeleted,0) = 0 AND tc.IsActive = 1
+AND ISNULL(TC.IsDeleted,0) = 0 AND tc.IsActive = 1 AND ISNULL(E.IsDeleted, 0) = 0
 
 
 DROP TABLE IF EXISTS #FinalHours_Data

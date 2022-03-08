@@ -1,62 +1,35 @@
 ﻿-- =============================================
--- Author:		Vineeth B
--- Create date: 05-09-2020
--- Description:	To show data in DetailsGrid
--- =============================================
----------------------History--------------------
--- =============================================
--- 07-09-2020, Vineeth - Add a new select for bay
---						 Add bayid col in 2dselect
--- 08-09-2020, Vineeth - Add service type name col
--- 09-09-2020, Vineeth - Add isactive condition
--- 09-10-2020, Vineeth - Add LocationId condition
--- 17-09-2020, Vineeth - Add valuedesc-Details
--- 21-09-2020, Vineeth - Add Outside service cond
---						 and order by condition
--- 29-09-2020, Vineeth - Add bracket in Details
---						 and Outside service
--- 24-11-2020, Vineeth - Add code for Upcharge
--- 09-12-2020, Vineeth - Add outside service condition
--- 23-04-2021, Zahir - Added JobType table to avoid invalid job records.
--- 05-05-2021, Zahir - Used VehicleMake and VehicleModel table instead of Codevalue.
--- 16-06-2021, Shalini - Removed first wildcard from Query
--- 08-10-2021, Zahir - Drive up customer changes.
--- 08-03-2022, Juki  - Fixed Upcharges issue
+-- Author:		JUKI B
+-- Create date: 02-03-2022
+-- Description:	To show jobs based on client id
 
 ------------------------------------------------
- --[StriveCarSalon].[uspGetAllDetails] null,1,NULL,'zahir', null, null, 'ASC', 'TicketNo','2022-01-04','2022-01-04'
+ --[StriveCarSalon].[uspGetAllJobByClientId] null,1,NULL,'null', null, null, 'ASC', 'TicketNo','2022-01-04','2022-01-04'
 -- =============================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllDetails] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllJobByClientId] 
 (@JobDate Date = NULL, @LocationId int = NULL, @ClientId int = NULL, @Search varchar(50)=null,
 @PageNo INT = NULL, 
 @PageSize INT = NULL,
 @SortOrder VARCHAR(5) = NULL, 
 @SortBy VARCHAR(50) = NULL,
 @StartDate date = NULL, 
-@EndDate date = NULL)
+@EndDate date = NULL,
+@Type VARCHAR(20) = 'Detail'
+)
 AS
 BEGIN
 
---DECLARE @JobDate Date = NULL, @LocationId int = NULL, @ClientId int = 55477, @Search varchar(50)=null
+SET NOCOUNT ON;  
 
+Declare @JobPackage varchar = (CASE WHEN @Type = 'WASH' THEN 'Wash Package' ELSE 'Detail Package' END)
+Declare @TipPaymentId INT = (select top 1 valueid from GetTable('PaymentType') where valuedesc = 'tips')
 
-SELECT
-BayId,
-BayName
-FROM tblBay
-where 
-IsActive=1  
-and ISNULL(IsDeleted,0)=0
-and (LocationId=@LocationId OR( @LocationId is null OR @LocationId=0)) and BayName like '%Detail%'
-order by BayId
-
-
-DROP TABLE IF EXISTS #ServiceType
+ DROP TABLE IF EXISTS #ServiceType
 Select valueid,valuedesc into #ServiceType from GetTable('ServiceType')
 
 DROP TABLE IF EXISTS #Services
-SELECT tblj.JobId, tblji.Price, tbls.ServiceName, tbls.ServiceId, st.valuedesc as ServiceType, tblj.ClientId 
+SELECT tblj.JobId, tblji.Price, tbls.ServiceName, tbls.ServiceId, st.valuedesc as ServiceType, tblj.ClientId, tblj.JobPaymentId 
 INTO #Services FROM tblJob tblj 
 INNER JOIN tblJobItem tblji ON(tblj.JobId = tblji.JobId)
 INNER JOIN tblService tblS ON(tblji.ServiceId = tbls.ServiceId)
@@ -77,26 +50,36 @@ WHERE ServiceType like '%Upcharge%'
 
 --Select * from #Upcharge
 
-DROP TABLE IF EXISTS #OutsideServices
-SELECT JobId, ServiceName AS OutsideService INTO #OutsideServices 
-FROM #Services
-WHERE ServiceType = 'Outside Services'
+--DROP TABLE IF EXISTS #OutsideServices
+--SELECT JobId, ServiceName AS OutsideService INTO #OutsideServices 
+--FROM #Services
+--WHERE ServiceType = 'Outside Services'
 
---Select * from #OutsideServices
+----Select * from #OutsideServices
 
 DROP TABLE IF EXISTS #Details
-SELECT JobId, ServiceName AS ServiceTypeName INTO #Details 
+SELECT JobId, JobPaymentId, ServiceName AS ServiceTypeName INTO #Details 
 FROM #Services
-WHERE ServiceType = 'Detail Package'
+WHERE 
+ServiceType = @JobPackage
+--ServiceType = 'Detail Package' OR ServiceType = 'Wash Package'
 
 --Select * from #Details
 
-DROP TABLE IF EXISTS #AirFresheners
-SELECT JobId, ServiceName AS OutsideService INTO #AirFresheners 
-FROM #Services
-WHERE ServiceType = 'Air Fresheners'
+DROP TABLE IF EXISTS #TipAmount
+SELECT JobId, tbljp.Amount  INTO #TipAmount
+FROM #Services tbljs
+LEFT JOIN tblJobPaymentDetail tbljp on tbljs.JobPaymentId = tbljp.JobPaymentId
+Where tbljp.PaymentType = @TipPaymentId
 
---Select * from #AirFresheners
+--Select * from #TipAmount
+
+--DROP TABLE IF EXISTS #AirFresheners
+--SELECT JobId, ServiceName AS OutsideService INTO #AirFresheners 
+--FROM #Services
+--WHERE ServiceType = 'Air Fresheners'
+
+----Select * from #AirFresheners
 
 DROP TABLE IF EXISTS #ServicePrice
 SELECT JobId, SUM(Price) Price
@@ -108,9 +91,9 @@ GROUP BY JobId
 DROP TABLE IF EXISTS #Detailslist
 
 SELECT 
-tblb.BayId,
-tblb.BayName
-,tblj.JobId 
+--tblb.BayId,
+--tblb.BayName
+tblj.JobId 
 ,tblj.TicketNumber
 ,tblj.JobDate
 ,tblj.LocationId
@@ -121,17 +104,22 @@ tblb.BayName
 ,CONCAT(ISNULL(tblc.FirstName, 'Drive'),' ',ISNULL(tblc.LastName, 'Up')) AS ClientName
 ,tblca.PhoneNumber
 ,SUBSTRING(CONVERT(VARCHAR(8),tblj.EstimatedTimeOut,108),0,6) AS EstimatedTimeOut
-,(det.ServiceTypeName) ServiceTypeName
+,(tblji.ServiceName) ServiceTypeName
 ,cvMfr.MakeValue AS VehicleMake
 ,cvMo.ModelValue AS VehicleModel
 ,cvCo.valuedesc AS VehicleColor
 ,ISNULL(upc.Price,0.00) AS Upcharge
-,ISNULL(outs.OutsideService,'None') AS OutsideService
+,tblj.VehicleId
+,Format (tbljp.Createddate, 'yyyy-MM-dd hh:mm:ss') as PaymentDate
+,tblj.JobPaymentId
+, @TipPaymentId AS TipPaymentId
+--,ISNULL(outs.OutsideService,'None') AS OutsideService
+,ISNULL(TA.Amount, 0) AS TipAmount
 ,tblcv.Barcode into #Detailslist
 FROM tbljob tblj 
 INNER JOIN GetTable('JobType') jt ON(tblj.JobType = jt.valueid)
 LEFT join tblClient tblc ON (tblj.ClientId = tblc.ClientId OR @ClientId = NULL) OR (tblj.ClientId = @ClientId OR @ClientId IS NOT NULL)
-INNER join tblJobDetail tbljd ON(tblj.JobId = tbljd.JobId)
+INNER join tblJobItem tbljd ON(tblj.JobId = tbljd.JobId)
 left join tblClientAddress tblca ON(tblj.ClientId = tblca.ClientId)
 LEFT join tblClientVehicle tblcv ON (tblc.ClientId = tblcv.ClientId and tblj.VehicleId = tblcv.VehicleId)
 LEFT JOIN tblVehicleMake cvMfr ON(tblj.Make = cvMfr.MakeId)
@@ -139,14 +127,16 @@ LEFT JOIN tblVehicleModel cvMo ON(tblj.Model = cvMo.ModelId) and cvMfr.MakeId = 
 LEFT join GetTable('VehicleColor') cvCo ON tblj.Color = cvCo.valueid
 inner join #Services tblji ON(tblj.JobId = tblji.JobId)
 inner join tblService tbls ON(tblji.ServiceId = tbls.ServiceId)
-right join tblBay tblb ON(tbljd.BayId = tblb.BayId)
+--right join tblBay tblb ON(tbljd.BayId = tblb.BayId)
 inner join tblLocation tbll on tblj.LocationId =tbll.LocationId
-inner join GetTable('ServiceType') st ON(st.valueid = tbls.ServiceType)
+--inner join GetTable('ServiceType') st ON(st.valueid = tbls.ServiceType)
 left join #Upcharge upc ON(tblj.JobId = upc.JobId)
 left join #Details det ON(tblj.JobId = det.JobId)
-left join #OutsideServices outs ON(tblj.JobId = outs.JobId)
-left join #AirFresheners ar ON(tblj.JobId =ar.JobId)
+--left join #OutsideServices outs ON(tblj.JobId = outs.JobId)
+--left join #AirFresheners ar ON(tblj.JobId =ar.JobId)
 left join #ServicePrice sp ON(tblj.JobId = sp.JobId)
+LEFT JOIN	tblJobPayment tbljp  WITH(NOLOCK) ON tblj.JobPaymentId = tbljp.JobPaymentId AND tbljp.IsProcessed=1 AND ISNULL(tbljp.IsRollBack,0)=0 AND tbljp.IsActive = 1 AND ISNULL(tbljp.IsDeleted,0)=0 
+LEFT JOIN #TipAmount TA on tblj.JobId = TA.JobId
 WHERE 
 (@JobDate is null OR tblj.JobDate = convert(date, @JobDate, 105))
 and 
@@ -154,21 +144,21 @@ and
 and
 (@ClientId is null OR @ClientId=0 OR tblc.ClientId=@ClientId)
 and
-jt.valuedesc = 'Detail'
+jt.valuedesc = @Type
 and
-st.valuedesc in('Detail Package','Outside Services','Air Fresheners')
+tblji.ServiceType in('Wash Package', 'Detail Package','Outside Services','Air Fresheners')
 and
 tblj.IsActive=1
 and
 tbljd.IsActive=1
 --and
 --tblji.IsActive=1
-and
-tblb.IsActive=1
+--and
+--tblb.IsActive=1
 --and
 --tblcv.IsActive=1
-and
-ISNULL(tblb.IsDeleted,0)=0
+--and
+--ISNULL(tblb.IsDeleted,0)=0
 and
 ISNULL(tblj.IsDeleted,0)=0
 and
@@ -184,7 +174,7 @@ and
  or cvCo.valuedesc like @Search+'%'
  or tblc.FirstName like @Search+'%'
  or tblc.LastName like @Search+'%'
- or outs.OutsideService like @Search+'%'
+ --or outs.OutsideService like @Search+'%'
  or tblj.TimeIn like @Search+ '%'
  or tblj.EstimatedTimeOut like @Search+ '%')
  
@@ -195,7 +185,7 @@ and
  CASE WHEN @SortBy = 'ClientName' AND @SortOrder = 'ASC' THEN tblc.FirstName END ASC,
  --CASE WHEN @SortBy = 'PhoneNo' AND @SortOrder = 'ASC' THEN tblca.PhoneNumber END ASC,
  CASE WHEN @SortBy = 'Service' AND @SortOrder = 'ASC' THEN det.ServiceTypeName END ASC,
- CASE WHEN @SortBy = 'OutSideService' AND @SortOrder = 'ASC' THEN outs.OutsideService END ASC,
+-- CASE WHEN @SortBy = 'OutSideService' AND @SortOrder = 'ASC' THEN outs.OutsideService END ASC,
  --DESC
  CASE WHEN @SortBy = 'TicketNo' AND @SortOrder = 'DESC' THEN tblj.TicketNumber END DESC,
  CASE WHEN @SortBy = 'TimeIn' AND @SortOrder = 'DESC' THEN tblj.TimeIn END DESC,
@@ -203,7 +193,7 @@ and
  CASE WHEN @SortBy = 'ClientName' AND @SortOrder = 'DESC' THEN tblc.FirstName END DESC,
  --CASE WHEN @SortBy = 'PhoneNo' AND @SortOrder = 'DESC' THEN tblc.PhoneNumber END DESC,
  CASE WHEN @SortBy = 'Service' AND @SortOrder = 'DESC' THEN det.ServiceTypeName END DESC,
- CASE WHEN @SortBy = 'OutSideService' AND @SortOrder = 'DESC' THEN outs.OutsideService END DESC,
+-- CASE WHEN @SortBy = 'OutSideService' AND @SortOrder = 'DESC' THEN outs.OutsideService END DESC,
  
  CASE WHEN @SortBy IS NULL AND @SortOrder='DESC' THEN tblj.JobId END ASC,
  CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN tblj.JobId END ASC
