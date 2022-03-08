@@ -49,10 +49,9 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
-        <CodesignKey>Apple Development: Remees MS (7U7QD48623)</CodesignKey>
+        <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
         <MtouchLink>SdkOnly</MtouchLink>
-        <CodesignProvision>Strive Customer</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -330,6 +329,7 @@
         <InterfaceDefinition Include="Views\DealsPageViewController.xib" />
         <InterfaceDefinition Include="Views\CardList\CardListViewCell.xib" />
         <InterfaceDefinition Include="Views\CardList\ModifyCardView.xib" />
+        <InterfaceDefinition Include="Views\Login\SignUpView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -525,6 +525,10 @@
         <Compile Include="Views\CardList\ModifyCardView.cs" />
         <Compile Include="Views\CardList\ModifyCardView.designer.cs">
           <DependentUpon>ModifyCardView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Login\SignUpView.cs" />
+        <Compile Include="Views\Login\SignUpView.designer.cs">
+          <DependentUpon>SignUpView.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>

@@ -114,7 +114,7 @@ namespace Strive.Core.ViewModels.Customer
 
             MembershipDetails.customerVehicleDetails
                .clientVehicleMembershipModel
-               .clientVehicleMembershipDetails.endDate = DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'");
+               .clientVehicleMembershipDetails.endDate = string.Empty;
 
             MembershipDetails.customerVehicleDetails
               .clientVehicleMembershipModel

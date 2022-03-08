@@ -12,6 +12,9 @@ namespace Strive.Core.Models.Customer
         [JsonProperty("jobPaymentDetail")]
         public List<JobPaymentDetail> JobPaymentDetails { get; set; }
 
+        [JsonProperty("creditAccountHistory")]
+        public object CreditAccountHistory { get; } = null;
+
         [JsonProperty("giftCardHistory")]
         public object GiftCardHistory { get; } = null;
 

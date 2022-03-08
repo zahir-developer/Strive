@@ -42,11 +42,13 @@ namespace StriveCustomer.iOS.Views.Login
             AgreeBtn.Layer.CornerRadius = 3;
             DisagreeBtn.Layer.CornerRadius = 3;
             SignupLbl.UserInteractionEnabled = true;
-            
-            
-            Action action = () =>
+
+
+             Action action = async () =>
             {
-                UIApplication.SharedApplication.OpenUrl(new NSUrl(ApiUtils.URL_CUSTOMER_SIGNUP));
+                await ViewModel.NavigatetoSignUp();
+                //UIApplication.SharedApplication.OpenUrl(new NSUrl(ApiUtils.URL_CUSTOMER_SIGNUP));
+
             };
 
             UITapGestureRecognizer tap = new UITapGestureRecognizer(action);

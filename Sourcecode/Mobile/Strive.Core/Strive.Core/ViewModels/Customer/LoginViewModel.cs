@@ -90,7 +90,10 @@ namespace Strive.Core.ViewModels.Customer
             await _navigationService.Navigate<DashboardViewModel>();
         }
        
-
+        public async Task NavigatetoSignUp()
+        {
+            await _navigationService.Navigate<SignUpViewModel>();
+        }
         public bool validateCommand()
         {
             bool isValid ;

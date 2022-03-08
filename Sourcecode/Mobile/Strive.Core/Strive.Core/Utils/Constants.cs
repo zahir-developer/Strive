@@ -9,10 +9,10 @@ namespace Strive.Core.Utils
         public const string AZURE_URL = "http://40.114.79.101:5004";
 
         //Mammoth DEV/QA
-        //public const string AZURE_URL_TEST = "https://mammothuatapi-dev.azurewebsites.net"; 
+        public const string AZURE_URL_TEST = "https://mammothuatapi-dev.azurewebsites.net"; 
 
         //Mammoth UAT
-        public const string AZURE_URL_TEST = "https://mammothuatapi.azurewebsites.net";
+        //public const string AZURE_URL_TEST = "https://mammothuatapi.azurewebsites.net";
 
 
         public static string Token { get; set; }
@@ -191,6 +191,7 @@ namespace Strive.Core.Utils
         internal const string PAYMENT_AUTH = "/Payroll/PaymentGateway/Auth";
         internal const string PAYMENT_AUTH_PROFILE = "/Payroll/PaymentGateway/AuthProfile";
         internal const string PAYMENT_CAPTURE = "/Payroll/PaymentGateway/Capture";
+        internal const string PAYMENT_AUTHTIP = "/Payroll/PaymentGateway/AuthTips";
         internal const string ADD_PAYMENT = "/Admin/Sales/AddTipPayment";
         internal const string GLOBAL_DATA = "/Admin/Common/GetCodesByCategory/";
 
