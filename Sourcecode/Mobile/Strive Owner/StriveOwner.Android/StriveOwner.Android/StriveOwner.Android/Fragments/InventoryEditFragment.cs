@@ -60,8 +60,7 @@ namespace StriveOwner.Android.Resources.Fragments
         private bool isSaveClicked;
         private InventoryEditImagePickerFragment inventoryEditImagePickerFragment;
 
-        public string selectedIcon;
-
+        private string selectedIcon;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -101,6 +100,7 @@ namespace StriveOwner.Android.Resources.Fragments
             set.Bind(item_price).To(vm => vm.ItemPrice);
            // set.Bind(saveButton).To(vm => vm.Commands["AddorUpdate"]);
             set.Apply();
+            isSaveClicked = false;
             if (ViewModel != null)
             {
                 if (!string.IsNullOrEmpty(selectedIcon))
@@ -149,8 +149,10 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private void IconBtn_Click(object sender, EventArgs e)
         {
-            inventoryEditImagePickerFragment = new InventoryEditImagePickerFragment((parameter) => {
+            inventoryEditImagePickerFragment = new InventoryEditImagePickerFragment((parameter,file) => {
                 selectedIcon = parameter;
+                if(ViewModel != null)
+                ViewModel.Filename = file + ".png";
             });
             chooseImageDialog.Dismiss();
             AppCompatActivity activity = (AppCompatActivity)context;
@@ -492,11 +494,20 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             try
             {
-               await this.ViewModel.AddorUpdateCommandAndroid();
-                if (this.ViewModel.isValidationError == false)
+                if (!isSaveClicked)
                 {
-                    var selected_MvxFragment = new InventoryMainFragment(context);
-                    FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+                    await this.ViewModel.AddorUpdateCommandAndroid();
+                    if(this.ViewModel.isValidationError == true)
+                    {
+                        isSaveClicked = false;
+                    }
+                    else if (this.ViewModel.isValidationError == false)
+                    {
+                        isSaveClicked = true;
+                        var selected_MvxFragment = new InventoryMainFragment(context);
+                        FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+                    }
+                   
                 }
             }
             catch (Exception ex)

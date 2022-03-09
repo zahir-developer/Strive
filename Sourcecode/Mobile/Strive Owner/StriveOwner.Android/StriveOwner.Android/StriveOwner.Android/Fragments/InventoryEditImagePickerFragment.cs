@@ -26,9 +26,10 @@ namespace StriveOwner.Android.Fragments
         private InventoryEditFragment inventoryEditFragment;
         private static int[] productIcons;
         Context context;
-        private Action<string> _onCompletionAction;
+        private Action<string,string> _onCompletionAction;
         private string updatedIcon;
-        public InventoryEditImagePickerFragment(Action<string> onCompletionAction)
+        private string fileName;
+        public InventoryEditImagePickerFragment(Action<string,string> onCompletionAction)
         {
             _onCompletionAction = onCompletionAction;
         }
@@ -94,8 +95,9 @@ namespace StriveOwner.Android.Fragments
         private void ImagePickerAdapter_ItemClick(object sender, InventoryEditImagePickerAdapterClickEventArgs e)
         {
             inventoryEditFragment = new InventoryEditFragment();
-            // e.View.SetBackgroundColor(Color.Blue);
             int pos = e.Position;
+            var splitFile = Resources.GetResourceName(productIcons[pos]).Split('/');
+            fileName = splitFile[1];
             updatedIcon = ConvertImagetoBase64(productIcons[pos]);
             //inventoryEditFragment.selectedIcon = ConvertImagetoBase64(productIcons[pos]);
             Activity.SupportFragmentManager.PopBackStack();
@@ -132,7 +134,7 @@ namespace StriveOwner.Android.Fragments
         {
             base.OnResume();
 
-            _onCompletionAction(updatedIcon);
+            _onCompletionAction(updatedIcon , fileName);
     }
     }
 }
