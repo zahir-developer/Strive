@@ -1,12 +1,10 @@
 ﻿using System;
-using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
-using Android.Support.V4.App;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -14,11 +12,8 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.Models.Customer;
-using Strive.Core.Utils;
+using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Customer;
-using StriveCustomer.Android.Services;
-using Xamarin.Essentials;
-using static Android.Manifest;
 
 namespace StriveCustomer.Android.Views
 {
@@ -42,6 +37,7 @@ namespace StriveCustomer.Android.Views
         private bool hasAgreedToTerms;
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
+        
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -79,7 +75,7 @@ namespace StriveCustomer.Android.Views
             basicSetup();
             rememberMeCheck.Click += checkStoredCredentials;
             loginButton.Click += Login_Click;
-            signUp.Click += navigateToSignUp;
+           // signUp.Click += navigateToSignUp;
             forgotPassword.Click += navigateToForgotPassword;
             //#if DEBUG
             //            emailPhoneInput.Text = "ramtesting21@gmail.com";
@@ -174,8 +170,10 @@ namespace StriveCustomer.Android.Views
 
         private void navigateToSignUp(object o, EventArgs e)
         {
+
+            BaseViewModel._navigationService.Navigate<SignUpViewModel>();
             //ViewModel.SignUpCommand();
-            Browser.OpenAsync(ApiUtils.URL_CUSTOMER_SIGNUP, BrowserLaunchMode.SystemPreferred);
+            //Browser.OpenAsync(ApiUtils.URL_CUSTOMER_SIGNUP, BrowserLaunchMode.SystemPreferred);
 
         }
 

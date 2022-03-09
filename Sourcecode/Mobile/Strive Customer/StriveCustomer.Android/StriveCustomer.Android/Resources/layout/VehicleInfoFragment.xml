@@ -7,19 +7,31 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center | left">
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:gravity="center"
             android:layout_marginLeft="@dimen/twenty"
             android:textColor="@color/profileInfoColor"
             android:text="Vehicle List"
             android:textSize="@dimen/textSixteen"
             android:fontFamily="@font/opensans_bold"/>
+        <Button            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/fifteen"
+            android:layout_marginBottom="@dimen/fifteen" 
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            />
         <Button
             android:id="@+id/vehicleInfoAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
             android:layout_marginLeft="@dimen/ten"
             android:layout_marginTop="@dimen/fifteen"
             android:layout_marginBottom="@dimen/fifteen"

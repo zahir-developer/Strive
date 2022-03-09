@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Acr.UserDialogs;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -34,9 +33,12 @@ namespace StriveCustomer.Android.Fragments
         private LinearLayout[] moreInfo_LinearLayout;
         private Button[] tipButton;
         private TextView[] price;
-        BottomSheetBehavior tipBottomSheet;
-        Context context;
+        BottomSheetBehavior tipBottomSheet;       
         private bool isPastServiceCalled;
+        private static View rootview;
+        
+        public override bool UserVisibleHint { get => base.UserVisibleHint; set => base.UserVisibleHint = value; }
+
         public SchedulePastServiceHistoryFragment(BottomSheetBehavior sheetBehavior)
         {
             tipBottomSheet = sheetBehavior;            
@@ -51,20 +53,19 @@ namespace StriveCustomer.Android.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            var rootview = this.BindingInflate(Resource.Layout.ServiceHistoryFragment, null);
-
-            context = this.Context;
+            rootview = this.BindingInflate(Resource.Layout.ServiceHistoryFragment, null);
+            PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);           
+            
             if (!isPastServiceCalled)
             {
                 this.ViewModel = new ScheduleViewModel();
                 GetPastServices();
             }
            
-            PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);
-
+            
+            //ticketNumber.Add("-1");
             return rootview;
-        }     
-
+        }        
 
         public async Task GetPastServices()
         {
@@ -74,7 +75,11 @@ namespace StriveCustomer.Android.Fragments
             }
             try
             {
-                isPastServiceCalled = true;
+                if (PastServiceList_LinearLayout == null) 
+                {
+                    PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);
+                }
+                isPastServiceCalled = true;                
                 await this.ViewModel.GetPastServiceDetails();
                 UpdatePastService(this.ViewModel.pastServiceHistory);           
 
@@ -89,6 +94,7 @@ namespace StriveCustomer.Android.Fragments
         }
         private void UpdatePastService(ServiceHistoryModel pastServiceHistory)
         {
+             
             if (pastServiceHistory != null)
             {
                 if (pastServiceHistory.DetailsGrid.JobViewModel != null)
@@ -150,7 +156,11 @@ namespace StriveCustomer.Android.Fragments
             }
             else
             {
-                BaseViewModel._userDialog.Toast("No Schedules have been found !");
+                if (UserVisibleHint)
+                { 
+                    BaseViewModel._userDialog.Toast("No Schedules have been found !"); 
+                }
+                
             }
         }
         private void TipButton_Click(object sender, EventArgs e)

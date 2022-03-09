@@ -25,7 +25,8 @@ namespace StriveCustomer.Android.Views
         private TextView signUpTextView;
         private EditText signUpMobileNumber;
         private EditText signUpEmailId;
-        private EditText signUpName;
+        private EditText signUpFirstName;
+        private EditText signUpLastName;
         private EditText signUpPassword;
         private EditText signUpConfirmPassword;
         protected override void OnCreate(Bundle bundle)
@@ -36,17 +37,18 @@ namespace StriveCustomer.Android.Views
             signUpButton = FindViewById<Button>(Resource.Id.signUpButton);
             signUpMobileNumber = FindViewById<EditText>(Resource.Id.signUpMobile);
             signUpEmailId = FindViewById<EditText>(Resource.Id.signUpEmail);
-            signUpName = FindViewById<EditText>(Resource.Id.signUpName);
+            signUpFirstName = FindViewById<EditText>(Resource.Id.signUpFirstName);
+            signUpLastName = FindViewById<EditText>(Resource.Id.signUpLastName);
             signUpPassword = FindViewById<EditText>(Resource.Id.signUpPassword);
             signUpConfirmPassword = FindViewById<EditText>(Resource.Id.signUpConfirmPassword);
-           
+            var signUpName = signUpFirstName + " " + signUpLastName;
             var bindingset = this.CreateBindingSet<SignUpView,SignUpViewModel>();
 
             bindingset.Bind(signUpTextView).To(svm => svm.SignUp);
-            bindingset.Bind(signUpButton).For(svm => svm.Text).To(svm => svm.SignUp);
+           // bindingset.Bind(signUpButton).For(svm => svm.Text).To(svm => svm.SignUp);
             bindingset.Bind(signUpMobileNumber).To(svm => svm.signUpMobile);
             bindingset.Bind(signUpEmailId).To(svm => svm.signUpEmail);
-            bindingset.Bind(signUpName).To(svm => svm.signUpName);
+            //bindingset.Bind(signUpName).To(svm => svm.signUpName);
             bindingset.Bind(signUpPassword).To(svm => svm.signUpPassword);
             bindingset.Bind(signUpConfirmPassword).To(svm => svm.signUpConfirmPassword);
             bindingset.Bind(signUpButton).To(svm => svm.Commands["SignUp"]);

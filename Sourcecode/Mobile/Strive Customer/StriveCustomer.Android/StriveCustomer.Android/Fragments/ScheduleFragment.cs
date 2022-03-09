@@ -40,7 +40,7 @@ namespace StriveCustomer.Android.Fragments
         public static FloatingActionButton floatingActionButton;
         public static BottomNavigationView bottomNavigationView;
         private TextView amount;
-        public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
+        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -132,7 +132,7 @@ namespace StriveCustomer.Android.Fragments
             scheduleAdapter.AddFragment(washHistoryFragment,"Wash History");
             schedulePager.Adapter = scheduleAdapter;
             scheduleTabs.SetupWithViewPager(schedulePager);
-            schedulePager.SetOnPageChangeListener(this);
+            schedulePager.SetOnPageChangeListener(this);             
             //schedulePager.SetCurrentItem(MyProfileInfoNeeds.selectedTab, false);
         }
 
@@ -150,10 +150,9 @@ namespace StriveCustomer.Android.Fragments
         {
             if (position == 1) 
             {
-                pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet);
-                await pastServiceHistoryFragment.GetPastServices();
-                
-            }
+                pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet);                
+                await pastServiceHistoryFragment.GetPastServices();                
+            }            
         }
     }
 }
