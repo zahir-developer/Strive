@@ -17,6 +17,8 @@ using MvvmCross;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Customer;
+using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Customer;
 using OperationCanceledException = System.OperationCanceledException;
 
@@ -33,8 +35,8 @@ namespace StriveCustomer.Android.Fragments
         private Button[] tipButton;
         private TextView[] price;
         BottomSheetBehavior tipBottomSheet;
-        Context context;        
-
+        Context context;
+        private bool isPastServiceCalled;
         public SchedulePastServiceHistoryFragment(BottomSheetBehavior sheetBehavior)
         {
             tipBottomSheet = sheetBehavior;            
@@ -50,9 +52,14 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.ServiceHistoryFragment, null);
-            this.ViewModel = new ScheduleViewModel();
+
             context = this.Context;
-            GetPastServices();
+            if (!isPastServiceCalled)
+            {
+                this.ViewModel = new ScheduleViewModel();
+                GetPastServices();
+            }
+           
             PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);
 
             return rootview;
@@ -67,66 +74,9 @@ namespace StriveCustomer.Android.Fragments
             }
             try
             {
+                isPastServiceCalled = true;
                 await this.ViewModel.GetPastServiceDetails();
-                if (this.ViewModel.pastServiceHistory != null)
-                {
-                    if (this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel != null)
-                    {
-                        if (this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count > 0)
-                        {
-                            var sortedBayJobDetail = this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
-                            TicketNumber = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
-                            moreInfo_LinearLayout = new LinearLayout[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
-                            tipButton = new Button[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
-                            price = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.JobViewModel.Count];
-                            // for (int services = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count-1; services >= 0; services--)
-                            foreach (var services in sortedBayJobDetail)
-                            {
-                                if (Context != null)
-                                {
-                                    layout = LayoutInflater.From(Context).Inflate(Resource.Layout.ServiceHistoryItemView, PastServiceList_LinearLayout, false);
-
-                                    var vehicleName = layout.FindViewById<TextView>(Resource.Id.makeModelColorValue_TextView);
-                                    var detailVisitDate = layout.FindViewById<TextView>(Resource.Id.scheduleDetailVisit_TextView);
-                                    var detailService = layout.FindViewById<TextView>(Resource.Id.detailServices_TextView);
-                                    var barcode = layout.FindViewById<TextView>(Resource.Id.barcodeValue_TextView);
-                                    price[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<TextView>(Resource.Id.schedulePrice_TextView);
-                                    var additionalServices = layout.FindViewById<TextView>(Resource.Id.additionalServicesValue_TextView);
-                                    var detailedServiceCost = layout.FindViewById<TextView>(Resource.Id.scheduleTicketValue_TextView);
-
-                                    vehicleName.Text = services.VehicleMake + "/"
-                                                    + services.VehicleModel + "/"
-                                                    + services.VehicleColor;
-
-                                    var dates = services.JobDate.ToString();
-                                    var splitDates = dates.Split("T");
-                                    var detailedVisitDate = splitDates[0].Split("-"); ;
-                                    var orderedDate = detailedVisitDate[1] + "/" + detailedVisitDate[2] + "/" + detailedVisitDate[0];
-
-                                    detailVisitDate.Text = orderedDate;
-                                    detailService.Text = services.ServiceTypeName;
-                                    // additionalServices.Text = services.OutsideService;
-                                    detailedServiceCost.Text = "$" + services.Cost;
-                                    barcode.Text = services.Barcode;
-                                    price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
-
-                                    // tipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.tipButton);
-                                    // tipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
-                                    TicketNumber[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<TextView>(Resource.Id.scheduleTicket_TextView);
-                                    TicketNumber[sortedBayJobDetail.IndexOf(services)].Text = services.TicketNumber;
-                                    //TicketNumber[services].PaintFlags = PaintFlags.UnderlineText;
-                                    moreInfo_LinearLayout[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<LinearLayout>(Resource.Id.moreInfo_LinearLayout);
-                                    moreInfo_LinearLayout[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Gone;
-                                    TicketNumber[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
-                                    TicketNumber[sortedBayJobDetail.IndexOf(services)].Click += SchedulePastServiceHistoryFragment_Click;
-                                    //  tipButton[sortedBayJobDetail.IndexOf(services)].Click += TipButton_Click;
-                                    //AssignListeners(sortedBayJobDetail.IndexOf(services));                           
-                                    PastServiceList_LinearLayout.AddView(layout);
-                                }
-                            }
-                        }
-                    }
-                }                
+                UpdatePastService(this.ViewModel.pastServiceHistory);           
 
             }
             catch (Exception ex)
@@ -137,7 +87,72 @@ namespace StriveCustomer.Android.Fragments
                 }
             }
         }
+        private void UpdatePastService(ServiceHistoryModel pastServiceHistory)
+        {
+            if (pastServiceHistory != null)
+            {
+                if (pastServiceHistory.DetailsGrid.JobViewModel != null)
+                {
+                    if (pastServiceHistory.DetailsGrid.JobViewModel.Count > 0)
+                    {
+                        var sortedBayJobDetail = pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
+                        TicketNumber = new TextView[pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                        moreInfo_LinearLayout = new LinearLayout[pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                        tipButton = new Button[pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                        price = new TextView[pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                        // for (int services = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count-1; services >= 0; services--)
+                        foreach (var services in sortedBayJobDetail)
+                        {
+                            if (Context != null)
+                            {
+                                layout = LayoutInflater.From(Context).Inflate(Resource.Layout.ServiceHistoryItemView, PastServiceList_LinearLayout, false);
 
+                                var vehicleName = layout.FindViewById<TextView>(Resource.Id.makeModelColorValue_TextView);
+                                var detailVisitDate = layout.FindViewById<TextView>(Resource.Id.scheduleDetailVisit_TextView);
+                                var detailService = layout.FindViewById<TextView>(Resource.Id.detailServices_TextView);
+                                var barcode = layout.FindViewById<TextView>(Resource.Id.barcodeValue_TextView);
+                                price[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<TextView>(Resource.Id.schedulePrice_TextView);
+                                var additionalServices = layout.FindViewById<TextView>(Resource.Id.additionalServicesValue_TextView);
+                                var detailedServiceCost = layout.FindViewById<TextView>(Resource.Id.scheduleTicketValue_TextView);
+
+                                vehicleName.Text = services.VehicleMake + "/"
+                                                + services.VehicleModel + "/"
+                                                + services.VehicleColor;
+
+                                var dates = services.JobDate.ToString();
+                                var splitDates = dates.Split("T");
+                                var detailedVisitDate = splitDates[0].Split("-"); ;
+                                var orderedDate = detailedVisitDate[1] + "/" + detailedVisitDate[2] + "/" + detailedVisitDate[0];
+
+                                detailVisitDate.Text = orderedDate;
+                                detailService.Text = services.ServiceTypeName;
+                                // additionalServices.Text = services.OutsideService;
+                                detailedServiceCost.Text = "$" + services.Cost;
+                                barcode.Text = services.Barcode;
+                                price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
+
+                                // tipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.tipButton);
+                                // tipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
+                                TicketNumber[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<TextView>(Resource.Id.scheduleTicket_TextView);
+                                TicketNumber[sortedBayJobDetail.IndexOf(services)].Text = services.TicketNumber;
+                                //TicketNumber[services].PaintFlags = PaintFlags.UnderlineText;
+                                moreInfo_LinearLayout[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<LinearLayout>(Resource.Id.moreInfo_LinearLayout);
+                                moreInfo_LinearLayout[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Gone;
+                                TicketNumber[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
+                                TicketNumber[sortedBayJobDetail.IndexOf(services)].Click += SchedulePastServiceHistoryFragment_Click;
+                                //  tipButton[sortedBayJobDetail.IndexOf(services)].Click += TipButton_Click;
+                                //AssignListeners(sortedBayJobDetail.IndexOf(services));
+                                PastServiceList_LinearLayout.AddView(layout);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                BaseViewModel._userDialog.Toast("No Schedules have been found !");
+            }
+        }
         private void TipButton_Click(object sender, EventArgs e)
         {
             

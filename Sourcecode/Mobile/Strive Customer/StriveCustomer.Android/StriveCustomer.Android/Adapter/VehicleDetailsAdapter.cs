@@ -5,6 +5,9 @@ using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
+using Android.Media;
+using Android.Provider;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
@@ -22,7 +25,6 @@ using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Fragments;
 using StriveCustomer.Android.Resources.Enums;
 using StriveCustomer.Android.Services;
-using Xamarin.Essentials;
 using File = System.IO.File;
 using Uri = Android.Net.Uri;
 namespace StriveCustomer.Android.Adapter
@@ -186,13 +188,21 @@ namespace StriveCustomer.Android.Adapter
                                 string base64 = Base64.EncodeToString(dataconverted,
                                         Base64Flags.Default);
                                 byte[] bfile = Base64.Decode(base64, Base64Flags.Default);
-                                var file = SaveBinary(vehicleInfo?.documentFileName, bfile);
-                                if (file != null)
+                                //var file = SaveBinary(vehicleInfo?.documentFileName, bfile);
+                                var fileName = vehicleInfo?.documentFileName;
+                                Bitmap bitmap = BitmapFactory.DecodeByteArray(bfile, 0, bfile.Length);
+                                Random random = new Random();
+                                MediaStore.Images.Media.InsertImage(context.ContentResolver, bitmap, fileName != null ? fileName : "Vehicle Documents" + random.Next().ToString(), "");
+                                if (bitmap != null)
                                 {
                                     _userDialog.Toast("Document downloaded successfully");
                                 }
+                                else
+                                {
+                                    _userDialog.Toast("Unable to download document");
+                                }
                             }
-                            catch (UnsupportedEncodingException ex)
+                            catch (Exception ex)
                             {
                                 return;
                             }
@@ -229,10 +239,12 @@ namespace StriveCustomer.Android.Adapter
         {
             try
             {
-                return context.ApplicationContext.GetExternalFilesDir(null).AbsolutePath;
-            }catch(SecurityException ex)
+               //return Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+               return context.ApplicationContext.GetExternalFilesDir(null).AbsolutePath;
+            }
+            catch (SecurityException ex)
             {
-                return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                return Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             }           
             
         }

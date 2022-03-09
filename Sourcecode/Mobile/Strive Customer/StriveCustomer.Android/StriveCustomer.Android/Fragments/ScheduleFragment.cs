@@ -148,22 +148,11 @@ namespace StriveCustomer.Android.Fragments
 
         public async void OnPageSelected(int position)
         {
-            if (position == 0) 
-            { 
-            
-            }
             if (position == 1) 
             {
+                pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet);
                 await pastServiceHistoryFragment.GetPastServices();
-                if (this.ViewModel == null)
-                {
-                    this.ViewModel = new ScheduleViewModel();
-                }
-                if (ViewModel.pastServiceHistory == null)
-                {
-
-                    _userDialog.Toast("No Schedules have been found !");
-                }
+                
             }
         }
     }
