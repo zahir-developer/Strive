@@ -82,6 +82,14 @@ namespace Admin.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            /*services.AddApiVersioning(Options =>
+            {
+                Options.AssumeDefaultVersionWhenUnspecified = true;
+                Options.DefaultApiVersion = ApiVersion.Default;
+                Options.ReportApiVersions = true;
+                Options.UseApiBehavior = true;
+            });
+            */
             services.AddScoped<ITenantHelper, TenantHelper>();
             services.AddTransient<IAuthManagerBpl, AuthManagerBpl>();
             services.AddTransient<ILocationBpl, LocationBpl>();
@@ -140,8 +148,6 @@ namespace Admin.API
                 // this formatter breaks Angular's Http response JSON parsing
                 opt.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
             });
-
-            _logger.LogInformation("Test log Strive");
 
             #region Add CORS
             services.AddCors(options =>
