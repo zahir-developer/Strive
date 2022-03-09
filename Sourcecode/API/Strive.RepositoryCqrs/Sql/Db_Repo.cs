@@ -15,6 +15,8 @@ namespace Strive.RepositoryCqrs
         private string cs;
         private string sc;
 
+        private static int batchSize = 30;
+
         public DbRepo(string cs, string schemaName)
         {
             this.cs = cs;
@@ -176,10 +178,10 @@ namespace Strive.RepositoryCqrs
                                 }
 
                                 if(insertList.Count > 0)
-                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction);
+                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction, batchSize: batchSize);
 
                                 if(updateList.Count > 0)
-                                insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction);
+                                insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction, batchSize: batchSize);
 
                                 isGeneric = false;
 
@@ -351,7 +353,7 @@ namespace Strive.RepositoryCqrs
                             {
                                 var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
                                 if (dynamicListObject.Count > 0)
-                                    genericInsertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
+                                    genericInsertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction, batchSize: batchSize);
                                 isGeneric = false;
                             }
                             else
@@ -461,10 +463,10 @@ namespace Strive.RepositoryCqrs
                                 }
 
                                 if (insertList.Count > 0)
-                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction);
+                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction, batchSize: batchSize);
 
                                 if (updateList.Count > 0)
-                                    insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction);
+                                    insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction, batchSize: batchSize);
 
                                 isGeneric = false;
                             }
@@ -563,10 +565,10 @@ namespace Strive.RepositoryCqrs
                                 }
 
                                 if (insertList.Count > 0)
-                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction);
+                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction, batchSize: batchSize);
 
                                 if (updateList.Count > 0)
-                                    insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction);
+                                    insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction, batchSize: batchSize);
 
                                 isGeneric = false;
                             }
@@ -644,10 +646,10 @@ namespace Strive.RepositoryCqrs
                                 }
 
                                 if (insertList.Count > 0)
-                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction);
+                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction, batchSize: batchSize);
 
                                 if (updateList.Count > 0)
-                                    insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction);
+                                    insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction, batchSize: batchSize);
 
                                 isGeneric = false;
                                 
