@@ -40,7 +40,12 @@ namespace StriveCustomer.Android.Fragments
         public static FloatingActionButton floatingActionButton;
         public static BottomNavigationView bottomNavigationView;
         private TextView amount;
-        
+        private Context context;
+
+        public ScheduleFragment(Context context)
+        {
+            this.context = context;
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -59,7 +64,7 @@ namespace StriveCustomer.Android.Fragments
             schedulePager = rootView.FindViewById<ViewPager>(Resource.Id.Schedule_ProfilePager);
             
             vehicleListFragment = new ScheduleVehicleListFragment();
-            washHistoryFragment = new ScheduleWashHistoryFragment();
+            washHistoryFragment = new ScheduleWashHistoryFragment(context);
             tipFrameLayout = rootView.FindViewById<FrameLayout>(Resource.Id.tipBottomSheet);
             tipBottomSheet = BottomSheetBehavior.From(tipFrameLayout);
             tipAmountOne = rootView.FindViewById<TextView>(Resource.Id.tipAmountOne);
@@ -67,7 +72,7 @@ namespace StriveCustomer.Android.Fragments
             tipAmountThree = rootView.FindViewById<TextView>(Resource.Id.tipAmountThree);
             tipAmountFour = rootView.FindViewById<TextView>(Resource.Id.tipAmountFour);
             tipCancelButton = rootView.FindViewById<Button>(Resource.Id.tipCancelButton);
-            pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet);
+            pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet,context);
             
 
             //tipAmountOne.Click += TipAmountOne_Click;
@@ -150,9 +155,12 @@ namespace StriveCustomer.Android.Fragments
         {
             if (position == 1) 
             {
-                pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet);                
                 await pastServiceHistoryFragment.GetPastServices();                
-            }            
+            }
+            if (position == 2)
+            {
+                await washHistoryFragment.GetPastWashDetails();
+            }
         }
     }
 }

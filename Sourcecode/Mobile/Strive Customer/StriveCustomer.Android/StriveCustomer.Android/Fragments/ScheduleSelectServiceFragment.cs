@@ -71,7 +71,7 @@ namespace StriveCustomer.Android.Fragments
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
             CustomerScheduleInformation.ScheduleServiceID = -1;
-            scheduleFragment = new ScheduleFragment();
+            scheduleFragment = new ScheduleFragment(this.Context);
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }
@@ -90,7 +90,7 @@ namespace StriveCustomer.Android.Fragments
         private void ScheduleServices_BackButton_Click(object sender, EventArgs e)
         {
             CustomerScheduleInformation.ScheduleServiceID = -1;
-            scheduleFragment = new ScheduleFragment();
+            scheduleFragment = new ScheduleFragment(this.Context);
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }

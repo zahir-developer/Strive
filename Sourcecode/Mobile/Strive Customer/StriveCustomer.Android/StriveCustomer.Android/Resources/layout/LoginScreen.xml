@@ -44,23 +44,27 @@
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"                     
                      android:id="@+id/terms0"
+                     android:contentDescription="@string/description"
                      android:src="@drawable/Terms0"
                 />
                 <ImageView
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:id="@+id/terms1"                     
+                     android:id="@+id/terms1"
+                     android:contentDescription="@string/description"
                      android:src="@drawable/Terms1"
                 />
                 <ImageView
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
+                     android:contentDescription="@string/description"
                      android:id="@+id/terms2"                     
                      android:src="@drawable/Terms2"
                 />
                 <ImageView
                      android:layout_width="match_parent"
-                     android:layout_height="wrap_content"                     
+                     android:layout_height="wrap_content"
+                     android:contentDescription="@string/description"
                      android:src="@drawable/Terms3"
                 />
                 
@@ -115,6 +119,7 @@
        <ImageView
            android:layout_width="@dimen/Strive_Logo_Width"
            android:layout_height="@dimen/Strive_Logo_Height"
+            android:contentDescription="@string/description"
             android:src="@drawable/Strive_Logo_Page"/>
     </LinearLayout>
     <LinearLayout
@@ -169,6 +174,7 @@
                     android:textColorHint="@color/defaultHintColor"
                     android:background="@drawable/edittext"
                     android:inputType="textPassword"
+                    android:contentDescription="@string/description"
                     android:id="@+id/passwordInputs"/> 
             </android.support.design.widget.TextInputLayout>
     </LinearLayout> 

@@ -20,5 +20,6 @@
     <string name="defaultScheduleServiceText">Hand wash Shampoo carpets, upholstery Clean leather Clean interior paneling Detail dash and console Treat condition all leather Clean windows, mirrors Shampoo headliner Degrease and clean all jams Silicone tires</string>
     <string name="termsStringHeader">I authorize: NEW MAMMOTH DETAIL SALON</string>
     <string name="termsStringOne">To keep my signature on file and to charge my Credit Card Account on file for:</string>
-    <string name="termsStringTwo">Switch Membership Fee: $20.00</string>    
+    <string name="termsStringTwo">Switch Membership Fee: $20.00</string>
+     <string name="description">description</string>
 </resources>

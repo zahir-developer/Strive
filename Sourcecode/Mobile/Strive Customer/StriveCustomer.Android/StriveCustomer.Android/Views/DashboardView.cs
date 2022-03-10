@@ -36,9 +36,8 @@ namespace StriveCustomer.Android.Views
         //public TextView tipAmountTwo;
         //public TextView tipAmountThree;
         //public TextView tipAmountFour;
-
+        ScheduleFragment scheduleFrag;
         MvxFragment fragment = null;
-        ScheduleFragment scheduleFrag = new ScheduleFragment();
         MapsFragment mapFrag = new MapsFragment();
         DealsFragment dealFrag = new DealsFragment();        
         PastDetailsFragment pastDetailsFrag = new PastDetailsFragment();
@@ -54,6 +53,7 @@ namespace StriveCustomer.Android.Views
             bottomNav.InflateMenu(Resource.Menu.bottomNavMenu);
             bottomNav.NavigationItemSelected += NavigateFrag;
             dashActionButton = FindViewById<FloatingActionButton>(Resource.Id.dashActionButton);
+            scheduleFrag = new ScheduleFragment(this);
             ScheduleFragment.floatingActionButton = dashActionButton;
             ScheduleFragment.bottomNavigationView = bottomNav;
            // tipFrameLayout = FindViewById<FrameLayout>(Resource.Id.tipBottomSheet);

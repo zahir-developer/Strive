@@ -94,7 +94,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void RescheduleButton_Click(object sender, EventArgs e)
         {
-            scheduleFragment = new ScheduleFragment();
+            scheduleFragment = new ScheduleFragment(this.Context);
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }

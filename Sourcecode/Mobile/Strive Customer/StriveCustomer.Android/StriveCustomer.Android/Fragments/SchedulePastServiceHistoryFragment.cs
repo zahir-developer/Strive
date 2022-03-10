@@ -35,13 +35,14 @@ namespace StriveCustomer.Android.Fragments
         private TextView[] price;
         BottomSheetBehavior tipBottomSheet;       
         private bool isPastServiceCalled;
-        private static View rootview;
-        
+        private static View viewInstance;
+        private Context cxt;
         public override bool UserVisibleHint { get => base.UserVisibleHint; set => base.UserVisibleHint = value; }
 
-        public SchedulePastServiceHistoryFragment(BottomSheetBehavior sheetBehavior)
+        public SchedulePastServiceHistoryFragment(BottomSheetBehavior sheetBehavior , Context context)
         {
-            tipBottomSheet = sheetBehavior;            
+            tipBottomSheet = sheetBehavior;
+            this.cxt = context;
         }
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -53,7 +54,8 @@ namespace StriveCustomer.Android.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            rootview = this.BindingInflate(Resource.Layout.ServiceHistoryFragment, null);
+            var  rootview = this.BindingInflate(Resource.Layout.ServiceHistoryFragment, null);
+            viewInstance = rootview;
             PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);           
             
             if (!isPastServiceCalled)
@@ -75,12 +77,13 @@ namespace StriveCustomer.Android.Fragments
             }
             try
             {
-                if (PastServiceList_LinearLayout == null) 
+                if (PastServiceList_LinearLayout == null && viewInstance != null) 
                 {
-                    PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);
+                    PastServiceList_LinearLayout = viewInstance.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);
                 }
-                isPastServiceCalled = true;                
+                isPastServiceCalled = true;
                 await this.ViewModel.GetPastServiceDetails();
+                PastServiceList_LinearLayout.RemoveAllViews();
                 UpdatePastService(this.ViewModel.pastServiceHistory);           
 
             }
@@ -109,9 +112,9 @@ namespace StriveCustomer.Android.Fragments
                         // for (int services = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count-1; services >= 0; services--)
                         foreach (var services in sortedBayJobDetail)
                         {
-                            if (Context != null)
+                            if (cxt != null)
                             {
-                                layout = LayoutInflater.From(Context).Inflate(Resource.Layout.ServiceHistoryItemView, PastServiceList_LinearLayout, false);
+                                layout = LayoutInflater.From(cxt).Inflate(Resource.Layout.ServiceHistoryItemView, PastServiceList_LinearLayout, false);
 
                                 var vehicleName = layout.FindViewById<TextView>(Resource.Id.makeModelColorValue_TextView);
                                 var detailVisitDate = layout.FindViewById<TextView>(Resource.Id.scheduleDetailVisit_TextView);

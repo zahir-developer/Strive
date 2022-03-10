@@ -58,7 +58,7 @@ namespace StriveCustomer.Android.Fragments
         private void Backtodashboard_Textview_Click(object sender, EventArgs e)
         {
             this.ViewModel.ClearScheduleData();
-            scheduleFragment = new ScheduleFragment();
+            scheduleFragment = new ScheduleFragment(this.Context);
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }

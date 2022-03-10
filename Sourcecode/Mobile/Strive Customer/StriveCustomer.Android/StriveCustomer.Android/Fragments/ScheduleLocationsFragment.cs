@@ -58,7 +58,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void ScheduleCancel_Button_Click(object sender, EventArgs e)
         {
-            scheduleFragment = new ScheduleFragment();
+            scheduleFragment = new ScheduleFragment(this.Context);
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }
@@ -75,7 +75,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void ScheduleLocations_BackButton_Click(object sender, EventArgs e)
         {
-            scheduleragment = new ScheduleFragment();
+            scheduleragment = new ScheduleFragment(this.Context);
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleragment).Commit();
         }
