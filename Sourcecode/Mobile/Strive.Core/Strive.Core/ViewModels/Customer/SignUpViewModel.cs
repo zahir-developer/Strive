@@ -155,18 +155,17 @@ namespace Strive.Core.ViewModels.Customer
                     _userDialog.HideLoading();
                     if (signUpResponse.Status.Count>0)
                     {
-                        if (platform == DevicePlatform.Android)
+                        if (platform == DevicePlatform.iOS)
                         {
-                            await Task.Delay(300);
                             _userDialog.Toast(Strings.SignUpSuccessful);
                             await _navigationService.Close(this);
                         }
                         else 
                         {
-                            _userDialog.Toast(Strings.SignUpSuccessful);
                             await _navigationService.Close(this);
+                            await Task.Delay(300);
+                            _userDialog.Toast(Strings.SignUpSuccessful);
                         }                       
-                        
                     }
                     else
                     {
