@@ -1,7 +1,9 @@
 export const environment = {
+  appVersion: require('../../package.json').version,
   production: true,
   api: { // API Endpoints
-    striveUrl:  'https://mammothuatapi-dev.azurewebsites.net/',
+    striveUrl:  'http://localhost:60001/',
+    //striveUrl:  'https://mammothuatapi.azurewebsites.net/',
     striveCdn: 'https://mammothuatapi-cdn.azurewebsites.net/',
     //signalR:  'https://mammothuatapi.azurewebsites.net/',
     //striveUrl: 'http://14.141.185.75:5006/'
