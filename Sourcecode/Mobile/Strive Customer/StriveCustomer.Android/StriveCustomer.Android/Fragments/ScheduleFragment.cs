@@ -174,12 +174,17 @@ namespace StriveCustomer.Android.Fragments
 
         public async void OnPageSelected(int position)
         {
+            if(position == 0)
+            {
+                OnTipCalled();
+            }
             if (position == 1) 
             {
                 await pastServiceHistoryFragment.GetPastServices();                
             }
             if (position == 2)
             {
+                OnTipCalled();
                 await washHistoryFragment.GetPastWashDetails();
             }
         }

@@ -40,12 +40,13 @@
                     android:fontFamily="@font/opensans_bold"/>
                 <Button
                      android:layout_width="0dp"
-                     android:layout_height="wrap_content"
+                     android:layout_height="35dp"
                      android:id="@+id/tipButton"
                      android:layout_marginLeft="2dp"
                      android:text="Tip"
+                     android:textColor="@android:color/white"
                      android:textSize="15sp"                     
-                     android:layout_weight="0.4"
+                     android:layout_weight="0.3"
                      android:background="@drawable/circularedgedrectangle_button"/>
 
             </LinearLayout>
