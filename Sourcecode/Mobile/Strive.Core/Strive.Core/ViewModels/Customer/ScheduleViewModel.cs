@@ -184,28 +184,13 @@ namespace Strive.Core.ViewModels.Customer
 
                     var addPaymentReqReq = new AddPaymentReq
                     {
-                        SalesPaymentDto = new SalesPaymentDto
+                        JobPaymentDetails = new JobPaymentDetail
                         {
-                            JobPayment = new JobPayment
-                            {
-                                JobID = Jobid,
-                                Amount = (float)WashTip
-
-                            },
-                            JobPaymentDetails = new List<JobPaymentDetail>() {
-                                    new JobPaymentDetail()
-                                    {
-                                        Amount = (float)WashTip,
-                                        PaymentType = 0,
-                                        JobPaymentID = JobPaymentId
-
-                                    }
-                                }
-
-                        },
-                        TicketNumber = TicketNumber,
-                        JobID = Jobid,
-                        LocationID = 0
+                            Amount = (float)WashTip,
+                            //PaymentType = 0,
+                            JobPaymentID = JobPaymentId,
+                            PaymentType = paymentTypeId
+                        }
 
                     };
 
@@ -213,7 +198,7 @@ namespace Strive.Core.ViewModels.Customer
                     _userDialog.ShowLoading();
                     var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
                     _userDialog.HideLoading();
-                    if (paymentResponse.JobPaymentDetailId == 0)
+                    if (paymentResponse.JobPaymentDetailId != 0)
                     {
                         await _userDialog.AlertAsync("Tip Added Successfully");
                         await _navigationService.Navigate<ScheduleViewModel>();

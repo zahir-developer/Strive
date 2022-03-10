@@ -98,7 +98,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             ScheduleViewModel.VehicleId = int.Parse(SavedList[indexPath.Row].VehicleId);
             ScheduleViewModel.Jobid = SavedList[indexPath.Row].JobId;
             ScheduleViewModel.TicketNumber = SavedList[indexPath.Row].TicketNumber;
-            ScheduleViewModel.JobPaymentId = int.Parse(SavedList[indexPath.Row].TipPaymentId);
+            ScheduleViewModel.JobPaymentId = int.Parse(SavedList[indexPath.Row].JobPaymentId);
             var dict = new NSDictionary(new NSString("Price"), new NSString(Price.ToString()));
             NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.employee.Pay"), null, dict);
         }
