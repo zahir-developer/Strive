@@ -91,7 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty"
                         android:paddingBottom="@dimen/ten"
-                        android:hint="@string/email_Id"
+                        android:hint="Enter your Email ID*"
                         android:textSize="@dimen/textSixteen"
                         android:background="@drawable/edittext"
                         android:fontFamily="@font/opensans_regular"
@@ -106,12 +106,15 @@
                     android:layout_marginLeft="@dimen/twenty"
                     android:layout_marginRight="@dimen/twenty"
                     android:background="@drawable/edittext"
-                    app:hintEnabled="true">
+                    app:hintEnabled="true"
+                    android:minWidth="25px"
+                    android:minHeight="25px">
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty"
                         android:paddingBottom="@dimen/ten"
                         android:inputType="phone"
+                        android:maxLength="14"
                         android:textSize="@dimen/textSixteen"
                         android:background="@drawable/edittext"
                         android:fontFamily="@font/opensans_regular"
@@ -132,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty"
                         android:paddingBottom="@dimen/ten"
-                        android:hint="@string/password"
+                        android:hint="Enter your Password*"
                         android:textSize="@dimen/textSixteen"
                         android:background="@drawable/edittext"
                         android:fontFamily="@font/opensans_regular"
@@ -152,7 +155,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty"
                         android:paddingBottom="@dimen/ten"
-                        android:hint="@string/confirm_password"
+                        android:hint="Confirm Password*"
                         android:textSize="@dimen/textSixteen"
                         android:background="@drawable/edittext"
                         android:fontFamily="@font/opensans_regular"
@@ -162,10 +165,10 @@
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <LinearLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:orientation="vertical">
-            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
                     android:id="@+id/vehicleInfoTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -175,81 +178,73 @@
                     android:layout_marginLeft="@dimen/twenty"
                     android:textColor="@color/defaultLabelColor"
                     android:fontFamily="@font/opensans_bold"/>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/fifty"
-                    android:layout_marginTop="@dimen/ten"
-                    android:layout_marginLeft="@dimen/twenty"
-                    android:layout_marginRight="@dimen/twenty"
-                    android:background="@drawable/edittext"
-                    app:hintEnabled="true">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/forty"
-                        android:paddingBottom="@dimen/ten"
-                        android:hint="Make*"
-                        android:textSize="@dimen/textSixteen"
-                        android:background="@drawable/edittext"
-                        android:fontFamily="@font/opensans_regular"
-                        android:textColorHint = "@color/defaultHintColor"                        
-                        android:id="@+id/vehicleMakeText" />
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/fifty"
-                    android:layout_marginTop="@dimen/ten"
-                    android:layout_marginLeft="@dimen/twenty"
-                    android:layout_marginRight="@dimen/twenty"
-                    android:background="@drawable/edittext"
-                    app:hintEnabled="true">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/forty"
-                        android:paddingBottom="@dimen/ten"
-                        android:hint="Model*"
-                        android:textSize="@dimen/textSixteen"
-                        android:background="@drawable/edittext"
-                        android:fontFamily="@font/opensans_regular"
-                        android:textColorHint = "@color/defaultHintColor"                       
-                        android:id="@+id/vehicleModelText" />
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/fifty"
-                    android:layout_marginTop="@dimen/ten"
-                    android:layout_marginLeft="@dimen/twenty"
-                    android:layout_marginRight="@dimen/twenty"
-                    android:background="@drawable/edittext"
-                    app:hintEnabled="true">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/forty"
-                        android:paddingBottom="@dimen/ten"
-                        android:hint="Color*"
-                        android:textSize="@dimen/textSixteen"
-                        android:background="@drawable/edittext"
-                        android:fontFamily="@font/opensans_regular"
-                        android:textColorHint = "@color/defaultHintColor"
-                        android:inputType="textPersonName"
-                        android:id="@+id/vehicleColorText" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/ten">
-                <Button
-                    android:id="@+id/signUpButton"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Create Account"
-                    android:fontFamily="@font/opensans_bold"
-                    android:textColor="@color/defaultLabelColor"
-                    android:layout_marginLeft="@dimen/twenty"
-                    android:layout_marginRight="@dimen/twenty"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/primarybutton"/>
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:layout_margin="20dp"                    
+                    android:background="@drawable/secondarylinearlayout">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/ten"
+                        android:layout_marginLeft="@dimen/twenty"
+                        android:layout_marginRight="@dimen/twenty"
+                        android:background="@drawable/borderededittext">
+                        <Spinner
+                            android:id="@+id/signUpMakeOptions"
+                            android:layout_marginTop="@dimen/five"
+                            android:layout_marginBottom="@dimen/five"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/ten"
+                        android:layout_marginLeft="@dimen/twenty"
+                        android:layout_marginRight="@dimen/twenty"
+                        android:background="@drawable/borderededittext">
+                        <Spinner
+                            android:id="@+id/signUpModelOptions"
+                            android:layout_marginTop="@dimen/five"
+                            android:layout_marginBottom="@dimen/five"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"                        
+                        android:layout_marginTop="@dimen/ten"
+                        android:layout_marginBottom="@dimen/ten"
+                        android:layout_marginLeft="@dimen/twenty"
+                        android:layout_marginRight="@dimen/twenty"
+                        android:background="@drawable/borderededittext">
+                        <Spinner
+                            android:id="@+id/signUpColorOptions"                            
+                            android:layout_marginTop="@dimen/five"
+                            android:layout_marginBottom="@dimen/five"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/ten">
+                        <Button
+                            android:id="@+id/signUpButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Create Account"
+                            android:fontFamily="@font/opensans_bold"
+                            android:textColor="@color/defaultLabelColor"
+                            android:layout_marginLeft="@dimen/twenty"
+                            android:layout_marginRight="@dimen/twenty"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/primarybutton"/>
+                    </LinearLayout>
+            </LinearLayout>            
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

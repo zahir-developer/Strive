@@ -22,7 +22,7 @@ using StriveCustomer.Android.Adapter;
 
 namespace StriveCustomer.Android.Fragments
 {
-    public class ScheduleFragment : MvxFragment<ScheduleViewModel>,ViewPager.IOnPageChangeListener
+    public class ScheduleFragment : MvxFragment<ScheduleViewModel>,ViewPager.IOnPageChangeListener,Tip
     {
         TabLayout scheduleTabs;
         ViewPager schedulePager;
@@ -32,10 +32,10 @@ namespace StriveCustomer.Android.Fragments
         ScheduleWashHistoryFragment washHistoryFragment;
         BottomSheetBehavior tipBottomSheet;
         private FrameLayout tipFrameLayout;
-        public TextView tipAmountOne;
-        public TextView tipAmountTwo;
-        public TextView tipAmountThree;
-        public TextView tipAmountFour;
+        public static TextView tipAmountOne;
+        public static TextView tipAmountTwo;
+        public static TextView tipAmountThree;
+        public static TextView tipAmountFour;
         public Button tipCancelButton;
         public static FloatingActionButton floatingActionButton;
         public static BottomNavigationView bottomNavigationView;
@@ -73,12 +73,12 @@ namespace StriveCustomer.Android.Fragments
             tipAmountFour = rootView.FindViewById<TextView>(Resource.Id.tipAmountFour);
             tipCancelButton = rootView.FindViewById<Button>(Resource.Id.tipCancelButton);
             pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet,context);
-            
 
-            //tipAmountOne.Click += TipAmountOne_Click;
-            //tipAmountTwo.Click += TipAmountTwo_Click;
-            //tipAmountThree.Click += TipAmountThree_Click;
-            //tipAmountFour.Click += TipAmountFour_Click;
+
+            tipAmountOne.Click += TipAmountOne_Click;
+            tipAmountTwo.Click += TipAmountTwo_Click;
+            tipAmountThree.Click += TipAmountThree_Click;
+            tipAmountFour.Click += TipAmountFour_Click;
             tipCancelButton.Click += TipCancelButton_Click;
             CustomerScheduleInformation.ClearScheduleData();
 
@@ -91,41 +91,62 @@ namespace StriveCustomer.Android.Fragments
             floatingActionButton.Visibility=ViewStates.Visible;
             bottomNavigationView.Visibility = ViewStates.Visible;
         }
-
+        private void OnTipCalled() 
+        {
+            tipBottomSheet.State = BottomSheetBehavior.StateHidden;
+            floatingActionButton.Visibility = ViewStates.Visible;
+            bottomNavigationView.Visibility = ViewStates.Visible;
+        }
+        private void TipDetails() 
+        {
+            ViewModel = new ScheduleViewModel();         
+            ScheduleViewModel.VehicleId = int.Parse(Tip.SavedList[Tip.position].VehicleId);
+            ScheduleViewModel.Jobid = Tip.SavedList[Tip.position].JobId;
+            ScheduleViewModel.TicketNumber = Tip.SavedList[Tip.position].TicketNumber;
+            ScheduleViewModel.JobPaymentId = int.Parse(Tip.SavedList[Tip.position].JobPaymentId);
+        }
         private void TipAmountFour_Click(object sender, EventArgs e)
         {
             amount = (TextView)sender;
-            ViewModel.WashTip = double.Parse(amount.Text);
+            TipDetails();
+            ViewModel.WashTip = double.Parse(amount.Text.ToString().Substring(1, amount.Text.Length - 1)); 
             ViewModel.TipPayment();
+            OnTipCalled();
         }
 
         private void TipAmountThree_Click(object sender, EventArgs e)
         {
             amount = (TextView)sender;
-            ViewModel.WashTip = double.Parse(amount.Text);
+            TipDetails();
+            ViewModel.WashTip = double.Parse(amount.Text.ToString().Substring(1, amount.Text.Length - 1));            
             ViewModel.TipPayment();
+            OnTipCalled();
         }
 
         private void TipAmountTwo_Click(object sender, EventArgs e)
         {
             amount = (TextView)sender;
-            ViewModel.WashTip = double.Parse(amount.Text);
+            TipDetails();
+            ViewModel.WashTip = double.Parse(amount.Text.ToString().Substring(1, amount.Text.Length - 1));           
             ViewModel.TipPayment();
+            OnTipCalled();
         }
 
         private void TipAmountOne_Click(object sender, EventArgs e)
         {
             amount = (TextView)sender;
-            ViewModel.WashTip = double.Parse(amount.Text);
+            TipDetails();
+            ViewModel.WashTip = double.Parse(amount.Text.ToString().Substring(1,amount.Text.Length-1));
             ViewModel.TipPayment();
+            OnTipCalled();
         }
 
-        public void TipAmounts(double[] TipAmounts)
+        public static void TipAmounts()
         {
-            tipAmountOne.Text = "$" + TipAmounts[0].ToString();
-            tipAmountTwo.Text = "$" + TipAmounts[1].ToString();
-            tipAmountThree.Text = "$" + TipAmounts[2].ToString();
-            tipAmountFour.Text = "$" + TipAmounts[3].ToString();
+            tipAmountOne.Text = "$" + Tip.Tips[0].ToString("0.00");
+            tipAmountTwo.Text = "$" + Tip.Tips[1].ToString("0.00");
+            tipAmountThree.Text = "$" + Tip.Tips[2].ToString("0.00");
+            tipAmountFour.Text = "$" + Tip.Tips[3].ToString("0.00");
         }
 
         public override void OnActivityCreated(Bundle savedInstanceState)

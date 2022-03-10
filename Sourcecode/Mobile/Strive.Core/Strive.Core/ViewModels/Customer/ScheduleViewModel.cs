@@ -201,7 +201,11 @@ namespace Strive.Core.ViewModels.Customer
                     if (paymentResponse.JobPaymentDetailId != 0)
                     {
                         await _userDialog.AlertAsync("Tip Added Successfully");
-                        await _navigationService.Navigate<ScheduleViewModel>();
+                        if (platform == DevicePlatform.iOS)
+                        { 
+                            await _navigationService.Navigate<ScheduleViewModel>(); 
+                        }
+                        
                     }
 
                 }

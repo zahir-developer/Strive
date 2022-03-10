@@ -240,7 +240,7 @@
             android:id="@+id/signUpLinkText"    
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/five"    
+            android:layout_marginLeft="@dimen/ten"    
             android:fontFamily="@font/opensans_regular"
             android:textColor="@color/defaultButtonColor"
             android:gravity="right"/>

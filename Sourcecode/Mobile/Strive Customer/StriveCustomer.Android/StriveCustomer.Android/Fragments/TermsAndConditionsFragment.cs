@@ -138,7 +138,7 @@ namespace StriveCustomer.Android.Fragments
 
         public void GetTotal()
         {
-            double MembershipAmount = VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price;            
+            double MembershipAmount =(double)(VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price);            
             var SelectedServices = VehicleAdditionalServiceViewModel.serviceList.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
             foreach (var Service in SelectedServices)
             {

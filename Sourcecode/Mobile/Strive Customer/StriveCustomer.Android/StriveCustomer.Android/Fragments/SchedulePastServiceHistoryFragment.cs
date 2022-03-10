@@ -24,7 +24,7 @@ using OperationCanceledException = System.OperationCanceledException;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class SchedulePastServiceHistoryFragment : MvxFragment<ScheduleViewModel>
+    public class SchedulePastServiceHistoryFragment : MvxFragment<ScheduleViewModel>,Tip
     {
         private LinearLayout PastServiceList_LinearLayout;
         private View layout;
@@ -105,6 +105,7 @@ namespace StriveCustomer.Android.Fragments
                     if (pastServiceHistory.DetailsGrid.JobViewModel.Count > 0)
                     {
                         var sortedBayJobDetail = pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
+                        Tip.SavedList = sortedBayJobDetail;
                         TicketNumber = new TextView[pastServiceHistory.DetailsGrid.JobViewModel.Count];
                         moreInfo_LinearLayout = new LinearLayout[pastServiceHistory.DetailsGrid.JobViewModel.Count];
                         tipButton = new Button[pastServiceHistory.DetailsGrid.JobViewModel.Count];
@@ -138,10 +139,25 @@ namespace StriveCustomer.Android.Fragments
                                 // additionalServices.Text = services.OutsideService;
                                 detailedServiceCost.Text = "$" + services.Cost;
                                 barcode.Text = services.Barcode;
-                                price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
+                                price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();                              
 
-                                // tipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.tipButton);
-                                // tipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
+                                tipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.tipButton);
+                                tipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
+                                if (services.PaymentDate != null)
+                                {
+                                    if (services.PaymentDate.Substring(0, 10) == DateTime.Now.Date.ToString("yyyy-MM-dd"))
+                                    {
+                                        tipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Visible;
+                                    }
+                                    else
+                                    {
+                                        tipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Invisible;
+                                    }
+                                }
+                                else
+                                {
+                                    tipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Invisible;
+                                }
                                 TicketNumber[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<TextView>(Resource.Id.scheduleTicket_TextView);
                                 TicketNumber[sortedBayJobDetail.IndexOf(services)].Text = services.TicketNumber;
                                 //TicketNumber[services].PaintFlags = PaintFlags.UnderlineText;
@@ -149,7 +165,7 @@ namespace StriveCustomer.Android.Fragments
                                 moreInfo_LinearLayout[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Gone;
                                 TicketNumber[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
                                 TicketNumber[sortedBayJobDetail.IndexOf(services)].Click += SchedulePastServiceHistoryFragment_Click;
-                                //  tipButton[sortedBayJobDetail.IndexOf(services)].Click += TipButton_Click;
+                                tipButton[sortedBayJobDetail.IndexOf(services)].Click += TipButton_Click;
                                 //AssignListeners(sortedBayJobDetail.IndexOf(services));
                                 PastServiceList_LinearLayout.AddView(layout);
                             }
@@ -173,7 +189,9 @@ namespace StriveCustomer.Android.Fragments
             var position = (int)button.Tag;
             ScheduleFragment.floatingActionButton.Visibility = ViewStates.Gone;
             ScheduleFragment.bottomNavigationView.Visibility = ViewStates.Gone;
-            var TipAmounts = TipCalculation(position);            
+            Tip.Tips= TipCalculation(position);
+            Tip.position = position;
+            ScheduleFragment.TipAmounts();
             tipBottomSheet.State = BottomSheetBehavior.StateExpanded;            
         }
 
@@ -201,7 +219,13 @@ namespace StriveCustomer.Android.Fragments
                 moreInfo_LinearLayout[position].Visibility = ViewStates.Gone;
             }
         }
-
+        
+    }
+    public interface Tip 
+    {
+        public static double[] Tips;
+        public static int position;
+        public static List<jobViewModel> SavedList;
     }
 
 }
