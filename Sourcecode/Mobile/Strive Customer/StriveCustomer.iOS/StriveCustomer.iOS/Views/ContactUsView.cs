@@ -70,7 +70,7 @@ namespace StriveCustomer.iOS.Views
                 ViewModel.LogoutCommand();
             };
 
-            ContactUsMap.MapType = MKMapType.Hybrid;
+            ContactUsMap.MapType = MKMapType.Standard;
             ContactUsMap.WeakDelegate = this;
             ContactUsMap.ZoomEnabled = true;
             ContactUsMap.ScrollEnabled = true;
@@ -226,6 +226,7 @@ namespace StriveCustomer.iOS.Views
             var annotationView = mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier) as WashStationAnnotationView;
             if (locations.Washes != null)
             {
+                
                 var washlocation = locations.Washes.First(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
                 annotationView.SetupData(washlocation);
             }

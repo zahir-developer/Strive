@@ -1177,11 +1177,6 @@ mammoth3@comcast.net
                 <constraint firstAttribute="bottom" secondItem="fwZ-gY-5Lc" secondAttribute="bottom" constant="-10" id="xCp-gX-UKK"/>
                 <constraint firstItem="vAd-DW-oHM" firstAttribute="centerY" secondItem="ujE-X9-LeZ" secondAttribute="centerY" id="yPP-6t-XTu"/>
             </constraints>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="yR7-fc-Tru"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="15.384615384615383" y="46.919431279620852"/>
         </view>
     </objects>

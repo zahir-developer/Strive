@@ -19,13 +19,21 @@ namespace Strive.Core.Utils
           
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";
 
-        public const string URL_CUST_SIGN_UP = "/Auth/CreateLogin";
+        public const string URL_CUST_SIGN_UP = "/Auth/CustomerSignup";
 
         public const string URL_CUST_FORGOT_PASSWORD = "/Auth/SendOTP";
 
         public const string URL_CUST_CONFIRM_PASSWORD = "/Auth/ResetPassword";
 
         public const string URL_CUST_VERIFY_OTP = "/Auth/VerfiyOTP";
+
+        public const string URL_ALL_MAKE_LIST = "/Auth/GetAllMake";
+
+        public const string URL_ALL_MODEL_LIST = "/Auth/GetModelById/";
+
+        public const string URL_ALL_COLOR_LIST = "/Auth/GetAllColor";
+
+        public const string URL_CHECK_EMAIL = "/Auth/EmailIdExists/";
 
         public const string URL_GET_ALL_LOCATION_ADDRESS = "/Admin/Location/GetAll";
 

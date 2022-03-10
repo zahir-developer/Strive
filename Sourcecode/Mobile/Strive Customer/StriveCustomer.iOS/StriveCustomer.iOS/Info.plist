@@ -42,11 +42,11 @@
 		<string>OpenSans-SemiBold.ttf</string>
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>App wants to use the location service</string>
+	<string>App wants to use the location service for finding the nearest store</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App wants to use the location service</string>
+	<string>App wants to use the location service for finding the nearest store</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App wants to use the location service</string>
+	<string>App wants to use the location  service for finding the nearest store</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>NSCameraUsageDescription</key>

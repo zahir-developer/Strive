@@ -50,7 +50,7 @@
     <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchLink>SdkOnly</MtouchLink>
-    <CodesignProvision>Strive Employee Development</CodesignProvision>
+    <CodesignProvision>iOS Team Provisioning Profile: com.telliant.StriveEmployee</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>

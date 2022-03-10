@@ -10,8 +10,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignUpView">
             <connections>
+                <outlet property="ConfirmPasswordFld" destination="gYF-3B-Xeu" id="beU-6k-S0H"/>
+                <outlet property="CreateAccountButton" destination="KpU-uK-iAZ" id="CFm-bp-mSR"/>
                 <outlet property="Credentials_Container" destination="Nki-c8-Hdo" id="Ejv-sG-ZIl"/>
+                <outlet property="EmailIdFld" destination="edi-qu-oik" id="rDT-jN-hGH"/>
+                <outlet property="FirstNameFld" destination="zEj-tc-9AE" id="T1b-h7-g5h"/>
+                <outlet property="LastNameFld" destination="vJy-TL-xJm" id="nUB-7K-Czr"/>
+                <outlet property="PasswordFld" destination="rg5-Fu-MLU" id="nYx-sM-VdK"/>
+                <outlet property="PhoneNumberFld" destination="lIV-r0-rlt" id="tuZ-rL-Lkw"/>
                 <outlet property="SignUp_Credentials_View" destination="Oo3-YF-oJW" id="hwj-Sn-Wg0"/>
+                <outlet property="VehicleColorFld" destination="eGR-La-dc2" id="AKY-Gp-DZN"/>
+                <outlet property="VehicleMakeFld" destination="oDO-F7-9I6" id="pN1-rL-W5K"/>
+                <outlet property="VehicleModelFld" destination="y7s-YQ-7NC" id="XuM-UZ-xtw"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -27,7 +37,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YK8-Jw-f9r">
-                            <rect key="frame" x="173" y="96" width="82" height="28"/>
+                            <rect key="frame" x="173" y="96" width="82" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <color key="textColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -36,7 +46,7 @@
                             <rect key="frame" x="8" y="148" width="412" height="641"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oo3-YF-oJW">
-                                    <rect key="frame" x="0.0" y="0.0" width="412" height="641"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="412" height="728"/>
                                     <subviews>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zEj-tc-9AE">
                                             <rect key="frame" x="8" y="8" width="396" height="50"/>
@@ -62,7 +72,7 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lIV-r0-rlt">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number*" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lIV-r0-rlt">
                                             <rect key="frame" x="8" y="230" width="396" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="51m-Td-D2i"/>
@@ -93,6 +103,9 @@
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <action selector="VehicleMake_SpinnerTouchEnd:" destination="-1" eventType="editingDidEnd" id="IGv-JM-vDY"/>
+                                            </connections>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Vehicle Model*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="y7s-YQ-7NC">
                                             <rect key="frame" x="8" y="530" width="396" height="50"/>
@@ -102,7 +115,7 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Vehicle Model*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eGR-La-dc2">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Vehicle Color*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eGR-La-dc2">
                                             <rect key="frame" x="8" y="604" width="396" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="dT8-Xg-4UI"/>
@@ -118,7 +131,6 @@
                                         <constraint firstAttribute="trailing" secondItem="y7s-YQ-7NC" secondAttribute="trailing" constant="8" id="8Zh-hs-c3Q"/>
                                         <constraint firstAttribute="trailing" secondItem="rg5-Fu-MLU" secondAttribute="trailing" constant="8" id="947-sc-G4l"/>
                                         <constraint firstItem="zEj-tc-9AE" firstAttribute="top" secondItem="Oo3-YF-oJW" secondAttribute="top" constant="8" id="BEL-uP-vOJ"/>
-                                        <constraint firstAttribute="height" constant="641" id="Fe9-FN-dEm"/>
                                         <constraint firstItem="rg5-Fu-MLU" firstAttribute="leading" secondItem="Oo3-YF-oJW" secondAttribute="leading" constant="8" id="G9J-uO-gpR"/>
                                         <constraint firstAttribute="trailing" secondItem="edi-qu-oik" secondAttribute="trailing" constant="8" id="Hvc-Mv-CHn"/>
                                         <constraint firstItem="oDO-F7-9I6" firstAttribute="leading" secondItem="Oo3-YF-oJW" secondAttribute="leading" constant="8" id="Igg-zI-xY8"/>
@@ -147,11 +159,11 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="Oo3-YF-oJW" secondAttribute="trailing" id="7MT-Ka-4hD"/>
+                                <constraint firstItem="Oo3-YF-oJW" firstAttribute="height" secondItem="Nki-c8-Hdo" secondAttribute="height" multiplier="1.13573" id="IS6-LR-4x8"/>
                                 <constraint firstItem="Oo3-YF-oJW" firstAttribute="width" secondItem="Nki-c8-Hdo" secondAttribute="width" id="Kb1-bv-vM6"/>
-                                <constraint firstItem="Oo3-YF-oJW" firstAttribute="height" secondItem="IkB-fY-8wU" secondAttribute="height" constant="-50" id="bDB-5r-yDH"/>
+                                <constraint firstAttribute="bottom" secondItem="Oo3-YF-oJW" secondAttribute="bottom" id="TYS-wP-yOr"/>
                                 <constraint firstItem="Oo3-YF-oJW" firstAttribute="top" secondItem="Nki-c8-Hdo" secondAttribute="top" id="fTt-VB-U0S"/>
                                 <constraint firstItem="Oo3-YF-oJW" firstAttribute="centerX" secondItem="Nki-c8-Hdo" secondAttribute="centerX" id="jbv-Hk-mzQ"/>
-                                <constraint firstItem="Oo3-YF-oJW" firstAttribute="bottom" secondItem="YwF-MQ-VeZ" secondAttribute="bottom" id="y8Q-Y9-GuZ"/>
                             </constraints>
                             <viewLayoutGuide key="contentLayoutGuide" id="IkB-fY-8wU"/>
                             <viewLayoutGuide key="frameLayoutGuide" id="YwF-MQ-VeZ"/>
@@ -164,6 +176,9 @@
                                 <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
                                 <color key="baseForegroundColor" red="0.99019607840000001" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </buttonConfiguration>
+                            <connections>
+                                <action selector="CreateBtn_Touch:" destination="-1" eventType="touchUpInside" id="oUq-nR-Eqs"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -172,11 +187,11 @@
                         <constraint firstAttribute="bottom" secondItem="nvQ-8b-fHg" secondAttribute="bottom" id="8tp-5e-goe"/>
                         <constraint firstItem="YK8-Jw-f9r" firstAttribute="centerX" secondItem="8hp-Ls-tY9" secondAttribute="centerX" id="9Zo-YT-Ume"/>
                         <constraint firstItem="KpU-uK-iAZ" firstAttribute="centerX" secondItem="8hp-Ls-tY9" secondAttribute="centerX" id="OaL-cA-119"/>
-                        <constraint firstAttribute="bottom" secondItem="Nki-c8-Hdo" secondAttribute="bottom" constant="137" id="OdQ-O3-pPa"/>
                         <constraint firstItem="nvQ-8b-fHg" firstAttribute="top" secondItem="8hp-Ls-tY9" secondAttribute="top" id="Qo1-j5-4or"/>
                         <constraint firstItem="Nki-c8-Hdo" firstAttribute="centerX" secondItem="8hp-Ls-tY9" secondAttribute="centerX" id="TKU-7M-GcE"/>
                         <constraint firstAttribute="bottom" secondItem="KpU-uK-iAZ" secondAttribute="bottom" constant="82.666666666666629" id="XgT-kI-h1V"/>
                         <constraint firstAttribute="trailing" secondItem="nvQ-8b-fHg" secondAttribute="trailing" id="uHW-ys-wzL"/>
+                        <constraint firstItem="KpU-uK-iAZ" firstAttribute="top" secondItem="Nki-c8-Hdo" secondAttribute="bottom" constant="21" id="uJL-Mn-2BO"/>
                         <constraint firstItem="Nki-c8-Hdo" firstAttribute="top" secondItem="8hp-Ls-tY9" secondAttribute="top" constant="148" id="wfP-CX-DRd"/>
                         <constraint firstItem="nvQ-8b-fHg" firstAttribute="leading" secondItem="8hp-Ls-tY9" secondAttribute="leading" id="x3c-zx-oG6"/>
                         <constraint firstItem="Nki-c8-Hdo" firstAttribute="trailing" secondItem="8hp-Ls-tY9" secondAttribute="trailingMargin" id="yJj-lx-jxV"/>

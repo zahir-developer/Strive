@@ -25,6 +25,16 @@ namespace Strive.Core.Models.Customer
     {
         public List<ModelDetails> Model { get; set; }
     }
+    public class ColorDetails
+    {
+        public int ColorId { get; set; }
+        public string ColorValue { get; set; }
+    }
+    public class ColorList
+    {
+        public List<ColorDetails> Color { get; set; }
+    }
+
     public class MakeDetails
     {
         public int MakeId { get; set; }
@@ -33,5 +43,9 @@ namespace Strive.Core.Models.Customer
     public class MakeList
     {
         public List<MakeDetails> Make { get; set; }
+    }
+    public class ValidEmail
+    {
+        public bool EmailIdExist { get; set; }
     }
 }

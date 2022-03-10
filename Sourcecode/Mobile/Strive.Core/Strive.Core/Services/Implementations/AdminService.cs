@@ -21,6 +21,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils;
+using static Strive.Core.Models.Customer.CustomerSignUp;
 using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.Services.Implementations
@@ -48,9 +49,9 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CustomerLoginResponse>(ApiUtils.URL_LOGIN_EMPLOYEE, HttpMethod.Post, loginRequest);
         }
 
-        public async Task<CustomerResponse> CustomerSignUp(CustomerSignUp signUpRequest)
+        public async Task<CustomerSignUpResponse> CustomerSignUp(SignUpRequest SignUpRequest)
         {
-            return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_CUST_SIGN_UP, HttpMethod.Post, signUpRequest);
+            return await _restClient.MakeApiCall<CustomerSignUpResponse>(ApiUtils.URL_CUST_SIGN_UP, HttpMethod.Post, SignUpRequest);
         }
 
         public async Task<CustomerResponse> CustomerForgotPassword(string emailID)
@@ -264,10 +265,23 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<MakeList>(ApiUtils.URL_GET_MAKE_LIST, HttpMethod.Get);
         }
+        public async Task<MakeList> GetMakeListCommon()
+        {
+            return await _restClient.MakeApiCall<MakeList>(ApiUtils.URL_ALL_MAKE_LIST, HttpMethod.Get);
+        }
 
         public async Task<ModelList> GetModelList(int Id)
         {
             return await _restClient.MakeApiCall<ModelList>(string.Format(ApiUtils.URL_GET_MODEL_LIST, Id), HttpMethod.Get, Id);
+        }
+        public async Task<ModelList> GetModelListCommon(int Id)
+        {
+            var URI = ApiUtils.URL_ALL_MODEL_LIST + Id;
+            return await _restClient.MakeApiCall<ModelList>(URI, HttpMethod.Get);
+        }
+        public async Task<ColorList> GetColorListCommon()
+        { 
+            return await _restClient.MakeApiCall<ColorList>(ApiUtils.URL_ALL_COLOR_LIST, HttpMethod.Get);
         }
 
         public async Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel)
@@ -483,7 +497,10 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<ChecklistUpdateResponse>(ApiUtils.URL_FINISH_CHECKLIST, HttpMethod.Post, checklistUpdateRequest);
         }
-
+        public async Task<ValidEmail> CheckMailId(string emailid)
+        {
+            return await _restClient.MakeApiCall<ValidEmail>(ApiUtils.URL_CHECK_EMAIL+emailid, HttpMethod.Get);
+        }
     }
     public static class RestUtils
     {

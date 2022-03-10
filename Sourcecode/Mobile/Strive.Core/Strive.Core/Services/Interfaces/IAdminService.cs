@@ -15,6 +15,7 @@ using Strive.Core.Models.Employee.PayRoll;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.Owner;
 using Strive.Core.Models.TimInventory;
+using static Strive.Core.Models.Customer.CustomerSignUp;
 using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.Services.Interfaces
@@ -27,7 +28,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<CustomerLoginResponse> CustomerLogin(CustomerLoginRequest loginRequest);
 
-        Task<CustomerResponse> CustomerSignUp(CustomerSignUp signUpRequest);
+        Task<CustomerSignUpResponse> CustomerSignUp(SignUpRequest SignUpRequest);
 
         Task<CustomerResponse> CustomerForgotPassword(string email);
 
@@ -176,5 +177,13 @@ namespace Strive.Core.Services.Interfaces
         Task<Checklist> GetCheckList(ChecklistRequest checklistRequest);
 
         Task<ChecklistUpdateResponse> FinishCheckList(ChecklistUpdateRequest checklistUpdateRequest);
+
+        Task<MakeList> GetMakeListCommon();
+
+        Task<ModelList> GetModelListCommon(int Id);
+
+        Task<ColorList> GetColorListCommon();
+
+        Task<ValidEmail> CheckMailId(string emailid);
     }
 }

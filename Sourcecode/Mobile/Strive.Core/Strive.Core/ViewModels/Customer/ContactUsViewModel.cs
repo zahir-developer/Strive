@@ -71,7 +71,11 @@ namespace Strive.Core.ViewModels.Customer
                 {
                     if (locationItem.Latitude != 0 && locationItem.Longitude != 0)
                     {
-                        locationStatus.Washes.Add(locationItem);
+                        if (locationItem.Latitude !=null && locationItem.Longitude !=null)
+                        {
+                            locationStatus.Washes.Add(locationItem);
+                        }
+                        
                     }
                 }
                 return locationStatus;

@@ -98,7 +98,7 @@ namespace StriveCustomer.iOS.Views
                 WashHistory_TableView.Hidden = true;
                 ScheduleVehicle_TableView.Hidden = true;
                 SchedulePastHis_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
-                SchedulePastHis_TableView.ReloadData();
+                //SchedulePastHis_TableView.ReloadData();
                 SchedulePastHis_TableView.Layer.CornerRadius = 5;
 
                 getPastServiceDetails();

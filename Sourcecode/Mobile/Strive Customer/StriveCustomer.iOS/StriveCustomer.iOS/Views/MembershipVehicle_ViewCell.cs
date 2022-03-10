@@ -37,7 +37,14 @@ namespace StriveCustomer.iOS.Views
             MembershipCell_ViewHeight.Constant = 12;
             
             Membership_VehicleLbl.Text = data.Membership[indexPath.Row].MembershipName;
-            Membership_Discount.Text = "$" + (VehicleMembershipViewModel.isDiscoutAvailable ? data.Membership[indexPath.Row].DiscountedPrice.ToString() : data.Membership[indexPath.Row].Price.ToString());
+            if (data.Membership[indexPath.Row].DiscountedPrice != null)
+            {
+                Membership_Discount.Text = "$" + (VehicleMembershipViewModel.isDiscoutAvailable ? data.Membership[indexPath.Row].DiscountedPrice.ToString() : data.Membership[indexPath.Row].Price.ToString());
+            }
+            else
+            {
+                Membership_Discount.Text = "$"+ data.Membership[indexPath.Row].Price.ToString();
+            }
             if (data.Membership[indexPath.Row].MembershipId == MembershipDetails.selectedMembership)
             {
                 Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);                

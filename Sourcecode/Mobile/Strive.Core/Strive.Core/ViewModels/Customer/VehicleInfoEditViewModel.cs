@@ -214,7 +214,6 @@ namespace Strive.Core.ViewModels.Customer
                     //vehicleImage.createdBy = 0;
                     //vehicleImage.updatedDate = DateUtils.ConvertDateTimeWithZ();
                     //vehicleImage.updatedBy = 0;
-
                     //clientVehicles.vehicleImage.Add(vehicleImage);
                     MembershipDetails.vehicleNumber = clientVehicles.clientVehicle.vehicleNumber;
                     var data = await AdminService.AddCustomerVehicle(clientVehicles);
@@ -230,7 +229,6 @@ namespace Strive.Core.ViewModels.Customer
               
             }
         }
-
         public void ShowAlert()
         {
             _userDialog.Alert("Please save the vehicle specifications");
