@@ -47,7 +47,7 @@ namespace StriveCustomer.Android.Views
             loginTextView = FindViewById<TextView>(Resource.Id.loginTextView);
             emailPhoneInput = FindViewById<EditText>(Resource.Id.emailPhoneInputs);
             passwordInput = FindViewById<EditText>(Resource.Id.passwordInputs);
-            loginButton = FindViewById<Button>(Resource.Id.loginButton);
+            loginButton = FindViewById<Button>(Resource.Id.buttonLogin);
             signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
             signUp.PaintFlags = PaintFlags.UnderlineText;
             rememberMe = FindViewById<TextView>(Resource.Id.rememberMeLabel);
