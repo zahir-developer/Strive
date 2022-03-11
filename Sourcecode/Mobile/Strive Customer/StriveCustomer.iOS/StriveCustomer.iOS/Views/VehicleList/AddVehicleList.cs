@@ -138,8 +138,10 @@ namespace StriveCustomer.iOS.Views
         }
         private async void getModelList()
         {
+            VehicleModel_TextField.Text = string.Empty;
+            modelList.Clear();
             await ViewModel.GetModelList(VehicleMake_TextField.Text);
-
+            
             if (ViewModel.modelList != null)
             {
                 var preselectedModel = 0;

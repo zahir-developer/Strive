@@ -13,7 +13,7 @@ namespace StriveCustomer.iOS.Views
 	partial class MembershipVehicle_ViewCell
 	{
 		[Outlet]
-		UIKit.UIButton Membership_CellBtn { get; set; }
+		UIKit.UIImageView Membership_CellBtn { get; set; }
 
 		[Outlet]
 		UIKit.UIView Membership_CellView { get; set; }
@@ -52,14 +52,14 @@ namespace StriveCustomer.iOS.Views
 				Membership_VehicleLbl = null;
 			}
 
-			if (MonthlyCharge_lbl != null) {
-				MonthlyCharge_lbl.Dispose ();
-				MonthlyCharge_lbl = null;
-			}
-
 			if (MembershipCell_ViewHeight != null) {
 				MembershipCell_ViewHeight.Dispose ();
 				MembershipCell_ViewHeight = null;
+			}
+
+			if (MonthlyCharge_lbl != null) {
+				MonthlyCharge_lbl.Dispose ();
+				MonthlyCharge_lbl = null;
 			}
 		}
 	}

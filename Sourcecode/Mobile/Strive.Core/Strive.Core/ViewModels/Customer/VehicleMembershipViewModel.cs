@@ -92,6 +92,7 @@ namespace Strive.Core.ViewModels.Customer
         {
            if(VehicleMembershipCheck())
             {
+                
                 await _navigationService.Navigate<VehicleUpchargeViewModel>();
             }
         }

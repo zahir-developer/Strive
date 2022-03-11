@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,27 +20,27 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iBV-59-5u7">
                         <rect key="frame" x="20" y="0.0" width="280" height="44"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gkD-MR-Gub">
-                                <rect key="frame" x="0.0" y="9.5" width="25" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="25" id="T1B-Cb-sQe"/>
-                                    <constraint firstAttribute="height" constant="25" id="x3M-yF-024"/>
-                                </constraints>
-                                <state key="normal" image="icon-unchecked-round"/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWg-Ou-0Gr">
-                                <rect key="frame" x="45" y="11.5" width="42" height="21"/>
+                                <rect key="frame" x="34" y="12" width="246" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-unchecked-round" translatesAutoresizingMaskIntoConstraints="NO" id="7dN-yl-pH5">
+                                <rect key="frame" x="0.0" y="10" width="26" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="26" id="kXa-f5-ohd"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="gWg-Ou-0Gr" firstAttribute="leading" secondItem="gkD-MR-Gub" secondAttribute="trailing" constant="20" id="F7a-wD-xPd"/>
-                            <constraint firstItem="gkD-MR-Gub" firstAttribute="leading" secondItem="iBV-59-5u7" secondAttribute="leading" id="Jyu-PO-8wK"/>
-                            <constraint firstItem="gWg-Ou-0Gr" firstAttribute="centerY" secondItem="gkD-MR-Gub" secondAttribute="centerY" id="ZVO-Bs-fgN"/>
-                            <constraint firstItem="gkD-MR-Gub" firstAttribute="centerY" secondItem="iBV-59-5u7" secondAttribute="centerY" id="gB1-V4-8dM"/>
+                            <constraint firstItem="gWg-Ou-0Gr" firstAttribute="leading" secondItem="7dN-yl-pH5" secondAttribute="trailing" constant="8" id="9Wj-4L-cVR"/>
+                            <constraint firstItem="7dN-yl-pH5" firstAttribute="centerY" secondItem="gWg-Ou-0Gr" secondAttribute="centerY" id="AKH-oK-tTf"/>
+                            <constraint firstAttribute="trailing" secondItem="gWg-Ou-0Gr" secondAttribute="trailing" id="E1Z-an-sXX"/>
+                            <constraint firstItem="7dN-yl-pH5" firstAttribute="centerY" secondItem="iBV-59-5u7" secondAttribute="centerY" id="K5o-BN-5w6"/>
+                            <constraint firstItem="7dN-yl-pH5" firstAttribute="leading" secondItem="iBV-59-5u7" secondAttribute="leading" id="aAt-Cd-Q6V"/>
+                            <constraint firstItem="gWg-Ou-0Gr" firstAttribute="top" secondItem="iBV-59-5u7" secondAttribute="top" constant="12" id="dtt-So-xkI"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -53,9 +53,9 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="ScheduleLocation_Lbl" destination="gWg-Ou-0Gr" id="GeN-sR-iWY"/>
-                <outlet property="scheduleLoc_Btn" destination="gkD-MR-Gub" id="qZv-7B-Rnx"/>
+                <outlet property="scheduleLoc_Image" destination="7dN-yl-pH5" id="BSH-Of-H5Q"/>
             </connections>
-            <point key="canvasLocation" x="131.8840579710145" y="-4.0178571428571423"/>
+            <point key="canvasLocation" x="130.76923076923077" y="-4.2654028436018958"/>
         </tableViewCell>
     </objects>
     <resources>

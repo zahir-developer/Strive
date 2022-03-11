@@ -81,10 +81,11 @@ namespace Strive.Core.ViewModels.Customer
                 if (selectedMake1 == item.MakeValue)
                 {
                     var result = await AdminService.GetModelList(item.MakeId);
-                    if(result != null)
+                    if(result.Model != null)
                     {
                         modelList = result;
                     }
+                    
                 }
             }
             _userDialog.HideLoading();

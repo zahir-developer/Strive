@@ -14,6 +14,7 @@ namespace StriveCustomer.iOS.Views
     public partial class Dashboard_ScheduleView : MvxViewController<ScheduleViewModel>
     {
         DB_PastHistory_Cell dB;
+
         public Dashboard_ScheduleView() : base("Dashboard_ScheduleView", null)
         {
         }
@@ -39,7 +40,7 @@ namespace StriveCustomer.iOS.Views
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             NavigationItem.Title = "Schedule";
-
+            NoteForTip.Hidden = true;
             var leftBtn = new UIButton(UIButtonType.Custom);
             leftBtn.SetTitle("Logout", UIControlState.Normal);
             leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
@@ -90,6 +91,7 @@ namespace StriveCustomer.iOS.Views
                 ScheduleVehicle_TableView.Hidden = false;
                 SchedulePastHis_TableView.Hidden = true;
                 WashHistory_TableView.Hidden = true;
+                NoteForTip.Hidden = true;
                 getVehicleList();
             }
             else if (index == 1)
@@ -97,6 +99,7 @@ namespace StriveCustomer.iOS.Views
                 SchedulePastHis_TableView.Hidden = false;
                 WashHistory_TableView.Hidden = true;
                 ScheduleVehicle_TableView.Hidden = true;
+                NoteForTip.Hidden = false;
                 SchedulePastHis_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
                 //SchedulePastHis_TableView.ReloadData();
                 SchedulePastHis_TableView.Layer.CornerRadius = 5;
@@ -108,6 +111,7 @@ namespace StriveCustomer.iOS.Views
                 SchedulePastHis_TableView.Hidden = true;
                 ScheduleVehicle_TableView.Hidden = true;
                 WashHistory_TableView.Hidden = false;
+                NoteForTip.Hidden = false;
                 WashHistory_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
                 WashHistory_TableView.ReloadData();
                 WashHistory_TableView.Layer.CornerRadius = 5;
@@ -181,25 +185,29 @@ namespace StriveCustomer.iOS.Views
             double TwentyFivePercent = (25 * price) / 100;
 
             var alert = UIAlertController.Create("Add Tip", "", UIAlertControllerStyle.ActionSheet);
-            alert.AddAction(UIAlertAction.Create("$"+ TenPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
+            alert.AddAction(UIAlertAction.Create("10% - $"+ TenPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
                 ViewModel.WashTip = TenPercent;
                 ViewModel.TipPayment();
             }));
-            alert.AddAction(UIAlertAction.Create("$" + FifteenPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
+            alert.AddAction(UIAlertAction.Create("15% - $" + FifteenPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
                 ViewModel.WashTip = FifteenPercent;
                 ViewModel.TipPayment();
             }));
-            alert.AddAction(UIAlertAction.Create("$" + TwentyPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
+            alert.AddAction(UIAlertAction.Create("20% - $" + TwentyPercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
                 ViewModel.WashTip = TwentyPercent;
                 ViewModel.TipPayment();
             }));
-            alert.AddAction(UIAlertAction.Create("$" + TwentyFivePercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
+            alert.AddAction(UIAlertAction.Create("25% - $" + TwentyFivePercent.ToString("0.00"), UIAlertActionStyle.Destructive, (action) => {
                 ViewModel.WashTip = TwentyFivePercent;
                 ViewModel.TipPayment();  
+            }));
+            alert.AddAction(UIAlertAction.Create("Custom", UIAlertActionStyle.Destructive, (action) => {  
+                ViewModel.GetCustomTip();
             }));
             alert.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
             this.PresentViewController(alert,true,null);
         }
+        
     }
 }
 

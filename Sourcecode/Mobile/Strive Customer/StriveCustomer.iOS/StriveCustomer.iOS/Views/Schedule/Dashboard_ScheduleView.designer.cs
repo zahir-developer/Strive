@@ -13,6 +13,9 @@ namespace StriveCustomer.iOS.Views
 	partial class Dashboard_ScheduleView
 	{
 		[Outlet]
+		UIKit.UILabel NoteForTip { get; set; }
+
+		[Outlet]
 		UIKit.UIView Schedule_ParentView { get; set; }
 
 		[Outlet]
@@ -38,6 +41,11 @@ namespace StriveCustomer.iOS.Views
 			if (Schedule_ParentView != null) {
 				Schedule_ParentView.Dispose ();
 				Schedule_ParentView = null;
+			}
+
+			if (NoteForTip != null) {
+				NoteForTip.Dispose ();
+				NoteForTip = null;
 			}
 
 			if (Schedule_Seg1 != null) {

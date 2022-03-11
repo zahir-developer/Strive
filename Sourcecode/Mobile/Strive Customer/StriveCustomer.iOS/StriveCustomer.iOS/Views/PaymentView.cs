@@ -31,7 +31,9 @@ namespace StriveCustomer.iOS.Views
         UITextField cardNumberTextField;
         UITextField expirationDateTextField;
         UITextField securityCodeTextField;
-
+        UIAlertController alert;
+        NSTimer alertDelay;
+        string value;
         UIEdgeInsets scrollViewInsets;
         
         public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
@@ -328,6 +330,7 @@ namespace StriveCustomer.iOS.Views
             cardNumberTextField.TextColor = UIColor.Black;
             cardNumberTextField.KeyboardType = UIKeyboardType.NumberPad;
             backgroundView.Add(cardNumberTextField);
+            cardNumberTextField.AddTarget(ValueChanged, UIControlEvent.EditingChanged);
 
             var expirationDateLabel = new UILabel(CGRect.Empty);
             expirationDateLabel.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -370,9 +373,11 @@ namespace StriveCustomer.iOS.Views
             payButton.Font = UIFont.SystemFontOfSize(18);
             backgroundView.Add(payButton);
 
-           
-            // Clicks
-            payButton.TouchUpInside += delegate
+            //Card Number Constraints
+            
+
+                // Clicks
+                payButton.TouchUpInside += delegate
             {
                 _userDialog.ShowLoading();
                 short ccv = 0;
@@ -462,6 +467,26 @@ namespace StriveCustomer.iOS.Views
             payButton.CenterXAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
             payButton.HeightAnchor.ConstraintEqualTo(40).Active = true;
             payButton.WidthAnchor.ConstraintEqualTo(240).Active = true;
+        }
+        private void ValueChanged(object sender, EventArgs e)
+        {
+            if (cardNumberTextField.Text.Length != 0) { 
+                long val;
+                if (!long.TryParse(cardNumberTextField.Text, out val))
+                {
+                    cardNumberTextField.Layer.BorderColor = UIColor.Red.CGColor;
+                    alert = UIAlertController.Create(null, "Enter A Numeric Value", UIAlertControllerStyle.Alert);
+                    UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
+                    alertDelay = NSTimer.CreateScheduledTimer(1, (obj) =>
+                    {
+                        alert.DismissViewController(true, null);
+                    });
+                    cardNumberTextField.Text = value;
+                }
+           
+                value = cardNumberTextField.Text;
+            }
+
         }
         void KeyBoardHandling()
         {

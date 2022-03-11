@@ -13,6 +13,9 @@ namespace StriveCustomer.iOS.Views.Login
 	partial class SignUpView
 	{
 		[Outlet]
+		UIKit.UIButton _BackButton { get; set; }
+
+		[Outlet]
 		UIKit.UITextField ConfirmPasswordFld { get; set; }
 
 		[Outlet]
@@ -48,6 +51,9 @@ namespace StriveCustomer.iOS.Views.Login
 		[Outlet]
 		UIKit.UITextField VehicleModelFld { get; set; }
 
+		[Action ("BackButton:")]
+		partial void BackButton (UIKit.UIButton sender);
+
 		[Action ("CreateBtn_Touch:")]
 		partial void CreateBtn_Touch (UIKit.UIButton sender);
 
@@ -64,6 +70,11 @@ namespace StriveCustomer.iOS.Views.Login
 			if (CreateAccountButton != null) {
 				CreateAccountButton.Dispose ();
 				CreateAccountButton = null;
+			}
+
+			if (_BackButton != null) {
+				_BackButton.Dispose ();
+				_BackButton = null;
 			}
 
 			if (Credentials_Container != null) {

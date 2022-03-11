@@ -77,6 +77,10 @@ namespace StriveCustomer.iOS.Views.Login
             }
         }
 
+        partial void BackButton(UIButton sender)
+        {
+            ViewModel.NavigateToLogin();
+        }
         private void MakePicker(List<string> source, UITextField textField)
         {
             var picker = new UIPickerView
@@ -136,6 +140,8 @@ namespace StriveCustomer.iOS.Views.Login
         }
         private async void getModelList()
         {
+            VehicleModelFld.Text = string.Empty;
+            modelList.Clear();
             await ViewModel.GetModelList(VehicleMakeFld.Text);
 
             if (ViewModel.modelList != null)

@@ -46,9 +46,7 @@ namespace StriveCustomer.iOS.Views
             MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
             cell.updateServices(indexPath);            
             MembershipDetails.selectedMembership = data.Membership[indexPath.Row].MembershipId;
-            
             UpdatePrice(indexPath);
-
         }
 
         //public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)

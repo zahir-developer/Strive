@@ -1,4 +1,3 @@
-
 // WARNING
 //
 // This file has been generated automatically by Visual Studio to store outlets and
@@ -17,7 +16,7 @@ namespace StriveCustomer.iOS.Views.Schedule
 		UIKit.NSLayoutConstraint MoreValue_Const { get; set; }
 
 		[Outlet]
-		UIKit.UIButton SelectService_Btn { get; set; }
+		UIKit.UIImageView SelectService_Btn { get; set; }
 
 		[Outlet]
 		UIKit.UIView SelectService_CellView { get; set; }

@@ -19,7 +19,7 @@ namespace StriveCustomer.iOS.Views
         public static readonly UINib Nib;
         public List<string> upchargeList;
         public static NSIndexPath selectedMembershipIndexPath;
-        public static UIButton selectedMembershipButton;
+        public static UIImageView selectedMembershipButton;
 
         static MembershipVehicle_ViewCell()
         {
@@ -47,33 +47,33 @@ namespace StriveCustomer.iOS.Views
             }
             if (data.Membership[indexPath.Row].MembershipId == MembershipDetails.selectedMembership)
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);                
+                Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");                
                 MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
                 selectedMembershipIndexPath = indexPath;
                 selectedMembershipButton = Membership_CellBtn;
             }
             else
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                Membership_CellBtn.Image = UIImage.FromBundle("icon-unchecked-round");
             }
         }
 
         public void updateCell(NSIndexPath indexPath)
         {
-            Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-        
+            Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");
+
         }
 
         public void deselectRow(NSIndexPath indexpath)
         {
-            Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            Membership_CellBtn.Image = UIImage.FromBundle("icon-unchecked-round");
 
         }
         public void deselectRowForInitialCellUpdate(NSIndexPath indexPath)
         {
-             if(selectedMembershipButton != null)          
-                selectedMembershipButton.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-                    
+             if(selectedMembershipIndexPath != null)
+                selectedMembershipButton.Image = UIImage.FromBundle("icon-unchecked-round");
+
         }
         //Cell for Upcharges
 
@@ -105,12 +105,12 @@ namespace StriveCustomer.iOS.Views
             {
                 if("None" == upchargeList[indexpath.Row])
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");
                     MembershipDetails.isNoneSelected = true;
                 }
                 else
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-unchecked-round");
                 }
             }
             else
@@ -118,12 +118,12 @@ namespace StriveCustomer.iOS.Views
                 //Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
                 if (upchargeList[indexpath.Row] == MembershipDetails.modelUpcharge.upcharge[0].Upcharges)
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");
                     MembershipDetails.isNoneSelected = true;
                 }
                 else
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-unchecked-round");
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace StriveCustomer.iOS.Views
 
                 if(selectedServices.Any(x => x.Trim().Replace(" ", "") == service))
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");
                     cell.UserInteractionEnabled = false;
                     cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                     Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
@@ -150,11 +150,11 @@ namespace StriveCustomer.iOS.Views
                 }
                 else if (MembershipDetails.selectedAdditionalServices.Contains(services[indexPath.Row].ServiceId))
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");
                 }
                 else
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-unchecked-round");
                     cell.UserInteractionEnabled = true;
                     cell.BackgroundColor = UIColor.Clear.FromHex(0xFFFFFF);
                     Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xFFFFFF);
@@ -167,37 +167,37 @@ namespace StriveCustomer.iOS.Views
             {
                 if (MembershipDetails.selectedAdditionalServices.Contains(services[indexPath.Row].ServiceId))
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");
                 }
                 else
                 {
-                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    Membership_CellBtn.Image = UIImage.FromBundle("icon-unchecked-round");
                 }
             }
 
         }
         public void updateadditionalservices(NSIndexPath indexPath)
         {
-            if (Membership_CellBtn.CurrentImage == UIImage.FromBundle("icon-checked-round"))
+            if (Membership_CellBtn.Image == UIImage.FromBundle("icon-checked-round"))
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                Membership_CellBtn.Image = UIImage.FromBundle("icon-unchecked-round");
             }
             else
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");
             }
         }
         public void updateServices(NSIndexPath indexPath)
         {
             
-            if(Membership_CellBtn.CurrentImage == UIImage.FromBundle("icon-checked-round"))
+            if(Membership_CellBtn.Image == UIImage.FromBundle("icon-checked-round"))
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                Membership_CellBtn.Image = UIImage.FromBundle("icon-unchecked-round");
             }
             else
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-                if (selectedMembershipIndexPath!=null)
+                Membership_CellBtn.Image = UIImage.FromBundle("icon-checked-round");
+                if (selectedMembershipIndexPath != null)
                 {
                     deselectRowForInitialCellUpdate(selectedMembershipIndexPath);
                 }

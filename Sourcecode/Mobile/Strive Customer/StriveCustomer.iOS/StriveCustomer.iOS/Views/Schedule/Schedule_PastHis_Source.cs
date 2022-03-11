@@ -92,13 +92,14 @@ namespace StriveCustomer.iOS.Views.Schedule
             
         }
 
-       public void AddWashTip( NSIndexPath indexPath)
+        public void AddWashTip(NSIndexPath indexPath)
         {
             float Price = SavedList[indexPath.Row].Cost;
             ScheduleViewModel.VehicleId = int.Parse(SavedList[indexPath.Row].VehicleId);
             ScheduleViewModel.Jobid = SavedList[indexPath.Row].JobId;
             ScheduleViewModel.TicketNumber = SavedList[indexPath.Row].TicketNumber;
             ScheduleViewModel.JobPaymentId = int.Parse(SavedList[indexPath.Row].JobPaymentId);
+            ScheduleViewModel.JobLocationId = SavedList[indexPath.Row].LocationId;
             var dict = new NSDictionary(new NSString("Price"), new NSString(Price.ToString()));
             NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.employee.Pay"), null, dict);
         }

@@ -41,7 +41,7 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             Schedule_Location_Cell cell = (Schedule_Location_Cell)tableView.CellAt(indexPath);
             cell.updateCell(indexPath);
-
+            
             CustomerScheduleInformation.ScheduleLocationCode = ViewModel.Locations.Location[indexPath.Row].LocationId;
             CustomerScheduleInformation.ScheduleLocationAddress = ViewModel.Locations.Location[indexPath.Row].Address1;
         }
@@ -51,5 +51,8 @@ namespace StriveCustomer.iOS.Views.Schedule
             Schedule_Location_Cell cell = (Schedule_Location_Cell)tableView.CellAt(indexPath);
             cell.deselectRow(indexPath);
         }
+
+        
+
     }
 }

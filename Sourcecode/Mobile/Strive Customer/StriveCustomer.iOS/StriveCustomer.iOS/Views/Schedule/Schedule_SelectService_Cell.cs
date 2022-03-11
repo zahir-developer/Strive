@@ -39,9 +39,9 @@ namespace StriveCustomer.iOS.Views.Schedule
             ViewMore_Btn.SetTitle("View Less", UIControlState.Normal);
             SelectService_Btn.Tag = indexPath.Row;
             if(selected_index == indexPath)
-                SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SelectService_Btn.Image = UIImage.FromBundle("icon-checked-round");
             else
-                SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                SelectService_Btn.Image = UIImage.FromBundle("icon-unchecked-round");
         }
 
         partial void ViewMore_BtnTouch(UIButton sender)
@@ -66,44 +66,44 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             if(SelectService_Btn.Tag == indexPath.Row)
             {
-                SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                SelectService_Btn.Image = UIImage.FromBundle("icon-checked-round");
                 selected_index = indexPath;
             }
             else
             {
-                SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                SelectService_Btn.Image = UIImage.FromBundle("icon-unchecked-round");
             }
         }
 
         public void deselectRow(NSIndexPath indexPath)
         {
-            SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            SelectService_Btn.Image = UIImage.FromBundle("icon-unchecked-round");
             selected_index = null;
         }
 
-        partial void SelectService_BtnTouch(UIButton sender)
-        {
-            if (SelectService_Btn.CurrentImage == UIImage.FromBundle("icon-unchecked-round"))
-            {
-                SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-                var selectedItem = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())];
-                foreach (var item in view.scheduleServices.AllServiceDetail)
-                {
-                    if (view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceName == item.ServiceName)
-                    {
-                        CustomerScheduleInformation.ScheduleServiceID = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceId;
-                        CustomerScheduleInformation.ScheduleServiceType = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceTypeId;
-                        CustomerScheduleInformation.ScheduleServicePrice =
-                            view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].Price;
-                        CustomerScheduleInformation.ScheduleServiceName = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceName;
-                        CustomerScheduleInformation.ScheduleServiceEstimatedTime = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].EstimatedTime ?? 0;
-                    }
-                }
-            }
-            else
-            {
-                SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-            }                      
-        }
+        //partial void SelectService_BtnTouch(UIButton sender)
+        //{
+        //    if (SelectService_Btn.CurrentImage == UIImage.FromBundle("icon-unchecked-round"))
+        //    {
+        //        SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+        //        var selectedItem = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())];
+        //        foreach (var item in view.scheduleServices.AllServiceDetail)
+        //        {
+        //            if (view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceName == item.ServiceName)
+        //            {
+        //                CustomerScheduleInformation.ScheduleServiceID = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceId;
+        //                CustomerScheduleInformation.ScheduleServiceType = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceTypeId;
+        //                CustomerScheduleInformation.ScheduleServicePrice =
+        //                    view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].Price;
+        //                CustomerScheduleInformation.ScheduleServiceName = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceName;
+        //                CustomerScheduleInformation.ScheduleServiceEstimatedTime = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].EstimatedTime ?? 0;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+        //    }                      
+        //}
     }
 }

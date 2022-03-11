@@ -97,6 +97,7 @@ namespace Strive.Core.ViewModels.Customer
             if(VehicleUpchargeCheck())
             {
                await _navigationService.Navigate<MembershipSignatureViewModel>();
+               
             }
         }
         public async Task BackCommand()
@@ -114,6 +115,7 @@ namespace Strive.Core.ViewModels.Customer
             //    MembershipDetails.filteredList.ServicesWithPrice.Add(upchargeFullList.ServicesWithPrice.Find(a => a.ServiceId == MembershipDetails.selectedUpCharge));
             //}
             await _navigationService.Navigate<VehicleAdditionalServiceViewModel>();
+            
         }
         #endregion Commands
 

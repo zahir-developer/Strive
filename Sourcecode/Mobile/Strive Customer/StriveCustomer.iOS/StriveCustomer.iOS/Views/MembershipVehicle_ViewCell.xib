@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
@@ -26,20 +26,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8p8-k5-4dD">
-                                <rect key="frame" x="255" y="7" width="25" height="25"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-unchecked-round" translatesAutoresizingMaskIntoConstraints="NO" id="L1h-xx-pHq">
+                                <rect key="frame" x="246" y="9" width="25" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="YSK-In-E66"/>
-                                    <constraint firstAttribute="width" constant="25" id="rJa-1W-WgT"/>
+                                    <constraint firstAttribute="width" constant="25" id="LPd-Bc-wfI"/>
                                 </constraints>
-                                <state key="normal" image="icon-unchecked-round"/>
-                            </button>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="8p8-k5-4dD" firstAttribute="centerY" secondItem="uyK-SW-WIU" secondAttribute="centerY" id="EUO-v1-JTC"/>
+                            <constraint firstAttribute="trailing" secondItem="L1h-xx-pHq" secondAttribute="trailing" constant="9" id="Ddk-Vk-Sqh"/>
                             <constraint firstItem="uyK-SW-WIU" firstAttribute="leading" secondItem="5yk-Pm-99K" secondAttribute="leading" id="HG2-0E-OLE"/>
-                            <constraint firstAttribute="trailing" secondItem="8p8-k5-4dD" secondAttribute="trailing" id="Vss-9F-FHj"/>
+                            <constraint firstItem="L1h-xx-pHq" firstAttribute="top" secondItem="uyK-SW-WIU" secondAttribute="top" id="LKE-02-a9d"/>
+                            <constraint firstAttribute="bottom" secondItem="L1h-xx-pHq" secondAttribute="bottom" constant="5" id="dKe-Yb-Ygi"/>
                             <constraint firstItem="uyK-SW-WIU" firstAttribute="centerY" secondItem="5yk-Pm-99K" secondAttribute="centerY" id="vgo-vL-ibP"/>
                         </constraints>
                     </view>
@@ -67,13 +66,13 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="MembershipCell_ViewHeight" destination="ebp-85-5l1" id="3B6-4u-1U2"/>
-                <outlet property="Membership_CellBtn" destination="8p8-k5-4dD" id="mZ8-x0-3u1"/>
+                <outlet property="Membership_CellBtn" destination="L1h-xx-pHq" id="tJ2-mX-ATv"/>
                 <outlet property="Membership_CellView" destination="5yk-Pm-99K" id="yaI-WA-7fX"/>
                 <outlet property="Membership_Discount" destination="aFo-Bt-9SW" id="miZ-m2-eUc"/>
                 <outlet property="Membership_VehicleLbl" destination="uyK-SW-WIU" id="1DT-Vd-cdD"/>
                 <outlet property="MonthlyCharge_lbl" destination="Qa1-kY-1j0" id="naJ-2M-oK3"/>
             </connections>
-            <point key="canvasLocation" x="83" y="-1"/>
+            <point key="canvasLocation" x="82.608695652173921" y="-1.3392857142857142"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -140,9 +140,15 @@ namespace StriveCustomer.iOS.Views
 
             if (result)
             {
+                string make = MembershipDetails.vehicleMakeName;
+                string model = MembershipDetails.modelName;
+                string color = MembershipDetails.colorName;
                 MembershipDetails.clearMembershipData();                
                 signature.Clear();
                 SignatureClass.signaturePoints = null;
+                MembershipDetails.vehicleMakeName = make;
+                MembershipDetails.modelName = model;
+                MembershipDetails.colorName = color;
                 await ViewModel.NavToMembership();
             }            
         }

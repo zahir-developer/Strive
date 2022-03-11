@@ -175,6 +175,11 @@ namespace Strive.Core.ViewModels.Customer
                
             }
         }
+        public async Task NavigateToLogin()
+        {
+            await _navigationService.Navigate<LoginViewModel>();
+            //await _navigationService.Close(this);
+        }
         public async Task getVehicleDetails()
         {
             _userDialog.ShowLoading(Strings.Loading);
@@ -226,7 +231,7 @@ namespace Strive.Core.ViewModels.Customer
                 if (selectedMake1 == item.MakeValue)
                 {
                     var result = await AdminService.GetModelListCommon(item.MakeId);
-                    if (result != null)
+                    if (result.Model != null)
                     {
                         modelList = result;
                     }

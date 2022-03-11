@@ -49,11 +49,30 @@ namespace StriveCustomer.iOS.Views.Schedule
             //ScheduleViewModel.JobID = datalist[indexPath.Row].JobId;
             //ScheduleViewModel.TicketNumber = datalist[indexPath.Row].TicketNumber;
             //PH_Cost_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
+            
             if (datalist[indexPath.Row].PaymentDate != null)
             {
                 if (datalist[indexPath.Row].PaymentDate.Substring(0, 10) == DateTime.Now.Date.ToString("yyyy-MM-dd"))
                 {
-                    PayTip.Hidden = false;
+
+                    if (DateTime.Now.TimeOfDay.Hours >= 18)
+                    {
+                        PayTip.Hidden = true;
+                    }
+                    else
+                    {
+                        if (datalist[indexPath.Row].TipAmount != "0.00")
+                        {
+                            PayTip.Hidden = true;
+                        }
+                        else
+                        {
+
+                            PayTip.Hidden = false;
+                        }
+
+                    }
+
                 }
                 else
                 {

@@ -13,16 +13,19 @@ namespace StriveCustomer.iOS.Views.Schedule
 	partial class Schedule_Location_Cell
 	{
 		[Outlet]
-		UIKit.UIButton scheduleLoc_Btn { get; set; }
+		UIKit.UIImageView scheduleLoc_Image { get; set; }
 
 		[Outlet]
 		UIKit.UILabel ScheduleLocation_Lbl { get; set; }
+
+		[Action ("scheduleLoc_BtnTouched:")]
+		partial void scheduleLoc_BtnTouched (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (scheduleLoc_Btn != null) {
-				scheduleLoc_Btn.Dispose ();
-				scheduleLoc_Btn = null;
+			if (scheduleLoc_Image != null) {
+				scheduleLoc_Image.Dispose ();
+				scheduleLoc_Image = null;
 			}
 
 			if (ScheduleLocation_Lbl != null) {
