@@ -1619,7 +1619,7 @@ export class SalesComponent implements OnInit {
         membershipId: this.isAccountButton ? this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
         jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
         drawerId: +localStorage.getItem('drawerId'),
-        amount: this.cash ? +this.cash : 0,
+        amount: this.totalPaid ? (this.totalPaid + this.tips) : this.cash,
         taxAmount: 0,
         approval: true,
         paymentStatus: +this.PaymentStatus.filter(i => i.CodeValue === 'Success')[0].CodeId,
