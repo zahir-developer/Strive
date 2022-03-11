@@ -30,7 +30,7 @@ namespace StriveCustomer.Android.Fragments
         SchedulePastServiceHistoryFragment pastServiceHistoryFragment;
         ScheduleVehicleListFragment vehicleListFragment;
         ScheduleWashHistoryFragment washHistoryFragment;
-        BottomSheetBehavior tipBottomSheet;
+        BottomSheetBehavior tipBottomSheet;        
         private FrameLayout tipFrameLayout;
         public static TextView tipAmountOne;
         public static TextView tipAmountTwo;
@@ -73,8 +73,8 @@ namespace StriveCustomer.Android.Fragments
             tipAmountFour = rootView.FindViewById<TextView>(Resource.Id.tipAmountFour);
             tipCancelButton = rootView.FindViewById<Button>(Resource.Id.tipCancelButton);
             pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet,context);
-
-
+            tipBottomSheet.SetBottomSheetCallback(new BottomSheet(tipBottomSheet));
+            
             tipAmountOne.Click += TipAmountOne_Click;
             tipAmountTwo.Click += TipAmountTwo_Click;
             tipAmountThree.Click += TipAmountThree_Click;
@@ -87,12 +87,10 @@ namespace StriveCustomer.Android.Fragments
 
         private void TipCancelButton_Click(object sender, EventArgs e)
         {            
-            tipBottomSheet.State = BottomSheetBehavior.StateHidden;
-            floatingActionButton.Visibility=ViewStates.Visible;
-            bottomNavigationView.Visibility = ViewStates.Visible;
+            tipBottomSheet.State = BottomSheetBehavior.StateHidden;            
         }
-        private void OnTipCalled() 
-        {
+        private void OnTipCalled()         
+        {           
             tipBottomSheet.State = BottomSheetBehavior.StateHidden;
             floatingActionButton.Visibility = ViewStates.Visible;
             bottomNavigationView.Visibility = ViewStates.Visible;
@@ -187,6 +185,30 @@ namespace StriveCustomer.Android.Fragments
                 OnTipCalled();
                 await washHistoryFragment.GetPastWashDetails();
             }
+        }
+    }
+    public class BottomSheet : BottomSheetBehavior.BottomSheetCallback
+    {
+        private BottomSheetBehavior tipBottomSheet;
+
+        public BottomSheet(BottomSheetBehavior tipBottomSheet)
+        {
+            this.tipBottomSheet = tipBottomSheet;
+        }
+
+        public override void OnSlide(View bottomSheet, float slideOffset)
+        {
+           
+        }
+
+        public override void OnStateChanged(View bottomSheet, int newState)
+        {
+            if(tipBottomSheet.State == BottomSheetBehavior.StateHidden) 
+            {
+                ScheduleFragment.floatingActionButton.Visibility = ViewStates.Visible;
+                ScheduleFragment.bottomNavigationView.Visibility = ViewStates.Visible;
+            }           
+            
         }
     }
 }

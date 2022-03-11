@@ -155,17 +155,22 @@ namespace Strive.Core.ViewModels.Customer
                     _userDialog.HideLoading();
                     if (signUpResponse.Status.Count>0)
                     {
-                       _userDialog.Toast(Strings.SignUpSuccessful);
-                        await _navigationService.Close(this);
                         if (platform == DevicePlatform.Android)
                         {
                             await Task.Delay(300);
                             _userDialog.Toast(Strings.SignUpSuccessful);
+                            await _navigationService.Close(this);
                         }
+                        else 
+                        {
+                            _userDialog.Toast(Strings.SignUpSuccessful);
+                            await _navigationService.Close(this);
+                        }                       
+                        
                     }
                     else
                     {
-                        _userDialog.Toast(Strings.SignUpSuccessful);
+                        _userDialog.Toast(Strings.SignUpUnSuccessful);
                     }
                 }
                
