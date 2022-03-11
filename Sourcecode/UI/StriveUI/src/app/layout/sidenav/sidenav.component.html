@@ -1,6 +1,6 @@
 <section class="navbar-nav web-nav theme-primary-background-color" *ngIf="isLoggedIn$ | async as isLoggedIn" id="sidenavSec">
     <!--Sidebar-->
-    <div class="menu  d-none d-sm-none d-md-block d-lg-block d-xl-block" *ngIf="localStorageUpdation === 'localStorageUpdation1'">
+    <div class="menu  d-none d-sm-none d-md-block d-lg-block d-xl-block hidescroll" *ngIf="localStorageUpdation === 'localStorageUpdation1'">
         <ul>
             <li class="logo-container" ><a><i><img src="{{logoBase64}}" alt="" width="50" /></i>{{logoName}}</a> </li>
             <li class="p-t-10" *ngIf="dashBoardModule === true"><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i

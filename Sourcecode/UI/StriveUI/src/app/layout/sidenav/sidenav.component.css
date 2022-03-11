@@ -6,3 +6,7 @@
   a:not([href]):not([class]), a:not([href]):not([class]):hover {
     color: #DEDEDE;
   }
+
+  .hidescroll {
+    scrollbar-width: none;
+ }
