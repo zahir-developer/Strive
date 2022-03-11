@@ -24,6 +24,7 @@ namespace Strive.Core.ViewModels
         public IAdminService AdminService = Mvx.IoCProvider.Resolve<IAdminService>();
         public IMessengerService MessengerService = Mvx.IoCProvider.Resolve<IMessengerService>();
         public static bool isExitApp;
+        public static DevicePlatform platform = DeviceInfo.Platform;
         public BaseViewModel()
         {
             Commands = new MvxCommandCollectionBuilder().BuildCollectionFor(this);

@@ -168,13 +168,10 @@ namespace StriveCustomer.Android.Views
             }
         }
 
-        private void navigateToSignUp(object o, EventArgs e)
+        private async void navigateToSignUp(object o, EventArgs e)
         {
-
-            BaseViewModel._navigationService.Navigate<SignUpViewModel>();
-            //ViewModel.SignUpCommand();
+           await ViewModel.NavigatetoSignUp();
             //Browser.OpenAsync(ApiUtils.URL_CUSTOMER_SIGNUP, BrowserLaunchMode.SystemPreferred);
-
         }
 
         private void navigateToForgotPassword(object o, EventArgs e)

@@ -376,5 +376,11 @@ namespace Strive.Core.Resources {
                 return ResourceManager.GetString("CustomerPackageName", resourceCulture);
             }
         }
+        
+        internal static string ValidLastName {
+            get {
+                return ResourceManager.GetString("ValidLastName", resourceCulture);
+            }
+        }
     }
 }

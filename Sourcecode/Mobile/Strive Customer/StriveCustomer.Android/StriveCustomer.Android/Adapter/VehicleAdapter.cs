@@ -10,11 +10,11 @@ namespace StriveCustomer.Android.Adapter
 {
     public class VehicleAdapter<T> : ArrayAdapter<String>
     {
-
+        private Context mContext;
         public VehicleAdapter(Context context, int textViewResourceId, List<String> makes )
             : base(context, textViewResourceId, makes)
         {
-            
+            this.mContext = context;
         }
 
        
@@ -29,21 +29,33 @@ namespace StriveCustomer.Android.Adapter
 
         public override View GetDropDownView(int position, View convertView, ViewGroup parent)
         {
+            View v;
+            //View view = base.GetDropDownView(position, convertView, parent);
 
-            View view = base.GetDropDownView(position, convertView, parent);
-
-            TextView tv = (TextView)view;
+            //TextView tv = (TextView)view;
+            //if (position == 0)
+            //{
+            //    // Set the hint text color gray
+            //    tv.SetTextColor(Color.Gray);
+            //}
+            //else
+            //{
+            //    tv.SetTextColor(Color.Black);
+            //}
+            //return view;
             if (position == 0)
             {
-                // Set the hint text color gray
-                tv.SetTextColor(Color.Gray);
+                TextView tv = new TextView(mContext);
+                tv.Visibility = ViewStates.Gone;
+                tv.SetHeight(0);
+                v = tv;
+                v.Visibility = ViewStates.Gone;
             }
             else
-            {
-                tv.SetTextColor(Color.Black);
-            }
-            return view;
+                v = base.GetDropDownView(position, null, parent);
+            return v;
         }
+        public override int Count => (base.Count);
 
 
     }

@@ -5,6 +5,7 @@ using Strive.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using static Strive.Core.Models.Customer.CustomerSignUp;
 
 namespace Strive.Core.ViewModels.Customer
@@ -48,7 +49,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             else if (string.IsNullOrEmpty(LastName))
             {
-                _userDialog.Alert(Strings.ValidName);
+                _userDialog.Alert(Strings.ValidLastName);
             }
             else if (!string.Equals(Password, ConfirmPassword))
             {
@@ -154,8 +155,13 @@ namespace Strive.Core.ViewModels.Customer
                     _userDialog.HideLoading();
                     if (signUpResponse.Status.Count>0)
                     {
-                        _userDialog.Toast(Strings.SignUpSuccessful);
+                       _userDialog.Toast(Strings.SignUpSuccessful);
                         await _navigationService.Close(this);
+                        if (platform == DevicePlatform.Android)
+                        {
+                            await Task.Delay(300);
+                            _userDialog.Toast(Strings.SignUpSuccessful);
+                        }
                     }
                     else
                     {

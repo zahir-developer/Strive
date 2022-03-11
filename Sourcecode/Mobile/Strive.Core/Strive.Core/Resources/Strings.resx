@@ -204,7 +204,7 @@
     <comment>SignUpScreen - Invalid Phone</comment>
   </data>
   <data name="ValidName" xml:space="preserve">
-    <value>Please enter your name</value>
+    <value>Please enter your first name</value>
     <comment>SignUpScreen - Empty Name</comment>
   </data>
   <data name="NotReceiveOTP" xml:space="preserve">
@@ -335,5 +335,9 @@
    <data name="CustomerPackageName" xml:space="preserve">
     <value>com.Mammoth.StriveCustomerMobile</value>
     <comment>General</comment>
+  </data>
+   <data name="ValidLastName" xml:space="preserve">
+    <value>Please enter your last name</value>
+    <comment>SignUpScreen - Empty Last Name</comment>
   </data>
 </root>

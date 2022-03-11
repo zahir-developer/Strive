@@ -3,13 +3,13 @@
     <string name="app_name">StriveWashClient</string>
     <string name="action_settings">Settings</string>
     <string name="email_or_phone">Enter your Email or Phone</string>
-    <string name="password">Enter your Password</string>
+    <string name="password">Enter your Password*</string>
     <string name="mobile_number">Mobile Number*</string>
-    <string name="email_Id">Enter your Email ID</string>
+    <string name="email_Id">Enter your Email ID*</string>
     <string name="first_name">First Name*</string>
     <string name="last_name">Last Name*</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_password">Confirm Password</string>
+    <string name="new_password">New Password*</string>
+    <string name="confirm_password">Confirm Password*</string>
     <string name="full_name">Full Name</string>
     <string name="contact_no">Contact No#[(xxx) xxx-xxxx]</string>
     <string name="address">Address</string>
@@ -21,5 +21,7 @@
     <string name="termsStringHeader">I authorize: NEW MAMMOTH DETAIL SALON</string>
     <string name="termsStringOne">To keep my signature on file and to charge my Credit Card Account on file for:</string>
     <string name="termsStringTwo">Switch Membership Fee: $20.00</string>
-     <string name="description">description</string>
+    <string name="description">description</string>
+    <string name="email_id_description">EmailId</string>
+   <string name="password_description">Password</string>
 </resources>

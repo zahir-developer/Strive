@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Android.App;
-using Android.Content;
+using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
-using Android.Views;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -72,7 +68,7 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(signUpFirstName).To(svm => svm.FirstName);
             bindingset.Bind(signUpLastName).To(svm => svm.LastName);
             bindingset.Bind(signUpPassword).To(svm => svm.Password);
-            bindingset.Bind(signUpConfirmPassword).To(svm => svm.ConfirmPassword);            
+            bindingset.Bind(signUpConfirmPassword).To(svm => svm.ConfirmPassword);
             bindingset.Bind(signUpButton).To(svm => svm.Commands["SignUp"]);
             bindingset.Apply();
             LoadSpinner();
@@ -118,7 +114,6 @@ namespace StriveCustomer.Android.Views
                 BackspacingFlag = false;
             }
         }
-
         private async void LoadSpinner()
         {
             try
@@ -126,6 +121,7 @@ namespace StriveCustomer.Android.Views
                // await ViewModel.getVehicleDetails();
                 await ViewModel.GetMakeList();
                 var preselectedManufacturer = 0;
+                makeList.Insert(0, "Vehicle Make *");
                 foreach (var makeName in ViewModel.makeList.Make)
                 {
                     makeList.Add(makeName.MakeValue);
@@ -137,6 +133,7 @@ namespace StriveCustomer.Android.Views
                     preselectedManufacturer++;
                 }
                 var preselectedColor = 0;
+                colorList.Insert(0, "Vehicle Color *");
                 foreach (var colorName in ViewModel.ColorList)
                 {
                     if (colorName.Value.Contains("Unknown"))
@@ -154,16 +151,15 @@ namespace StriveCustomer.Android.Views
                     }
                     preselectedColor++;
                 }
-                makeList.Insert(0, "Vehicle Make*");
-                colorList.Insert(0,"Color*");
+               
                 makeAdapter = new VehicleAdapter<string>(this, Resource.Layout.support_simple_spinner_dropdown_item, makeList);
                 makeAdapter.SetDropDownViewResource(Resource.Layout.support_simple_spinner_dropdown_item);
                 colorAdapter = new VehicleAdapter<string>(this, Resource.Layout.support_simple_spinner_dropdown_item, colorList);
                 colorAdapter.SetDropDownViewResource(Resource.Layout.support_simple_spinner_dropdown_item);                
                 signUpMakeSpinner.Adapter = makeAdapter;
                 signUpColorSpinner.Adapter = colorAdapter;                
-                signUpMakeSpinner.SetSelection(MembershipDetails.selectedMake);                
-                signUpColorSpinner.SetSelection(MembershipDetails.selectedColor);
+                signUpMakeSpinner.SetSelection(0);                
+                signUpColorSpinner.SetSelection(0);
             }
             catch (Exception ex)
             {
@@ -172,36 +168,42 @@ namespace StriveCustomer.Android.Views
                     return;
                 }
             }           
-
         }
         private async void GetModelList()
         {
             try
             {
-                await ViewModel.GetModelList(MembershipDetails.vehicleMakeName);
-                if (ViewModel.modelList != null)
+                modelList = new List<string>();
+                if (!string.IsNullOrEmpty(ViewModel.VehicleMake))
                 {
-                    modelList = new List<string>();
-                    var preselectedModel = 0;
-                    foreach (var modelName in ViewModel.modelList.Model)
+                    await ViewModel.GetModelList(MembershipDetails.vehicleMakeName);
+                    if (ViewModel.modelList != null)
                     {
-                        modelList.Add(modelName.ModelValue);
-                        if (MembershipDetails.modelNumber == modelName.ModelId)
+                        var preselectedModel = 0;
+                        modelList.Insert(0, "Vehicle Model *");
+                        foreach (var modelName in ViewModel.modelList.Model)
                         {
-                            MembershipDetails.selectedModel = preselectedModel;
+                            modelList.Add(modelName.ModelValue);
+                            if (MembershipDetails.modelNumber == modelName.ModelId)
+                            {
+                                MembershipDetails.selectedModel = preselectedModel;
+
+                            }
+                            preselectedModel++;
 
                         }
-                        preselectedModel++;
 
                     }
-
                 }
-
-                modelList.Insert(0, "Model*");
+                else
+                {
+                    modelList.Insert(0, "Vehicle Model *");
+                }
+               
                 modelAdapter = new VehicleAdapter<string>(this, Resource.Layout.support_simple_spinner_dropdown_item, modelList);
                 modelAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
                 signUpModelSpinner.Adapter = modelAdapter;
-                signUpModelSpinner.SetSelection(MembershipDetails.selectedModel);
+                signUpModelSpinner.SetSelection(0);
             }
             catch (Exception ex)
             {
@@ -210,23 +212,26 @@ namespace StriveCustomer.Android.Views
                     return;
                 }
             }
-
-
         }
 
         private void SignUpColorSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             if (e.Position > 0)
             {
-                MembershipDetails.selectedColor = e.Position;
-                var selected = this.ViewModel.ColorList.ElementAt(e.Position);
+                MembershipDetails.selectedColor = e.Position-1;
+                var selected = this.ViewModel.ColorList.ElementAt(e.Position-1);
                 MembershipDetails.colorNumber = selected.Key;
                 MembershipDetails.colorName = selected.Value;
                 ViewModel.VehicleColor = selected.Value;
             }
             else 
             {
-                MembershipDetails.selectedColor = e.Position;                
+                if (e.Position == 0 && signUpColorSpinner.SelectedItem.ToString() == "Vehicle Color *")
+                {
+                    ((TextView)signUpColorSpinner.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+                }
+                MembershipDetails.selectedColor = e.Position;
+                ViewModel.VehicleColor = string.Empty;
             }
             
 
@@ -244,8 +249,12 @@ namespace StriveCustomer.Android.Views
             }
             else
             {
+                if (e.Position == 0 && signUpModelSpinner.SelectedItem.ToString() == "Vehicle Model *")
+                {
+                    ((TextView)signUpModelSpinner.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+                }
                 MembershipDetails.selectedModel = e.Position;
-
+                ViewModel.VehicleModel = string.Empty;
             }
         }
 
@@ -261,16 +270,20 @@ namespace StriveCustomer.Android.Views
                 MembershipDetails.vehicleMakeName = selected.MakeValue;
                 MembershipDetails.clientVehicleID = 0;
                 MembershipDetails.selectedModel = 0;
-
+                
 
             }
             else
             {
-                MembershipDetails.selectedMake = e.Position;
-                var selected = this.ViewModel.makeList.Make.ElementAt(e.Position);
-                MembershipDetails.vehicleMakeNumber = selected.MakeId;
-                MembershipDetails.vehicleMakeName = selected.MakeValue;
-
+                if (e.Position == 0 && signUpMakeSpinner.SelectedItem.ToString() == "Vehicle Make *")
+                {
+                    ((TextView)signUpMakeSpinner.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+                    MembershipDetails.selectedMake = e.Position;
+                    ViewModel.VehicleMake = string.Empty;
+                    // var selected = this.ViewModel.makeList.Make.ElementAt(e.Position);
+                    //MembershipDetails.vehicleMakeNumber = selected.MakeId;
+                    //MembershipDetails.vehicleMakeName = selected.MakeValue;
+                }
             }
             GetModelList();
 

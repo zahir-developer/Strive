@@ -38,7 +38,7 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Commands
 
-        DevicePlatform platform = DeviceInfo.Platform;
+        
 
         public async Task GetScheduleVehicleList()
         {

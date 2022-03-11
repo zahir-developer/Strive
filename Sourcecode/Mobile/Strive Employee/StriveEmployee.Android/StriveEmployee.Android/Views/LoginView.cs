@@ -161,7 +161,7 @@ namespace StriveEmployee.Android.Views
         private void Login_Click(object sender, EventArgs e)
         {
             var current = Connectivity.NetworkAccess;
-            string fcmToken = Intent.GetStringExtra("FCMToken");
+            string fcmToken = sharedPreferences.GetString("RefreshToken", null);//Intent.GetStringExtra("FCMToken");
             if (!string.IsNullOrEmpty(fcmToken))
             {
                 ViewModel.token = fcmToken;
