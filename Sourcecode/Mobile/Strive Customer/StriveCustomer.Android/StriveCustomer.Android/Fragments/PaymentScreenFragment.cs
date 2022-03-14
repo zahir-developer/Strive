@@ -71,7 +71,15 @@ namespace StriveCustomer.Android.Fragments
                 if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
                 {
                     cardNo.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber;
-                    expirationDate.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(0, 2) + "/" + CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(2, 2);
+                    if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Contains("/"))
+                    {
+                        expirationDate.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate;
+                    }
+                    else 
+                    { 
+                        expirationDate.Text = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(0, 2) + "/" + CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.expiryDate.Substring(2, 2); 
+                    }
+                    
                     paymentVM.cardNumber = cardNo.Text;
                     paymentVM.expiryDate = expirationDate.Text;
 
@@ -153,12 +161,12 @@ namespace StriveCustomer.Android.Fragments
             var totalAmnt = 0;// Amount;
             paymentVM.cardNumber = cardNo;
             paymentVM.expiryDate = expiryDate;
-            if (cardNo.IsEmpty() || expiryDate.IsEmpty()) // || ccv == 0)
+            if (cardNo.IsEmpty() || expiryDate.IsEmpty() || cardNo.Length < 16) // || ccv == 0)
             {
                 _userDialog.HideLoading();
                 _userDialog.Alert("Please fill card details");
                 return;
-            }
+            }           
             if (CustomerVehiclesInformation.completeVehicleDetails != null) 
             {
                 if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
@@ -390,7 +398,7 @@ namespace StriveCustomer.Android.Fragments
                 else
                 {
                     _userDialog.HideLoading();
-                    _userDialog.Alert("The operation cannot be completed at this time.Unexpected Error!");
+                    _userDialog.Alert("Error, membership not created!");
                 }
 
             }

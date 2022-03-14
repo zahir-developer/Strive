@@ -88,10 +88,16 @@ namespace StriveCustomer.Android.Fragments
             var result = await ViewModel.CancelMembership();
             if (result)
             {
+                string make = MembershipDetails.vehicleMakeName;
+                string model = MembershipDetails.modelName;
+                string color = MembershipDetails.colorName;
                 MembershipDetails.clearMembershipData();
                 MyProfileInfoNeeds.selectedTab = 1;
                 signatuerPad.Clear();
                 SignatureClass.signaturePoints = null;
+                MembershipDetails.vehicleMakeName = make;
+                MembershipDetails.modelName = model;
+                MembershipDetails.colorName = color;
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
             }

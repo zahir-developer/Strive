@@ -24,4 +24,5 @@
     <string name="description">description</string>
     <string name="email_id_description">EmailId</string>
    <string name="password_description">Password</string>
+	<string name="tipsLabel">"**Tips can only be paid till 8:00 PM on the ticket payment date"</string>
 </resources>

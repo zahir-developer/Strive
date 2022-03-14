@@ -37,6 +37,7 @@ namespace StriveCustomer.Android.Fragments
         private bool isPastServiceCalled;
         private static View viewInstance;
         private Context cxt;
+        private TextView tipLabel;
         public override bool UserVisibleHint { get => base.UserVisibleHint; set => base.UserVisibleHint = value; }
 
         public SchedulePastServiceHistoryFragment(BottomSheetBehavior sheetBehavior , Context context)
@@ -56,7 +57,8 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var  rootview = this.BindingInflate(Resource.Layout.ServiceHistoryFragment, null);
             viewInstance = rootview;
-            PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);           
+            PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);
+            tipLabel = rootview.FindViewById<TextView>(Resource.Id.labelTip);
             
             if (!isPastServiceCalled)
             {
@@ -143,11 +145,30 @@ namespace StriveCustomer.Android.Fragments
 
                                 tipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.tipButton);
                                 tipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
+                                
                                 if (services.PaymentDate != null)
                                 {
                                     if (services.PaymentDate.Substring(0, 10) == DateTime.Now.Date.ToString("yyyy-MM-dd"))
                                     {
-                                        tipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Visible;
+
+                                        if (DateTime.Now.TimeOfDay.Hours >= 20)
+                                        {
+                                            tipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Invisible;
+                                        }
+                                        else
+                                        {
+                                            if (services.TipAmount != "0.00")
+                                            {
+                                                tipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Invisible;
+                                            }
+                                            else
+                                            {
+
+                                                tipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Visible;
+                                            }
+
+                                        }
+
                                     }
                                     else
                                     {
@@ -172,9 +193,19 @@ namespace StriveCustomer.Android.Fragments
                         }
                     }
                 }
+                else
+                {
+                    tipLabel.Visibility = ViewStates.Gone;
+                    if (UserVisibleHint)
+                    {
+                        BaseViewModel._userDialog.Toast("No Schedules have been found !");
+                    }
+
+                }
             }
             else
             {
+                tipLabel.Visibility = ViewStates.Gone;
                 if (UserVisibleHint)
                 { 
                     BaseViewModel._userDialog.Toast("No Schedules have been found !"); 

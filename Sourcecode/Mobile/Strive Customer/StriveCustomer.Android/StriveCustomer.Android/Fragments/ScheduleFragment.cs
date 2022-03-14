@@ -36,6 +36,7 @@ namespace StriveCustomer.Android.Fragments
         public static TextView tipAmountTwo;
         public static TextView tipAmountThree;
         public static TextView tipAmountFour;
+        public static TextView tipCustom;
         public Button tipCancelButton;
         public static FloatingActionButton floatingActionButton;
         public static BottomNavigationView bottomNavigationView;
@@ -63,8 +64,7 @@ namespace StriveCustomer.Android.Fragments
             scheduleTabs = rootView.FindViewById<TabLayout>(Resource.Id.Schedule_TabLayout);
             schedulePager = rootView.FindViewById<ViewPager>(Resource.Id.Schedule_ProfilePager);
             
-            vehicleListFragment = new ScheduleVehicleListFragment();
-            washHistoryFragment = new ScheduleWashHistoryFragment(context);
+            vehicleListFragment = new ScheduleVehicleListFragment();           
             tipFrameLayout = rootView.FindViewById<FrameLayout>(Resource.Id.tipBottomSheet);
             tipBottomSheet = BottomSheetBehavior.From(tipFrameLayout);
             tipAmountOne = rootView.FindViewById<TextView>(Resource.Id.tipAmountOne);
@@ -73,6 +73,7 @@ namespace StriveCustomer.Android.Fragments
             tipAmountFour = rootView.FindViewById<TextView>(Resource.Id.tipAmountFour);
             tipCancelButton = rootView.FindViewById<Button>(Resource.Id.tipCancelButton);
             pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet,context);
+            washHistoryFragment = new ScheduleWashHistoryFragment(context, tipBottomSheet);
             tipBottomSheet.SetBottomSheetCallback(new BottomSheet(tipBottomSheet));
             
             tipAmountOne.Click += TipAmountOne_Click;
@@ -80,9 +81,16 @@ namespace StriveCustomer.Android.Fragments
             tipAmountThree.Click += TipAmountThree_Click;
             tipAmountFour.Click += TipAmountFour_Click;
             tipCancelButton.Click += TipCancelButton_Click;
+            tipCustom.Click += TipCustom_Click;
             CustomerScheduleInformation.ClearScheduleData();
 
             return rootView;
+        }
+
+        private void TipCustom_Click(object sender, EventArgs e)
+        {
+            TipDetails();
+            ViewModel.GetCustomTip();
         }
 
         private void TipCancelButton_Click(object sender, EventArgs e)
@@ -102,12 +110,13 @@ namespace StriveCustomer.Android.Fragments
             ScheduleViewModel.Jobid = Tip.SavedList[Tip.position].JobId;
             ScheduleViewModel.TicketNumber = Tip.SavedList[Tip.position].TicketNumber;
             ScheduleViewModel.JobPaymentId = int.Parse(Tip.SavedList[Tip.position].JobPaymentId);
+            ScheduleViewModel.JobLocationId = Tip.SavedList[Tip.position].LocationId;
         }
         private void TipAmountFour_Click(object sender, EventArgs e)
         {
             amount = (TextView)sender;
             TipDetails();
-            ViewModel.WashTip = double.Parse(amount.Text.ToString().Substring(1, amount.Text.Length - 1)); 
+            ViewModel.WashTip = double.Parse(Tip.Tips[3].ToString("0.00")); 
             ViewModel.TipPayment();
             OnTipCalled();
         }
@@ -116,7 +125,7 @@ namespace StriveCustomer.Android.Fragments
         {
             amount = (TextView)sender;
             TipDetails();
-            ViewModel.WashTip = double.Parse(amount.Text.ToString().Substring(1, amount.Text.Length - 1));            
+            ViewModel.WashTip = double.Parse(Tip.Tips[2].ToString("0.00"));            
             ViewModel.TipPayment();
             OnTipCalled();
         }
@@ -125,7 +134,7 @@ namespace StriveCustomer.Android.Fragments
         {
             amount = (TextView)sender;
             TipDetails();
-            ViewModel.WashTip = double.Parse(amount.Text.ToString().Substring(1, amount.Text.Length - 1));           
+            ViewModel.WashTip = double.Parse(Tip.Tips[1].ToString("0.00"));           
             ViewModel.TipPayment();
             OnTipCalled();
         }
@@ -134,17 +143,17 @@ namespace StriveCustomer.Android.Fragments
         {
             amount = (TextView)sender;
             TipDetails();
-            ViewModel.WashTip = double.Parse(amount.Text.ToString().Substring(1,amount.Text.Length-1));
+            ViewModel.WashTip = double.Parse(Tip.Tips[0].ToString("0.00"));
             ViewModel.TipPayment();
             OnTipCalled();
         }
 
         public static void TipAmounts()
         {
-            tipAmountOne.Text = "$" + Tip.Tips[0].ToString("0.00");
-            tipAmountTwo.Text = "$" + Tip.Tips[1].ToString("0.00");
-            tipAmountThree.Text = "$" + Tip.Tips[2].ToString("0.00");
-            tipAmountFour.Text = "$" + Tip.Tips[3].ToString("0.00");
+            tipAmountOne.Text = "10% - $" + Tip.Tips[0].ToString("0.00");
+            tipAmountTwo.Text = "15% - $" + Tip.Tips[1].ToString("0.00");
+            tipAmountThree.Text = "20% - $" + Tip.Tips[2].ToString("0.00");
+            tipAmountFour.Text = "25% - $" + Tip.Tips[3].ToString("0.00");
         }
 
         public override void OnActivityCreated(Bundle savedInstanceState)

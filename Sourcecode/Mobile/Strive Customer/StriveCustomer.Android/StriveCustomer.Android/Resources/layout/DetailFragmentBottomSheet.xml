@@ -84,6 +84,20 @@
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@color/material_grey_900"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tipCustom"
+            android:textSize="@dimen/textFifteen"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_margin="10dp"
+            android:text="Custom"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/opensans_regular"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/material_grey_900"/>
 
         <Button
             android:layout_width="wrap_content"

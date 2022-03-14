@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
@@ -96,7 +97,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void MembershipInfo_Click(object sender, EventArgs e)
         {
-            if (MembershipDetails.clientVehicleID != 0)
+            if (MembershipDetails.clientVehicleID != 0 && ViewModel.VehicleDetailsCheck())
             {
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
@@ -109,10 +110,24 @@ namespace StriveCustomer.Android.Fragments
 
         private void ColorSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            MembershipDetails.selectedColor = e.Position;
-            var selected = this.ViewModel.colorName.ElementAt(e.Position);
-            MembershipDetails.colorNumber = selected.Key;
-            MembershipDetails.colorName = selected.Value;
+            if (e.Position > 0)
+            {
+                MembershipDetails.selectedColor = e.Position;
+                var selected = this.ViewModel.colorName.ElementAt(e.Position);
+                MembershipDetails.colorNumber = selected.Key;
+                MembershipDetails.colorName = selected.Value;
+            }
+            else 
+            {
+                MembershipDetails.selectedColor = e.Position;
+                if (e.Position == 0 && colorSpinner.SelectedItem.ToString() == "Vehicle Color *")
+                {
+                    ((TextView)colorSpinner.SelectedView).SetTextColor(Color.ParseColor("#bbbcbc"));
+                }
+                MembershipDetails.selectedColor = e.Position;
+                MembershipDetails.colorName = null;
+            }
+            
         }
 
         private void ModelSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -227,7 +242,7 @@ namespace StriveCustomer.Android.Fragments
         private async void GetModelList()
         {
             try
-            {
+            {                
                 await ViewModel.GetModelList(MembershipDetails.vehicleMakeName);
                 if (ViewModel.modelList != null)
                 {
