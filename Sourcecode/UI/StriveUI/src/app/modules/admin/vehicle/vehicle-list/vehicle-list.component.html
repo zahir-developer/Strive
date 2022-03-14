@@ -96,7 +96,9 @@
                                                 <td>{{vehicle.VehicleMake}}</td>
                                                 <td>{{vehicle.ModelName}}</td>
                                                 <td>{{vehicle.Barcode}}</td>
-                                                <td>{{vehicle.MembershipName !== null ? vehicle.MembershipName : 'No'}}
+                                                <td>{{ vehicle.MembershipName !== null ? vehicle.MembershipName :
+                                                    (vehicle.InActiveClientMembershipId !== null ? 'Canceled' : 'No' )
+                                                    }}
                                                 </td>
                                                 <td class="text-underline theme-primary-color font-size--9"
                                                     style="cursor: pointer;" (click)="previewImage(vehicle)">View</td>
