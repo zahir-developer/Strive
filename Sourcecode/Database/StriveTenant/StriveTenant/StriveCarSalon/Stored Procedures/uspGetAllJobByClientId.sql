@@ -3,6 +3,10 @@
 -- Create date: 02-03-2022
 -- Description:	To show jobs based on client id
 
+-----------------------------------------------------------
+-----------------------HISTORY-----------------------------
+-- 14-03-2022  |  JUKI B  | Added addtional services column
+
 ------------------------------------------------
  --[StriveCarSalon].[uspGetAllJobByClientId] null,1,NULL,'null', null, null, 'ASC', 'TicketNo','2022-01-04','2022-01-04'
 -- =============================================
@@ -115,6 +119,10 @@ tblj.JobId
 , @TipPaymentId AS TipPaymentId
 --,ISNULL(outs.OutsideService,'None') AS OutsideService
 ,ISNULL(TA.Amount, 0) AS TipAmount
+,STUFF(( SELECT ',' + ServiceName
+                FROM #Services
+                WHERE  JobId = tblj.jobid AND (ServiceType = 'Additional Services' OR ServiceType = 'Outside Services')
+                FOR XML PATH(''), TYPE).value('.', 'nvarchar(max)'), 1, 1, '') 'AdditionalServices'
 ,tblcv.Barcode into #Detailslist
 FROM tbljob tblj 
 INNER JOIN GetTable('JobType') jt ON(tblj.JobType = jt.valueid)
