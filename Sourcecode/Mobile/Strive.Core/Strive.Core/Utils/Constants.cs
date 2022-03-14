@@ -195,6 +195,8 @@ namespace Strive.Core.Utils
 
         public const string URL_CUSTOMER_SIGNUP = "https://mammothuat-qa.azurewebsites.net/#/signup?token=0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE";
 
+        public const string URL_MEMBERSHIPPAYEMENT_DETAILS = "/Payroll/PaymentGateway/MembershipPaymentDetails";
+
         //Payment
         internal const string PAYMENT_AUTH = "/Payroll/PaymentGateway/Auth";
         internal const string PAYMENT_AUTH_PROFILE = "/Payroll/PaymentGateway/AuthProfile";

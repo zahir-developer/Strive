@@ -207,10 +207,13 @@ namespace StriveCustomer.iOS.Views
                 PresentViewController(alertView1, true, null);
                 alertView1.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));
             }
-            WashTimeWebView.ShowsUserLocation = false;                             
-           
+            WashTimeWebView.ShowsUserLocation = false;
+            if (CLLocationManager.Status != CLAuthorizationStatus.Denied)
+            {
+                PlaceLocationDetailsToMap(carWashLocations.Washes);
+            }
             //SetMapAnnotations();
-            PlaceLocationDetailsToMap(carWashLocations.Washes);
+            
         }
 
         void CenterMap(double lat, double lon)
@@ -228,7 +231,6 @@ namespace StriveCustomer.iOS.Views
                 UIApplication.SharedApplication.OpenUrl(url);
             }            
         }
-
         void PlaceLocationDetailsToMap(List<LocationStatus> locations)
         {
             if (locations == null) return;
@@ -244,7 +246,6 @@ namespace StriveCustomer.iOS.Views
 
             setCenter();
         }
-
         void setCenter()
         {                                                       
             dict.Clear();
@@ -265,12 +266,12 @@ namespace StriveCustomer.iOS.Views
                 }
             }
         }
-
         async void getDistance(double lat, double lon, int id)
         {
             double latEnd = lat;
             double lngEnd = lon;
 
+            
             var currentLocation = await Geolocation.GetLastKnownLocationAsync();
 
             double dist = currentLocation.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles);
@@ -281,7 +282,6 @@ namespace StriveCustomer.iOS.Views
             }
             
         }
-
         [Export("mapView:viewForAnnotation:")]
         public MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
@@ -295,7 +295,6 @@ namespace StriveCustomer.iOS.Views
             }
             return annotationView;
         }
-
         [Export("mapView:didSelectAnnotationView:")]
         public virtual void DidSelectAnnotationView(MKMapView mapView, MKAnnotationView view)
         {

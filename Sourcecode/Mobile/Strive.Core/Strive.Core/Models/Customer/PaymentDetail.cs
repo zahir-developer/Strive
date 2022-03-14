@@ -29,4 +29,5 @@ namespace Strive.Core.Models.Customer
         //[JsonProperty("ccv")]
         //public short CCV { get; set; }
     }
+    
 }

@@ -501,6 +501,11 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<ValidEmail>(ApiUtils.URL_CHECK_EMAIL+emailid, HttpMethod.Get);
         }
+        public async Task<MembershipPaymentCount> GetMembershipPayementDetails(int MembershipId)
+        {
+            string URI = ApiUtils.URL_MEMBERSHIPPAYEMENT_DETAILS + "?ClientMembershipId="+MembershipId;
+            return await _restClient.MakeApiCall<MembershipPaymentCount>(URI , HttpMethod.Get);
+        }
     }
     public static class RestUtils
     {

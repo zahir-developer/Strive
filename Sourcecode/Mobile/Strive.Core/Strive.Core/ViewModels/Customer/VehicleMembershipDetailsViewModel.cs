@@ -65,27 +65,36 @@ namespace Strive.Core.ViewModels.Customer
                 //{
                 //    _userDialog.Toast("Membership cancel unsuccessful");
                 //}
-                if (CustomerVehiclesInformation.completeVehicleDetails != null)
+                _userDialog.ShowLoading();
+                var result = await AdminService.GetMembershipPayementDetails(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
+                if (result.PaymentCount != 0)
                 {
-                    if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                    if (CustomerVehiclesInformation.completeVehicleDetails != null)
                     {
-                        deleteMembership Membershipdelete = new deleteMembership();
-                        Membershipdelete.clientId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicle.ClientId;
-                        Membershipdelete.clientMembershipId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId;
-                        Membershipdelete.vehicleId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicle.VehicleId;
+                        if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                        {
+                            deleteMembership Membershipdelete = new deleteMembership();
+                            Membershipdelete.clientId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicle.ClientId;
+                            Membershipdelete.clientMembershipId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId;
+                            Membershipdelete.vehicleId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicle.VehicleId;
 
-                        var isDeleted = await AdminService.DeleteVehicleMembership(Membershipdelete);
-                        if (isDeleted.Status == "true")
-                        {
-                            _userDialog.Toast("Membership has been cancelled");
-                        }
-                        else
-                        {
-                            _userDialog.Toast("Membership cancel unsuccessful");
+                            var isDeleted = await AdminService.DeleteVehicleMembership(Membershipdelete);
+                            if (isDeleted.Status == "true")
+                            {
+                                _userDialog.Toast("Membership has been cancelled");
+                            }
+                            else
+                            {
+                                _userDialog.Toast("Membership cancel unsuccessful");
+                            }
                         }
                     }
                 }
-               
+                else
+                {
+                    _userDialog.Alert("Membership cannot be cancelled before the first membership payment!");
+                }
+
             }
             _userDialog.HideLoading();
         }

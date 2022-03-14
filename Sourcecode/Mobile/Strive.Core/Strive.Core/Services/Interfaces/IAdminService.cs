@@ -185,5 +185,7 @@ namespace Strive.Core.Services.Interfaces
         Task<ColorList> GetColorListCommon();
 
         Task<ValidEmail> CheckMailId(string emailid);
+
+        Task<MembershipPaymentCount> GetMembershipPayementDetails(int MembershipId);
     }
 }
