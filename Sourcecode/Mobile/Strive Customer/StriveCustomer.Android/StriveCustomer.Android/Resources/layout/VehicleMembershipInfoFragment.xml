@@ -55,6 +55,11 @@
          <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/membershipLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <RadioGroup
                 android:id="@+id/membershipOptions"
                 android:layout_width="match_parent"
@@ -64,6 +69,16 @@
                 android:layoutDirection="rtl"
                 android:divider="?android:attr/dividerHorizontal"
                 android:showDividers="middle" />
+                  <LinearLayout
+					android:id="@+id/membershipValue"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+                    android:divider="?android:attr/listDivider"
+                    android:showDividers="middle">
+            </LinearLayout>
+
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
 

@@ -54,7 +54,7 @@ namespace StriveCustomer.Android.Fragments
             base.OnActivityCreated(savedInstanceState);
             profileAdapter = new ViewPagerAdapter(ChildFragmentManager);
             profileAdapter.AddFragment(personalInfo, "Personal Info");
-            profileAdapter.AddFragment(vehicleInfo, "Signup Vehicles");
+            profileAdapter.AddFragment(vehicleInfo, "Sign Up Vehicles");
            // profileAdapter.AddFragment(pastInfo, "Past Details");
             profilePager.Adapter = profileAdapter;
             profileTabs.SetupWithViewPager(profilePager);

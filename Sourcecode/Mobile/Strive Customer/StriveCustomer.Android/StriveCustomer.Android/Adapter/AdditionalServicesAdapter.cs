@@ -65,7 +65,7 @@ namespace StriveCustomer.Android.Adapter
             }
 
             holder.additionalServiceName = view.FindViewById<TextView>(Resource.Id.additionalServiceName);
-            holder.additionalServiceName.Text = services[position].ServiceName;
+            holder.additionalServiceName.Text = services[position].ServiceName + " - $" + services[position].Price + "/mo."; ;
             holder.linearLayout = view.FindViewById<LinearLayout>(Resource.Id.linearlayout);
             holder.additionalCheck = view.FindViewById<CheckBox>(Resource.Id.additionalServiceCheck);
             holder.additionalCheck.SetTypeface(null, TypefaceStyle.Bold);

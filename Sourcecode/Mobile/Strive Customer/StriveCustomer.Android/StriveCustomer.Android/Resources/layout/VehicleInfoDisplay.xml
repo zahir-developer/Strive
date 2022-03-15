@@ -83,12 +83,12 @@
                 android:background="@android:color/transparent"/>
             <TextView
                 android:id="@+id/addMembershipTextView"
-                android:layout_weight="0.9"
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"                
-                android:layout_marginTop="@dimen/ten"
-                android:layout_marginLeft="@dimen/two"
-                android:text="Add Membership"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="@dimen/ten"
+                android:text="Add / Edit Membership"
                 android:textSize="12sp"
                 android:textColor="@color/profileQColor"
                 android:fontFamily="@font/opensans_semibold" />           
@@ -223,12 +223,12 @@
                     android:textColor="@color/profileQColor"
                     android:textSize ="@dimen/textFourteen"
                     android:fontFamily="@font/opensans_bold"
-                    android:layout_weight="0.5"/>
+                    android:layout_weight="0.7"/>
                 <Button
                      android:layout_width="0dp"
                      android:layout_height="wrap_content"
                      android:id="@+id/cancelMembershipButton"
-                     android:layout_weight="1.5"
+                     android:layout_weight="1.3"
                      android:text="Cancel Membership"
                      android:textSize="10sp"
                     android:background="@drawable/circularedgedrectangle_button"/>

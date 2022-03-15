@@ -20,12 +20,15 @@ using Strive.Core.ViewModels.Customer;
 using AlertDialog = Android.App.AlertDialog;
 using static Android.Views.View;
 using OperationCanceledException = System.OperationCanceledException;
+using Android.Text.Style;
+using Android.Text;
 
 namespace StriveCustomer.Android.Fragments
 {
     public class VehicleMembershipFragment : MvxFragment<VehicleMembershipViewModel>
     {
         private RadioGroup membershipGroup;
+        private LinearLayout membershipLayout, membershipValue;
         private Dictionary<int, string> serviceList;
         private Dictionary<int, int> checkedId;
         private Button backButton;
@@ -56,12 +59,14 @@ namespace StriveCustomer.Android.Fragments
             serviceList = new Dictionary<int, string>();
             checkedId = new Dictionary<int, int>();
             membershipGroup = rootview.FindViewById<RadioGroup>(Resource.Id.membershipOptions);
+            membershipLayout = rootview.FindViewById<LinearLayout>(Resource.Id.membershipLayout);
+            membershipValue = rootview.FindViewById<LinearLayout>(Resource.Id.membershipValue);
+
             backButton = rootview.FindViewById<Button>(Resource.Id.membershipBack);
             nextButton = rootview.FindViewById<Button>(Resource.Id.membershipNext);            
             backButton.Enabled = false;
             nextButton.Enabled = false;
             getMembershipData();
-
             membershipGroup.CheckedChange += MembershipGroup_CheckedChange;
             backButton.Click += BackButton_Click;
             nextButton.Click += NextButton_Click;
@@ -122,15 +127,38 @@ namespace StriveCustomer.Android.Fragments
                 foreach (var data in this.ViewModel.membershipList.Membership)
                 {
                     RadioButton radioButton = new RadioButton(context);
+                    TextView Membership_Discount = new TextView(context);
                     layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
                     layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
                     layoutParams.SetMargins(0, 25, 0, 25);
                     radioButton.LayoutParameters = layoutParams;
-                    radioButton.Text = data.MembershipName;
+                    //radioButton.Text = data.MembershipName;
+
+                    try
+                    {
+                        var membershipName = data.MembershipName;
+                        var price = (VehicleMembershipViewModel.isDiscoutAvailable ? data.DiscountedPrice.ToString() : data.Price.ToString());
+                        var text = "Monthly Charge" + "  " + "$";
+                        var membershipValue = membershipName + "\n" + text + price;
+                        var nameResult = membershipValue.IndexOf(membershipName);
+                        var priceResult = membershipValue.IndexOf(price);
+                        var textResult = membershipValue.IndexOf(text);
+                        ISpannable spannable = new SpannableString(membershipValue);
+                        spannable.SetSpan(new ForegroundColorSpan(Color.Black), nameResult, nameResult + membershipName.Length, SpanTypes.ExclusiveExclusive);
+                        spannable.SetSpan(new ForegroundColorSpan(Color.Gray), priceResult, priceResult + price.Length, SpanTypes.ExclusiveExclusive);
+                        spannable.SetSpan(new ForegroundColorSpan(Color.Gray), textResult, textResult + text.Length, SpanTypes.ExclusiveExclusive);
+                        radioButton.SetText(spannable, TextView.BufferType.Spannable);
+
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                  
                     radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
                     radioButton.Id = someId;
                     checkedId.Add(data.MembershipId, someId);
-                    radioButton.SetTextSize(ComplexUnitType.Sp, (float)16.5);
+                    radioButton.SetTextSize(ComplexUnitType.Sp, (float)16);
                     radioButton.SetTypeface(null, TypefaceStyle.Bold);
                     radioButton.TextAlignment = TextAlignment.ViewEnd;
 

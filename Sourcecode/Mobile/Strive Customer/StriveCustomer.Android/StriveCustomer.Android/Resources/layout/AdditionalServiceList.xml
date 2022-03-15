@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/ten"
+        android:layout_marginTop="@dimen/ten"
         android:weightSum="1">
         <TextView
             android:id="@+id/additionalServiceName"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/fifteen"
-            android:layout_marginBottom="@dimen/fifteen"
+            android:layout_height="match_parent"       
             android:layout_weight="0.9" 
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/twenty"
