@@ -66,7 +66,11 @@ namespace Strive.Core.ViewModels.Customer
                 //    _userDialog.Toast("Membership cancel unsuccessful");
                 //}
                 _userDialog.ShowLoading();
+
                 result = await AdminService.GetMembershipPayementDetails(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
+
+                //var result = await AdminService.GetMembershipPayementDetails(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
+
                 if (result.PaymentCount != 0)
                 {
                     if (CustomerVehiclesInformation.completeVehicleDetails != null)

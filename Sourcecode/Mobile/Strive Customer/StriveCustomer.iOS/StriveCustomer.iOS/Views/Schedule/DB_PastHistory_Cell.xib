@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
@@ -52,7 +52,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BhX-GK-wPC">
-                                <rect key="frame" x="10" y="60" width="68.5" height="18"/>
+                                <rect key="frame" x="10" y="60" width="68.666666666666671" height="18"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Visit date:">
                                         <attributes>
@@ -65,7 +65,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WU4-lC-EDF">
-                                <rect key="frame" x="10" y="83" width="55.5" height="18"/>
+                                <rect key="frame" x="9.9999999999999964" y="83" width="55.666666666666657" height="18"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Service:">
                                         <attributes>
@@ -102,7 +102,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60P-GD-Nnk">
-                                <rect key="frame" x="10" y="152" width="98.5" height="18"/>
+                                <rect key="frame" x="10" y="152" width="98.666666666666671" height="18"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Add. Services:">
                                         <attributes>
@@ -114,31 +114,31 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jf9-RH-mYZ">
-                                <rect key="frame" x="144" y="35.5" width="40" height="21"/>
+                                <rect key="frame" x="144" y="35.666666666666664" width="40" height="21"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jWl-oK-CUR">
-                                <rect key="frame" x="144" y="59" width="38" height="20.5"/>
+                                <rect key="frame" x="144" y="58.666666666666664" width="38" height="20.666666666666664"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxa-Tb-x1R">
-                                <rect key="frame" x="144" y="82" width="38" height="20.5"/>
+                                <rect key="frame" x="144" y="81.666666666666671" width="38" height="20.666666666666671"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qpg-qT-fwV">
-                                <rect key="frame" x="144" y="105" width="38" height="20.5"/>
+                                <rect key="frame" x="144" y="104.66666666666667" width="38" height="20.666666666666671"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnN-yg-7r7">
-                                <rect key="frame" x="144" y="128" width="38" height="20.5"/>
+                                <rect key="frame" x="144" y="127.66666666666667" width="38" height="20.666666666666671"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -163,15 +163,27 @@
                                     <action selector="Pay_BtnTouch:" destination="cxk-wN-pdQ" eventType="touchUpInside" id="ecu-d6-0Re"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Services Added" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOg-S2-fe2">
+                                <rect key="frame" x="116" y="142" width="194" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="194" id="SrK-GK-dBN"/>
+                                    <constraint firstAttribute="height" constant="38" id="unF-yr-JI8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="13"/>
+                                <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="WU4-lC-EDF" firstAttribute="top" secondItem="BhX-GK-wPC" secondAttribute="bottom" constant="5" id="1zQ-25-6bp"/>
                             <constraint firstItem="qpg-qT-fwV" firstAttribute="centerY" secondItem="nzp-IO-Typ" secondAttribute="centerY" id="2Jd-mf-FHM"/>
                             <constraint firstItem="yxa-Tb-x1R" firstAttribute="leading" secondItem="jWl-oK-CUR" secondAttribute="leading" id="4JH-Cn-NbQ"/>
+                            <constraint firstItem="yOg-S2-fe2" firstAttribute="trailing" secondItem="AAE-OV-SGg" secondAttribute="trailingMargin" constant="7" id="7RS-2E-ek4"/>
                             <constraint firstItem="BhX-GK-wPC" firstAttribute="top" secondItem="KmB-P3-G0p" secondAttribute="bottom" constant="5" id="91S-eO-Mz5"/>
                             <constraint firstItem="BhX-GK-wPC" firstAttribute="leading" secondItem="KmB-P3-G0p" secondAttribute="leading" id="BYn-CI-944"/>
                             <constraint firstItem="jWl-oK-CUR" firstAttribute="leading" secondItem="Jf9-RH-mYZ" secondAttribute="leading" id="BtE-S1-ZbB"/>
+                            <constraint firstItem="yOg-S2-fe2" firstAttribute="top" secondItem="pnN-yg-7r7" secondAttribute="bottom" constant="-6.3333333333333428" id="CkT-UW-ga6"/>
                             <constraint firstItem="jWl-oK-CUR" firstAttribute="centerY" secondItem="BhX-GK-wPC" secondAttribute="centerY" id="E3o-0y-bwj"/>
                             <constraint firstItem="EMw-IF-HSZ" firstAttribute="centerY" secondItem="60P-GD-Nnk" secondAttribute="centerY" id="E56-Wx-ljO"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="190" id="Fph-hN-gYf"/>
@@ -207,6 +219,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="Additional_Services" destination="yOg-S2-fe2" id="mku-JJ-tzW"/>
                 <outlet property="Height" destination="aco-Pa-1pb" id="4yi-va-XfM"/>
                 <outlet property="PH_AddService_Lbl" destination="EMw-IF-HSZ" id="b5b-tW-yAr"/>
                 <outlet property="PH_Barcode_Lbl" destination="qpg-qT-fwV" id="9Bs-JZ-HOW"/>
@@ -219,7 +232,7 @@
                 <outlet property="PastHis_ShortView" destination="YTl-1W-gDM" id="RGb-Mm-ATt"/>
                 <outlet property="PayTip" destination="Bb3-0g-Jcd" id="Iph-CS-Va1"/>
             </connections>
-            <point key="canvasLocation" x="126.81159420289856" y="51.897321428571423"/>
+            <point key="canvasLocation" x="125.46728971962617" y="51.511879049676033"/>
         </tableViewCell>
     </objects>
 </document>

@@ -44,18 +44,27 @@ namespace StriveCustomer.iOS.Views.Schedule
             PH_DetService_Lbl.Text = datalist[indexPath.Row].ServiceTypeName;
             PH_Barcode_Lbl.Text = datalist[indexPath.Row].Barcode;
             PH_Price_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
+            if (datalist[indexPath.Row].AdditionalServices != null)
+            {
+                Additional_Services.Text = datalist[indexPath.Row].AdditionalServices.Replace(" ", "");
+            }
+            else
+            {
+                Additional_Services.Text = "No Added Service";
+            }
+            
             // Price = datalist[indexPath.Row].Cost;
             //ScheduleViewModel.VehicleId = 214796;
             //ScheduleViewModel.JobID = datalist[indexPath.Row].JobId;
             //ScheduleViewModel.TicketNumber = datalist[indexPath.Row].TicketNumber;
             //PH_Cost_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
-            
+
             if (datalist[indexPath.Row].PaymentDate != null)
             {
                 if (datalist[indexPath.Row].PaymentDate.Substring(0, 10) == DateTime.Now.Date.ToString("yyyy-MM-dd"))
                 {
 
-                    if (DateTime.Now.TimeOfDay.Hours >= 18)
+                    if (DateTime.Now.TimeOfDay.Hours >= 20)
                     {
                         PayTip.Hidden = true;
                     }

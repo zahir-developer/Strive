@@ -13,6 +13,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 	partial class DB_PastHistory_Cell
 	{
 		[Outlet]
+		UIKit.UILabel Additional_Services { get; set; }
+
+		[Outlet]
 		UIKit.NSLayoutConstraint Height { get; set; }
 
 		[Outlet]
@@ -74,6 +77,11 @@ namespace StriveCustomer.iOS.Views.Schedule
 				PastHis_ShortView = null;
 			}
 
+			if (PayTip != null) {
+				PayTip.Dispose ();
+				PayTip = null;
+			}
+
 			if (PH_AddService_Lbl != null) {
 				PH_AddService_Lbl.Dispose ();
 				PH_AddService_Lbl = null;
@@ -82,6 +90,11 @@ namespace StriveCustomer.iOS.Views.Schedule
 			if (PH_Barcode_Lbl != null) {
 				PH_Barcode_Lbl.Dispose ();
 				PH_Barcode_Lbl = null;
+			}
+
+			if (Additional_Services != null) {
+				Additional_Services.Dispose ();
+				Additional_Services = null;
 			}
 
 			if (PH_Cost_Lbl != null) {
@@ -117,11 +130,6 @@ namespace StriveCustomer.iOS.Views.Schedule
 			if (ViewMore_Btn != null) {
 				ViewMore_Btn.Dispose ();
 				ViewMore_Btn = null;
-			}
-
-			if (PayTip != null) {
-				PayTip.Dispose ();
-				PayTip = null;
 			}
 		}
 	}

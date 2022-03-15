@@ -197,6 +197,10 @@ namespace StriveCustomer.iOS.Views
                     MembershipDetails.modelNumber = selected.ModelId;
                     MembershipDetails.modelName = selected.ModelValue;
                 }
+                else
+                {
+                    MembershipDetails.modelName = VehicleModel_TextField.Text;
+                }
                 modelIndex++;
             }
 

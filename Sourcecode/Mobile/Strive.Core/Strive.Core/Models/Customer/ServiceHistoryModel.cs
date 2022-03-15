@@ -40,5 +40,6 @@ namespace Strive.Core.Models.Customer
         public string TipPaymentId { get; set; }
         public string TipAmount { get; set; }
         public bool? IsOpened = false;
+        public string AdditionalServices { get; set; }
     }
 }

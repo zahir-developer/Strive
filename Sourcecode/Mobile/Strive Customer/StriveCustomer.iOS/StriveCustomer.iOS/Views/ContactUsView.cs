@@ -83,18 +83,29 @@ namespace StriveCustomer.iOS.Views
         private async void setMaps()
         {
             //var allLocations = await this.ViewModel.GetAllLocationsCommand();
-            var allLocations = await ViewModel.GetAllLocationStatus();
-            if (allLocations.Washes.Count == 0)
+            try
             {
-                locations = null;
+                var allLocations = await ViewModel.GetAllLocationStatus();
+                if (allLocations.Washes.Count == 0)
+                {
+                    locations = null;
+                }
+                else
+                {
+                    locations = allLocations;
+                    washlocations = allLocations;
+                }
+
+                PlaceLocationDetailsToMap(locations.Washes);
             }
-            else
+            catch (Exception ex)
             {
-                locations = allLocations;
-                washlocations = allLocations;
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
             
-            PlaceLocationDetailsToMap(locations.Washes);
         }
 
         public void setData(int index)

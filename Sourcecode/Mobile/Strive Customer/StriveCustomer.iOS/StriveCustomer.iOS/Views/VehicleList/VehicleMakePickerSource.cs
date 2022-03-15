@@ -30,10 +30,14 @@ namespace StriveCustomer.iOS.Views
         }
         public override void Selected(UIPickerView pickerView, nint row, nint component)
         {
-            var selectedItem = makeList[(int)row];
-            SelectedValue = selectedItem;
-            ValueChanged?.Invoke(null, null);
-            textValue.Text = SelectedValue;
+            if (makeList.Count!=0)
+            {
+                var selectedItem = makeList[(int)row];
+                SelectedValue = selectedItem;
+                ValueChanged?.Invoke(null, null);
+                textValue.Text = SelectedValue;
+            }
+            
         }        
     }
 }

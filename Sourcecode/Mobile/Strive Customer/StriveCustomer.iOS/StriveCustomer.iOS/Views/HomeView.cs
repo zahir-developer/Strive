@@ -145,19 +145,30 @@ namespace StriveCustomer.iOS.Views
         }
         private async void SetMaps()
         {
-            //var locations = await ViewModel.GetAllLocationsCommand();
-            var locations = await ViewModel.GetAllLocationStatus();            
+            try
+            {
+                var locations = await ViewModel.GetAllLocationStatus();
 
-            if (locations.Washes.Count == 0)
-            {
-                carWashLocations = null;
-                washlocations = null;
+                if (locations.Washes.Count == 0)
+                {
+                    carWashLocations = null;
+                    washlocations = null;
+                }
+                else
+                {
+                    carWashLocations = locations;
+                    washlocations = locations;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                carWashLocations = locations;
-                washlocations = locations;
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
             }
+            //var locations = await ViewModel.GetAllLocationsCommand();
+            
             isLocationEnabled();            
         }
         //private void SetMapAnnotations()
@@ -271,15 +282,25 @@ namespace StriveCustomer.iOS.Views
             double latEnd = lat;
             double lngEnd = lon;
 
-            
-            var currentLocation = await Geolocation.GetLastKnownLocationAsync();
-
-            double dist = currentLocation.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles);
-            if (!dict.ContainsKey(id))
+            try
             {
-                dict.Add(id, dist);
-                distanceList.Add(dist);
+                var currentLocation = await Geolocation.GetLastKnownLocationAsync();
+
+                double dist = currentLocation.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles);
+                if (!dict.ContainsKey(id))
+                {
+                    dict.Add(id, dist);
+                    distanceList.Add(dist);
+                }
             }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
+            
             
         }
         [Export("mapView:viewForAnnotation:")]

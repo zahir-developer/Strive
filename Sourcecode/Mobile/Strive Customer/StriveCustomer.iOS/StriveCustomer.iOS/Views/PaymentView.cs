@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Acr.UserDialogs;
 using MvvmCross;
 using Strive.Core.Models.TimInventory;
+using System.Text.RegularExpressions;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -585,7 +586,26 @@ namespace StriveCustomer.iOS.Views
                 var oldNSString = new NSString(cardNumberTextField.Text ?? string.Empty);
                 var replacedString = oldNSString.Replace(range, new NSString(replacementString));
 
-                return replacedString.Length <= 16;
+                string parsedCardNo = ParseMagcardData(replacementString);
+               if (replacedString.Length > 16)
+                {
+                    return false;
+                }
+
+                if (!string.IsNullOrEmpty(parsedCardNo))
+                {
+                    parsedCardNo = replacedString;
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(parsedCardNo))
+                        parsedCardNo = cardNumberTextField.Text ?? string.Empty;
+
+                    var replacedNo = ((NSString)parsedCardNo).Replace(range, new NSString(replacementString));
+                    parsedCardNo = replacedNo;
+                }
+
+                
             }
 
             if (textField == securityCodeTextField)
@@ -617,6 +637,15 @@ namespace StriveCustomer.iOS.Views
 
             return true;
         }
+        string ParseMagcardData(string rawData)
+        {
+            Regex magcardRegex = new Regex(@"^%B(\d+)\^");
+            Match numberMatch = magcardRegex.Match(rawData);
+            if (!numberMatch.Success)
+                return null;
+            return numberMatch.Groups[1].Value;
+        }
+
 
         [Export("textFieldShouldReturn:")]
         public bool ShouldReturn(UITextField textField)
