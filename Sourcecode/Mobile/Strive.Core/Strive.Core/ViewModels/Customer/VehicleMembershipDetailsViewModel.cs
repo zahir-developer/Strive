@@ -21,7 +21,7 @@ namespace Strive.Core.ViewModels.Customer
 
 
         #region Commands
-
+        public MembershipPaymentCount result;
         public async Task GetMembershipInfo()
         {
             _userDialog.ShowLoading();
@@ -66,7 +66,7 @@ namespace Strive.Core.ViewModels.Customer
                 //    _userDialog.Toast("Membership cancel unsuccessful");
                 //}
                 _userDialog.ShowLoading();
-                var result = await AdminService.GetMembershipPayementDetails(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
+                result = await AdminService.GetMembershipPayementDetails(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
                 if (result.PaymentCount != 0)
                 {
                     if (CustomerVehiclesInformation.completeVehicleDetails != null)
@@ -92,7 +92,11 @@ namespace Strive.Core.ViewModels.Customer
                 }
                 else
                 {
-                    _userDialog.Alert("Membership cannot be cancelled before the first membership payment!");
+                    if (platform == Xamarin.Essentials.DevicePlatform.iOS) 
+                    {
+                        _userDialog.Alert("Membership cannot be cancelled before the first membership payment!");
+                    }
+                   
                 }
 
             }

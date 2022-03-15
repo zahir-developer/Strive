@@ -23,7 +23,7 @@ using OperationCanceledException = System.OperationCanceledException;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class ScheduleWashHistoryFragment : MvxFragment<ScheduleViewModel>
+    public class ScheduleWashHistoryFragment : MvxFragment<ScheduleViewModel>,Tip
     {
         private LinearLayout WashHistoryList_LinearLayout;
         private View layout;

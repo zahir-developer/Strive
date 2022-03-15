@@ -152,7 +152,7 @@ namespace StriveCustomer.Android.Fragments
                         }
                         else 
                         {
-                            expiryDate.Text = this.ViewModel.response.ExpiryDate + "/" + this.ViewModel.response.ExpiryDate.Substring(2, 2);                            
+                            expiryDate.Text = this.ViewModel.response.ExpiryDate.Substring(0,2) + "/" + this.ViewModel.response.ExpiryDate.Substring(2, 2);                            
                         }
                         
                     }

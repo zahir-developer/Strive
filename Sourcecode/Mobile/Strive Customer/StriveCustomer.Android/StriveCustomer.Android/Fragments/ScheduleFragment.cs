@@ -17,6 +17,7 @@ using MvvmCross;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
+using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 
@@ -41,7 +42,7 @@ namespace StriveCustomer.Android.Fragments
         public static FloatingActionButton floatingActionButton;
         public static BottomNavigationView bottomNavigationView;
         private TextView amount;
-        private Context context;
+        private Context context;        
 
         public ScheduleFragment(Context context)
         {
@@ -72,6 +73,7 @@ namespace StriveCustomer.Android.Fragments
             tipAmountThree = rootView.FindViewById<TextView>(Resource.Id.tipAmountThree);
             tipAmountFour = rootView.FindViewById<TextView>(Resource.Id.tipAmountFour);
             tipCancelButton = rootView.FindViewById<Button>(Resource.Id.tipCancelButton);
+            tipCustom = rootView.FindViewById<TextView>(Resource.Id.tipCustom);
             pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment(tipBottomSheet,context);
             washHistoryFragment = new ScheduleWashHistoryFragment(context, tipBottomSheet);
             tipBottomSheet.SetBottomSheetCallback(new BottomSheet(tipBottomSheet));
@@ -83,14 +85,61 @@ namespace StriveCustomer.Android.Fragments
             tipCancelButton.Click += TipCancelButton_Click;
             tipCustom.Click += TipCustom_Click;
             CustomerScheduleInformation.ClearScheduleData();
-
+            
             return rootView;
         }
 
         private void TipCustom_Click(object sender, EventArgs e)
         {
             TipDetails();
-            ViewModel.GetCustomTip();
+            OnTipCalled();
+            //ViewModel.GetCustomTip();    
+            
+            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+            LinearLayout layout = new LinearLayout(context);
+            layout.Orientation = Orientation.Vertical;
+            EditText customTip = new EditText(context);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MatchParent,
+                        ViewGroup.LayoutParams.MatchParent);
+            lp.SetMargins(20,5,20,5);
+            lp.Gravity = GravityFlags.CenterHorizontal|GravityFlags.Left;
+            customTip.LayoutParameters=lp;
+            customTip.InputType = (global::Android.Text.InputTypes)InputType.DecimalNumber;
+            layout.AddView(customTip);
+            alert.SetMessage("Enter the Tip Amount");
+            alert.SetTitle("TIPS");
+            alert.SetView(layout);
+            
+            var okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+            {
+                if (!String.IsNullOrEmpty(customTip.Text))
+                {
+                    double result;
+                    if (double.TryParse(customTip.Text, out result))
+                    {
+                        ViewModel.WashTip = double.Parse(customTip.Text);
+                        ViewModel.TipPayment();
+                    }
+                    else
+                    {
+                        BaseViewModel._userDialog.Toast("Please Enter A Valid Input");
+                    }
+                }
+                else
+                {
+                    BaseViewModel._userDialog.Toast("Please Enter A Valid Input");
+                }
+            });
+            var cancelHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+            {
+                alert.Dispose();
+            });
+            alert.SetPositiveButton("Okay",okHandler);
+            alert.SetNegativeButton("Cancel",cancelHandler);
+            alert.SetCancelable(false);
+            alert.Create();
+            alert.Show();        
         }
 
         private void TipCancelButton_Click(object sender, EventArgs e)

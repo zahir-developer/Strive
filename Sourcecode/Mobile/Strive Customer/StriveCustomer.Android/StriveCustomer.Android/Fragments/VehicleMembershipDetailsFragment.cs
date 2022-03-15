@@ -15,6 +15,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.Utils;
+using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Customer;
 using OperationCanceledException = System.OperationCanceledException;
 
@@ -62,8 +63,16 @@ namespace StriveCustomer.Android.Fragments
             {
                 await this.ViewModel.CancelMembership();
                 MyProfileInfoNeeds.selectedTab = 1;
-                AppCompatActivity activity = (AppCompatActivity)Context;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfo).Commit();
+                if (ViewModel.result.PaymentCount == 0)
+                {
+                    BaseViewModel._userDialog.Alert("Membership cannot be cancelled before the first membership payment!");
+                }
+                else
+                {
+                    AppCompatActivity activity = (AppCompatActivity)Context;
+                    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfo).Commit();
+                }
+               
             }
             catch (Exception ex)
             {
