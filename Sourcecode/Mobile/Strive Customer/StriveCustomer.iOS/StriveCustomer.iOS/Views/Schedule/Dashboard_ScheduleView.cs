@@ -51,7 +51,7 @@ namespace StriveCustomer.iOS.Views
             {
                 ViewModel.LogoutCommand();
             };
-
+            Schedule_SegmentView.SelectedSegment = 0;
             Schedule_ParentView.Layer.CornerRadius = 5;
             Schedule_Seg1.Layer.CornerRadius = 5;
             ScheduleVehicle_TableView.Hidden = false;
