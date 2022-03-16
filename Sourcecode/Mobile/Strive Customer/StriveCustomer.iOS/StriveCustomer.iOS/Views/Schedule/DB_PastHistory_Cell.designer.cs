@@ -52,6 +52,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 		UIKit.UILabel PH_VehicleName_Lbl { get; set; }
 
 		[Outlet]
+		UIKit.UILabel TipAmount { get; set; }
+
+		[Outlet]
 		UIKit.UIButton ViewMore_Btn { get; set; }
 
 		[Action ("Pay_BtnTouch:")]
@@ -62,6 +65,11 @@ namespace StriveCustomer.iOS.Views.Schedule
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Additional_Services != null) {
+				Additional_Services.Dispose ();
+				Additional_Services = null;
+			}
+
 			if (Height != null) {
 				Height.Dispose ();
 				Height = null;
@@ -87,14 +95,14 @@ namespace StriveCustomer.iOS.Views.Schedule
 				PH_AddService_Lbl = null;
 			}
 
+			if (TipAmount != null) {
+				TipAmount.Dispose ();
+				TipAmount = null;
+			}
+
 			if (PH_Barcode_Lbl != null) {
 				PH_Barcode_Lbl.Dispose ();
 				PH_Barcode_Lbl = null;
-			}
-
-			if (Additional_Services != null) {
-				Additional_Services.Dispose ();
-				Additional_Services = null;
 			}
 
 			if (PH_Cost_Lbl != null) {

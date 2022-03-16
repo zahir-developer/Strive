@@ -99,7 +99,7 @@ namespace StriveCustomer.iOS.Views
                 SchedulePastHis_TableView.Hidden = false;
                 WashHistory_TableView.Hidden = true;
                 ScheduleVehicle_TableView.Hidden = true;
-                NoteForTip.Hidden = false;
+                NoteForTip.Hidden = true;
                 SchedulePastHis_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
                 //SchedulePastHis_TableView.ReloadData();
                 SchedulePastHis_TableView.Layer.CornerRadius = 5;

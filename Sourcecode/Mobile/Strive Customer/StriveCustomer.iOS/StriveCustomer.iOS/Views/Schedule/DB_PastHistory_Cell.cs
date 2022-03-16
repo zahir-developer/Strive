@@ -28,6 +28,8 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public void SetData(List<jobViewModel> datalist, NSIndexPath indexPath)
         {
+            TipAmount.Hidden = true;
+            TipAmount.Layer.CornerRadius = 4;
             SelectedIndex = indexPath;
             PayTip.Layer.CornerRadius = 10;
             PastHis_FullView.Layer.CornerRadius = 5;
@@ -63,24 +65,58 @@ namespace StriveCustomer.iOS.Views.Schedule
             {
                 if (datalist[indexPath.Row].PaymentDate.Substring(0, 10) == DateTime.Now.Date.ToString("yyyy-MM-dd"))
                 {
-
-                    if (DateTime.Now.TimeOfDay.Hours >= 20)
+                    if (datalist[indexPath.Row].TipAmount != "0.00")
                     {
                         PayTip.Hidden = true;
+                        if (ScheduleViewModel.IsDetail!=true)
+                        {
+                            TipAmount.Hidden = false;
+                            TipAmount.Text = "Tip Added:$" + datalist[indexPath.Row].TipAmount;
+                        }
+
                     }
                     else
                     {
-                        if (datalist[indexPath.Row].TipAmount != "0.00")
+                        if (ScheduleViewModel.IsDetail == true)
                         {
                             PayTip.Hidden = true;
                         }
                         else
                         {
-
                             PayTip.Hidden = false;
                         }
 
                     }
+                    //if (DateTime.Now.TimeOfDay.Hours >= 20)
+                    //{
+                    //    PayTip.Hidden = true;
+                    //}
+                    //else
+                    //{
+                    //    if (datalist[indexPath.Row].TipAmount != "0.00")
+                    //    {
+                    //        PayTip.Hidden = true;
+                    //        if (!ScheduleViewModel.IsDetail)
+                    //        {
+                    //            TipAmount.Hidden = false;
+                    //            TipAmount.Text = "Tip Added:$" + datalist[indexPath.Row].TipAmount;
+                    //        }
+
+                    //    }
+                    //    else
+                    //    {
+                    //        if (!ScheduleViewModel.IsDetail)
+                    //        {
+                    //            PayTip.Hidden = true;
+                    //        }
+                    //        else
+                    //        {
+                    //            PayTip.Hidden = false;
+                    //        }
+
+                    //    }
+
+                    //}
 
                 }
                 else

@@ -23,6 +23,7 @@ namespace Strive.Core.ViewModels.Customer
         public PastClientServices pastClientServices { get; set; }
         public ServiceHistoryModel pastServiceHistory { get; set; }
         public ServiceHistoryModel pastServiceHistory1 { get; set; }
+        public static bool IsDetail { get; set; }
 
         //Properties Used in Tip Feature
         public double WashTip { get; set; }
@@ -95,6 +96,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
+                IsDetail = true;
                 pastServiceHistory = result;
             }
             _userDialog.HideLoading();
@@ -118,6 +120,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
+                IsDetail = false;
                 pastServiceHistory = result;
             }
             _userDialog.HideLoading();
