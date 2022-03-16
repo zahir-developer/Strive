@@ -228,16 +228,24 @@ namespace Strive.Core.ViewModels.Customer
             PromptResult CustomTip = await _userDialog.PromptAsync(new PromptConfig { InputType = InputType.Name, OkText = "Ok", CancelText = "Cancel", Title = "Enter Tip Amount" });
             if (CustomTip.Text != null)
             {
-                double result;
-                if(double.TryParse(CustomTip.Text,out result))
+                if (CustomTip.Ok)
                 {
-                    WashTip = double.Parse(CustomTip.Text);
-                    TipPayment();
+                    double result;
+                    if (double.TryParse(CustomTip.Text, out result))
+                    {
+                        WashTip = double.Parse(CustomTip.Text);
+                        TipPayment();
+                    }
+                    else
+                    {
+                        _userDialog.Toast("Please Enter A Valid Input");
+                    }
                 }
                 else
                 {
-                    _userDialog.Toast("Please Enter A Valid Input");
+
                 }
+                
             }
 
 

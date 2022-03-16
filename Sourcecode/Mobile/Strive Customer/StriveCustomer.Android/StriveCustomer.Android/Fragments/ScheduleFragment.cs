@@ -105,53 +105,53 @@ namespace StriveCustomer.Android.Fragments
         {
             TipDetails();
             OnTipCalled();
-            //ViewModel.GetCustomTip();    
+            ViewModel.GetCustomTip();    
             
-            AlertDialog.Builder alert = new AlertDialog.Builder(context);
-            LinearLayout layout = new LinearLayout(context);
-            layout.Orientation = Orientation.Vertical;
-            EditText customTip = new EditText(context);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MatchParent,
-                        ViewGroup.LayoutParams.MatchParent);
-            lp.SetMargins(20,5,20,5);
-            lp.Gravity = GravityFlags.CenterHorizontal|GravityFlags.Left;
-            customTip.LayoutParameters=lp;
-            customTip.InputType = (global::Android.Text.InputTypes)InputType.DecimalNumber;
-            layout.AddView(customTip);
-            alert.SetMessage("Enter the Tip Amount");
-            alert.SetTitle("TIPS");
-            alert.SetView(layout);
+            //AlertDialog.Builder alert = new AlertDialog.Builder(context);
+            //LinearLayout layout = new LinearLayout(context);
+            //layout.Orientation = Orientation.Vertical;
+            //EditText customTip = new EditText(context);
+            //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+            //            ViewGroup.LayoutParams.MatchParent,
+            //            ViewGroup.LayoutParams.MatchParent);
+            //lp.SetMargins(20,5,20,5);
+            //lp.Gravity = GravityFlags.CenterHorizontal|GravityFlags.Left;
+            //customTip.LayoutParameters=lp;
+            //customTip.InputType = (global::Android.Text.InputTypes)InputType.DecimalNumber;
+            //layout.AddView(customTip);
+            //alert.SetMessage("Enter the Tip Amount");
+            //alert.SetTitle("TIPS");
+            //alert.SetView(layout);
             
-            var okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
-            {
-                if (!String.IsNullOrEmpty(customTip.Text))
-                {
-                    double result;
-                    if (double.TryParse(customTip.Text, out result))
-                    {
-                        ViewModel.WashTip = double.Parse(customTip.Text);
-                        OnTipAPICall();
-                    }
-                    else
-                    {
-                        BaseViewModel._userDialog.Toast("Please Enter A Valid Input");
-                    }
-                }
-                else
-                {
-                    BaseViewModel._userDialog.Toast("Please Enter A Valid Input");
-                }
-            });
-            var cancelHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
-            {
-                alert.Dispose();
-            });
-            alert.SetPositiveButton("Okay",okHandler);
-            alert.SetNegativeButton("Cancel",cancelHandler);
-            alert.SetCancelable(false);
-            alert.Create();
-            alert.Show();        
+            //var okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+            //{
+            //    if (!String.IsNullOrEmpty(customTip.Text))
+            //    {
+            //        double result;
+            //        if (double.TryParse(customTip.Text, out result))
+            //        {
+            //            ViewModel.WashTip = double.Parse(customTip.Text);
+            //            OnTipAPICall();
+            //        }
+            //        else
+            //        {
+            //            BaseViewModel._userDialog.Toast("Please Enter A Valid Input");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        BaseViewModel._userDialog.Toast("Please Enter A Valid Input");
+            //    }
+            //});
+            //var cancelHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+            //{
+            //    alert.Dispose();
+            //});
+            //alert.SetPositiveButton("Ok",okHandler);
+            //alert.SetNegativeButton("Cancel",cancelHandler);
+            //alert.SetCancelable(false);
+            //alert.Create();
+            //alert.Show();        
         }
 
         private void TipCancelButton_Click(object sender, EventArgs e)
