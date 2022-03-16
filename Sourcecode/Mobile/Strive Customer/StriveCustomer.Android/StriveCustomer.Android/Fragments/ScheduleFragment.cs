@@ -105,8 +105,16 @@ namespace StriveCustomer.Android.Fragments
         {
             TipDetails();
             OnTipCalled();
-            ViewModel.GetCustomTip();    
-            
+            try
+            {
+                ViewModel.GetCustomTip();
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                    return;
+            }
             //AlertDialog.Builder alert = new AlertDialog.Builder(context);
             //LinearLayout layout = new LinearLayout(context);
             //layout.Orientation = Orientation.Vertical;
