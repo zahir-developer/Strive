@@ -20,6 +20,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -88,7 +89,18 @@ namespace StriveCustomer.Android.Fragments
             
             return rootView;
         }
-
+        private void OnTipAPICall() 
+        {
+            try
+            {
+                ViewModel.TipPayment();
+            }
+            catch (Exception ex) 
+            {
+                if (ex is OperationCanceledException)
+                    return;
+            }
+        }
         private void TipCustom_Click(object sender, EventArgs e)
         {
             TipDetails();
@@ -119,7 +131,7 @@ namespace StriveCustomer.Android.Fragments
                     if (double.TryParse(customTip.Text, out result))
                     {
                         ViewModel.WashTip = double.Parse(customTip.Text);
-                        ViewModel.TipPayment();
+                        OnTipAPICall();
                     }
                     else
                     {
@@ -165,8 +177,8 @@ namespace StriveCustomer.Android.Fragments
         {
             amount = (TextView)sender;
             TipDetails();
-            ViewModel.WashTip = double.Parse(Tip.Tips[3].ToString("0.00")); 
-            ViewModel.TipPayment();
+            ViewModel.WashTip = double.Parse(Tip.Tips[3].ToString("0.00"));
+            OnTipAPICall();
             OnTipCalled();
         }
 
@@ -174,8 +186,8 @@ namespace StriveCustomer.Android.Fragments
         {
             amount = (TextView)sender;
             TipDetails();
-            ViewModel.WashTip = double.Parse(Tip.Tips[2].ToString("0.00"));            
-            ViewModel.TipPayment();
+            ViewModel.WashTip = double.Parse(Tip.Tips[2].ToString("0.00"));
+            OnTipAPICall();
             OnTipCalled();
         }
 
@@ -183,8 +195,8 @@ namespace StriveCustomer.Android.Fragments
         {
             amount = (TextView)sender;
             TipDetails();
-            ViewModel.WashTip = double.Parse(Tip.Tips[1].ToString("0.00"));           
-            ViewModel.TipPayment();
+            ViewModel.WashTip = double.Parse(Tip.Tips[1].ToString("0.00"));
+            OnTipAPICall();
             OnTipCalled();
         }
 
@@ -193,7 +205,7 @@ namespace StriveCustomer.Android.Fragments
             amount = (TextView)sender;
             TipDetails();
             ViewModel.WashTip = double.Parse(Tip.Tips[0].ToString("0.00"));
-            ViewModel.TipPayment();
+            OnTipAPICall();
             OnTipCalled();
         }
 

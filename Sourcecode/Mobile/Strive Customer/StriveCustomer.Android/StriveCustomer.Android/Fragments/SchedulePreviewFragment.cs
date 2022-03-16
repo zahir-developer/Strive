@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer.Schedule;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -78,10 +79,18 @@ namespace StriveCustomer.Android.Fragments
 
         private async void BookNow_Button_Click(object sender, EventArgs e)
         {
-            await this.ViewModel.BookNow();
-            confirmationFragment = new ScheduleConfirmationFragment();
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, confirmationFragment).Commit();
+            try
+            {
+                await this.ViewModel.BookNow();
+                confirmationFragment = new ScheduleConfirmationFragment();
+                AppCompatActivity activity = (AppCompatActivity)this.Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, confirmationFragment).Commit();
+            }
+            catch (Exception ex) 
+            {
+                if (ex is OperationCanceledException)
+                    return;
+            }
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)
