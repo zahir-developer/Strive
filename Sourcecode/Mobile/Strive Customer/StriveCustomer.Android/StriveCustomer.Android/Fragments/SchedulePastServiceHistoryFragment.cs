@@ -137,8 +137,15 @@ namespace StriveCustomer.Android.Fragments
                                 var orderedDate = detailedVisitDate[1] + "/" + detailedVisitDate[2] + "/" + detailedVisitDate[0];
 
                                 detailVisitDate.Text = orderedDate;
-                                detailService.Text = services.ServiceTypeName;
-                                // additionalServices.Text = services.OutsideService;
+                                detailService.Text = services.ServiceTypeName;                                
+                                if (services.AdditionalServices != null)
+                                {
+                                    additionalServices.Text = services.AdditionalServices.Replace(" ", "");
+                                }
+                                else
+                                {
+                                    additionalServices.Text = "No Added Service";
+                                }
                                 detailedServiceCost.Text = "$" + services.Cost;
                                 barcode.Text = services.Barcode;
                                 price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();                              

@@ -14,6 +14,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels;
 using Strive.Core.ViewModels.Customer;
+using Xamarin.Essentials;
 
 namespace StriveCustomer.Android.Views
 {
@@ -107,30 +108,38 @@ namespace StriveCustomer.Android.Views
 
         private async void Login_Click(object sender, EventArgs e)
         {
-            if (rememberMeCheck.Checked == true)
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
             {
-                preferenceEditor.PutBoolean("rememberMe", rememberMeCheck.Checked);
-                preferenceEditor.PutString("loginId", emailPhoneInput.Text);
-                preferenceEditor.PutString("password", passwordInput.Text);
-                preferenceEditor.Apply();
-            }
-            hasAgreedToTerms = sharedPreferences.GetBoolean("hasAgreedToTerms", false);
-            if (hasAgreedToTerms)
-            {
-                termsLayout.Visibility = ViewStates.Gone;
-                loginLayout.Visibility = ViewStates.Visible;
-                await this.ViewModel.DoLoginCommand();
-            }
-            else
-            {
-                if (ViewModel.validateCommand())
+                if (rememberMeCheck.Checked == true)
                 {
-                    
-                    loginLayout.Visibility = ViewStates.Gone;
-                    termsLayout.Visibility = ViewStates.Visible;                    
-                    HideSoftKeyboard(passwordInput);
+                    preferenceEditor.PutBoolean("rememberMe", rememberMeCheck.Checked);
+                    preferenceEditor.PutString("loginId", emailPhoneInput.Text);
+                    preferenceEditor.PutString("password", passwordInput.Text);
+                    preferenceEditor.Apply();
                 }
-            }           
+                hasAgreedToTerms = sharedPreferences.GetBoolean("hasAgreedToTerms", false);
+                if (hasAgreedToTerms)
+                {
+                    termsLayout.Visibility = ViewStates.Gone;
+                    loginLayout.Visibility = ViewStates.Visible;
+                    await this.ViewModel.DoLoginCommand();
+                }
+                else
+                {
+                    if (ViewModel.validateCommand())
+                    {
+
+                        loginLayout.Visibility = ViewStates.Gone;
+                        termsLayout.Visibility = ViewStates.Visible;
+                        HideSoftKeyboard(passwordInput);
+                    }
+                }
+            }
+            else 
+            {
+                await BaseViewModel._userDialog.AlertAsync("Please connect to the Internet!", "No Internet", "Okay");
+            }
 
         }
         protected void HideSoftKeyboard(EditText input)
