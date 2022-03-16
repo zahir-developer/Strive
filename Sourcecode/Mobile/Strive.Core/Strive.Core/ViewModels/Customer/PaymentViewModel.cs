@@ -80,14 +80,17 @@ namespace Strive.Core.ViewModels.Customer
                 DocumentType = membershipAgreement.CodeValue,
 
             };
+            _userDialog.ShowLoading();
 
             var document = await AdminService.AddDocumentDetails(addDocument);
-
+            _userDialog.HideLoading();
             if (document != null)
             {
                 documentId = document.Result;
                 PrepareAdditionalServices();
+                _userDialog.ShowLoading("Creating Membership");
                 var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
+                _userDialog.HideLoading();
                 if (data.Status == true)
                 {
                     membershipStatus = true;
