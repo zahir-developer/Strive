@@ -36,7 +36,6 @@ namespace StriveCustomer.Android.Fragments
         private Button payButton;
         private Button paymentBackButton;
         PaymentViewModel paymentVM;
-        MembershipSignatureFragment signatureFragment;
         MyProfileInfoFragment infoFragment;
         public float Amount;
         public long JobID;
@@ -65,7 +64,6 @@ namespace StriveCustomer.Android.Fragments
             paymentBackButton = rootView.FindViewById<Button>(Resource.Id.paymentBackButton);
             paymentVM = new PaymentViewModel();
             infoFragment = new MyProfileInfoFragment();
-            signatureFragment = new MembershipSignatureFragment();
             if (CustomerVehiclesInformation.completeVehicleDetails != null)
             {
                 if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null && CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.cardNumber != null)
@@ -104,13 +102,12 @@ namespace StriveCustomer.Android.Fragments
             paymentBackButton.Click += PaymentBackButton_Click;
             return rootView;
 
-
         }
 
         private void PaymentBackButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, signatureFragment).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, new MembershipSignatureFragment(true)).Commit();
         }
 
         public void GetTotal()
@@ -161,12 +158,18 @@ namespace StriveCustomer.Android.Fragments
             var totalAmnt = 0;// Amount;
             paymentVM.cardNumber = cardNo;
             paymentVM.expiryDate = expiryDate;
-            if (cardNo.IsEmpty() || expiryDate.IsEmpty() || cardNo.Length < 16) // || ccv == 0)
+            if (cardNo.IsEmpty() || expiryDate.IsEmpty()) // || ccv == 0)
             {
                 _userDialog.HideLoading();
                 _userDialog.Alert("Please fill card details");
                 return;
-            }           
+            }
+            if(cardNo.Length < 16)
+            {
+                _userDialog.HideLoading();
+                _userDialog.Alert("Invalid card number");
+                return;
+            }
             if (CustomerVehiclesInformation.completeVehicleDetails != null) 
             {
                 if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
@@ -175,7 +178,7 @@ namespace StriveCustomer.Android.Fragments
                     {
                         paymentVM.accountId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.accountId;
                         paymentVM.profileId = CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.profileId;
-                        paymentVM.isAndroid = true;
+                        //paymentVM.isAndroid = true;
                         try
                         {
                             await paymentVM.MembershipAgree();
@@ -380,7 +383,7 @@ namespace StriveCustomer.Android.Fragments
                 {
                     paymentVM.accountId = paymentAuthResponse.AccountId;
                     paymentVM.profileId = paymentAuthResponse.ProfileId;
-                    paymentVM.isAndroid = true;
+                    //paymentVM.isAndroid = true;
                     try
                     {
                         await paymentVM.MembershipAgree();
@@ -398,7 +401,7 @@ namespace StriveCustomer.Android.Fragments
                 else
                 {
                     _userDialog.HideLoading();
-                    _userDialog.Alert("Error, membership not created!");
+                   // _userDialog.Alert("Error, membership not created!");
                 }
 
             }

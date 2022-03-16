@@ -15,6 +15,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using Boolean = System.Boolean;
+using Exception = System.Exception;
 using String = System.String;
 
 namespace StriveCustomer.Android.Fragments
@@ -183,12 +184,22 @@ namespace StriveCustomer.Android.Fragments
             ViewModel.ZipCode = zipCodeEditText.Text;
             ViewModel.SecondaryContactNumber = secondaryContactEditText.Text;
             ViewModel.Email = emailEditText.Text;
-            var result = await ViewModel.saveClientInfoCommand();
-            if (result)
+            try
             {
-                AppCompatActivity activity = (AppCompatActivity)Context;
-                MyProfileInfoNeeds.selectedTab = 0;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
+                var result = await ViewModel.saveClientInfoCommand();
+                if (result)
+                {
+                    AppCompatActivity activity = (AppCompatActivity)Context;
+                    MyProfileInfoNeeds.selectedTab = 0;
+                    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
+                }
+            }
+           catch (Exception ex)
+            {
+                if (ex is System.OperationCanceledException)
+                {
+                    return;
+                }
             }
 
         }

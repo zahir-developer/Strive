@@ -69,26 +69,37 @@ namespace StriveCustomer.Android.Fragments
             {
                 ViewModel = new PersonalInfoViewModel();
             }
-            await this.ViewModel.GetClientById();
-
-            if(ViewModel.customerInfo?.Status.Count > 0)
+            try
             {
-                fullNameView.Text = ViewModel.customerInfo.Status.LastOrDefault().FirstName + " " + ViewModel.customerInfo.Status.LastOrDefault().MiddleName + " " + ViewModel.customerInfo.Status.LastOrDefault().LastName;
-                contactNumberView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
-                addressView.Text = ViewModel.customerInfo.Status.LastOrDefault().Address1;
-                zipCodeView.Text = ViewModel.customerInfo.Status.LastOrDefault().Zip;
-                secPhoneView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
-                emailView.Text = ViewModel.customerInfo.Status.LastOrDefault().Email;
+                await this.ViewModel.GetClientById();
 
-                MyProfileCustomerInfo.FullName = ViewModel.customerInfo.Status.LastOrDefault().FirstName + " " + ViewModel.customerInfo.Status.LastOrDefault().MiddleName + " " + ViewModel.customerInfo.Status.LastOrDefault().LastName; 
-                MyProfileCustomerInfo.ContactNumber = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
-                MyProfileCustomerInfo.Email = ViewModel.customerInfo.Status.LastOrDefault().Email;
-                MyProfileCustomerInfo.SecondaryContactNumber = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
-                MyProfileCustomerInfo.Address = ViewModel.customerInfo.Status.LastOrDefault().Address1;
-                MyProfileCustomerInfo.ZipCode = ViewModel.customerInfo.Status.LastOrDefault().Zip;
+                if (ViewModel.customerInfo?.Status.Count > 0)
+                {
+                    fullNameView.Text = ViewModel.customerInfo.Status.LastOrDefault().FirstName + " " + ViewModel.customerInfo.Status.LastOrDefault().MiddleName + " " + ViewModel.customerInfo.Status.LastOrDefault().LastName;
+                    contactNumberView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
+                    addressView.Text = ViewModel.customerInfo.Status.LastOrDefault().Address1;
+                    zipCodeView.Text = ViewModel.customerInfo.Status.LastOrDefault().Zip;
+                    secPhoneView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
+                    emailView.Text = ViewModel.customerInfo.Status.LastOrDefault().Email;
 
+                    MyProfileCustomerInfo.FullName = ViewModel.customerInfo.Status.LastOrDefault().FirstName + " " + ViewModel.customerInfo.Status.LastOrDefault().MiddleName + " " + ViewModel.customerInfo.Status.LastOrDefault().LastName;
+                    MyProfileCustomerInfo.ContactNumber = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
+                    MyProfileCustomerInfo.Email = ViewModel.customerInfo.Status.LastOrDefault().Email;
+                    MyProfileCustomerInfo.SecondaryContactNumber = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
+                    MyProfileCustomerInfo.Address = ViewModel.customerInfo.Status.LastOrDefault().Address1;
+                    MyProfileCustomerInfo.ZipCode = ViewModel.customerInfo.Status.LastOrDefault().Zip;
+
+                }
             }
-            
+            catch (Exception ex)
+            {
+                if (ex is System.OperationCanceledException)
+                {
+                    return;
+                }
+            }
+
+
         }
     }
 }

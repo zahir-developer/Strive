@@ -34,7 +34,12 @@ namespace StriveCustomer.Android.Fragments
         private LinearLayout finalTermsView;
         private LinearLayout signatureLayout;
         private Bitmap finalContractBitMap;
+        private bool isFromPayment;
 
+        public MembershipSignatureFragment(bool isFromPayment)
+        {
+            this.isFromPayment = isFromPayment;
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -67,6 +72,11 @@ namespace StriveCustomer.Android.Fragments
             backButton.Click += BackButton_Click;
             doneButton.Click += DoneButton_Click;
             cancelButton.Click += CancelButton_Click;
+            if (!isFromPayment)
+            {
+                signatuerPad.Clear();
+                SignatureClass.signaturePoints = null;
+            }
             LoadSignature();
             return rootview;
         }
@@ -153,8 +163,8 @@ namespace StriveCustomer.Android.Fragments
             var result = await ViewModel.AgreeMembership();
             if (result)
             {
-                signatuerPad.Clear();
-                SignatureClass.signaturePoints = null;
+                //signatuerPad.Clear();
+                //SignatureClass.signaturePoints = null;
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, paymentScreenFragment).Commit();
             }

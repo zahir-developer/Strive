@@ -13,6 +13,7 @@ using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
@@ -88,7 +89,13 @@ namespace StriveCustomer.Android.Views
                     fragment = contactFrag;
                     break;
             }
-            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
+            try
+            {
+                SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
+            }
+            catch (IllegalStateException ignored)
+            {
+            }
         }
         private void setInitialFrag()
         {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
+using Xamarin.Essentials;
 
 namespace Strive.Core.ViewModels.Customer
 {
@@ -15,7 +16,7 @@ namespace Strive.Core.ViewModels.Customer
         public static string Base64ContractString;
         public float finalmonthlycharge;
         private List<ServiceDetail> servicedetails;
-        public bool isAndroid = false;
+       // public bool isAndroid = false;
         public bool membershipStatus = false;
 
         public string cardNumber { get; set; }
@@ -90,7 +91,7 @@ namespace Strive.Core.ViewModels.Customer
                 if (data.Status == true)
                 {
                     membershipStatus = true;
-                    if (!isAndroid)
+                    if (platform == DevicePlatform.iOS)
                     { 
                         await _userDialog.AlertAsync("Amount will charge from 1st of next month."); 
                     }
@@ -98,7 +99,7 @@ namespace Strive.Core.ViewModels.Customer
                 }
                 else
                 {
-                    if (!isAndroid)
+                    if (platform == DevicePlatform.iOS)
                     {
                         _userDialog.Alert("Error membership not created"); 
                     }
@@ -106,7 +107,7 @@ namespace Strive.Core.ViewModels.Customer
                 }
 
                 MembershipDetails.clearMembershipData();
-                if (!isAndroid)
+                if (platform == DevicePlatform.iOS)
                 {
                     await _navigationService.Navigate<MyProfileInfoViewModel>();
                 }

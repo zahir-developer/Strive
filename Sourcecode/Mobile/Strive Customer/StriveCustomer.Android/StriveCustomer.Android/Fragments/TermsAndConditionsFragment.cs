@@ -65,7 +65,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.TermsAndConditionsFragment, null);
             infoFragment = new MyProfileInfoFragment();           
             additionalServicesFragment = new VehicleAdditionalServicesFragment(this.Activity);
-            signatureFragment = new MembershipSignatureFragment();
+            signatureFragment = new MembershipSignatureFragment(false);
             vehicleMembershipVM = new VehicleMembershipDetailsViewModel();
             termsandconditionsImage = rootview.FindViewById<ImageView>(Resource.Id.termsandconditionsDetail);
             AgreeTextView = rootview.FindViewById<TextView>(Resource.Id.textAgree);
