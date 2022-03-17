@@ -45,7 +45,7 @@ namespace Greeter.Modules.Pay
         {
             var totalAmnt = Amount + tipAmount;
 
-            if (cardNo.IsEmpty() || expiryDate.IsEmpty() || ccv == 0)
+            if (cardNo.IsEmpty() || expiryDate.IsEmpty())
             {
                 ShowAlertMsg(Common.Messages.CARD_DETAILS_EMPTY_MISSING_MSG);
                 return;
@@ -65,8 +65,8 @@ namespace Greeter.Modules.Pay
                     {
                         Account = cardNo,
                         Expiry = expiryDate,
-                        CCV = ccv,
-                        Amount = Amount
+                        Amount = Amount,
+                        OrderID = ""
                     }
                 };
 

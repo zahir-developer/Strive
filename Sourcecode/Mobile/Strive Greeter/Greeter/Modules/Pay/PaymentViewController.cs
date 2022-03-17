@@ -46,15 +46,15 @@ namespace Greeter.Modules.Pay
             SetupView();
             KeyBoardHandling();
             UpdateData();
-
+            securityCodeTextField.Hidden = true;
             tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0, 0, 0);
 
             RegisterForCardDetailsScanning();
 
 #if DEBUG
-            cardNumberTextField.Text = "6011000995500000";
-            expirationDateTextField.Text = "12/21";
-            securityCodeTextField.Text = "291";
+            //cardNumberTextField.Text = "6011000995500000";
+            //expirationDateTextField.Text = "12/21";
+            //securityCodeTextField.Text = "291";
 #endif
         }
 
@@ -396,12 +396,12 @@ namespace Greeter.Modules.Pay
             expirationDateTextField.Placeholder = "mm/yy";
             backgroundView.Add(expirationDateTextField);
 
-            var securityCodeLabel = new UILabel(CGRect.Empty);
-            securityCodeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            securityCodeLabel.Text = "Security Code(CVV)";
-            securityCodeLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
-            securityCodeLabel.Font = UIFont.SystemFontOfSize(18);
-            backgroundView.Add(securityCodeLabel);
+            //var securityCodeLabel = new UILabel(CGRect.Empty);
+            //securityCodeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            //securityCodeLabel.Text = "Security Code(CVV)";
+            //securityCodeLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
+            //securityCodeLabel.Font = UIFont.SystemFontOfSize(18);
+            //backgroundView.Add(securityCodeLabel);
 
             securityCodeTextField = new UITextField(CGRect.Empty);
             securityCodeTextField.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -511,8 +511,8 @@ namespace Greeter.Modules.Pay
             expirationDateTextField.TopAnchor.ConstraintEqualTo(cardNumberTextField.BottomAnchor, constant: 30).Active = true;
             expirationDateTextField.HeightAnchor.ConstraintEqualTo(50).Active = true;
 
-            securityCodeLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 100).Active = true;
-            securityCodeLabel.CenterYAnchor.ConstraintEqualTo(securityCodeTextField.CenterYAnchor).Active = true;
+            //securityCodeLabel.LeadingAnchor.ConstraintEqualTo(backgroundView.LeadingAnchor, constant: 100).Active = true;
+            //securityCodeLabel.CenterYAnchor.ConstraintEqualTo(securityCodeTextField.CenterYAnchor).Active = true;
 
             securityCodeTextField.LeadingAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
             securityCodeTextField.TrailingAnchor.ConstraintEqualTo(backgroundView.TrailingAnchor, constant: -100).Active = true;

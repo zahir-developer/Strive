@@ -620,9 +620,8 @@ namespace Greeter.DTOs
         [JsonProperty("amount")]
         public float Amount { get; set; }
 
-        //[JsonProperty("orderId")]
-        //public string OrderID { get; } = "AB-11-9876";
-
+        [JsonProperty("orderId")]
+        public string OrderID { get; set; }
         //[JsonProperty("batchid")]
         //public long BatchID { get; set; }
 
@@ -632,8 +631,8 @@ namespace Greeter.DTOs
         //[JsonProperty("receipt")]
         //public string Receipt { get; set; }
 
-        [JsonProperty("ccv")]
-        public short CCV { get; set; }
+        //[JsonProperty("ccv")]
+        //public short CCV { get; set; }
     }
 
     public class BillingDetail
