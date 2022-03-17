@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
@@ -67,6 +68,51 @@ namespace Strive.BusinessLogic.Auth
                 _resultContent.Add(tokenExpire.TokenExpireMinutes.WithName("TokenExpireMinutes"));
                 _resultContent.Add(tokenExpire.RefreshTokenExpiryMinutes.WithName("RefreshTokenExpiryMinutes"));
                 _resultContent.Add(tokenExpire.SessionExpiryWarning.WithName("SessionExpiryWarning"));
+
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result Login(Authentication authentication, string tcon)
+        {
+            try
+            {
+                string token = string.Empty;
+                string refreshToken = string.Empty;
+
+                ValidateLogin(authentication);
+                TenantSchema tSchema = new AuthRal(_tenant).Login(authentication);
+                CacheLogin(tSchema, tcon);
+
+                //TokenExpireViewModel tokenExpire = new TokenExpireViewModel();
+                //tokenExpire.TokenExpireMinutes = _tenant.TokenExpiryMintues;
+                //tokenExpire.RefreshTokenExpiryMinutes = _tenant.RefreshTokenExpiryMinutes;
+                //tokenExpire.SessionExpiryWarning = _tenant.SessionExpiryWarning;
+
+                //if (tSchema.UserType != (int)UserType.Client)
+                //{
+
+                //    EmployeeLoginViewModel employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tSchema.AuthId, authentication.Token);
+                //    //(token, refreshToken) = GetTokens(tSchema, employee, secretKey);
+                //    _resultContent.Add(employee.WithName("EmployeeDetails"));
+                //}
+                //else
+                //{
+                //    ClientLoginViewModel client = new ClientRal(_tenant).GetClientByAuthId(tSchema.AuthId);
+                //    //(token, refreshToken) = GetTokens(tSchema, client, secretKey);
+                //    _resultContent.Add(client.WithName("ClientDetails"));
+                //}
+
+                //SaveRefreshToken(tSchema.UserGuid, refreshToken);
+                //_resultContent.Add(token.WithName("Token"));
+                //_resultContent.Add(refreshToken.WithName("RefreshToken"));
+                //_resultContent.Add(tokenExpire.TokenExpireMinutes.WithName("TokenExpireMinutes"));
+                //_resultContent.Add(tokenExpire.RefreshTokenExpiryMinutes.WithName("RefreshTokenExpiryMinutes"));
+                //_resultContent.Add(tokenExpire.SessionExpiryWarning.WithName("SessionExpiryWarning"));
 
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -282,6 +328,10 @@ namespace Strive.BusinessLogic.Auth
         public Result GetAllColor()
         {
             return ResultWrap(new AuthRal(_tenant).GetAllColor, "Color");
+        }
+        public Result GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatus)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetAllLocationStoreWashTime, locationStoreStatus, "Washes");
         }
 
         //public Microsoft.Owin.Security.AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)

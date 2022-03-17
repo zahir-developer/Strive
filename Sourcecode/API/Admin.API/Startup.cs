@@ -259,14 +259,14 @@ namespace Admin.API
             string paymentExp = Configuration.GetSection("CRON")["PaymentCRON"];
             services.AddSingleton(new JobSchedule(jobType: typeof(PaymentScheduler), cronExpression: paymentExp));
 
-            string secPaymentExp = Configuration.GetSection("CRON")["SecPaymentCRON"];
-            services.AddSingleton(new JobSchedule(jobType: typeof(SecPaymentScheduler), cronExpression: secPaymentExp));
+            //string secPaymentExp = Configuration.GetSection("CRON")["SecPaymentCRON"];
+            //services.AddSingleton(new JobSchedule(jobType: typeof(SecPaymentScheduler), cronExpression: secPaymentExp));
 
-            string thirdPaymentExp = Configuration.GetSection("CRON")["ThirdPaymentCRON"];
-            services.AddSingleton(new JobSchedule(jobType: typeof(ThirdPaymentScheduler), cronExpression: thirdPaymentExp));
+            //string thirdPaymentExp = Configuration.GetSection("CRON")["ThirdPaymentCRON"];
+            //services.AddSingleton(new JobSchedule(jobType: typeof(ThirdPaymentScheduler), cronExpression: thirdPaymentExp));
 
             string weatherExp = Configuration.GetSection("CRON")["WeatherCRON"];
-            services.AddSingleton(new JobSchedule(jobType: typeof(WeatherScheduler), cronExpression: thirdPaymentExp));
+            services.AddSingleton(new JobSchedule(jobType: typeof(WeatherScheduler), cronExpression: weatherExp));
 
             string checkExp = Configuration.GetSection("CRON")["ChecklistCRON"];
             services.AddSingleton(new JobSchedule(jobType: typeof(ChecklistJob), cronExpression: checkExp));
@@ -284,7 +284,7 @@ namespace Admin.API
                     Credential = credential
                 });
 
-            }
+            }          
             services.AddSwagger();
 
             services.AddSignalR();

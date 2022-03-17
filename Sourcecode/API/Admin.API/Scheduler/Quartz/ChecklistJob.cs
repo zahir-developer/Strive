@@ -1,7 +1,5 @@
 ﻿using Quartz;
-using Quartz.Spi;
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +9,9 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessLogic.Checklist;
 using FirebaseAdmin.Messaging;
-using System.IO;
+using Strive.BusinessEntities;
+using Newtonsoft.Json;
+using Strive.BusinessLogic.Auth;
 
 namespace Admin.API.Scheduler.Quartz
 {
@@ -28,49 +28,41 @@ namespace Admin.API.Scheduler.Quartz
             _cache = dcache;
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
             var strAdminConnectionString = Pick("ConnectionStrings", "StriveAuthAdmin");
-            string schemaName = "StriveCarSalon";
+            Authentication authentication = new Authentication();
+            authentication.Email = _config.GetSection("EmailScheduler")["UserName"];
+            authentication.PasswordHash = _config.GetSection("EmailScheduler")["Password"];
+
             _tenant.SetAuthDBConnection(strConnectionString);
-            _tenant.SetAuthAdminDBConnection(strAdminConnectionString);
-
-            var strTenantSchema = _cache.GetString(schemaName);
-            var isSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
-
-            if (!isSchemaAvailable) _tenant.SetConnection(strConnectionString);
-            //string userGuid = "0be3990a-cf20-4c64-b3cd-40d35207dfe2";
-
-            string connectionString = _config.GetSection("EmailScheduler")["StriveClientConnection"];
-            /*if (!string.IsNullOrEmpty(userGuid))
-            {
-
-                var tenantSchema = (isSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
-                    new AuthManagerBpl(_cache, _tenant).GetTenantSchema(Guid.Parse(userGuid));
-
-                strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
-                _tenant.SetConnection(strConnectionString);
-
-            }*/
-            strConnectionString = connectionString;
             _tenant.SetConnection(strConnectionString);
-
-            //Applicationurl
-            _tenant.ApplicationUrl = Pick("ApplicationUrl", "Url");
-            _tenant.MobileUrl = Pick("ApplicationUrl", "MobileUrl");
-
-            //Azure Web App
-            _tenant.AzureStorageConn = Pick("Azure", "ConnctionString");
-            _tenant.AzureStorageContainer = Pick("Azure", "Container");
-            _tenant.AzureBlobHtmlTemplate = Pick("Azure", "BlobHtmlTemplate");
-            _tenant.TenantFolder = Pick("Azure", "TenantFolder");
-
-            _tenant.SMTPClient = Pick("SMTP", "SMTPClient");
-            _tenant.SMTPPassword = Pick("SMTP", "Password");
-            _tenant.Port = Pick("SMTP", "Port");
-            _tenant.FromMailAddress = Pick("SMTP", "FromAddress");
-            _tenant.SchemaName = schemaName;
+            
+            new AuthManagerBpl(_cache,_tenant).Login(authentication, GetTenantConnection());
+            
             _tenant.ErrorLog = Pick("Logs", "Error");
-
             _tenant.TimeZone = Pick("TimeZone", "EST");
 
+        }
+
+        protected string GetTenantConnection()
+        {
+            string tenantConnectionStringTemplate = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID=[UserName];Password=[Password]";
+            return tenantConnectionStringTemplate;
+        }
+       
+        public void SetTenantSchematoCache(TenantSchema tenantSchema)
+        {
+            string strTenantSchema = _cache.GetString(tenantSchema.UserGuid);
+            if (string.IsNullOrEmpty(strTenantSchema))
+            {
+                _cache.SetString(tenantSchema.Schemaname, JsonConvert.SerializeObject(tenantSchema));
+                _tenant.SchemaName = tenantSchema.Schemaname;
+            }
+        }
+        protected string GetTenantConnectionString(TenantSchema tenantSchema, string conString)
+        {
+            conString = conString.Replace("[UserName]", tenantSchema.Username);
+            conString = conString.Replace("[Password]", tenantSchema.Password);
+
+            return conString;
         }
         private string Pick(string section, string name)
         {
@@ -92,40 +84,6 @@ namespace Admin.API.Scheduler.Quartz
         }
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                var oList = new ChecklistBpl(_cache, _tenant).GetChecklistNotificationByDate(DateTime.Now);
-
-                if (oList.ChecklistNotification.Count > 0)
-                {
-                    foreach (var oObj in oList.ChecklistNotification)
-                    {
-                        var msg = new Message()
-                        {
-                            Token = oObj.Token,
-                            Data = new Dictionary<string, string>()
-                             {
-                             {"NotificationDate", oObj.NotificationDate.ToShortDateString()},
-                             {"NotificationTime", oObj.NotificationTime.ToString()},
-                             {"CheckListEmployeeId", oObj.CheckListEmployeeId.ToString()},
-                             {"RoleId", oObj.RoleId.ToString()},
-                             {"Name", oObj.Name},
-                             },
-                            Notification = new Notification()
-                            {
-                                Title = "Strive Notification",
-                                Body = oObj.Name
-                            }
-                        };
-
-                        await FirebaseMessaging.DefaultInstance.SendAsync(msg);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
         public async Task Execute(IJobExecutionContext context)
         {
