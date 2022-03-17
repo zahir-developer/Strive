@@ -221,7 +221,10 @@ namespace StriveCustomer.iOS.Views
             WashTimeWebView.ShowsUserLocation = false;
             if (CLLocationManager.Status != CLAuthorizationStatus.Denied)
             {
-                PlaceLocationDetailsToMap(carWashLocations.Washes);
+                if (carWashLocations!=null)
+                    PlaceLocationDetailsToMap(carWashLocations.Washes);
+                
+                
             }
             //SetMapAnnotations();
             

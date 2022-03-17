@@ -74,6 +74,21 @@ namespace StriveCustomer.iOS.Views
             PersonalInfo_Segment.Layer.CornerRadius = 5;
             PastDetail_Segment.Layer.CornerRadius = 5;
             VehicleList_Segment.Layer.CornerRadius = 5;
+            if (MembershipSignatureViewModel.IsCanceledInSignature)
+            {
+                SegmentControl.SelectedSegment = 1;
+
+                VehicleList_Segment.Hidden = false;
+                PersonalInfo_Segment.Hidden = true;
+                PastDetail_Segment.Hidden = true;
+                VehicleList_AddBtn.Layer.CornerRadius = 5;
+
+                VehicleList_TableView.RegisterNibForCellReuse(VehicleListViewCell.Nib, VehicleListViewCell.Key);
+                VehicleList_TableView.BackgroundColor = UIColor.Clear;
+                VehicleList_TableView.ReloadData();
+
+                GetVehicleList();
+            }
 
             if(CustomerInfo.actionType == 1)
             {

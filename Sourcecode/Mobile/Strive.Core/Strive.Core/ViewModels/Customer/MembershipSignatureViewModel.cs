@@ -9,6 +9,7 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class MembershipSignatureViewModel : BaseViewModel
     {
+        public static bool IsCanceledInSignature { get; set; }
         
         public MembershipSignatureViewModel()
         {
@@ -80,7 +81,9 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task NavToMembership()
         {
-            await _navigationService.Navigate<VehicleMembershipViewModel>();
+            //await _navigationService.Navigate<VehicleMembershipViewModel>();
+            IsCanceledInSignature = true;
+            await _navigationService.Navigate<MyProfileInfoViewModel>();
         }
         #endregion Commands
         

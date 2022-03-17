@@ -118,7 +118,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                     var previousmembership = MembershipData.MembershipServiceList.Membership.FindAll(x => x.MembershipName == MembershipData.SelectedVehicle.MembershipName);
                     if (ViewModel.isDiscoutAvailable == true)
                     {
-                        MembershipData.CalculatedPrice = MembershipData.SelectedMembershipPrice = MembershipData.SelectedMembership.DiscountedPrice;
+                        MembershipData.CalculatedPrice = MembershipData.SelectedMembershipPrice = (double)MembershipData.SelectedMembership.DiscountedPrice;
                         if (MembershipData.SelectedMembership.DiscountedPrice < previousmembership[0].DiscountedPrice)
                         {
                             MembershipData.CalculatedPrice += 20;
@@ -140,7 +140,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 {
                     if (ViewModel.isDiscoutAvailable == true)
                     {
-                        MembershipData.CalculatedPrice = MembershipData.SelectedMembershipPrice = MembershipData.SelectedMembership.DiscountedPrice;
+                        MembershipData.CalculatedPrice = MembershipData.SelectedMembershipPrice = (double)MembershipData.SelectedMembership.DiscountedPrice;
                     }
                     else
                     {
