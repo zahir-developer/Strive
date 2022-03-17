@@ -1,16 +1,10 @@
-﻿USE [StriveTenant_UAT_QA]
-GO
-/****** Object:  StoredProcedure [StriveCarSalon].[uspGetDashboardStatistics]    Script Date: 14-03-2022 09:13:26 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+﻿/****** Object:  StoredProcedure [StriveCarSalon].[uspGetDashboardStatistics]    Script Date: 16-03-2022 02:42:26 PM ******/
+
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 03-11-2020
 -- Description:	To get Dashboard Details
 -- Example: [StriveCarSalon].[uspGetDashboardStatistics] 1,'2022-03-11','2022-03-11','2022-03-11 20:56:00.000'
-
 
 -- =============================================
 -----------------------History------------------
@@ -44,10 +38,10 @@ GO
 -- 31-08-2021, Vetriselvi - Fixed Average wash count 
 -- 01-09-2021, Vetriselvi - Fixed wash sales issue 
 -- 02-09-2021, Vetriselvi - Added Tips to total amount
---14-09-2021 - Vetriselvi - Added Rollback condition
---15-09-2021 - Vetriselvi - Added Quantity in MerchandizeSales
---29-09-2021 - Vetriselvi - Fixed Labor cost issue
---30-09-2021 - Vetriselvi - Labor cost, in emp time clock if user didn't log off and shouldn't carry foward to next day
+-- 14-09-2021 - Vetriselvi - Added Rollback condition
+-- 15-09-2021 - Vetriselvi - Added Quantity in MerchandizeSales
+-- 29-09-2021 - Vetriselvi - Fixed Labor cost issue
+-- 30-09-2021 - Vetriselvi - Labor cost, in emp time clock if user didn't log off and shouldn't carry foward to next day
 -- 07-10-2021, Vetriselvi - Updated average wash time. When no washer clocked in or store is closed wash time is 0 
 -- 15-10-2021, Vetriselvi - Updated average wash time. store should be closed on the time updated 
 -- 18-10-2021, Vetriselvi - Fixed - if store is closed avg time should be zero 
@@ -72,6 +66,7 @@ GO
 -- 11-03-2022, Zahir H	  - #tblJobPaymentDetail temp table added for performance improvement.
 -- 11-03-2022, Zahir H	  - Avg. Extra Service $ per car - Membership wash count excluded for calculation.
 -- 14-03-2022, Zahir H	  - Upcharges included in Membership Sales.
+-- 16-03-2022, Zahir H	  - Fixed issues in #WashSales and Total Sales
 
 
 -- =============================================
@@ -80,7 +75,7 @@ CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics]
 AS
 BEGIN
 
---DECLARE @locationId INT = 1, @FromDate Date = '2022-03-14', @ToDate Date = '2022-03-14', @CurrentDate DateTime = '2022-03-14 23:35:57'
+--DECLARE @locationId INT = 1, @FromDate Date = '2022-03-16', @ToDate Date = '2022-03-16', @CurrentDate DateTime = '2022-03-16 23:35:57'
 
 DECLARE @WashId INT = (SELECT valueid FROM GetTable('JobType') WHERE valuedesc='Wash')
 DECLARE @WashServiceId INT = (SELECT valueid FROM GetTable('ServiceType') WHERE valuedesc='Wash Package')
@@ -555,7 +550,7 @@ DROP TABLE IF EXISTS #NonMembershipPayment
 Select DISTINCT tbljp.jobPaymentId INTO #NonMembershipPayment from tblJobPayment tbljp
 JOIN #tblJobPaymentDetail tbljpd ON	tbljp.JobPaymentId = tbljpd.JobPaymentId 
 JOIN #PaymentType tblpt on tbljpd.PaymentType = tblpt.id
-WHERE tblpt.CodeValue != 'Membership' 
+WHERE tblpt.CodeValue = 'Membership' 
 
 
 DROP TABLE  IF EXISTS #WashSales
@@ -564,15 +559,15 @@ DROP TABLE  IF EXISTS #WashSales
 ) WashSales into #WashSales FROM #tblJob tblj inner join #tblJobItem tblji on(tblj.JobId = tblji.JobId) 
 inner join #tblService tbls on(tblji.ServiceId = tbls.ServiceId)
 inner join #tblJobPayment tbljp on(tblj.JobPaymentId = tblJP.JobPaymentId)
-inner join #NonMembershipPayment nmp on nmp.JobPaymentId = tbljp.JobPaymentId
+--inner join #NonMembershipPayment nmp on nmp.JobPaymentId = tbljp.JobPaymentId
 --JOIN #tblJobPaymentDetail tbljpd ON	nmp.JobPaymentDetailId = tbljpd.JobPaymentDetailId 
 --JOIN #PaymentType tblpt on	tbljpd.PaymentType = tblpt.id
 --LEFT JOIN #UpchargeSales us on us.JobType = tblj.JobType AND us.JobId = tblj.JobId 
 WHERE tblj.JobType=@WashId 
---and tbls.ServiceType=@WashServiceId 
-and tbljp.PaymentStatus=@CompletedPaymentStatus and tbls.ServiceType != @AdditionalServiceId
-AND tblj.JobStatus=@CompletedJobStatus --AND tbljpd.JobPaymentDetailId in (Select JobPaymentDetailId from #NonMembershipPayment)
+and tbljp.PaymentStatus=@CompletedPaymentStatus and (tbls.ServiceType != @AdditionalServiceId OR tbls.ServiceType = @WashServiceId)
+AND tblj.JobStatus=@CompletedJobStatus AND tbljp.JobPaymentId not in (Select JobPaymentId from #NonMembershipPayment)
 GROUP BY tblj.LocationId)
+
 
 /*
 DROP TABLE  IF EXISTS #UpchargeSales
@@ -833,12 +828,12 @@ ISNULL(ws.WashSales,0.00) WashSales,
 ISNULL(ds.DetailSales,0.00) DetailSales,
 ISNULL(es.ExtraService,0.00) ExtraService,
 ISNULL(ms.MerchandizeSales,0) MerchandizeSales,
-ISNULL(mws.MembershipWashSales,0.00) MembershipWashSales,
+ISNULL(mcs.MonthlyClientSales,0.00) MonthlyClientSales,
 SUM(ISNULL(ws.WashSales,0.00) 
 + ISNULL(ds.DetailSales,0.00) 
 + ISNULL(es.ExtraService,0.00) 
 + ISNULL(ms.MerchandizeSales,0.00)
-+ ISNULL(mws.MembershipWashSales,0.00)
++ ISNULL(mcs.MonthlyClientSales,0.00)
 --+ ISNULL(us.UpchargeSales,0.00)
 ) SumOfWashDetailMerchandizeSales
 into #ServiceSales
@@ -847,10 +842,11 @@ LEFT JOIN #WashSales ws ON(tbl.LocationId = ws.LocationId)
 LEFT JOIN #FinalDetailSales ds ON(tbl.LocationId = ds.LocationId)
 LEFT JOIN #FinalExtraService es ON(tbl.LocationId=es.LocationId) 
 LEFT JOIN #MerchandizeSales ms ON(tbl.LocationId=ms.LocationId)
-LEFT JOIN #MembershipWashSales mws on (tbl.LocationId=mws.LocationId)
+--LEFT JOIN #MembershipWashSales mws on (tbl.LocationId=mws.LocationId) -- Commented: 16-03-2022
+LEFT JOIN #MonthlyClientSales mcs on (tbl.LocationId=mcs.LocationId) -- Added: 16-03-2022
 --LEFT JOIN #UpchargeSales us ON(tbl.LocationId=us.LocationId)
 
-GROUP BY tbl.LocationId,WashSales,DetailSales,ExtraService, MerchandizeSales, MembershipWashSales
+GROUP BY tbl.LocationId,WashSales,DetailSales,ExtraService, MerchandizeSales, MonthlyClientSales
 
 --Select * from #ServiceSales
 
