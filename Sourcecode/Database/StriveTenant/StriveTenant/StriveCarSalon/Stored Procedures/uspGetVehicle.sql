@@ -1,21 +1,18 @@
-﻿USE [StriveTenant_UAT_QA]
-GO
-/****** Object:  StoredProcedure [StriveCarSalon].[uspGetVehicle]    Script Date: 14-03-2022 08:04:18 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+﻿/****** Object:  StoredProcedure [StriveCarSalon].[uspGetVehicle]    Script Date: 14-03-2022 08:04:18 PM ******/
+
 ---------------------History---------------------------
 -- ====================================================
--- 21-jun-2021, Shalini - pagenumber and count for nullquery changes 					 
--- 14-Mar-2022, Zahir H - Membership canceled status added.				 
+-- 21-06-2021 - Shalini - pagenumber and count for nullquery changes 					 
+-- 14-03-2022 - Zahir H - Membership canceled status added.	
+-- 16-03-2022 - Zahir H - Minor Fixes - Latest Inactive membership details added.
 
 -------------------------------------------------------
---[StriveCarSalon].[uspGetVehicle] null,1,10000,null,null
+--[StriveCarSalon].[uspGetVehicle] null,1,10,null,'VehicleNumber'
+
 CREATE PROCEDURE [StriveCarSalon].[uspGetVehicle]
 @Query NVARCHAR(50) = NULL,
-@PageNo INT = NULL,
-@PageSize INT = NULL,	
+@PageNo INT = 1,
+@PageSize INT = 100,	
 @SortOrder VARCHAR(5) = 'ASC',
 @SortBy VARCHAR(100) = NULL
 AS
@@ -117,9 +114,8 @@ CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN cl.ClientId END DESC
 OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
 
 
-
 DROP TABLE IF EXISTS #MembershipDetail
-select TOP 1 cvmd.ClientMembershipId, cvmd.MembershipId, v.ClientVehicleId,  cvmd.DocumentId, cvmd.IsDeleted into #MembershipDetail from #GetAllVehicle v
+select cvmd.ClientMembershipId, cvmd.MembershipId, v.ClientVehicleId,  cvmd.DocumentId, cvmd.IsDeleted into #MembershipDetail from #GetAllVehicle v
 LEFT JOIN tblClientVehicleMembershipDetails cvmd ON v.ClientVehicleId = cvmd.ClientVehicleId  AND ISNULL(cvmd.IsActive,1) = 1
 ORDER BY cvmd.ClientMembershipId DESC
 
@@ -128,6 +124,10 @@ DROP TABLE IF EXISTS #MembershipInactiveDetail
 select TOP 1 cvmd.ClientMembershipId, cvmd.MembershipId, v.ClientVehicleId,  cvmd.DocumentId into #MembershipInactiveDetail from #GetAllVehicle v
 LEFT JOIN #MembershipDetail cvmd ON v.ClientVehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 1
 ORDER BY cvmd.ClientMembershipId DESC
+
+--Select * from #MembershipDetail
+--Select * from #MembershipInactiveDetail
+
 
 select v.ClientVehicleId
 	, v.ClientId

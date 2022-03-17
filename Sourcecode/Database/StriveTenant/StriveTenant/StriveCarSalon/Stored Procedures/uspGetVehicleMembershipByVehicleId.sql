@@ -1,10 +1,4 @@
-﻿USE [StriveTenant_UAT_QA]
-GO
-/****** Object:  StoredProcedure [StriveCarSalon].[uspGetVehicleMembershipByVehicleId]    Script Date: 14-03-2022 02:47:24 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+﻿
 -- =========================================================
 -- Author:		Vineeth B
 -- Create date: 26-08-2020
@@ -16,6 +10,7 @@ GO
 -- Zahir - 01-09-2021 - Membership service retrieved if no ClientVehicleMembershipService available.
 -- Zahir - 15-12-2021 - Added Total Price.
 -- Zahir - 14-03-2022 - Latest Inactive membership details added.
+-- Zahir - 16-03-2022 - Minor Fixes - Latest Inactive membership details added.
 
 -- =========================================================
 
@@ -104,3 +99,4 @@ Select 0 as InActive
 
 
 END
+
