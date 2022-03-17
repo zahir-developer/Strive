@@ -113,7 +113,7 @@ namespace StriveCustomer.iOS.Views
                 WashHistory_TableView.Hidden = false;
                 NoteForTip.Hidden = false;
                 WashHistory_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
-                WashHistory_TableView.ReloadData();
+                //WashHistory_TableView.ReloadData();
                 WashHistory_TableView.Layer.CornerRadius = 5;
 
                 getPastWashDetails();
