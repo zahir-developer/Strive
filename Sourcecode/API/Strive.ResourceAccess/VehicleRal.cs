@@ -65,6 +65,11 @@ namespace Strive.ResourceAccess
             _prm.Add("ClientId", clientId);
              return db.Fetch<VehicleByClientViewModel>(SPEnum.USPGETVEHICLEDETAILBYCLIENTID.ToString(), _prm);
         }
+        public List<VehicleByEmailViewModel> GetVehicleByEmailId(string emailId)
+        {
+            _prm.Add("EmailId", emailId);
+            return db.Fetch<VehicleByEmailViewModel>(SPEnum.USPGETVEHICLEDETAILBYEMAILID.ToString(), _prm);
+        }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
             _prm.Add("VehicleId", vehicleId);

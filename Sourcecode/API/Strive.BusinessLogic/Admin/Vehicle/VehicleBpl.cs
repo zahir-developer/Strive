@@ -89,6 +89,10 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleByClientId, clientId, "Status");
         }
+        public Result GetVehicleByEmailId(string emailId)
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleByEmailId, emailId, "Status");
+        }
         public Result GetVehicleId(int vehicleId)
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleId, vehicleId, "Status");

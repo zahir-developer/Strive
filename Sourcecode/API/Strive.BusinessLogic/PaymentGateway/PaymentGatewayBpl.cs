@@ -234,15 +234,15 @@ namespace Strive.BusinessLogic.PaymentGateway
 
                                 if (resp == "A")
                                 {
-                                    new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, 0, DateTime.Now);
+                                    new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, 0, DateTime.Now,true);
                                 }
                                 else if (resp == "B" || resp == "C")
                                 {
-                                    new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate);
+                                    new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate,false);
                                 }
                                 else
                                 {
-                                    new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate);
+                                    new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate, false);
                                     if (attempts + 1 == 3)
                                     {
                                         //   _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
@@ -251,7 +251,7 @@ namespace Strive.BusinessLogic.PaymentGateway
                             }
                             else
                             {
-                                new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate);
+                                new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate, false);
                                 if (attempts + 1 == 3)
                                 {
                                     //   _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
@@ -260,7 +260,7 @@ namespace Strive.BusinessLogic.PaymentGateway
                         }
                         catch (Exception ex)
                         {
-                            new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate);
+                            new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate, false);
                             if (attempts + 1 == 3)
                             {
                                 // _commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
@@ -269,7 +269,7 @@ namespace Strive.BusinessLogic.PaymentGateway
                     }
                     else
                     {
-                        new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate);
+                        new PaymentGatewayRal(_tenant).UpdatePaymentDetail(oClient.ClientMembershipId, attempts + 1, oClient.LastPaymentDate, false);
                         if (attempts + 1 == 3)
                         {
                             //_commonBpl.SendMultipleMail(oClient.Email, emailBody, "Transaction Failed");
@@ -307,6 +307,9 @@ namespace Strive.BusinessLogic.PaymentGateway
             return response;
         }
 
-
+        public Result GetMembershipPaymentDetails(int ClientMembershipId)
+        {
+            return ResultWrap(new PaymentGatewayRal(_tenant).GetMembershipPaymentDetails, ClientMembershipId, "PaymentCount");
+        }
     }
 }

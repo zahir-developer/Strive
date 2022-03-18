@@ -20,5 +20,6 @@ namespace Strive.BusinessLogic.PaymentGateway
         JObject CreateUpdateProfile(CardPaymentDto cardPaymentDto);// string UserName, string Password, string url, string MID);
         //List<MerchantDetails> GetMerchantDetails(int LocationId);
         JObject AuthProfile(ProfilePaymentDto paymentDto);
+        Result GetMembershipPaymentDetails(int ClientMembershipId);
     }
 }
