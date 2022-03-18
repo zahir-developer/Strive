@@ -505,6 +505,7 @@ namespace Strive.BusinessEntities
         USPGETVEHICLEMEMBERSHIP,
         uspUpdateVechicleMembership,
         USPGETVEHICLEDETAILBYCLIENTID,
+        USPGETVEHICLEDETAILBYEMAILID,
         USPGETVEHICLESTATEMENTBYCLIENTID,
         USPGETVEHICLEHISTORYBYCLIENTID,
         uspGetVehicleCodes,

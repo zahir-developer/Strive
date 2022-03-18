@@ -16,6 +16,7 @@ namespace Strive.BusinessLogic.Vehicle
         Result SaveClientVehicle(VehicleDto vehicle);
         Result DeleteVehicle(int vehicleId, int? clientId);
         Result GetVehicleByClientId(int clientId);
+        Result GetVehicleByEmailId(string emailId);
         Result GetVehicleId(int vehicleId);
         Result GetVehicleCodes();
         Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel clientmembership);
