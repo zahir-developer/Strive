@@ -80,7 +80,7 @@ export class UserDataService {
       localStorage.setItem('employeeLastName', token?.EmployeeDetails?.EmployeeLogin?.LastName);
 
     }
-    else if (token.ClientDetails !== undefined) {
+    else if (token.ClientDetails !== undefined) {      
       this.setViews(token?.ClientDetails?.RolePermissionViewModel);
       this.setSides(JSON.stringify(token?.ClientDetails?.RolePermissionViewModel));
       localStorage.setItem('authorizationToken', token.Token);
@@ -94,9 +94,9 @@ export class UserDataService {
       localStorage.setItem('employeeFirstName', token.ClientDetails.ClientDetail.FirstName);
       localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail.LastName);
 
-      localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);
+      localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);      
       // localStorage.setItem('isAuthenticated', 'true');
-      expireMinutes = +token?.EmployeeDetails.TokenExpireMinutes.TokenExpireMinutes;
+      expireMinutes = +token?.ClientDetails.TokenExpireMinutes.TokenExpireMinutes;
     }
 
     if (expireMinutes !== 0) {
