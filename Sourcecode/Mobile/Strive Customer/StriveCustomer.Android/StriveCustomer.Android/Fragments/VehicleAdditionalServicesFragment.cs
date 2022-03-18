@@ -81,7 +81,8 @@ namespace StriveCustomer.Android.Fragments
         }
         private void BackButton_Click(object sender, EventArgs e)
         {
-           AppCompatActivity activity = (AppCompatActivity)context;
+            AppCompatActivity activity = (AppCompatActivity)context;
+            MembershipDetails.selectedAdditionalServices = null;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upChargesFragment).Commit();
 
         }

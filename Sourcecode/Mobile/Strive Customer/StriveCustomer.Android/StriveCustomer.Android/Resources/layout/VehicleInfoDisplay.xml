@@ -215,7 +215,7 @@
                     android:textColor="@color/profileQColor"
                     android:textSize ="@dimen/textFourteen"
                     android:fontFamily="@font/opensans_regular"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1.2"/>
                 <TextView
                     android:id="@+id/vehicleMembershipName"
                     android:layout_width="0dp"
@@ -223,7 +223,7 @@
                     android:textColor="@color/profileQColor"
                     android:textSize ="@dimen/textFourteen"
                     android:fontFamily="@font/opensans_bold"
-                    android:layout_weight="0.7"/>
+                    android:layout_weight="0.5"/>
                 <Button
                      android:layout_width="0dp"
                      android:layout_height="wrap_content"

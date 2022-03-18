@@ -9,6 +9,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
+using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -37,6 +38,8 @@ namespace StriveCustomer.Android.Fragments
         BottomSheetBehavior tipBottomSheet;
         private TextView[] price;
         private TextView tipLabel;
+        private CardView[] washHistoryInfo;
+        private TextView[] tipAmountPaid;
         public ScheduleWashHistoryFragment(Context context,BottomSheetBehavior bottomSheetBehavior)
         {
             this.context = context;
@@ -106,6 +109,8 @@ namespace StriveCustomer.Android.Fragments
                         moreInfo_LinearLayout = new LinearLayout[pastServiceHistory.DetailsGrid.JobViewModel.Count];
                         washTipButton = new Button[pastServiceHistory.DetailsGrid.JobViewModel.Count];
                         price = new TextView[pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                        washHistoryInfo = new CardView[pastServiceHistory.DetailsGrid.JobViewModel.Count];
+                        tipAmountPaid = new TextView[pastServiceHistory.DetailsGrid.JobViewModel.Count];
                         // for (int services = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count-1; services >= 0; services--)
                         foreach (var services in sortedBayJobDetail)
                         {
@@ -120,7 +125,8 @@ namespace StriveCustomer.Android.Fragments
                                 price[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<TextView>(Resource.Id.schedulePrice_TextView);
                                 var additionalServices = layout.FindViewById<TextView>(Resource.Id.additionalServicesValue_TextView);
                                 var detailedServiceCost = layout.FindViewById<TextView>(Resource.Id.scheduleTicketValue_TextView);
-
+                                washHistoryInfo[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<CardView>(Resource.Id.washHistory_CardView);
+                                tipAmountPaid[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<TextView>(Resource.Id.tipAmountPaid);
                                 vehicleName.Text = services.VehicleMake + "/"
                                                 + services.VehicleModel + "/"
                                                 + services.VehicleColor;
@@ -142,7 +148,7 @@ namespace StriveCustomer.Android.Fragments
                                 }
                                 detailedServiceCost.Text = "$" + services.Cost;
                                 barcode.Text = services.Barcode;
-                                price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
+                                //price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
                                 washTipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.washTipButton);
                                 washTipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
                                 
@@ -159,7 +165,9 @@ namespace StriveCustomer.Android.Fragments
                                         {
                                             if (services.TipAmount != "0.00")
                                             {
-                                                washTipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Invisible;
+                                                washTipButton[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Gone;
+                                                tipAmountPaid[sortedBayJobDetail.IndexOf(services)].Visibility = ViewStates.Visible;
+                                                tipAmountPaid[sortedBayJobDetail.IndexOf(services)].Text = "Tip Added: $" + services.TipAmount;
                                             }
                                             else
                                             {
@@ -188,6 +196,8 @@ namespace StriveCustomer.Android.Fragments
                                 TicketNumber[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
                                 TicketNumber[sortedBayJobDetail.IndexOf(services)].Click += WashHistoryFragment_Click;
                                 washTipButton[sortedBayJobDetail.IndexOf(services)].Click += WashTipButton_Click;
+                                washHistoryInfo[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
+                                washHistoryInfo[sortedBayJobDetail.IndexOf(services)].Click += WashHistoryInfo_Click;
                                 //AssignListeners(sortedBayJobDetail.IndexOf(services));                           
                                 WashHistoryList_LinearLayout.AddView(layout);
                             }
@@ -212,6 +222,21 @@ namespace StriveCustomer.Android.Fragments
                     BaseViewModel._userDialog.Toast("No Schedules have been found !");
                 }
             }
+        }
+
+        private void WashHistoryInfo_Click(object sender, EventArgs e)
+        {
+            var cardView = (CardView)sender;
+            int position = (int)cardView.Tag;
+            if (moreInfo_LinearLayout[position].Visibility == ViewStates.Gone)
+            {
+                moreInfo_LinearLayout[position].Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                moreInfo_LinearLayout[position].Visibility = ViewStates.Gone;
+            }
+
         }
 
         private void WashTipButton_Click(object sender, EventArgs e)

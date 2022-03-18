@@ -123,14 +123,27 @@
                     android:textSize="@dimen/textTen"                    
             />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
+                    android:text="Lamborghini/Aventador/Orange"                   
+                    android:maxLines="2"
                     android:id="@+id/vehicleDetails"
                     android:textSize="@dimen/textTen"
                     android:fontFamily="@font/opensans_bold"
                     android:paddingLeft="5dp"
             />
+                <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
+                android:gravity="end"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Wash Upcharges: $100 "
+                android:textSize="@dimen/textTen"
+                android:textColor="@android:color/black"
+                android:id="@+id/upcharges"              
+        />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,14 +178,7 @@
                     android:paddingLeft="@dimen/twenty"
             />
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:textSize="@dimen/textTen"
-                android:textColor="@android:color/black"
-                android:id="@+id/upcharges"              
-        />
+            
             <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -21,12 +21,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/seven"
-                android:weightSum = "1.5">
+                android:weightSum = "1">
                 <TextView
                     android:id="@+id/scheduleTicket_TextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.5"
                     android:textSize="@dimen/textFifteen"
                     android:textColor="#1DC9B7"
                     android:fontFamily="@font/opensans_bold"/>
@@ -34,11 +34,11 @@
                     android:id="@+id/scheduleTicketValue_TextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.5"
                     android:textSize="@dimen/textFifteen"
                     android:textColor="#1DC9B7"
                     android:fontFamily="@font/opensans_bold"/>
-                <Button
+               <!-- <Button
                      android:layout_width="0dp"
                      android:layout_height="35dp"
                      android:id="@+id/tipButton"
@@ -48,7 +48,7 @@
                      android:textSize="15sp"                     
                      android:layout_weight="0.3"
                      android:background="@drawable/circularedgedrectangle_button"/>
-
+-->
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"

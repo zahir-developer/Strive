@@ -137,7 +137,15 @@ namespace StriveCustomer.Android.Fragments
                     try
                     {
                         var membershipName = data.MembershipName;
-                        var price = (VehicleMembershipViewModel.isDiscoutAvailable ? data.DiscountedPrice.ToString() : data.Price.ToString());
+                        string price;
+                        if (data.DiscountedPrice != null)
+                        {
+                           price = (VehicleMembershipViewModel.isDiscoutAvailable ? data.DiscountedPrice.ToString() : data.Price.ToString());
+                        }
+                        else 
+                        {
+                           price = data.Price.ToString();
+                        }
                         var text = "Monthly Charge" + "  " + "$";
                         var membershipValue = membershipName + "\n" + text + price;
                         var nameResult = membershipValue.IndexOf(membershipName);
