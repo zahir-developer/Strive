@@ -25,7 +25,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         private int day, year, month;
         private CalendarView schedule_CalendarView;
         List<ScheduleDetailViewModel> schedules = new List<ScheduleDetailViewModel>();
-        
+        private static View viewInstance;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,6 +36,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.Schedule_Fragment, null);
+            viewInstance = rootView;
             scheduleInfo = rootView.FindViewById<RecyclerView>(Resource.Id.scheduleInfo);
             //backButton = rootView.FindViewById<Button>(Resource.Id.schedule_BackButton);
             schedule_CalendarView = rootView.FindViewById<CalendarView>(Resource.Id.schedule_Calendar);
@@ -55,6 +56,10 @@ namespace StriveEmployee.Android.Fragments.Schedule
             day = calendar.Get(CalendarField.DayOfMonth);
             year = calendar.Get(CalendarField.Year);
             month = calendar.Get(CalendarField.Month);
+            if (schedule_CalendarView == null)
+            {
+                schedule_CalendarView = viewInstance.FindViewById<CalendarView>(Resource.Id.schedule_Calendar);
+            }
             schedule_CalendarView.MinDate = calendar.TimeInMillis;            
         }
 

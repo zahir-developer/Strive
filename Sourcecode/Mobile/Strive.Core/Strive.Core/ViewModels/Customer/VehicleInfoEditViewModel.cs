@@ -135,15 +135,15 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.Alert("Select the vehicle manufacturer");
                 return false;
+            } 
+            else if (MembershipDetails.modelName == null)
+            {
+                _userDialog.Alert("Select the vehicle model");
+                return false;
             }
             else if (MembershipDetails.colorName == null)
             {
                 _userDialog.Alert("Select the vehicle color");
-                return false;
-            }
-            else if(MembershipDetails.modelName == null)
-            {
-                _userDialog.Alert("Select the vehicle model");
                 return false;
             }
             else

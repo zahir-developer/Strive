@@ -138,7 +138,7 @@ namespace StriveCustomer.Android.Views
                 {
                     if (colorName.Value.Contains("Unknown"))
                     {
-                        colorList.Add("Color");
+                        colorList.Add("Vehicle Color");
                     }
                     else
                     {

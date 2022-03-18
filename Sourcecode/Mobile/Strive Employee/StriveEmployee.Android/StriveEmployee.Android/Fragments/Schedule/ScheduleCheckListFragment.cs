@@ -44,33 +44,73 @@ namespace StriveEmployee.Android.Fragments.Schedule
             finishButton.Click += FinishButton_Click;
             rolesSpinner.ItemSelected += RoleSpinner_ItemSelected;
             context = this.Context;
-            EmployeeTempData.FromNotification = false;
+           // EmployeeTempData.FromNotification = false;
             return rootView;
         }
 
         private void SetRoleSpinner()
         {
-            ViewModel.Roleid = EmployeeTempData.EmployeeRoles[0].Roleid;
-            ViewModel.RoleName = EmployeeTempData.EmployeeRoles[0].RoleName;
-            if (EmployeeTempData.EmployeeRoles.Count != 0)
+            if (EmployeeTempData.FromNotification)
             {
-                roles = new List<string>();
-                foreach (var RolesData in EmployeeTempData.EmployeeRoles)
+                if(EmployeeTempData.EmployeeRole > 0)
                 {
-                    roles.Add(RolesData.RoleName);
-                }
-                rolesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, roles);
-                rolesSpinner.Adapter = rolesAdapter;
-                if(ScheduleCheckListViewModel.SelectedPosition != 0)
-                {
-                    rolesSpinner.SetSelection(ScheduleCheckListViewModel.SelectedPosition);
+                    ViewModel.Roleid = EmployeeTempData.EmployeeRole;
+                    var rolename = EmployeeTempData.EmployeeRoles.Find(x => x.Roleid == EmployeeTempData.EmployeeRole);
+                    ViewModel.RoleName = rolename.RoleName;
+                    var position = EmployeeTempData.EmployeeRoles.FindIndex(x => x.Roleid == ViewModel.Roleid);
                 }
                 else
                 {
-                    rolesSpinner.SetSelection(0);
+                    ViewModel.Roleid = EmployeeTempData.EmployeeRoles[0].Roleid;
+                    ViewModel.RoleName = EmployeeTempData.EmployeeRoles[0].RoleName;
+                    var position = 0;
                 }
-               
+
+                if (EmployeeTempData.EmployeeRoles.Count != 0)
+                {
+                    roles = new List<string>();
+                    foreach (var RolesData in EmployeeTempData.EmployeeRoles)
+                    {
+                        roles.Add(RolesData.RoleName);
+                    }
+                    rolesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, roles);
+                    rolesSpinner.Adapter = rolesAdapter;
+                    if (ScheduleCheckListViewModel.SelectedPosition != 0)
+                    {
+                        rolesSpinner.SetSelection(ScheduleCheckListViewModel.SelectedPosition);
+                    }
+                    else
+                    {
+                        rolesSpinner.SetSelection(0);
+                    }
+
+                }
             }
+            else
+            {
+                ViewModel.Roleid = EmployeeTempData.EmployeeRoles[0].Roleid;
+                ViewModel.RoleName = EmployeeTempData.EmployeeRoles[0].RoleName;
+                if (EmployeeTempData.EmployeeRoles.Count != 0)
+                {
+                    roles = new List<string>();
+                    foreach (var RolesData in EmployeeTempData.EmployeeRoles)
+                    {
+                        roles.Add(RolesData.RoleName);
+                    }
+                    rolesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, roles);
+                    rolesSpinner.Adapter = rolesAdapter;
+                    if (ScheduleCheckListViewModel.SelectedPosition != 0)
+                    {
+                        rolesSpinner.SetSelection(ScheduleCheckListViewModel.SelectedPosition);
+                    }
+                    else
+                    {
+                        rolesSpinner.SetSelection(0);
+                    }
+
+                }
+            }
+            
         }
 
         private void RoleSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -102,7 +142,12 @@ namespace StriveEmployee.Android.Fragments.Schedule
                     var layoutManager = new LinearLayoutManager(context);
                     checkList_RecyclerView.SetLayoutManager(layoutManager);
                     checkList_RecyclerView.SetAdapter(checkListAdapter);
-
+                    if (EmployeeTempData.FromNotification)
+                    {
+                        checkListAdapter.NotifyItemInserted(ViewModel.checklist.ChecklistNotification.Count-1);
+                        checkList_RecyclerView.ScrollToPosition(ViewModel.checklist.ChecklistNotification.Count-1);
+                        checkListAdapter.NotifyDataSetChanged();
+                    }
                 }
                 else
                 {
@@ -110,6 +155,8 @@ namespace StriveEmployee.Android.Fragments.Schedule
                     checkList_RecyclerView.SetAdapter(null);
 
                 }
+                EmployeeTempData.FromNotification = false;
+                EmployeeTempData.EmployeeRole = 0;
             }
             catch (Exception ex)
             {

@@ -42,61 +42,31 @@ namespace StriveEmployee.Android.FCMService
         public override void OnNewToken(string s)
         {
             base.OnNewToken(s);
-            sendRegistrationToServer(s);
+            SaveRegistrationToken(s);
         }
 
-        private void sendRegistrationToServer(string token)
+        private void SaveRegistrationToken(string token)
         {
             sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(this);
             preferenceEditor = sharedPreferences.Edit();
             preferenceEditor.PutString("RefreshToken", token);
             preferenceEditor.Apply();
         }
-
+      
         private void SendNotification(string messageBody, IDictionary<string, string> data)
         {
-            
-            //sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(this);
-            var keys = data.Keys;
-            foreach (var key in keys)
-            {
-                Console.WriteLine(key);
-                Console.WriteLine(data[key]);
-
-            }
             EmployeeTempData.EmployeeRole = int.Parse(data["RoleId"]);
-            EmployeeTempData.FromNotification = true;
-          
-            //foreach (var key in data.Keys)
-            //{
-            //    intent.PutExtra(key, data[key]);
-            //}
-
-            Builder = new AlertDialog.Builder(ApplicationContext);
-            Builder.SetMessage("Checklist Reminder");
-            Builder.SetTitle(data["Name"]);
-
-            okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+            if (EmployeeTempData.EmployeeID == 0)
             {
-                intent.PutExtra("IsFromNotification", EmployeeTempData.FromNotification);
-                intent.AddFlags(ActivityFlags.ClearTop);
-                if (messageBody.Contains("false"))
-                {
-                 
-                    intent = new Intent(this, typeof(LoginView));
-                }
-                else
-                {
-                    intent = new Intent(this, typeof(DashboardView));
-                }
 
-            });
-            Builder.SetPositiveButton("Ok", okHandler);
-            Builder.Create();
-
-            Builder.Show();
-            
-            
+              intent = new Intent(this, typeof(LoginView));
+            }
+            else
+            {
+              intent = new Intent(this, typeof(DashboardView));
+            }
+            intent.PutExtra("IsFromNotification", true);
+            intent.AddFlags(ActivityFlags.ClearTop);
             var pendingIntent = PendingIntent.GetActivity(this,
                                                           Constants.NOTIFICATION_ID,
                                                           intent,
@@ -112,9 +82,6 @@ namespace StriveEmployee.Android.FCMService
             var notificationManager = NotificationManagerCompat.From(this);
             notificationManager.Notify(Constants.NOTIFICATION_ID, notificationBuilder.Build());
         }
-        private void OpenCheckListReminder()
-        {
-           
-        }
+       
     }
 }

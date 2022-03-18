@@ -109,7 +109,7 @@ namespace StriveCustomer.Android.Fragments
                 MembershipDetails.modelName = model;
                 MembershipDetails.colorName = color;
                 AppCompatActivity activity = (AppCompatActivity)Context;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, new VehicleInfoFragment()).Commit();
             }
         }
 

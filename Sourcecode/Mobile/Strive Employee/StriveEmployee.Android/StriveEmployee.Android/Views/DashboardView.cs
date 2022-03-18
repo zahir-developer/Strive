@@ -32,7 +32,7 @@ using StriveEmployee.Android.NotificationConstants;
 namespace StriveEmployee.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "Dashboard View", ScreenOrientation = ScreenOrientation.Portrait , WindowSoftInputMode = SoftInput.AdjustResize)]
+    [Activity(Label = "Dashboard View", ScreenOrientation = ScreenOrientation.Portrait , WindowSoftInputMode = SoftInput.AdjustResize, LaunchMode = LaunchMode.SingleTop)]
     public class DashboardView : MvxAppCompatActivity<DashboardViewModel>
     {
 
@@ -63,14 +63,37 @@ namespace StriveEmployee.Android.Views
             SelectInitial_Fragment();
             ScheduleCheckListViewModel.SelectedChecklist.Clear();
             ScheduleCheckListViewModel.SelectedPosition = 0;
-            bool isNotification = Intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
-            if (isNotification)
+            if (EmployeeTempData.FromNotification)
             {
                 bottom_NavigationView.SelectedItemId = Resource.Id.menu_schedule;
- 
+            }
+            else
+            {
+                EmployeeTempData.FromNotification = false;
+
+            }
+
+        }
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+            NotificationClickedOn(intent);
+        }
+        private void NotificationClickedOn(Intent intent)
+        {
+            bool isNotification = intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
+            if (isNotification)
+            {
+                EmployeeTempData.FromNotification = isNotification;
+                schedule_Fragment = new ScheduleMainFragment();
+                bottom_NavigationView.SelectedItemId = Resource.Id.menu_schedule;
+            }
+            else
+            {
+                EmployeeTempData.FromNotification = false;
+
             }
         }
-
         private void Bottom_NavigationView_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
             selected_MvxFragment = null;
@@ -121,6 +144,8 @@ namespace StriveEmployee.Android.Views
         {
             if (keyCode == Keycode.Back)
             {
+                EmployeeTempData.EmployeeID = 0;
+                EmployeeTempData.FromNotification = false;
                 this.ViewModel.Logout();
             }
 

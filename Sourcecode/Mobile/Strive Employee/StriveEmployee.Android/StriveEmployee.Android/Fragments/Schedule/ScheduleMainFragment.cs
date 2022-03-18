@@ -101,10 +101,10 @@ namespace StriveEmployee.Android.Fragments.Schedule
                 ScheduleViewModel.isNoData = true;
                 scheduleDetailerFragment.GetScheduleDetailList(EmployeeTempData.EmployeeID, DashboardView.date);
             }
-            //if (position == 2) 
-            //{
-            //    scheduleCheckListFragment.GetCheckListData();
-            //}
+            if (position == 2)
+            {
+                scheduleCheckListFragment.GetCheckListData();
+            }
         }
         
     }

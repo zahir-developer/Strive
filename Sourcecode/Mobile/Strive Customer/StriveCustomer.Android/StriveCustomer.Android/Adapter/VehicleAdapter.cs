@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.Content;
 using Android.Graphics;
 using Android.Views;
@@ -11,10 +12,12 @@ namespace StriveCustomer.Android.Adapter
     public class VehicleAdapter<T> : ArrayAdapter<String>
     {
         private Context mContext;
-        public VehicleAdapter(Context context, int textViewResourceId, List<String> makes )
-            : base(context, textViewResourceId, makes)
+        private List<string> vehicleList;
+        public VehicleAdapter(Context context, int textViewResourceId, List<String> vehicles)
+            : base(context, textViewResourceId, vehicles)
         {
             this.mContext = context;
+            this.vehicleList = vehicles;
         }
 
        
@@ -29,7 +32,7 @@ namespace StriveCustomer.Android.Adapter
 
         public override View GetDropDownView(int position, View convertView, ViewGroup parent)
         {
-            View v;
+            View v = null;
             //View view = base.GetDropDownView(position, convertView, parent);
 
             //TextView tv = (TextView)view;
@@ -45,11 +48,16 @@ namespace StriveCustomer.Android.Adapter
             //return view;
             if (position == 0)
             {
-                TextView tv = new TextView(mContext);
-                tv.Visibility = ViewStates.Gone;
-                tv.SetHeight(0);
-                v = tv;
-                v.Visibility = ViewStates.Gone;
+                var item = vehicleList[position];
+                if (item.StartsWith("Vehicle"))
+                {
+                    TextView tv = new TextView(mContext);
+                    tv.Visibility = ViewStates.Gone;
+                    tv.SetHeight(0);
+                    v = tv;
+                    v.Visibility = ViewStates.Gone;
+                }
+                
             }
             else
                 v = base.GetDropDownView(position, null, parent);

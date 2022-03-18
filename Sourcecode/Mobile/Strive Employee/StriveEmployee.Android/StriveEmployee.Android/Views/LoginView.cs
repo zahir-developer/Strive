@@ -25,7 +25,7 @@ using Xamarin.Essentials;
 namespace StriveEmployee.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "Login View", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Login View", ScreenOrientation = ScreenOrientation.Portrait,LaunchMode = LaunchMode.SingleTop)]
     public class LoginView : MvxAppCompatActivity<LoginViewModel>
     {
         private Button login_Button;
@@ -89,8 +89,18 @@ namespace StriveEmployee.Android.Views
             forgotPassword.Click += navigateToForgotPassword;           
             signUp.Click += navigateToSignUp;
             FirebaseApp.InitializeApp(Application.Context);
-            bool isfromNotification = Intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
-            EmployeeTempData.FromNotification = isfromNotification;
+            //bool isfromNotification = Intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
+            //if (isfromNotification)
+            //{
+            //    EmployeeTempData.FromNotification = isfromNotification;
+
+            //}
+            //else
+            //{
+            //    EmployeeTempData.FromNotification = false;
+
+            //}
+            NotificationClickedOn(Intent);
         }
         protected override void OnResume()
         {
@@ -250,6 +260,25 @@ namespace StriveEmployee.Android.Views
         {
             rememberMe_CheckBox.Checked = sharedPreferences.GetBoolean("rememberMe", false);
             isCredentialStored(rememberMe_CheckBox.Checked);
+        }
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+            NotificationClickedOn(intent);
+           
+        }
+        private void NotificationClickedOn(Intent intent)
+        {
+            bool isNotification = intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
+            if (isNotification)
+            {
+                EmployeeTempData.FromNotification = isNotification;
+            }
+            else
+            {
+                EmployeeTempData.FromNotification = false;
+
+            }
         }
         public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
         {
