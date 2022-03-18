@@ -9,7 +9,7 @@ namespace Strive.Core.Utils
         public const string AZURE_URL = "http://40.114.79.101:5004";
 
         //Mammoth DEV/QA
-        public const string AZURE_URL_TEST = "https://mammothuatapi-qa.azurewebsites.net"; 
+        public const string AZURE_URL_TEST = "https://mammothuatapi-dev.azurewebsites.net"; 
 
         //Mammoth UAT
         //public const string AZURE_URL_TEST = "https://mammothuatapi.azurewebsites.net";

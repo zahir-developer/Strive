@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Acr.UserDialogs;
 using Android.Support.Design.Widget;
@@ -19,6 +20,7 @@ using Strive.Core.Rest.Implementations;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Services.Interfaces;
+using Strive.Core.ViewModels.Customer;
 
 namespace StriveCustomer.Android.MvvmCross
 {
@@ -57,6 +59,13 @@ namespace StriveCustomer.Android.MvvmCross
         protected override IMvxAndroidViewPresenter CreateViewPresenter()
         {
             return new MvxAppCompatViewPresenter(AndroidViewAssemblies);
+        }
+        public override IEnumerable<Assembly> GetViewModelAssemblies()
+        {
+            var result = base.GetViewModelAssemblies();
+            var assemblyList = result.ToList();
+            assemblyList.Add(typeof(DashboardViewModel).Assembly);
+            return assemblyList;
         }
     }
 }

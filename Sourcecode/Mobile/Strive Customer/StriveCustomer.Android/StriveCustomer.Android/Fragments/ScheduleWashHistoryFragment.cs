@@ -103,7 +103,9 @@ namespace StriveCustomer.Android.Fragments
                 {
                     if (pastServiceHistory.DetailsGrid.JobViewModel.Count > 0)
                     {
+                        
                         var sortedBayJobDetail = pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
+                       // var sortedBayJobDetail = pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => x.TimeIn).ToList();
                         Tip.SavedList = sortedBayJobDetail;
                         TicketNumber = new TextView[pastServiceHistory.DetailsGrid.JobViewModel.Count];
                         moreInfo_LinearLayout = new LinearLayout[pastServiceHistory.DetailsGrid.JobViewModel.Count];
@@ -148,7 +150,7 @@ namespace StriveCustomer.Android.Fragments
                                 }
                                 detailedServiceCost.Text = "$" + services.Cost;
                                 barcode.Text = services.Barcode;
-                                //price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
+                                price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
                                 washTipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.washTipButton);
                                 washTipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
                                 

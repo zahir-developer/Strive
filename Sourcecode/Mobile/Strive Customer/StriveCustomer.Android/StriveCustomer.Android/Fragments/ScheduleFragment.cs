@@ -43,8 +43,12 @@ namespace StriveCustomer.Android.Fragments
         public static FloatingActionButton floatingActionButton;
         public static BottomNavigationView bottomNavigationView;
         private TextView amount;
-        private Context context;        
+        private Context context;
 
+        public ScheduleFragment()
+        {
+
+        }
         public ScheduleFragment(Context context)
         {
             this.context = context;

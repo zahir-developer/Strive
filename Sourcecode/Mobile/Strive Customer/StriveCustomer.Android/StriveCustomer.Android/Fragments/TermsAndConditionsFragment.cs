@@ -155,10 +155,13 @@ namespace StriveCustomer.Android.Fragments
                     SelectedAdditionalServices.Add(Service.ServiceName.Trim() + "-$0");
                 }
             }
-            if (CustomerInfo.MembershipFee != 0)
+            if (CheckMembership.hasExistingMembership)
             {
-                MembershipAmount += CustomerInfo.MembershipFee;
-                SwitchMembershipFee.Visibility = ViewStates.Visible;
+                if (CustomerInfo.MembershipFee != 0)
+                {
+                    MembershipAmount += CustomerInfo.MembershipFee;
+                    SwitchMembershipFee.Visibility = ViewStates.Visible;
+                }
             }
             if (MembershipDetails.modelUpcharge.upcharge.Count != 0)
             {

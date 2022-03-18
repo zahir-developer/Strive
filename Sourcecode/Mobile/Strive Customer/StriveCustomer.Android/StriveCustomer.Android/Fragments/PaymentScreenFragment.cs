@@ -123,10 +123,13 @@ namespace StriveCustomer.Android.Fragments
 
                 }
             }
-            if (CustomerInfo.MembershipFee != 0)
+            if (CheckMembership.hasExistingMembership)
             {
-                MembershipAmount += CustomerInfo.MembershipFee;
+                if (CustomerInfo.MembershipFee != 0)
+                {
+                    MembershipAmount += CustomerInfo.MembershipFee;
 
+                }
             }
             if (MembershipDetails.modelUpcharge.upcharge.Count != 0)
             {

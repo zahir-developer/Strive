@@ -206,10 +206,14 @@ namespace Strive.Core.ViewModels.Customer
                     {
                         await _userDialog.AlertAsync("Tip Added Successfully");
                         if (platform == DevicePlatform.iOS)
-                        { 
-                            await _navigationService.Navigate<ScheduleViewModel>(); 
+                        {
+                            await _navigationService.Navigate<ScheduleViewModel>();
                         }
-                        
+                        else 
+                        {
+                            await _navigationService.Navigate<DashboardViewModel>();
+                        }
+
                     }
 
                 }

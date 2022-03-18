@@ -109,7 +109,9 @@ namespace StriveCustomer.Android.Fragments
                     if (pastServiceHistory.DetailsGrid.JobViewModel.Count > 0)
                     {
                         var sortedBayJobDetail = pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
-                        Tip.SavedList = sortedBayJobDetail;
+                        //var sortedBayDateJobDetail = pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
+                        // var sortedBayJobDetail = pastServiceHistory.DetailsGrid.JobViewModel.OrderByDescending(x => x.TimeIn).ToList();
+                        //Tip.SavedList = sortedBayJobDetail;
                         TicketNumber = new TextView[pastServiceHistory.DetailsGrid.JobViewModel.Count];
                         moreInfo_LinearLayout = new LinearLayout[pastServiceHistory.DetailsGrid.JobViewModel.Count];
                        // tipButton = new Button[pastServiceHistory.DetailsGrid.JobViewModel.Count];
