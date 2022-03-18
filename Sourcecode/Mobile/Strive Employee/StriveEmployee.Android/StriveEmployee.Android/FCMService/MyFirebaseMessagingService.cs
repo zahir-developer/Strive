@@ -27,17 +27,18 @@ namespace StriveEmployee.Android.FCMService
         public override void OnMessageReceived(RemoteMessage message)
         {
             Log.Debug(TAG, "From: " + message.From);
-            if(message.GetNotification() != null)
+            if(message.GetNotification() != null || message.Data.Count > 0)
             {
-                Log.Debug(TAG, "Notification Message Body: " + message.GetNotification().Body);
                 var body = message.GetNotification().Body;
                 SendNotification(body, message.Data);
-            }else if(message.Data.Count > 0)
-            {
-                Log.Debug(TAG, "Notification Message Body: " + message.Data);
-                var body = message.Data["priority"];
-                SendNotification(body, message.Data);
             }
+            //
+            //else if(message.Data.Count > 0)
+            //{
+            //    Log.Debug(TAG, "Notification Message Body: " + message.Data);
+            //    var body = message.Data["priority"];
+            //    SendNotification(body, message.Data);
+            //}
         }
         public override void OnNewToken(string s)
         {
