@@ -25,7 +25,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
         public Button finishButton;
         private List<string> roles;
         Context context;
-        
+        private int position;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -56,14 +56,14 @@ namespace StriveEmployee.Android.Fragments.Schedule
                 {
                     ViewModel.Roleid = EmployeeTempData.EmployeeRole;
                     var rolename = EmployeeTempData.EmployeeRoles.Find(x => x.Roleid == EmployeeTempData.EmployeeRole);
-                    ViewModel.RoleName = rolename.RoleName;
-                    var position = EmployeeTempData.EmployeeRoles.FindIndex(x => x.Roleid == ViewModel.Roleid);
+                    ViewModel.RoleName = rolename?.RoleName;
+                    position = EmployeeTempData.EmployeeRoles.FindIndex(x => x.Roleid == ViewModel.Roleid);
                 }
                 else
                 {
                     ViewModel.Roleid = EmployeeTempData.EmployeeRoles[0].Roleid;
                     ViewModel.RoleName = EmployeeTempData.EmployeeRoles[0].RoleName;
-                    var position = 0;
+                     position = 0;
                 }
 
                 if (EmployeeTempData.EmployeeRoles.Count != 0)
@@ -81,7 +81,7 @@ namespace StriveEmployee.Android.Fragments.Schedule
                     }
                     else
                     {
-                        rolesSpinner.SetSelection(0);
+                        rolesSpinner.SetSelection(position);
                     }
 
                 }
