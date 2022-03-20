@@ -8,8 +8,6 @@
 	<string>com.telliant.StriveEmployee</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>1.26</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -45,5 +43,7 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>2.1</string>
 </dict>
 </plist>
