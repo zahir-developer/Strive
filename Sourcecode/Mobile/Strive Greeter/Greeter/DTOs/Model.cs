@@ -605,6 +605,9 @@ namespace Greeter.DTOs
         [JsonProperty("billingDetail")]
         public BillingDetail BillingDetail { get; } = new();
 
+        [JsonProperty("locationId")]
+        public int Locationid { get; set; }
+
         //[JsonProperty("isRepeatTransaction")]
         //public bool isRepeatTransaction { get; } = false;
     }

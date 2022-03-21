@@ -937,7 +937,7 @@ namespace Greeter.Storyboards
             vc.Make = tfMake.Text;
             vc.Model = tfModel.Text;
             vc.Color = tfColor.Text;
-            vc.Barcode = Barcode;
+            vc.Barcode = Barcode;//"2022EFH";
             vc.JobTypeID = jobTypeId;
             vc.MainService = mainService;
             vc.Upcharge = upcharge;
@@ -946,7 +946,7 @@ namespace Greeter.Storyboards
             vc.AirFreshner = airFreshner;
             vc.CustName = CustName;
             vc.ClientID = ClientID;
-            vc.VehicleID = VehicleID;
+            vc.VehicleID = VehicleID;//216537;
             vc.ServiceType = ServiceType;
             vc.ShopPhoneNumber = ShopPhoneNumber;
             vc.IsMembershipService = isMembershipService;

@@ -56,14 +56,14 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
         //Mammoth UAT
-        internal const string BASE_URL = "https://mammothuatapi.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi.azurewebsites.net";
 
 
         // Client Url by Zahir - not working - don't use this one as of now
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";
 
         // Client
-        //internal const string BASE_URL = "https://mammothuatapi.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi.azurewebsites.net";
 
         // User
         internal const string LOGIN = "/Auth/Login";

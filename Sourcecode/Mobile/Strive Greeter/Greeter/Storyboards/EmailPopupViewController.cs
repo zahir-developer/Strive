@@ -15,7 +15,7 @@ namespace Greeter.Storyboards
 	public partial class EmailPopupViewController : BaseViewController
 	{
 		public IEmailDelegate EmailDelegate;
-
+		public static string ClientEmail;
 		public EmailPopupViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -24,10 +24,15 @@ namespace Greeter.Storyboards
         {
             base.ViewDidLoad();
 
+            if (ClientEmail!=null)
+            {
+				tfEmail.Text = ClientEmail;
+            }
+
 			btnSend.TouchUpInside += delegate {
 				SendEmailCliked(tfEmail.Text);
 			};
-
+			
 			btnCancel.TouchUpInside += delegate {
 				CloseController();
 			};

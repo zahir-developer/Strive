@@ -412,6 +412,7 @@ namespace Greeter.Modules.Pay
             securityCodeTextField.KeyboardType = UIKeyboardType.NumberPad;
             securityCodeTextField.SecureTextEntry = true;
             backgroundView.Add(securityCodeTextField);
+            securityCodeTextField.Hidden = true;
 
             var payButton = new UIButton(CGRect.Empty);
             payButton.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -424,14 +425,14 @@ namespace Greeter.Modules.Pay
             // Clicks
             payButton.TouchUpInside += delegate
             {
-                short ccv = 0;
-                if (!securityCodeTextField.Text.IsEmpty())
-                    ccv = Convert.ToInt16(securityCodeTextField.Text);
+                //short ccv = 0;
+                //if (!securityCodeTextField.Text.IsEmpty())
+                //    ccv = Convert.ToInt16(securityCodeTextField.Text);
 
                 if (!tipAmountTextField.Text.IsEmpty())
                     if (float.TryParse(tipAmountTextField.Text, out float tipAmount))
 
-                        _ = PayAsync(CardNumber, expirationDateTextField.Text, ccv, tipAmount);
+                        _ = PayAsync(CardNumber, expirationDateTextField.Text, tipAmount);
             };
 
             backgroundImage.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;

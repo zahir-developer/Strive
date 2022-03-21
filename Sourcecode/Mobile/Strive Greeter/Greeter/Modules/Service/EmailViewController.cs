@@ -70,6 +70,7 @@ namespace Greeter.Storyboards
             if (ClientEmail != null)
             {
                 tfCust.Text = ClientEmail;
+                EmailPopupViewController.ClientEmail = ClientEmail;
             }
             
             
