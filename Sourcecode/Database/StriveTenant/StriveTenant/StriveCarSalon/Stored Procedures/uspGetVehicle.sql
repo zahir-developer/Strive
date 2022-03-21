@@ -2,10 +2,10 @@
 
 ---------------------History---------------------------
 -- ====================================================
--- 21-06-2021 - Shalini - pagenumber and count for nullquery changes 					 
+-- 21-06-2021 - Shalini - pagenumber and count for nullquery changes. 
 -- 14-03-2022 - Zahir H - Membership canceled status added.	
 -- 16-03-2022 - Zahir H - Minor Fixes - Latest Inactive membership details added.
-
+-- 21-03-2022 - Zahir H - Minor Fixes - Membership Cancelled/No Fixes
 -------------------------------------------------------
 --[StriveCarSalon].[uspGetVehicle] null,1,10,null,'VehicleNumber'
 
@@ -18,9 +18,9 @@ CREATE PROCEDURE [StriveCarSalon].[uspGetVehicle]
 AS
 BEGIN
 
-/*DECLARE @Query NVARCHAR(50) = 'Zahir',
+/*DECLARE @Query NVARCHAR(50) = '',
 @PageNo INT = 1,
-@PageSize INT = 5,	
+@PageSize INT = 10,	
 @SortOrder VARCHAR(5) = 'ASC',
 @SortBy VARCHAR(100) = NULL
 */
@@ -55,6 +55,7 @@ SELECT
 	,cvl.VehicleColor AS ColorId
 	,cvl.Upcharge
 	,cvl.Barcode
+
 	into #GetAllVehicle
 FROM tblClientVehicle cvl 
 LEFT JOIN tblClient cl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
@@ -121,9 +122,8 @@ ORDER BY cvmd.ClientMembershipId DESC
 
 
 DROP TABLE IF EXISTS #MembershipInactiveDetail
-select TOP 1 cvmd.ClientMembershipId, cvmd.MembershipId, v.ClientVehicleId,  cvmd.DocumentId into #MembershipInactiveDetail from #GetAllVehicle v
-LEFT JOIN #MembershipDetail cvmd ON v.ClientVehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 1
-ORDER BY cvmd.ClientMembershipId DESC
+select v.ClientVehicleId, (Select top 1 cvmd.ClientMembershipId from tblClientVehicleMembershipDetails cvmd  where v.ClientVehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 1 ORDER BY cvmd.ClientMembershipId DESC) as ClientMembershipId  into #MembershipInactiveDetail from #GetAllVehicle v
+
 
 --Select * from #MembershipDetail
 --Select * from #MembershipInactiveDetail

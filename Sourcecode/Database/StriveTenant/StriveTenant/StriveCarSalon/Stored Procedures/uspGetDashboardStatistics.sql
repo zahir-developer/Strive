@@ -1,6 +1,4 @@
-﻿/****** Object:  StoredProcedure [StriveCarSalon].[uspGetDashboardStatistics]    Script Date: 16-03-2022 02:42:26 PM ******/
-
--- =============================================
+﻿-- =============================================
 -- Author:		Vineeth B
 -- Create date: 03-11-2020
 -- Description:	To get Dashboard Details
@@ -67,6 +65,10 @@
 -- 11-03-2022, Zahir H	  - Avg. Extra Service $ per car - Membership wash count excluded for calculation.
 -- 14-03-2022, Zahir H	  - Upcharges included in Membership Sales.
 -- 16-03-2022, Zahir H	  - Fixed issues in #WashSales and Total Sales
+-- 17-03-2022, Zahir H	  - #MembershipWashSales(Not used) - Query commented
+-- 17-03-2022, Zahir H	  - Membership Client Sales should not include into Total Sales.
+-- 17-03-2022, Zahir H	  - Credit account payment added in membership client sales
+-- 17-03-2022, Zahir H	  - Extra/Avg. Extra Services - Credit account/Membership payment excluded.
 
 
 -- =============================================
@@ -75,7 +77,7 @@ CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics]
 AS
 BEGIN
 
---DECLARE @locationId INT = 1, @FromDate Date = '2022-03-16', @ToDate Date = '2022-03-16', @CurrentDate DateTime = '2022-03-16 23:35:57'
+--DECLARE @locationId INT = 2, @FromDate Date = '2022-03-17', @ToDate Date = '2022-03-17', @CurrentDate DateTime = '2022-03-17 23:35:57'
 
 DECLARE @WashId INT = (SELECT valueid FROM GetTable('JobType') WHERE valuedesc='Wash')
 DECLARE @WashServiceId INT = (SELECT valueid FROM GetTable('ServiceType') WHERE valuedesc='Wash Package')
@@ -147,7 +149,7 @@ AND tblj.IsDeleted = 0 AND tblj.LocationId IN (Select ID from #LocationIds)
 
 
 DROP TABLE IF EXISTS #tblJob
-Select jobId, LocationId, JobType, JobStatus, JobPaymentId, VehicleId, JobDate,ClientId INTO #tblJob from tblJob tblj
+Select jobId, TicketNumber,  LocationId, JobType, JobStatus, JobPaymentId, VehicleId, JobDate,ClientId INTO #tblJob from tblJob tblj
 where (tblj.JobDate>=@FromDate AND tblj.JobDate<=@ToDate)
 AND tblj.IsDeleted = 0 AND tblj.LocationId IN (Select ID from #LocationIds)
 
@@ -261,6 +263,7 @@ AND tblJ.JobType = @WashId
 GROUP BY tblL.LocationId
 */
 
+
 DROP TABLE IF EXISTS #EventDateForLocation
 SELECT tblL.LocationId,tblTC.EventDate
 INTO #EventDateForLocation 
@@ -270,8 +273,7 @@ INNER JOIN #tblJob tblJ ON(tblJ.LocationId = tblL.LocationId)
 WHERE (tblL.LocationId IN (select Id from #LocationIds) OR @LocationId = 0)
 AND tblTC.IsActive=1 AND tblTC.IsDeleted =0
 AND tblTC.RoleId =@WashRole  
-AND tblJ.JobType=@WashId 
-  AND (tblTC.EventDate>=@FromDate AND tblTC.EventDate<=@ToDate) 
+AND tblJ.JobType=@WashId AND (tblTC.EventDate>=@FromDate AND tblTC.EventDate<=@ToDate) 
 
 
 --WashesCount
@@ -304,7 +306,8 @@ DROP TABLE  IF EXISTS #NonMembershipWashesCount
 	and tbljp.PaymentStatus=@CompletedPaymentStatus
 	AND tbls.ServiceType=@WashServiceId
 	AND tblj.JobStatus=@CompletedJobStatus
-	AND pt.CodeValue != 'Membership'
+	AND pt.CodeValue != 'Membership' 
+	AND pt.CodeValue != 'Account' --Added: 17-Mar-22, Credit account payment shouldn't be considered for Wash Sales.
 	GROUP BY tblj.LocationId)
 
 --Membership Wash count for Avg. Extra Service $ per car
@@ -322,7 +325,8 @@ DROP TABLE  IF EXISTS #MembershipWashesCount
 	and tbljp.PaymentStatus=@CompletedPaymentStatus
 	AND tbls.ServiceType=@WashServiceId
 	AND tblj.JobStatus=@CompletedJobStatus
-	AND pt.CodeValue = 'Membership'
+	AND (pt.CodeValue = 'Membership' 
+	OR pt.CodeValue = 'Account') --Added: 17-Mar-22
 	GROUP BY tblj.LocationId)
 
 	--DetailCount
@@ -340,7 +344,7 @@ DROP TABLE  IF EXISTS #DetailCount
 	and tbljp.PaymentStatus=@CompletedPaymentStatus
 	AND tblj.JobStatus=@CompletedJobStatus
     
-	GROUP BY tblj.LocationId )
+	GROUP BY tblj.LocationId)
 	
 	--Wash Employees
 
@@ -378,6 +382,7 @@ ON  tblRM.RoleMasterId=tblTC.RoleId
 inner join tbllocation tbll on(tbll.LocationId =tbltc.LocationId)
 WHERE (tbltc.EventDate >=@FromDate AND tbltc.EventDate<=@ToDate)   AND RoleName = 'Washer'
 GROUP BY tbll.LocationId)*/
+
 
 --Location Open/Closed status
 DROP TABLE IF EXISTS #StoreStatus
@@ -454,8 +459,7 @@ LEFT JOIN #StoreStatus ss ON ss.LocationId = tblj.LocationId
 INNER join GetTable('JobStatus') GT on GT.valueid = tblj.JobStatus and GT.valuedesc = 'In Progress' and tblj.JobType = @WashId
 AND tblj.JobDate >=@FromDate AND tblj.JobDate <=@ToDate 
 WHERE serviceType.valuedesc like '%Upcharge%'
-GROUP BY tbllo.LocationId
-	)
+GROUP BY tbllo.LocationId)
 	
 	DROP TABLE  IF EXISTS #AvgWashTime
 (SELECT tbll.Id AS LocationId,
@@ -471,10 +475,7 @@ LEFT JOIN #WashServices ws ON(tbll.Id = ws.LocationId)
 LEFT JOIN #WashTime wt ON wt.LocationId = tbll.id
 LEFT JOIN tblLocationOffSet tbllo ON(tbll.Id = tbllo.LocationId) and tbllo.IsActive = 1 AND
 tbllo.isDeleted = 0  
-LEFT JOIN #StoreStatus ss ON ss.LocationId = tbll.id
- 
-
-	)
+LEFT JOIN #StoreStatus ss ON ss.LocationId = tbll.id)
 
 	--Forecast
 	/*
@@ -490,6 +491,7 @@ AND tblj.LocationId IN (Select ID from #LocationIds)
 and tbljp.JobPaymentId = tblj.JobPaymentId
 GROUP BY tblj.LocationId)
 */
+
 DROP TABLE IF EXISTS #ForecastedCar
 /*
 Select (COUNT(DISTINCT j.JobId)) /3 as ForecastedCar,j.LocationId
@@ -501,6 +503,7 @@ INNER join GetTable('JobStatus') GT on GT.valueId = j.JobStatus and GT.valuedesc
 WHERE j.JobDate IN (@lastweek,@lastMonth,@lastThirdMonth) 
 GROUP BY LocationId
 */
+
 SELECT 
 	tblj.LocationId,(COUNT(DISTINCT tblj.JobId))/3 ForecastedCar
 	INTO #ForecastedCar
@@ -546,11 +549,13 @@ AND tblj.JobStatus=@CompletedJobStatus
 --AND tblpt.CodeValue in ('Cash','Card')
 GROUP BY tblj.JobId,tblj.LocationId,tblj.JobType)
 
-DROP TABLE IF EXISTS #NonMembershipPayment
-Select DISTINCT tbljp.jobPaymentId INTO #NonMembershipPayment from tblJobPayment tbljp
+
+DROP TABLE IF EXISTS #MembershipPayment
+Select DISTINCT tbljp.jobPaymentId INTO #MembershipPayment from tblJobPayment tbljp
 JOIN #tblJobPaymentDetail tbljpd ON	tbljp.JobPaymentId = tbljpd.JobPaymentId 
 JOIN #PaymentType tblpt on tbljpd.PaymentType = tblpt.id
 WHERE tblpt.CodeValue = 'Membership' 
+OR tblpt.CodeValue = 'Account'
 
 
 DROP TABLE  IF EXISTS #WashSales
@@ -564,33 +569,10 @@ inner join #tblJobPayment tbljp on(tblj.JobPaymentId = tblJP.JobPaymentId)
 --JOIN #PaymentType tblpt on	tbljpd.PaymentType = tblpt.id
 --LEFT JOIN #UpchargeSales us on us.JobType = tblj.JobType AND us.JobId = tblj.JobId 
 WHERE tblj.JobType=@WashId 
-and tbljp.PaymentStatus=@CompletedPaymentStatus and (tbls.ServiceType != @AdditionalServiceId OR tbls.ServiceType = @WashServiceId)
-AND tblj.JobStatus=@CompletedJobStatus AND tbljp.JobPaymentId not in (Select JobPaymentId from #NonMembershipPayment)
-GROUP BY tblj.LocationId)
-
-
-/*
-DROP TABLE  IF EXISTS #UpchargeSales
-(SELECT tblj.LocationId, SUM(tblji.Price) UpchargeSales into #UpchargeSales FROM #tblJob tblj inner join #tblJobItem tblji on(tblj.JobId = tblji.JobId) 
-inner join #tblService tblS on(tblji.ServiceId = tbls.ServiceId)
-inner join #tblJobPayment tbljp on(tblj.JobPaymentId = tblJP.JobPaymentId)
-inner join GetTable('ServiceType') serviceType on serviceType.valueid = tbls.ServiceType
---LEFT JOIN #tblJobPaymentDetail tbljpd ON	tbljp.JobPaymentId = tbljpd.JobPaymentId 
---LEFT JOIN #PaymentType tblpt on	tbljpd.PaymentType = tblpt.id
-WHERE valuedesc like '%Upcharge%' and tbljp.PaymentStatus=@CompletedPaymentStatus
+AND tbljp.PaymentStatus=@CompletedPaymentStatus and (tbls.ServiceType != @AdditionalServiceId OR tbls.ServiceType = @WashServiceId)
 AND tblj.JobStatus=@CompletedJobStatus 
---AND tblpt.CodeValue in ('Cash','Card')
+AND tbljp.JobPaymentId not in (Select JobPaymentId from #MembershipPayment) -- Avoiding MembershipPayment tickets
 GROUP BY tblj.LocationId)
-*/
-/*
-DROP TABLE  IF EXISTS #TotalWashSales
-(SELECT tblj.LocationId,SUM(tblji.Price)WashSales into #TotalWashSales FROM #tblJob tblj inner join #tblJobItem tblji on(tblj.JobId = tblji.JobId) 
-inner join #tblService tblS on(tblji.ServiceId = tbls.ServiceId)
-inner join #tblJobPayment tbljp on(tblj.JobPaymentId = tblJP.JobPaymentId)
-WHERE tblj.JobType=@WashId and tbls.ServiceType=@WashServiceId and tbljp.PaymentStatus=@CompletedPaymentStatus
-AND tblj.JobStatus=@CompletedJobStatus 
-GROUP BY tblj.LocationId)
-*/
 
 
 DROP TABLE  IF EXISTS #FinalUpchargeSales
@@ -625,7 +607,20 @@ inner join #tblService tbls on(tblji.ServiceId = tbls.ServiceId)
 inner join #tblJobPayment tbljp on(tblj.JobPaymentId = tblJP.JobPaymentId)
 WHERE tblj.JobType in(@WashId,@DetailId) and tblj.JobStatus=@CompletedJobStatus 
 AND tbljp.PaymentStatus=@CompletedPaymentStatus and tbls.ServiceType IN (@AdditionalServiceId ,@AirFresheners)
+AND tbljp.JobPaymentId not in (Select JobPaymentId from #MembershipPayment)
 GROUP BY tblj.LocationId)
+
+/*
+
+SELECT tblji.JobItemId, tblji.Price
+FROM #tblJob tblj 
+inner join #tblJobItem tblji on(tblj.JobId = tblji.JobId) 
+inner join #tblService tbls on(tblji.ServiceId = tbls.ServiceId) 
+inner join #tblJobPayment tbljp on(tblj.JobPaymentId = tblJP.JobPaymentId)
+WHERE tblj.JobType in(@WashId,@DetailId) and tblj.JobStatus=@CompletedJobStatus 
+AND tbljp.PaymentStatus=@CompletedPaymentStatus and tbls.ServiceType IN (@AdditionalServiceId ,@AirFresheners)
+AND tbljp.JobPaymentId not in (Select JobPaymentId from #MembershipPayment)
+*/
 
 DROP TABLE  IF EXISTS #MembershipExtraService
 SELECT LocationId,SUM(isnull(Price,0)) Price
@@ -651,6 +646,7 @@ AND tbls.ServiceType IN (@AdditionalServiceId ,@AirFresheners)
 )A
 GROUP BY LocationId
 
+/*
 DROP TABLE  IF EXISTS #FinalExtraService
 (SELECT es.LocationId,(ISNULL(es.ExtraService,0) 
 -ISNULL(mes.Price,0)
@@ -661,7 +657,7 @@ FROM #ExtraService es
 LEFT JOIN #MembershipExtraService mes ON es.LocationId = mes.LocationId
 --GROUP BY es.LocationId
 )
-
+*/
 
 --DROP TABLE  IF EXISTS #FinalExtraService
 --(SELECT LocationId,SUM(Price) ExtraService 
@@ -700,6 +696,7 @@ AND cvmd.UpdatedDate between @FromDate and @ToDate
 group by cv.LocationId
 )
 */
+
 DROP TABLE  IF EXISTS #MonthlyClientSales
 (SELECT tblj.LocationId,SUM(isnull(tblji.Price,0)) MonthlyClientSales 
 into #MonthlyClientSales 
@@ -713,7 +710,7 @@ INNER JOIN #PaymentType tblpt on tbljpd.PaymentType = tblpt.id
 WHERE tblj.JobType=@WashId 
 AND tblj.LocationId IN (select Id from #LocationIds) 
 AND tblj.JobStatus=@CompletedJobStatus
-AND tblpt.CodeValue in ('Membership')
+AND tblpt.CodeValue in ('Membership', 'Account')
 --AND tbls.ServiceType != @AdditionalServiceId
 GROUP BY tblj.LocationId)
 
@@ -728,7 +725,7 @@ WHERE tblj.JobType=@WashId and tbls.ServiceType=@WashServiceId
 --AND tblj.JobStatus=@CompletedJobStatus
 GROUP BY tblj.LocationId)
 
-
+/*
 DROP TABLE  IF EXISTS #MembershipWashSales
 (SELECT tblj.LocationId,SUM(isnull(tbljpd.Amount,0)) MembershipWashSales
 into #MembershipWashSales
@@ -746,7 +743,7 @@ WHERE tblj.JobType=@WashId
         --and tbls.ServiceType=@WashServiceId
         and (tbls.ServiceType = @WashServiceId OR LOWER(tbls.ServiceName) LIKE '%upcharge%')
 GROUP BY tblj.LocationId)
-
+*/
 
 DROP TABLE  IF EXISTS #TotalCarCountForDetail
 (SELECT tblj.LocationId,COUNT(distinct tblj.JobId)TotalCarCountForDetail into #TotalCarCountForDetail FROM #tblJob tblj inner join #tblJobItem tblji on(tblj.JobId = tblji.JobId) 
@@ -760,8 +757,10 @@ DROP TABLE  IF EXISTS #TotalCarCountForAdditionalService
 inner join #tblService tbls on(tblji.ServiceId = tbls.ServiceId)
 INNER join #tblJobPayment tbljp on(tblj.JobPaymentId = tblJP.JobPaymentId)
 INNER join #tblJobPaymentDetail tbljpd on(tblj.JobPaymentId = tblJPd.JobPaymentId)
-WHERE tblj.JobType in(@WashId,@DetailId) and tbls.ServiceType=@AdditionalServiceId and tbljpd.PaymentType != @MembershipPayment
+WHERE tblj.JobType in(@WashId,@DetailId) and tbls.ServiceType=@AdditionalServiceId --and tbljpd.PaymentType != @MembershipPayment
+AND tbljp.JobPaymentId not in (Select JobPaymentId from #MembershipPayment)
 GROUP BY tblj.LocationId)
+
 /*
 DROP TABLE  IF EXISTS #TotalCarCountForAllService
 (SELECT tblj.LocationId,COUNT(distinct tblj.JobId)TotalCarCountForAllService into #TotalCarCountForAllService FROM #tblJob tblj inner join #tblJobItem tblji on(tblj.JobId = tblji.JobId) 
@@ -833,14 +832,14 @@ SUM(ISNULL(ws.WashSales,0.00)
 + ISNULL(ds.DetailSales,0.00) 
 + ISNULL(es.ExtraService,0.00) 
 + ISNULL(ms.MerchandizeSales,0.00)
-+ ISNULL(mcs.MonthlyClientSales,0.00)
+--+ ISNULL(mcs.MonthlyClientSales,0.00) --Commented, 17-Mar-2022, Membership Client Sales should not include into Total Sales.
 --+ ISNULL(us.UpchargeSales,0.00)
 ) SumOfWashDetailMerchandizeSales
 into #ServiceSales
 FROM #tblLocation tbl 
 LEFT JOIN #WashSales ws ON(tbl.LocationId = ws.LocationId) 
 LEFT JOIN #FinalDetailSales ds ON(tbl.LocationId = ds.LocationId)
-LEFT JOIN #FinalExtraService es ON(tbl.LocationId=es.LocationId) 
+LEFT JOIN #ExtraService es ON(tbl.LocationId=es.LocationId) 
 LEFT JOIN #MerchandizeSales ms ON(tbl.LocationId=ms.LocationId)
 --LEFT JOIN #MembershipWashSales mws on (tbl.LocationId=mws.LocationId) -- Commented: 16-03-2022
 LEFT JOIN #MonthlyClientSales mcs on (tbl.LocationId=mcs.LocationId) -- Added: 16-03-2022
@@ -1039,7 +1038,7 @@ LEFT JOIN #TotalCarCountForDetailService tccfds on(tbl.LocationId = tccfds.Locat
 LEFT JOIN #WashSales ws on(tbl.LocationId = ws.LocationId)
 LEFT JOIN #EmployeeRate er on(tbl.LocationId = er.LocationId)
 LEFT JOIN #DetailCommission LDC on(tbl.LocationId = LDC.LocationId)
-LEFT JOIN #MembershipWashSales MWS ON MWS.LocationId = tbl.LocationId
+--LEFT JOIN #MembershipWashSales MWS ON MWS.LocationId = tbl.LocationId
 LEFT JOIN #tblWeatherPrediction wp on(tbl.LocationId = wp.LocationId)
 
 END
