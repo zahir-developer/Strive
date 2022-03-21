@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">StriveEmployee</string>
     <string name="action_settings">Settings</string>
-    <string name="email_or_phone">Email or Phone</string>
+    <string name="email_or_phone">Employee ID / Email ID</string>
     <string name="password">Password</string>
 	<string name="email_Id">Email ID</string>
 	<string name="new_password">New Password</string>
