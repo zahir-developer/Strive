@@ -112,7 +112,7 @@ namespace Strive.Core.ViewModels.Customer
                     clientAddress.clientId = 0;
                     clientAddress.address1 = null;
                     clientAddress.address2 = null;
-                    clientAddress.phoneNumber = PhoneNumber.Trim();
+                    clientAddress.phoneNumber = PhoneNumber;
                     clientAddress.phoneNumber2 = null;
                     clientAddress.email = EmailAddress;
                     clientAddress.state = null;
@@ -153,7 +153,7 @@ namespace Strive.Core.ViewModels.Customer
                     _userDialog.ShowLoading("Creating Account");
                     var signUpResponse = await AdminService.CustomerSignUp(signUpRequest);
                     _userDialog.HideLoading();
-                    if (signUpResponse?.Status.Count>0)
+                    if (signUpResponse.Status.Count>0)
                     {
                         if (platform == DevicePlatform.iOS)
                         {
