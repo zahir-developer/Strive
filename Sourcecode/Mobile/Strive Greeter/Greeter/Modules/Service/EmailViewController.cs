@@ -541,7 +541,7 @@ namespace Greeter.Storyboards
                     checkboxaxis += 40;
                 }
             }
-            body += "^BY3,2,100^FO80,"+ (checkboxaxis + 80) + "^BC^FD"+ Service.Job.JobID.ToString() + "^FS";
+            body += "^BY3,2,100^FWN^FO80," + (checkboxaxis + 80) + "^BC^FD"+ Service.Job.JobID.ToString() + "^FS";
             body += "^AJN,30^FO80," + (checkboxaxis + 220) + "^FDTicket Number:" + Service.Job.JobID.ToString() + "^FS^XZ";
             //Print(html);
             Debug.WriteLine(body);

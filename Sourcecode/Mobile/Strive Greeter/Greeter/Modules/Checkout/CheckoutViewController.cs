@@ -85,7 +85,7 @@ namespace Greeter.Modules.Pay
             searchBar.SizeToFit();
             searchBar.Translucent = false;
             searchBar.Delegate = this;
-            searchBar.SearchTextField.KeyboardType = UIKeyboardType.NumberPad;
+            searchBar.SearchTextField.KeyboardType = UIKeyboardType.Default;
             //searchBar.CancelButtonClicked += SearchBar_CancelButtonClicked;
             //NavigationItem.TitleView = searchBar;
             View.Add(searchBar);
@@ -199,7 +199,7 @@ namespace Greeter.Modules.Pay
                 {
                     //success(true);
                     tableView.Editing = false;
-                    HoldBtnClicked(Checkouts[indexPath.Row]);
+                    HoldBtnClicked(FilteredCheckouts[indexPath.Row]);
                 });
             action1.Image = UIImage.FromBundle("tick");
             action1.BackgroundColor = ColorConverters.FromHex("#ff9d00").ToPlatformColor();
@@ -215,7 +215,7 @@ namespace Greeter.Modules.Pay
                 {
                     //success(true);
                     tableView.Editing = false;
-                    CompleteBtnClicked(Checkouts[indexPath.Row]);
+                    CompleteBtnClicked(FilteredCheckouts[indexPath.Row]);
                 });
 
                 action2.Image = UIImage.FromBundle(ImageNames.TICK);
@@ -231,7 +231,7 @@ namespace Greeter.Modules.Pay
                 {
                     //success(true);
                     tableView.Editing = false;
-                    CheckoutBtnClicked(Checkouts[indexPath.Row]);
+                    CheckoutBtnClicked(FilteredCheckouts[indexPath.Row]);
                 });
             action3.Image = UIImage.FromBundle(ImageNames.TICK);
             //action3.Image.ApplyTintColor(UIColor.White);
