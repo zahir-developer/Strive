@@ -127,7 +127,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         async Task<bool> ValidateCredentialsAsync()
         {
             bool isValid = true;
-            if (!Validations.validateEmail(UserId))
+            if (!Validations.validateEmailEmployeeID(UserId))
             {
                 await _userDialog.AlertAsync(Strings.ValidEmail, Strings.Alert);
                 return !isValid;

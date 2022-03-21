@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="OpenSans-Bold.ttf">
@@ -19,12 +18,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginView">
             <connections>
                 <outlet property="LoginButton" destination="2ci-QD-8B7" id="name-outlet-2ci-QD-8B7"/>
+                <outlet property="PasswordHintLabel" destination="80E-Ul-Fto" id="name-outlet-80E-Ul-Fto"/>
                 <outlet property="PasswordToggleButton" destination="g2c-Fx-9sF" id="name-outlet-g2c-Fx-9sF"/>
                 <outlet property="PasswordTxtField" destination="rc1-5W-pyB" id="name-outlet-rc1-5W-pyB"/>
+                <outlet property="UserIdHintLabel" destination="xPl-6Z-mgP" id="name-outlet-xPl-6Z-mgP"/>
                 <outlet property="UserIdTxtField" destination="hvk-t9-Uzd" id="name-outlet-hvk-t9-Uzd"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
-                <outlet property="UserIdHintLabel" destination="xPl-6Z-mgP" id="name-outlet-xPl-6Z-mgP"/>
-                <outlet property="PasswordHintLabel" destination="80E-Ul-Fto" id="name-outlet-80E-Ul-Fto"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -53,7 +52,7 @@
                                 <constraint firstItem="efs-oQ-fU0" firstAttribute="centerX" secondItem="Tie-yI-3XS" secondAttribute="centerX" id="GbF-Q8-9Mw"/>
                             </constraints>
                         </view>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hvk-t9-Uzd" tag="1">
+                        <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Employee ID / Email ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hvk-t9-Uzd">
                             <rect key="frame" x="250" y="572" width="334" height="50"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -63,27 +62,27 @@
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="emailAddress" enablesReturnKeyAutomatically="YES"/>
                             <connections>
-                                <action selector="TextFieldBeginEdit:" destination="-1" id="4094" eventType="editingDidBegin"/>
-                                <action selector="TextFieldChange:" destination="-1" id="4096" eventType="editingChanged"/>
-                                <action selector="TextFieldEnd:" destination="-1" id="4873" eventType="editingDidEnd"/>
+                                <action selector="TextFieldBeginEdit:" destination="-1" eventType="editingDidBegin" id="4094"/>
+                                <action selector="TextFieldChange:" destination="-1" eventType="editingChanged" id="4096"/>
+                                <action selector="TextFieldEnd:" destination="-1" eventType="editingDidEnd" id="4873"/>
                             </connections>
                         </textField>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPl-6Z-mgP">
-                            <rect key="frame" x="258" y="572" width="40" height="15"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Employee ID /  Email ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPl-6Z-mgP">
+                            <rect key="frame" x="258" y="572" width="126.5" height="15"/>
                             <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="11"/>
                             <color key="textColor" red="0.1128137931" green="0.78860801459999996" blue="0.71605747939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rc1-5W-pyB" tag="2">
+                        <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rc1-5W-pyB">
                             <rect key="frame" x="250" y="637" width="334" height="50"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                             <connections>
-                                <action selector="TextFieldBeginEdit:" destination="-1" id="4095" eventType="editingDidBegin"/>
-                                <action selector="TextFieldChange:" destination="-1" id="4097" eventType="editingChanged"/>
-                                <action selector="TextFieldEnd:" destination="-1" id="4917" eventType="editingDidEnd"/>
+                                <action selector="TextFieldBeginEdit:" destination="-1" eventType="editingDidBegin" id="4095"/>
+                                <action selector="TextFieldChange:" destination="-1" eventType="editingChanged" id="4097"/>
+                                <action selector="TextFieldEnd:" destination="-1" eventType="editingDidEnd" id="4917"/>
                             </connections>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2c-Fx-9sF">
@@ -97,7 +96,7 @@
                                 <action selector="PasswordToggle:" destination="-1" eventType="touchUpInside" id="1526"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ci-QD-8B7">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ci-QD-8B7">
                             <rect key="frame" x="250" y="702" width="334" height="55"/>
                             <color key="backgroundColor" red="0.3717451692" green="0.77695614099999999" blue="0.71768742799999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>

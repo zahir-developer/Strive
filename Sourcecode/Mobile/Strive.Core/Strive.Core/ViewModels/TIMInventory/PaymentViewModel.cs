@@ -158,7 +158,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                         locationId = EmployeeData.selectedLocationId,
                         membershipId = MembershipData.SelectedMembership.MembershipId,
                         startDate = DateUtils.GetTodayDateString(),
-                        endDate = DateUtils.GetTodayDateString(),
+                        endDate = null,
                         status = true,
                         notes = "",
                         isActive = true,

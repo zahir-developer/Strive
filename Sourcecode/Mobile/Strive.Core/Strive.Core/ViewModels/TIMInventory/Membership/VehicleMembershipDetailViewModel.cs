@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MvvmCross.Plugin.Messenger;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
@@ -14,7 +15,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
     {
 
         private MvxSubscriptionToken _messageToken;
-
+        public MembershipPaymentCount result;
         public VehicleMembershipDetailViewModel()
         {
             GetDetails();
@@ -23,12 +24,12 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         public CardDetailsResponse response { get; set; }
         public CardDetails card;
         public AddCardRequest ClientCardDetails;
-
+        int membershiPId;
 
         void GetDetails()
         {
             MembershipName = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipDetail.MembershipId).Select(m => m.MembershipName).FirstOrDefault();
-
+            membershiPId = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipDetail.MembershipId).Select(m => m.MembershipId).FirstOrDefault();
         }
         public void FetchCardDetails()
         {
@@ -90,24 +91,45 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             {
                 return;
             }
-            var VehicleMembership = PrepareVehicleMembership();
-            _userDialog.ShowLoading("Cancelling the membership");
-            var result = await AdminService.SaveVehicleMembership(VehicleMembership);
-            if (result == null)
+            result = await AdminService.GetMembershipPayementDetails(MembershipData.MembershipDetailView.ClientVehicleMembershipService[0].ClientMembershipId);
+
+            //var result = await AdminService.GetMembershipPayementDetails(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
+
+            if (result.PaymentCount != 0)
             {
-                await _userDialog.AlertAsync("Error occured");
-                return;
-            }
-            if (result.Status)
-            {
-                await _userDialog.AlertAsync("Membership Cancelled");
+                //var VehicleMembership = PrepareVehicleMembership();
+                _userDialog.ShowLoading("Cancelling the membership");
+                deleteMembership Membershipdelete = new deleteMembership();
+                Membershipdelete.clientId = MembershipData.SelectedClient.ClientId;
+                Membershipdelete.clientMembershipId = MembershipData.MembershipDetailView.ClientVehicleMembershipService[0].ClientMembershipId;
+                Membershipdelete.vehicleId = MembershipData.SelectedVehicle.VehicleId;
+
+                var isDeleted = await AdminService.DeleteVehicleMembership(Membershipdelete);
+
+                if (isDeleted == null)
+                {
+                    await _userDialog.AlertAsync("Error occured");
+                    return;
+                }
+                if (isDeleted.Status == "true")
+                {
+                    await _userDialog.AlertAsync("Membership Cancelled");
+                }
+                else
+                {
+                    await _userDialog.AlertAsync("Could not cancel membership");
+                }
+                await _navigationService.Close(this);
+                MembershipData.MembershipDetailView = null;
             }
             else
             {
-                await _userDialog.AlertAsync("Could not cancel membership");
+                if (platform == Xamarin.Essentials.DevicePlatform.iOS)
+                {
+                    _userDialog.Alert("Membership cannot be cancelled before the first membership payment!");
+                }
             }
-            await _navigationService.Close(this);
-            MembershipData.MembershipDetailView = null;
+            
 
         }
 

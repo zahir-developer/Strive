@@ -65,7 +65,7 @@ namespace Strive.Core.ViewModels.Employee
         {
             bool isValid;
 
-            if (Validations.validateEmail(loginEmailPhone)
+            if (Validations.validateEmailEmployeeID(loginEmailPhone)
                 || Validations.validatePhone(loginEmailPhone))
             {
                 isValid = true;

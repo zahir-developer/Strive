@@ -217,7 +217,7 @@ namespace Strive.Core.Resources {
         
         internal static string UserId {
             get {
-                return ResourceManager.GetString("UserId", resourceCulture);
+                return ResourceManager.GetString("Employee ID / Email ID ", resourceCulture);
             }
         }
         
