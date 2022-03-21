@@ -1883,7 +1883,8 @@ export class SalesComponent implements OnInit {
         });
       }
     } else if (this.serviceGroup && this.isAccount && this.isMembership) {
-      this.confirmationPopUp();
+      //this.confirmationPopUp();
+      this.applyGroup('membership')
     }
   }
 
