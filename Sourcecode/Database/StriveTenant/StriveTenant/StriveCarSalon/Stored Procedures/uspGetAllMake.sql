@@ -1,13 +1,10 @@
-﻿
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllMake] 
+as 
 -- =============================================================
 -- Author:         Shalini
 -- Created date:   2021-04-18
 -- Description:    Returns all Vehicle Make
 -- =============================================================
-
-CREATE proc [StriveCarSalon].[uspGetAllMake] 
-as 
-
 begin
 	select 
 	 MakeId,

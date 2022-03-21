@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [StrivezzDev1user]
+    WITH PASSWORD = N'CesDK2qsmX;qaae~uqMsjf$cmsFT7_&#$!~<uyj4=y5opocs', SID = 0x5423DA3C88E0C94583AA650B74EC249D, DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+

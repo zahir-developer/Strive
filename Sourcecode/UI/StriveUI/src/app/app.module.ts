@@ -151,7 +151,8 @@ const load = (http: HttpClient) => {
     },
     AuthService,
     HttpUtilsService,
-    CodeValueService
+    CodeValueService,
+    SidenavComponent
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

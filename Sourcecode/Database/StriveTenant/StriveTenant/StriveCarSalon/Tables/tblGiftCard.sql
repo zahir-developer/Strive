@@ -4,9 +4,8 @@
     [ClientId]       INT                NULL,
     [GiftCardCode]   VARCHAR (10)       NULL,
     [GiftCardName]   VARCHAR (20)       NULL,
-    [EmailId]        VARBINARY (50)     NULL,
     [ActivationDate] DATETIMEOFFSET (7) NULL,
-    [TotalAmount]    DECIMAL (19, 2)    NULL,
+    [TotalAmount]    DECIMAL (18, 2)    NULL,
     [Comments]       VARCHAR (50)       NULL,
     [IsActive]       BIT                NULL,
     [IsDeleted]      BIT                NULL,
@@ -15,10 +14,13 @@
     [UpdatedBy]      INT                NULL,
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
     [Barcode]        VARCHAR (50)       NULL,
+    [Email]          VARCHAR (100)      NULL,
     CONSTRAINT [PK_tblGiftCard] PRIMARY KEY CLUSTERED ([GiftCardId] ASC),
     CONSTRAINT [FK_tblGiftCard_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblGiftCard_tblClient] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId])
 );
+
+
 
 
 

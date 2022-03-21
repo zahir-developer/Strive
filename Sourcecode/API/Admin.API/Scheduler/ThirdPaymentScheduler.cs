@@ -28,29 +28,14 @@ namespace Admin.API.Scheduler
             _cache = dcache;
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
             var strAdminConnectionString = Pick("ConnectionStrings", "StriveAuthAdmin");
-            string schemaName = "StriveCarSalon";
+            Authentication authentication = new Authentication();
+            authentication.Email = _config.GetSection("EmailScheduler")["UserName"];
+            authentication.PasswordHash = _config.GetSection("EmailScheduler")["Password"];
+
             _tenant.SetAuthDBConnection(strConnectionString);
-            _tenant.SetAuthAdminDBConnection(strAdminConnectionString);
-
-            var strTenantSchema = _cache.GetString(schemaName);
-            var isSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
-
-            if (!isSchemaAvailable) _tenant.SetConnection(strConnectionString);
-            //string userGuid = "0be3990a-cf20-4c64-b3cd-40d35207dfe2";
-
-            string connectionString = _config.GetSection("EmailScheduler")["StriveClientConnection"];
-            /*if (!string.IsNullOrEmpty(userGuid))
-            {
-
-                var tenantSchema = (isSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
-                    new AuthManagerBpl(_cache, _tenant).GetTenantSchema(Guid.Parse(userGuid));
-
-                strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
-                _tenant.SetConnection(strConnectionString);
-
-            }*/
-            strConnectionString = connectionString;
             _tenant.SetConnection(strConnectionString);
+
+            new AuthManagerBpl(_cache, _tenant).Login(authentication, GetTenantConnection());
 
             //Applicationurl
             _tenant.ApplicationUrl = Pick("ApplicationUrl", "Url");
@@ -66,11 +51,14 @@ namespace Admin.API.Scheduler
             _tenant.SMTPPassword = Pick("SMTP", "Password");
             _tenant.Port = Pick("SMTP", "Port");
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress");
-            _tenant.SchemaName = schemaName;
             _tenant.ErrorLog = Pick("Logs", "Error");
 
         }
-
+        protected string GetTenantConnection()
+        {
+            string tenantConnectionStringTemplate = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID=[UserName];Password=[Password]";
+            return tenantConnectionStringTemplate;
+        }
         private string Pick(string section, string name)
         {
             string configValue = string.Empty;
@@ -99,7 +87,7 @@ namespace Admin.API.Scheduler
         {
             try
             {
-                new PaymentGatewayBpl(_cache, _tenant).MakeRecurringPayment(3, DateTime.Now);
+                new PaymentGatewayBpl(_cache, _tenant).MakeRecurringPayment(2, DateTime.Now);
             }
             catch (Exception ex)
             {

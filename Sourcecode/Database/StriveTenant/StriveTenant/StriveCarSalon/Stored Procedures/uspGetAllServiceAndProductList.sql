@@ -3,9 +3,12 @@
 -- Create date: 17-09-2020
 -- Description:	To get All Service And Product List
 -- ================================================
+-- 16-06-2021, Shalini -removed wildcard from Query
+
+------------------------------------------------
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllServiceAndProductList] 
-@LocationId int = NULL,
+@LocationId int = NULL ,
 @Query Varchar(100) =Null
 AS
 BEGIN
@@ -29,8 +32,8 @@ ServiceId
 ,UpdatedDate
 ,Price
  FROM tblService WHERE IsActive=1 AND ISNULL(IsDeleted,0)=0 
- and (locationid =@LocationId OR @LocationId IS NULL OR @LocationId = 0)
- and (@Query is null or ServiceName like'%'+ @Query+'%' )
+ --and (locationid =@LocationId OR @LocationId IS NULL OR @LocationId = 0)
+ and (@Query is null or ServiceName like @Query+'%' )
  
 
 SELECT 
@@ -61,6 +64,6 @@ ProductId
 
 FROM tblProduct WHERE IsActive=1 AND ISNULL(IsDeleted,0)=0 
 and (locationid =@LocationId OR @LocationId IS NULL OR @LocationId = 0)
-and (@Query is null or ProductName like'%'+ @Query+'%' )
+and (@Query is null or ProductName like @Query+'%' )
 
 END

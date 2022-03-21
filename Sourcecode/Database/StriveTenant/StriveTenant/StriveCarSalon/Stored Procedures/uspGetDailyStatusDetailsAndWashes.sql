@@ -1,23 +1,11 @@
-﻿
-
-
-
-
-
-
-
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetDailyStatusDetailsAndWashes] 
+(@LocationId int = null,@Date Date)
+AS
 -- =============================================
 -- Author:		Arunkumae S
 -- Create date: 09-11-2020
 -- Description:	Gets the Monthly tips detail 
 -- =============================================
-
-
-
-
-CREATE PROC [StriveCarSalon].[uspGetDailyStatusDetailsAndWashes] 
-(@LocationId int = null,@Date Date)
-AS
 BEGIN
  
  select Count(JI.serviceId) as Number ,S.ServiceName,JobDate

@@ -49,13 +49,20 @@ namespace Strive.ResourceAccess
             return db.Fetch<MerchantDetails>(EnumSP.Payroll.USPGETMERCHANTDETAILS.ToString(), _prm);
         }
 
-        public bool UpdatePaymentDetail(int ClientMembershipId, int attempts, DateTime oDate)
+        public bool UpdatePaymentDetail(int ClientMembershipId, int attempts, DateTime? oDate,bool IsSuccess)
         {
             _prm.Add("ClientMembershipId", ClientMembershipId.toInt());
             _prm.Add("attempts", attempts);
             _prm.Add("Date", oDate);
+            _prm.Add("IsSuccess", IsSuccess);
             db.Save(EnumSP.Payroll.USPUPDATEPAYMENTDETAILS.ToString(), _prm);
             return true;
+        }
+
+        public int GetMembershipPaymentDetails(int ClientMembershipId)
+        {
+            _prm.Add("ClientMembershipId", ClientMembershipId.toInt());
+            return db.FetchSingle<Int32>(SPEnum.USPGETMEMBERSHIPPAYMENTDETAILS.ToString(), _prm);
         }
     }
 }

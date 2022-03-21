@@ -10,6 +10,9 @@ namespace Strive.Common
     public interface ITenantHelper
     {
         int TokenExpiryMintues { get; set; }
+        float RefreshTokenExpiryMinutes { get; set; }
+        float SessionExpiryWarning { get; set; }
+        
         string TenantGuid { get; set; }
         string SMTPClient { get; set; }
         string SMTPPassword { get; set; }
@@ -83,6 +86,9 @@ namespace Strive.Common
         IDistributedCache _cache;
 
         public int TokenExpiryMintues { get; set; }
+        public float RefreshTokenExpiryMinutes { get; set; }
+        public float SessionExpiryWarning { get; set; }
+
         public string TenantGuid { get; set; }
 
         public string SMTPClient { get; set; }
@@ -115,6 +121,7 @@ namespace Strive.Common
         public string OSMUri { get; set; }
         public string UserAgent { get; set; }
         public string ErrorLog { get; set; }
+        public string TimeZone { get; set; }
 
         #region
 
@@ -135,7 +142,7 @@ namespace Strive.Common
         public string AzureBlobHtmlTemplate { get; set; }
 
         public string TenantFolder { get; set; }
-
+        
         #endregion
 
         public TenantHelper(IDistributedCache cache)

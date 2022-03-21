@@ -19,8 +19,11 @@
     [WorkPermit]        DATETIME                                                         NULL,
     [UserId]            INT                                                              NULL,
     [Tips]              BIT                                                              NULL,
+    [Token]             VARCHAR (500)                                                    NULL,
     CONSTRAINT [PK_tblEmployee] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
+
+
 
 
 

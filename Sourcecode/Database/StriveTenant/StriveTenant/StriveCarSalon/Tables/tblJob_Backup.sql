@@ -1,0 +1,27 @@
+﻿CREATE TABLE [StriveCarSalon].[tblJob_Backup] (
+    [JobId]            INT                IDENTITY (1, 1) NOT NULL,
+    [TicketNumber]     VARCHAR (10)       NULL,
+    [LocationId]       INT                NOT NULL,
+    [ClientId]         INT                NULL,
+    [VehicleId]        INT                NULL,
+    [Make]             INT                NULL,
+    [Model]            INT                NULL,
+    [Color]            INT                NULL,
+    [Notes]            TEXT               NULL,
+    [JobType]          INT                NULL,
+    [JobDate]          DATE               NOT NULL,
+    [TimeIn]           DATETIMEOFFSET (7) NULL,
+    [EstimatedTimeOut] DATETIMEOFFSET (7) NULL,
+    [ActualTimeOut]    DATETIMEOFFSET (7) NULL,
+    [JobStatus]        INT                NULL,
+    [IsActive]         BIT                NULL,
+    [IsDeleted]        BIT                NULL,
+    [CreatedBy]        INT                NULL,
+    [CreatedDate]      DATETIMEOFFSET (7) NULL,
+    [UpdatedBy]        INT                NULL,
+    [UpdatedDate]      DATETIMEOFFSET (7) NULL,
+    [CheckOut]         BIT                NULL,
+    [CheckOutTime]     DATETIME           NULL,
+    [JobPaymentId]     INT                NULL
+);
+

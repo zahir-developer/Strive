@@ -84,7 +84,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const locationId = +this.locationId;
     this.Todaydate = moment(new Date()).format('YYYY-MM-DD');
     this.getStoreStatusList();
-    this.getTargetBusinessData(locationId, this.Todaydate);
+    //this.getTargetBusinessData(locationId, this.Todaydate);
     this.getWeatherDetails();
     this.target  = 0;
   }
@@ -139,12 +139,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         var LastMonth = (this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastMonth.WashCount != '' && this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastMonth.WashCount != null)? parseInt(this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastMonth.WashCount) : 0;
         var LastWeek = (this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastWeek.WashCount != '' && this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastWeek.WashCount != null) ? parseInt(this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastWeek.WashCount) : 0;
         var ThirdMonth = (this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastThirdMonth.WashCount != '' && this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastThirdMonth.WashCount != null) ? parseInt(this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastThirdMonth.WashCount) : 0;
-         this.target = todayTarget > 0 ? todayTarget : Math.round((LastMonth + LastWeek + ThirdMonth)/3);
-                 
+         this.target = todayTarget > 0 ? todayTarget : Math.round((LastMonth + LastWeek + ThirdMonth)/3);              
           this.cashRegisterForm.patchValue({
             goal: this.target
-          });
-                
+          });               
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -239,7 +237,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.totalDimeRoll = (50 * 10 * this.cashDetails.CashRegisterRolls.Dimes) / 100;
           this.totalQuaterRoll = (40 * 25 * this.cashDetails.CashRegisterRolls.Quarters) / 100;
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
-          setTimeout(() => {
+          setTimeout(() => {            
             this.cashRegisterForm.patchValue({
               goal: this.target
             });
@@ -432,9 +430,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       this.isTimechange = false;
       if (data.status === 'Success') {
         this.spinner.hide();
-        this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
-
-        this.getTargetBusinessData(this.locationId, this.Todaydate);
+        this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');        
         this.getCashRegister();
         const weatherPredictObj = {
           WeatherPrediction: weatherObj
@@ -442,6 +438,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.weatherService.UpdateWeather(weatherPredictObj).subscribe(response => {
           if (response.status === 'Success') {
             this.spinner.hide();
+            this.getTargetBusinessData(this.locationId, this.Todaydate);
 
             this.toggleTab = 0;            
             this.weatherService.getWeather();            
@@ -469,6 +466,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
 
   next() {
     this.toggleTab = 1;
+    this.cashRegisterForm.patchValue({
+      goal: this.target
+    });
   }
 
   toggle() {

@@ -10,7 +10,7 @@ import { IdleLockoutComponent } from './shared/components/idle-lockout/idle-lock
 import { Subscription } from 'rxjs';
 import { AuthService } from './shared/services/common-service/auth.service';
 import { SessionLogoutComponent } from './shared/components/session-logout/session-logout.component';
-import { ApplicationConfig } from './shared/services/ApplicationConfig';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -35,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   sessionRefresh = []
   RefreshTokenLog: any;
+
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -51,6 +52,11 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  stopTimer() {
+    this.idle.stop();
+  }
+
   ngOnInit() {
     this.initializeTimeOut();
     if (localStorage.getItem('isAuthenticated') === 'true') {
@@ -58,7 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.setHeaderName();
       this.setNavList();
     }
-
   }
   setNavList() {
     this.userService.navName.subscribe(data => {
@@ -85,21 +90,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = ApplicationConfig.refreshTime.refreshTime * 60;    // 60
-      this.subscribeTheIdle(this.idle, seconds);
+      var expiry = +localStorage.getItem('tokenExpiryMinutes');
+      const seconds = (expiry - 1) * 60;
+      if (expiry !== null) {
+        this.subscribeTheIdle(this.idle, seconds);
+      }
     }
   }
 
-  subscribeTheIdle(idle, seconds) {
-    console.log('step');
+  subscribeTheIdle(idle, idleSeconds) {
     // console.log(seconds);
-    //  const idleTimeoutPeriod = seconds - this.TimeoutPeriod;
-    const idleTimeoutPeriod = seconds;
+    // const idleTimeoutPeriod = seconds - this.TimeoutPeriod;
+    const idleTimeoutPeriod = idleSeconds;
     if (idleTimeoutPeriod < 0) {
       return false;
     }
     // sets an idle timeout of 5 seconds, for testing purposes.
-    idle.setIdle(seconds);
+    idle.setIdle(idleSeconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
     const timer = 60;
     idle.setTimeout(timer);  // 60
@@ -135,6 +142,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.dialogType = 'noIdles';
       this.dialogDisplay = false;
       this.authService.refreshLogout();
+      this.stopTimer();
       clearInterval(this.intervalId);
     });
 
@@ -164,7 +172,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.intervalId = setInterval(() => {
       counter = counter - 1;
       this.sessionLogoutComponent.countdown = counter;
-      this.sessionLogoutComponent.dialogType = 'idle';
+      //this.sessionLogoutComponent.dialogType = 'idle';
       this.dialogDisplay = true;
       this.sessionLogoutComponent.dialogDisplay = true;
       // this.sessionLogoutComponent.header = 'Idle Warning.';
@@ -214,8 +222,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   continueSession() {
-    this.sessionLogoutComponent.dialogType = 'noIdle';
     clearInterval(this.intervalId);
+    this.sessionLogoutComponent.dialogType = 'noIdle';
     this.header = 'Session Timeout Warning';
   }
 

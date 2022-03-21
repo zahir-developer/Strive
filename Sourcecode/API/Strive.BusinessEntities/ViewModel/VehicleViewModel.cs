@@ -23,5 +23,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string MembershipName { get; set; }
         public int? DocumentId { get; set; }
 
+        public int? InActiveClientMembershipId { get; set; }
+
+
     }
 }

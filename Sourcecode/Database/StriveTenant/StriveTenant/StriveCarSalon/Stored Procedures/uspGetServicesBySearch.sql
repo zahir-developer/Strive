@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspGetServicesBySearch]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetServicesBySearch]
 (@ServiceType varchar(50)=null,@ServiceName varchar(50)=null,@Status int = null)
 as
 begin

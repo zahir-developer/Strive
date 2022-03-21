@@ -12,10 +12,13 @@
     [UpdatedDate]       DATETIMEOFFSET (7) NULL,
     [DocumentType]      INT                NULL,
     [VehicleId]         INT                NULL,
+    [Description]       NVARCHAR (500)     NULL,
     CONSTRAINT [PK_StriveCarSalon_tblVehicleImage_VehicleImageId] PRIMARY KEY CLUSTERED ([VehicleImageId] ASC),
     CONSTRAINT [FK_StriveCarSalon_tblVehicleImage_DocumentType] FOREIGN KEY ([DocumentType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_StriveCarSalon_tblVehicleImage_VehicleId] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId])
 );
+
+
 
 
 

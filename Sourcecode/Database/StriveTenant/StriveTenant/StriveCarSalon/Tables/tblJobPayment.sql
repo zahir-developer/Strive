@@ -1,6 +1,5 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblJobPayment] (
     [JobPaymentId]  INT                IDENTITY (1, 1) NOT NULL,
-    [JobId]         INT                NULL,
     [DrawerId]      INT                NULL,
     [Amount]        DECIMAL (16, 2)    NULL,
     [TaxAmount]     DECIMAL (16, 2)    NULL,
@@ -19,6 +18,7 @@
     [UpdatedBy]     INT                NULL,
     [UpdatedDate]   DATETIMEOFFSET (7) NULL,
     [MembershipId]  INT                NULL,
+    [RefJobid]      INT                NULL,
     CONSTRAINT [PK_tblJobPayment] PRIMARY KEY CLUSTERED ([JobPaymentId] ASC),
     CONSTRAINT [FK_tblJobPayment_DrawerId] FOREIGN KEY ([DrawerId]) REFERENCES [StriveCarSalon].[tblDrawer] ([DrawerId]),
     CONSTRAINT [FK_tblJobPayment_MembershipId] FOREIGN KEY ([MembershipId]) REFERENCES [StriveCarSalon].[tblClientVehicleMembershipDetails] ([ClientMembershipId]),
@@ -30,7 +30,8 @@
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [IX_tblJobPayment_JobId]
-    ON [StriveCarSalon].[tblJobPayment]([JobId] ASC);
+
 

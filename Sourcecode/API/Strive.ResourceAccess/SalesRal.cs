@@ -130,5 +130,10 @@ namespace Strive.ResourceAccess
             _prm.Add("@JobPaymentId", id);
             return db.Fetch<JobPaymentTicketsDto>(EnumSP.Sales.USPGETTICKETSBYPAYMENTID.ToString(), _prm);
         }
+
+        public int AddTipPayment(TipPaymentDTO salesPayment)
+        {
+            return dbRepo.InsertPK(salesPayment, "JobPaymentDetailId");
+        }
     }
 }

@@ -148,6 +148,8 @@ namespace Admin.API.Filters
 
             }
             _tenant.TokenExpiryMintues = Pick("Jwt", "TokenExpiryMinutes").toInt();
+            _tenant.RefreshTokenExpiryMinutes = Pick("Jwt", "RefreshTokenExpiryMinutes").toFloat();
+            _tenant.SessionExpiryWarning = Pick("Jwt", "SessionExpiryWarning").toFloat();
 
             _tenant.SMTPClient = Pick("SMTP", "SMTPClient");
             _tenant.SMTPPassword = Pick("SMTP", "Password");
@@ -163,6 +165,7 @@ namespace Admin.API.Filters
             _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
             _tenant.GeneralDocumentFolder = Pick("FolderPath", "GeneralDocument");
             _tenant.VehicleImageFolder = Pick("FolderPath", "VehicleImage");
+            _tenant.ErrorLog = Pick("Logs", "Error");
 
             //File Format
             _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");

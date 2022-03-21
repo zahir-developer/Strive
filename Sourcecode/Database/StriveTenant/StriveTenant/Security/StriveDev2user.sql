@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [StriveDev2user]
+    WITH PASSWORD = N'&%2eqsmqaausjfcCu>yj4M;;msFT7_&#$!~<y95ovocsmhQG', SID = 0xE07BAF448D9FE14483D890A8A2B5C7B7, DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+

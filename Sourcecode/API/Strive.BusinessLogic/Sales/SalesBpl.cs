@@ -191,5 +191,10 @@ namespace Strive.BusinessLogic.Sales
         {
             return ResultWrap(new SalesRal(_tenant).GetTicketsByPaymentId, id, "TicketsbyJobPaymentId");
         }
+
+        public Result AddTipPayment(TipPaymentDTO salesPayment)
+        {
+            return ResultWrap(new SalesRal(_tenant).AddTipPayment(salesPayment), "JobPaymentDetailId");
+        }
     }
 }

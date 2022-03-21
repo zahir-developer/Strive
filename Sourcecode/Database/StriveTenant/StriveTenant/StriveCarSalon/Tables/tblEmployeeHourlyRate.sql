@@ -3,7 +3,7 @@
     [EmployeeId]           INT                NULL,
     [RoleId]               INT                NULL,
     [LocationId]           INT                NULL,
-    [HourlyRate]           DECIMAL (18, 2)    NULL,
+    [HourlyRate]           DECIMAL (8, 2)     NULL,
     [IsActive]             BIT                NULL,
     [IsDeleted]            BIT                NULL,
     [CreatedBy]            INT                NULL,
@@ -15,6 +15,8 @@
     CONSTRAINT [FK_tblEmployeeHourlyRate_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblEmployeeHourlyRate_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [StriveCarSalon].[tblRoleMaster] ([RoleMasterId])
 );
+
+
 
 
 

@@ -56,8 +56,12 @@ export class SessionLogoutComponent implements OnInit {
  * Clear the idle lockout
  */
   idleClear() {
-    this.continueSession.emit();
-    this.closeDialog.emit();
+    var token = localStorage.getItem('authorizationToken');
+    if (token !== null) {
+      this.authService.refreshToken().subscribe();
+      this.continueSession.emit();
+      this.closeDialog.emit();
+    }
   }
 
   get f() { return this.authentication.controls; }

@@ -76,6 +76,7 @@ export class CheckoutGridComponent implements OnInit {
     if (event !== null) {
       this.startDate = event[0];
       this.endDate = event[1];
+      this.page = 1;
       this.getAllUncheckedVehicleDetails();
     }
     else {
@@ -96,13 +97,13 @@ export class CheckoutGridComponent implements OnInit {
       sortOrder: this.sortColumn.sortOrder,
       sortBy: this.sortColumn.sortBy,
       status: true
-    };
+    };    
     this.spinner.show();
     this.checkout.getUncheckedVehicleDetails(obj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
 
-        const uncheck = JSON.parse(data.resultData);
+        const uncheck = JSON.parse(data.resultData);        
         if (uncheck.GetCheckedInVehicleDetails.checkOutViewModel !== null) {
           this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
           if (this.uncheckedVehicleDetails?.length > 0) {
@@ -111,7 +112,7 @@ export class CheckoutGridComponent implements OnInit {
                this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
             }
           }
-          this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;          
         }
         else
         {
@@ -136,11 +137,12 @@ export class CheckoutGridComponent implements OnInit {
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
-    this.page = event;
+    this.page = event;    
     this.getAllUncheckedVehicleDetails();
   }
   checkOutSearch() {
     this.search = this.query;
+    this.page = 1;
     this.getAllUncheckedVehicleDetails();
   }
   paginatedropdown(event) {
@@ -234,8 +236,7 @@ export class CheckoutGridComponent implements OnInit {
 
   hold(data, checkout) {
     this.confirmationService.confirm(data, `Are you sure want to change the Hold status`, 'Yes', 'No')
-      .then((confirmed) => {
-        debugger
+      .then((confirmed) => {        
         const finalObj = {
           id: checkout.JobId,
           IsHold: checkout.IsHold == false ? true : false

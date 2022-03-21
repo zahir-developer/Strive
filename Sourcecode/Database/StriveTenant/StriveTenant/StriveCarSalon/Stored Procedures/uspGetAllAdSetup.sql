@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspGetAllAdSetup]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllAdSetup]
 as
 begin
 select tblad.AdSetupId

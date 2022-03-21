@@ -1,9 +1,10 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblJob] (
     [JobId]            INT                IDENTITY (1, 1) NOT NULL,
-    [TicketNumber]     BIGINT             NOT NULL,
+    [TicketNumber]     NVARCHAR (50)      NULL,
     [LocationId]       INT                NOT NULL,
     [ClientId]         INT                NULL,
     [VehicleId]        INT                NULL,
+    [Barcode]          NVARCHAR (50)      NULL,
     [Make]             INT                NULL,
     [Model]            INT                NULL,
     [Color]            INT                NULL,
@@ -24,6 +25,10 @@
     [CheckOutTime]     DATETIME           NULL,
     [JobPaymentId]     INT                NULL,
     [IsHold]           BIT                NULL,
+    [RefRecId]         INT                NULL,
+    [VehicleModelDesc] VARCHAR (250)      NULL,
+    [JobStartTime]     DATETIMEOFFSET (7) NULL,
+    [VTypeId]          INT                NULL,
     CONSTRAINT [PK_tblJob] PRIMARY KEY CLUSTERED ([JobId] ASC),
     CONSTRAINT [FK_tblJob_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
     CONSTRAINT [FK_tblJob_JobPaymentId] FOREIGN KEY ([JobPaymentId]) REFERENCES [StriveCarSalon].[tblJobPayment] ([JobPaymentId]),
@@ -32,6 +37,8 @@
     CONSTRAINT [FK_tblJob_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblJob_VehicleId] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId])
 );
+
+
 
 
 

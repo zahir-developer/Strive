@@ -59,5 +59,11 @@ namespace Strive.ResourceAccess
             _prm.Add("ChecklistId", id.toInt());
             return db.FetchMultiResult<ChecklistDetailViewModel>(EnumSP.Checklist.USPGETCHECKLISTBYID.ToString(), _prm);
         }
+
+        public ChecklistNotificationDetailViewModel GetChecklistNotificationByDate(DateTime date)
+        {
+            _prm.Add("date", date);
+            return db.FetchMultiResult<ChecklistNotificationDetailViewModel>(EnumSP.Checklist.USPGETCHECKLISTNOTIFICATION.ToString(), _prm);
+        }
     }
 }

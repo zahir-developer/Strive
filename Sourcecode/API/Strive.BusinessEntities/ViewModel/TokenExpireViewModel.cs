@@ -9,5 +9,8 @@ namespace Strive.BusinessEntities.ViewModel
     public class TokenExpireViewModel
     {
         public int? TokenExpireMinutes { get; set; }
+        public float? RefreshTokenExpiryMinutes { get; set; }
+        public float? SessionExpiryWarning { get; set; }
+        
     }
 }

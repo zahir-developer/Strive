@@ -26,10 +26,10 @@ export class AuthService {
   }
   constructor(private http: HttpUtilsService, private userService: UserDataService, private router: Router,
     private route: ActivatedRoute, private authenticate: AuthenticateObservableService, private spinner: NgxSpinnerService,
-    private whiteLabelService: WhiteLabelService, 
+    private whiteLabelService: WhiteLabelService,
     private loginService: LoginService,
     private logoService: LogoService
-    ) {
+  ) {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.loggedIn.next(true);
     }
@@ -38,9 +38,11 @@ export class AuthService {
     return this.http.post(`${UrlConfig.Auth.login}`, loginData).pipe(tap((user) => {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
+          const token = JSON.parse(user.resultData);
           this.userService.setUserSettings(user.resultData);
           this.startRefreshTokenTimer();
           this.getThemeColor();
+          this.setTokenSession(token);
           return user;
         }
       }
@@ -48,6 +50,28 @@ export class AuthService {
     }));
   }
 
+  setTokenSession(token) {
+
+    let expireMinutes = +token.TokenExpireMinutes;
+    let refreshTokenMinute = +token.RefreshTokenExpiryMinutes;
+    let sessionExpiryWarning = +token.SessionExpiryWarning;
+    let dateTime = new Date();
+
+    if (expireMinutes !== 0) {
+      var expireTime = new Date(dateTime.getTime() + ((+expireMinutes) * 60000));
+      var refreshTokenExpireTime = new Date(dateTime.getTime() + ((expireMinutes - refreshTokenMinute) * 60000));
+      
+      localStorage.setItem('tokenExpiry', expireTime.toString());
+      localStorage.setItem('tokenExpiryMinutes', expireMinutes.toString());
+
+      localStorage.setItem('refreshTokenExpiry', (refreshTokenExpireTime).toString());
+      localStorage.setItem('refreshTokenExpiryMinutes', refreshTokenMinute.toString());
+      
+      localStorage.setItem('sessionExpiryWarning', sessionExpiryWarning.toString());
+
+      localStorage.setItem('refreshTokenCalled', "0");    
+    }
+  }
   refreshToken() {
     const obj = {
       token: localStorage.getItem('authorizationToken'),
@@ -59,7 +83,19 @@ export class AuthService {
           const token = JSON.parse(user.resultData);
           localStorage.setItem('authorizationToken', token.Token);
           localStorage.setItem('refreshToken', token.RefreshToken);
-          this.startRefreshTokenTimer();
+
+          var dateTime = new Date();
+
+          var expireMinutes = +localStorage.getItem('tokenExpiryMinutes');
+
+          var expireTime = new Date(dateTime.getTime() + ((+expireMinutes) * 60000));
+          localStorage.setItem('tokenExpiry', expireTime.toString());
+
+          var refreshExpireTime = new Date(dateTime.getTime() + ((+expireMinutes - ApplicationConfig.Token.RefreshTokenMinute) * 60000));
+          localStorage.setItem('refreshTokenExpiry', refreshExpireTime.toString());
+          localStorage.setItem('refreshTokenCalled', "0");
+        
+          //this.startRefreshTokenTimer();
         }
       }
     }));
@@ -69,13 +105,13 @@ export class AuthService {
     // set a timeout to refresh the token a minute before it expires
     // const expires = new Date(1618587325 * 1000);
     // const timeout = expires.getTime() - Date.now() - (60 * 1000);
-    const timeSecs = ApplicationConfig.refreshTime.refreshTime * 60 * 1000;
+    const timeSecs = ApplicationConfig.Token.refreshTime * 60 * 1000;
     this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeSecs);
   }
 
   private stopRefreshTokenTimer() {
     clearTimeout(this.refreshTokenTimeout);
-}
+  }
 
   // refreshToken(): Observable<{accessToken: string; refreshToken: string}> {
   //   const refreshToken = localStorage.getItem('refreshToken');
@@ -115,7 +151,7 @@ export class AuthService {
         document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
       }
     });
-}
+  }
 
   logout() {
     this.clearCacheValue();
@@ -171,6 +207,7 @@ export class AuthService {
           localStorage.setItem('authorizationToken', token.Token);
           localStorage.setItem('refreshToken', token.RefreshToken);
           this.authenticate.setIsAuthenticate(true);
+          this.setTokenSession(token);
           return user;
         }
       }

@@ -1,6 +1,8 @@
-﻿CREATE proc [StriveCarSalon].[uspGetClientName] 
-(@ClientName varchar(50))
-as begin
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetClientName] 
+@ClientName varchar(50)
+AS 
+BEGIN
+
 Select
     cl.ClientId,
     cl.FirstName,
@@ -17,6 +19,7 @@ Select
 	inner join strivecarsalon.GetTable('ClientType') ct ON cl.ClientType = ct.valueid
 	WHERE isnull(cl.IsDeleted,0)=0 and cl.IsActive = 1
 AND
- ((@ClientName is null or cl.FirstName  like '%'+@ClientName+'%') OR
-  (@ClientName is null or cl.LastName  like '%'+@ClientName+'%'))
-end
+ ((@ClientName is null or cl.FirstName  like @ClientName+'%') OR
+  (@ClientName is null or cl.LastName  like @ClientName+'%'))
+
+END

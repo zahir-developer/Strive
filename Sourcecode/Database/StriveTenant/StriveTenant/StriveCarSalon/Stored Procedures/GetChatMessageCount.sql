@@ -3,7 +3,7 @@
 as
 begin
 
-Select emp.FirstName+''+emp.LastName as SenderName,
+Select emp.FirstName+' '+emp.LastName as SenderName,
        count(IsNull(chatRecp.IsRead,0)) AS TotalMesUnread,
 	   emp.Employeeid
 	   INTO

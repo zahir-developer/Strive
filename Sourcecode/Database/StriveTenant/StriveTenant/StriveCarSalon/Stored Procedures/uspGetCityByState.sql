@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspGetCityByState] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetCityByState] 
 @stateId int
 as 
 declare @categoryId int = (select top  1 id from tblCodeCategory where Category ='City')

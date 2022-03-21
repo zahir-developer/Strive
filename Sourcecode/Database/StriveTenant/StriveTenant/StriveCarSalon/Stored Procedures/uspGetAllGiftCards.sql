@@ -1,7 +1,7 @@
 ﻿---------------------History---------------------------
 -- ====================================================
--- 08-jun-2021, shalini - pagenumber and count for nullquery changes					 
-
+-- 08-jun-2021, shalini - pagenumber and count for nullquery changes
+-- 16-06-2021, Shalini -removed wildcard from Query
 -------------------------------------------------------
 --[StriveCarSalon].[uspGetAllGiftCards]null,9,10,'ASC',null,null
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllGiftCards]
@@ -31,7 +31,7 @@ Print @PageNo
 Print @Skip
 END
 
-
+--Select * from StriveCarSalon.tblGiftcard where giftcardCode = '749839'
 DROP TABLE If EXISTS #GiftCardHistory  
 
 DROP TABLE If EXISTS #GetAllGiftCard
@@ -54,21 +54,20 @@ gc.ActivationDate,
 gc.Comments,
 gc.IsActive,
 gc.IsDeleted,
-tblCli.FirstName,
-tblCli.LastName
+ISNULL(tblCli.FirstName,'None') FirstName,
+ISNULL(tblCli.LastName,'') LastName
 into #GetAllGiftCard
 from [tblGiftCard] gc
 LEFT JOIN #GiftCardHistory gh on gh.GiftCardId = gc.GiftCardId
 left Join [tblClient] tblCli on(gc.ClientId = tblCli.ClientId) 
-where gc.IsDeleted =0 and gc.IsActive=1 and ( cast (gc.ActivationDate as date) between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
- and (
-@Query is null OR	gc.GiftCardName like '%'+@Query+'%'
-								OR	gc.GiftCardCode like '%'+@Query+'%'
-								OR	tblCli.FirstName like '%'+@Query+'%'
-								OR	tblCli.LastName like '%'+@Query+'%'
-									OR	TotalAmount like '%'+@Query+'%'
-								OR	gc.ActivationDate like '%'+@Query+'%'
-								)
+where gc.IsDeleted =0 and gc.IsActive=1 and
+--( cast (gc.ActivationDate as date) between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
+(@Query is null OR	gc.GiftCardName like '%'+@Query+'%'
+OR	gc.GiftCardCode like '%'+@Query+'%'
+OR	tblCli.FirstName like '%'+@Query+'%'
+OR	tblCli.LastName like '%'+@Query+'%'
+OR	TotalAmount like '%'+@Query+'%'
+OR	gc.ActivationDate like '%'+@Query+'%')
 order by 
 CASE WHEN @SortBy = 'GifCardNo' AND @SortOrder='ASC' THEN gc.GiftCardCode END ASC,
 CASE WHEN @SortBy = 'ActivatedDate' AND @SortOrder='ASC' THEN gc.ActivationDate END ASC,
@@ -98,7 +97,7 @@ select count(1) as Count
 from [tblGiftCard] gc
 LEFT JOIN #GiftCardHistory gh on gh.GiftCardId = gc.GiftCardId
 left Join [tblClient] tblCli on(gc.ClientId = tblCli.ClientId) 
-where gc.IsDeleted =0 and gc.IsActive=1 and ( cast (gc.ActivationDate as date) between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
+where gc.IsDeleted =0 and gc.IsActive=1
 
 
 END
@@ -108,14 +107,16 @@ BEGIN
 select count(1) as Count from [tblGiftCard] gc
 LEFT JOIN #GiftCardHistory gh on gh.GiftCardId = gc.GiftCardId
 left Join [tblClient] tblCli on(gc.ClientId = tblCli.ClientId) 
-where gc.IsDeleted =0 and gc.IsActive=1 and ( cast (gc.ActivationDate as date) between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
-and (@Query is null OR	gc.GiftCardName like '%'+@Query+'%'
-OR	gc.GiftCardCode like '%'+@Query+'%'
-OR	tblCli.FirstName like '%'+@Query+'%'
-OR	tblCli.LastName like '%'+@Query+'%'
-OR	TotalAmount like '%'+@Query+'%'
-OR	gc.ActivationDate like '%'+@Query+'%')
+where gc.IsDeleted =0 and gc.IsActive=1
+and (@Query is null OR	gc.GiftCardName like @Query+'%'
+OR	gc.GiftCardCode like @Query+'%'
+OR	tblCli.FirstName like @Query+'%'
+OR	tblCli.LastName like @Query+'%'
+OR	TotalAmount like @Query+'%'
+OR	gc.ActivationDate like @Query+'%')
 
 END
 
-END
+
+
+end

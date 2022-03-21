@@ -1,9 +1,10 @@
 ﻿---------------------History--------------------  
 -- =============================================  
 -- 19-05-2021, Shalini - Added totalamount column 
---03-06-2021, Shalini -Added credit card amount.  
+-- 03-06-2021, Shalini - Added credit card amount.  
+-- 12-07-2021, Vetriselvi - card amount should not round off.  
 ------------------------------------------------  
---[StriveCarSalon].[uspGetCashRegister] 1,'CLOSEIN','2021-06-03'  
+--[StriveCarSalon].[uspGetCashRegister] 1,'CASHIN','2021-10-19'  
 ------------------------------------------------  
   
 CREATE PROCEDURE [StriveCarSalon].[uspGetCashRegister]   
@@ -24,7 +25,7 @@ WHERE CV.CodeValue = @CashRegisterType)
 DECLARE @DrawerID INT;  
 SELECT @DrawerID = DrawerId FROM [tblDrawer] WHERE LocationId=@LocationId  
   
-Select  
+Select  TOP 1
 CR.CashRegisterId ,  
 CR.CashRegisterType,  
 CR.LocationId ,  
@@ -33,7 +34,7 @@ CR.CashRegisterDate ,
 CR.StoreTimeIn,  
 CR.StoreTimeOut,  
 CR.StoreOpenCloseStatus ,  
-CR.Tips,  
+ISNULL(CR.Tips,0) Tips,  
 CR.TotalAmount  
 FROM   
 tblCashRegister CR   
@@ -43,6 +44,7 @@ CR.CashRegisterType = @CashRegisterTypeId AND
 CR.CashRegisterDate = @CashRegisterDate AND  
 --CR.DrawerId = @DrawerID AND  
 isnull(CR.isDeleted,0) = 0    
+ORDER by CR.CashRegisterId  DESC
   
 SELECT   
 CRC.CashRegCoinId,  
@@ -127,6 +129,27 @@ CR.CashRegisterDate = @CashRegisterDate AND
 --CR.DrawerId = @DrawerID AND  
 isnull(CR.isDeleted,0) = 0    
   
+ SELECT	
+	Cast(SUM(ISNULL(CardAmount,0))as decimal(18,2)) AS CardAmount
+
+FROM 
+(SELECT  
+	 SUM(ISNULL(tbljpd.Amount,0)) AS CardAmount
+FROM	tblJob tbljob 
+LEFT JOIN 	tblJobPayment tbljp ON tbljob.JobPaymentId = tbljp.JobPaymentId AND ISNULL(tbljp.IsRollBack,0)=0 
+LEFT JOIN 	tblJobPaymentDetail tbljpd ON tbljp.JobPaymentId = tbljpd.JobPaymentId AND ISNULL(tbljpd.IsDeleted,0)=0 
+LEFT JOIN GetTable('Paymenttype') gt on tbljpd.PaymentType = gt.valueid 
+
+WHERE tbljob.jobdate =@CashRegisterDate and gt.Valuedesc='Card'
+and ISNULL(tbljob.IsDeleted,0)=0 
+AND ISNULL(tbljob.IsActive,1)=1 
+AND	ISNULL(tbljp.IsDeleted,0)=0 
+AND ISNULL(tbljp.IsActive,1)=1 
+AND	ISNULL(tbljpd.IsDeleted,0)=0 
+AND ISNULL(tbljpd.IsActive,1)=1 
+Group by tbljob.TicketNumber
+) CardAmount
+
 SELECT   
 WP.Weather,  
 WP.RainProbability,  
@@ -155,27 +178,6 @@ SELECT
  AND tblj.LocationId=@LocationId  
  GROUP BY tbll.LocationId,tbll.LocationName   
 
- SELECT	
-	SUM(Credit) AS CreditCardAmount
-
-FROM 
-(SELECT  
-	 SUM(ISNULL(tbljpd.Amount,0)) AS Credit
-FROM	tblJob tbljob 
-LEFT JOIN 	tblJobPayment tbljp ON		tbljob.JobId = tbljp.JobId AND ISNULL(tbljp.IsRollBack,0)=0 
-LEFT JOIN 	tblJobPaymentDetail tbljpd ON		tbljp.JobPaymentId = tbljpd.JobPaymentId 
-AND		ISNULL(tbljpd.IsDeleted,0)=0 
-LEFT JOIN GetTable('Paymenttype') gt on tbljpd.PaymentType = gt.valueid 
-
-WHERE tbljob.jobdate =@CashRegisterDate and gt.Valuedesc='Card'
-and ISNULL(tbljob.IsDeleted,0)=0 
-AND ISNULL(tbljob.IsActive,1)=1 
-AND	ISNULL(tbljp.IsDeleted,0)=0 
-AND ISNULL(tbljp.IsActive,1)=1 
-AND	ISNULL(tbljpd.IsDeleted,0)=0 
-AND ISNULL(tbljpd.IsActive,1)=1 
-Group by tbljob.TicketNumber
-) sub
   
 END
 

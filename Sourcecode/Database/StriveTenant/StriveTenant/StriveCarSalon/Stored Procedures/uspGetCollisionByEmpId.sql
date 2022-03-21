@@ -1,7 +1,7 @@
 ﻿
 
 
-CREATE PROC [StriveCarSalon].[uspGetCollisionByEmpId] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetCollisionByEmpId] 
 (@EmployeeId int = null, @CollisionId int = null)
 AS
 BEGIN

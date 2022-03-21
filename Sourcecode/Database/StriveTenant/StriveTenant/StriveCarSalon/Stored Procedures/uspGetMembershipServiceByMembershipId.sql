@@ -32,8 +32,10 @@ MembershipServiceId,
 MembershipId,
 s.ServiceId,
 s.ServiceType as ServiceTypeId,
+s.Price,
 st.valuedesc as ServiceType,
 s.Upcharges
+
 from [tblMembershipService] ms
 LEFT JOIN tblService s WITH(NOLOCK) on s.ServiceId = ms.ServiceId
 LEFT JOIN GetTable('ServiceType') st on s.ServiceType = st.valueid

@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspGetCodes]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetCodes]
 (@Category varchar(50)=null, @CategoryId int=null)
 as 
 begin

@@ -96,5 +96,9 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetTicketsByPaymentId(id);
         }
+
+        [HttpPost]
+        [Route("AddTipPayment")]
+        public Result AddTipPayment([FromBody] TipPaymentDTO salesPayment) => _bplManager.AddTipPayment(salesPayment);
     }
 }

@@ -1,8 +1,8 @@
-﻿--[StriveCarSalon].[uspGetAllVendorName]
-CREATE proc [StriveCarSalon].[uspGetAllVendorName] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllVendorName] 
 
-as 
-begin
+AS 
+BEGIN
+
 	select 
 	v.VendorId,
 	v.VendorName,
@@ -12,6 +12,4 @@ begin
 	 where v.IsActive = 1 
 	 and ISNULL(v.IsDeleted,0) = 0 
 
-
-	
 end

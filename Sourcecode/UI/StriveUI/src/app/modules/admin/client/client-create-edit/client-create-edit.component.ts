@@ -69,7 +69,7 @@ export class ClientCreateEditComponent implements OnInit {
     private modalService: NgbModal, private vehicle: VehicleService) { }
 
   ngOnInit() {
-    this.showActivity = true;
+    this.showActivity = false;
     this.employeeId = +localStorage.getItem('empId');
     this.isVehicleEdit = false;
     this.getService();
@@ -174,7 +174,7 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   // Add/Update Client
-  submit() {
+  submit() {    
     this.clientFormComponent.submitted = true;
     this.clientFormComponent.clientForm.controls.status.enable();
 
@@ -238,7 +238,7 @@ export class ClientCreateEditComponent implements OnInit {
       locationId: this.clientFormComponent.clientForm.value.location == '0' ? null : this.clientFormComponent.clientForm.value.location
     };
     debugger;
-    this.clonedAccountDetails[0] = this.clonedAccountDetails[0].filter(s => s.isAdded === true || s.isModified === true);
+    this.clonedAccountDetails[0] = this.clonedAccountDetails[0]?.filter(s => s.isAdded === true || s.isModified === true);
     const myObj = {
       client: formObj,
       clientVehicle: this.vehicleDet.length === 0 ? null : this.vehicleDet,

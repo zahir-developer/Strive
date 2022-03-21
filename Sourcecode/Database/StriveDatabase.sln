@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StriveTenant", "StriveTenant\StriveTenant\StriveTenant.sqlproj", "{C501B055-5208-47EF-BB3A-DD3606E4A7F6}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StriveTenantQA", "StriveTenantQA\StriveTenantQA\StriveTenantQA.sqlproj", "{5335EB3B-E0B0-428B-A726-D03D57D95B59}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +17,6 @@ Global
 		{C501B055-5208-47EF-BB3A-DD3606E4A7F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C501B055-5208-47EF-BB3A-DD3606E4A7F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C501B055-5208-47EF-BB3A-DD3606E4A7F6}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{5335EB3B-E0B0-428B-A726-D03D57D95B59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5335EB3B-E0B0-428B-A726-D03D57D95B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5335EB3B-E0B0-428B-A726-D03D57D95B59}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{5335EB3B-E0B0-428B-A726-D03D57D95B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5335EB3B-E0B0-428B-A726-D03D57D95B59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5335EB3B-E0B0-428B-A726-D03D57D95B59}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

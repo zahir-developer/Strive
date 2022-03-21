@@ -2,7 +2,7 @@
 
 
 
-CREATE PROC [StriveCarSalon].[uspGetEmployeeList]
+CREATE PROCEDURE [StriveCarSalon].[uspGetEmployeeList]
 AS
 BEGIN
 

@@ -24,5 +24,6 @@ namespace Strive.BusinessLogic.Sales
         Result GetServicesWithPrice();
         Result GetServicesAndProduct(int id, string query);
         Result GetTicketsByPaymentId(int id);
+        Result AddTipPayment(TipPaymentDTO salesPayment);
     }
 }

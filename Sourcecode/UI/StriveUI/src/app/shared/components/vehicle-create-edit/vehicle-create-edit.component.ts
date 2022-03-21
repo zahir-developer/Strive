@@ -79,6 +79,7 @@ export class VehicleCreateEditComponent implements OnInit {
   billingAddress: any = [];
   DriveUpClientId: number = 0;
   DriveUpVehicleId: number = 0;
+  cancelledMembershipDeatil: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
     private spinner: NgxSpinnerService, private employeeService: EmployeeService,
     private modelService: ModelService, private payrollsService: PayrollsService,
@@ -130,7 +131,8 @@ export class VehicleCreateEditComponent implements OnInit {
       wash: [''],
       services: [[]],
       cardNumber: ['',],
-      expiryDate: ['',]
+      expiryDate: ['',],
+      status: ['',]
     });
     this.vehicleForm.get('vehicleNumber').patchValue(this.vehicleNumber);
     this.vehicleForm.controls.vehicleNumber.disable();
@@ -289,6 +291,10 @@ export class VehicleCreateEditComponent implements OnInit {
 
           this.clientMembershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.ClientMembershipId;
           this.membershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
+
+          this.vehicleForm.patchValue({
+            status: "false"
+          });
         }
         else {
           var clientId = vehicle.VehicleMembershipDetails?.ClientVehicle?.ClientId;
@@ -296,6 +302,18 @@ export class VehicleCreateEditComponent implements OnInit {
           if (clientId !== null || clientId !== undefined) {
             this.getMembershipDiscount(clientId, vehicleId);
           }
+
+          
+        
+          this.cancelledMembershipDeatil = {
+            inActive: vehicle.VehicleMembershipDetails.InactiveMembership?.InActive,
+            cancelledDate: vehicle.VehicleMembershipDetails.InactiveMembership?.UpdatedDate
+          }
+
+          this.vehicleForm.patchValue({
+            status: this.cancelledMembershipDeatil.InActive ? this.cancelledMembershipDeatil.InActive.toString() : 'true',
+            cancelledDate: vehicle.VehicleMembershipDetails?.InactiveMembership?.UpdatedDate
+          });
         }
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
           this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
@@ -323,11 +341,12 @@ export class VehicleCreateEditComponent implements OnInit {
             this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
-
         }
       }
+      this.vehicleForm.controls.status.disable();
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.vehicleForm.controls.status.disable();
     });
   }
 

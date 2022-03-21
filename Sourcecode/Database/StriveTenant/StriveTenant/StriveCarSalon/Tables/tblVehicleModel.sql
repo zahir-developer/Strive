@@ -10,8 +10,11 @@
     [ModelValue]  VARCHAR (100)      NULL,
     [TypeId]      INT                NULL,
     CONSTRAINT [PK_tblVehicleModel] PRIMARY KEY CLUSTERED ([ModelId] ASC),
+    CONSTRAINT [FK_tblVehicleModel_MakeId] FOREIGN KEY ([MakeId]) REFERENCES [StriveCarSalon].[tblVehicleMake] ([MakeId]),
     CONSTRAINT [FK_tblVehicleModel_TypeId] FOREIGN KEY ([TypeId]) REFERENCES [StriveCarSalon].[tblVehicleType] ([TypeId])
 );
+
+
 
 
 

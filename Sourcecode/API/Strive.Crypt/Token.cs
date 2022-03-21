@@ -61,6 +61,10 @@ namespace Strive.Crypto
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
+
+            if(token == null)
+                throw new SecurityTokenException("Invalid token");
+
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null) //|| !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))

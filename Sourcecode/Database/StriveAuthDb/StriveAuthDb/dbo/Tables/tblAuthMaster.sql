@@ -11,6 +11,8 @@
     [UserType]       INT          NULL,
     [TenantId]       INT          NULL,
     [LoginId]        VARCHAR (32) NULL,
+    [IsActive] BIT NULL, 
+    [IsDeleted] BIT NULL, 
     CONSTRAINT [PK_AuthMaster_AuthId] PRIMARY KEY CLUSTERED ([AuthId] ASC),
     CONSTRAINT [FK_tblAuthMaster_tblTenantMaster] FOREIGN KEY ([TenantId]) REFERENCES [dbo].[tblTenantMaster] ([TenantId]),
     CONSTRAINT [IX_tblAuthMaster] UNIQUE NONCLUSTERED ([EmailId] ASC, [UserType] ASC, [TenantId] ASC),

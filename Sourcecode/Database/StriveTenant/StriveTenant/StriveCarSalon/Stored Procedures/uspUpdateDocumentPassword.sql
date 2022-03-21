@@ -1,6 +1,4 @@
-﻿
-
-CREATE proc [StriveCarSalon].[uspUpdateDocumentPassword] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspUpdateDocumentPassword] 
 (@DocumentId int,
 @EmployeeId int,
 @Password varchar(max))
