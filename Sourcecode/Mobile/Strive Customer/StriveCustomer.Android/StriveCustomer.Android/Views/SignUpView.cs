@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Android.App;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Widget;
@@ -17,7 +18,7 @@ using OperationCanceledException = System.OperationCanceledException;
 namespace StriveCustomer.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "SignUp View")]
+    [Activity(Label = "SignUp View", ScreenOrientation = ScreenOrientation.Portrait)]
     public class SignUpView : MvxAppCompatActivity<SignUpViewModel>
     {
         private Button signUpButton;

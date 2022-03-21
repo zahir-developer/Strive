@@ -178,7 +178,7 @@
                 android:layout_weight="1"
                 android:inputType="date"
                 android:maxLength="5"
-                android:hint="MM/DD"
+                android:hint="MM/YY"
                 android:textColorHint="@color/material_grey_600"
             />
           </LinearLayout>

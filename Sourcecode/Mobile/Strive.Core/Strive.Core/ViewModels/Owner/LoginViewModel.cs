@@ -30,7 +30,7 @@ namespace Strive.Core.ViewModels.Owner
                 {
                     _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                     var loginResponse = await AdminService.EmployeeLogin(new EmployeeLoginRequest(loginEmailPhone, loginPassword, ""));
-                    if (loginResponse != null)
+                    if (loginResponse != null && loginResponse.EmployeeDetails !=null && loginResponse.EmployeeDetails.EmployeeLogin !=null)
                     {
                         ApiUtils.Token = loginResponse.Token;
                         MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;

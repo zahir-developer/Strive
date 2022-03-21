@@ -150,7 +150,7 @@ namespace StriveCustomer.Android.Fragments
                                 }
                                 detailedServiceCost.Text = "$" + services.Cost;
                                 barcode.Text = services.Barcode;
-                                //price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
+                                price[sortedBayJobDetail.IndexOf(services)].Text = services.Cost.ToString();
                                 washTipButton[sortedBayJobDetail.IndexOf(services)] = layout.FindViewById<Button>(Resource.Id.washTipButton);
                                 washTipButton[sortedBayJobDetail.IndexOf(services)].Tag = sortedBayJobDetail.IndexOf(services);
                                 
