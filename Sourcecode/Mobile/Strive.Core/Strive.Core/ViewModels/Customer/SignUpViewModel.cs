@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Newtonsoft.Json;
 using Strive.Core.Models.Customer;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
@@ -76,7 +77,7 @@ namespace Strive.Core.ViewModels.Customer
                 //customerSignUp.passwordHash = signUpPassword;
                 //customerSignUp.createdDate = createdDate ;
                 
-                _userDialog.ShowLoading(Strings.Loading,MaskType.Gradient);
+                _userDialog.ShowLoading("Version 3",MaskType.Gradient);
 
                 var result = await AdminService.CheckMailId(EmailAddress);
                 if (result.EmailIdExist)
@@ -90,7 +91,7 @@ namespace Strive.Core.ViewModels.Customer
                     signUpRequest.clientAddress = new List<ClientAddress>();
                     signUpRequest.clientVehicle = new List<ClientVehicle>();
                     signUpRequest.client.clientId = 0;
-                    signUpRequest.client.firstname = FirstName;
+                    signUpRequest.client.firstName = FirstName;
                     signUpRequest.client.middleName = null;
                     signUpRequest.client.lastName = LastName;
                     signUpRequest.client.gender = null;
@@ -101,12 +102,10 @@ namespace Strive.Core.ViewModels.Customer
                     signUpRequest.client.clientType = 82;
                     signUpRequest.client.isActive = true;
                     signUpRequest.client.isDeleted = false;
-                    signUpRequest.client.createdDate = DateTime.Now.ToString();
-                    signUpRequest.client.updatedDate = DateTime.Now.ToString();
+                    signUpRequest.client.createdDate = (DateTime.Now).ToString("MM/dd/yyy hh:mm:ss tt");
+                    signUpRequest.client.updatedDate = (DateTime.Now).ToString("MM/dd/yyy hh:mm:ss tt");
                     signUpRequest.client.createdBy = 0;
                     signUpRequest.client.updatedBy = 0;
-
-
 
                     clientAddress.clientAddressId = 0;
                     clientAddress.clientId = 0;
@@ -120,8 +119,8 @@ namespace Strive.Core.ViewModels.Customer
                     clientAddress.zip = null;
                     clientAddress.isActive = true;
                     clientAddress.isDeleted = false;
-                    clientAddress.createdDate = DateTime.Now.ToString();
-                    clientAddress.updatedDate = DateTime.Now.ToString();
+                    clientAddress.createdDate = (DateTime.Now).ToString("MM/dd/yyy hh:mm:ss tt");
+                    clientAddress.updatedDate = (DateTime.Now).ToString("MM/dd/yyy hh:mm:ss tt");
                     clientAddress.createdBy = 0;
                     clientAddress.updatedBy = 0;
                     signUpRequest.clientAddress.Add(clientAddress);
@@ -139,8 +138,8 @@ namespace Strive.Core.ViewModels.Customer
                     clientVehicle.notes = null;
                     clientVehicle.isActive = true;
                     clientVehicle.isDeleted = false;
-                    clientVehicle.createdDate = DateTime.Now.ToString();
-                    clientVehicle.updatedDate = DateTime.Now.ToString();
+                    clientVehicle.createdDate = (DateTime.Now).ToString("MM/dd/yyy hh:mm:ss tt");
+                    clientVehicle.updatedDate = (DateTime.Now).ToString("MM/dd/yyy hh:mm:ss tt");
                     clientVehicle.createdBy = 0;
                     clientVehicle.updatedBy = 0;
                     signUpRequest.clientVehicle.Add(clientVehicle);
@@ -148,29 +147,41 @@ namespace Strive.Core.ViewModels.Customer
                     signUpRequest.password = Password;
                     signUpRequest.token = "0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE";
 
+
                     Console.WriteLine(signUpRequest);
-                   
-                    _userDialog.ShowLoading("Creating Account");
-                    var signUpResponse = await AdminService.CustomerSignUp(signUpRequest);
-                    _userDialog.HideLoading();
-                    if (signUpResponse.Status.Count>0)
+
+                    //_userDialog.Alert(JsonConvert.SerializeObject(signUpRequest));
+                    try
                     {
-                        if (platform == DevicePlatform.iOS)
+                        _userDialog.ShowLoading("Creating Account");
+                        var signUpResponse = await AdminService.CustomerSignUp(signUpRequest);
+
+                        _userDialog.HideLoading();
+                        if (signUpResponse.Status.Count > 0)
                         {
-                            _userDialog.Toast(Strings.SignUpSuccessful);
-                            await _navigationService.Close(this);
+                            if (platform == DevicePlatform.iOS)
+                            {
+                                _userDialog.Toast(Strings.SignUpSuccessful);
+                                await _navigationService.Close(this);
+                            }
+                            else
+                            {
+                                await _navigationService.Close(this);
+                                await Task.Delay(300);
+                                _userDialog.Toast(Strings.SignUpSuccessful);
+                            }
                         }
-                        else 
+                        else
                         {
-                            await _navigationService.Close(this);
-                            await Task.Delay(300);
-                            _userDialog.Toast(Strings.SignUpSuccessful);
-                        }                       
+                            _userDialog.Toast(Strings.SignUpUnSuccessful);
+                        }
                     }
-                    else
+                    catch(Exception e)
                     {
-                        _userDialog.Toast(Strings.SignUpUnSuccessful);
+                        _userDialog.Alert("Exception - " + e.Message);
                     }
+
+                    
                 }
                
             }

@@ -17,7 +17,7 @@ namespace Strive.Core.Models.Customer
        public class Client
        {
             public int clientId { get; set; }
-            public string firstname { get; set; }
+            public string firstName { get; set; }
             public string middleName { get; set; }
             public string lastName { get; set; }
             public int? gender { get; set; }
