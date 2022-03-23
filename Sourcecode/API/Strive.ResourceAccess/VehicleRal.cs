@@ -49,6 +49,18 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public bool UpdateVehicleBarcode(int? locationId, string barcode, int? vehicleId, int? createdBy)
+        {
+            _prm.Add("Locationid", locationId);
+            _prm.Add("Barcode", barcode);
+            _prm.Add("VehicleId", vehicleId);            
+            _prm.Add("CreatedBy", createdBy);
+
+            db.Save(EnumSP.Vehicle.USPUPDATEVEHICLEBARCODE.ToString(), _prm);
+
+            return true;
+        }
+
         public bool SaveClientVehicle(VehicleDto client)
         {
             return dbRepo.InsertPc(client, "ClientId");

@@ -96,7 +96,7 @@ namespace Strive.BusinessLogic.Details
                             clientVehicle.UpdatedBy = details.Job.UpdatedBy;
                         }
                     }
-                }
+                }                
                 if (clientVehicle != null)
                 {
                     BusinessEntities.Model.ClientVehicleModel ClientVehicleModel = new BusinessEntities.Model.ClientVehicleModel();
@@ -106,6 +106,12 @@ namespace Strive.BusinessLogic.Details
                     if (!saveVehicle)
                         return ResultWrap<BusinessEntities.Model.ClientVehicle>(false, "Result", "Failed to save vehicle details.");
                 }
+            }
+
+            //Update barcode if it is assigned to client vehicle
+            if (details.Job.ClientId != null && !string.IsNullOrEmpty(details.Job.BarCode) && details.Job.VehicleId != null)
+            {
+                var Vehicle = new VehicleRal(_tenant).UpdateVehicleBarcode(details.Job.LocationId, details.Job.BarCode, details.Job.VehicleId, details.Job.CreatedBy);
             }
 
             if (!string.IsNullOrEmpty(details.DeletedJobItemId))
