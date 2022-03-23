@@ -12,6 +12,7 @@ using Greeter.Modules.Service;
 using Greeter.Services.Api;
 using Greeter.Storyboards;
 using InfineaSDK.iOS;
+using Newtonsoft.Json;
 using UIKit;
 
 namespace Greeter
@@ -25,9 +26,9 @@ namespace Greeter
         readonly UIColor selectedBtnTxtColor = UIColor.White;
 
         // State Values
-        bool IsWash = true;
+        public static bool IsWash = true;
 
-        public string shopPhoneNumber;
+        public static string shopPhoneNumber;
         //BarcodeResponse barcodeResponse;
 
         private IPCDTDevices Peripheral { get; } = IPCDTDevices.Instance;
@@ -42,7 +43,7 @@ namespace Greeter
         public string Model;
         public int ColorID;
         public string Make;
-
+        public static EmailStatus EmailStatus { get; set; }
 
         public ServiceViewController(IntPtr handle) : base(handle)
         {
@@ -55,6 +56,14 @@ namespace Greeter
             // Initial UI Settings
             Initialise();
             UpdateStaticDataToUI();
+
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.createclicked"), notify: (notification) => {
+                       
+                InvokeOnMainThread(() => {
+                    NavigatetowashscreenwithnewBarcode();
+                });
+            });
+
 
             //_ = GetAvailableSchedules();
 
@@ -226,7 +235,11 @@ namespace Greeter
                 NavigateToWashOrDetailScreen(response.ClientAndVehicleDetailList[0], barcode);
             }
             else
-                ShowAlertMsg(Common.Messages.BARCODE_WRONG);
+            {
+                NavigateToCreateBarcode(barcode);
+                //ShowAlertMsg(Common.Messages.BARCODE_WRONG);
+            }
+                
         }
 
         private void LocationTap()
@@ -299,7 +312,13 @@ namespace Greeter
                 clientAndVehicleDetail = response.ClientAndVehicleDetailList[0];
             }
             else
-                ShowAlertMsg(Common.Messages.BARCODE_WRONG);
+            {
+                
+                NavigateToCreateBarcode(txtFieldBarcode.Text);
+                Console.WriteLine("Control is back");
+            }
+
+                //ShowAlertMsg(Common.Messages.BARCODE_WRONG);
 
             return clientAndVehicleDetail;
         }
@@ -312,6 +331,13 @@ namespace Greeter
                 return;
             }
             _ = CheckBarcodeAndNavigateToViewIssue(txtFieldBarcode.Text);
+        }
+        void NavigateToCreateBarcode(string Barcode)
+        {
+            View.Dispose();
+            DisplayVehicleEmail vc = (DisplayVehicleEmail)GetViewController(GetHomeStorybpard(), nameof(DisplayVehicleEmail));
+            vc.CustomBarcode = Barcode;
+            PresentViewController(vc, true, null);
         }
 
         void NavigateToLastService(ClientAndVehicleDetail clientAndVehicleDetail)
@@ -334,6 +360,40 @@ namespace Greeter
             vc.Model = Model;
             vc.ColorID = ColorID;
             vc.MakeName = Make;
+            NavigateToWithAnim(vc);
+        }
+        void NavigatetowashscreenwithnewBarcode()
+        {
+            var vc = (ServiceQuestionViewController)this.Storyboard.InstantiateViewController(nameof(ServiceQuestionViewController));
+
+            vc.Barcode = txtFieldBarcode.Text;
+            
+                vc.IsNewBarcode = false;
+            
+                //var clientDetail = barcodeResponse.ClientAndVehicleDetailList[0];
+                vc.ClientID = EmailStatus.ClientID;
+                vc.VehicleID = EmailStatus.VehicleID;
+                vc.MakeID = EmailStatus.VehicleMakeId;
+                vc.ModelID = EmailStatus.ModelID;
+                vc.UpchargeID = EmailStatus.UpchargeID;
+                vc.Model = EmailStatus.VehicleModel;
+                vc.ColorID = EmailStatus.VehicleColorId;
+                vc.CustName = EmailStatus.FirstName + EmailStatus.LastName;
+                vc.ClientEmail = ""; //item.Email;
+                vc.ShopPhoneNumber = shopPhoneNumber;
+                //vc.IsNewBarcode = true;
+
+         
+
+            if (IsWash)
+            {
+                vc.ServiceType = ServiceType.Wash;
+            }
+            else
+            {
+                vc.ServiceType = ServiceType.Detail;
+            }
+
             NavigateToWithAnim(vc);
         }
 

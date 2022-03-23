@@ -472,6 +472,10 @@
 		<Compile Include="Cells\TipTemplateCell.cs" />
 		<Compile Include="SignalR\SingalR.cs" />
 		<Compile Include="ZebraPrinter\ConnectionManager.cs" />
+		<Compile Include="Storyboards\DisplayVehicleEmail.cs" />
+		<Compile Include="Storyboards\DisplayVehicleEmail.designer.cs">
+		  <DependentUpon>DisplayVehicleEmail.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

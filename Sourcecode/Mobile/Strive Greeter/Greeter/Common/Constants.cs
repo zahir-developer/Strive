@@ -50,7 +50,7 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
-        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         //Mammoth QA
         //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
@@ -63,7 +63,7 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";
 
         // Client
-        internal const string BASE_URL = "https://mammothuatapi.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi.azurewebsites.net";
 
         // User
         internal const string LOGIN = "/Auth/Login";
@@ -73,6 +73,7 @@ namespace Greeter.Common
         // Service
         // Url Format Example : /Admin/Washes/GetByBarCode/{barcode}
         internal const string BARCODE = "/Admin/Washes/GetByBarCode/";
+        internal const string GETVEHICLEBYEMAIL = "/Admin/Vehicle/GetVehicleByEmailId";
         // Url Format Example : /Admin/Common/GetCodesByCategory/{globalCode}
         internal const string GLOBAL_DATA = "/Admin/Common/GetCodesByCategory/";
         internal const string ALL_MAKE = "/Admin/Common/GetAllMake";

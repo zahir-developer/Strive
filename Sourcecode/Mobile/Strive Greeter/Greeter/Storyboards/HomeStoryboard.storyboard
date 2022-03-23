@@ -2101,6 +2101,83 @@
             </objects>
             <point key="canvasLocation" x="4921" y="914"/>
         </scene>
+        <!--Display Vehicle Email-->
+        <scene sceneID="FJX-1b-4Vp">
+            <objects>
+                <viewController storyboardIdentifier="DisplayVehicleEmail" id="2id-ly-5Xr" customClass="DisplayVehicleEmail" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7pu-3e-gAt">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="9MI-LP-Kmo">
+                                <rect key="frame" x="71" y="399" width="626" height="229"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The current barcode is not available in our system, Please enter the user email if you want map this barcode with a customer." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R2A-oL-agY">
+                                        <rect key="frame" x="40" y="25" width="546" height="38.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hHc-oI-yHW">
+                                        <rect key="frame" x="40" y="88.5" width="546" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4cM-9A-R60">
+                                        <rect key="frame" x="368" y="148.5" width="97" height="35.5"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="CANCEL">
+                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qfd-QK-Gyd">
+                                        <rect key="frame" x="492" y="148" width="93.5" height="36.5"/>
+                                        <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="CREATE">
+                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                </subviews>
+                                <viewLayoutGuide key="safeArea" id="Mzb-Zd-Hky"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="hHc-oI-yHW" firstAttribute="top" secondItem="R2A-oL-agY" secondAttribute="bottom" constant="25" id="0Ra-sN-awA"/>
+                                    <constraint firstItem="R2A-oL-agY" firstAttribute="top" secondItem="9MI-LP-Kmo" secondAttribute="top" constant="25" id="B0X-RO-kFE"/>
+                                    <constraint firstItem="hHc-oI-yHW" firstAttribute="leading" secondItem="9MI-LP-Kmo" secondAttribute="leading" constant="40" id="B9J-VB-Bfk"/>
+                                    <constraint firstItem="R2A-oL-agY" firstAttribute="leading" secondItem="9MI-LP-Kmo" secondAttribute="leading" constant="40" id="OaN-se-PQC"/>
+                                    <constraint firstAttribute="trailing" secondItem="R2A-oL-agY" secondAttribute="trailing" constant="40" id="UTf-Ug-pj4"/>
+                                    <constraint firstAttribute="trailing" secondItem="Qfd-QK-Gyd" secondAttribute="trailing" constant="40.5" id="dlM-Fh-Uyc"/>
+                                    <constraint firstItem="Qfd-QK-Gyd" firstAttribute="top" secondItem="hHc-oI-yHW" secondAttribute="bottom" constant="25.5" id="g2C-D4-VtJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="hHc-oI-yHW" secondAttribute="trailing" constant="40" id="g8O-iK-doi"/>
+                                    <constraint firstItem="4cM-9A-R60" firstAttribute="centerY" secondItem="Qfd-QK-Gyd" secondAttribute="centerY" id="p2V-lv-fB6"/>
+                                    <constraint firstItem="Qfd-QK-Gyd" firstAttribute="leading" secondItem="4cM-9A-R60" secondAttribute="trailing" constant="27" id="xKE-JD-8Li"/>
+                                    <constraint firstItem="4cM-9A-R60" firstAttribute="top" secondItem="hHc-oI-yHW" secondAttribute="bottom" constant="26" id="zz7-8H-Yrf"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dzj-uv-QFT"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="9MI-LP-Kmo" firstAttribute="leading" secondItem="dzj-uv-QFT" secondAttribute="leading" constant="71" id="1Yr-Ez-UWN"/>
+                            <constraint firstItem="9MI-LP-Kmo" firstAttribute="centerX" secondItem="dzj-uv-QFT" secondAttribute="centerX" id="I5X-dV-qwz"/>
+                            <constraint firstItem="dzj-uv-QFT" firstAttribute="trailing" secondItem="9MI-LP-Kmo" secondAttribute="trailing" constant="71" id="MW7-39-qYP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="BtnCancel" destination="4cM-9A-R60" id="ef6-G0-KK7"/>
+                        <outlet property="BtnCreate" destination="Qfd-QK-Gyd" id="jMe-xM-q2k"/>
+                        <outlet property="TftEmail" destination="hHc-oI-yHW" id="rYx-KM-p1v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bfk-3o-3tL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4266" y="424"/>
+        </scene>
     </scenes>
     <resources>
         <image name="barcode" width="34.5" height="17"/>

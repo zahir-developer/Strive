@@ -84,7 +84,73 @@ namespace Greeter.DTOs
         [JsonProperty("PhoneNumber")]
         public string ShopPhoneNumber { get; set; }
     }
+    public class VehicleByEmailResponse : BaseResponse
+    {
+        [JsonProperty("Status")]
+        public List<EmailStatus> Status { get; set; }
+    }
+    public class EmailStatus
+    {
+        [JsonProperty("ClientId")]
+        public long ClientID { get; set; }
 
+        [JsonProperty("VehicleId")]
+        public long VehicleID { get; set; }
+
+        [JsonProperty("VehicleNumber")]
+        public int VehicleNumber { get; set; }
+
+        [JsonProperty("VehicleYear")]
+        public int VehicleYear { get; set; }
+
+        [JsonProperty("VehicleColorId")]
+        public int VehicleColorId { get; set; }
+
+        [JsonProperty("VehicleMakeId")]
+        public int VehicleMakeId { get; set; }
+
+        [JsonProperty("Barcode")]
+        public string Barcode { get; set; }
+
+        [JsonProperty("Email")]
+        public string Email { get; set; }
+
+        [JsonProperty("VehicleMfr")]
+        public string VehicleMfr { get; set; }
+
+        [JsonProperty("VehicleModelId")]
+        public long ModelID { get; set; }
+
+        [JsonProperty("VehicleModel")]
+        public string VehicleModel { get; set; }
+
+        [JsonProperty("Upcharge")]
+        public long UpchargeID { get; set; }
+
+        [JsonProperty("MonthlyCharge")]
+        public long MonthlyCharge { get; set; }
+
+        [JsonProperty("VehicleColor")]
+        public string VehicleColor { get; set; }
+
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
+
+        [JsonProperty("MembershipName")]
+        public string MembershipName { get; set; }
+
+        [JsonProperty("IsActive")]
+        public bool IsActive { get; set; }
+
+        [JsonProperty("IsMembership")]
+        public bool IsMembership { get; set; }
+
+        [JsonProperty("IsDiscount")]
+        public bool IsDiscount { get; set; }
+    }
     public class BarcodeResponse : BaseResponse
     {
         [JsonProperty("ClientAndVehicleDetail")]
@@ -390,8 +456,8 @@ namespace Greeter.DTOs
         [JsonProperty("createdDate")]
         public DateTime CreatedDate { get; } = DateTime.Now;
 
-        [JsonProperty("jobId")]
-        public int JobID { get; set; }
+        [JsonProperty("jobItemId")]
+        public int jobItemId { get; set; }
 
         //[JsonProperty("jobItemId")]
         //public long jobItemId { get; } = 0;

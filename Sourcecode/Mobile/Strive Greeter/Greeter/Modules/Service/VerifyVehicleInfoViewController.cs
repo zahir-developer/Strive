@@ -347,7 +347,7 @@ namespace Greeter.Storyboards
 
                 var jobItems = new List<JobItem>();
 
-                MainService.JobID = jobId;
+                MainService.jobItemId = jobId;
                 jobItems.Add(MainService);
 
                 float serviceTimeMins = 0;
@@ -357,7 +357,7 @@ namespace Greeter.Storyboards
 
                 if (Upcharge != null)
                 {
-                    Upcharge.JobID = jobId;
+                    Upcharge.jobItemId = jobId;
                     serviceTimeMins += Upcharge.Time;
                     jobItems.Add(Upcharge);
                 }
@@ -366,7 +366,7 @@ namespace Greeter.Storyboards
                 {
                     for (int i = 0; i < AdditionalServices.Length; i++)
                     {
-                        AdditionalServices[i].JobID = jobId;
+                        AdditionalServices[i].jobItemId = jobId;
                         serviceTimeMins += AdditionalServices[i].Time;
                         jobItems.Add(AdditionalServices[i]);
                     }
@@ -378,7 +378,7 @@ namespace Greeter.Storyboards
 
                 if (AirFreshner != null)
                 {
-                    AirFreshner.JobID = jobId;
+                    AirFreshner.jobItemId = jobId;
                     serviceTimeMins += AirFreshner.Time;
                     jobItems.Add(AirFreshner);
                 }
@@ -399,6 +399,7 @@ namespace Greeter.Storyboards
                             ColorID = ColorID,
                             ClientID = ClientID != 0 ? ClientID : null,
                             VehicleID = VehicleID != 0 ? VehicleID : null,
+                            //VehicleID = null,
                             LocationID = AppSettings.LocationID,
                             Barcode = Barcode
                         },
