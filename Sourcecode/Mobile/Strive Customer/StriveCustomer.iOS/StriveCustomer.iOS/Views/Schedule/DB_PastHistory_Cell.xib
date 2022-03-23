@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -173,8 +173,8 @@
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Tip:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jrv-5r-FSL">
-                                <rect key="frame" x="225" y="7" width="78" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Tip:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jrv-5r-FSL">
+                                <rect key="frame" x="204" y="7" width="99" height="18"/>
                                 <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -200,7 +200,7 @@
                             <constraint firstItem="KmB-P3-G0p" firstAttribute="leading" secondItem="Hmb-37-lYq" secondAttribute="leading" id="KaL-GI-beX"/>
                             <constraint firstItem="qpg-qT-fwV" firstAttribute="leading" secondItem="yxa-Tb-x1R" secondAttribute="leading" id="Kgo-DW-guG"/>
                             <constraint firstItem="nzp-IO-Typ" firstAttribute="top" secondItem="WU4-lC-EDF" secondAttribute="bottom" constant="5" id="Lkt-q7-Xrc"/>
-                            <constraint firstItem="jrv-5r-FSL" firstAttribute="leading" secondItem="Hmb-37-lYq" secondAttribute="trailing" constant="91" id="Nb4-ho-1KG"/>
+                            <constraint firstItem="jrv-5r-FSL" firstAttribute="leading" secondItem="Hmb-37-lYq" secondAttribute="trailing" constant="70" id="Nb4-ho-1KG"/>
                             <constraint firstAttribute="trailing" secondItem="Bb3-0g-Jcd" secondAttribute="trailing" constant="10" id="OiN-s0-NUD"/>
                             <constraint firstItem="Jf9-RH-mYZ" firstAttribute="centerY" secondItem="KmB-P3-G0p" secondAttribute="centerY" id="P6b-Ar-pau"/>
                             <constraint firstItem="pnN-yg-7r7" firstAttribute="centerY" secondItem="Pm6-hr-Klp" secondAttribute="centerY" id="TER-PV-1oW"/>

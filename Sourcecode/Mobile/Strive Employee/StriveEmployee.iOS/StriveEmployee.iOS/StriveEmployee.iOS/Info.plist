@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>StriveEmployee</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.telliant.StriveEmployee</string>
+	<string>com.Mammoth.StriveEmployee</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -36,7 +36,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<string>Assets.xcassets/AppIcon-1.appiconset</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>UIBackgroundModes</key>

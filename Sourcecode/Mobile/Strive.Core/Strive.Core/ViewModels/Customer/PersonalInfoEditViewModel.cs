@@ -119,11 +119,11 @@ namespace Strive.Core.ViewModels.Customer
                 _userDialog.Alert("Please enter your name.");
                 return proceed = false;
             }
-            if(string.IsNullOrEmpty(ContactNumber))
-            {
-                _userDialog.Alert("Please enter your contact number.");
-                return proceed = false;
-            }
+            //if(string.IsNullOrEmpty(ContactNumber))
+            //{
+            //    _userDialog.Alert("Please enter your contact number.");
+            //    return proceed = false;
+            //}
             if (string.IsNullOrEmpty(Address))
             {
                 _userDialog.Alert("Please enter your address.");
@@ -139,19 +139,19 @@ namespace Strive.Core.ViewModels.Customer
                 _userDialog.Alert("Enter a valid email Id.");
                 return proceed = false;
             }
-            if (!Validations.validatePhone(ContactNumber))
-            {
-                _userDialog.Alert("Enter a valid phone number.");
-                return proceed = false;
-            }
-            if(SecondaryContactNumber != "")
-            {
-                if (!Validations.validatePhone(SecondaryContactNumber))
-                {
-                    _userDialog.Alert("Enter a valid secondary phone number.");
-                    return proceed = false;
-                }
-            }            
+            //if (!Validations.validatePhone(ContactNumber))
+            //{
+            //    _userDialog.Alert("Enter a valid phone number.");
+            //    return proceed = false;
+            //}
+            //if(SecondaryContactNumber != "")
+            //{
+            //    if (!Validations.validatePhone(SecondaryContactNumber))
+            //    {
+            //        _userDialog.Alert("Enter a valid secondary phone number.");
+            //        return proceed = false;
+            //    }
+            //}            
             return proceed;
         }
 

@@ -96,37 +96,37 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jessica" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGr-SW-uzx">
-                                    <rect key="frame" x="219.66666666666669" y="70.999999999999972" width="45" height="19.333333333333329"/>
+                                    <rect key="frame" x="189.66666666666669" y="70.999999999999972" width="45" height="19.333333333333329"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="9992-123-123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aY4-fv-Ecv">
-                                    <rect key="frame" x="219.66666666666669" y="105.33333333333334" width="89" height="19.333333333333329"/>
+                                    <rect key="frame" x="189.66666666666669" y="105.33333333333334" width="89" height="19.333333333333329"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3j-Ex-YiA">
-                                    <rect key="frame" x="219.66666666666669" y="144.66666666666666" width="52.666666666666686" height="19.333333333333343"/>
+                                    <rect key="frame" x="189.66666666666669" y="144.66666666666666" width="52.666666666666657" height="19.333333333333343"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TMo-1d-GN4">
-                                    <rect key="frame" x="219.66666666666669" y="183.99999999999997" width="52.666666666666686" height="19.333333333333343"/>
+                                    <rect key="frame" x="189.66666666666669" y="183.99999999999997" width="52.666666666666657" height="19.333333333333343"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9992-123-123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMM-Fx-HRZ">
-                                    <rect key="frame" x="219.66666666666669" y="223.33333333333334" width="89" height="19.333333333333343"/>
+                                    <rect key="frame" x="189.66666666666669" y="223.33333333333334" width="89" height="19.333333333333343"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqS-NA-u9m">
-                                    <rect key="frame" x="298" y="262.66666666666663" width="52.666666666666686" height="19.333333333333314"/>
+                                    <rect key="frame" x="290" y="262.66666666666663" width="52.666666666666686" height="19.333333333333314"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -147,16 +147,16 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="iyU-fh-RRY" firstAttribute="baseline" secondItem="wqS-NA-u9m" secondAttribute="firstBaseline" id="1LD-Qq-0Kx"/>
-                                <constraint firstAttribute="trailing" secondItem="wqS-NA-u9m" secondAttribute="trailing" constant="8" id="3Ec-RS-hsZ"/>
+                                <constraint firstAttribute="trailing" secondItem="wqS-NA-u9m" secondAttribute="trailing" constant="16" id="3Ec-RS-hsZ"/>
                                 <constraint firstItem="m7N-Ni-ogd" firstAttribute="top" secondItem="mBc-ot-nTO" secondAttribute="bottom" constant="20" id="4Qg-eR-69F"/>
                                 <constraint firstItem="CMM-Fx-HRZ" firstAttribute="centerY" secondItem="m7N-Ni-ogd" secondAttribute="centerY" id="9hO-Jz-chM"/>
                                 <constraint firstItem="iyU-fh-RRY" firstAttribute="baseline" secondItem="wqS-NA-u9m" secondAttribute="baseline" id="EO3-Qf-fZJ"/>
                                 <constraint firstItem="dGr-SW-uzx" firstAttribute="centerY" secondItem="8PN-Tw-eyU" secondAttribute="centerY" id="Fc7-Rg-rtf"/>
+                                <constraint firstItem="dGr-SW-uzx" firstAttribute="leading" secondItem="8PN-Tw-eyU" secondAttribute="trailing" constant="80" id="FjP-EN-W1K"/>
                                 <constraint firstItem="3Xz-9J-EBb" firstAttribute="top" secondItem="nQV-UT-TtU" secondAttribute="bottom" constant="20" id="HhD-bb-Plj"/>
                                 <constraint firstItem="iyU-fh-RRY" firstAttribute="top" secondItem="m7N-Ni-ogd" secondAttribute="bottom" constant="20" id="IMi-fU-wdq"/>
                                 <constraint firstItem="bzN-Y0-mSp" firstAttribute="top" secondItem="nlX-VZ-Ftg" secondAttribute="top" constant="25" id="J54-Jj-7zm"/>
                                 <constraint firstItem="Al7-4I-r8X" firstAttribute="centerY" secondItem="bzN-Y0-mSp" secondAttribute="centerY" id="N2Q-wS-BTb"/>
-                                <constraint firstAttribute="trailing" secondItem="aY4-fv-Ecv" secondAttribute="trailing" constant="50" id="O8B-AP-0Aw"/>
                                 <constraint firstItem="TMo-1d-GN4" firstAttribute="centerY" secondItem="mBc-ot-nTO" secondAttribute="centerY" id="QJd-eb-3bd"/>
                                 <constraint firstItem="bzN-Y0-mSp" firstAttribute="leading" secondItem="nlX-VZ-Ftg" secondAttribute="leading" constant="25" id="USH-0I-cS4"/>
                                 <constraint firstItem="iyU-fh-RRY" firstAttribute="leading" secondItem="m7N-Ni-ogd" secondAttribute="leading" id="VYw-zn-83P"/>

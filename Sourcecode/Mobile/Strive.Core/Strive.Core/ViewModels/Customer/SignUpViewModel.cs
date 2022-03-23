@@ -36,10 +36,10 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.Alert(Strings.ValidEmail);
             }
-            else if (!Validations.validatePhone(PhoneNumber) || String.IsNullOrEmpty(PhoneNumber))
-            {
-                _userDialog.Alert(Strings.ValidMobile);
-            }
+            //else if (!Validations.validatePhone(PhoneNumber) || String.IsNullOrEmpty(PhoneNumber))
+            //{
+            //    _userDialog.Alert(Strings.ValidMobile);
+            //}
             else if (String.IsNullOrEmpty(FirstName))
             {
                 _userDialog.Alert(Strings.ValidName);
@@ -77,7 +77,7 @@ namespace Strive.Core.ViewModels.Customer
                 //customerSignUp.passwordHash = signUpPassword;
                 //customerSignUp.createdDate = createdDate ;
                 
-                _userDialog.ShowLoading("Version 3",MaskType.Gradient);
+                _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
 
                 var result = await AdminService.CheckMailId(EmailAddress);
                 if (result.EmailIdExist)
