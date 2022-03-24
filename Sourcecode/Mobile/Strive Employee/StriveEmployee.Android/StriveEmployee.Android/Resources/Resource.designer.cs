@@ -14108,10 +14108,16 @@ namespace StriveEmployee.Android
 			public const int ic_launcher = 2131623936;
 			
 			// aapt resource value: 0x7F0E0001
-			public const int ic_launcher_foreground = 2131623937;
+			public const int ic_launcher_adaptive_back = 2131623937;
 			
 			// aapt resource value: 0x7F0E0002
-			public const int ic_launcher_round = 2131623938;
+			public const int ic_launcher_adaptive_fore = 2131623938;
+			
+			// aapt resource value: 0x7F0E0003
+			public const int ic_launcher_foreground = 2131623939;
+			
+			// aapt resource value: 0x7F0E0004
+			public const int ic_launcher_round = 2131623940;
 			
 			static Mipmap()
 			{

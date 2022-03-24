@@ -69,7 +69,10 @@ namespace StriveCustomer.Android.Adapter
             slotSelection[position].Text = availableScheduleSlots.GetTimeInDetails[position].TimeIn;
             Selected.Add(0);
             slotSelection[position].Tag = position;
-            slotSelection[position].Click += ScheduleTimeSlots_Click;
+            if (!slotSelection[position].HasOnClickListeners)
+            {
+                slotSelection[position].Click += ScheduleTimeSlots_Click;
+            }
             if (CustomerScheduleInformation.ScheduleServiceSlotNumber == position)
             {
                 if (Selected[position] != 0)
