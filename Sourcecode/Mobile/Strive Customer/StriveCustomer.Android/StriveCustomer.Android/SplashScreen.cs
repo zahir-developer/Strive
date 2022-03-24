@@ -9,7 +9,7 @@ namespace StriveCustomer.Android
     [MvxActivityPresentation]
     [Activity(
        MainLauncher = true,
-       Icon = "@drawable/Strive_Logo_Splash",
+       Icon = "@mipmap/ic_launcher",
        Theme = "@style/SplashTheme",
        NoHistory = true,
        ScreenOrientation = ScreenOrientation.Portrait)]

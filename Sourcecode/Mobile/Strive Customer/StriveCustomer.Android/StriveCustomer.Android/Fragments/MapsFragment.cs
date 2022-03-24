@@ -336,30 +336,20 @@ namespace StriveCustomer.Android.Fragments
         {
             double latEnd = lat;
             double lngEnd = lon;
-
             try
             {
                 var currentLocation = await Geolocation.GetLastKnownLocationAsync();
                 if (currentLocation == null)
                 {
-                    var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-                    var location = await Geolocation.GetLocationAsync(request);
-                    double dist = (double)(location?.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles));
-                    if (!dict.ContainsKey(id))
-                    {
-                        dict.Add(id, dist);
-                        distanceList.Add(dist);
-                    }
+                    var location = await Geolocation.GetLocationAsync();
                 }
-                else
+                double dist = (double)(currentLocation?.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles));
+                if (!dict.ContainsKey(id))
                 {
-                    double dist = (double)(currentLocation?.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles));
-                    if (!dict.ContainsKey(id))
-                    {
                         dict.Add(id, dist);
                         distanceList.Add(dist);
-                    }
                 }
+                
                 
                
             }

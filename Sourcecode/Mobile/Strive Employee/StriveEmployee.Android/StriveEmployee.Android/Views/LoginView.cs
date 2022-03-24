@@ -60,9 +60,9 @@ namespace StriveEmployee.Android.Views
             password_EditText = this.FindViewById<EditText>(Resource.Id.passwordInputs);
             loginHeading_TextView = this.FindViewById<TextView>(Resource.Id.loginHeading);
             rememberMe_TextView = this.FindViewById<TextView>(Resource.Id.rememberMeLabel);
-            newAccount = FindViewById<TextView>(Resource.Id.newAccount);
-            signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
-            signUp.PaintFlags = PaintFlags.UnderlineText;
+            //newAccount = FindViewById<TextView>(Resource.Id.newAccount);
+            //signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
+            //signUp.PaintFlags = PaintFlags.UnderlineText;
             forgotPassword = this.FindViewById<TextView>(Resource.Id.forgotPasswordLink);
             agreeButton = this.FindViewById<Button>(Resource.Id.btnAgree);
             disagreeButton = this.FindViewById<Button>(Resource.Id.btnDisagree);
@@ -81,13 +81,13 @@ namespace StriveEmployee.Android.Views
             bindingset.Bind(login_Button).For(lvm => lvm.Text).To(lvm => lvm.Login);
             //bindingset.Bind(login_Button).To(lvm => lvm.Commands["DoLogin"]);
             bindingset.Bind(rememberMe_TextView).To(lvm => lvm.RememberPassword);
-            bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
+            //bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
             bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
-            bindingset.Bind(signUp).To(lvm => lvm.SignUp);
+            //bindingset.Bind(signUp).To(lvm => lvm.SignUp);
             bindingset.Apply();
             basicSetup();
             forgotPassword.Click += navigateToForgotPassword;           
-            signUp.Click += navigateToSignUp;
+            //signUp.Click += navigateToSignUp;
             FirebaseApp.InitializeApp(Application.Context);
             //bool isfromNotification = Intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
             //if (isfromNotification)
@@ -216,10 +216,10 @@ namespace StriveEmployee.Android.Views
             InputMethodManager inputMethod = (InputMethodManager)GetSystemService(Context.InputMethodService);
             inputMethod.HideSoftInputFromWindow(input.WindowToken, 0);
         }
-        private void navigateToSignUp(object sender, EventArgs e)
-        {
-            Browser.OpenAsync(ApiUtils.URL_CUSTOMER_SIGNUP, BrowserLaunchMode.SystemPreferred);
-        }
+        //private void navigateToSignUp(object sender, EventArgs e)
+        //{
+        //    Browser.OpenAsync(ApiUtils.URL_CUSTOMER_SIGNUP, BrowserLaunchMode.SystemPreferred);
+        //}
 
         private void navigateToForgotPassword(object sender, EventArgs e)
         {

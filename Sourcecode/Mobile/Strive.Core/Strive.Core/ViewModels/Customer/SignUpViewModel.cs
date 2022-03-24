@@ -111,7 +111,7 @@ namespace Strive.Core.ViewModels.Customer
                     clientAddress.clientId = 0;
                     clientAddress.address1 = null;
                     clientAddress.address2 = null;
-                    clientAddress.phoneNumber = PhoneNumber;
+                    clientAddress.phoneNumber = PhoneNumber ?? "";
                     clientAddress.phoneNumber2 = null;
                     clientAddress.email = EmailAddress;
                     clientAddress.state = null;
