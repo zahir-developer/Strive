@@ -25,8 +25,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>iOS Team Provisioning Profile: com.telliant.StriveEmployee</CodesignProvision>
-    <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
+    <CodesignProvision>Strive Employee</CodesignProvision>
+    <CodesignKey>Apple Development: Remees MS (7U7QD48623)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -60,8 +60,8 @@
     <WarningLevel>4</WarningLevel>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
-    <CodesignProvision>iOS Team Provisioning Profile: com.telliant.StriveEmployee</CodesignProvision>
+    <CodesignKey>Apple Development: Remees MS (7U7QD48623)</CodesignKey>
+    <CodesignProvision>Strive Employee</CodesignProvision>
     <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
