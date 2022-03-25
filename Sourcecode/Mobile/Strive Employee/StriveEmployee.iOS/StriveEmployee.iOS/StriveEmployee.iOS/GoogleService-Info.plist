@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>999690260710-mv51lm00eesupq6t0vkjub2da89oqi81.apps.googleusercontent.com</string>
+	<string>999690260710-m99jg4pvjl3f7ss8s896gb7tlqrcd6u0.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.999690260710-mv51lm00eesupq6t0vkjub2da89oqi81</string>
+	<string>com.googleusercontent.apps.999690260710-m99jg4pvjl3f7ss8s896gb7tlqrcd6u0</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAh-bBblXP6MFGKTjaWaqJloUR5TrGbHtQ</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,22 +13,22 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.telliant.StriveEmployee</string>
+	<string>com.Mammoth.StriveEmployee</string>
 	<key>PROJECT_ID</key>
 	<string>tellaintstrive</string>
 	<key>STORAGE_BUCKET</key>
 	<string>tellaintstrive.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:999690260710:ios:747c6e4daef5351c816b27</string>
+	<string>1:999690260710:ios:25089f0bc7a32675816b27</string>
 </dict>
 </plist>
