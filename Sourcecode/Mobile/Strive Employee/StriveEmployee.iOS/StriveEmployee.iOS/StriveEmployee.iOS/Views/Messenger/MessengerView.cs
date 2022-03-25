@@ -176,10 +176,15 @@ namespace StriveEmployee.iOS.Views.Messenger
                 await recentViewModel.GetRecentContactsList();
                 if (recentViewModel.EmployeeList != null)
                 {
+                    Messenger_TableView.Hidden = false;
                     if (recentViewModel.EmployeeList.ChatEmployeeList.Count > 0)
                     {
                         setData();
                     }
+                }
+                else
+                {
+                    Messenger_TableView.Hidden = true;
                 }
             }
             catch (Exception ex)
@@ -210,11 +215,16 @@ namespace StriveEmployee.iOS.Views.Messenger
                     var employeeLists = await contactSView.GetContactsList();
                     if (MessengerTempData.employeeList_Contact != null || employeeLists != null || employeeLists.EmployeeList != null || employeeLists.EmployeeList.Employee != null)
                     {
+                        Messenger_TableView.Hidden = false;
                         contactSource = new Contact_DataSource(employeeLists.EmployeeList.Employee, contactSView);
                         Messenger_TableView.Source = contactSource;
                         Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
                         Messenger_TableView.DelaysContentTouches = false;
                         Messenger_TableView.ReloadData();
+                    }
+                    else
+                    {
+                        Messenger_TableView.Hidden = true;
                     }
                 }
                 catch (Exception ex)
@@ -235,10 +245,15 @@ namespace StriveEmployee.iOS.Views.Messenger
                 await groupViewModel.GetGroupsList();
                 if (groupViewModel.GroupList != null)
                 {
+                    Messenger_TableView.Hidden = false;
                     if (groupViewModel.GroupList.ChatEmployeeList.Count > 0)
                     {
                         setGroupData();
                     }
+                }
+                else
+                {
+                    Messenger_TableView.Hidden = true;
                 }
             }
             catch (Exception ex)

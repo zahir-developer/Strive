@@ -44,14 +44,14 @@ namespace StriveOwner.iOS.Views.Inventory
 				InventorySearch = null;
 			}
 
-			if (LogoutButton != null) {
-				LogoutButton.Dispose ();
-				LogoutButton = null;
-			}
-
 			if (InventoryTitle != null) {
 				InventoryTitle.Dispose ();
 				InventoryTitle = null;
+			}
+
+			if (LogoutButton != null) {
+				LogoutButton.Dispose ();
+				LogoutButton = null;
 			}
 		}
 	}

@@ -52,6 +52,19 @@ namespace StriveOwner.iOS.Views.HomeView
             };
             NavigationItem.Title = "Dashboard";
 
+            //LogOut
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.NavigateBackCommand();
+            };
+
+
             DashboardParentView.Layer.CornerRadius = 5;
             DashboardInnerView.Layer.CornerRadius = 5;
 

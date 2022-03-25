@@ -24,6 +24,16 @@ namespace StriveOwner.iOS.Views.CheckOut
         {
             base.ViewDidLoad();
             ViewModel.EmployeeLocations = EmployeeTempData.employeeLocationdata;
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.NavigateBackCommand();
+            };
             await RefreshAsync();
             InitialSetup();
             AddRefreshControl();

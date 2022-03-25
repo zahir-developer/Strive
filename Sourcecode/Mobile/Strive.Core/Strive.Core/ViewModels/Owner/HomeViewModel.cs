@@ -7,6 +7,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Models.Owner;
 using Strive.Core.Resources;
 using Strive.Core.Services.Interfaces;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.Owner
 {
@@ -90,6 +91,12 @@ namespace Strive.Core.ViewModels.Owner
                 return Locations;
             }
         }
-        #endregion Commands 
+        #endregion Commands
+
+        public async Task NavigateBackCommand()
+        {
+            await _navigationService.Navigate<LoginViewModel>();
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit"));
+        }
     }
 }

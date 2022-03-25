@@ -6,6 +6,7 @@ using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.Owner
 {
@@ -95,6 +96,12 @@ namespace Strive.Core.ViewModels.Owner
                 holdResponse = result;
             }
             _userDialog.HideLoading();
+        }
+
+        public async Task NavigateBackCommand()
+        {
+            await _navigationService.Navigate<LoginViewModel>();
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit"));
         }
 
         public async Task DoCheckout(int Id)

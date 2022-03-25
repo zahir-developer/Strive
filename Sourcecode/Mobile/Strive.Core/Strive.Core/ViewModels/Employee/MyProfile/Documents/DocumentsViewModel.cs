@@ -71,9 +71,17 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
                 {
                     IsImage = true;
                 }
-                else
+                else if (result.Document.FileType == ".png")
+                {
+                    IsImage = true;
+                }
+                else if (result.Document.FileType == ".pdf")
                 {
                     IsImage = false;
+                }
+                else
+                {
+                    _userDialog.Alert("Unsupported File Format");
                 }
                     
 

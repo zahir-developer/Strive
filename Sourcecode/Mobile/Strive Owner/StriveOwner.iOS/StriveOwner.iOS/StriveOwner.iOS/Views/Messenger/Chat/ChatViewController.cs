@@ -51,7 +51,7 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
 
         async void SetupView()
         {
-            View.BackgroundColor = UIColor.White;
+            View.BackgroundColor = UIColor.Clear;
 
             var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
             Tap.CancelsTouchesInView = false;
@@ -98,8 +98,8 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
             chatTableView.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
             chatTableView.BottomAnchor.ConstraintEqualTo(messageBoxContainer.TopAnchor).Active = true;
 
-            messageBoxContainer.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 20).Active = true;
-            messageBoxContainer.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor, constant: -20).Active = true;
+            messageBoxContainer.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 0).Active = true;
+            messageBoxContainer.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor, constant: 0).Active = true;
             messageBoxContainer.HeightAnchor.ConstraintEqualTo(60).Active = true;
             messageBoxContainerBottomConstraint = messageBoxContainer.BottomAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.BottomAnchor, constant: -10);
             messageBoxContainerBottomConstraint.Priority = 249;
@@ -119,7 +119,7 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
             sendImageView.WidthAnchor.ConstraintEqualTo(40).Active = true;
             sendImageView.HeightAnchor.ConstraintEqualTo(40).Active = true;
 
-            if (ViewModel.personalChatMessages != null)
+            if (ViewModel.ChatMessages != null)
             {
                 var chatSource = new ChatDataSource(ViewModel.ChatMessages);
                 chatTableView.Source = chatSource;

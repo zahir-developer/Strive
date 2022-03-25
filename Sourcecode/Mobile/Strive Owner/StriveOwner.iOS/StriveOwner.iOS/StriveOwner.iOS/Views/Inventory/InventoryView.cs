@@ -19,6 +19,7 @@ namespace StriveOwner.iOS.Views.Inventory
             base.ViewDidLoad();
             DoInitialSetup();
 
+            AddProd_Btn.Layer.CornerRadius = 5;
             var inventoryTableSource = new InventoryDataSource(Inventory_TableView, ViewModel);
 
             var set = this.CreateBindingSet<InventoryView, InventoryViewModel>();
