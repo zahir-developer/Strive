@@ -19,11 +19,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1x7-rf-lLy">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="102.33333333333333"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9S-7H-nIe">
-                                <rect key="frame" x="264" y="32" width="48" height="38.333333333333343"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="icon-unchecked-round" title=""/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zac-ke-XNG">
                                 <rect key="frame" x="14" y="65.333333333333329" width="125" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -39,20 +34,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-unchecked-round" translatesAutoresizingMaskIntoConstraints="NO" id="aqa-4V-H6t">
+                                <rect key="frame" x="272" y="34" width="40" height="34.333333333333343"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="leading" secondItem="zac-ke-XNG" secondAttribute="trailing" constant="-139" id="0Gk-XB-WS2"/>
+                            <constraint firstAttribute="trailing" secondItem="aqa-4V-H6t" secondAttribute="trailing" constant="8" id="0iQ-0j-htX"/>
                             <constraint firstItem="ueV-Ok-wLr" firstAttribute="leading" secondItem="1x7-rf-lLy" secondAttribute="leading" constant="14" id="6J9-jk-Woh"/>
-                            <constraint firstItem="d9S-7H-nIe" firstAttribute="top" secondItem="1x7-rf-lLy" secondAttribute="top" constant="32" id="F6L-RS-hLY"/>
-                            <constraint firstAttribute="bottom" secondItem="d9S-7H-nIe" secondAttribute="bottom" constant="32" id="MU6-gb-KzS"/>
                             <constraint firstItem="zac-ke-XNG" firstAttribute="leading" secondItem="1x7-rf-lLy" secondAttribute="leading" constant="14" id="TD2-UH-L9r"/>
-                            <constraint firstAttribute="trailing" secondItem="d9S-7H-nIe" secondAttribute="trailing" constant="8" id="ZgG-b3-a7o"/>
                             <constraint firstAttribute="bottom" secondItem="zac-ke-XNG" secondAttribute="bottom" constant="21" id="dQR-SM-670"/>
                             <constraint firstItem="zac-ke-XNG" firstAttribute="top" secondItem="ueV-Ok-wLr" secondAttribute="bottom" constant="22" id="eUK-xv-zkQ"/>
                             <constraint firstItem="zac-ke-XNG" firstAttribute="leading" secondItem="ueV-Ok-wLr" secondAttribute="leading" id="eUP-bn-Hyr"/>
                             <constraint firstItem="ueV-Ok-wLr" firstAttribute="top" secondItem="1x7-rf-lLy" secondAttribute="top" constant="23" id="hfZ-nc-T38"/>
+                            <constraint firstItem="aqa-4V-H6t" firstAttribute="leading" secondItem="ueV-Ok-wLr" secondAttribute="trailing" constant="25" id="i0A-MY-T6q"/>
                             <constraint firstItem="zac-ke-XNG" firstAttribute="leading" secondItem="1x7-rf-lLy" secondAttribute="leading" constant="14" id="jvo-ih-vXz"/>
+                            <constraint firstItem="aqa-4V-H6t" firstAttribute="top" secondItem="1x7-rf-lLy" secondAttribute="top" constant="34" id="krj-3z-Uqc"/>
+                            <constraint firstAttribute="bottom" secondItem="aqa-4V-H6t" secondAttribute="bottom" constant="34" id="tEH-47-ikP"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -64,7 +63,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="Task" destination="ueV-Ok-wLr" id="NjE-FW-4sC"/>
-                <outlet property="TaskCheck" destination="d9S-7H-nIe" id="6An-iw-LZZ"/>
+                <outlet property="TaskCheck" destination="aqa-4V-H6t" id="ocq-DN-eqk"/>
                 <outlet property="TaskContainer" destination="1x7-rf-lLy" id="LSj-Z3-th4"/>
                 <outlet property="Time" destination="zac-ke-XNG" id="xGI-c8-BF8"/>
             </connections>

@@ -16,7 +16,7 @@ namespace StriveEmployee.iOS.Views.Schedule
 		UIKit.UILabel Task { get; set; }
 
 		[Outlet]
-		UIKit.UIButton TaskCheck { get; set; }
+		UIKit.UIImageView TaskCheck { get; set; }
 
 		[Outlet]
 		UIKit.UIView TaskContainer { get; set; }

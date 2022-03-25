@@ -14,7 +14,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
         #region Properties
 
         public PersonalDetails DocumentDetails { get; set; }
-
+        public static bool IsImage = false;
         #endregion Properties
         public bool isAndroidFlag;
         #region Commands
@@ -67,7 +67,16 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
             DownloadDocuments docs = new DownloadDocuments();
             if (result != null)
             {
-               
+                if (result.Document.FileType == ".jpeg")
+                {
+                    IsImage = true;
+                }
+                else
+                {
+                    IsImage = false;
+                }
+                    
+
                 docs = result;
             }
             return docs;

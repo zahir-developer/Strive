@@ -46,7 +46,7 @@ namespace StriveEmployee.iOS.Views
         {
             MyProfileTempData.EmployeeDocumentID = docList[selectedIndex.Row].EmployeeDocumentId;
             MyProfileTempData.DocumentPassword = "string";
-            downloadDoc(int.Parse(sender.Tag.ToString()));
+            downloadDoc(selectedIndex.Row);
         }
 
         public async void downloadDoc(int Id)

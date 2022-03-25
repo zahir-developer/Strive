@@ -105,8 +105,8 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
         }
         async void SetupView()
         {
-            View.BackgroundColor = UIColor.White;
-
+            View.BackgroundColor = UIColor.Clear;
+            
             chatTableView = new UITableView(CGRect.Empty);
             chatTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             chatTableView.EstimatedRowHeight = 110;
@@ -142,14 +142,14 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             sendImageView.UserInteractionEnabled = true;
             sendImageView.AddGestureRecognizer(new UITapGestureRecognizer(OnSend));
             messageBoxContainer.Add(sendImageView);
-
+           
             chatTableView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
             chatTableView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor).Active = true;
             chatTableView.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
             chatTableView.BottomAnchor.ConstraintEqualTo(messageBoxContainer.TopAnchor).Active = true;
 
-            messageBoxContainer.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 20).Active = true;
-            messageBoxContainer.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor, constant: -20).Active = true;
+            messageBoxContainer.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 0).Active = true;
+            messageBoxContainer.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor, constant: 0).Active = true;
             messageBoxContainer.HeightAnchor.ConstraintEqualTo(60).Active = true;
             messageBoxContainerBottomConstraint = messageBoxContainer.BottomAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.BottomAnchor, constant: -10);
             messageBoxContainerBottomConstraint.Priority = 249;

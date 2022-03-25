@@ -67,61 +67,71 @@ namespace Strive.Core.ViewModels.Employee
 
         public async Task CreateGroupChat()
         {
-            PromptResult GroupName = await _userDialog.PromptAsync(new PromptConfig{InputType = InputType.Name,OkText="Create Group",CancelText="Cancel", Title="Create Group" });
-            CreateGroupChat createGroupChat = new CreateGroupChat();
-
-            if (GroupName.Ok&& !string.IsNullOrWhiteSpace(GroupName.Text))
+            if (chatUserGroups.Count != 0)
             {
-                _userDialog.ShowLoading(Strings.Loading);
+                PromptResult GroupName = await _userDialog.PromptAsync(new PromptConfig { InputType = InputType.Name, OkText = "Create Group", CancelText = "Cancel", Title = "Create Group" });
+                CreateGroupChat createGroupChat = new CreateGroupChat();
 
-                chatGroupforCreation.chatGroupId = 0;
-                chatGroupforCreation.comments = null;
-                
-                chatGroupforCreation.groupName = GroupName.Text;
-                chatGroupforCreation.createdBy = EmployeeTempData.EmployeeID;
-
-                var chatUserGroup = new chatUserGroup();
-                chatUserGroup.CommunicationId = "";
-                chatUserGroup.createdBy = 0;
-                chatUserGroup.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss").ToString();
-                chatUserGroup.isActive = true;
-                chatUserGroup.isDeleted = false;
-                chatUserGroup.userId = EmployeeTempData.EmployeeID;
-                chatUserGroup.chatGroupUserId = 0;
-                chatUserGroup.chatGroupId = 0;
-                chatUserGroups.Add(chatUserGroup);
-
-
-
-
-                chatGroupforCreation.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
-                chatGroupforCreation.isActive = true;
-                chatGroupforCreation.isDeleted = false;
-                chatGroupforCreation.updatedBy = EmployeeTempData.EmployeeID;
-                chatGroupforCreation.updatedDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
-                createGroupChat.chatGroup = chatGroupforCreation;
-                createGroupChat.chatUserGroup = chatUserGroups;
-                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(createGroupChat));
-                var result = await MessengerService.CreateChatGroup(createGroupChat);
-                chatUserGroups = new List<chatUserGroup>();
-                if (result!=null)
+                if (GroupName.Ok && !string.IsNullOrWhiteSpace(GroupName.Text))
                 {
-                    _navigationService.Navigate<MessengerViewModel>();
-                    _userDialog.Toast("Group Has Been Created Sucessfully");
+                    _userDialog.ShowLoading(Strings.Loading);
+
+                    chatGroupforCreation.chatGroupId = 0;
+                    chatGroupforCreation.comments = null;
+
+                    chatGroupforCreation.groupName = GroupName.Text;
+                    chatGroupforCreation.createdBy = EmployeeTempData.EmployeeID;
+
+                    var chatUserGroup = new chatUserGroup();
+                    chatUserGroup.CommunicationId = "";
+                    chatUserGroup.createdBy = 0;
+                    chatUserGroup.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss").ToString();
+                    chatUserGroup.isActive = true;
+                    chatUserGroup.isDeleted = false;
+                    chatUserGroup.userId = EmployeeTempData.EmployeeID;
+                    chatUserGroup.chatGroupUserId = 0;
+                    chatUserGroup.chatGroupId = 0;
+                    chatUserGroups.Add(chatUserGroup);
+
+
+
+
+                    chatGroupforCreation.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
+                    chatGroupforCreation.isActive = true;
+                    chatGroupforCreation.isDeleted = false;
+                    chatGroupforCreation.updatedBy = EmployeeTempData.EmployeeID;
+                    chatGroupforCreation.updatedDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
+                    createGroupChat.chatGroup = chatGroupforCreation;
+                    createGroupChat.chatUserGroup = chatUserGroups;
+                    Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(createGroupChat));
+                    var result = await MessengerService.CreateChatGroup(createGroupChat);
+                    chatUserGroups = new List<chatUserGroup>();
+                    if (result != null)
+                    {
+                        _navigationService.Navigate<MessengerViewModel>();
+                        _userDialog.Toast("Group Has Been Created Sucessfully");
+                    }
+                    else
+                    {
+                        _userDialog.Toast("Unable To Create Group");
+                    }
+                    //     public string comments { get; set; }
+                    //public bool isActive { get; set; }
+                    //public bool isDeleted { get; set; }
+                    //public int createdBy { get; set; }
+                    //public string createdDate { get; set; }
+                    //public int updatedBy { get; set; }
+                    //public string updatedDate { get; set; }
+
                 }
-                else
-                {
-                    _userDialog.Toast("Unable To Create Group");
-                }
-                //     public string comments { get; set; }
-                //public bool isActive { get; set; }
-                //public bool isDeleted { get; set; }
-                //public int createdBy { get; set; }
-                //public string createdDate { get; set; }
-                //public int updatedBy { get; set; }
-                //public string updatedDate { get; set; }
-               
+
             }
+            else
+            {
+                _userDialog.Alert("Please Select More Than One User To Create Group");
+            }
+
+            
             
         }
         public void NotEnough()

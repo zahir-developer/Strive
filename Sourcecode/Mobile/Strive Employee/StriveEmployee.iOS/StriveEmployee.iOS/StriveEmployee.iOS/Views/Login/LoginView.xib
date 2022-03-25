@@ -1180,6 +1180,11 @@ mammoth3@comcast.net
                 <constraint firstItem="cbV-80-7tm" firstAttribute="top" secondItem="FXe-VG-IHM" secondAttribute="bottom" constant="15" id="yMs-Hy-EdI"/>
                 <constraint firstItem="hqm-19-FPl" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="92" id="yuj-lW-Nmb"/>
             </constraints>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="hqm-19-FPl"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="76.92307692307692" y="0.7109004739336493"/>
         </view>
     </objects>

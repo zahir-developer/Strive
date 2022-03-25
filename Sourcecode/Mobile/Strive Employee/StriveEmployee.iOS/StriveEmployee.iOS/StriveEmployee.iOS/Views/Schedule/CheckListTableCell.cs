@@ -35,11 +35,11 @@ namespace StriveEmployee.iOS.Views.Schedule
                 var test = ScheduleViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[index.Row].CheckListEmployeeId);
                 if (test !=null)
                 {
-                    TaskCheck.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    TaskCheck.Image = UIImage.FromBundle("icon-checked-round");
                 }
                 else
                 {
-                    TaskCheck.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                    TaskCheck.Image = UIImage.FromBundle("icon-unchecked-round");
                 }
             }
         }
@@ -49,14 +49,14 @@ namespace StriveEmployee.iOS.Views.Schedule
             index = indexPath;
             if (ScheduleViewModel.SelectedChecklist.Any(x => x.CheckListEmployeeId == item.ChecklistNotification[indexPath.Row].CheckListEmployeeId))
             {
-                TaskCheck.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                TaskCheck.Image = UIImage.FromBundle("icon-unchecked-round");
                 var element = ScheduleViewModel.SelectedChecklist.Find(x => x.CheckListEmployeeId == item.ChecklistNotification[indexPath.Row].CheckListEmployeeId);
                 ScheduleViewModel.SelectedChecklist.Remove(element);
           
             }
             else
             {
-                TaskCheck.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                TaskCheck.Image = UIImage.FromBundle("icon-checked-round");
                 var checklist = new checklistupdate();
                 checklist.CheckListEmployeeId = item.ChecklistNotification[indexPath.Row].CheckListEmployeeId;
                 //checklist.CheckListId = item.ChecklistNotification[indexPath.Row].CheckListId;
