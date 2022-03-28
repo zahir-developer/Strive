@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -89,13 +89,16 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Immigration Status:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fiY-tC-NMK">
-                                    <rect key="frame" x="35" y="260.66666666666669" width="128.33333333333334" height="19.333333333333314"/>
+                                    <rect key="frame" x="35" y="260.66666666666669" width="100" height="38.333333333333314"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="100" id="Jfj-TJ-iy7"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZd-1e-D9y">
-                                    <rect key="frame" x="35" y="300" width="57" height="20"/>
+                                    <rect key="frame" x="35" y="319" width="57" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -131,61 +134,61 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KWh-kz-imG">
-                                    <rect key="frame" x="171" y="270.33333333333331" width="114" height="0.0"/>
+                                    <rect key="frame" x="138" y="280" width="154" height="0.0"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="114" id="f84-9O-mHf"/>
+                                        <constraint firstAttribute="width" constant="154" id="f84-9O-mHf"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jzZ-tK-9fD">
-                                    <rect key="frame" x="138" y="310" width="120" height="0.0"/>
+                                    <rect key="frame" x="138" y="329" width="150" height="0.0"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="120" id="wQs-J9-aBV"/>
+                                        <constraint firstAttribute="width" constant="150" id="wQs-J9-aBV"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Employee Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ht-Tv-coo">
-                                    <rect key="frame" x="25" y="330" width="133" height="22"/>
+                                    <rect key="frame" x="25" y="349" width="133" height="22"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                     <color key="textColor" red="0.14117647058823529" green="0.28235294117647058" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IU7-yc-sPh">
-                                    <rect key="frame" x="35" y="372" width="57" height="19.333333333333314"/>
+                                    <rect key="frame" x="35" y="391" width="57" height="19.333333333333314"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date of Hire:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XN2-j5-lBn">
-                                    <rect key="frame" x="35" y="406.33333333333337" width="82" height="19"/>
+                                    <rect key="frame" x="35" y="425.33333333333337" width="82" height="19"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2C3-VD-h2L">
-                                    <rect key="frame" x="35" y="440.33333333333337" width="44" height="20"/>
+                                    <rect key="frame" x="35" y="459.33333333333337" width="44" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xA7-i3-w38">
-                                    <rect key="frame" x="112" y="371" width="178" height="21.333333333333314"/>
+                                    <rect key="frame" x="112" y="390" width="178" height="21.333333333333314"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bp0-aq-CUc">
-                                    <rect key="frame" x="138" y="416" width="0.0" height="0.0"/>
+                                    <rect key="frame" x="138" y="435" width="0.0" height="0.0"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baH-c2-9Yy">
-                                    <rect key="frame" x="138" y="450.33333333333337" width="0.0" height="0.0"/>
+                                    <rect key="frame" x="138" y="469.33333333333337" width="0.0" height="0.0"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -234,7 +237,7 @@
                                 <constraint firstAttribute="trailing" secondItem="xA7-i3-w38" secondAttribute="trailing" constant="12" id="gbM-bj-XgK"/>
                                 <constraint firstItem="p9O-W7-DL3" firstAttribute="top" secondItem="Mf3-aQ-J4D" secondAttribute="bottom" constant="20" id="gba-0B-ig7"/>
                                 <constraint firstItem="fiY-tC-NMK" firstAttribute="top" secondItem="p9O-W7-DL3" secondAttribute="bottom" constant="20" id="guL-qA-FQH"/>
-                                <constraint firstItem="KWh-kz-imG" firstAttribute="leading" secondItem="dL8-vh-yxt" secondAttribute="leading" constant="33" id="jSs-89-dKw"/>
+                                <constraint firstItem="KWh-kz-imG" firstAttribute="leading" secondItem="dL8-vh-yxt" secondAttribute="leading" id="jSs-89-dKw"/>
                                 <constraint firstItem="bp0-aq-CUc" firstAttribute="centerY" secondItem="XN2-j5-lBn" secondAttribute="centerY" id="kdI-Zf-Rcj"/>
                                 <constraint firstItem="wZd-1e-D9y" firstAttribute="leading" secondItem="fiY-tC-NMK" secondAttribute="leading" id="lek-Xo-ZJh"/>
                                 <constraint firstItem="Hgf-kG-WEI" firstAttribute="centerY" secondItem="med-qe-cuj" secondAttribute="centerY" id="mgF-9O-MfP"/>
@@ -337,6 +340,12 @@
                         <constraint firstItem="ZXC-bn-vgz" firstAttribute="top" secondItem="MY5-T3-zIn" secondAttribute="bottom" id="xh7-e8-92D"/>
                         <constraint firstAttribute="bottom" secondItem="rrT-md-CgP" secondAttribute="bottom" id="zAV-BQ-N2w"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="Com-kh-4Dy"/>
+                            <exclude reference="rrT-md-CgP"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
