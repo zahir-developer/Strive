@@ -138,6 +138,8 @@ namespace StriveEmployee.Android.Fragments.Schedule
                 await ViewModel.GetTaskList();
                 if (ViewModel.checklist != null && ViewModel.checklist.ChecklistNotification.Count != 0)
                 {
+                    finishButton.Enabled = true; ;
+                    finishButton.Alpha = 1;
                     checkListAdapter = new ScheduleCheckListAdapter(ViewModel.checklist);
                     var layoutManager = new LinearLayoutManager(context);
                     checkList_RecyclerView.SetLayoutManager(layoutManager);
@@ -151,6 +153,8 @@ namespace StriveEmployee.Android.Fragments.Schedule
                 }
                 else
                 {
+                    finishButton.Enabled = false;
+                    finishButton.Alpha = 0;
                     checkList_RecyclerView.SetLayoutManager(null);
                     checkList_RecyclerView.SetAdapter(null);
 

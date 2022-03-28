@@ -66,6 +66,10 @@ namespace StriveEmployee.Android.Fragments.Schedule
             }
             try
             {
+                if (detailer_Layout != null) 
+                { 
+                    detailer_Layout.RemoveAllViews(); 
+                }                
                 await ViewModel.GetDetailer(empID, jobDate);
                 if (ViewModel.DetailerList != null && ViewModel.DetailerList.Status.Count != 0)
                 {

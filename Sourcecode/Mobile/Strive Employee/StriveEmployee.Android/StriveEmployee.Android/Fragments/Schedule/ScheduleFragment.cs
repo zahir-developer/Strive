@@ -63,12 +63,21 @@ namespace StriveEmployee.Android.Fragments.Schedule
             schedule_CalendarView.MinDate = calendar.TimeInMillis;            
         }
 
-        private void Schedule_CalendarView_DateChange(object sender, CalendarView.DateChangeEventArgs e)
+        private async void Schedule_CalendarView_DateChange(object sender, CalendarView.DateChangeEventArgs e)
         {
-            var date = e.Year + "-" + (e.Month + 1) + "-" + e.DayOfMonth + " "+ DateTime.Now.ToString("HH:mm:ss");             
+            var date = e.Year + "-" + ((e.Month + 1) < 10 ? "0" + (e.Month+1): "" + (e.Month+1))  + "-" + ((e.DayOfMonth) < 10 ? "0" + (e.DayOfMonth) : "" + (e.DayOfMonth)) + " "+ DateTime.Now.ToString("HH:mm:ss");           
             ScheduleViewModel.StartDate = date;
             ScheduleViewModel.isNoData = false;
-            GetScheduleList();
+            await ViewModel.GetScheduleList();
+            if (ViewModel.scheduleList != null && ViewModel.scheduleList.ScheduleDetailViewModel != null)
+            {
+                setData(date);
+            }
+            else
+            {
+                scheduleInfo.SetAdapter(null);
+                scheduleInfo.SetLayoutManager(null);
+            }
         }
 
         //private void BackButton_Click(object sender, EventArgs e)

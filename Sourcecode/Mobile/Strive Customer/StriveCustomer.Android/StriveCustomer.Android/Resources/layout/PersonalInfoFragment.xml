@@ -158,14 +158,16 @@
             android:textColor="@color/profileQColor"
             android:textSize ="@dimen/textFourteen"
             android:fontFamily="@font/opensans_regular"
-            android:layout_weight="1"/>
+            android:layout_weight="0.8"/>
         <TextView
             android:id="@+id/email"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content"            
             android:textColor="@color/profileQColor"
+            android:text=""
             android:textSize ="@dimen/textFourteen"
             android:fontFamily="@font/opensans_bold"
-            android:layout_weight="1"/>
+            android:maxLines="2"
+            android:layout_weight="1.2"/>
     </LinearLayout>
 </LinearLayout>
