@@ -45,7 +45,7 @@ namespace StriveEmployee.Android.Views
         private CheckOutFragment checkOut_Fragment;
         private PayRollFragment payRoll_Fragment;
         public static string date = DateTime.Now.ToString("yyyy-MM-dd");
-        
+        const string TAG = "DashboardView";
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -63,16 +63,8 @@ namespace StriveEmployee.Android.Views
             SelectInitial_Fragment();
             ScheduleCheckListViewModel.SelectedChecklist.Clear();
             ScheduleCheckListViewModel.SelectedPosition = 0;
-            if (EmployeeTempData.FromNotification)
-            {
-                bottom_NavigationView.SelectedItemId = Resource.Id.menu_schedule;
-            }
-            else
-            {
-                EmployeeTempData.FromNotification = false;
-
-            }
-
+            Constants.NOTIFICATION_EMPID = EmployeeTempData.EmployeeID;
+            OnNewIntent(Intent);
         }
         protected override void OnNewIntent(Intent intent)
         {
@@ -84,12 +76,14 @@ namespace StriveEmployee.Android.Views
             bool isNotification = intent.GetBooleanExtra("IsFromNotification", EmployeeTempData.FromNotification);
             if (isNotification)
             {
+                Log.Info(TAG, "true");
                 EmployeeTempData.FromNotification = isNotification;
                 schedule_Fragment = new ScheduleMainFragment();
                 bottom_NavigationView.SelectedItemId = Resource.Id.menu_schedule;
             }
             else
             {
+                Log.Info(TAG, "False");
                 EmployeeTempData.FromNotification = false;
 
             }
@@ -144,7 +138,7 @@ namespace StriveEmployee.Android.Views
         {
             if (keyCode == Keycode.Back)
             {
-                EmployeeTempData.EmployeeID = 0;
+                Constants.NOTIFICATION_EMPID = 0;
                 EmployeeTempData.FromNotification = false;
                 this.ViewModel.Logout();
             }

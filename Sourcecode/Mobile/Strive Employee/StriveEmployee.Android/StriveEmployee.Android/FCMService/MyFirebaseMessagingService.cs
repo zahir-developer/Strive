@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Preferences;
@@ -21,24 +20,16 @@ namespace StriveEmployee.Android.FCMService
         private ISharedPreferences sharedPreferences;
         private ISharedPreferencesEditor preferenceEditor;
         public AlertDialog.Builder Builder;
-        private EventHandler<DialogClickEventArgs> okHandler;
-        private EventHandler<DialogClickEventArgs> removePhotoHandler;
         private Intent intent;
         public override void OnMessageReceived(RemoteMessage message)
         {
             Log.Debug(TAG, "From: " + message.From);
-            if(message.GetNotification() != null || message.Data.Count > 0)
+            if( message.Data.Count > 0)
             {
-                var body = message.GetNotification().Body;
-                SendNotification(body, message.Data);
+                //var body = message.GetNotification().Body;
+                Log.Info(TAG, "this is an fcm message");
+                SendNotification(message.Data);
             }
-            //
-            //else if(message.Data.Count > 0)
-            //{
-            //    Log.Debug(TAG, "Notification Message Body: " + message.Data);
-            //    var body = message.Data["priority"];
-            //    SendNotification(body, message.Data);
-            //}
         }
         public override void OnNewToken(string s)
         {
@@ -54,17 +45,20 @@ namespace StriveEmployee.Android.FCMService
             preferenceEditor.Apply();
         }
       
-        private void SendNotification(string messageBody, IDictionary<string, string> data)
+        private void SendNotification(IDictionary<string, string> data)
         {
+            string messageBody = data["body"];
+            string title = data["title"];
             EmployeeTempData.EmployeeRole = int.Parse(data["RoleId"]);
-            if (EmployeeTempData.EmployeeID == 0)
+            if (Constants.NOTIFICATION_EMPID == 0)
             {
-
-              intent = new Intent(this, typeof(LoginView));
+                Log.Info(TAG, "calling LoginView");
+                intent = new Intent(this, typeof(SplashScreen));
             }
             else
             {
-              intent = new Intent(this, typeof(DashboardView));
+                Log.Info(TAG, "calling DashboardView");
+                intent = new Intent(this, typeof(DashboardView));
             }
             intent.PutExtra("IsFromNotification", true);
             intent.AddFlags(ActivityFlags.ClearTop);
@@ -75,13 +69,13 @@ namespace StriveEmployee.Android.FCMService
 
             var notificationBuilder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID)
                                       .SetSmallIcon(Resource.Drawable.ic_successstatus)
-                                      .SetContentTitle("FCM Message")
+                                      .SetContentTitle(title)
                                       .SetContentText(messageBody)
                                       .SetAutoCancel(true)
                                       .SetContentIntent(pendingIntent);
-
+            var notification = notificationBuilder.Build();
             var notificationManager = NotificationManagerCompat.From(this);
-            notificationManager.Notify(Constants.NOTIFICATION_ID, notificationBuilder.Build());
+            notificationManager.Notify(Constants.NOTIFICATION_ID, notification);
         }
        
     }

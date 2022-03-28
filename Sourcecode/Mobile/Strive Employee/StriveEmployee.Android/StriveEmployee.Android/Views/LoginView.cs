@@ -7,6 +7,7 @@ using Android.Gms.Common;
 using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
+using Android.Util;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -100,7 +101,9 @@ namespace StriveEmployee.Android.Views
             //    EmployeeTempData.FromNotification = false;
 
             //}
-            NotificationClickedOn(Intent);
+            //NotificationClickedOn(Intent);
+            Console.WriteLine("oncreateview");
+            //OnNewIntent(Intent);
         }
         protected override void OnResume()
         {
@@ -264,6 +267,7 @@ namespace StriveEmployee.Android.Views
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
+            Log.Info("onnewintent", "calling");
             NotificationClickedOn(intent);
            
         }
@@ -273,10 +277,12 @@ namespace StriveEmployee.Android.Views
             if (isNotification)
             {
                 EmployeeTempData.FromNotification = isNotification;
+                Log.Info("onnewintent", "true");
             }
             else
             {
                 EmployeeTempData.FromNotification = false;
+                Log.Info("onnewintent", "false");
 
             }
         }
