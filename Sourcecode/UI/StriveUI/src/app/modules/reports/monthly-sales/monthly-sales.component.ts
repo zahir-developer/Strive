@@ -7,6 +7,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-picker.component';
+import { MonthPickerComponent } from 'src/app/shared/components/month-picker/month-picker.component';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
+import { DecimalPipe } from '@angular/common';
 declare var $: any;
 @Component({
   selector: 'app-monthly-sales',
@@ -15,8 +19,11 @@ declare var $: any;
 })
 export class MonthlySalesComponent implements OnInit, AfterViewInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
+  @ViewChild(YearPickerComponent) yearPickerComponent: YearPickerComponent;
+  @ViewChild(MonthPickerComponent) monthPickerComponent: MonthPickerComponent;
   monthlySalesReport = [];
-  selectedDate : any;
+  selectedDate: any;
   employees = [];
   showNavigation = true;
   showLocation = false;
@@ -37,7 +44,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private cd: ChangeDetectorRef,
     private excelService: ExcelService, private spinner: NgxSpinnerService,
-    private toastr : ToastrService) { }
+    private toastr: ToastrService, private decimalPipe: DecimalPipe) { }
 
   ngOnInit(): void {
     this.setMonth();
@@ -52,27 +59,27 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   getMonthlySalesReport() {
     const obj = {
       locationId: this.locationId,
-      fromDate:moment(this.fromDate).format(),
+      fromDate: moment(this.fromDate).format(),
       endDate: moment(this.endDate).format(),
     };
     this.spinner.show();
     this.reportService.getMonthlySalesReport(obj).subscribe(data => {
       if (data.status === 'Success') {
-        this.spinner.hide()
+        this.spinner.hide();
         this.selectedDate = moment(this.fromDate).format('MM/YYYY');
         const monthlySalesReport = JSON.parse(data.resultData);
         if (monthlySalesReport?.GetMonthlySalesReport !== null) {
           this.employees = monthlySalesReport?.GetMonthlySalesReport?.EmployeeViewModel ?
             monthlySalesReport?.GetMonthlySalesReport?.EmployeeViewModel : [];
           this.monthlySalesReport = monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel ?
-          monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel : [];
+            monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel : [];
           this.originaldata = monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel ?
-          monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel : [];
+            monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel : [];
           this.collectionSize = Math.ceil(this.monthlySalesReport.length / this.pageSize) * 10;
           this.employeeListFilter(this.empCount);
         }
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -85,7 +92,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   count(action) {
     if (action === 'add') {
       this.empCount = (this.empCount < this.employees?.length) ? (this.empCount + 1) :
-      this.employees.length !== 0 ? this.employees.length : 1 ;
+        this.employees.length !== 0 ? this.employees.length : 1;
       this.employeeListFilter(this.empCount);
     } else {
       this.empCount = (this.empCount > 1) ? (this.empCount - 1) : 1;
@@ -97,8 +104,8 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
     this.empName = '';
     if (this.employees.length > 0) {
       this.empName = this.employees[count - 1]?.EmployeeName;
-      this.monthlySalesReport = this.monthlySalesReport.filter(emp => emp.EmployeeId === this.employees[count - 1].EmployeeId);
-      this.collectionSize = Math.ceil(this.monthlySalesReport.length / this.pageSize) * 10;
+      // this.monthlySalesReport = this.monthlySalesReport.filter(emp => emp.EmployeeId === this.employees[count - 1].EmployeeId);
+      // this.collectionSize = Math.ceil(this.monthlySalesReport.length / this.pageSize) * 10;
     }
     this.calculatePrice();
   }
@@ -115,6 +122,19 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
       this.getMonthlySalesReport();
     }
   }
+
+  refresh() {
+    this.fromDate = new Date();
+    this.endDate = new Date();
+    this.setMonth();
+    this.locationId = +localStorage.getItem('empLocationId');
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId');
+    this.exportFiletypeComponent.type = '';
+    this.yearPickerComponent.getYear();
+    this.monthPickerComponent.getMonth();
+    this.getMonthlySalesReport();
+  }
+
   export() {
     const fileType = this.fileType !== undefined ? this.fileType : '';
     const locationName = this.locationDropdownComponent.locationName;
@@ -146,25 +166,29 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   }
   customizeObj(monthlySalesReport) {
     if (monthlySalesReport?.length > 0) {
-const monthlySales = monthlySalesReport.map(item => {
-  return {
-    Number: item?.Number,
-    Description: item?.Description,
-    Price: item?.Price,
-    Total: item?.Total
-  };
-});
-return monthlySales;
+      const monthlySales = monthlySalesReport.map(item => {
+        return {
+          Number: item?.Number,
+          Description: item?.Description,
+          Price: this.decimalPipe.transform(item?.Price, '.2-2'),
+          Total: this.decimalPipe.transform(item?.Total, '.2-2'),
+          GrandTotal: ''
+        };
+      });
+      let grandtotal = 0;
+      monthlySalesReport.forEach( item => {
+        grandtotal = grandtotal + (+item.Total);
+      });
+      monthlySales[0].GrandTotal = grandtotal;
+      return monthlySales;
     }
   }
   onMonthChange(event) {
-  
-    var date = new Date();
-   date.setMonth(event - 1);
-   date.setMonth(event - 1);
+    const date = new Date();
+    date.setMonth(event - 1);
+    date.setMonth(event - 1);
     this.fromDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    this.endDate  = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-   
+    this.endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   }
   onYearChange(event) {
     this.fromDate.setFullYear(event);
@@ -175,8 +199,7 @@ return monthlySales;
   }
   getfileType(event) {
     this.fileTypeEvent = true;
-
     this.fileType = +event.target.value;
   }
- 
+
 }

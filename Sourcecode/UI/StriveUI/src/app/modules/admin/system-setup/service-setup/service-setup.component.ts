@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-service-setup',
-    templateUrl: './service-setup.component.html',
-    styleUrls: ['./service-setup.component.css']
+    templateUrl: './service-setup.component.html'
 })
 
 export class ServiceSetupComponent implements OnInit {

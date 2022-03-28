@@ -5,8 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-state-dropdown',
-  templateUrl: './state-dropdown.component.html',
-  styleUrls: ['./state-dropdown.component.css']
+  templateUrl: './state-dropdown.component.html'
 })
 export class StateDropdownComponent implements OnInit, AfterViewChecked {
   stateList = [];

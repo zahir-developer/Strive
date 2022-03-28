@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Checkout;
+using Strive.BusinessEntities.DTO.Details;
 using Strive.BusinessEntities.DTO.Report;
 using Strive.BusinessLogic.Checkout;
 using Strive.Common;
@@ -46,7 +47,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("UpdateJobStatusComplete")]
-        public Result UpdateJobStatusComplete([FromBody]JobCompleteDto jobCompleteDto) => _bplManager.UpdateJobStatusComplete(jobCompleteDto);
+        public Result UpdateJobStatusComplete([FromBody]JobStatusDto jobStatusDto) => _bplManager.UpdateJobStatusComplete(jobStatusDto);
         #endregion
 
         #region GET

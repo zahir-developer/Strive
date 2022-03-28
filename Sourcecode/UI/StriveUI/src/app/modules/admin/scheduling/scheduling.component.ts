@@ -15,6 +15,7 @@ import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-s
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
+import { DatePipe } from '@angular/common';
 
 declare var $: any;
 @Component({
@@ -66,9 +67,12 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   noOfCurrentEmployee = 0;
   noOfCurrentHours = 0;
   forecastDialog: boolean;
-  forecastedList = [];
+  forecastedList: any;
+  isSelectAll: false;
+
   constructor(
     private empService: EmployeeService,
+    private datePipe: DatePipe, 
     private locationService: LocationService,
     private messageService: MessageServiceToastr,
     private scheduleService: ScheduleService,
@@ -121,7 +125,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       eventRender(element) {
       },
       eventClick: (event) => {
-        if (!event.event.id.startsWith('click')) {
+        this.getScheduleById(event.event);
+        /*if (!event.event.id.startsWith('click')) {
           this.getScheduleById(+event.event.id);
         } else {
           this.splitEmpName(event);
@@ -131,17 +136,15 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               item.clicked = true;
             }
           });
-        }
+        }*/
       },
       dayClick: (event) => {
       },
       eventResize: (event) => {
-        this.empName = event.event.title;
-        this.empId = event.event.extendedProps.employeeId;
-        this.buttonText = 'Save';
-        this.bindPopUp(event);
+        this.updateSchedule(event);
       },
       eventReceive: (eventReceiveEvent) => {
+        var empScheduleList = [];
         const selectedDate = eventReceiveEvent.event.start;
         const currentDate: any = new Date();
         if (Date.parse(selectedDate) < Date.parse(currentDate)) {
@@ -162,14 +165,26 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
           }
           if (multiSelect.length !== 0) {
             multiSelect.forEach(element => {
-              this.selectedList.push(element);
+              //this.selectedList.push(element);
             });
           }
           if (this.selectedList.length === 1 && multiSelect.length === 0) {
+            /*
             $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
             $('#name').html(this.empName);
             $('#empId').html(this.empId);
             $('.modal').find('#location').val(0);
+            */
+            empScheduleList.push(
+              {
+                employeeId: this.empId,
+                startTime: eventReceiveEvent.event.start,
+                endTime: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+                scheduleDate: selectedDate,
+                locationId: this.locationId
+              }
+            );
+
           } else {
             this.removeDraggedEvent();
             let i = 0;
@@ -180,15 +195,27 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
                 item.start = this.startTime,
                 item.end = moment(eventReceiveEvent.event.start).add(60, 'minutes'),
                 item.clicked = false,
-                this.events = [... this.events, {
-                  id: 'clicked' + i,
-                  title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
-                  start: this.startTime,
-                  end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-                  classNames: ['draggedEvent'],
-                }];
+                // this.events = [... this.events, {
+                //   id: 'clicked' + i,
+                //   title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+                //   start: this.startTime,
+                //   end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+                //   classNames: ['draggedEvent'],
+                // }];
+
+                empScheduleList.push(
+                  {
+                    employeeId: item.EmployeeId,
+                    startTime: eventReceiveEvent.event.start,
+                    endTime: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+                    scheduleDate: selectedDate,
+                    locationId: this.locationId
+                  }
+                )
             });
           }
+          
+          this.saveSchedule(empScheduleList);
         }
       },
       eventDragStop: (event) => {
@@ -202,18 +229,33 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.getSchedule();
       },
       eventDrop: (event) => {
-        this.empName = event.event.title;
-        this.empId = event.event.extendedProps.employeeId;
-        this.buttonText = 'Save';
-        this.bindPopUp(event);
+        this.updateSchedule(event);
       },
     };
   }
 
+  updateSchedule(event)
+  {
+
+    var empScheduleList = [];
+    empScheduleList.push(
+      {
+        employeeId: event.event.extendedProps.employeeId,
+        startTime: event.event.start,
+        endTime: event.event.end === null ? moment(event.event.start).add(60, 'minutes').toDate() :
+        event.event.end,
+        scheduleId: event?.event?.extendedProps?.scheduleId,
+        scheduleDate: event.event.start,
+        locationId: this.locationId
+      }
+    );
+
+    this.saveSchedule(empScheduleList);
+  }
 
   // Get all the Employees details
   getEmployeeList() {
-    this.empService.getEmployees().subscribe(data => {
+    this.empService.getAllEmployeeName(this.locationId).subscribe(data => {
       if (data.status === 'Success') {
         this.empList = JSON.parse(data.resultData);
         this.setBoolean();
@@ -225,15 +267,18 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   // Set Default boolean for customization
   setBoolean() {
-    this.empList.EmployeeList.forEach(item => {
-      item.selected = false;
-      item.clicked = false;
-    });
+
+    if (this.empList.EmployeeList !== undefined) {
+      this.empList.EmployeeList.forEach(item => {
+        item.selected = false;
+        item.clicked = false;
+      });
+    }
   }
   // Get All Location
   getLocationList() {
     const locID = 0;
-    this.dashboardService.getAllLocationWashTime(locID).subscribe(res => {
+    this.dashboardService.getAllLocationWashTime(locID,this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')).subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;
@@ -261,7 +306,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss') === item.start) {
         if (item.extendedProps.employeeId === +this.empId &&
           item.extendedProps.locationId === +this.empLocation) {
-          alreadyScheduled = true;
+          if (!this.scheduleId) {
+            alreadyScheduled = true;
+          }
         }
       }
     });
@@ -275,11 +322,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       locationId: +this.empLocation,
       roleId: +localStorage.getItem('roleId'),
       isAbscent: this.isLeave,
-      scheduledDate: moment(this.startTime).format(),
-      startTime: moment(this.startTime).format(),
-      endTime: moment(this.endTime).format(),
+      scheduledDate: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
+      startTime: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
+      endTime: moment(this.endTime).format('YYYY-MM-DDTHH:mm:ss'),
       scheduleType: this.scheduleType ? this.scheduleType : 1,
-      comments: 'test',
+      comments: null,
       isActive: true,
       isDeleted: false
     };
@@ -291,7 +338,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.scheduleService.saveSchedule(scheduleObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
+        this.scheduleId = false;
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Schedule.save });
         $('#calendarModal').modal('hide');
         this.getSchedule();
@@ -310,6 +357,59 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       $('#calendarModal').modal('hide');
     });
   }
+
+  saveSchedule(emplist)
+  {
+  var schedules = [];
+  emplist.forEach(item => {
+
+    var schedule =
+    {
+    scheduleId: item.scheduleId ? item.scheduleId : 0,
+      employeeId: item.employeeId,
+      locationId: item.locationId,
+      roleId: null,
+      isAbscent: this.isLeave,
+      scheduledDate: moment(item.scheduleDate).format('YYYY-MM-DDTHH:mm:ss'),
+      startTime: moment(item.startTime).format('YYYY-MM-DDTHH:mm:ss'),
+      endTime: moment(item.endTime).format('YYYY-MM-DDTHH:mm:ss'),
+      scheduleType: this.scheduleType ? this.scheduleType : 1,
+      comments: null,
+      isActive: true,
+      isDeleted: false
+    }
+    
+    schedules.push(schedule);
+    
+  });
+
+  const scheduleObj = {
+    schedule: schedules
+  };
+
+  //this.spinner.show();
+  this.scheduleService.saveSchedule(scheduleObj).subscribe(data => {
+    if (data.status === 'Success') {
+      //this.spinner.hide();
+      this.scheduleId = false;
+      this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Schedule.save });
+      $('#calendarModal').modal('hide');
+      this.getSchedule();
+    } else {
+      this.spinner.hide();
+
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+      this.getSchedule();
+      $('#calendarModal').modal('hide');
+    }
+  }, (err) => {
+    this.spinner.hide();
+
+    this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+    this.getSchedule();
+    $('#calendarModal').modal('hide');
+  });
+}
   // Get LocationById
   getLocation(event) {
     this.empLocation = event.target.value;
@@ -322,10 +422,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       endDate: this.endDate,
       locationId: this.locationId ? this.locationId : 0
     };
-    this.spinner.show();
+    //this.spinner.show();
     this.scheduleService.getSchedule(getScheduleObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.spinner.hide();
+        this.setDefaultBoolean(false);
+        //this.spinner.hide();
         const empSchehdule = JSON.parse(data.resultData);
         this.getScheduleAndForcasted(getScheduleObj);
         if (empSchehdule.ScheduleDetail !== null) {
@@ -335,11 +436,13 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
             empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees : 0;
           if (empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel !== null) {
             empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel.forEach(item => {
+              const startTime = item.StartTime.split('+');
+              const endTime = item.EndTime.split('+');
               const emp = {
                 id: +item.ScheduleId,
-                start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
-                end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
-                title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
+                start: moment(startTime[0]).format('YYYY-MM-DDTHH:mm:ss'),
+                end: moment(endTime[0]).format('YYYY-MM-DDTHH:mm:ss'),
+                title:  '#'+item.EmployeeId +' - '+ item.EmployeeName + '\xa0 \xa0' + ' - '+ item.LocationName,
                 textColor: 'white',
                 backgroundColor: item.IsEmployeeAbscent === true ? '#A9A9A9' : item.ColorCode,
                 classNames: ['event'],
@@ -348,7 +451,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
                   roleId: +item.RoleId,
                   scheduleType: +item.ScheduleType,
                   locationId: +item.LocationId,
-                  scheduleId: +item.ScheduleId
+                  scheduleId: +item.ScheduleId,
+                  employeeName: +item.EmployeeName
                 }
               };
               this.events = [... this.events, emp];
@@ -356,10 +460,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
           }
         }
         this.removeDraggedEvent();
-        this.retainUnclickedEvent();
+        //this.retainUnclickedEvent();
       }
       else {
-        this.spinner.hide();
+        //this.spinner.hide();
 
       }
     }
@@ -374,10 +478,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (res.status === 'Success') {
         const scheduleDetail = JSON.parse(res.resultData);
         this.forecastedList = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel;
-        this.forecastedList.forEach( item => {
-          item.TotalEmployees = 0;
-          item.Totalhours = 0;
-        });
+        //this.forecastedList.forEach(item => {
+        // item.TotalEmployees = 0;
+        //  item.Totalhours = 0;
+        //});
         // this.noOfForcastedCars = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars ?
         //   scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars : 0;
         // this.noOfForcastedHours = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours ?
@@ -465,19 +569,25 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   getLocationId(event) {
     this.locationId = event.LocationId;
     this.getSchedule();
+    this.searchEmployee();
   }
   // Get the schedule by Id
-  getScheduleById(id) {
-    this.scheduleService.getScheduleById(+id).subscribe(data => {
+  getScheduleById(event) {
+    this.scheduleService.getScheduleById(+event.id).subscribe(data => {
       if (data.status === 'Success') {
         const selectedScheduledData = JSON.parse(data.resultData);
         if (selectedScheduledData.Status.length !== 0) {
-          $('#name').html(this.empName);
-          $('#empId').html(this.empId);
+
+          const startTime = selectedScheduledData.Status[0].StartTime.split('+');
+          const endTime = selectedScheduledData.Status[0].EndTime.split('+');
+          
           this.empName = selectedScheduledData.Status[0].EmployeeName;
           this.empId = selectedScheduledData.Status[0].EmployeeId;
-          this.startTime = selectedScheduledData.Status[0].StartTime;
-          this.endTime = selectedScheduledData.Status[0].EndTime;
+          $('#name').html(this.empName);
+          $('#empId').html(this.empId);
+
+          this.startTime = startTime[0];
+          this.endTime = endTime[0];
           this.scheduleId = selectedScheduledData.Status[0].ScheduleId;
           this.scheduleType = selectedScheduledData.Status[0].ScheduleType;
           this.isLeave = selectedScheduledData.Status[0].IsEmployeeAbscent;
@@ -554,7 +664,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         const seachList = JSON.parse(res.resultData);
         this.empList = seachList.EmployeeName;
         this.empList.forEach(item => {
-          item.employeeName = item.FirstName + '' + item.LastName;
+          item.employeeName = item.FirstName + ' ' + item.LastName;
         });
         this.clonedEmpList = this.empList.map(x => Object.assign({}, x));
         // if (seachList.EmployeeList.Employee !== null) {
@@ -572,6 +682,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   getAll() {
     this.locationId = 0;
     this.getSchedule();
+    this.searchEmployee();
   }
   isAbsentChange(event) {
   }
@@ -579,12 +690,27 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.search = this.search.trim();
   }
 
-  searchVechicleList(text) {
+  searchEmployeeList(text) {
     if (text.length > 0) {
       this.empList = this.clonedEmpList.filter(item => item.employeeName.toLowerCase().includes(text));
     } else {
       this.empList = [];
       this.empList = this.clonedEmpList;
+    }
+  }
+
+  setDefaultBoolean(flag) {
+    this.empList?.forEach(item => {
+      item.selected = flag;
+    });
+    this.isSelectAll = flag;
+  }
+
+  selectAllEmployees(event) {
+    if (event.target.checked === true) {
+      this.setDefaultBoolean(true);
+    } else {
+      this.setDefaultBoolean(false);
     }
   }
 }

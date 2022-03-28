@@ -12,7 +12,7 @@ export class VehicleService {
     vehicleValue: any;
 
     constructor(private http: HttpUtilsService) { }
-    getVehicle(obj){
+    getVehicle(obj) {
         return this.http.post(`${UrlConfig.vehicle.getAllVehicle}`, obj);
     }
     updateVehicle(obj) {
@@ -21,8 +21,8 @@ export class VehicleService {
     saveVehicle(obj) {
         return this.http.post(`${UrlConfig.vehicle.addVehicle}`, obj);
     }
-    deleteVehicle(vehicleId: number) {
-        return this.http.delete(`${UrlConfig.vehicle.deleteVehicle}`, { params: { id: vehicleId } });
+    deleteVehicle(id, clientId) {
+        return this.http.delete(`${UrlConfig.vehicle.deleteVehicle}`, { params: { id, clientId } });
     }
     getVehicleByClientId(clientId: number) {
         return this.http.get(`${UrlConfig.vehicle.getVehicleByClientId}`, { params: { id: clientId } });
@@ -30,30 +30,35 @@ export class VehicleService {
     getVehicleById(vehicleId: number) {
         return this.http.get(`${UrlConfig.vehicle.getVehicleById}`, { params: { id: vehicleId } });
     }
-    getVehicleMembership(): Observable<any> {
-        return this.http.get(`${UrlConfig.MembershipSetup.getMembershipByName}`);
+    getVehicleMembership(locId: number) {
+        return this.http.get(`${UrlConfig.MembershipSetup.getMembershipByName}` + locId );
     }
     getVehicleCodes() {
         return this.http.post(`${UrlConfig.vehicle.getVehicleCodes}`);
     }
-    getMembershipService(): Observable<any> {
-      return this.http.get(`${UrlConfig.MembershipSetup.getMembershipService}`);
+    getMembershipById(id: number) {
+        return this.http.get(`${UrlConfig.MembershipSetup.getMembershipById}` + id);
     }
-    getMembershipById(id : number){
-      return this.http.get(`${UrlConfig.MembershipSetup.getMembershipById}` + id);
-    }    
-    getUpchargeService(locationId): Observable<any> {
-      return this.http.get(`${UrlConfig.ServiceSetup.getAllServiceDetail}` , { params: { locationId } });
+    getAllServiceDetail(locationId = 0): Observable<any> {
+        return this.http.get(`${UrlConfig.ServiceSetup.getAllServiceDetail}`, { params: { locationId } });
     }
-    getVehicleMembershipDetailsByVehicleId(id) {
-        return this.http.get(`${UrlConfig.vehicle.getVehicleMembershipDetailsByVehicleId}`, { params : { id }});
+    getVehicleMembershipDetailsByVehicleId(id, ) {
+        return this.http.get(`${UrlConfig.vehicle.getVehicleMembershipDetailsByVehicleId}`, { params: { id } });
     }
 
     getAllVehicleThumbnail(id) {
         return this.http.get(`${UrlConfig.vehicle.getAllVehicleThumbnail}` + id);
     }
-    
+
     getVehicleImageById(id) {
         return this.http.get(`${UrlConfig.vehicle.getVehicleImageById}` + id);
+    }
+
+    GetMembershipDiscountStatus(clientId, vehicleId) {
+        return this.http.get(`${UrlConfig.vehicle.getMembershipDiscountStatus}` + clientId + '/' + vehicleId);
+    }
+
+    updateVehicleNumber(clientId: number) {
+        return this.http.get(`${UrlConfig.vehicle.UpdateVehicleNumber}`, { params: { clientId: clientId, vehicleId: null } });
     }
 }

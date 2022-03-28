@@ -37,5 +37,14 @@ namespace Admin.API.Helpers
         {
             return _config.GetSection("StriveAdminSettings:" + section)[name] ?? string.Empty;
         }
+
+        protected string GetUserName()
+        {
+            return _config.GetSection("EmailScheduler")["UserName"] ?? string.Empty;
+        }
+        protected string GetPassword()
+        {
+           return _config.GetSection("EmailScheduler")["Password"] ?? string.Empty;
+        }
     }
 }

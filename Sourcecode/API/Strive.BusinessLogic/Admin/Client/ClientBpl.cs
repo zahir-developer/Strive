@@ -18,6 +18,9 @@ using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.ViewModel;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Strive.BusinessLogic
 {
@@ -66,36 +69,46 @@ namespace Strive.BusinessLogic
                 {
                     if (!string.IsNullOrEmpty(item.Email))
                     {
-                        var comBpl = new CommonBpl(_cache, _tenant);
-                        var clientLogin = comBpl.CreateLogin(UserType.Client, item.Email, item.PhoneNumber);
-                        client.Client.AuthId = clientLogin.authId;
-                        
+                        string password = client.Password.Trim();
+                        if (client.Client.AuthId == null)
+                        {
+                            var comBpl = new CommonBpl(_cache, _tenant);
+                            var clientLogin = comBpl.CreateLogin(UserType.Client, item.Email, item.PhoneNumber, password);
+                            client.Client.AuthId = clientLogin.authId;
 
-                        if (clientLogin.authId > 0)
+                            if (password == string.Empty)
+                                password = clientLogin.password;
+                        }
+
+                        if (client.Client.AuthId > 0)
                         {
                             var clientSignup = new ClientRal(_tenant).InsertClientDetails(client);
+                            var comBpl = new CommonBpl(_cache, _tenant);
                             if (clientSignup > 0)
                             {
-                                var subject = "Welcom To Strive";
+                                var subject = EmailSubject.WelcomeEmail;
                                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                                keyValues.Add("{{emailId}}",item.Email);
-                                keyValues.Add("{{password}}",clientLogin.password);
+                                keyValues.Add("{{emailId}}", item.Email);
+                                keyValues.Add("{{password}}", password);
                                 keyValues.Add("{{employeeName}}", client.Client.FirstName);
-                               
-                                comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues,subject);
-                               // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
+                                keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+
+                                comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email, keyValues, subject);
+                                // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
                                 clientId.Add(clientSignup);
                             }
-                            else if(clientLogin.authId > 0)
+                            else if (client.Client.AuthId > 0)
                             {
                                 //Delete AuthMaster record from AuthDatabase in case client add failed.
-                                comBpl.DeleteUser(clientLogin.authId);
+                                comBpl.DeleteUser(client.Client.AuthId.GetValueOrDefault());
                             }
                         }
                     }
 
                 }
-               
+
                 return ResultWrap(clientId, "Status");
             }
             catch (Exception ex)
@@ -116,18 +129,18 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
-        {
-            try
-            {
-                return ResultWrap(new ClientRal(_tenant).UpdateAccountBalance, clientAmountUpdate, "Status");
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
+        //public Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
+        //{
+        //    try
+        //    {
+        //        return ResultWrap(new ClientRal(_tenant).UpdateAccountBalance, clientAmountUpdate, "Status");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+        //    }
+        //    return _result;
+        //}
 
         public Result GetAllClient(SearchDto searchDto)
         {
@@ -175,7 +188,103 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).ClientEmailExist, email, "emailExist");
         }
+        public List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto emailBlast)
+        {
+            List<ClientEmailBlastViewModel> client = new List<ClientEmailBlastViewModel>();
+            client = new ClientRal(_tenant).GetClientList(emailBlast);
+            return client;
+        }
+        public Result ClientCSVExport(EmailBlastDto emailBlast)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientList, emailBlast, "ClientCSVExport");
+        }
 
+        public Result SaveCreditDetails(CreditDTO credit)
+        {
+            return ResultWrap(new ClientRal(_tenant).InsertCreditDetails, credit, "Status");
+        }
+
+        public Result GetCreditAccountBalanceHistory(string clientId)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetCreditAccountBalanceHistory, clientId, "CreditAccountDetail");
+        }
+
+        public Result AddCreditAccountHistory(CreditHistoryDTO addGiftCardHistory)
+        {
+            return ResultWrap(new ClientRal(_tenant).AddCreditAccountHistory, addGiftCardHistory, "Status");
+        }
+
+        //public Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory)
+        //{
+        //    return ResultWrap(new ClientRal(_tenant).UpdateAccountHistory, updateGiftCardHistory, "Status");
+        //}
+
+        public bool SendClientEmail()
+        {
+            var commonBpl = new CommonBpl(_cache, _tenant);
+            var subject = EmailSubject.WelcomeEmail;
+            var allClientList = new ClientRal(_tenant).GetClientEmailList();
+            foreach (var client in allClientList)
+            {
+                if (!string.IsNullOrWhiteSpace(client.Email) && !client.IsNotified)
+                {
+                    var splitEmail = client.Email.Split(',');
+                    foreach (var email in splitEmail)
+                    {
+                        if (new EmailAddressAttribute().IsValid(email))
+                        {
+                            string password = string.Empty;
+                            var isExist = new CommonRal(_tenant, true).GetEmailIdExist(email);
+
+                            if (!isExist)
+                            {
+                                var clientLogin = commonBpl.CreateLogin(UserType.Client, email, client.PhoneNumber, password);
+
+                                password = clientLogin.password;
+                                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                                keyValues.Add("{{emailId}}", email);
+                                keyValues.Add("{{password}}", password);
+                                keyValues.Add("{{employeeName}}", client.FirstName);
+                                keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+                                commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
+                                var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
+                            }/*
+                            else
+                            {
+                                var clientLogin = commonBpl.GetUserPassword(email, UserType.Client);
+                                password = clientLogin.Password;
+                                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                                keyValues.Add("{{emailId}}", email);
+                                keyValues.Add("{{password}}", password);
+                                keyValues.Add("{{employeeName}}", client.FirstName);
+                                keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+                                commonBpl.SendEmail(HtmlTemplate.ClientSignUp, email, keyValues, subject);
+                                var result = new ClientRal(_tenant).UpdateClientAddressIsNotified(client.ClientAddressId, true);
+                            }
+                            */
+                            return false;
+                        }
+                    }
+                }
+
+            }
+
+            return true;
+        }
+
+        public Result GetAllClientDetail(string name)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetAllClientDetail, name, "Status");
+        }
+        public Result GetClientAccountBalance(AccountBalanceDto accountBalance)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientAccountBalance, accountBalance, "AccountBalance");
+        }
+        
 
     }
 }

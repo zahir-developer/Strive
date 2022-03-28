@@ -22,6 +22,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int Score { get; set; }
         public bool NoEmail { get; set; }
         public int ClientType { get; set; }
+        public int AuthId { get; set; }
         public int ClientAddressId { get; set; }
         public int ClientRelatioshipId { get; set; }
         public string Address1 { get; set; }
@@ -39,5 +40,6 @@ namespace Strive.BusinessEntities.ViewModel
         //public ClientAddressDto ClientAddressDto { get; set; }
         //public List<ClientAddressDetailDto> ClientAddressDetailDto { get; set; }
         //public List<ClientVehicleDto> ClientVehicleDto { get; set; }
+        public int LocationId { get; set; }
     }
 }

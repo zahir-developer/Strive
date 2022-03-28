@@ -16,11 +16,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MonthlyMoneyOwnedComponent } from './monthly-money-owned/monthly-money-owned.component';
 import { RouterModule } from '@angular/router';
 import {NgxPrintModule} from 'ngx-print';
+import { IrregularityReportComponent } from './irregularity-report/irregularity-report.component';
 
 @NgModule({
   declarations: [ReportsComponent, DailyStatusComponent, EodComponent, DailyTipComponent,
     MonthlyTipComponent, MonthlySalesComponent, MonthlyCustomerSummaryComponent, MonthlyCustomerDetailComponent,
-    HourlyWashComponent, DailySalesComponent, MonthlyMoneyOwnedComponent],
+    HourlyWashComponent, DailySalesComponent, MonthlyMoneyOwnedComponent, IrregularityReportComponent],
   imports: [
     CommonModule,
     SharedModule,

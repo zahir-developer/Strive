@@ -16,8 +16,11 @@
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#1DC5B3" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-<p-dialog width="30" height="20" styleClass="SessionTimeoutDialog" header="{{header}}" [(visible)]="dialogDisplay" [blockScroll]="true" [resizable]="true"
-   [modal]="true" [focusOnShow]="false" [closable]="false" [baseZIndex]="10000">
-  <app-session-logout [dialogDisplay]="dialogDisplay" [dialogType]="dialogType" [header]="header"  (closeDialog)="closeDialog()">
+<p-dialog width="30" height="20" styleClass="SessionTimeoutDialog" header="{{header}}" [(visible)]="dialogDisplay"
+  [blockScroll]="true" [resizable]="true" [modal]="true" [focusOnShow]="false" [closable]="false" [baseZIndex]="10000">
+
+  <app-session-logout [dialogDisplay]="dialogDisplay" [dialogType]="dialogType" [header]="header"
+    (closeDialog)="closeDialog()" (continueSession)="continueSession()">
   </app-session-logout>
+
 </p-dialog>

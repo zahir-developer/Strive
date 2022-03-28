@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.Model
     {
 
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-        public int LocationOffSetId { get; set; }
+        public int LocationOffsetId { get; set; }
 
         [Column]
         public int LocationId { get; set; }

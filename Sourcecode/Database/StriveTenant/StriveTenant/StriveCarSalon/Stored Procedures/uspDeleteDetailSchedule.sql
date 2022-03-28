@@ -8,7 +8,7 @@
 -- Create date: 03-09-2020
 -- Description:	To Inactive a Detail schedule
 -- =============================================
-CREATE proc [StriveCarSalon].[uspDeleteDetailSchedule] 
+CREATE PROCEDURE [StriveCarSalon].[uspDeleteDetailSchedule] 
 (@JobId int)
 AS
 BEGIN

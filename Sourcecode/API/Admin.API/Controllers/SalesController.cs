@@ -85,10 +85,20 @@ namespace Admin.API.Controllers
             return _bplManager.RollBackPayment(salesItemDeleteDto);
         }
         [HttpGet]
-        [Route("GetAllServiceAndProductList/{id}")]
-        public Result GetServicesAndProduct(int id)
+        [Route("GetAllServiceAndProductList/{id}/{query}")]
+        public Result GetServicesAndProduct(int id, string query)
         {
-            return _bplManager.GetServicesAndProduct(id);
+            return _bplManager.GetServicesAndProduct(id,  query);
         }
+        [HttpGet]
+        [Route("GetTicketsByPaymentId/{id}")]
+        public Result GetTicketsByPaymentId(int id)
+        {
+            return _bplManager.GetTicketsByPaymentId(id);
+        }
+
+        [HttpPost]
+        [Route("AddTipPayment")]
+        public Result AddTipPayment([FromBody] TipPaymentDTO salesPayment) => _bplManager.AddTipPayment(salesPayment);
     }
 }

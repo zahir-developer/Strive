@@ -18,7 +18,13 @@ export class PayrollsService {
   updateAdjustment(obj) {
     return this.http.post(`${UrlConfig.payRoll.updateAdjustment}`, obj);
   }
-  editRestriction(empId,StartDate,EndDate) {
-    return this.http.get(`${UrlConfig.payRoll.editRestrict}`, { params: { empId , StartDate ,  EndDate } });
+  editRestriction(empId,StartDate,EndDate, LocationId) {
+    return this.http.get(`${UrlConfig.payRoll.editRestrict}`, { params: { empId , StartDate ,  EndDate, LocationId } });
+  }
+  deletePayment(payId: number) {
+    return this.http.delete(`${UrlConfig.payRoll.deletePayment}`, { params: { id: payId } });
+  }
+  authProfile(obj) {
+    return this.http.post(`${UrlConfig.payRoll.authProfile}` , obj);
   }
 }

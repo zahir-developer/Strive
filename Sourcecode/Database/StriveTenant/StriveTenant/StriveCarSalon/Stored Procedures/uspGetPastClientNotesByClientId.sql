@@ -1,7 +1,6 @@
-﻿
-
-
-
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetPastClientNotesByClientId] 
+(@ClientId int)
+AS
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 10-09-2020
@@ -13,9 +12,6 @@
 --  1  |  2020-Sep-23   | Vineeth		| Added notes not null or empty condition
 --  2  |  2020-Sep-30   | Vineeth       | Added ticket number 
 -----------------------------------------------------------------------------------------
-CREATE PROC [StriveCarSalon].[uspGetPastClientNotesByClientId] 
-(@ClientId int)
-AS
 BEGIN
 SELECT 
 tblj.VehicleId,

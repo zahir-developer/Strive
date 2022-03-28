@@ -15,8 +15,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-checkout-grid',
-  templateUrl: './checkout-grid.component.html',
-  styleUrls: ['./checkout-grid.component.css']
+  templateUrl: './checkout-grid.component.html'
 })
 export class CheckoutGridComponent implements OnInit {
   uncheckedVehicleDetails: any = [];
@@ -77,6 +76,7 @@ export class CheckoutGridComponent implements OnInit {
     if (event !== null) {
       this.startDate = event[0];
       this.endDate = event[1];
+      this.page = 1;
       this.getAllUncheckedVehicleDetails();
     }
     else {
@@ -86,6 +86,7 @@ export class CheckoutGridComponent implements OnInit {
   }
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
+    this.search = this.query;
     const obj = {
       locationId: localStorage.getItem('empLocationId'),
       StartDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
@@ -96,28 +97,37 @@ export class CheckoutGridComponent implements OnInit {
       sortOrder: this.sortColumn.sortOrder,
       sortBy: this.sortColumn.sortBy,
       status: true
-    };
+    };    
     this.spinner.show();
     this.checkout.getUncheckedVehicleDetails(obj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
 
-        const uncheck = JSON.parse(data.resultData);
-        this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
-        if (this.uncheckedVehicleDetails?.length > 0) {
-          for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
-            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
+        const uncheck = JSON.parse(data.resultData);        
+        if (uncheck.GetCheckedInVehicleDetails.checkOutViewModel !== null) {
+          this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
+          if (this.uncheckedVehicleDetails?.length > 0) {
+            for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
+              this.uncheckedVehicleDetails[i].VehicleModel === 'None' ?
+               this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
+            }
           }
+          this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;          
         }
+        else
+        {
+          this.isTableEmpty = true;
+          this.uncheckedVehicleDetails = [];
+        }
+          
+
         if (this.uncheckedVehicleDetails == null) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
         this.spinner.hide();
-
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -127,16 +137,17 @@ export class CheckoutGridComponent implements OnInit {
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
-    this.page = event;
+    this.page = event;    
     this.getAllUncheckedVehicleDetails();
   }
   checkOutSearch() {
     this.search = this.query;
+    this.page = 1;
     this.getAllUncheckedVehicleDetails();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllUncheckedVehicleDetails();
   }
   changeSorting(column) {
@@ -224,14 +235,13 @@ export class CheckoutGridComponent implements OnInit {
   }
 
   hold(data, checkout) {
-    this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
-      .then((confirmed) => {
-        debugger
+    this.confirmationService.confirm(data, `Are you sure want to change the Hold status`, 'Yes', 'No')
+      .then((confirmed) => {        
         const finalObj = {
           id: checkout.JobId,
-          IsHold: checkout.IsHold == true ? true : false
-
+          IsHold: checkout.IsHold == false ? true : false
         };
+        
         if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
           return;
         }

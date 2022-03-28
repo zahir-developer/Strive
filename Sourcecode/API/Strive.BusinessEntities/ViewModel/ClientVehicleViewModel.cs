@@ -15,6 +15,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string LastName { get; set; }
         public int Gender { get; set; }
         public DateTime BirthDate { get; set; }
+        public string Email { get; set; }
         public int VehicleId { get; set; }
         public string VehicleNumber { get; set; }
         public int VehicleMfr { get; set; }

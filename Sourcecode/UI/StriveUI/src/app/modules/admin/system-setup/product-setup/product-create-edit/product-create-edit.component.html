@@ -54,7 +54,7 @@
                     <label for="inputQuantity">Quantity</label>
                     <input type="text" [ngClass]="{ 'is-invalid': submitted && f.suggested.errors }" appTwoDecimalNumber
                         [appMaxLength]="9" class="form-control" placeholder="0.00" formControlName="quantity">
-                    <div *ngIf="submitted && f.suggested.errors" class="invalid-feedback">
+                    <div *ngIf="submitted && f.suggested.errors" class="p-t-5" style="font-size: 80%;color: #dc3545;">
                         <div *ngIf="f.suggested.errors.required">Quantity is required</div>
                     </div>
                 </div>
@@ -77,10 +77,7 @@
             <label for="inputCost">Cost (Per Unit)</label>
             <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control" formControlName="cost"
                 placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted && f.cost.errors }">
-            <div *ngIf="submitted && f.cost.errors" class="invalid-feedback">
-                <div *ngIf="f.cost.errors.required">Cost is required</div>
-            </div>
-            <div *ngIf="submitted  && costErrMsg && !f.cost.errors.required" style="font-size: small;color: #dc3545;">
+            <div *ngIf="submitted && costErrMsg" class="p-t-5" style="font-size: 80%;color: #dc3545;">
                 Cost should not be 0
             </div>
         </div>
@@ -104,7 +101,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputThreshold">Threshold #</label>
-            <input numbersOnly type="text" maxlength="2" class="form-control" formControlName="thresholdAmount"
+            <input appTwoDecimalNumber type="text" maxlength="5" class="form-control" formControlName="thresholdAmount"
                 placeholder="Threshold #">
         </div>
         <div class="form-group col-lg-3">
@@ -123,7 +120,7 @@
         </div>
         <div class="form-group col-lg-3" *ngIf="isChecked === true">
             <label for="inputTaxAmount">Tax Percentage<span class="required">*</span></label>
-            <input type="text" class="form-control" formControlName="taxAmount" placeholder="$0.00%" appTwoDecimalNumber
+            <input type="text" class="form-control" formControlName="taxAmount" placeholder="0.00%" appTwoDecimalNumber
                 [ngClass]="{ 'is-invalid': submitted && f.taxAmount.errors }">
             <div *ngIf="submitted && f.taxAmount.errors" class="invalid-feedback">
                 <div *ngIf="f.taxAmount.errors.required">Tax Percentage is required</div>

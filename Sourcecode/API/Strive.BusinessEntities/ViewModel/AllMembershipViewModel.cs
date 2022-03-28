@@ -16,5 +16,6 @@ namespace Strive.BusinessEntities.ViewModel
         public int LocationId { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public bool IsActive { get; set; }
+        public decimal? DiscountedPrice { get; set; }
     }
 }

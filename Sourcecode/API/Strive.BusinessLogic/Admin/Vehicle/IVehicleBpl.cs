@@ -14,17 +14,24 @@ namespace Strive.BusinessLogic.Vehicle
         Result UpdateVehicleMembership(Membership Membership);
         Result AddVehicle(VehicleDto ClientVehicle);
         Result SaveClientVehicle(VehicleDto vehicle);
-        Result DeleteVehicle(int vehicleId);
+        Result DeleteVehicle(int vehicleId, int? clientId);
         Result GetVehicleByClientId(int clientId);
+        Result GetVehicleByEmailId(string emailId);
         Result GetVehicleId(int vehicleId);
         Result GetVehicleCodes();
         Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel clientmembership);
         Result GetVehicleMembershipDetailsByVehicleId(int id);
         Result GetMembershipDetailsByVehicleId(int id);
         Result GetPastDetails(int clientId);
-        Result GetAllVehicleThumbnail(int vehicleId);
-        Result GetVehicleImageById(int vehicleImageId);
+        Result GetAllVehicleIssueImage(int vehicleId);
+        Result GetVehicleIssueImageById(int vehicleIssueImageId);
         Result DeleteVehicleImage(int vehicleImageId);
+        Result DeleteVehicleIssue(int vehicleIssueId);
+        Result GetMembershipDiscountStatus(int clientId, int vehicleId);
+        Result DeleteVehicleMembership(VehicleMembershipDeleteDto deleteDto);
+        Result AddVehicleIssue(VehicleIssueDto vehicleIssueDto);
+
+        Result UpdateVehicleNumberSequence(int? vehicleId, int clientId);
 
     }
 }

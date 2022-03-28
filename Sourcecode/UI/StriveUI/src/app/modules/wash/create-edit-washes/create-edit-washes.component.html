@@ -16,17 +16,19 @@
                         <form [formGroup]="washForm">
                             <div class="form-row border-bottom m-b-8">
                                 <div class="form-group col-xl-3">
-                                    <h5 class="d-inline-block font-weight-600">Ticket No. <span
-                                            style="color: #1dc5b3;">{{ticketNumber}}</span></h5> <span
-                                        class="font-size-1 font-weight-600"></span>
+                                    <h5 class="d-inline-block font-weight-600">
+                                        {{isEdit ? 'Ticket No.' : 'New Ticket'}} 
+                                        <span style="color: #1dc5b3;">{{ticketNumber}}</span>
+                                    </h5> 
+                                        <span class="font-size-1 font-weight-600"></span>
                                 </div>
                                 <div class="form-group col-xl-9">
                                     <div class="pull-right">
-                                        <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Time in:
+                                        <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block"><strong>Time In:</strong>
                                             {{ timeInDate | date:'MM-dd-yyyy, HH:mm'}}</p>
-                                        <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Est.Time
+                                        <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block"><strong>Est. Time:</strong>
                                             {{ timeOutDate | date:'MM-dd-yyyy, HH:mm' }}</p>
-                                        <p class="theme-font-color m-r-10 p-r-10 d-inline-block">Est.Min:
+                                        <p class="theme-font-color m-r-10 p-r-10 d-inline-block"><strong>Est. Min:</strong>
                                             {{washTime}}min</p>
                                     </div>
                                 </div>
@@ -35,8 +37,7 @@
                                 <div class="form-group col-lg-2 col-md-2 col-xl-3">
                                     <label for="inputBarcode">Barcode</label>
                                     <input type="text" maxlength="100" class="form-control" formControlName="barcode"
-                                        placeholder="BarCode"
-                                        (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
+                                        placeholder="Barcode" (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputClient">Client<span class="required">*</span></label>
@@ -63,7 +64,7 @@
                                         [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }">
                                         <option hidden selected value="">Choose</option>
                                         <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
-                                            {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
+                                            {{score.VehicleMfr}}, {{score.VehicleModel}}, {{score.VehicleColor}}
                                         </option>
                                     </select>
                                     <div *ngIf="submitted && f.vehicle.errors" class="invalid-feedback">
@@ -126,7 +127,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputWashes">Washes<span class="required">*</span></label>
@@ -148,7 +148,7 @@
                                     <label for="inputUpchargeType">Upcharge Type</label>
                                     <select class="form-control" formControlName="upchargeType"
                                         (change)="upchargeService($event.target.value);">
-                                        <option hidden selected value="">Choose</option>
+                                        <option selected value="">None</option>
                                         <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
                                             {{score.ServiceName}}
                                         </option>
@@ -158,7 +158,7 @@
                                     <label for="inputUpcharges">Upcharges</label>
                                     <select class="form-control" formControlName="upcharges"
                                         (change)="upchargeService($event.target.value)">
-                                        <option hidden selected value="">Choose</option>
+                                        <option selected value="">None</option>
                                         <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
                                             {{score.Upcharges}}
                                         </option>
@@ -202,7 +202,7 @@
                                         (change)="change(addService)" [disabled]="isView"
                                         [checked]="addService.IsChecked" />
                                     <label class="custom-control-label"
-                                        for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+                                        for="{{addService.ServiceId}}">{{addService.ServiceName |titlecase}}</label>
                                 </div>
                             </div>
                         </div>
@@ -210,10 +210,13 @@
                             <span *ngIf="isEdit">
                                 <button type="button"  (click)="pay()"  [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled' : 'btn theme-primary-button-color '"> 
                                    {{paidLabel}}</button>
-                                 
-                              &nbsp;
+                                   &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="print()">Print</button>
+                                    (click)="zebraPrint()">Vehicle Copy</button>
+                                    &nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="zebraPrintCustomerCopy()">Customer Copy</button>
+                                    
                             </span>
                             <span class="pull-right">
                                 <button type="button" class="btn theme-optional-button-color"

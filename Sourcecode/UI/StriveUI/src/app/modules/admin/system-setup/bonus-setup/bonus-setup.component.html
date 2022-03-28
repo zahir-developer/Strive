@@ -18,16 +18,12 @@
                                         <app-location-dropdown (emitLocation)="onLocationChange($event)">
                                         </app-location-dropdown>
                                     </div>
-
                                     <div class="form-group col-lg-offset-1 col-lg-2 m-l-60">
                                         <label>Month:</label>
-
                                         <app-month-picker (emitMonth)='onMonthChange($event)'></app-month-picker>
                                     </div>
-
                                     <div class="form-group col-lg-2 m-l-60">
                                         <label>Year:</label>
-
                                         <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
                                     </div>                     
                                     <div class="form-group col-lg-2 m-l-55">
@@ -52,8 +48,8 @@
                                     <tbody>
                                         <tr *ngFor="let bonus of monthBonusList; let i = index">
                                             <td>
-                                                <input type="text" numbersOnly [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i);validateMaxValue(bonus, i)"
-                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' }"
+                                                <input type="text" numbersOnly [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' || isMinValueObj?.isMinValue && isMinValueObj?.index === i && bonus.Min !== ''}"
                                                     class="form-control rounded-0 input-table text-right">
                                                 <div *ngIf="submitted && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
@@ -61,7 +57,9 @@
                                                 <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
                                                 </div>
-                                              
+                                                <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i && bonus.Min !== ''" class="invalid-feedback">
+                                                     Range combination already added
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" numbersOnly [(ngModel)]="bonus.Max"
@@ -74,7 +72,7 @@
                                                 <div *ngIf="isValueMax && bonus.Max === ''" class="invalid-feedback">
                                                     Enter Max value
                                                 </div>
-                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i && bonus.Min !== ''" class="invalid-feedback">
+                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i && bonus.Max !== ''" class="invalid-feedback">
                                                     Max value should be greater than Min value
                                                 </div>
                                             
@@ -111,9 +109,9 @@
                                     <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                                 </div>
                                 <table class="table timeclcok-tb" aria-labelledby="summary">
-                                    <thead>
+                                    <!-- <thead>
                                         <th scope="col"></th>
-                                    </thead>
+                                    </thead> -->
                                     <tbody>
                                         <tr>
                                             <td></td>
@@ -121,7 +119,7 @@
                                             <td class="p-t-10">
                                                 <div class="row">
                                                     <div class="col-5 font-weight-600">
-                                                        No of Bad Reviews:
+                                                        No. of Bad Reviews:
                                                     </div>
                                                     <div class="col-4">
                                                         <input type="number" numbersOnly [(ngModel)]="noOfBadReviews" (input)="totalBadReviewAmount()"
@@ -152,7 +150,7 @@
                                             <td class="p-t-10">
                                                 <div class="row">
                                                     <div class="col-5 font-weight-600">
-                                                        No of Collisions:
+                                                        No. of Collisions:
                                                     </div>
                                                     <div class="col-4">
                                                         <input type="number" numbersOnly [(ngModel)]="noOfCollisions" (input)="totalCollisionAmount()"

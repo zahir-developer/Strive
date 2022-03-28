@@ -1,5 +1,4 @@
 ﻿
-
 -- =============================================
 -- Author:		<Author, Zahir>
 -- Create date: 09-10-2010
@@ -7,7 +6,7 @@
 -- [StriveCarSalon].[uspGetEmployeeRecentChatHistory] 1
 -- =============================================
 
-CREATE PROC [StriveCarSalon].[uspGetEmployeeRecentChatHistory] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetEmployeeRecentChatHistory] 
 @EmployeeId INT = NULL
 AS
 BEGIN

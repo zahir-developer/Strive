@@ -16,6 +16,7 @@ using Strive.RepositoryCqrs;
 using Strive.BusinessEntities.DTO.Sales;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessLogic.DTO.Client;
+using Strive.BusinessEntities.DTO.Report;
 
 namespace Strive.ResourceAccess
 {
@@ -31,25 +32,41 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(client);
         }
-        public bool UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
+        public int InsertCreditDetails(CreditDTO credit)
         {
-            _prm.Add("@ClientId", clientAmountUpdate.ClientId);
-            _prm.Add("@Amount", clientAmountUpdate.Amount);
-            db.Save(SPEnum.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
-            return true;
+            if (credit.CreditAccount.CreditAccountId == 0)
+                return dbRepo.InsertPK(credit, "CreditAccountId");
+            else
+                return (dbRepo.UpdatePc(credit, "CreditAccountId") ? 1 : 0);
         }
+
+        public bool AddCreditAccountHistory(CreditHistoryDTO creditAccountHistoryDto)
+        {
+            return dbRepo.SavePc(creditAccountHistoryDto, "CreditAccountHistoryId");
+        }
+        //public bool UpdateAccountHistory(CreditHistoryDTO creditAccountHistoryDto)
+        //{
+        //    return dbRepo.SavePc(creditAccountHistoryDto, "CreditAccountHistoryId");
+        //}
+        //public bool UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
+        //{
+        //    _prm.Add("@ClientId", clientAmountUpdate.ClientId);
+        //    _prm.Add("@Amount", clientAmountUpdate.Amount);
+        //    db.Save(SPEnum.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
+        //    return true;
+        //}
         public ClientListViewModel GetAllClient(SearchDto searchDto)
         {
 
-             _prm.Add("@locationId", searchDto.LocationId);
+            _prm.Add("@locationId", searchDto.LocationId);
             _prm.Add("@PageNo", searchDto.PageNo);
             _prm.Add("@PageSize", searchDto.PageSize);
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
-            var result= db.FetchMultiResult<ClientListViewModel>(SPEnum.USPGETALLCLIENT.ToString(), _prm);
+            var result = db.FetchMultiResult<ClientListViewModel>(SPEnum.USPGETALLCLIENT.ToString(), _prm);
             return result;
-            
+
         }
 
         public ClientLoginViewModel GetClientByAuthId(int authId)
@@ -62,7 +79,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@ClientId", clientId);
             return db.Fetch<ClientDetailViewModel>(SPEnum.USPGETCLIENT.ToString(), _prm);
-            
+
         }
         public ClientVehicleDetailModelView GetClientVehicleById(int clientId)
         {
@@ -113,7 +130,7 @@ namespace Strive.ResourceAccess
         public bool IsClientName(ClientNameDto clientNameDto)
         {
             _prm.Add("FirstName", clientNameDto.FirstName);
-            _prm.Add("LastName", clientNameDto.LastName); 
+            _prm.Add("LastName", clientNameDto.LastName);
             _prm.Add("PhoneNumber", clientNameDto.PhoneNumber);
 
             var result = db.Fetch<ClientViewModel>(SPEnum.USPISCLIENTAVAILABLE.ToString(), _prm);
@@ -151,7 +168,53 @@ namespace Strive.ResourceAccess
 
         }
 
+        public List<ClientEmailBlastViewModel> GetClientList(EmailBlastDto emailBlast)
+        {
+            _prm.Add("fromDate", emailBlast.fromDate);
+            _prm.Add("toDate", emailBlast.toDate);
+            _prm.Add("IsMemebership", emailBlast.IsMembership);
 
+            return db.Fetch<ClientEmailBlastViewModel>(EnumSP.Client.USPGETCLIENTLIST.ToString(), _prm);
 
+        }
+
+        public ClientActivityBalanceHistoryViewModel GetCreditAccountBalanceHistory(string clientId)
+        {
+            _prm.Add("@ClientId", clientId);
+            var result = db.FetchMultiResult<ClientActivityBalanceHistoryViewModel>(EnumSP.Client.USPGETCREDITACCOUNTBALANCEHISTORY.ToString(), _prm);
+            return result;
+        }
+
+        //public List<ClientEmailBlastViewModel> GetStatementByClientId(int id)
+        //{
+        //    _prm.Add("ClientId", id);
+        //    return db.Fetch<ClientStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
+        //}
+
+        public List<ClientContactEmail> GetClientEmailList()
+        {
+            return db.Fetch<ClientContactEmail>(EnumSP.Client.USPGETCLIENTMAILLIST.ToString(), _prm);
+        }
+
+        public bool UpdateClientAddressIsNotified(int clientAddressId, bool IsNotified)
+        {
+            _prm.Add("@ClientAddressId", clientAddressId);
+            _prm.Add("@IsNotified", IsNotified);
+            db.Save(SPEnum.USPUPDATECLIENTADDRESSISNOTIFIED.ToString(), _prm);
+            return true;
+        }
+
+        public List<ClientDetailListViewModel> GetAllClientDetail(string name)
+        {
+            _prm.Add("@Name", name);
+            return db.Fetch<ClientDetailListViewModel>(SPEnum.USPGETALLCLIENTDETAIL.ToString(), _prm);
+        }
+         public List<ClientAccountBalanceViewModel> GetClientAccountBalance(AccountBalanceDto accountBalance)
+        {
+            _prm.Add("@clientId", accountBalance.ClientId);
+            _prm.Add("@year", accountBalance.Year);
+            _prm.Add("@month", accountBalance.Month);
+            return db.Fetch<ClientAccountBalanceViewModel>(SPEnum.USPGETCREDITACCOUNTBALANCE.ToString(), _prm);
+        }
     }
 }

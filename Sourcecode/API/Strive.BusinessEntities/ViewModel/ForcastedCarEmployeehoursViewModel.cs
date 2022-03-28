@@ -15,6 +15,8 @@ namespace Strive.BusinessEntities.ViewModel
 
         public decimal? RainPrecipitation { get; set; }
         public DateTime Date { get; set; }
+        public int? TotalEmployees { get; set; }
+        public decimal? Totalhours { get; set; }
 
     }
 

@@ -1,7 +1,8 @@
-﻿--[StriveCarSalon].[uspGetUpchargeTypeByModel]  93
-CREATE proc [StriveCarSalon].[uspGetUpchargeTypeByModel] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetUpchargeTypeByModel] 
 @modelId int
 as 
+--[StriveCarSalon].[uspGetUpchargeTypeByModel]  93
+
 declare @categoryId int = (select top  1 id from tblCodeCategory where Category ='UpchargeType')
 begin
 	select 

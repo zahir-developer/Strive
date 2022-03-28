@@ -3,8 +3,7 @@ import { DetailService } from '../../services/data-service/detail.service';
 
 @Component({
   selector: 'app-no-of-details',
-  templateUrl: './no-of-details.component.html',
-  styleUrls: ['./no-of-details.component.css']
+  templateUrl: './no-of-details.component.html'
 })
 export class NoOfDetailsComponent implements OnInit {
   detailCount: any;

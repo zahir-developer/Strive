@@ -76,6 +76,7 @@ section#login button[type="submit"] {
 
 .menu {
     min-width: 5.1%;
+    max-width: 5.1%;
     height: 100%;
     position: fixed;
     z-index: 1;

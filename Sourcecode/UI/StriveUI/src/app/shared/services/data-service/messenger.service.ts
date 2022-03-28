@@ -29,6 +29,9 @@ export class MessengerService {
         this.signalRService.startConnection();
     }
 
+    getAllEmployeeName(obj) {
+        return this.http.post(`${UrlConfig.Messenger.getAllEmployeeName}`, obj);
+    }
 
     GetEmployeeList(employeeId) {
         return this.http.get(`${UrlConfig.Messenger.getEmployeeList}` + employeeId);

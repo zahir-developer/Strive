@@ -11,6 +11,7 @@ import { MonthlyCustomerDetailComponent } from './monthly-customer-detail/monthl
 import { HourlyWashComponent } from './hourly-wash/hourly-wash.component';
 import { DailySalesComponent } from './daily-sales/daily-sales.component';
 import { MonthlyMoneyOwnedComponent } from './monthly-money-owned/monthly-money-owned.component';
+import { IrregularityReportComponent } from './irregularity-report/irregularity-report.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
 {path: 'hourly-wash', component: HourlyWashComponent},
 {path: 'daily-sales', component: DailySalesComponent},
 {path: 'monthly-money-owned', component: MonthlyMoneyOwnedComponent},
+{path: 'irregularity-report', component: IrregularityReportComponent}
 ]
 }];
 

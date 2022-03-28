@@ -28,6 +28,7 @@ export class TimeClockWeekComponent implements OnInit {
     WashRate: 0
   };
   timeClockList: any = [];
+  orginalTimeClock: any = [];
   washHours: any;
   replicateClockList: any = [];
   weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -71,6 +72,7 @@ export class TimeClockWeekComponent implements OnInit {
         const weekDetails = JSON.parse(res.resultData);
         if (weekDetails.Result.TimeClockWeek !== null) {
           this.totalWeekDetail = weekDetails.Result.TimeClockWeek;
+          this.orginalTimeClock = weekDetails.Result.TimeClock;
         }
         if (weekDetails.Result.TimeClock !== null) {
           this.weekDays.forEach(day => {
@@ -78,11 +80,11 @@ export class TimeClockWeekComponent implements OnInit {
             const dayDetails = [];
             if (days.length > 0) {
               days.forEach(item => {
-                const inTimeHour = item.InTime.split('+');
+                const inTimeHour = item.InTime?.split('+');
                 const inTime = new Date(inTimeHour[0]);
-                const outTimeHour = item.OutTime.split('+');
-                const outTime = new Date(outTimeHour[0]);
-                const hours = item.TotalHours.split('+');
+                const outTimeHour = item.OutTime?.split('+');
+                const outTime = new Date(outTimeHour !== undefined ? outTimeHour[0]: 0);
+                const hours = item.TotalHours?.split('+');
                 const totalHours = new Date(hours[0]);
                 dayDetails.push({
                   EventDate: item.EventDate,
@@ -208,10 +210,12 @@ export class TimeClockWeekComponent implements OnInit {
     let replication = false;
 
 
-    if (this.inCorrectTotalHours === true) {
-      this.toastr.error(MessageConfig.Admin.TimeClock.HourFormat, 'Error!');
+    /*
+    if (this.inCorrectTotalHours === true ) {
+      this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning!');
       return;
     }
+    */
     this.timeClockList.forEach(element => {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
@@ -241,48 +245,77 @@ export class TimeClockWeekComponent implements OnInit {
       return;
     }
     if (checkIn.length !== 0) {
-      this.toastr.warning(MessageConfig.Admin.TimeClock.totalHour, 'Warning!');
-
-      return;
+      //Disabled - Fails when, User not checked out.
+      //this.toastr.warning(MessageConfig.Admin.TimeClock.totalHour, 'Warning!');
+      //return;
     } else if (negativeHrs.length !== 0) {
       this.toastr.warning(MessageConfig.Admin.TimeClock.totalHourNegative, 'Warning!');
 
       return;
     }
+
+    console.log(this.timeClockList);
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(time => {
-        const inEventDate = new Date(time.EventDate);
-        const outEventDate = new Date(time.EventDate);
+        var oDate = "";
+        if(time.EventDate.includes('T00:00:00')){
+          oDate = time.EventDate;
+        }else{
+          oDate = time.EventDate + 'T00:00:00';
+        }
+        const inEventDate = new Date(oDate);
+        const outEventDate = new Date(oDate);
         const inTime = time.InTime.split(':');
         const outTime = time.OutTime.split(':');
         const inTimeHours = +inTime[0];
         const inTimeMins = +inTime[1];
-        const outTimeHours = +outTime[0];
-        const outTimeMins = +outTime[1];
+        const outTimeHours = outTime !== undefined ? +outTime[0] : 0;
+        const outTimeMins = outTime !== undefined ? +outTime[1] : 0;
         inEventDate.setHours(inTimeHours);
         inEventDate.setMinutes(inTimeMins);
         outEventDate.setHours(outTimeHours);
         outEventDate.setMinutes(outTimeMins);
         const inTimeFormat = this.datePipe.transform(inEventDate, 'MM/dd/yyyy HH:mm');
-        const outTimeFormat = this.datePipe.transform(outEventDate, 'MM/dd/yyyy HH:mm');
-        weekDetailObj.push({
-          timeClockId: time.TimeClockId,
-          employeeId: time.employeeId,
-          locationId: time.locationId,
-          roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
-          eventDate: time.EventDate, // time.EventDate,
-          inTime: time.InTime ? inTimeFormat : null,
-          outTime: time.OutTime ? outTimeFormat : null,
-          eventType: null,
-          updatedFrom: '',
-          status: true,
-          comments: '',
-          isActive: true,
-          isDeleted: time.isDeleted
-        });
+
+        var outTimeFormat = null;
+        
+        if(outTimeMins > 0 || outTimeHours >0)
+        {
+          outTimeFormat = this.datePipe.transform(outEventDate, 'MM/dd/yyyy HH:mm');
+        }
+
+        var clockItems = this.orginalTimeClock.filter(s => s.TimeClockId === time.TimeClockId);
+
+        const clockItem = clockItems[0];
+        var push = true;
+        if (clockItem !== null && clockItem !== undefined) {
+          if (time.isDeleted == true || this.datePipe.transform(clockItem.InTime, 'HH:mm') !== time.InTime || this.datePipe.transform(clockItem.OutTime, 'HH:mm') !== time.OutTime || clockItem.RoleId !== time.RoleId)
+            push = true;
+          else
+            push = false;
+        }
+
+        if (push) {
+          weekDetailObj.push({
+            timeClockId: time.TimeClockId,
+            employeeId: time.employeeId,
+            locationId: time.locationId,
+            roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
+            eventDate: time.EventDate, // time.EventDate,
+            inTime: time.InTime ? inTimeFormat : null,
+            outTime: time.OutTime ? outTimeFormat : null,
+            eventType: null,
+            updatedFrom: '',
+            status: true,
+            comments: '',
+            isActive: true,
+            isDeleted: time.isDeleted
+          });
+        }
       });
     });
+    
     const finalObj = {
       timeClock: { timeClock: weekDetailObj },
       TimeClockWeekDetailDto: {
@@ -318,8 +351,8 @@ export class TimeClockWeekComponent implements OnInit {
 
       const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime;
       const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime;
-      const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD hh:mm A');
-      const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD hh:mm A');
+      const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD HH:mm');
+      const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD HH:mm');
       const inTime = new Date(inTimeHours);
       const outTime = new Date(outFormat);
       const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
@@ -337,7 +370,7 @@ export class TimeClockWeekComponent implements OnInit {
         currentTime.TotalHours = 0;
         this.inCorrectTotalHours = true;
 
-        this.toastr.error(MessageConfig.Admin.TimeClock.HourFormat, 'Error!');
+        this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning!');
 
       }
       else {
@@ -346,6 +379,8 @@ export class TimeClockWeekComponent implements OnInit {
       }
       this.totalHoursCalculation();
     }
+    
+    console.log(this.timeClockList);
   }
 
   outTime(event, currentTime) {
@@ -353,8 +388,8 @@ export class TimeClockWeekComponent implements OnInit {
       const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime;
       const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime;
 
-      const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD hh:mm A');
-      const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD hh:mm A');
+      const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD HH:mm');
+      const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD HH:mm');
       const inTime = new Date(inTimeHours);
       const outTime = new Date(outFormat);
       const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
@@ -373,7 +408,7 @@ export class TimeClockWeekComponent implements OnInit {
         currentTime.TotalHours = 0;
         this.inCorrectTotalHours = true;
 
-        this.toastr.error(MessageConfig.Admin.TimeClock.HourFormat, 'Error!');
+        this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning!');
 
       }
       else {
@@ -434,10 +469,11 @@ export class TimeClockWeekComponent implements OnInit {
 
 
     this.totalWeekDetail.TotalDetailHours = detailHour;
-    this.washHours = washHour.split(':');
-    this.totalWeekDetail.TotalWashHours = this.washHours[0] <= 40 ? washHour : '40:00';
+    // this.washHours = washHour.split(':');
+    this.totalWeekDetail.TotalWashHours = washHour;//this.washHours[0] <= 40 ? washHour : '40:00';
 
   }
+
 
 
 

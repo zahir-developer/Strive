@@ -10,17 +10,30 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 @Component({
   selector: 'app-client-history',
   templateUrl: './client-history.component.html',
-  styleUrls: ['./client-history.component.css']
+  styles: [`
+  .table-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+  `]
 })
 export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;
+  @Input() clientDetail: any;
+  @Input() historyData?: any;
   historyGrid: any = [];
   page: number;
   pageSize: number;
+  openingBalance: number;
+  closingBalance: number;
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
   clonedHistoryGrid = [];
+  historyCloned = [];
+  fromDate = new Date();
   constructor(
     private activeModal: NgbActiveModal,
     private client: ClientService,
@@ -32,22 +45,29 @@ export class ClientHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
-    this.getHistory();
+    const capObj = {
+      clientId: this.clientId,
+      year: 0,
+      month: this.fromDate.getMonth() + 1
+    };
+    this.getHistory(capObj);
+    this.historyGrid = this.historyData;
+    this.historyCloned = this.historyData;
+    this.collectionSize = Math.ceil(this.historyCloned.length / this.pageSize) * 10;
+    this.FilterRecords();
   }
 
   closeHistoryModel() {
     this.activeModal.close();
   }
 
-  getHistory() {
-    this.client.getHistoryByClientId(this.clientId).subscribe(res => {
+  getHistory(capObj) {
+    this.client.getClientAccountBalance(capObj).subscribe(res => {
       if (res.status === 'Success') {
-        const history = JSON.parse(res.resultData);
-        this.historyGrid = history.VehicleHistory;
-        this.clonedHistoryGrid = this.historyGrid.map(x => Object.assign({}, x));
-        this.historyGrid = this.historyGrid.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage ||
-          item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage);
-        this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
+        const bal = JSON.parse(res.resultData);
+        this.openingBalance = bal.AccountBalance[0].OpeningBalance;
+        this.closingBalance = bal.AccountBalance[0].ClosingBalance;
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -71,5 +91,35 @@ export class ClientHistoryComponent implements OnInit {
     modalRef.componentInstance.ticketNumber = data.TicketNumber;
   }
 
+  onMonthChange(event) {
+    const date = new Date();
+    date.setMonth(event - 1);
+    this.fromDate = new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+  onYearChange(event) {
+    this.fromDate.setFullYear(event);
+  }
 
+  Print() {
+    if (this.historyCloned.length !== 0) {
+      const printContent = document.getElementById("clientHistory");
+      const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+      WindowPrt.document.write(printContent.innerHTML);
+      WindowPrt.document.close();
+      WindowPrt.focus();
+      WindowPrt.print();
+    }
+    else
+      this.toastr.warning(MessageConfig.NoRecordsFound, 'Warning!');
+  }
+  FilterRecords() {
+    const capObj = {
+      clientId: this.clientId,
+      year: this.fromDate.getFullYear(),
+      month: this.fromDate.getMonth() + 1
+    };
+    this.getHistory(capObj);
+    this.historyCloned = this.historyGrid
+      .filter(x => new Date(x.CreatedDate).getMonth() == this.fromDate.getMonth() && new Date(x.CreatedDate).getFullYear() == this.fromDate.getFullYear())
+  }
 }

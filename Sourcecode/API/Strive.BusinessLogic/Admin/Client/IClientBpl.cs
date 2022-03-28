@@ -9,6 +9,7 @@ using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
 using Strive.Common;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.BusinessLogic.Client
 {
@@ -21,7 +22,7 @@ namespace Strive.BusinessLogic.Client
         Result GetClientById(int? clientId);
         Result GetClientVehicleById(int clientId);
         Result UpdateClientVehicle(ClientDto vehicle);
-        Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate);
+        //Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate);
         Result GetClientSearch(ClientSearchDto search);
         Result GetClientCodes();
         Result GetStatementByClientId(int id);
@@ -31,6 +32,15 @@ namespace Strive.BusinessLogic.Client
 
         Result GetAllClientName(string name);
         Result ClientEmailExist(string email);
+        List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto emailBlast);
 
+        Result ClientCSVExport(EmailBlastDto emailBlast);
+        Result SaveCreditDetails(CreditDTO client);
+        Result GetCreditAccountBalanceHistory(string clientId);
+        //Result AddCreditAccountHistory(CreditHistoryDTO addGiftCardHistory);
+        //Result UpdateCreditAccountHistory(CreditHistoryDTO updateGiftCardHistory);
+        bool SendClientEmail();
+        Result GetAllClientDetail(string name);
+        Result GetClientAccountBalance(AccountBalanceDto accountBalance);
     }
 }

@@ -1,0 +1,21 @@
+::ng-deep .ui-fluid .p-autocomplete {
+    height: 3rem;
+}
+::ng-deep .ui-fluid .ui-autocomplete {
+    height: 3rem;
+}
+::ng-deep .ui-fluid .ui-autocomplete-input {
+    height: 3rem;
+}
+
+.panelfixheight {
+    min-height: 50rem !important;
+}
+
+.firstBoxs {
+padding-top: 2.5rem;
+}
+
+.secondBoxs {
+    padding-top: 0.5rem;
+}

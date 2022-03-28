@@ -15,7 +15,8 @@
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
                 <div class="col-lg-2">
-                    <button type="button" class="btn theme-primary-button-color" (click)="getCustomerMonthlyDetailReport()">Preview</button>
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="getCustomerMonthlyDetailReport()">Preview</button>
                 </div>
             </div>
             <div class="card m-t-10">
@@ -29,9 +30,12 @@
                                 <div class="d-inline-block align-middle">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent" (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="custDetailExport" ngxPrint>Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" (click)="getCustomerMonthlyDetailReport()">Refresh</button>
+                                <button type="button" class="btn theme-primary-button-color" [disabled]="!fileTypeEvent"
+                                    (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" 
+                                    (click)="print()">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="refresh()">Refresh</button>
                             </div>
                         </div>
                     </div>
@@ -39,45 +43,44 @@
             </div>
             <!-- end card-->
             <div class="card m-t-10">
-                <div class="card-body" >
-                    <div id="custDetailExport">
-                    <div class="p-b-5 m-b-8">
-                        <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Customer Detail Report</span>
-                        </h4>
-                        <div class="pull-right card-widgets"> <a data-toggle="collapse"
-                                href="#MonthlyCustomerDetailreport" role="button" aria-expanded="false"
-                                aria-controls="MonthlyCustomerreport"><i
-                                    class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
-                    </div>
-                    <div id="MonthlyCustomerDetailreport" class="collapse show">
-                        <div class="table-responsive scrollbar" id = "print-section">
-                            <table class="table montthcustreport" id="customerDetail">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Ticket#</th>
-                                        <th scope="col">Color</th>
-                                        <th scope="col">Model</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Membership /Drive</th>
-                                        <th scope="col">Membership Amt.</th>
-                                        <th scope="col">Ticket Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="border">
-                                   
-                                   
-                                </tbody>
-                            </table>
-                            <div *ngIf="customerDetailReport?.length === 0" class="noRecords">
-                                <span> No Records Found</span>
+                <div class="card-body">
+                    <div id="custDetailExport" >
+                        <div class="p-b-5 m-b-8">
+                            <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Customer Detail
+                                    Report</span>
+                            </h4>
+                            <div class="pull-right card-widgets"> <a data-toggle="collapse"
+                                    href="#MonthlyCustomerDetailreport" role="button" aria-expanded="false"
+                                    aria-controls="MonthlyCustomerreport"><i
+                                        class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
+                        </div>
+                        <div id="MonthlyCustomerDetailreport" class="collapse show">
+                            <div class="table-responsive scrollbar" id="print-section">
+                                <table class="table montthcustreport" id="customerDetail">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Ticket#</th>
+                                            <th scope="col">Color</th>
+                                            <th scope="col">Model</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Membership /Drive</th>
+                                            <th scope="col">Membership Amt.</th>
+                                            <th scope="col">Ticket Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="border">
+                                    </tbody>
+                                </table>
+                                <div *ngIf="customerDetailReport?.length === 0" class="noRecords">
+                                    <span> No Records Found</span>
+                                </div>
+                                <ul class="pagination justify-content-end">
+
+                                </ul>
                             </div>
-                            <ul class="pagination justify-content-end">
-                               
-                            </ul>
                         </div>
                     </div>
-                </div>
                 </div>
                 <!-- end card-body -->
             </div>

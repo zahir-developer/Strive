@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserDataService } from 'src/app/shared/util/user-data.service';
 import { AuthService } from 'src/app/shared/services/common-service/auth.service';
 import { Observable } from 'rxjs';
@@ -10,7 +10,8 @@ declare var $: any;
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
   isAutheticated: boolean;
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit {
   lastName: string;
   unReadMessageDetail: any = [];
   locationName: string;
+  isCustomer: boolean;
   weatherDetails: any;
   rainPrediction: any;
   temperature: number;
@@ -39,37 +41,51 @@ export class HeaderComponent implements OnInit {
       this.empName = data;
     });
 
+    this.isCustomer = localStorage.getItem('empRoles')!="Customer";
+
     this.userService.cityName.subscribe(data => {
-      if (data == null) {
-        this.cityName = JSON.parse(localStorage.getItem('employeeCityName'));
+      if (data !== null) {
+        this.cityName = data;
+        // this.cityName = JSON.parse(localStorage.getItem('employeeCityName'));
 
       }
-      else {
-        this.cityName = data;
-      }
+      // else {
+      //   this.cityName = data;
+      // }
     });
 
     this.userService.locationName.subscribe(data => {
-      if (data == null) {
-        this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
-      }
-      else {
+      if (data !== null) {
         this.locationName = data;
+        // this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
       }
+      // else {
+      //   this.locationName = data;
+      // }
     });
 
     this.selectLocation.obsCityName.subscribe(city => {
-      if (city !== null)
+      if (city !== null) {
         this.cityName = city;
+        localStorage.setItem('cityGroup', this.cityName);
+      }
     });
 
     this.selectLocation.obsLocationName.subscribe(location => {
-      if (location !== null)
-        this.locationName = location
+      if (location !== null) {
+        this.locationName = location;
+        localStorage.setItem('streetGroup', this.locationName);
+      }
     });
+        this.getWeatherDetails();
+        this.getUnReadMessage();
 
-    this.getWeatherDetails();
-    this.getUnReadMessage();
+    //  if (localStorage.getItem('isAuthenticated') != null){
+    //   if (localStorage.getItem('isAuthenticated').toString() === 'true') {
+    //     this.getWeatherDetails();
+    //     this.getUnReadMessage();
+    //   }
+    // }
 
   }
   // Get WeatherDetails
@@ -86,6 +102,14 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.msgService.closeConnection();
     this.authService.logout();
+    $(document).ready(function(){ 
+      $('#reportSliderMenu').css('width','0px')
+      $('#navSliderMenu').css('width','0px')
+      $('#content-wrapper').css('marginLeft','0px')
+    })
+    document.getElementById('reportSliderMenu').style.width = '0';
+    document.getElementById('navSliderMenu').style.width = '0';
+    document.getElementById('content-wrapper').style.marginLeft = '0';
   }
 
   openmbsidebar() {
@@ -114,4 +138,5 @@ export class HeaderComponent implements OnInit {
   navigateToMessage(message) {
     this.router.navigate(['/messenger']);
   }
+
 }

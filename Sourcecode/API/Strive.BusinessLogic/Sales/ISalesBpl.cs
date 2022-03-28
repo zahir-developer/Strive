@@ -22,6 +22,8 @@ namespace Strive.BusinessLogic.Sales
         Result DeleteJob(SalesItemDeleteDto salesItemDeleteDto);
         Result UpdateListItem(SalesUpdateItemDto salesUpdateItemDto);
         Result GetServicesWithPrice();
-        Result GetServicesAndProduct(int id);
+        Result GetServicesAndProduct(int id, string query);
+        Result GetTicketsByPaymentId(int id);
+        Result AddTipPayment(TipPaymentDTO salesPayment);
     }
 }

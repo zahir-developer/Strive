@@ -6,8 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-today-schedule-dashboard',
-  templateUrl: './today-schedule-dashboard.component.html',
-  styleUrls: ['./today-schedule-dashboard.component.css']
+  templateUrl: './today-schedule-dashboard.component.html'
 })
 export class TodayScheduleDashboardComponent implements OnInit {
   todayScheduleDetail: any = [];

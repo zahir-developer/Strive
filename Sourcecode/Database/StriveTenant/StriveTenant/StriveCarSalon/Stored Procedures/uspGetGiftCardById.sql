@@ -1,5 +1,4 @@
-﻿
-CREATE proc [StriveCarSalon].[uspGetGiftCardById]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetGiftCardById]
 (@GiftCardId int)
 as
 begin

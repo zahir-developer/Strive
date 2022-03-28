@@ -8,8 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-deal-setup',
-  templateUrl: './deal-setup.component.html',
-  styleUrls: ['./deal-setup.component.css']
+  templateUrl: './deal-setup.component.html'
 })
 export class DealSetupComponent implements OnInit {
   isLoading = false;
@@ -22,7 +21,7 @@ export class DealSetupComponent implements OnInit {
   actionType: string;
   constructor(
     private Deals: DealsService,
-    private spinner :NgxSpinnerService,
+    private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
   ) { }
@@ -36,6 +35,7 @@ export class DealSetupComponent implements OnInit {
       this.toastr.warning(MessageConfig.Admin.SystemSetup.Deal.DealLimit, 'Warning');
       return;
     }
+    this.selectedData = '';
     this.actionType = 'Add';
     this.showDialog = true;
   }
@@ -52,7 +52,7 @@ export class DealSetupComponent implements OnInit {
       if (data.status === 'Success') {
         const Deals = JSON.parse(data.resultData);
         this.DealsDetails = Deals.GetAllDeals;
-        this.DealsDetails.forEach( item => {
+        this.DealsDetails.forEach(item => {
           if (item.StartDate === '0001-01-01T00:00:00') {
             item.StartDate = 'None';
           }
@@ -74,26 +74,26 @@ export class DealSetupComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },  (err) => {
-this.isLoading = false;
-              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-            });
+    }, (err) => {
+      this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 
   dealChange(event) {
-    if(this.DealsDetails.length > 0 ){
+    if (this.DealsDetails.length > 0) {
       const status = event.checked;
-      this.Deals.updateDeals(status).subscribe( res => {
+      this.Deals.updateDeals(status).subscribe(res => {
         if (res.status === 'Success') {
           this.getDeals();
         }
       });
     }
-   
+
   }
 
   delete(data) {
-   
+
     this.confirmationService.confirm('Delete Deals', `Are you sure you want to delete this deal? All related 
     information will be deleted and the client cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
@@ -110,31 +110,31 @@ this.isLoading = false;
       dealName: data.DealName,
       timePeriod: data.TimePeriod,
       deals: true,
-     
-      startDate: data.StartDate ===  'None'? null :  data.StartDate,
-      endDate: data.EndDate === 'None'? null  : data.EndDate,
+
+      startDate: data.StartDate === 'None' ? null : data.StartDate,
+      endDate: data.EndDate === 'None' ? null : data.EndDate,
       isActive: true,
       isDeleted: true
     };
     const finalObj = {
-      deal : dealObj
+      deal: dealObj
     };
     this.spinner.show();
-    this.Deals.addDealsSetup(finalObj).subscribe( res => {
+    this.Deals.addDealsSetup(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
 
         this.getDeals();
       }
-      else{
+      else {
         this.spinner.hide();
 
       }
     },
       (err) => {
-      this.spinner.hide();
-       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-            });
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
 

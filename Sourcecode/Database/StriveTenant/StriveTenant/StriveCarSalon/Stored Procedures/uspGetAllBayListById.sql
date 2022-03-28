@@ -10,7 +10,7 @@
 -- 09-09-2020, Vineeth - Added IsActive condition
 --------------------------------------------------------
 -- =====================================================
-CREATE PROC [StriveCarSalon].[uspGetAllBayListById]
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllBayListById]
 (@LocationId int)
 AS
 BEGIN

@@ -1,4 +1,19 @@
-﻿CREATE PROCEDURE  [StriveCarSalon].[uspGetEmployeeById] 
+﻿
+/*  
+-----------------------------------------------------------------------------------------  
+Sample Input  : [StriveCarSalon].[uspGetEmployeeById] 1124
+-----------------------------------------------------------------------------------------  
+ Rev | Date Modified | Developer | Change Summary  
+-----------------------------------------------------------------------------------------  
+  1  |  2021-08-10   | Vetriselvi  | Included zip code in employee address 
+  2  |  2021-08-11   | Vetriselvi  | Included Salary in employee detail
+  3  |  2021-12-06   | Juki        | Excluded Locations that are deleted in main table when selecting employee location
+  4  |  2021-12-06   | Premalatha  | Added IsNotified in  employee address
+  
+-----------------------------------------------------------------------------------------  
+*/  
+  
+CREATE PROCEDURE  [StriveCarSalon].[uspGetEmployeeById] 
 (@EmployeeId int)
 AS
 BEGIN
@@ -30,7 +45,12 @@ emp.IsActive as Status,
 empDetail.Tip,
 empDetail.Exemptions,
 empDetail.ComType,
-emp.Tips
+emp.Tips,
+empAdd.Zip,
+empDetail.Salary,
+ISNULL(empDetail.IsSalary,0) as IsSalary,
+ISNULL(empAdd.IsNotified ,0) as IsNotified  
+
 from tblEmployee emp
 left join tblEmployeeAddress empAdd on emp.EmployeeId= empAdd.EmployeeId
 left join tblEmployeeDetail empDetail on emp.EmployeeId = empDetail.EmployeeId
@@ -91,7 +111,7 @@ tblcl.FirstName + ' '+ tblcl.LastName as ClientName,
 
    select emplo.EmployeeId,EmployeeLocationId, emplo.LocationId,lo.Locationname from tblEmployeeLocation emplo inner join
    tblLocation lo on emplo.locationid=lo.locationid where emplo.employeeid=@EmployeeId
-   and isnull(emplo.IsDeleted,0)=0 and emplo.IsActive = 1
+   and isnull(emplo.IsDeleted,0)=0 and emplo.IsActive = 1 and ISNULL(lo.IsDeleted,0)=0
 
    
    select ehr.EmployeeHourlyRateId, ehr.EmployeeId, ehr.LocationId,ehr.RoleId,ehr.HourlyRate,lo.LocationName,rm.RoleName

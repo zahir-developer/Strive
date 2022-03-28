@@ -40,12 +40,12 @@
                             <th scope="col">
                                 Employee Name
                             </th>
-                            <th scope="col">Commission Amount</th>
+                            <th scope="col">Commission</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let detail of detailService | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        <tr *ngFor="let detail of detailServiceClone | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                             <td>
                                 {{detail.ServiceName}}
                             </td>
@@ -53,21 +53,21 @@
                             </td>
                             <td>{{detail.EmployeeName}}
                             </td>
-                            <td>{{detail.CommissionAmount}}
+                            <td>{{detail.CommissionAmount | currency}}
                             </td>
                             <td>
                                 <em class="fa fa-times-circle delete-list theme-optional-icon-color" style="color:red"
                                     (click)="delete(detail)"></em>
                             </td>
                         </tr>
-                        <tr *ngIf="detailService.length === 0">
+                        <tr *ngIf="detailServiceClone.length === 0">
                             <td colspan="4" class="text-center">
                                 No Records Found
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
+                <ngb-pagination *ngIf="detailServiceClone.length > 0" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [rotate]="true"
                     [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
                 </ngb-pagination>
             </div>
@@ -77,7 +77,7 @@
 <div class="m-t-12">
     <span class="mw-100 pull-right">
         <button type="button" class="btn theme-primary-button-color m-r-5" (click)="saveAssignedService()"
-            [disabled]="detailService.length === 0 || isView">Save</button>
+            [disabled]="isView">Save</button>
         <button type="button" class="btn theme-optional-button-color" (click)="closeModel()">Cancel</button>
     </span>
 </div>

@@ -32,6 +32,12 @@ namespace Strive.Repository
             }
         }
 
+        public void Save(string sp, DynamicParameters dynParams)
+        {
+            CommandDefinition cmd = new CommandDefinition(sp, dynParams, commandType: CommandType.StoredProcedure);
+            Save(cmd);
+        }
+
         public object SaveGetId(CommandDefinition cmd)
         {
             object id = null;// default;

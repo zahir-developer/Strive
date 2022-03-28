@@ -13,12 +13,12 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import * as _ from 'underscore';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
-  templateUrl: './create-edit.component.html',
-  styleUrls: ['./create-edit.component.css']
+  templateUrl: './create-edit.component.html'
 })
 export class CreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
@@ -75,15 +75,18 @@ export class CreateEditComponent implements OnInit {
   isHourEdit = 0;
   selectedLocationHour = '';
   isRateAllLocation: boolean;
+  isSalary: boolean;
   errorMessage: boolean;
   fileSize: number;
+  isEmailExists: boolean;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private getCode: GetCodeService
+    private getCode: GetCodeService,
+    private codeValueService: CodeValueService
   ) { }
 
   ngOnInit() {
@@ -91,8 +94,10 @@ export class CreateEditComponent implements OnInit {
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'Inactive'];
     this.isRateAllLocation = false;
+    this.isSalary = false;
     this.errorMessage = false;
     this.fileSize = ApplicationConfig.UploadSize.EmployeeDocument;
+    this.isEmailExists = false;
     this.getGenderDropdownValue();
     this.getAllRoles();
     this.getLocation();
@@ -105,6 +110,7 @@ export class CreateEditComponent implements OnInit {
       gender: [''],
       address: ['', Validators.required],
       mobile: ['', Validators.required],
+      Zip: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
       ssn: [''],
       alienNumber: [''],
@@ -122,8 +128,8 @@ export class CreateEditComponent implements OnInit {
       status: ['Active'],
       exemptions: [''],
       roles: [[]],
-      location: [[]]
-
+      location: [[]],
+      //salary: ['']
     });
     this.emplistform.controls.status.disable();
     this.documentForm = this.fb.group({
@@ -132,17 +138,23 @@ export class CreateEditComponent implements OnInit {
   }
 
   getImmigrationStatus() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
-      if (data.status === "Success") {
-        const cType = JSON.parse(data.resultData);
-        this.imigirationStatus = cType.Codes;
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    const imigirationStatusVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.immigrationStatus);
+    console.log(imigirationStatusVaue, 'cached value ');
+    if (imigirationStatusVaue.length > 0) {
+      this.imigirationStatus = imigirationStatusVaue;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
+        if (data.status === "Success") {
+          const cType = JSON.parse(data.resultData);
+          this.imigirationStatus = cType.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
   }
 
   employeeDetail() {
@@ -241,16 +253,22 @@ export class CreateEditComponent implements OnInit {
   }
 
   getGenderDropdownValue() {
-    this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      if (res.status === 'Success') {
-        const gender = JSON.parse(res.resultData);
-        this.gender = gender.Codes;
-      } else {
+    const genderVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.gender);
+    console.log(genderVaue, 'cached Value');
+    if (genderVaue.length > 0) {
+      this.gender = genderVaue;
+    } else {
+      this.employeeService.getDropdownValue('GENDER').subscribe(res => {
+        if (res.status === 'Success') {
+          const gender = JSON.parse(res.resultData);
+          this.gender = gender.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    }
   }
 
   getLocation() {
@@ -367,6 +385,11 @@ export class CreateEditComponent implements OnInit {
     }
 
     if (this.locationRateList.length === 0) {
+      this.toastr.warning(MessageConfig.Employee.hourlyEmployeeLocation, 'Warning!');
+      return;
+    }
+
+    if (this.isEmailExists) {
       return;
     }
 
@@ -384,7 +407,7 @@ export class CreateEditComponent implements OnInit {
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: null,
+      zip: this.personalform.value.Zip,
       country: null
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
@@ -394,6 +417,7 @@ export class CreateEditComponent implements OnInit {
         roleId: item.item_id,
         isActive: true,
         isDeleted: false,
+        roleName: item.item_text
       };
     });
     const employeeDetailObj = {
@@ -407,8 +431,10 @@ export class CreateEditComponent implements OnInit {
       ComType: +this.emplistform.value.comType,
       lrt: null,
       exemptions: +this.emplistform.value.exemptions,
+      //salary: +this.emplistform.value.salary,
       isActive: true,
       isDeleted: false,
+      isSalary: this.isSalary
     };
     const locationObj = this.emplistform.value.location.map(item => {
       return {
@@ -417,7 +443,8 @@ export class CreateEditComponent implements OnInit {
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
-        hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : null
+        hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : null,
+        locationName: item.item_text
       };
     });
     const employeeObj = {
@@ -588,5 +615,23 @@ export class CreateEditComponent implements OnInit {
   cancelHour(loc) {
     this.isHourEdit = 0;
     loc.ratePerHour = this.selectedLocationHour;
+  }
+
+  checkEmailExist() {
+    const emilID = this.emplistform.value.emailId;
+    this.employeeService.validateEmail(emilID).subscribe( res => {
+      if (res.status === 'Success') {
+        const emailExist = JSON.parse(res.resultData);
+        if (emailExist.EmailIdExist) {
+          this.isEmailExists = true;
+        } else {
+          this.isEmailExists = false;
+        }
+      }
+    });
+  }
+
+  isSalaryChecked(event){
+    this.isSalary = event.target.checked;
   }
 }

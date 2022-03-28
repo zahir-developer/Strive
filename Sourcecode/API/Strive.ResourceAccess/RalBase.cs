@@ -34,7 +34,7 @@ namespace Strive.ResourceAccess
 
 
         }
-        public RalBase(ITenantHelper tenant, bool isAuth)
+        public RalBase(ITenantHelper tenant, bool isAuth, bool isTenantAdmin = false)
         {
             string schemaName = tenant.SchemaName;
             _tenant = tenant;
@@ -42,7 +42,11 @@ namespace Strive.ResourceAccess
 
             if (isAuth)
             {
+                if (!isTenantAdmin)
                 _dbconnection = tenant.dbAuth();
+                else
+                    _dbconnection = tenant.dbAuthAdmin();
+
                 schemaName = "dbo";
             }
             else

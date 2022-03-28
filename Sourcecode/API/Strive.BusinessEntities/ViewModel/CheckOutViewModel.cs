@@ -28,8 +28,11 @@ namespace Strive.BusinessEntities.ViewModel
         public string Checkout { get; set; }
         public string MembershipName { get; set; }
         public string PaymentStatus { get; set; }
+        public string JobStatus { get; set; }
+        public string JobType { get; set; }
         public string ColorCode { get; set; }
         public string MembershipNameOrPaymentStatus { get; set; }
+        public bool? IsHold { get; set; }
 
     }
 }

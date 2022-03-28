@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-ad-setup',
-  templateUrl: './ad-setup.component.html',
-  styleUrls: ['./ad-setup.component.css']
+  templateUrl: './ad-setup.component.html'
 })
 export class AdSetupComponent implements OnInit {
 

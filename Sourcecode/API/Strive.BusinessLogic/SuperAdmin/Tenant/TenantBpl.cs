@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
@@ -22,32 +23,40 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         {
             try
             {
-                var common = new CommonBpl(_cache, _tenant);
-                string newPassword = common.RandomString(6);
-                string hashPassword = Pass.Hash(newPassword);
-                tenant.TenantViewModel.PasswordHash = hashPassword;
+                bool saveStatus = false;
+                if (tenant != null)
+                {
+                    var common = new CommonBpl(_cache, _tenant);
+                    string newPassword = common.RandomString(6);
+                    string hashPassword = Pass.Hash(newPassword);
+                    tenant.TenantViewModel.PasswordHash = hashPassword;
 
-                string tenantGuid = new TenantRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
+                    string tenantGuid = new TenantRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
 
-                //Change Tenant Connection
-                /*
-                Guid guid = new Guid(tenantGuid);
-                TenantSchema tSchema = new TenantRal(_tenant, true).TenantAdminLogin(guid);
-                CacheLogin(tSchema, connection);
-                */
+                    //Change Tenant Connection
+                    /*
+                    Guid guid = new Guid(tenantGuid);
+                    TenantSchema tSchema = new TenantRal(_tenant, true).TenantAdminLogin(guid);
+                    CacheLogin(tSchema, connection);
+                    */
 
-               // Add Module
-               
-                var tenantModule = new TenantRal(_tenant, false).AddModule(tenant.TenantModuleViewModel);
-                
+                    // Add Module
+                    //foreach (var item in tenant.Module)
+                    //{
+                    //    var tenantModule = new TenantRal(_tenant, false).AddModule(item);
+                    //}
 
-                //Send email
-                Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                keyValues.Add("{{emailId}}", tenant.TenantViewModel.TenantEmail);
-                keyValues.Add("{{password}}", newPassword);
-                common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantViewModel.TenantEmail, newPassword);
 
-                _resultContent.Add(true.WithName("SaveStatus"));
+
+                    //Send email
+                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                    keyValues.Add("{{emailId}}", tenant.TenantViewModel.TenantEmail);
+                    keyValues.Add("{{password}}", newPassword);
+                    common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantViewModel.TenantEmail, newPassword);
+                    saveStatus = true;
+                }
+
+                _resultContent.Add(saveStatus.WithName("SaveStatus"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -56,9 +65,9 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
             }
             return _result;
         }
-        public Result GetAllTenant()
+        public Result GetAllTenant(SearchDto searchDto)
         {
-            return ResultWrap(new TenantRal(_tenant, true).GetAllTenant, "AllTenant");
+            return ResultWrap(new TenantRal(_tenant, true).GetAllTenant,searchDto, "AllTenant");
         }
         public TenantModulesViewModel GetTenantById(int id)
         {
@@ -77,7 +86,13 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
             try
             {
                 //Edit Module
-                var tenantModule = new TenantRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel);
+                foreach (var item in tenant.Module)
+                {
+                    var tenantModule = new TenantRal(_tenant, false).UpdateModule(item);
+                }
+
+
+                //var tenantModule = new TenantRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel.Module);
 
                 return ResultWrap(new TenantRal(_tenant, true).UpdateTenant(tenant.TenantViewModel), "UpdateTenant");
 
@@ -101,8 +116,18 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         public Result GetCityByStateId(int stateId)
         {
             return ResultWrap(new TenantRal(_tenant, true).GetCityByStateId, stateId, "cities");
-
         }
+        public Result GetLocationMaxLimit()
+        {
+            int tenantId = _tenant.TenantId.toInt();
 
+            var maxLocation = new TenantRal(_tenant, true).GetLoationMaxLimit(tenantId);
+
+            var locationCount = new TenantRal(_tenant).GetLocationCount(tenantId);
+
+            var result = locationCount >= maxLocation;
+
+            return ResultWrap(result, "ReachedMaxCount");
+        }
     }
 }

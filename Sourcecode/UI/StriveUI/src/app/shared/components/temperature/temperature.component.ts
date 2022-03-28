@@ -5,8 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from '../../services/messageConfig';
 @Component({
   selector: 'app-temperature',
-  templateUrl: './temperature.component.html',
-  styleUrls: ['./temperature.component.css']
+  templateUrl: './temperature.component.html'
 })
 export class TemperatureComponent implements OnInit {
 @Output() weatherData = new EventEmitter();

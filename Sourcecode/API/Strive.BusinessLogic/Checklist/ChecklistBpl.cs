@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -17,12 +18,29 @@ namespace Strive.BusinessLogic.Checklist
         {
             return ResultWrap(new ChecklistRal(_tenant).GetChecklist, "GetChecklist");
         }
+        public Result GetChecklistNotification(ChecklistNotificationDto checklist)
+        {
+            return ResultWrap(new ChecklistRal(_tenant).GetChecklistNotification, checklist, "ChecklistNotification");
+        }
+        public Result UpdateChecklistNotification(ChecklistNotificationUpdateDto checklist)
+        {
+            return ResultWrap(new ChecklistRal(_tenant).UpdateChecklistNotification, checklist, "ChecklistNotification");
+        }
+
         public Result AddChecklist(ChecklistDto checklistAdd)
         {
+            foreach (var chk in checklistAdd.CheckListNotification)
+            {
+                chk.NotificationDate = DateTime.Now;
+            }
             return ResultWrap(new ChecklistRal(_tenant).AddChecklist, checklistAdd, "Status");
         }
         public Result UpdateChecklist(ChecklistDto checklistUpdate)
         {
+            foreach (var chk in checklistUpdate.CheckListNotification)
+            {
+                chk.NotificationDate = DateTime.Now;
+            }
             return ResultWrap(new ChecklistRal(_tenant).UpdateChecklist, checklistUpdate, "Status");
         }
         public Result DeleteChecklist(int id)
@@ -33,6 +51,10 @@ namespace Strive.BusinessLogic.Checklist
         public Result GetChecklistById(int id)
         {
             return ResultWrap(new ChecklistRal(_tenant).GetChecklistById, id, "ChecklistById");
+        }
+        public ChecklistNotificationDetailViewModel GetChecklistNotificationByDate(DateTime date)
+        {
+            return new ChecklistRal(_tenant).GetChecklistNotificationByDate(date);
         }
     }
 }

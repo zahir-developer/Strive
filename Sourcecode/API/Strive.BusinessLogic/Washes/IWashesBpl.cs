@@ -13,6 +13,7 @@ namespace Strive.BusinessLogic.Washes
     {
         Result GetAllWashTime(SearchDto searchDto);
         Result GetWashTimeDetail(int id);
+        Result GetLastServiceVisit(SearchDto searchDto);
         Result AddWashTime(WashesDto washes);
         Result UpdateWashTime(WashesDto washes);
         Result GetDailyDashboard(WashesDashboardDto dashboard);
@@ -21,6 +22,8 @@ namespace Strive.BusinessLogic.Washes
         Result DeleteWashes(int id);
 
         Result GetWashTimeByLocationId(WashTimeDto washTimeDto);
-        Result GetAllLocationWashTime(int id);
+
+        Result GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatusDto);
+
     }
 }

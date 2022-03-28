@@ -69,6 +69,8 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public string DiscountType { get; set; }
 
+        [Column]
+        public decimal? EstimatedTime { get; set; }
 
     }
 }

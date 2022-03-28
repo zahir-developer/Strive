@@ -53,6 +53,8 @@ namespace Strive.BusinessEntities.Model
         public bool? IsProcessed { get; set; }
         [Column]
         public int? MembershipId { get; set; }
+        [Column]
+        public decimal? CashBack { get; set; }
 
     }
 }

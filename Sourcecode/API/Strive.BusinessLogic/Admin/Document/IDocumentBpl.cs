@@ -15,7 +15,7 @@ namespace Strive.BusinessLogic.Document
         bool SaveEmployeeDocument(EmployeeDocumentModel documentModel);
         List<EmployeeDocument> UploadEmployeeFiles(List<EmployeeDocument> employeeDocuments);
         void ArchiveEmployeeFiles(List<EmployeeDocument> documents);
-        string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName);
+        string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName, bool rename);
         Result GetEmployeeDocumentById(int documentId, string password);
         Result UpdatePassword(int documentId, string password);
         Result GetEmployeeDocumentByEmployeeId(int employeeId);
@@ -25,8 +25,9 @@ namespace Strive.BusinessLogic.Document
         string ValidateEmployeeFiles(List<EmployeeDocument> employeeDocument);
         int AddDocument(DocumentDto documentModel);
         Result UpdateDocument(DocumentDto documentModel);
-        Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
+        Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType, int? documentSubType);
         Result DeleteDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
+        bool DeleteBlob(GlobalUpload.DocumentType uploadFolder, string fileName);
         void ArchiveFile(GlobalUpload.DocumentType uploadFolder, string fileName);
         DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType);
         bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType);

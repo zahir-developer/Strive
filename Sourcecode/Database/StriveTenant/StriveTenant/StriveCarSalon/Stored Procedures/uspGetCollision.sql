@@ -1,4 +1,4 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetCollision]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetCollision]
 
 AS
 BEGIN
@@ -28,6 +28,6 @@ INNER JOIN
 tblEmployeeLiability tblel 
 ON tbleld.LiabilityId = tblel.LiabilityId
 WHERE
-
 isnull(tblel.isDeleted,0) = 0
+
 END

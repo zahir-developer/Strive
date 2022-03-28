@@ -10,7 +10,7 @@ import { IdleLockoutComponent } from './shared/components/idle-lockout/idle-lock
 import { Subscription } from 'rxjs';
 import { AuthService } from './shared/services/common-service/auth.service';
 import { SessionLogoutComponent } from './shared/components/session-logout/session-logout.component';
-import { ApplicationConfig } from './shared/services/ApplicationConfig';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -33,6 +33,9 @@ export class AppComponent implements OnInit, OnDestroy {
   intervalId: any;
   subscriptionAuthenticate: Subscription;
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
+  sessionRefresh = []
+  RefreshTokenLog: any;
+
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -49,6 +52,11 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  stopTimer() {
+    this.idle.stop();
+  }
+
   ngOnInit() {
     this.initializeTimeOut();
     if (localStorage.getItem('isAuthenticated') === 'true') {
@@ -56,7 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.setHeaderName();
       this.setNavList();
     }
-
   }
   setNavList() {
     this.userService.navName.subscribe(data => {
@@ -83,62 +90,71 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = ApplicationConfig.refreshTime.refreshTime * 60;    // 60
-      this.subscribeTheIdle(this.idle, seconds);
+      var expiry = +localStorage.getItem('tokenExpiryMinutes');
+      const seconds = (expiry - 1) * 60;
+      if (expiry !== null) {
+        this.subscribeTheIdle(this.idle, seconds);
+      }
     }
   }
 
-  subscribeTheIdle(idle, seconds) {
+  subscribeTheIdle(idle, idleSeconds) {
     // console.log(seconds);
-    //  const idleTimeoutPeriod = seconds - this.TimeoutPeriod;
-    const idleTimeoutPeriod = seconds;
+    // const idleTimeoutPeriod = seconds - this.TimeoutPeriod;
+    const idleTimeoutPeriod = idleSeconds;
     if (idleTimeoutPeriod < 0) {
       return false;
     }
     // sets an idle timeout of 5 seconds, for testing purposes.
-    idle.setIdle(seconds);
+    idle.setIdle(idleSeconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
     const timer = 60;
     idle.setTimeout(timer);  // 60
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
-    idle.onIdleEnd.subscribe(() => {
-      // console.log('onIdle');
-      this.sessionLogoutComponent.idleClear();
-      this.sessionLogoutComponent.dialogDisplay = false;
-      this.dialogDisplay = false;
-      this.sessionLogoutComponent.header = '';
-      this.header = '';
-      this.sessionLogoutComponent.dialogType = 'noIdle';
-      clearInterval(this.intervalId);
-    });
+
+    // idle.onIdleEnd.subscribe(() => {
+    //   console.log('step1');
+    //   this.sessionLogoutComponent.idleClear();
+    //   this.sessionLogoutComponent.dialogDisplay = false;
+    //   this.dialogDisplay = false;
+    //   this.sessionLogoutComponent.header = '';
+    //   this.header = '';
+    //   this.sessionLogoutComponent.dialogType = 'noIdle';
+    //   clearInterval(this.intervalId);
+    // });
+
     idle.onTimeoutWarning.subscribe((countdown) => {
-      // console.log('onTimeoutWarning');
+      console.log('step2');
       this.dialogDisplay = true;
       this.sessionLogoutComponent.dialogDisplay = true;
-      // this.idleState = 'You will time out in ' + countdown + ' seconds!'
       this.sessionLogoutComponent.countdown = countdown;
       this.sessionLogoutComponent.dialogType = 'idle';
       this.sessionLogoutComponent.header = 'Session Timeout';
       this.header = 'Session Timeout Warning';
-    }
-    );
+    });
+
+
+
     idle.onTimeout.subscribe(() => {
-      // console.log('onTimeout');
-      this.dialogDisplay = true;
-      this.sessionLogoutComponent.dialogType = 'timeout';
-      this.sessionLogoutComponent.dialogDisplay = true;
-      this.sessionLogoutComponent.header = 'Locked Out';
-      this.header = 'Session Expired';
+      console.log('step3');
+      this.router.navigate(['/session-expired']);
+      this.sessionLogoutComponent.dialogType = 'noIdles';
+      this.dialogDisplay = false;
       this.authService.refreshLogout();
+      this.stopTimer();
       clearInterval(this.intervalId);
     });
+
+
+
     idle.onIdleStart.subscribe(() => {
-      //  console.log('onIdleStart');
+      console.log('step4');
       clearInterval(this.intervalId);
       this.timeCounter(timer);
-    }
-    );
+    });
+
+
     this.reset();
   }
 
@@ -156,11 +172,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.intervalId = setInterval(() => {
       counter = counter - 1;
       this.sessionLogoutComponent.countdown = counter;
-      this.sessionLogoutComponent.dialogType = 'idle';
+      //this.sessionLogoutComponent.dialogType = 'idle';
       this.dialogDisplay = true;
       this.sessionLogoutComponent.dialogDisplay = true;
-      this.sessionLogoutComponent.header = 'Idle Warning.';
-      this.header = 'Idle Warning.';
+      // this.sessionLogoutComponent.header = 'Idle Warning.';
+      // this.header = 'Idle Warning.';
       if (counter <= 0) {
         clearInterval(this.intervalId);
       }
@@ -186,6 +202,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const base64 = 'data:image/png;base64,';
           const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
           this.favIcon.href = logoBase64;
+
           if (label.WhiteLabelling.Theme !== null) {
             label.WhiteLabelling.Theme.forEach(item => {
               if (label.WhiteLabelling.WhiteLabel?.ThemeId === item.ThemeId) {
@@ -202,4 +219,15 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+
+  continueSession() {
+    clearInterval(this.intervalId);
+    this.sessionLogoutComponent.dialogType = 'noIdle';
+    this.header = 'Session Timeout Warning';
+  }
+
+
+
+
 }

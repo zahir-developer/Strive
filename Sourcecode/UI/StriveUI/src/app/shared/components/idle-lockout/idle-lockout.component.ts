@@ -10,8 +10,7 @@ import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-idle-lockout',
-  templateUrl: './idle-lockout.component.html',
-  styleUrls: ['./idle-lockout.component.css']
+  templateUrl: './idle-lockout.component.html'
 })
 export class IdleLockoutComponent implements OnInit {
   @Input() dialogDisplay = false;

@@ -12,8 +12,7 @@ import { WashService } from 'src/app/shared/services/data-service/wash.service';
 
 @Component({
   selector: 'app-sale-gift-card',
-  templateUrl: './sale-gift-card.component.html',
-  styleUrls: ['./sale-gift-card.component.css']
+  templateUrl: './sale-gift-card.component.html'
 })
 export class SaleGiftCardComponent implements OnInit {
   giftCardForm: FormGroup;
@@ -197,7 +196,7 @@ export class SaleGiftCardComponent implements OnInit {
       formObj.jobItem = null;
     }
     this.spinner.show();
-    this.salesService.addItem(formObj).subscribe(data => {
+    this.salesService.addListItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
         this.submitted = false;

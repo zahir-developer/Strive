@@ -7,7 +7,10 @@ AS
 -- Create date: 09-11-2020
 -- Description:	Gets the Daily tips detail 
 -- =============================================
--- [StriveCarSalon].[uspGetDailyTipDetail] '2020-11-08', 2034
+-------------------- History -------------------
+-- =============================================
+
+--25-08-2021 - Zahir - Changed Hour function to Minute.
 
 BEGIN
  
@@ -16,7 +19,7 @@ AS (
 select 
 	concat(E.FirstName,' ',E.LastName) EmployeeName,
 	TC.EventDate ,
-	DateDiff(HOUR,InTime,OutTime) LoginTime
+	CAST(CONVERT(decimal(9,2), DateDiff(MINUTE,InTime,OutTime))/60 as decimal(9,2)) LoginTime
 from tblTimeClock TC 
 inner join tblEmployee E on TC.EmployeeId = E.EmployeeId
 where LocationId = @LocationId and EventDate = @Date And Tc.Isdeleted=0)

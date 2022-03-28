@@ -1,5 +1,6 @@
-﻿
-
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetScheduleById]
+@ScheduleId int
+AS
 -- ==========================================================
 -- Author:              Vineeth.B
 -- Created date:        2020-08-20
@@ -12,10 +13,6 @@
 ---------------------------History---------------------------
 -- 26-08-2020 - Zahir Hussain - ColorCode added from Location table, Alias name added.
 -- ===========================================================
-
-CREATE PROC [StriveCarSalon].[uspGetScheduleById]
-@ScheduleId int
-AS
 BEGIN  
 
 SELECT

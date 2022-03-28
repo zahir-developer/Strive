@@ -79,18 +79,10 @@ namespace Strive.ResourceAccess
         }
         public LocationAddress GetLocationAddressDetails(int locationId)
         {
-
-            var result = new LocationAddress();
-            var allAddress = _db.GetAll<LocationAddress>();
-
-            var locationAddress = allAddress.Where(s => s.LocationId == locationId).FirstOrDefault();
-
-            result.Latitude = locationAddress.Latitude;
-            result.Longitude = locationAddress.Longitude;
-            result.WeatherLocationId = locationAddress.WeatherLocationId;         
-
-            return result;
+            _prm.Add("locationId", locationId);
+            return db.FetchFirstResult<LocationAddress>("uspGetLocationAddress", _prm);
         }
+
         public bool AddLocationOffset(LocationOffsetDto locationOffset)
         {
             return dbRepo.InsertPc(locationOffset, "LocationId");
@@ -120,6 +112,14 @@ namespace Strive.ResourceAccess
         public List<LocationNameViewModel> GetAllLocationName()
         {
             return db.Fetch<LocationNameViewModel>(EnumSP.Location.USPGETALLLOCATIONNAME.ToString(), _prm);
+        }
+        public List<MerchantDetailViewModel> GetMerchantDetails(MerchantSearch search)
+        {
+            _prm.Add("@tblLocationId", search.LocationId);
+            _prm.Add("@userName", search.UserName);
+            _prm.Add("@password", search.Password);
+            var result = db.Fetch<MerchantDetailViewModel>(EnumSP.Location.USPGETMERCHANTDETAIL.ToString(), _prm);
+            return result;
         }
 
     }

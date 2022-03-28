@@ -10,8 +10,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-service-setup-list',
-  templateUrl: './service-setup-list.component.html',
-  styleUrls: ['./service-setup-list.component.css']
+  templateUrl: './service-setup-list.component.html'
 })
 export class ServiceSetupListComponent implements OnInit {
   showDialog = false;
@@ -58,6 +57,11 @@ export class ServiceSetupListComponent implements OnInit {
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
     this.searchStatus = true;
+    this.getAllserviceSetupDetails();
+  }
+  
+  searchService(){
+    this.page = 1;
     this.getAllserviceSetupDetails();
   }
 
@@ -115,8 +119,7 @@ export class ServiceSetupListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
-    this.getAllserviceSetupDetails();
+    this.searchService();
   }
   searchKeyup(event) {
     if (event) {
@@ -175,7 +178,7 @@ export class ServiceSetupListComponent implements OnInit {
 
         this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Delete, 'Success!');
         this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
-
+        this.page = 1;
         this.getAllserviceSetupDetails();
       } else {
         this.spinner.hide();

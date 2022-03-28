@@ -1,6 +1,4 @@
-﻿
-
-CREATE proc [StriveCarSalon].[uspGetVehicleStatementByClientId] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleStatementByClientId] 
 @ClientId int,
 @PageNo INT = NULL,
 @PageSize INT = NULL	
@@ -32,7 +30,7 @@ from [StriveCarSalon].[tblJob] tblj
 left join [StriveCarSalon].[tblJobItem] tblji on(tblj.JobId = tblji.JobId)
 left join [StriveCarSalon].GetTable('JobStatus') gt on(tblj.JobStatus = gt.valueid)
 left join [StriveCarSalon].[tblService] tbls on(tblji.ServiceId = tbls.ServiceId)
-left join [StriveCarSalon].[tblJobPayment] tbljp on(tblji.JobId = tbljp.JobId)
+left join [StriveCarSalon].[tblJobPayment] tbljp on(tblj.JobPaymentId = tbljp.JobPaymentId)
 WHERE
 tblj.ClientId=@ClientId
 --AND

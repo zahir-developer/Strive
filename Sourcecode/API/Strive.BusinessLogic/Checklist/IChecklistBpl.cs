@@ -15,5 +15,7 @@ namespace Strive.BusinessLogic.Checklist
         Result UpdateChecklist(ChecklistDto checklistUpdate);
         Result DeleteChecklist(int id);
         Result GetChecklistById(int id);
+        Result GetChecklistNotification(ChecklistNotificationDto checklistNotification);
+        Result UpdateChecklistNotification(ChecklistNotificationUpdateDto checklist);
     }
 }

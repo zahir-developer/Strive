@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspGetAllDeals] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllDeals] 
 @DealId INT = NULL
 as 
 begin

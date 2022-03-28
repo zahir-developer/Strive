@@ -1,0 +1,327 @@
+body .ui-dialog .ui-dialog-titlebar {
+    background-color: #ffffff !important;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+body .ui-dialog .ui-dialog-content {
+    font-size: 1rem;
+}
+
+body .ui-paginator {
+    background-color: #fff;
+    padding-top: 0.94rem;
+    border: none;
+}
+
+.ui-paginator {
+    text-align: right;
+}
+
+body .ui-widget {
+    font-size: 15px;
+}
+
+.modal-title {
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.form-control {
+    font-size: 0.94rem;
+}
+
+.container-fluid {
+    margin-bottom: 1.5%;
+}
+
+.required {
+    content: "*";
+    color: red;
+}
+
+.MyDialog.ui-dialog {
+    width: 60%;
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+    background-image: none !important;
+}
+
+.toast-top-right {
+    top: 53px
+}
+
+.loadingDiv {
+    color: #1DC5B3;
+    padding: 10px;
+    text-align: center;
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active {
+    background-color: #1DC5B3;
+    color: #ffffff;
+}
+
+body .ui-inputtext {
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+body .ui-inputtext:enabled:hover {
+    border-color: #ced4da !important;
+}
+
+body .ui-inputtext:enabled::placeholder {
+    color: #4d545b;
+}
+
+ui-inputtext:focus::-webkit-input-placeholder {
+    color: #ced4da;
+}
+
+.theme-green .bs-datepicker-head {
+    background-color: #1DC5B3;
+}
+
+.theme-green .bs-datepicker-body table td span.selected,
+.theme-green .bs-datepicker-body table td.selected span,
+.theme-green .bs-datepicker-body table td span[class*="select-"]:after,
+.theme-green .bs-datepicker-body table td[class*="select-"] span:after {
+    background-color: #1DC5B3;
+}
+
+.theme-green .bs-datepicker-body table td.week span {
+    color: #1DC5B3;
+}
+
+.multiselect-dropdown {
+    font-size: 13px !important;
+}
+
+body .ui-state-disabled,
+body .ui-widget:disabled {
+    opacity: 1;
+    background-color: #e9ecef;
+}
+
+.profile-image {
+    height: 50px;
+    width: 50px;
+    background-color: #DDE7E9;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    line-height: 49px;
+}
+
+.online-badge {
+    position: absolute;
+    background: #2acb1f;
+    text-align: center;
+    border-radius: 30px 30px 30px 30px;
+    color: white;
+    padding: 5px 5px;
+    font-size: 20px;
+    margin-left: 43px;
+    border: 2px solid #ffffff;
+    margin-top: 35px;
+}
+
+.offline-badge {
+    position: absolute;
+    background: #f3c200;
+    text-align: center;
+    border-radius: 30px 30px 30px 30px;
+    color: white;
+    padding: 5px 5px;
+    font-size: 20px;
+    margin-left: 42px;
+    border: 2px solid #ffffff;
+    margin-top: 35px;
+}
+
+.chat-box-slide {
+    height: 48.4vh;
+    overflow: scroll;
+}
+
+.chatslide {
+    height: 52.2vh !important;
+    overflow: scroll;
+}
+
+.Search-Emp-box {
+    height: 52.9vh;
+    overflow: scroll;
+}
+
+.bold-text {
+    font-weight: 700;
+}
+
+
+/*dashboard */
+
+.click-down-icon {
+    margin-top: -29px;
+    transition: right 0.3s;
+}
+
+.click-up-icon {
+    margin-top: -60px;
+    transition: right 0.3s;
+}
+
+.m-r--13 {
+    margin-right: -13px;
+}
+
+.dashbd-margin {
+    margin-bottom: 7px;
+}
+
+#weekform {
+    height: calc(1.8em + 0.75rem + 2px) !important;
+}
+
+.graph-icon {
+    color: #b2b2bc;
+}
+
+.graph-border {
+    border: 1px solid #1dc5b3;
+}
+
+.btn-rounded {
+    border-radius: 2em;
+}
+
+.btn-unactive {
+    border: 1px solid #dee2e6 !important;
+    color: black !important;
+}
+
+.dashboard-badge {
+    border-radius: 3px;
+    color: white;
+    background-color: #00bbe1;
+    padding: 5px 5px;
+}
+
+.theme-font-color:hover {
+    color: #30343c !important;
+}
+
+.card-width-color {
+    padding: 24px !important;
+    padding-bottom: 30px !important;
+}
+
+.Schedules-tab div a.active,
+.Schedules-tab.show>.nav-tab-link-dash,
+.Schedules-tab .nav-tab-link-dash.active,
+.Schedules-tab .show>.nav-tab-link-dash {
+    background-color: #00bbe1;
+    color: white;
+    border-radius: 3px;
+    padding: 0.3rem 1rem;
+    font-size: 16px;
+    border: 1px solid #00bbe1;
+}
+
+.nav-tab-link-dash {
+    padding: 0.3rem 0.6rem 0.3rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: black;
+    font-size: 16px;
+    background-color: #fafafa;
+}
+
+.Schedules-tab div a.active>.dashboard-badge,
+.Schedules-tab.show>.nav-tab-link-dash,
+.Schedules-tab .nav-tab-link-dash.active>.dashboard-badge,
+.Schedules-tab .show>.nav-tab-link-dash>.dashboard-badge {
+    color: #30343c;
+    background-color: white;
+}
+
+.Schedules-tab div a.active>i,
+.Schedules-tab.show>.nav-tab-link-dash,
+.Schedules-tab .nav-tab-link-dash.active>i,
+.Schedules-tab .show>.nav-tab-link-dash>i {
+    color: white;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+    background-color: #10b7a5 !important;
+    border-color: #1dc5b3 !important;
+    color: white !important;
+}
+
+.dropdown-item i:focus,
+.dropdown-item i:hover {
+    color: white !important;
+}
+
+color-icon:hover {
+    color: white !important;
+}
+
+.theme-optional-bg-color {
+    background-color: #fd397a;
+}
+
+.theme-ello-color {
+    background-color: #f3c200;
+}
+
+.noRecords {
+    text-align: center !important;
+}
+
+.scroll {
+    height: 50.4vh;
+    overflow: scroll;
+}
+
+.timepicker__actions {
+    background-color: #00bfff !important;
+}
+
+.bodyfix {
+    height: 300px;
+    overflow-y: scroll;
+    text-overflow: ellipsis;
+}
+
+.headerfix thead,
+.bodyfix tr {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.headerfix td,
+.headerfix th {
+    white-space: pre-wrap !important;
+}
+
+body {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+em {
+    cursor: pointer;
+}
+
+.page-item.active .page-link {
+    z-index: 0 !important;
+}
+
+.ui-datepicker-calendar td {
+    padding: 0.1em 0.3em !important;
+}

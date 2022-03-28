@@ -173,11 +173,20 @@
                                             </div>
                                             <form [formGroup]="closeoutRegisterForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-12">
+                                                    <div class="form-group col-md-8">
                                                         <label for="inputwashes"> Credit Card/Debit Card
                                                             Amount</label>
                                                         <input type="text" appTwoDecimalNumber formControlName="cardAmount" class="form-control" placeholder="$0.00" (change)="getTotalCash()">
                                                     </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12"></div>
@@ -198,25 +207,32 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Tips</h4>
                                             </div>
-                                            <form [formGroup]="closeoutRegisterForm" (ngSubmit)="submit()">
-
+                                            <form >
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-12 font-size-1-7">
-                                                        <label class="bold-text" for="inputquarters">Card Tips:</label>
-                                                        <label class="col-md-6 font-size-1-3">{{washTips |
-                                                            currency}}</label>
+                                                    <div class="form-group col-md-3 font-size-1-4">
+                                                        <label class="bold-text" for="inputquarters">Wash Tips:</label>
+                                                       
                                                     </div>
+                                                     <div class="form-group col-md-4">   <label class="font-size-1-1">{{washTips |
+                                                        currency}}</label>
+                                                        </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3 font-size-1-4">
+                                                        <label class="bold-text" for="inputquarters">Detail Tips:</label>
+                                                       
+                                                    </div>
+                                                    <div class="form-group col-md-4">   <label class="font-size-1-1">{{detailTips |
+                                                       currency}}</label>
+                                                       </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-3 p-t-4">
                                                         <label for="inputwashes">Cash Tips :</label>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <input type="text" appTwoDecimalNumber class="form-control" [disabled]="!cashTipsEnable" [(ngModel)]="tips" placeholder="$0.00" (change)="tipsEvent($event.target.value)">
+                                                        <input type="text" appTwoDecimalNumber class="form-control" [disabled]="!cashTipsEnable" [(ngModel)]="tips" name="tip" placeholder="$0.00" (change)="tipsEvent($event.target.value)">
                                                     </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-12"></div>
                                                 </div>
                                             </form>
                                         </div>
@@ -226,34 +242,34 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class=" p-b-5 m-b-5">
-                                                <h4 class="d-inline-block">Detailer Tips</h4>
+                                                <h4 class="d-inline-block">Detailer Commission</h4>
                                             </div>
                                             <table class="table  table-striped m-t-12">
                                                 <thead>
                                                     <tr>
                                                         <th>Employee Name</th>
-                                                        <th>DetailerTip</th>
+                                                        <th>Amount</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let tip of detailTip">
+                                                    <tr *ngFor="let tip of detailerTip">
                                                         <th>{{tip.FirstName}} {{tip.LastName}}</th>
                                                         <td>
-                                                            {{tip.DetailerTip}}
+                                                            {{tip.DetailerTip | currency}}
                                                         </td>
                                                     </tr>
-                                                    <tr *ngFor="let tip of detailTip">
-                                                        <th>{{tip.FirstName}} {{tip.LastName}}</th>
-                                                        <td>
-                                                            {{tip.DetailerTip}}
-                                                        </td>
-                                                    </tr>
-                                                    <tr *ngIf="detailTip == null">
+                                                    <tr *ngIf="detailerTip == null">
                                                         <td colspan="7" class="text-center">No Tips Found</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
 
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12"></div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -297,7 +313,7 @@
                         </div>
                         <div class="m-t-12 pull-right mw-100 modal-footer">
                             <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
-                            <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
+                            <button type="button" class="btn theme-primary-button-color" (click)="submit()" [class.disabled]="isUpdate" [disabled]="isUpdate">Save</button>
                         </div>
                     </div>
                 </div>

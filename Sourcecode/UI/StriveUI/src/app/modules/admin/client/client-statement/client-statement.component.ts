@@ -4,17 +4,26 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-statement',
   templateUrl: './client-statement.component.html',
-  styleUrls: ['./client-statement.component.css']
+  styles: [`
+  .table-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+  `]
 })
 export class ClientStatementComponent implements OnInit {
   @Input() clientId?: any;
+  @Input() statementData?: any;
   statementGrid: any = [];
-  page = 1;
-  pageSize = 5;
+  page: number;
+  pageSize: number;
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
@@ -27,7 +36,11 @@ private toastr : ToastrService,
   ) { }
 
   ngOnInit(): void {
-    this.getStatement();
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.statementGrid = this.statementData;
+    this.collectionSize = Math.ceil(this.statementGrid.length / this.pageSize) * 10;
+    //this.getStatement();
   }
 
   closeDocumentModel() {
@@ -45,8 +58,4 @@ private toastr : ToastrService,
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
-
- 
-
- 
 }

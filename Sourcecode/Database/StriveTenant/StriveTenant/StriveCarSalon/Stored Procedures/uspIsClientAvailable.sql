@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspIsClientAvailable] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspIsClientAvailable] 
 @FirstName varchar(max),
 @LastName varchar(max),
 @PhoneNumber varChar(50) = null

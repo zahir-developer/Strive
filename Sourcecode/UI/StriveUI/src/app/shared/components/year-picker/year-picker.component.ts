@@ -2,8 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-year-picker',
-  templateUrl: './year-picker.component.html',
-  styleUrls: ['./year-picker.component.css']
+  templateUrl: './year-picker.component.html'
 })
 export class YearPickerComponent implements OnInit {
   years: number[] = [];
@@ -14,14 +13,15 @@ export class YearPickerComponent implements OnInit {
   ngOnInit(): void {
     this.getYear();
   }
-  getYear(){
+  getYear() {
     const today = new Date();
     this.yy = today.getFullYear();
     for (let i = (this.yy - 100); i <= this.yy; i++) {
-    this.years.push(i); }
-}
+      this.years.push(i);
+    }
+  }
   yearChange(event) {
-this.emitYear.emit(event.target.value);
+    this.emitYear.emit(event.target.value);
   }
 
 }

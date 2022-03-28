@@ -37,5 +37,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int VehicleColorId { get; set; }
 
         public string MembershipName { get; set; }
+        public int DocumentId { get; set; }
+        public bool? IsDiscount { get; set; }
     }
 }

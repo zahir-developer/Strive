@@ -115,10 +115,18 @@
                                         appCalendarMask class="form-control" bsDatepicker #dp="bsDatepicker"
                                         (focus)="dp.show()">
                                 </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="inputZipcode">ZipCode</label>
+                                    <input numbersOnly type="text" id="Zip" [appMaxLength]="9" [ngClass]="{ 'is-invalid': submitted && f.Zip.errors }" class="form-control" placeholder="Zip"
+                                        formControlName="Zip">
+                                        <div *ngIf="submitted && f.Zip.errors" class="invalid-feedback">
+                                            <div *ngIf="f.Zip.errors.required">ZipCode is required</div>
+                                            <div *ngIf="f.Zip.errors.minlength">ZipCode must be Minimum 5 digit</div>
+                                        </div>
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN </label>
-                                    <input type="text" class="form-control" id="inputssn" appSsnNumberMask
-                                        formControlName="ssn" placeholder="SSN">
+                                    <input type="password" class="form-control" id="inputssn" formControlName="ssn" placeholder="SSN">
                                 </div>
                                 <div class="form-group col-md-3 m-t-10">
                                     <label></label>
@@ -146,13 +154,16 @@
                             [style.display]="isDetailCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputLoginid">Login ID <span class="required">*</span></label>
+                                    <label for="inputLoginid">Email ID <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLoginid" formControlName="emailId"
-                                        [ngClass]="{ 'is-invalid': submitted && g.emailId.errors }"
-                                        placeholder="Email ID">
+                                        [ngClass]="{ 'is-invalid': submitted && g.emailId.errors || isEmailExists }"
+                                        placeholder="Email ID" (change)="checkEmailExist()">
                                     <div *ngIf="submitted && g.emailId.errors" class="invalid-feedback">
-                                        <div *ngIf="g.emailId.errors.required">Login Id is required</div>
+                                        <div *ngIf="g.emailId.errors.required">Email Id is required</div>
                                         <div *ngIf="g.emailId.errors.email">Email must be a valid email address</div>
+                                    </div>
+                                    <div *ngIf="isEmailExists" class="invalid-feedback">
+                                        <div *ngIf="isEmailExists">Email Id already exist</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
@@ -179,11 +190,13 @@
                                     <input type="text" class="form-control" formControlName="comRate"
                                         placeholder="{{ctypeLabel}}" appTwoDecimalNumber>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <label for="inputexemptions">Exemptions </label>
-                                    <input type="text" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions">
-                                </div>
+                                <!-- <div class="form-group col-md-3">
+                                    <label for="inputSalary">Salary</label>
+                                    <input type="text" class="form-control" id="inputSalary" [appMaxLength]="10"
+                                        formControlName="salary" appTwoDecimalNumber
+                                        placeholder="$0.00">
+                                </div> -->
+                                
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles</label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
@@ -200,6 +213,12 @@
                                     </ng-multiselect-dropdown>
                                 </div>
 
+                                <div class="form-group col-md-3">
+                                    <label for="inputexemptions">Exemptions </label>
+                                    <input type="text" class="form-control" id="inputexemptions"
+                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions">
+                                </div>
+                                
                                 <div class="form-group col-md-3">
                                     <label for="inputStatus">Status</label>
                                     <select id="inputStatus" class="form-control" formControlName="status">
@@ -220,15 +239,24 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="location">Location </label>
+                                <label for="location">Location <span class="required">*</span> </label>
                                 <select id="location" class="form-control" [(ngModel)]="locationId">
                                     <option value="" hidden selected>Select Location</option>
                                     <option *ngFor="let loc of locationList" value={{loc.item_id}}>{{loc.item_text}}
                                     </option>
                                 </select>
                             </div>
+                            <div class="form-group col-md-2 m-t-40">
+                                <div class="custom-control custom-checkbox m-l-40">
+                                    <input class="custom-control-input" type="checkbox" id="chkIsSalary"
+                                        [checked]="isSalary" (change)="isSalaryChecked($event)">
+                                    <label class="custom-control-label" for="chkIsSalary">
+                                        Is Salary
+                                    </label>
+                                </div>
+                            </div>
                             <div class="form-group col-md-3">
-                                <label for="rate">Rate Per Hour </label>
+                                <label for="rate">{{isSalary ? "Salary" : "Rate Per Hour"}} <span class="required">*</span> </label>
                                 <input type="text" class="form-control" id="rate" [(ngModel)]="locationRate"
                                     appTwoDecimalNumber placeholder="$0.00" [ngClass]="{ 'is-invalid': errorMessage && locationRate !== ''}">
                                 <div *ngIf="errorMessage && locationRate !== ''" class="invalid-feedback">
@@ -255,7 +283,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col" class="text-center" style="width: 20%;">Location</th>
-                                        <th scope="col" class="text-center" style="width: 10%;">Rate Per Hour</th>
+                                        <th scope="col" class="text-center" style="width: 10%;">{{isSalary ? "Salary" : "Rate Per Hour"}}</th>
                                         <th scope="col" class="text-center" style="width: 20%;">Action </th>
                                     </tr>
                                 </thead>

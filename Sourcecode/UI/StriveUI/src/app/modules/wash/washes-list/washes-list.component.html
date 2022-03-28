@@ -10,7 +10,7 @@
                 </ol>
             </nav>
             <div class="col-lg-12 p-l-0 p-r-0">
-                <app-dashboard-statics [jobTypeId]="jobTypeId"></app-dashboard-statics>
+                <app-dashboard-statics [jobTypeId]="jobTypeId" [jobType]="'Wash'"></app-dashboard-statics>
                 <div class="row no-gutter">
                     <div class="col-12">
                         <div class="card">
@@ -54,6 +54,8 @@
                                                         <i class="fa" [ngClass]="selectedCls('FirstName')" aria-hidden="true"></i> </th>
                                                     <th scope="col">
                                                         Make/Model/ Color </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('Date')">Date&nbsp;
+                                                            <i class="fa" [ngClass]="selectedCls('Date')" aria-hidden="true"></i> </th>
                                                     <th scope="col" class="pointer" (click)="changeSorting('TimeIn')">Time In&nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('TimeIn')" aria-hidden="true"></i> </th>
                                                     <th scope="col" class="pointer" (click)="changeSorting('EstimatedTimeOut')">Est. Time Out&nbsp;<i class="fa" [ngClass]="selectedCls('EstimatedTimeOut')" aria-hidden="true"></i> </th>
@@ -73,8 +75,12 @@
                                                 <tr *ngFor="let wash of washDetails">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
                                                     <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">
+                                                        <em *ngIf="wash.MembershipName !== ''"
+                                                            class="mdi mdi-bookmark font-size-1-5 "
+                                                            style="color: #FFA500;"></em>
                                                         {{wash.ClientName}}</td>
                                                     <td>{{wash.MakeModelColorLabel}}</td>
+                                                    <td>{{wash.JobDate | date: 'MM/dd/yyyy'}}</td>
                                                     <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}
                                                     </td>
                                                     <td class="font-weight-600">
@@ -100,7 +106,7 @@
                                                 </ngb-pagination>
                                             </div>
                                             <select class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
-                                                 <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+                                                 <option *ngFor = "let size of pageSizeList" [selected]="size === 100" value = "{{size}}">{{size}}</option>
          
                                              </select>
                                         </div>

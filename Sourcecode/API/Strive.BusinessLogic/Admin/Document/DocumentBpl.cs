@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Security.Cryptography;
 using Strive.BusinessEntities.Document;
+using Azure.Storage.Blobs;
 
 namespace Strive.BusinessLogic.Document
 {
@@ -84,6 +85,7 @@ namespace Strive.BusinessLogic.Document
             {
                 doc.Filename = Upload(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, doc.Base64, doc.Filename);
                 doc.FileType = Path.GetExtension(doc.Filename);
+                doc.Filepath = GetUploadFolderPath(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT);
                 if (doc.Filename == string.Empty)
                 {
                     ArchiveEmployeeFiles(employeeDocuments);
@@ -93,18 +95,23 @@ namespace Strive.BusinessLogic.Document
             return employeeDocuments;
         }
 
-        public string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName)
+        public string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName, bool rename = true)
         {
+            BlobContainerClient container = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
             string uploadPath = GetUploadFolderPath(uploadFolder);
-            fileName = fileName.Replace(Path.GetExtension(fileName), string.Empty) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(fileName);
-            if (!File.Exists(uploadPath))
-                Directory.CreateDirectory(uploadPath);
+
+            if (rename)
+                fileName = fileName.Replace(Path.GetExtension(fileName), string.Empty) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(fileName);
 
             uploadPath = uploadPath + fileName;
             byte[] tempBytes = Convert.FromBase64String(Base64Url);
-            File.WriteAllBytes(uploadPath, tempBytes);
-            return fileName;
 
+            BlobClient blob = container.GetBlobClient(uploadPath);
+
+            // Upload local file
+            blob.Upload(new MemoryStream(tempBytes));
+            //File.WriteAllBytes(uploadPath, tempBytes);
+            return fileName;
         }
 
         public string ValidateFileFormat(GlobalUpload.DocumentType upload, string fileName)
@@ -202,14 +209,34 @@ namespace Strive.BusinessLogic.Document
 
             string base64data = string.Empty;
 
-            if (!File.Exists(path))
-                return string.Empty;
+            BlobContainerClient container = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
 
-            using ( FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            try
             {
-                byte[] data = new byte[(int)fileStream.Length];
-                fileStream.Read(data, 0, data.Length);
-                base64data = Convert.ToBase64String(data);
+                BlobClient blob = container.GetBlobClient(path);
+
+                if (blob.Exists())
+                {
+                    Stream stream = new System.IO.MemoryStream();
+
+                    stream = blob.OpenRead();
+
+                    StreamReader str = new StreamReader(stream);
+                    byte[] dataByte = new byte[stream.Length];
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        stream.CopyTo(ms);
+                        dataByte = ms.ToArray();
+                    }
+
+                    // Convert the array to a base 64 string.
+                    base64data = Convert.ToBase64String(dataByte);
+                }
+            }
+            catch
+            {
+
+                //throw;
             }
 
             return base64data;
@@ -286,33 +313,29 @@ namespace Strive.BusinessLogic.Document
             }
         }
 
+        public bool DeleteBlob(GlobalUpload.DocumentType uploadFolder, string fileName)
+        {
+            BlobContainerClient blobContainer = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
+
+            string rootPath = GetUploadFolderPath(uploadFolder);
+
+            fileName = rootPath + fileName;
+
+            BlobClient blob = blobContainer.GetBlobClient(fileName);
+
+            return blob.DeleteIfExists(Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots);
+        }
+
         public string GetUploadFolderPath(GlobalUpload.DocumentType module)
         {
             string path = string.Empty;
             string subPath = string.Empty;
-            switch (module)
-            {
-                case GlobalUpload.DocumentType.EMPLOYEEDOCUMENT:
-                    subPath = _tenant.DocumentUploadFolder;
-                    break;
-                case GlobalUpload.DocumentType.PRODUCTIMAGE:
-                    subPath = _tenant.ProductImageFolder;
-                    break;
-                case GlobalUpload.DocumentType.LOGO:
-                    subPath = _tenant.LogoImageFolder;
-                    break;
-                case GlobalUpload.DocumentType.VEHICLEIMAGE:
-                    subPath = _tenant.VehicleImageFolder;
-                    break;
-                default:
-                    subPath = _tenant.GeneralDocumentFolder + module.ToString() + "\\" ;
-                    break;
-            }
+
+            subPath = _tenant.TenantFolder.Replace("DOCUMENT_TYPE", module.ToString());
 
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
             return path + subPath;
-
         }
 
         public string SaveThumbnail(GlobalUpload.DocumentType documentType, int Width, int Height, string base64String, string fileName)
@@ -336,8 +359,18 @@ namespace Strive.BusinessLogic.Document
                     objGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     objGraphics.DrawImage(sourceImage, 0, 0, Width, Height);
 
+
+                    MemoryStream stream = new MemoryStream();
+
                     // Save the file path, note we use png format to support png file   
-                    objBitmap.Save(saveFilePath);
+                    objBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                    byte[] byteImage = stream.ToArray();
+
+                    string base64 = Convert.ToBase64String(byteImage);
+
+                    thumbFileName = Upload(documentType, base64, thumbFileName, false);
+
                 }
             }
 
@@ -346,7 +379,7 @@ namespace Strive.BusinessLogic.Document
 
         public int AddDocument(DocumentDto documentModel)
         {
-           
+
             string fileName = Upload(documentModel.DocumentType, documentModel.Document.Base64, documentModel.Document.FileName);
 
             documentModel.Document.OriginalFileName = documentModel.Document.FileName;
@@ -371,17 +404,14 @@ namespace Strive.BusinessLogic.Document
             documentModel.Document.FileName = fileName;
             documentModel.Document.FilePath = GetUploadFolderPath(documentModel.DocumentType) + fileName;
 
-
-
-
             return ResultWrap(new DocumentRal(_tenant).UpdateDocument, documentModel, "UpdateDocument");
 
         }
 
 
-        public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
+        public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType, int? documentSubType)
         {
-            var document = new DocumentRal(_tenant).GetDocument(documentTypeId);
+            var document = new DocumentRal(_tenant).GetDocument(documentTypeId, documentSubType);
 
             if (document.Document != null)
             {
@@ -414,21 +444,21 @@ namespace Strive.BusinessLogic.Document
             var document = new DocumentRal(_tenant).GetDocumentById(documentId);
 
             document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
-            
+
             return document;
         }
 
-        public bool  DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        public bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
         {
             var docRal = new DocumentRal(_tenant);
-          
+
             var doc = docRal.GetDocumentById(documentId);
             var result = docRal.DeleteDocument(documentId);
 
             if (result)
             {
                 DeleteFile(documentType, doc.Document.FileName);
-            }           
+            }
 
             return result;
         }

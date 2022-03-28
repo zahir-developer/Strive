@@ -11,14 +11,15 @@ import html2canvas from 'html2canvas';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 declare var $: any;
 @Component({
   selector: 'app-hourly-wash',
-  templateUrl: './hourly-wash.component.html',
-  styleUrls: ['./hourly-wash.component.css']
+  templateUrl: './hourly-wash.component.html'
 })
 export class HourlyWashComponent implements OnInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
   locationId: any;
   fileType: number;
   todayDate = new Date();
@@ -66,10 +67,13 @@ export class HourlyWashComponent implements OnInit {
     const last = first + 6;
     this.startDate = new Date(currentDate.setDate(first));
     this.currentWeek = this.startDate;
-    this.endDate = new Date(currentDate.setDate(last));
-    this.endDate = this.endDate.setDate(this.startDate.getDate() + 6);
-    this.endDate = new Date(moment(this.endDate).format());
+    const lastDate = new Date();
+    // this.endDate = new Date(currentDate.setDate(last));
+    // this.endDate = this.endDate.setDate(this.startDate.getDate() + 7);
+    // this.endDate = new Date(moment(this.endDate).format());
+    this.endDate = new Date(lastDate.setDate(last));
     this.daterangepickerModel = [this.startDate, this.endDate];
+
   }
 
   getfileType(event) {
@@ -90,17 +94,22 @@ export class HourlyWashComponent implements OnInit {
   }
 
   refesh() {
+    this.locationId = +localStorage.getItem('empLocationId');
+    this.locationDropdownComponent.locationId = this.locationId;
+    this.exportFiletypeComponent.type = '';
+    this.weeklyDateAssign();
     this.viewHourlyReport();
   }
 
   viewHourlyReport() {
     const finalObj = {
       locationId: +this.locationId,
-      fromDate: moment(this.startDate).format(),
-      endDate: moment(this.endDate).format()
+      fromDate: this.startDate,
+      endDate: this.endDate
     };
     this.spinner.show();
     this.reportsService.getHourlyWashReport(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.spinner.hide()
         const hourlyRate = JSON.parse(res.resultData);
@@ -127,6 +136,9 @@ export class HourlyWashComponent implements OnInit {
         if (hourlyRate.GetHourlyWashReport.WashHoursViewModel !== null) {
           this.hourlyWashReport = hourlyRate.GetHourlyWashReport.WashHoursViewModel;
           this.hourlyWashReport = this.customizeObj(this.hourlyWashReport);
+          for (let i = 0; i < this.hourlyWashReport.length; i++) {
+            this.hourlyWashReport[i].JobDate =  moment(this.hourlyWashReport[i].JobDate, "M/D/YYYY").format("MM/DD/YYYY")
+          }
         }
         if (hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel !== null) {
           this.hourlyWashManager = hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel;
@@ -147,9 +159,10 @@ export class HourlyWashComponent implements OnInit {
             if (washService.length > 0) {
               let washCount = 0;
               this.washServiceName.forEach(name => {
+                washCount = 0;
                 const nameBased = washService.filter(ele => ele.ServiceName === name);
                 nameBased.forEach(count => {
-                  washCount = washCount + count.WashCount;
+                  washCount +=  count.WashCount;
                 });
                 serviceName.push({
                   serviceName: name,
@@ -167,11 +180,10 @@ export class HourlyWashComponent implements OnInit {
                   GiftCard: sale.GiftCard,
                   Account: sale.Account,
                   BC: sale.Credit,
-                  Deposits: 0,
-                  Tips: 0,
-                  Actual: 0,
+                  Deposits: sale.Cash,
+                  Actual: sale.Total + sale.Tips,
                   Sales: sale.Total,
-                  Difference: 0,
+                  Difference: sale.Tips,
                   Managers: ''
                 });
               });
@@ -183,7 +195,6 @@ export class HourlyWashComponent implements OnInit {
                 Account: 0,
                 BC: 0,
                 Deposits: 0,
-                Tips: 0,
                 Actual: 0,
                 Sales: 0,
                 Difference: 0,
@@ -198,15 +209,16 @@ export class HourlyWashComponent implements OnInit {
             }
           });
           this.salesDetails.forEach(item => {
-            this.totalDeposits = this.totalDeposits + item.Deposits;
-            this.totalBC = this.totalBC + item.BC;
-            this.totalAccount = this.totalAccount + item.Account;
-            this.totalGiftCard = this.totalGiftCard + item.GiftCard;
-            this.totalTips = this.totalTips + item.Tips;
-            this.totalActual = this.totalActual + item.Actual;
-            this.totalSales = this.totalSales + item.Sales;
-            this.totalDifference = this.totalDifference + item.Difference;
+            this.totalDeposits = parseFloat((this.totalDeposits + item.Deposits).toFixed(2));
+            this.totalBC = parseFloat((this.totalBC + item.BC).toFixed(2));
+            this.totalAccount = parseFloat((this.totalAccount + item.Account).toFixed(2));
+            this.totalGiftCard = parseFloat((this.totalGiftCard + item.GiftCard).toFixed(2));
+            this.totalActual = parseFloat((this.totalActual + item.Actual).toFixed(2));
+            this.totalSales = parseFloat((this.totalSales + item.Sales).toFixed(2));
+            this.totalDifference = parseFloat((this.totalDifference + item.Difference).toFixed(2));
           });
+
+          
           this.salesDetails.forEach( item => {
             const manager = _.where(this.hourlyWashManager, { JobDate: item.JobDate });
             if (manager.length > 0) {
@@ -232,7 +244,7 @@ export class HourlyWashComponent implements OnInit {
       else{
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
+        console.log('welcome3');
       }
     }, (err) => {
       this.spinner.hide();
@@ -267,11 +279,25 @@ export class HourlyWashComponent implements OnInit {
       }
       case 3: {
         $('#printReport').hide();
-        const hourlySalesDetail = this.salesObj(this.salesDetails);
-        this.excelService.exportAsCSVFile(this.hourlyWashReport, 'HourlyWashReport_' +
-          this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') + '_' + locationName);
-        this.excelService.exportAsCSVFile(hourlySalesDetail, 'HourlySalesDetail' +
-          this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') + '_' + locationName);
+        // const hourlySalesDetail = this.salesObj(this.salesDetails);
+        // this.excelService.exportAsCSVFile(this.hourlyWashReport, 'HourlyWashReport_' +
+        //   this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') + '_' + locationName);
+        // this.excelService.exportAsCSVFile(hourlySalesDetail, 'HourlySalesDetail' +
+        //   this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') + '_' + locationName);
+        const finalObj = {
+          locationId: +this.locationId,
+          fromDate: moment(this.startDate).format(),
+          endDate: moment(this.endDate).format()
+        };
+
+        this.reportsService.getHourlyWashExport(finalObj).subscribe(data => {
+          if (data) {
+            this.download(data, 'excel', 'Hourly Wash Report');
+            return data;
+          }
+        }, (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        })
         break;
       }
       default: {
@@ -280,11 +306,34 @@ export class HourlyWashComponent implements OnInit {
     }
   }
 
+  download(data: any, type, fileName = 'Excel') {
+    let format: string;
+    format = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    let a: HTMLAnchorElement;
+    a = document.createElement('a');
+    document.body.appendChild(a);
+    const blob = new Blob([data], { type: format });
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+  }
+  
   customizeObj(hourlyWash) {
     if (hourlyWash.length > 0) {
       const wash = hourlyWash.map(item => {
         return {
           JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
+          Temperature : +item.Temperature,
+          Rain : +item.Rain,
+          Score : item.TotalWashHours == "0.00" ? ((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
+          (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
+          + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal)) : ((((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
+          (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
+          + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal))/item.TotalWashHours)*100).toFixed(2),
+          Goal : +item.Goal,
+          NoOfWashes : +item.NoOfWashes,
+          TotalWashHours : +item.TotalWashHours,
           Day: this.datePipe.transform(item.JobDate, 'EEE'),
           _7AM: +item._7AM,
           _8AM: +item._8AM,
@@ -299,9 +348,22 @@ export class HourlyWashComponent implements OnInit {
           _5PM: +item._5PM,
           _6PM: +item._6PM,
           _7PM: +item._7PM,
-          TotalWashCount: (+item._1PM) + (+item._2PM) + (+item._3PM) + (+item._4PM) + (+item._5PM) +
-            (+item._6PM) + (+item._7AM) + (+item._7PM) + (+item._8AM)
-            + (+item._9AM) + (+item._10AM) + (+item._11AM) + (+item._12AM)
+          TotalWashCount: (+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
+            (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
+            + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal),
+            _7AMTotal: +item._7AMTotal,
+            _8AMTotal: +item._8AMTotal,
+            _9AMTotal: +item._9AMTotal,
+            _10AMTotal: +item._10AMTotal,
+            _11AMTotal: +item._11AMTotal,
+            _12PMTotal: +item._12AMTotal,
+            _1PMTotal: +item._1PMTotal,
+            _2PMTotal: +item._2PMTotal,
+            _3PMTotal: +item._3PMTotal,
+            _4PMTotal: +item._4PMTotal,
+            _5PMTotal: +item._5PMTotal,
+            _6PMTotal: +item._6PMTotal,
+            _7PMTotal: +item._7PMTotal,
         };
       });
       return wash;
@@ -328,8 +390,7 @@ export class HourlyWashComponent implements OnInit {
           Difference: 0,
           GiftCard: item.GiftCard,
           Managers: '',
-          Sales: item.Total,
-          Tips: 0,
+          Sales: item.Sales
         });
       });
       sale.forEach(item => {

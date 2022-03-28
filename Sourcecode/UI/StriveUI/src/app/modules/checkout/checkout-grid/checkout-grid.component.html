@@ -14,9 +14,9 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="d-inline-block m-b-5">Checkout - </h4>
-                                <div class="date d-inline-block datepicker-view " data-date-format="dd/mm/yyyy">
-                                    <input type="text" placeholder="Daterangepicker" name="dateRange"
+                                <h4 class="d-inline-block m-b-5">Checkout</h4>
+                                <div class="date d-inline-block datepicker-view p-l-10" data-date-format="dd/mm/yyyy">
+                                    <input type="text" placeholder="Daterangepicker" name="dateRange" size="25"
                                         class="form-control" [(ngModel)]="daterangepickerModel" bsDaterangepicker
                                         (bsValueChange)="onValueChange($event)"
                                         [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : false}">
@@ -27,8 +27,8 @@
                                     <form>
                                         <div class="form-row">
                                             <div class="form-group d-flex">
-                                                <input type="search" class="form-control" [(ngModel)]="query" size="25"
-                                                    name="search" id="inputSearch" placeholder="Search"
+                                                <input type="search" class="form-control" [(ngModel)]="query" size="45"
+                                                    name="search" id="inputSearch" placeholder="Search by Ticket #, Client Name, Service..."
                                                     (ngModelChange)="this.searchUpdate.next($event)">
                                             </div>
                                             <div class="form-group d-flex col-sm m-l-5">
@@ -116,7 +116,7 @@
                                                             pTooltip="Checkout" tooltipPosition="top"
                                                             (click)="statusConfirmation('Check Out',checkout)"></em>
                                                         <em class="mdi mdi-file-clock font-size-1-5 pointer"
-                                                            [ngClass]="{ 'theme-primary-color': checkout.MembershipNameOrPaymentStatus !== 'Hold', 'theme-disabled-icon-color':checkout.isHold == true }"
+                                                            [ngClass]="{ 'theme-primary-color': checkout.IsHold == false, 'theme-disabled-icon-color':checkout.IsHold == true }"
                                                             pTooltip="Hold" tooltipPosition="top"
                                                             (click)="statusConfirmation('Hold',checkout)"></em>
                                                         <em class="mdi mdi-checkbox-marked  font-size-1-5 pointer"
@@ -126,14 +126,14 @@
 
                                                     </td>
                                                 </tr>
-                                                <tr *ngIf="isTableEmpty">
-                                                    <td colspan="11" class="text-center">
+                                                <tr *ngIf="uncheckedVehicleDetails.length === 0">
+                                                    <td colspan="12" class="text-center">
                                                         No Record Found
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div class="row pull-right">
+                                        <div class="row pull-right" *ngIf="uncheckedVehicleDetails.length > 0">
                                             <div class="col-6">
                                                 <ngb-pagination [collectionSize]="collectionSize"
                                                     (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3"

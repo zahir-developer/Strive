@@ -7,6 +7,7 @@ using Strive.Common;
 using System;
 using System.Linq;
 using Strive.BusinessLogic.Auth;
+using Microsoft.Extensions.Logging;
 
 namespace Admin.API.Filters
 {
@@ -14,14 +15,17 @@ namespace Admin.API.Filters
     {
         private readonly IConfiguration _config;
         private readonly IDistributedCache _cache;
+        private readonly ILogger _logger;
         readonly ITenantHelper _tenant;
         readonly GData _gdata = new GData();
 
-        public AdminPayloadFilter(IConfiguration conf, IDistributedCache cache, ITenantHelper tenantHelper)
+
+        public AdminPayloadFilter(IConfiguration conf, IDistributedCache cache, ITenantHelper tenantHelper, ILogger<AdminPayloadFilter> logger)
         {
             _config = conf;
             _cache = cache;
             _tenant = tenantHelper;
+            _logger = logger;
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -32,6 +36,12 @@ namespace Admin.API.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
+
+            if(context.Exception != null)
+            {
+                _logger.LogError($"Error Message:  {context.Exception.Message}, Stack Info:  { context.Exception.StackTrace } ");
+            }
+
         }
 
         private string Pick(string section, string name)
@@ -60,73 +70,103 @@ namespace Admin.API.Filters
             var TenantGuid = string.Empty;
             var schemaName = string.Empty;
             var EmployeeId = string.Empty;
+            var ClientId = string.Empty;
             var tid = string.Empty;
             var requestPath = context.HttpContext.Request.Path.Value;
 
             if (!requestPath.Contains("/Auth/") && !requestPath.Contains("/Signup/") && !requestPath.Contains("/External/"))
             {
                 isAuth = false;
-                userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
-                TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid")).Value;
-                schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
-                EmployeeId = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId")).Value;
-                tid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("tid")).Value;
-                _tenant.TenatId = tid;
+
+                if (context.HttpContext.User.Claims.ToList().Count > 0)
+                {
+                    userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid"))?.Value;
+                    TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid"))?.Value;
+                    schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName"))?.Value;
+
+                    var emp = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId"));
+
+                    if (emp != null)
+                        EmployeeId = emp.Value;
+
+                    var client = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("ClientId"));
+
+                    if (client != null)
+                        ClientId = client.Value;
+
+                    tid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("tid")).Value;
+                    _tenant.TenantId = tid;
+                }
             }
-            SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId);
+            SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId, ClientId);
         }
 
-        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null)
+        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null, string clientId = null)
         {
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
+            var strAdminConnectionString = Pick("ConnectionStrings", "StriveAuthAdmin");
 
             if (isAuth)
             {
                 _tenant.SetAuthDBConnection(strConnectionString);
                 _tenant.SetConnection(strConnectionString);
+                _tenant.SetAuthAdminDBConnection(strAdminConnectionString);
             }
             else
             {
                 _tenant.SetAuthDBConnection(strConnectionString);
+                _tenant.SetAuthAdminDBConnection(strAdminConnectionString);
 
                 var strTenantSchema = _cache.GetString(schemaName);
                 var isSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
 
                 if (!isSchemaAvailable) _tenant.SetConnection(strConnectionString);
-
-                var tenantSchema = (isSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
-                    new AuthManagerBpl(_cache, _tenant).GetTenantSchema(Guid.Parse(userGuid));
-
-                if (tenantSchema is null)
+                
+                if(!string.IsNullOrEmpty(userGuid))
                 {
-                    throw new Exception("Invalid Login");
+
+                    var tenantSchema = (isSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
+                        new AuthManagerBpl(_cache, _tenant).GetTenantSchema(Guid.Parse(userGuid));
+
+                    if (tenantSchema is null)
+                    {
+                        throw new Exception("Invalid Login");
+                    }
+
+                    if (isSchemaAvailable)
+                    {
+                        _tenant.SetTenantGuid(tenantGuid);
+                    }
+
+                    strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
+                    _tenant.SetConnection(strConnectionString);
+
                 }
 
-                if (isSchemaAvailable)
-                {
-                    _tenant.SetTenantGuid(tenantGuid);
-                }
 
-                strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
-                _tenant.SetConnection(strConnectionString);
+          
 
             }
             _tenant.TokenExpiryMintues = Pick("Jwt", "TokenExpiryMinutes").toInt();
+            _tenant.RefreshTokenExpiryMinutes = Pick("Jwt", "RefreshTokenExpiryMinutes").toFloat();
+            _tenant.SessionExpiryWarning = Pick("Jwt", "SessionExpiryWarning").toFloat();
 
             _tenant.SMTPClient = Pick("SMTP", "SMTPClient");
             _tenant.SMTPPassword = Pick("SMTP", "Password");
             _tenant.Port = Pick("SMTP", "Port");
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress");
             _tenant.EmployeeId = employeeId;
+            _tenant.ClientId = clientId;
             _tenant.SchemaName = schemaName;
-            
+
             //Folder Path
             _tenant.ProductImageFolder = Pick("FolderPath", "ProductImage");
             _tenant.LogoImageFolder = Pick("FolderPath", "LogoImage");
             _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
             _tenant.GeneralDocumentFolder = Pick("FolderPath", "GeneralDocument");
             _tenant.VehicleImageFolder = Pick("FolderPath", "VehicleImage");
-            
+            _tenant.ErrorLog = Pick("Logs", "Error");
+
             //File Format
             _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");
             _tenant.ProductImageFormat = Pick("FileFormat", "ProductImage");
@@ -148,6 +188,21 @@ namespace Admin.API.Filters
             _tenant.CCUserName = Pick("CardConnect", "UserName");
             _tenant.CCPassword = Pick("CardConnect", "Password");
             _tenant.MID = Pick("CardConnect", "MID");
+
+            //Applicationurl
+            _tenant.ApplicationUrl = Pick("ApplicationUrl", "Url");
+            _tenant.MobileUrl = Pick("ApplicationUrl", "MobileUrl");
+
+            //Azure Web App
+            _tenant.AzureStorageConn = Pick("Azure", "ConnctionString");
+            _tenant.AzureStorageContainer = Pick("Azure", "Container");
+            _tenant.AzureBlobHtmlTemplate = Pick("Azure", "BlobHtmlTemplate");
+            _tenant.TenantFolder = Pick("Azure", "TenantFolder");
+
+
+            //Location
+            _tenant.OSMUri = Pick("Location", "OSMUri");
+            _tenant.UserAgent = Pick("Location", "UserAgent");
         }
     }
 }

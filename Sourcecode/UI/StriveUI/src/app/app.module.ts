@@ -12,6 +12,7 @@ import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
+import { UserSignUpComponent } from './sign-up/sign-up.component';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/token.interceptor';
 import { TableModule } from 'primeng/table';
@@ -38,7 +39,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { CodeValueService } from './shared/common-service/code-value.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-
+import { UserSignupComponent } from './user-signup/user-signup.component';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#FF7900',
@@ -82,6 +84,7 @@ const load = (http: HttpClient) => {
     SidenavComponent,
     LoginComponent,
     SignupComponent,
+    UserSignUpComponent,
     HelpsComponent,
     ViewCustomerDetailsComponent,
     CreateCustomerDetailsComponent,
@@ -89,6 +92,7 @@ const load = (http: HttpClient) => {
     ForgotPasswordComponent,
     SelectLocationComponent,
     UnauthorizedComponent,
+    UserSignupComponent
   ],
   imports: [
     BrowserModule,
@@ -118,6 +122,7 @@ const load = (http: HttpClient) => {
     NgbModule,
     NgxPrintModule,
     NgIdleKeepaliveModule.forRoot(),
+    KeyFilterModule
   ],
   exports: [
     HttpClientModule,
@@ -146,7 +151,8 @@ const load = (http: HttpClient) => {
     },
     AuthService,
     HttpUtilsService,
-    CodeValueService
+    CodeValueService,
+    SidenavComponent
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

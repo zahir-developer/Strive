@@ -1,5 +1,6 @@
-﻿
-
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetScheduleByScheduleId]
+@ScheduleId int
+AS
 -- ==========================================================
 -- Author:              Vineeth.B
 -- Created date:        2020-08-20
@@ -7,17 +8,13 @@
 -- LastModified Author: 
 -- Description:         To get Schedule details by ScheduleId
 -- ===========================================================
-
-CREATE PROC [StriveCarSalon].[uspGetScheduleByScheduleId]
-@ScheduleId int
-AS
 BEGIN  
 
 SELECT
 	 tblsc.ScheduleId,
 	 tblsc.EmployeeId,
 	 ISNULL(tblsc.IsAbscent, 0) as IsEmployeeAbscent,
-	 tblemp.FirstName +''+tblemp.LastName as EmployeeName,
+	 TRIM(tblemp.FirstName) +' '+ TRIM(tblemp.LastName) as EmployeeName,
 	 tblsc.LocationId,
 	 tblloc.LocationName,
 	 tblLoc.ColorCode,
@@ -27,12 +24,12 @@ SELECT
 	 tblsc.EndTime,
 	 tblsc.ScheduleType,
 	 tblsc.Comments,
-	 tbler.valuedesc as EmployeeRole,
+	 tbler.rolename as EmployeeRole,
 	 tblsc.IsDeleted
 FROM tblSchedule as tblsc 
 INNER JOIN [tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
 INNER JOIN [tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
-LEFT JOIN [GetTable]('EmployeeRole') tbler ON  (tblsc.RoleId = tbler.valueid)
+LEFT JOIN tblRoleMaster tbler ON  (tblsc.RoleId = tbler.rolemasterId)
 WHERE ScheduleId=@ScheduleId
 AND
 ISNULL(tblsc.IsDeleted,0)=0 

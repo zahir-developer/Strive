@@ -54,6 +54,8 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public decimal? Tips { get; set; }
+        [Column]
+        public decimal? TotalAmount { get; set; }
 
     }
 }

@@ -1,7 +1,4 @@
-﻿
-
-
--- =============================================================
+﻿-- =============================================================
 -- Author:         Vineeth.B
 -- Created date:   2020-07-01
 -- Description:    Get Location Details By LocationId
@@ -16,6 +13,10 @@
 --					     Removed IsActive and IsDelete from 
 --						 tbllocation,tbllocationdrawer,drawer table
 -- 22-12-2020, Zahir - Modified the Washtime logic - Modified WashRole logic and Wash job count logic 
+-- 14-06-2021, Shalini - Added back tblMerchantDetail table
+-- 14-06-2021, Zahir - Added IsActive/IsDeleted condition for locationEmail query.
+--					 - Added MerchantDetailId, Password column for MerchantDetail query.
+
 
 ----------------------------------------------------------------
 -- =============================================================
@@ -138,7 +139,7 @@ tblla.LocationAddressId	,
 		isnull(tblla.isDeleted,0) = 0 
 
 
-Select * from tblLocationEmail where locationId = @tblLocationId
+Select * from tblLocationEmail where locationId = @tblLocationId AND isnull(IsActive,1) = 1 AND isnull(isDeleted,0) = 0
 		
 SELECT 
 DrawerId,
@@ -150,7 +151,7 @@ WHERE LocationId =@tblLocationId AND
 isnull(IsActive,1) = 1 AND
 isnull(isDeleted,0) = 0
 
-SELECT tbllo.LocationOffsetId,
+SELECT Top 1 tbllo.LocationOffsetId,
 tbllo.LocationId,
 tbllo.OffSet1,
 tbllo.OffSet1On,
@@ -165,5 +166,16 @@ FROM [tblLocationOffset] tbllo
 WHERE	tbllo.LocationId =@tblLocationId AND
 isnull(IsActive,1) = 1 AND
 isnull(isDeleted,0) = 0
+
+select Top 1
+MerchantDetailId,
+tblm.UserName,
+tblm.MID,
+tblm.Password,
+tblm.LocationId,
+tblm.URL
+from tblMerchantDetail tblm
+where tblm.LocationId = @tblLocationId
+AND isnull(IsActive,1) = 1 AND isnull(isDeleted,0) = 0
 
 END

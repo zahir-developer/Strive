@@ -9,6 +9,6 @@ namespace Strive.BusinessEntities.ViewModel
     public class TenantModulesViewModel
     {
         public ClientTenantViewModel TenantViewModel { get; set; }
-        public List<TenantModuleViewModel> TenantModuleViewModel { get; set; }
+        public ModuleListDto TenantModuleViewModel { get; set; }
     }
 }

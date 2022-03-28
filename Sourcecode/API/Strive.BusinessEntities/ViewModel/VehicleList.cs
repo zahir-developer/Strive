@@ -19,5 +19,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string Barcode { get; set; }
 
         public string MembershipName { get; set; }
+
     }
 }

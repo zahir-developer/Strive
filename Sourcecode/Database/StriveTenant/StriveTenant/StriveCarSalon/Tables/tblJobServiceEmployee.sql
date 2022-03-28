@@ -18,3 +18,10 @@
 
 
 
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [tblJobServiceEmployee_Index_JobItemId]
+    ON [StriveCarSalon].[tblJobServiceEmployee]([JobItemId] ASC);
+

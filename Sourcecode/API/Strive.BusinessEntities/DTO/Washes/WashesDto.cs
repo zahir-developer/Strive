@@ -11,5 +11,7 @@ namespace Strive.BusinessEntities.DTO.Washes
     {
         public Model.Job Job { get; set; }
         public List<JobItem> JobItem { get; set; }
+        public string DeletedJobItemId { get; set; }
+        public bool? isMobileApp { get; set; }
     }
 }

@@ -216,7 +216,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
     this.whiteLabelService.updateWhiteLabelDetail(uploadObj).subscribe(data => {
       this.ngxService.hide();
       if (data.status === 'Success') {
-        this.toastr.success(this.msgType + MessageConfig.save, 'Success!');
+        this.toastr.success(this.msgType + MessageConfig.Save, 'Success!');
         this.getAllWhiteLabelDetail();
       } else {
         this.ngxService.hide();

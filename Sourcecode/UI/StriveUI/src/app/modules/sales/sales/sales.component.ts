@@ -21,6 +21,15 @@ import { SaleGiftCardComponent } from './sale-gift-card/sale-gift-card.component
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { PaymentProcessComponent } from 'src/app/shared/components/payment-process/payment-process.component';
+import { DecimalPipe } from '@angular/common';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
+import { ToastrComponentlessModule, ToastrService } from 'ngx-toastr';
+import { LocationService } from 'src/app/shared/services/data-service/location.service';
+import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
+import { AnySoaRecord } from 'dns';
+import { debug } from 'console';
+declare var $: any;
+
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -60,14 +69,16 @@ export class SalesComponent implements OnInit {
   addItemForm: FormGroup;
   itemList: any;
   originalGrandTotal = 0;
-  JobId: any;
+  JobId: number;
   newTicketNumber: any = '';
   selectedService: any;
   balance: number;
   PaymentType: any;
   PaymentStatus: any;
   accountDetails: any;
-  isAccount: any;
+  serviceGroup = false;
+  isAccount = false;
+  isMembership = false;
   discountList: any = [];
   isAccountButton = false;
   ticketNumberGeneration: boolean;
@@ -77,12 +88,31 @@ export class SalesComponent implements OnInit {
   giftCardID: any;
   multipleTicketSequence: boolean = false;
   printTicketNumber: string;
+  jobTypeId: number;
+  captureObj: any = {};
+  isDiscountAdded: boolean;
+  addedDiscount = [];
+  isMultipleTicket: boolean;
+  merchantUserName: any = '';
+  password: any = '';
+  isValidMember: boolean = false;
+  totalAmount = 0;
+  filterRecord = [];
+  totalChargeService: any;
+  washPackage: any;
+  amountCheck = true;
+  accountPayType: any;
+  paymentType = false;
+  JobDate = new Date;
+  accountBtnClass : any;
+
   constructor(
-    private membershipService: MembershipService, private salesService: SalesService, private router: Router,
+    private toastr: ToastrService, private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute, private codes: GetCodeService) { }
+    private locationService: LocationService, private vehicle: VehicleService,
+    private route: ActivatedRoute, private codes: GetCodeService, private decimalPipe: DecimalPipe, private codeService: CodeValueService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -99,7 +129,7 @@ export class SalesComponent implements OnInit {
   enableAdd = false;
   grandTotal = '';
   cash = 0;
-  credit = 0;
+  credit: any = 0;
   giftCard = 0;
   account = 0;
   totalPaid = 0;
@@ -114,27 +144,36 @@ export class SalesComponent implements OnInit {
   isCreditPay: boolean;
   isGiftCard: boolean;
   giftcardNumber: any = '';
+  totalWashService: any;
+  vehicleIds: any;
+  accountEnable = false;
+
   ngOnInit(): void {
+    this.isMultipleTicket = false;
     this.isTenTicketNumber = false;
     this.isCreditPay = false;
     this.isGiftCard = false;
     this.locationId = +localStorage.getItem('empLocationId');
+    this.isDiscountAdded = false;
     this.giftCardFromInit();
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
     if (paramsData !== null) {
-      debugger;
       this.ticketNumber = paramsData;
       this.printTicketNumber = paramsData;
       this.addTicketNumber();
     }
+    this.setFocus();
     this.getServiceType();
     this.getPaymentType();
     this.getPaymentStatus();
     this.getServiceForDiscount();
-    this.getAllServiceandProduct();
-
+    // this.getAllServiceandProduct();
+    this.getJobType();
+    this.calculateAccountbtnClass();
   }
+
+
   print() {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
@@ -142,48 +181,63 @@ export class SalesComponent implements OnInit {
       size: 'lg'
     };
     const modalRef = this.modalService.open(PrintComponent, ngbModalOptions);
-    debugger;
     modalRef.componentInstance.isModal = true;
     modalRef.componentInstance.printTicketNumber = this.printTicketNumber;
     modalRef.componentInstance.itemList = this.itemList.Status;
+    modalRef.componentInstance.cashBack = this.cashback;
   }
   getServiceType() {
-    this.codes.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(res => {
-      if (res.status === 'Success') {
-        const sType = JSON.parse(res.resultData);
-        this.serviceType = sType.Codes;
-      } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-      }
-    });
+    const serviceTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.serviceType);
+    if (serviceTypeValue.length > 0) {
+      this.serviceType = serviceTypeValue;
+    } else {
+      this.codes.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(res => {
+        if (res.status === 'Success') {
+          const sType = JSON.parse(res.resultData);
+          this.serviceType = sType.Codes;
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+        }
+      });
+    }
   }
 
 
   getPaymentType() {
-    this.codes.getCodeByCategory(ApplicationConfig.Category.paymentType).subscribe(data => {
-      if (data.status === 'Success') {
-        const sType = JSON.parse(data.resultData);
-        this.PaymentType = sType.Codes;
-      } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-      }
-    });
+    const paymentTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.paymentType);
+    if (paymentTypeValue.length > 0) {
+      this.PaymentType = paymentTypeValue;
+    } else {
+      this.codes.getCodeByCategory(ApplicationConfig.Category.paymentType).subscribe(data => {
+        if (data.status === 'Success') {
+          const sType = JSON.parse(data.resultData);
+          this.PaymentType = sType.Codes;
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+        }
+      });
+    }
   }
 
   getPaymentStatus() {
-    this.codes.getCodeByCategory(ApplicationConfig.Category.paymentStatus).subscribe(data => {
-      if (data.status === 'Success') {
-        const sType = JSON.parse(data.resultData);
-        this.PaymentStatus = sType.Codes;
-      } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-      }
-    });
+    const paymentstatusValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.paymentStatus);
+    if (paymentstatusValue.length > 0) {
+      this.PaymentStatus = paymentstatusValue;
+    } else {
+      this.codes.getCodeByCategory(ApplicationConfig.Category.paymentStatus).subscribe(data => {
+        if (data.status === 'Success') {
+          const sType = JSON.parse(data.resultData);
+          this.PaymentStatus = sType.Codes;
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+        }
+      });
+    }
   }
 
   getAllServiceandProduct() {
     const locID = this.locationId;
-    this.salesService.getServiceAndProduct(locID).subscribe(data => {
+    this.salesService.getServiceAndProduct(locID, '').subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {
@@ -192,7 +246,8 @@ export class SalesComponent implements OnInit {
               id: item.ServiceId,
               name: item.ServiceName.trim(),
               price: item.Cost,
-              type: 'service'
+              type: 'service',
+              serviceTypeId: item.ServiceType
             };
           });
         }
@@ -254,7 +309,6 @@ export class SalesComponent implements OnInit {
     this.service.getAllServiceDetail(this.locationId).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
-        console.log(services, 'discount');
         if (services.AllServiceDetail !== null) {
           this.discounts = services.AllServiceDetail.filter(item =>
             item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
@@ -284,6 +338,7 @@ export class SalesComponent implements OnInit {
     this.discountService = [];
     this.allService = [];
     this.Products = [];
+    this.selectedDiscount = [];
     if (this.itemList?.Status?.SalesSummaryViewModel) {
       this.itemList.Status.SalesSummaryViewModel = {};
     }
@@ -304,6 +359,7 @@ export class SalesComponent implements OnInit {
     this.cashback = 0;
     this.discountAmount = 0;
     this.selectedService = [];
+    this.amountCheck = true;
   }
 
   addTicketNumber() {
@@ -313,12 +369,11 @@ export class SalesComponent implements OnInit {
     const alreadyAdded = this.multipleTicketNumber.filter(item => item === this.ticketNumber);
     if (alreadyAdded.length === 0) {
       this.multipleTicketNumber.push(this.ticketNumber);
-      this.printTicketNumber = this.ticketNumber
+      this.printTicketNumber = this.ticketNumber;
       this.ticketNumber = '';
     } else {
       this.ticketNumber = '';
       this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.Ticket });
-
       return;
     }
 
@@ -328,11 +383,16 @@ export class SalesComponent implements OnInit {
       this.isTenTicketNumber = false;
     }
     this.getDetailByTicket(false);
+    if (this.multipleTicketNumber.length > 1) {
+      this.multipleTicketSequence = true;
+    }
+    this.calculateAccountbtnClass();
   }
 
   removeTicketNumber(ticket) {
+    this.newTicketNumber = '';
     if (this.multipleTicketNumber.length > 1) {
-    this.multipleTicketSequence = false;
+      this.multipleTicketSequence = true;
     }
     this.multipleTicketNumber = this.multipleTicketNumber.filter(item => item !== ticket);
     if (this.multipleTicketNumber.length > 10) {
@@ -345,6 +405,7 @@ export class SalesComponent implements OnInit {
       this.enableAdd = false;
     }
     this.getDetailByTicket(false);
+    this.calculateAccountbtnClass();
   }
   getDetailByTicket(flag) {
     this.enableButton = false;
@@ -354,30 +415,43 @@ export class SalesComponent implements OnInit {
     } else {
       this.clearGridItems();
     }
-   
+
     if ((this.multipleTicketNumber.length > 0) ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
 
       const ticketNumber = this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber.toString()
         : this.newTicketNumber ? this.newTicketNumber : 0;
       const obj = {
-        ticketNumber
+        ticketNumber,
+        locationId: this.locationId
       };
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
+          this.vehicleIds = accountDetails.Account.SalesAccountViewModel?.VehicleId
           this.accountDetails = accountDetails.Account;
-          this.clientId = this.accountDetails.SalesAccountViewModel?.ClientId ? this.accountDetails.SalesAccountViewModel?.ClientId : 0;
-        if(this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount &&
-          this.accountDetails.SalesAccountViewModel?.MembershipId){
-            this.isAccount =  this.accountDetails.SalesAccountViewModel?.MembershipId;
+          this.clientId = this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0;
+          if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount && this.accountDetails.SalesAccountViewModel?.MembershipId !== 0 &&
+            this.accountDetails.SalesAccountViewModel?.MembershipId !== null) {
+            this.serviceGroup = true;
+            this.isAccount = true;
+            this.isMembership = true;
           }
-          else{
-            this.isAccount = this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount ||
-            this.accountDetails.SalesAccountViewModel?.MembershipId !== null;
+          else if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount) {
+            this.serviceGroup = true;
+            this.isAccount = true;
+            this.isMembership = false;
           }
-        
-         
+          else if (this.accountDetails.SalesAccountViewModel?.MembershipId !== 0 && this.accountDetails.SalesAccountViewModel?.MembershipId !== null) {
+            this.serviceGroup = true;
+            this.isMembership = true;
+            this.isAccount = false;
+          }
+
+          if(this.accountDetails.SalesAccountCreditViewModel?.ClientId == null){
+            this.serviceGroup = false;
+          }
+          this.calculateAccountbtnClass();
         }
       });
       this.spinner.show();
@@ -394,29 +468,52 @@ export class SalesComponent implements OnInit {
       this.outsideServices = [];
       this.discountService = [];
       this.airfreshnerService = [];
+      this.discountList = [];
       this.salesService.getItemByTicketNumber(salesObj).subscribe(data => {
         if (data.status === 'Success') {
-          
           this.spinner.hide();
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.SalesItemViewModel !== null) {
+            const jobDetail = this.itemList.Status.SalesItemViewModel;
+            const invalidTicket = jobDetail.filter(item => item.TicketNumber === this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+            if (invalidTicket.length === 0) {
+              // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+              this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
+                item !== this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+              this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
+              this.showPopup = false;
+            }
             if (this.multipleTicketNumber.length > 1) {
               this.multipleTicketSequence = true;
-              }
+            }
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
-             
               this.showPopup = true;
               this.allService = this.itemList.Status.SalesItemViewModel;
               this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage
+              );
+
+              const washPackageList = this.itemList.Status.SalesItemViewModel.filter(item =>
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage
+              );
+              this.washPackage = washPackageList;
+              const washPackageGroup = this.itemList.Status.SalesItemViewModel.filter(item =>
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge
+              );
+              this.totalChargeService = washPackageGroup;
+              const servicePackage = this.itemList.Status.SalesItemViewModel.filter(item =>
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices
+              );
+              this.totalWashService = servicePackage;
               this.details = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage);
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge ||
-                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge);
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.OutsideServices);
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -432,8 +529,10 @@ export class SalesComponent implements OnInit {
               });
             }
           } else {
+            // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+            this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
+              item !== this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
             this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
-
             this.showPopup = false;
           }
           if (this.itemList?.Status?.SalesSummaryViewModel !== null) {
@@ -457,14 +556,17 @@ export class SalesComponent implements OnInit {
                 this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp ? +this.grandTotal : 0;
               this.calculateTotalpaid(+this.account);
             }
+            this.JobDate = summary?.JobDate;
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
             console.log(this.Products, 'products');
+
           }
           if (this.itemList?.Status?.PaymentStatusViewModel?.IsProcessed === true) {
             this.showPopup = false;
             this.enableButton = true;
+            this.getTicketsByPaymentId(this.itemList?.Status?.PaymentStatusViewModel?.JobPaymentId);
           } else {
             this.showPopup = true;
             this.enableButton = false;
@@ -473,7 +575,6 @@ export class SalesComponent implements OnInit {
         else {
           this.spinner.hide();
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-
         }
       }, (err) => {
         this.enableAdd = false;
@@ -481,19 +582,77 @@ export class SalesComponent implements OnInit {
       });
     }
   }
+
+  getTicketsByPaymentId(id) {
+    this.salesService.getTicketsByPaymentId(id).subscribe(res => {
+      if (res.status === 'Success') {
+        const paymentTicket = JSON.parse(res.resultData);
+        if (paymentTicket.TicketsbyJobPaymentId.length >= 2) {
+          let count = 0;
+          this.multipleTicketNumber.forEach(item => {
+            const ticket = paymentTicket.TicketsbyJobPaymentId.filter(jobTicket => jobTicket.TicketNumber === +item);
+            if (ticket.length > 0) {
+              count = count + 1;
+            }
+          });
+          if (paymentTicket.TicketsbyJobPaymentId.length === count) {
+            this.isMultipleTicket = false;
+          } else {
+            this.isMultipleTicket = true;
+          }
+        } else {
+          this.isMultipleTicket = false;
+        }
+      }
+    });
+  }
+
   clearform() {
     this.cash = this.giftCard = this.credit = 0;
   }
   filterItem(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.serviceAndProduct) {
-      const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        filtered.push(client);
+    const locID = this.locationId;
+    this.salesService.getServiceAndProduct(locID, query).subscribe(res => {
+      if (res.status === 'Success') {
+        const services = JSON.parse(res.resultData);
+        if (services.ServiceAndProductList.Service !== null) {
+          this.services = services.ServiceAndProductList.Service.map(item => {
+            return {
+              id: item.ServiceId,
+              name: item.ServiceName.trim(),
+              price: item.Cost,
+              type: 'service',
+              serviceTypeId: item.ServiceType
+            };
+          });
+        } else {
+          this.services = [];
+        }
+        if (services.ServiceAndProductList.Product !== null) {
+          this.products = services.ServiceAndProductList.Product.map(item => {
+            return {
+              id: item.ProductId,
+              name: item.ProductName.trim(),
+              price: item.Price,
+              type: 'product'
+            };
+          });
+        } else {
+          this.products = [];
+        }
+        this.serviceAndProduct = [];
+        this.serviceAndProduct = this.services.concat(this.products);
       }
-    }
-    this.filteredItem = filtered;
+    });
+    // for (const i of this.serviceAndProduct) {
+    //   const client = i;
+    //   if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+    //     filtered.push(client);
+    //   }
+    // }
+    // this.filteredItem = filtered;
   }
   deleteItem(data, type) {
     // if (this.enableButton === true) {
@@ -550,10 +709,9 @@ export class SalesComponent implements OnInit {
 
   openCash() {
     const cashTotal = this.cash !== 0 ? this.cash : this.getBalanceDue();
-    this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
+    this.cashTotal = cashTotal >= 0 ? Number(cashTotal.toFixed(2)) : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
-    document.getElementById('creditcardpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
   }
   opengiftcard() {
@@ -564,7 +722,6 @@ export class SalesComponent implements OnInit {
     }
     this.balance = 0;
     document.getElementById('Giftcardpopup').style.width = '450px';
-    document.getElementById('creditcardpopup').style.width = '0';
     document.getElementById('cashpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
   }
@@ -580,25 +737,68 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '450px';
     document.getElementById('cashpopup').style.width = '0';
     document.getElementById('Giftcardpopup').style.width = '0';
-    document.getElementById('creditcardpopup').style.width = '0';
   }
   closediscount() {
     document.getElementById('discountpopup').style.width = '0';
   }
+
+  openMembershipLogin() {
+    document.getElementById('Giftcardpopup').style.width = '0';
+    document.getElementById('discountpopup').style.width = '0';
+    document.getElementById('cashpopup').style.width = '0';
+
+    if (this.isValidMember == true) {
+      //document.getElementById('verifyMembership').style.width = '0';
+      this.creditProcess();
+    } else {
+      //document.getElementById('verifyMembership').style.width = '400px';
+      this.creditProcess();
+      // this.ValidateMembership();
+    }
+  }
+
   opencreditcard() {
     const creditTotal = this.credit !== 0 ? this.credit : this.getBalanceDue();
     this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
     this.cashback = this.initialcashback;
-    document.getElementById('creditcardpopup').style.width = '300px';
+    document.getElementById('verifyMembership').style.width = '0';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
     document.getElementById('cashpopup').style.width = '0';
   }
 
-  closecreditcard() {
-    document.getElementById('creditcardpopup').style.width = '0';
+  closeVerifyMembership() {
+    document.getElementById('verifyMembership').style.width = '0';
   }
+
+  ValidateMembership() {
+
+    const obj = {
+      locationId: this.locationId,
+      userName: this.merchantUserName,
+      password: this.password
+    };
+
+    this.locationService.getMerchantSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const membership = JSON.parse(data.resultData);
+        if (membership.MerchantValidation.length == 0) {
+          this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.InValidMember });
+        } else {
+          this.isValidMember = true;
+          document.getElementById('verifyMembership').style.width = '0';
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.ValidMember });
+          this.creditProcess();
+        }
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
   editItem(event) {
     if (this.enableButton == true) {
       return
@@ -648,6 +848,11 @@ export class SalesComponent implements OnInit {
     // this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
+    //Set cashback amount
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
+    }
   }
   addItem() {
     if (this.selectedService.name === 'Gift Card') {
@@ -675,7 +880,7 @@ export class SalesComponent implements OnInit {
           this.submitted = false;
         }
       });
-    } else {
+    } else if (this.isPackageAlreadyAdded()) {
       this.submitted = true;
       if (+this.addItemForm.controls.quantity.value === 0) {
         this.addItemForm.patchValue({ quantity: '' });
@@ -684,14 +889,14 @@ export class SalesComponent implements OnInit {
       if (this.addItemForm.invalid) {
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.quantity });
         return;
-      } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
+      } else if (this.addItemForm.value.itemName === '' || this.serviceAndProduct.length === 0) {
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.validItem });
         return;
       }
       const formObj = {
         job: {
-          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
-          ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
+          ticketNumber: this.newTicketNumber,
           locationId: this.locationId,
           clientId: null,
           vehicleId: null,
@@ -714,7 +919,7 @@ export class SalesComponent implements OnInit {
         },
         jobItem: [{
           jobItemId: 0,
-          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
           serviceId: this.selectedService?.id,
           commission: 0,
           price: this.selectedService?.price,
@@ -730,7 +935,7 @@ export class SalesComponent implements OnInit {
         }],
         JobProductItem: {
           jobProductItemId: 0,
-          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
           productId: this.selectedService?.id,
           commission: 0,
           price: this.selectedService?.price,
@@ -746,13 +951,15 @@ export class SalesComponent implements OnInit {
       };
       if (this.selectedService.type === 'service') {
         formObj.JobProductItem = null;
+        formObj.job.jobType = this.jobTypeId;
       } else {
         formObj.jobItem = null;
       }
+
       if (this.isSelected) {
         this.updateListItem(formObj, false);
       } else {
-        this.salesService.addItem(formObj).subscribe(data => {
+        this.salesService.addListItem(formObj).subscribe(data => {
           if (data.status === 'Success') {
             this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });
             this.isSelected = true;
@@ -768,8 +975,46 @@ export class SalesComponent implements OnInit {
         });
       }
     }
+    else
+{
+      this.addItemForm.controls.quantity.enable();
+      this.addItemFormInit();
+    }
   }
+
+  isPackageAlreadyAdded() {
+    var itemExists = this.itemList?.Status?.SalesItemViewModel?.filter(s => s.ServiceId === this.selectedService?.id);
+
+    if (itemExists?.length > 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.ItemAlreadyAdded });
+      return false;
+    }
+
+    var detailServiceType = this.serviceType.filter(type => type.CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage)
+
+    var washServiceType = this.serviceType.filter(type => type.CodeValue === ApplicationConfig.Enum.ServiceType.WashPackage)
+
+    var detailPackageExists = this.details.filter(s => s.ServiceType === detailServiceType[0]?.CodeValue)
+
+    var washPackageExists = this.washes.filter(s => s.ServiceType === washServiceType[0]?.CodeValue)
+
+    if ((detailPackageExists?.length > 0 && (detailServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId)) || (washPackageExists?.length > 0 && (washServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId))) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.PackageAlreadyAdded });
+      return false;
+    }
+
+    if ((detailPackageExists?.length > 0 && (washServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId)) || (washPackageExists?.length > 0 && (detailServiceType[0]?.CodeId === +this.selectedService?.serviceTypeId))) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.PackageAlreadyAdded });
+      return false;
+    }
+
+
+
+    return true;
+  }
+
   updateListItem(formObj, flag) {
+    formObj.job = null;
     this.salesService.updateListItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });
@@ -823,8 +1068,11 @@ export class SalesComponent implements OnInit {
       const ticket = JSON.parse(data.resultData);
       if (data.status === 'Success') {
         const ticket = JSON.parse(data.resultData);
-        this.ticketNumberGeneration = true
+        this.ticketNumberGeneration = true;
         this.newTicketNumber = ticket.GetTicketNumber.TicketNumber;
+        this.JobId = ticket.GetTicketNumber.JobId;
+        // this.multipleTicketNumber.push(this.newTicketNumber);
+        //this.getTicketDetail(this.JobId);
       }
       else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
@@ -835,18 +1083,70 @@ export class SalesComponent implements OnInit {
     this.clearGridItems();
   }
   creditProcess() {
-    this.removAddedAmount(this.credit);
-    this.credit = this.creditTotal - this.creditcashback;
-    if (this.credit > (this.originalGrandTotal - this.totalPaid - this.discountAmount + this.credit)) {
-      this.credit = 0;
-      this.creditcashback = 0;
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.creditAmount });
-      return;
+    if (this.isCreditPay == false) {
+      this.removAddedAmount(+this.credit);
+      this.credit = this.originalGrandTotal - this.totalPaid - this.discountAmount;
+
+      this.paymentProcess();
     }
-    this.calculateTotalpaid(this.credit);
-    this.cashback = this.cashback + this.creditcashback;
-    document.getElementById('creditcardpopup').style.width = '0';
   }
+
+  paymentProcess() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
+    modalRef.componentInstance.clientId = this.clientId;
+    modalRef.componentInstance.totalAmount = this.credit;
+    modalRef.componentInstance.jobDate = this.JobDate;
+    modalRef.result.then((result) => {
+      if (result.status) {
+        this.isCreditPay = true;
+        this.tips = result.tipAmount == "" ? 0 : parseFloat(result.tipAmount);
+        this.credit = result.totalAmount
+        this.captureObj = result.authObj;
+        this.calculateTotalpaid(+this.credit);
+        // this.addPayment();
+        // this.paymentCapture(result.authObj);
+      } else {
+        this.tips = 0;
+        this.credit = 0;
+      }
+    });
+  }
+
+  paymentCapture() {
+    const auth = this.captureObj;
+    const totalAmount = this.credit + (+this.tips);
+    const amount = this.decimalPipe.transform(totalAmount, '.2-2');
+    const capObj = {
+      authCode: auth.authcode,
+      amount: amount.toString().replace(",", ""),
+      retRef: auth.retref,
+      invoiceId: {},
+      locationId: this.locationId
+    };
+    this.salesService.paymentCapture(capObj).subscribe(res => {
+      if (res.status === 'Success') {
+        const capture = JSON.parse(res.resultData);
+        console.log(capture, 'auth');
+        this.addPayment();
+      } else {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: res.errorMessage });
+      }
+    });
+  }
+
+  processpayment() {
+    if (this.credit !== 0) {
+      this.paymentCapture();
+    } else {
+      this.addPayment();
+    }
+  }
+
   removAddedAmount(amount) {
     this.totalPaid = this.totalPaid - amount;
   }
@@ -860,12 +1160,21 @@ export class SalesComponent implements OnInit {
     this.removAddedAmount(+this.cash);
     this.cash = this.cashTotal;
     this.calculateTotalpaid(+this.cash);
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
+    }
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
     let discountValue = 0;
+    if (this.isDiscountAdded) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate });
+      return;
+    }
+    this.addedDiscount = this.selectedDiscount.map(x => Object.assign({}, x));
     this.discountList = [];
-    if (this.selectedDiscount.length > 0) {
+    if (this.addedDiscount.length > 0) {
       let washDiscountPrice = 0;
       let detailDiscountPrice = 0;
       let additionalDiscountPrice = 0;
@@ -874,7 +1183,7 @@ export class SalesComponent implements OnInit {
       let outsideDiscountPrice = 0;
       let noServiceTypePrice = 0;
       let allServiceDiscountPrice = 0;
-      this.selectedDiscount.forEach(item => {
+      this.addedDiscount.forEach(item => {
         const serviceType = this.serviceType.filter(type => +type.CodeId === +item.DiscountServiceType);
         if (serviceType.length > 0) {
           let washCost = 0;
@@ -944,7 +1253,9 @@ export class SalesComponent implements OnInit {
               outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Price / 100);
               item.Price = (outsideCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
+          }
+          //Wash Upcharge
+          else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
             this.upCharges.forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
@@ -956,7 +1267,36 @@ export class SalesComponent implements OnInit {
               upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Price / 100);
               item.Price = (upchargeCost * item.Price / 100);
             }
-          } else if (item.DiscountServiceType === null) {
+          }
+          //Detail Upcharge
+          else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge) {
+            this.upCharges.filter(s => s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
+              upchargeCost = upchargeCost + upcharge.Price;
+            });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
+            if (item.DiscountType === 'Flat Fee') {
+              upchargeDiscountPrice = upchargeDiscountPrice + item.Price;
+            } else if (item.DiscountType === 'Percentage') {
+              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Price / 100);
+              item.Price = (upchargeCost * item.Price / 100);
+            }
+          }
+          // Detail Ceramic Upcharge
+          else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge) {
+            this.upCharges.filter(s => s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
+              upchargeCost = upchargeCost + upcharge.Price;
+            });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
+            if (item.DiscountType === 'Flat Fee') {
+              upchargeDiscountPrice = upchargeDiscountPrice + item.Price;
+            } else if (item.DiscountType === 'Percentage') {
+              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Price / 100);
+              item.Price = (upchargeCost * item.Price / 100);
+            }
+          }
+          else if (item.DiscountServiceType === null) {
             noServiceTypePrice = noServiceTypePrice + item.Price;
           } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.ServiceDiscounts) {
             this.allService.forEach(service => {
@@ -978,41 +1318,71 @@ export class SalesComponent implements OnInit {
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
           + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice + allServiceDiscountPrice;
       });
-      this.discountAmount = discountValue;
+      this.discountAmount = +discountValue;
     } else {
       this.discountAmount = 0;
     }
-    this.selectedDiscount.forEach(item => {
-      this.discountList.push(item);
-    });
+
+    if (this.discountAmount !== 0) {
+      this.addedDiscount.forEach(item => {
+        this.discountList.push(item);
+      });
+    }
+    else {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.DiscountServiceNotMatching });
+      return;
+    }
+    //Calculate cashback amount
+    let Balanceamt = (+this.grandTotal) - this.totalPaid-this.discountAmount;
+    if (Balanceamt < 0) {
+      this.cashback = Math.abs(Balanceamt);
+    }
     document.getElementById('discountpopup').style.width = '0';
   }
   discountChange(event) {
     if (this.selectedDiscount.length > 0) {
       const dup = this.selectedDiscount.filter(item => +item.ServiceId === +this.discount);
       if (dup.length > 0) {
+        this.isDiscountAdded = true;
+        this.discount = '';
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate });
         return;
+      } else {
+        this.isDiscountAdded = false;
       }
     }
     if (this.discountService.length > 0) {
       const duplicatecheck = this.discountService.filter(selectedDis => +selectedDis.ServiceId === +this.discount);
       if (duplicatecheck.length > 0) {
+        this.isDiscountAdded = true;
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.discountExist });
         return;
+      } else {
+        this.isDiscountAdded = false;
       }
     }
     for (const i of this.discounts) {
       if (i.ServiceId === +event.target.value) {
         if (i.DiscountServiceType === 0 || i.DiscountServiceType === null) {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.invalidDiscount });
           this.discount = '';
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.invalidDiscount });
           return;
         } else {
+          // this.addedDiscount.push(i);
           this.selectedDiscount.push(i);
         }
       }
     }
+    // if (this.addedDiscount.length > 0) {
+    //   this.addedDiscount.forEach(item => {
+    //     if (item.DiscountType === 'Flat Fee') {
+    //       item.Price = String(item.Price).replace('-', '');
+    //       item.Price = +item.Price;
+    //     } else {
+    //       item.Price = item.Price;
+    //     }
+    //   });
+    // }
   }
 
   deletediscount(event) {
@@ -1021,9 +1391,9 @@ export class SalesComponent implements OnInit {
     this.discountList = this.discountList.filter(item => item.ServiceId !== +event.ServiceId);
     let discountAmount = 0;
     this.selectedDiscount.forEach(item => {
-      discountAmount = discountAmount + (+item.Price);
+      discountAmount = +discountAmount + (+item.Price);
     });
-    this.discountAmount = discountAmount;
+    this.discountAmount = +discountAmount;
   }
   getBalanceDue() {
     const balancedue = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?
@@ -1033,11 +1403,11 @@ export class SalesComponent implements OnInit {
   addPayment() {
     let paymentDetailObj = [];
     const balancedue = this.getBalanceDue();
-    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0) {
+    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0 && this.discountAmount === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.payment });
       return;
     }
-    if (balancedue !== 0) {
+    if (0 < balancedue) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.total });
       return;
     }
@@ -1046,38 +1416,38 @@ export class SalesComponent implements OnInit {
       return;
     }
 
-    if (this.credit !== 0 && !this.isCreditPay) {
-      this.isCreditPay = true;
-      const ngbModalOptions: NgbModalOptions = {
-        backdrop: 'static',
-        keyboard: false,
-        size: 'lg'
-      };
-      const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
-      modalRef.componentInstance.clientId = this.clientId;
-      modalRef.componentInstance.totalAmount = this.credit;
-      modalRef.result.then((result) => {
-        if (result.status) {
-          this.isCreditPay = true;
-          this.tips = result.tipAmount;
-          this.addPayment();
-        }
-      });
-      return;
-    }
-
+    // if (this.credit !== 0 && !this.isCreditPay) {
+    //   this.isCreditPay = true;
+    //   const ngbModalOptions: NgbModalOptions = {
+    //     backdrop: 'static',
+    //     keyboard: false,
+    //     size: 'lg'
+    //   };
+    //   const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
+    //   modalRef.componentInstance.clientId = this.clientId;
+    //   modalRef.componentInstance.totalAmount = this.credit;
+    //   modalRef.result.then((result) => {
+    //     if (result.status) {
+    //       this.isCreditPay = true;
+    //       this.tips = result.tipAmount;
+    //       this.paymentCapture(result.authObj);
+    //     }
+    //   });
+    //   return;
+    // }
 
     let giftcard = null;
     let discount = null;
+    let creditAccountHistory = null;
     giftcard = this.giftcards.map(item => {
       return {
-        giftCardHistoryId: 1,
+        giftCardHistoryId: 0,
         giftCardId: item.id,
         locationId: this.locationId,
         transactionType: 1,
         transactionAmount: -(+item.amount),
         transactionDate: new Date(),
-        comments: null,
+        comments: 'Ticket payment: ' + this.multipleTicketNumber.toString(),
         isActive: true,
         isDeleted: false,
         createdBy: null,
@@ -1092,7 +1462,7 @@ export class SalesComponent implements OnInit {
         jobPaymentDiscountId: 0,
         jobPaymentId: null,
         serviceDiscountId: +item.ServiceId,
-        amount: item.Cost,
+        amount: this.discountAmount,
         isActive: true,
         isDeleted: false,
         createdBy: null,
@@ -1107,7 +1477,7 @@ export class SalesComponent implements OnInit {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
         paymentType: discountPayType,
-        amount: item.Cost,
+        amount: this.discountAmount,
         taxAmount: 0,
         signature: '',
         isActive: true,
@@ -1159,15 +1529,23 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(Tips);
     }
+
     if (this.account !== 0) {
-      let accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
-      if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== ApplicationConfig.CodeValue.Comp) {
-        accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Membership)[0].CodeId;
+      // if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== ApplicationConfig.CodeValue.Comp) {
+      //}
+
+      if (this.isAccount) {
+        this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
+      } else if (this.isMembership) {
+        this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Membership)[0].CodeId;
+      } else {
+        this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
       }
+
       const accountDet = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
-        paymentType: accountPayType,
+        paymentType: this.accountPayType,
         amount: this.account ? +this.account : 0,
         taxAmount: 0,
         signature: '',
@@ -1179,6 +1557,24 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       };
       paymentDetailObj.push(accountDet);
+
+      if(this.isAccount){
+        creditAccountHistory = {
+          CreditAccountHistoryId: 0,
+          Amount: (-1 * this.account),
+          IsActive: true,
+          IsDeleted: false,
+          CreatedBy: null,
+          CreatedDate: new Date(),
+          UpdatedBy: null,
+          UpdatedDate: new Date(),
+          Comments: 'Ticket payment: ' + this.multipleTicketNumber.toString(),
+          JobPaymentId: 0,
+          TransactionType: this.accountPayType,
+          ClientId: this.accountDetails.SalesAccountCreditViewModel?.ClientId ? this.accountDetails.SalesAccountCreditViewModel?.ClientId : 0
+        }
+      }
+
     }
     if (this.credit !== 0) {
       const creditPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Card)[0].CodeId;
@@ -1221,23 +1617,25 @@ export class SalesComponent implements OnInit {
       jobPayment: {
         jobPaymentId: 0,
         membershipId: this.isAccountButton ? this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
-        jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
+        jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
         drawerId: +localStorage.getItem('drawerId'),
-        amount: this.cash ? +this.cash : 0,
+        amount: this.totalPaid ? (this.totalPaid + this.tips) : this.cash,
         taxAmount: 0,
         approval: true,
         paymentStatus: +this.PaymentStatus.filter(i => i.CodeValue === 'Success')[0].CodeId,
-        comments: '',
+        comments: 'Ticket payment:' +this.multipleTicketNumber.toString(),
         isActive: true,
         isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date(),
-        isProcessed: true
+        isProcessed: true,
+        cashback: this.cashback
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
+      creditAccountHistory: creditAccountHistory,
       jobPaymentCreditCard: null
     };
 
@@ -1249,11 +1647,16 @@ export class SalesComponent implements OnInit {
         productName: item.ProductName
       });
     });
-
+    const jobId = [];
+    this.multipleTicketNumber.forEach(item => {
+      jobId.push(item.toString());
+    });
+    // jobId.push(this.JobId);
     const paymentDetail = {
       SalesPaymentDto: paymentObj,
       SalesProductItemDto: jobProductItem.length > 0 ? { jobProductItem } : null,
-      locationId: +localStorage.getItem('locationId')
+      locationId: +localStorage.getItem('empLocationId'),
+      ticketNumber: this.multipleTicketNumber.toString()
     };
 
     this.spinner.show();
@@ -1264,7 +1667,7 @@ export class SalesComponent implements OnInit {
         if (this.accountDetails !== null && this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp) {
           const amt = (+this.accountDetails?.SalesAccountViewModel?.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
           const obj = {
-            clientId: this.accountDetails?.SalesAccountViewModel?.ClientId,
+            clientId: this.accountDetails?.SalesAccountCreditViewModel?.ClientId,
             amount: amt
           };
           this.salesService.updateAccountBalance(obj).subscribe(res => {
@@ -1309,14 +1712,26 @@ export class SalesComponent implements OnInit {
         return;
       }
     }
+    if (gNo !== '') {
+      let isAlreadyadded = false;
+      this.giftcards.forEach(item => {
+        if (gNo === item.number) {
+          isAlreadyadded = true;
+        }
+      });
+      if (isAlreadyadded) {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.alreadyAdded });
+        return;
+      }
+    }
 
     this.giftcardService.getBalance(gNo).subscribe(data => {
       if (data.status === 'Success') {
         this.validGiftcard = JSON.parse(data.resultData);
-        if (this.validGiftcard?.GiftCardDetail[0]?.GiftCardId === 0) {
-          this.isInvalidGiftcard = true;
-        } else {
+        if (this.validGiftcard?.GiftCardDetail[0]?.GiftCardId !== null) {
           this.isInvalidGiftcard = false;
+        } else {
+          this.isInvalidGiftcard = true;
         }
       }
     });
@@ -1331,6 +1746,7 @@ export class SalesComponent implements OnInit {
       if (currentAmount < enteredAmount) {
         this.giftCardForm.patchValue({ giftCardAmount: '' });
         this.balance = 0;
+        this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Admin.GiftCard.redeemAmount });
       } else {
         this.balance = currentAmount - enteredAmount;
       }
@@ -1359,23 +1775,166 @@ export class SalesComponent implements OnInit {
     }
   }
 
+  getJobType() {
+    this.salesService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === ApplicationConfig.Enum.JobType.WashJob) {
+              this.jobTypeId = item.valueid;
+            }
+          });
+        }
+      }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+    });
+  }
+
   processAccount() {
-    console.log('true')
+    if (this.enableButton || this.multipleTicketSequence) {
+      return;
+    }
     this.isAccountButton = !this.isAccountButton;
-    if (this.isAccount) {
-      this.removAddedAmount(+this.account);
-      this.account = +this.washes[0].Price;
-      this.calculateTotalpaid(+this.account);
+    if (this.serviceGroup && this.isAccount && !this.isMembership) {
+      this.removAddedAmount(this.account);
+      this.totalAmount = 0;
+      this.allService.forEach(ele => {
+        this.totalAmount += ele.Price
+      });
+      if (this.Products.length !== 0) {
+        this.Products.forEach(ele => {
+          this.totalAmount += (ele.Price * ele.Quantity) + ele.TaxAmount;
+        });
+      }
+      if (this.totalPaid > 0) {
+        this.totalAmount = this.totalAmount - this.totalPaid;
+      }
+      if (this.discountAmount > 0) {
+        this.totalAmount = this.totalAmount - this.discountAmount;
+      }
+      this.account = this.totalAmount;
+      this.calculateTotalpaid(this.totalAmount);
+      this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.CreditAccountApplied });
+    }
+    else if (this.serviceGroup && this.isMembership && !this.isAccount) {
+      if (this.vehicleIds) {
+        this.vehicle.getVehicleMembershipDetailsByVehicleId(this.vehicleIds).subscribe(res => {
+          if (res.status === 'Success') {
+            const vehicle = JSON.parse(res.resultData);
+            if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService?.length !== 0) {
+              const totalService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService
+              this.filterRecord = [];
+              totalService.forEach(list => {
+                const lists = this.totalWashService.filter(ele => ele.ServiceId === list.ServiceId)
+                const dels = lists[0]
+                if (dels != undefined) {
+                  this.filterRecord.push(dels);
+                }
+              });
+              this.filterRecord = [...this.totalChargeService, ...this.filterRecord, ...this.washPackage]
+              if (this.filterRecord.length !== 0) {
+                this.totalAmount = 0;
+                this.filterRecord.forEach(ele => {
+                  if (ele != undefined) {
+                    this.totalAmount += ele.Price
+                  }
+                });
+                if (this.Products.length !== 0) {
+                  this.Products.forEach(ele => {
+                    this.totalAmount += ele.Price + ele.TaxAmount;
+                  });
+                }
+
+                var MembershipTotalPrice = 0;
+                var services = '';
+                this.itemList.Status.SalesItemViewModel.forEach(s => {
+
+                  if (totalService.filter(t => t.ServiceId === s.ServiceId).length !== 0) {
+                    MembershipTotalPrice += s.Price;
+                    services += s.ServiceName.trim();
+                    services += ", ";
+                  }
+                });
+
+                if (this.amountCheck) {
+                  this.account = MembershipTotalPrice;
+                  this.calculateTotalpaid(MembershipTotalPrice);
+                }
+
+                if (services !== '') {
+
+                  services = services.slice(0, services.length - 2);
+                  services += ".";
+
+                  this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + services });
+                }
+                else {
+                  this.messageService.showMessage({ severity: 'warning', title: 'Membership', body: MessageConfig.Sales.MembershipServicesNotMatching });
+                }
+
+                this.amountCheck = false;
+              }
+            }
+          }
+        }, (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
+      }
+    } else if (this.serviceGroup && this.isAccount && this.isMembership) {
+      //this.confirmationPopUp();
+      this.applyGroup('membership')
     }
   }
+
   quantityFocus(event) {
     this.targetId = event.target.id;
   }
   allowNumbersOnly(e) {
+    console.log(e.keyCode);
     const code = (e.which) ? e.which : e.keyCode;
-    if (code > 31 && (code < 48 || code > 57)) {
+    if (code > 31 && (code < 48 || code > 57) && !(code >= 55 && code <= 63)) {
       e.preventDefault();
     }
+  }
+
+
+  confirmationPopUp() {
+    $(document).ready(function () {
+      $('#saleConfirm').modal('show');
+    });
+  }
+
+  applyGroup(event) {
+    switch (event) {
+      case 'credit':
+        this.isAccount = true;
+        this.isMembership = false;
+        this.processAccount();
+        this.paymentType = true;
+        return;
+      case 'membership':
+        this.isMembership = true;
+        this.isAccount = false;
+        this.processAccount();
+        this.paymentType = false;
+        return;
+    }
+  }
+
+  setFocus() {
+    $(document).ready(function () {
+      $('#ticketNumber').focus();
+    });
+  }
+
+  calculateAccountbtnClass(){
+    this.accountBtnClass = {
+      disable: (!this.enableButton ? (!this.serviceGroup || this.multipleTicketSequence) : true),
+      accountbtnenable: (!this.enableButton ? (!this.multipleTicketSequence && this.serviceGroup) : false)
+    }
+    return this.accountBtnClass;
   }
 
 }

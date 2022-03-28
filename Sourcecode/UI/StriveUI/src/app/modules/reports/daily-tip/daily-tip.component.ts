@@ -7,14 +7,15 @@ import { LocationDropdownComponent } from 'src/app/shared/components/location-dr
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 
 @Component({
   selector: 'app-daily-tip',
-  templateUrl: './daily-tip.component.html',
-  styleUrls: ['./daily-tip.component.css']
+  templateUrl: './daily-tip.component.html'
 })
 export class DailyTipComponent implements OnInit, AfterViewInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   date = new Date();
@@ -35,12 +36,12 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     private toastr :ToastrService) { }
 
   ngOnInit(): void {
+    this.tipAmount = 0;
     this.locationId = localStorage.getItem('empLocationId');
     this.getDailyTipReport();
   }
   getfileType(event) {
     this.fileTypeEvent = true;
-
     this.fileType = +event.target.value;
   }
   ngAfterViewInit() {
@@ -49,6 +50,8 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
   getDailyTipReport() {
+    this.tipAmount = 0;
+    this.tips = 0;
     const month = this.date.getMonth() + 1;
     const year = this.date.getFullYear();
     const obj = {
@@ -67,7 +70,6 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
         this.dailyTip = dailytip.GetEmployeeTipReport;
         this.dailyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;
-          
         });
         this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
       }
@@ -122,6 +124,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     }
   }
   customizeObj(dailyTip) {
+    debugger;
     if (dailyTip.length > 0) {
       const dTip = dailyTip.map(item => {
         return {
@@ -134,19 +137,26 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     }
   }
   submit() {
+    debugger;
     this.totalHours = 0;
     this.totalTip = 0;
     if (this.tipAmount !== 0) {
-      this.tips = this.tipAmount
-      this.dailyTip.forEach(s => { this.totalHours = this.totalHours + s.HoursPerDay });
-
+      this.tips = this.tipAmount;
+      this.dailyTip.forEach(s => { this.totalHours = this.totalHours + s.HoursPerDay; });
       const hourTip = +this.tipAmount / this.totalHours;
       this.dailyTip.forEach(item => {
         item.Tip = (item.HoursPerDay * hourTip).toFixed(2);
         this.totalTip += +item.Tip;
-
       });
     }
+  }
+
+  refresh() {
+    this.locationId = localStorage.getItem('empLocationId');
+    this.date = new Date();
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId')
+    this.exportFiletypeComponent.type = '';
+    this.getDailyTipReport();
   }
 }
 

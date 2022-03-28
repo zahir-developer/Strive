@@ -7,8 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-select-location',
-  templateUrl: './select-location.component.html',
-  styleUrls: ['./select-location.component.css']
+  templateUrl: './select-location.component.html'
 })
 export class SelectLocationComponent implements OnInit {
   @Output() selectionPage = new EventEmitter();

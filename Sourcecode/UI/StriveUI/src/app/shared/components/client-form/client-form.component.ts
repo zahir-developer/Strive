@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input,Output, EventEmitter } from '@angular/core';
 import { StateDropdownComponent } from '../state-dropdown/state-dropdown.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -7,11 +7,12 @@ import { GetCodeService } from '../../services/data-service/getcode.service';
 import { CityComponent } from '../city/city.component';
 import { MessageConfig } from '../../services/messageConfig';
 import { ApplicationConfig } from '../../services/ApplicationConfig';
+import { CodeValueService } from '../../common-service/code-value.service';
+import { LocationService } from '../../services/data-service/location.service';
 
 @Component({
   selector: 'app-client-form',
-  templateUrl: './client-form.component.html',
-  styleUrls: ['./client-form.component.css']
+  templateUrl: './client-form.component.html'
 })
 export class ClientFormComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
@@ -21,6 +22,8 @@ export class ClientFormComponent implements OnInit {
   Status: any;
   State: any;
   Score: any;
+  Location: any;
+  @Output() isCreditAccount: EventEmitter<any> = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
@@ -34,8 +37,12 @@ export class ClientFormComponent implements OnInit {
   ClientNameAvailable: any;
   ClientEmailAvailable: boolean;
   isAmount: boolean;
+  creditCheck = false;
+  chkCreditDisable: boolean = false;
+  emailregex: RegExp = /^[ A-Za-z0-9_@.]*$/;
+  LocationId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
-    private client: ClientService, private getCode: GetCodeService) { }
+    private client: ClientService, private getCode: GetCodeService, private codeService: CodeValueService, private locationService: LocationService,) { }
 
 
   ngOnInit() {
@@ -73,12 +80,13 @@ export class ClientFormComponent implements OnInit {
       notes: ['',],
       checkOut: ['',],
       type: ['', Validators.required],
-      amount: ['',]
+      location: ['0', [Validators.required, Validators.min(1)]]
     });
     this.clientForm.get('status').patchValue(0);
-    this.clientForm.controls.amount.disable();
+    // this.clientForm.controls.amount.disable();
     this.getClientType();
     this.getScore();
+    this.getLocation();
   }
 
   get f() {
@@ -88,8 +96,8 @@ export class ClientFormComponent implements OnInit {
 
   sameClientName() {
     const clientNameDto = {
-      FirstName: this.clientForm.value.fName,
-      LastName: this.clientForm.value.lName,
+      FirstName: this.clientForm.value.fName.replace(' ', ''),
+      LastName: this.clientForm.value.lName.replace(' ', ''),
       PhoneNumber: this.clientForm.value.phone1
     };
     if (this.clientForm.value.fName && this.clientForm.value.lName && this.clientForm.value.phone1) {
@@ -102,7 +110,6 @@ export class ClientFormComponent implements OnInit {
 
           } else {
             this.ClientNameAvailable = false;
-
           }
         }
       }, (err) => {
@@ -124,13 +131,12 @@ export class ClientFormComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
-
-  // Get ClientType
-  getClientType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
-      if (data.status === "Success") {
-        const cType = JSON.parse(data.resultData);
-        this.Type = cType.Codes;
+  getLocation() {
+    this.locationService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.Location = location.Location;
+        // this.getLocationNameById(this.locationId);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -138,11 +144,39 @@ export class ClientFormComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+
+  
+  // getLocationNameById(id) {
+  //   const locationName = this.Location.filter(item => +item.LocationId === +id);
+  //   this.locationName = locationName[0].LocationName;
+  // }
+
+  // Get ClientType
+  getClientType() {
+    const clientTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.clientType);
+    if (clientTypeValue.length > 0) {
+      this.Type = clientTypeValue;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
+        if (data.status === "Success") {
+          const cType = JSON.parse(data.resultData);
+          this.Type = cType.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
+  }
   getClientById() {
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.selectedCityId = this.selectedData.City;
     this.city = this.selectedCityId;
+    this.creditCheck = this.selectedData.IsCreditAccount;    
+    this.chkCreditDisable = this.selectedData.IsCreditAccount;
+    this.isCreditAccount.emit(this.selectedData.IsCreditAccount);      
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
       lName: this.selectedData.LastName,
@@ -157,16 +191,17 @@ export class ClientFormComponent implements OnInit {
       phone1: this.selectedData.PhoneNumber,
       zipcode: this.selectedData.Zip,
       phone2: this.selectedData.PhoneNumber2,
-      email: this.selectedData.Email
+      email: this.selectedData.Email,
+      location: this.selectedData.LocationId
     });
     this.clientId = this.selectedData.ClientId;
     if (this.selectedData.IsCreditAccount) {
       this.isAmount = true;
-      this.clientForm.get('amount').setValidators([Validators.required]);
-      this.clientForm.controls.amount.enable();
+      // this.clientForm.get('amount').setValidators([Validators.required]);
+      // this.clientForm.controls.amount.enable();
     } else {
       this.isAmount = false;
-      this.clientForm.get('amount').clearValidators();
+      // this.clientForm.get('amount').clearValidators();
     }
   }
 
@@ -178,12 +213,14 @@ export class ClientFormComponent implements OnInit {
     this.clientForm.value.creditAccount = data;
     if (data) {
       this.isAmount = true;
-      this.clientForm.get('amount').setValidators([Validators.required]);
-      this.clientForm.controls.amount.enable();
+      // this.clientForm.get('amount').setValidators([Validators.required]);
+      // this.clientForm.controls.amount.enable();
+      this.isCreditAccount.emit(true);      
     } else {
       this.isAmount = false;
-      this.clientForm.get('amount').clearValidators();
-      this.clientForm.controls.amount.disable();
+      // this.clientForm.get('amount').clearValidators();
+      // this.clientForm.controls.amount.disable();
+      this.isCreditAccount.emit(false);
     }
   }
 
@@ -195,6 +232,7 @@ export class ClientFormComponent implements OnInit {
   selectCity(event) {
     this.city = event;
   }
+
   clientEmailExist() {
     if (this.clientForm.controls.email.errors !== null) {
       return;
@@ -202,12 +240,12 @@ export class ClientFormComponent implements OnInit {
     this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
-        if (sameEmail.emailExist === true) {
+        if (sameEmail.EmailIdExist === true) {
           this.ClientEmailAvailable = true;
           this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
         } else {
           this.ClientEmailAvailable = false;
-
+          this.toastr.info(MessageConfig.Client.emailNotExist, 'Information!');
         }
       }
     }, (err) => {

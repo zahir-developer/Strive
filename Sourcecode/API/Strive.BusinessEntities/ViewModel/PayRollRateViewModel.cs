@@ -30,7 +30,13 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? Uniform { get; set; }
         public decimal? Adjustment { get; set; }
         public decimal PayeeTotal { get; set; }
-
         public string Notes { get; set; }
+        public decimal? CashTip { get; set; }
+        public decimal? CardTip { get; set; }
+        public decimal? WashTip { get; set; }
+        public decimal? DetailTip { get; set; }
+        public decimal? Bonus { get; set; }
+        public bool IsClockedOut { get; set; }
+        public decimal? Salary { get; set; }
     }
 }

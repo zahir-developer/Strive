@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using GoogleMaps.LocationServices;
+using Strive.BusinessEntities.DTO.MembershipSetup;
+
 namespace Strive.BusinessLogic.Location
 {
     public class LocationBpl : Strivebase, ILocationBpl
@@ -35,8 +37,13 @@ namespace Strive.BusinessLogic.Location
             location.Location.WashTimeMinutes = random.Next(30, 45);
             location.Bay = CreateBay();
             location.Drawer = CreateDrawer();
-            ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-            ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+            List<Geocode> lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            if (lstGeocode.Count > 0)
+            {
+                location.LocationAddress.Latitude = Convert.ToDecimal(lstGeocode[0].lat);
+                location.LocationAddress.Longitude = Convert.ToDecimal(lstGeocode[0].lon);
+            }
             try
             {
                 var LocationGeo = GetLocationGeo(location.LocationAddress);
@@ -61,8 +68,13 @@ namespace Strive.BusinessLogic.Location
 
         public Result UpdateLocation(LocationDto location)
         {
-            // CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-            // var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+            List<Geocode> lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            if (lstGeocode.Count > 0)
+            {
+                location.LocationAddress.Latitude = Convert.ToDecimal(lstGeocode[0].lat);
+                location.LocationAddress.Longitude = Convert.ToDecimal(lstGeocode[0].lon);
+            }
             return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
         }
 
@@ -168,6 +180,10 @@ namespace Strive.BusinessLogic.Location
         public Result GetAllLocationName()
         {
             return ResultWrap(new LocationRal(_tenant).GetAllLocationName, "Location");
+        }
+        public Result GetMerchantDetails(MerchantSearch search)
+        {
+            return ResultWrap(new LocationRal(_tenant).GetMerchantDetails, search, "MerchantValidation");
         }
     }
 }

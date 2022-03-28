@@ -34,7 +34,7 @@
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                 [printStyle]="{input: {'visibility': 'hidden'}, button: {'visibility': 'hidden'}}"  printSectionId="monthlyReport" ngxPrint>Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="getMonthlyTipReport()">Refresh</button>
+                                    (click)="refresh()">Refresh</button>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                     </div>
                     <div id="Monthlyreport" class="collapse show">
                         <div class="table-responsive">
-                            <table class="table border table-striped table-hover">
+                            <table class="table border">
                                 <thead>
                                     <tr>
                                         <th >Payee</th>
@@ -73,7 +73,7 @@
                                             {{(monthlytip?.EmployeeName!== null) ? monthlytip?.EmployeeName?.length <= 15 ? ''
                                                 : '..' :''}} </span></td>
                                         <td>{{monthlytip?.HoursPerDay}}</td>
-                                        <td>{{monthlytip?.Tip}}</td>
+                                        <td>{{monthlytip?.Tip | currency}}</td>
                                     </tr>
                                     <tr *ngIf="monthlyTip?.length === 0">
                                         <td colspan="3" class="text-center">

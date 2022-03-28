@@ -40,6 +40,17 @@ body .ui-widget {
     color: red;
 }
 
+.redHighlight
+{
+    font-weight: bold;
+    color: red;
+}
+
+.font-bold
+{
+    font-weight: bold;
+}
+
 .MyDialog.ui-dialog {
     width: 60%;
 }
@@ -293,23 +304,21 @@ color-icon:hover {
 }
 
 .bodyfix {
-    display: block;
-    height: 300px;
+    /* height: 300px; */
     overflow-y: scroll;
     text-overflow: ellipsis;
 }
 
 .headerfix thead,
 .bodyfix tr {
-    display: table;
     width: 100%;
     table-layout: fixed;
 }
 
-.headerfix td,
+/* .headerfix td,
 .headerfix th {
     white-space: pre-wrap !important;
-}
+} */
 
 body {
     -ms-overflow-style: none;
@@ -327,3 +336,13 @@ em {
 .ui-datepicker-calendar td {
     padding: 0.1em 0.3em !important;
 }
+
+.icon-disabled {
+    cursor: not-allowed;
+  }
+  .enable {
+      background-color: white;
+  }
+  .disable {
+      background-color: #babdbf;
+  }

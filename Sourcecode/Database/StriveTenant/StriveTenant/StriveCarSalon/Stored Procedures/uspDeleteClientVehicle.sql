@@ -1,7 +1,11 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspDeleteClientVehicle]
+﻿/*
+1  |  2021-July-05  | Vetriselvi  | Removed the hardcode value 
+*/
+CREATE PROCEDURE [StriveCarSalon].[uspDeleteClientVehicle]
 (@VehicleId int)
 AS 
 BEGIN
-    UPDATE [tblClientVehicle] 
-    SET IsActive=0 WHERE VehicleId = @VehicleId
+
+UPDATE [tblClientVehicle] SET IsDeleted=1 WHERE VehicleId = @VehicleId
+
 END

@@ -1,5 +1,4 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		Zahir Hussain
 -- Create date: 20-08-2020
 -- Description:	Retrieves Collision details by Id
@@ -14,7 +13,7 @@
 -- =============================================
 
 
-CREATE PROC [StriveCarSalon].[uspGetCollisionById] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetCollisionById] 
 (@CollisionId int = null)
 AS
 BEGIN

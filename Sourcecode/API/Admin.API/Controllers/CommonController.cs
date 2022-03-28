@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Strive.Common;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.City;
+using Strive.BusinessEntities;
+using System.Collections.Generic;
+using Strive.BusinessEntities.DTO;
 
 namespace Admin.API.Controllers
 {
@@ -90,5 +93,55 @@ namespace Admin.API.Controllers
         {
             return _commonBpl.GetUpchargeByType(upchargeDto);
         }
+
+        [HttpPost]
+        [Route("SendMail")]
+        public void SendMail([FromBody]EmailDto emailDetails)
+        {
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();            
+            keyValues.Add("{{body}}", emailDetails.body);
+            _commonBpl.SendEmail(HtmlTemplate.GeneralMail, emailDetails.email, keyValues, emailDetails.subject);
+
+        }
+
+        [HttpPut]
+        [Route("Template")]
+        public string Template(string templateName)
+        {
+            return _commonBpl.Template(templateName);
+        }
+
+        /// <summary>
+        /// Get the print format for the Zebra Print - Vehicle Copy
+        /// </summary>
+        /// <param name="printTicketDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetVehiclePrint")]
+        public Result GetWashVehiclePrint([FromBody] PrintTicketDto printTicketDto) => _commonBpl.GetVehiclePrint(printTicketDto);
+
+
+        /// <summary>
+        /// Get the print format for the Zebra Print - Customer Copy
+        /// </summary>
+        /// <param name="printTicketDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetCustomerPrint")]
+        public Result GetCustomerPrint([FromBody] PrintTicketDto printTicketDto) => _commonBpl.GetCustomerPrint(printTicketDto);
+        
+        [HttpGet]
+        [Route("GetPaymentGateway")]
+        public Result GetPaymentGateway()
+        {
+            return _commonBpl.GetAllPaymentGateway();
+        }
+
+        [HttpPost]
+        [Route("InsertPaymentGateway")]
+        public Result InsertPaymentGateway([FromBody]PaymentGatewayDTO oPayment) => _commonBpl.InsertPaymentGateway(oPayment);
+
+      
+
     }
 }

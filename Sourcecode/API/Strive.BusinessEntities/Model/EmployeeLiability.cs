@@ -52,5 +52,8 @@ namespace Strive.BusinessEntities.Model
         [Column, PrimaryKey]
         public int? ClientId { get; set; }
 
+        [Column]
+        public int? LocationId { get; set; }
+
     }
 }

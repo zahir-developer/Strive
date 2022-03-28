@@ -1,7 +1,7 @@
-﻿CREATE proc [StriveCarSalon].[uspGetAllLocationName]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocationName]
+AS 
+BEGIN
 
-as 
-begin
 	select 
 	l.LocationId,
 	l.LocationName,
@@ -13,4 +13,4 @@ begin
 
 
 	
-end
+END

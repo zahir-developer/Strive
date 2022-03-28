@@ -4,13 +4,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  appVersion: require('../../package.json').version,
   production: false,
   name: 'Development',
   appName: 'Strive Phase 1',
   api: { // API Endpoints
-    striveUrl:  'http://localhost:60001/'
-    // striveUrl: 'http://14.141.185.75:5004/'
-    //  striveUrl: 'http://' + location.hostname + ':5001',
+    
+    striveUrl:  'http://localhost:60001/',
+    //striveUrl:  'https://mammothuatapi-dev.azurewebsites.net/',
+    striveCdn: 'https://mammothuatapi-cdn.azurewebsites.net/',
+    //striveUrl:  'http://40.114.79.101:5006/',
+    //striveUrl: 'http://14.141.185.75:5006/'
+    //striveUrl: 'http://' + location.hostname + ':5001',
     //   appUrl: 'http://' + location.hostname + ':5000'
   }
 };

@@ -69,7 +69,7 @@
                             <label class="float-left">Active Date<span class="required">*</span></label>
                         </div>
                         <div class="input-group col-sm-5" id="datepicker">
-                            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="activeDate" [outsideClick]="true" [ngClass]="{ 'is-invalid': submitted && f.activeDate.errors }">
+                            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker  formControlName="activeDate" [outsideClick]="true" [ngClass]="{ 'is-invalid': submitted && f.activeDate.errors }">
                             <div class="input-group-append">
                                 <span class="input-group-text"><em
                                         class="font-size-1-0 theme-secondary-color mdi mdi-calendar-month"
@@ -92,7 +92,7 @@
                             <label class="float-left">Amount<span class="required">*</span></label>
                         </div>
                         <div class="col-sm-5">
-                            <select id="inputgender" class="form-control" formControlName="amount" (change)="selectedAmount($event)" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
+                            <select id="inputgender" class="form-control" formControlName="amount" (focus)="dp.hide()" (change)="selectedAmount($event)" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
                                 <option selected hidden>Choose...</option>
                                 <option *ngFor="let a of amountList" value="{{a.value}}">{{a.label}}</option>
                             </select>

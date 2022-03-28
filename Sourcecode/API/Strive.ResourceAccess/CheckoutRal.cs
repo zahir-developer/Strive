@@ -1,7 +1,7 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Checkout;
-using Strive.BusinessEntities.DTO.Report;
+using Strive.BusinessEntities.DTO.Details;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
@@ -46,10 +46,10 @@ namespace Strive.ResourceAccess
           
             return true;
         }
-        public bool UpdateJobStatusComplete(JobCompleteDto jobCompleteDto)
+        public bool UpdateJobStatusComplete(JobStatusDto jobStatusDto)
         {
-            _prm.Add("JobId", jobCompleteDto.JobId);
-            _prm.Add("ActualTimeout", jobCompleteDto.ActualTimeOut);
+            _prm.Add("JobId", jobStatusDto.JobId);
+            _prm.Add("ActualTimeout", jobStatusDto.ActualTimeOut);
             db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSCOMPLETE.ToString(), _prm);
           
             return true;

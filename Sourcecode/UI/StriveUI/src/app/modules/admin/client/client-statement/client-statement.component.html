@@ -1,7 +1,7 @@
 <div class="card  m-b-10">
     <div class="card-body">
         <div class="title-border p-b-5 m-b-5 m-t-10">
-            <h6 class="d-inline-block font-weight-600">Statement
+            <h6 class="d-inline-block font-weight-600">History
             </h6>
         </div>
         <div class="table-responsive m-t-10">
@@ -15,11 +15,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let statement of statementGrid">
+                    <tr *ngFor="let statement of statementGrid | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                         <td>{{statement.TicketNumber}}</td>
-                        <td>{{statement.Date | date: 'MM/dd/yyyy'}}</td>
+                        <td>{{statement.TransactionDate | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{statement.ServiceCompleted}}</td>
-                        <td>{{statement.TotalAmount | currency}}</td>
+                        <td>{{statement.Amount | currency}}</td>
                     </tr>
                     <tr *ngIf="statementGrid.length === 0">
                         <td colspan="12" class="text-center">
@@ -28,7 +28,7 @@
                     </tr>
                 </tbody>
             </table>
-            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
             </ngb-pagination>
             <div class="pull-right mw-100 m-t-5">
                 <button type="button" class="btn theme-optional-button-color" (click)="closeDocumentModel()">Done</button>

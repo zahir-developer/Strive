@@ -35,6 +35,31 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(ClientVehicle,"VehicleId");
         }
+        public bool AddDriveUpVehicle(int? locationId, string barcode, int? make, int? model, int? color, int? createdBy)
+        {
+            _prm.Add("Locationid", locationId);
+            _prm.Add("Barcode", barcode);
+            _prm.Add("Make", make);
+            _prm.Add("Model", model);
+            _prm.Add("Color", color);
+            _prm.Add("CreatedBy", createdBy);
+
+            db.Save(EnumSP.Vehicle.USPADDDRIVEUPVEHICLE.ToString(), _prm);
+
+            return true;
+        }
+
+        public bool UpdateVehicleBarcode(int? locationId, string barcode, int? vehicleId, int? createdBy)
+        {
+            _prm.Add("Locationid", locationId);
+            _prm.Add("Barcode", barcode);
+            _prm.Add("VehicleId", vehicleId);            
+            _prm.Add("CreatedBy", createdBy);
+
+            db.Save(EnumSP.Vehicle.USPUPDATEVEHICLEBARCODE.ToString(), _prm);
+
+            return true;
+        }
 
         public bool SaveClientVehicle(VehicleDto client)
         {
@@ -52,6 +77,11 @@ namespace Strive.ResourceAccess
             _prm.Add("ClientId", clientId);
              return db.Fetch<VehicleByClientViewModel>(SPEnum.USPGETVEHICLEDETAILBYCLIENTID.ToString(), _prm);
         }
+        public List<VehicleByEmailViewModel> GetVehicleByEmailId(string emailId)
+        {
+            _prm.Add("EmailId", emailId);
+            return db.Fetch<VehicleByEmailViewModel>(SPEnum.USPGETVEHICLEDETAILBYEMAILID.ToString(), _prm);
+        }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
             _prm.Add("VehicleId", vehicleId);
@@ -61,6 +91,20 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
         }
+
+        public bool UpdateVehicleNumberSequence(int? vehicleId, int clientId)
+        {
+            if (clientId != 0)
+            {
+                _prm.Add("@ClientId", clientId);
+                _prm.Add("@VehicleId", vehicleId.GetValueOrDefault());
+                db.Save(EnumSP.Vehicle.USPUPDATEVEHICLENUMBERSEQUENCE.ToString(), _prm);
+                return true;
+            }
+            else
+                return false;
+        }
+
         public bool SaveClientVehicleMembership(ClientVehicleMembershipModel ClientVehicleMembershipModel)
         {
             return dbRepo.SaveAll(ClientVehicleMembershipModel, "ClientMembershipId");
@@ -91,16 +135,18 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPK(vehicleImage, "VehicleImageId");
         }
 
-        public List<VehicleImageViewModel> GetAllVehicleThumbnail(int vehicleId)
+
+        public VehicleImageViewModel GetVehicleIssueImageById(int vehicleIssueImageId)
         {
-            _prm.Add("vehicleId", vehicleId);
-            return db.Fetch<VehicleImageViewModel>(SPEnum.USPGETALLVEHICLEIMAGEBYID.ToString(), _prm);
+            _prm.Add("vehicleIssueImageId", vehicleIssueImageId);
+            return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETVEHICLEISSUEIMAGEBYID.ToString(), _prm);
         }
-        public VehicleImageViewModel GetVehicleImageById(int vehicleImageId)
+
+        public bool DeleteVehicleIssue(int vehicleIssueId)
         {
-            _prm.Add("vehicleImageId", vehicleImageId);
-            
-            return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETVEHICLEIMAGEBYID.ToString(), _prm);
+            _prm.Add("VehicleIssueId", vehicleIssueId);
+            db.Save(SPEnum.USPDELETEVEHICLEISSUE.ToString(), _prm);
+            return true;
         }
 
         public bool DeleteVehicleImage(int vehicleImageId)
@@ -108,6 +154,52 @@ namespace Strive.ResourceAccess
             _prm.Add("VehicleImageId", vehicleImageId);
             db.Save(SPEnum.USPDELETECLIENTVEHICLEIMAGE.ToString(), _prm);
             return true;
+        }
+
+        public bool GetMembershipDiscountStatus(int clientId, int vehicleId)
+        {
+            _prm.Add("ClientId", clientId);
+            _prm.Add("VehicleId", vehicleId);
+            var result = db.FetchSingle<MembershipDiscountViewModel>(SPEnum.USPGETMEMBERSHIPDISCOUNT.ToString(), _prm);
+            if(result.IsDiscount == true)
+                return true;
+            else
+                return false;
+           
+        }
+
+        public bool updateMembershipVehicleDiscount(int clientId, int vehicleId, string action)
+        {
+            _prm.Add("clientId", clientId);
+            _prm.Add("vehicleId", vehicleId);
+            _prm.Add("Action", action);
+            db.Save(EnumSP.Vehicle.USPUPDATEMEMBERSHIPVEHICLEDISCOUNT.ToString(), _prm);
+            return true;
+        }
+
+        public bool VehicleMembershipDelete(VehicleMembershipDeleteDto deleteDto)
+        {
+            _prm.Add("ClientMembershipId", deleteDto.ClientMembershipId);
+            db.Save(EnumSP.Vehicle.USPDELETEVEHICLEMEMBERSHIP.ToString(), _prm);
+
+            return true;
+        }
+
+        public bool AddVehicleIssue(VehicleIssueDto vehicleIssueDto)
+        {
+            return dbRepo.SaveAll<VehicleIssueDto>(vehicleIssueDto, "VehicleIssueId");
+        }
+
+        public VehicleIssueImageViewModel GetAllVehicleIssueImage(int vehicleId)
+        {
+            _prm.Add("vehicleId", vehicleId);
+            return db.FetchMultiResult<VehicleIssueImageViewModel>(SPEnum.USPGETALLVEHICLEISSUE.ToString(), _prm);
+        }
+
+        public List<VehicleImageViewModel> GetAllVehicleImage(int vehicleIssueId)
+        {
+            _prm.Add("vehicleIssueId", vehicleIssueId);
+            return db.Fetch<VehicleImageViewModel> (SPEnum.USPGETALLVEHICLEISSUEIMAGE.ToString(), _prm);
         }
 
     }

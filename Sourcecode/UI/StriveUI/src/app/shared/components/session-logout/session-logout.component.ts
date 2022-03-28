@@ -12,15 +12,15 @@ import { ApplicationConfig } from '../../services/ApplicationConfig';
 
 @Component({
   selector: 'app-session-logout',
-  templateUrl: './session-logout.component.html',
-  styleUrls: ['./session-logout.component.css']
+  templateUrl: './session-logout.component.html'
 })
 export class SessionLogoutComponent implements OnInit {
-  @Input() dialogDisplay = false;
+  @Input() dialogDisplay: boolean;
   @Input() header: string;
   @Input() dialogType: string;
-  countdown?: number;
+  @Input() countdown: number;
   @Output() closeDialog = new EventEmitter();
+  @Output() continueSession = new EventEmitter();
   authentication: FormGroup;
   submitted = false;
   constructor(
@@ -56,8 +56,12 @@ export class SessionLogoutComponent implements OnInit {
  * Clear the idle lockout
  */
   idleClear() {
-    this.dialogDisplay = false;
-    this.closeDialog.emit();
+    var token = localStorage.getItem('authorizationToken');
+    if (token !== null) {
+      this.authService.refreshToken().subscribe();
+      this.continueSession.emit();
+      this.closeDialog.emit();
+    }
   }
 
   get f() { return this.authentication.controls; }
@@ -81,9 +85,9 @@ export class SessionLogoutComponent implements OnInit {
         this.closeDialog.emit();
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   getCodeValue() {

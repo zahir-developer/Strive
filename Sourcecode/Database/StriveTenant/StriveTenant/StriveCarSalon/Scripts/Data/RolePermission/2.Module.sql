@@ -1,0 +1,13 @@
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Dashboard', 1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Washes', 1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Detail', 1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Sales', 1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Report', 1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('WhiteLabelling',  1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Messenger',  1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Admin',  1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('PayRoll', 1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Checkout',  1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Customer',  1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('CustomerHistory',  1, 0)
+

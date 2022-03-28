@@ -70,9 +70,9 @@ namespace Admin.API.Controllers
 
         [HttpGet]
         [Route("GetDocument/{documentTypeId}/{documentType}")]
-        public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
+        public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType, int? documentSubType)
         {
-            return _bplManager.GetDocument(documentTypeId, documentType);
+            return _bplManager.GetDocument(documentTypeId, documentType, documentSubType);
         }
 
         [HttpDelete]

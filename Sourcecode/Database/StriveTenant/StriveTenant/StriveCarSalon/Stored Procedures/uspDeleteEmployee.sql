@@ -5,10 +5,14 @@ CREATE PROCEDURE [StriveCarSalon].[uspDeleteEmployee]
      @EmployeeId int)
 AS 
 BEGIN
+
+--DECLARE @EmployeeId INT;
+DECLARE @IsDeleted INT = 1;
+
     UPDATE [tblEmployee] 
-    SET IsDeleted=1 WHERE EmployeeId = @EmployeeId
+    SET IsDeleted=@IsDeleted WHERE EmployeeId = @EmployeeId
 	UPDATE [tblEmployeeDetail] 
-    SET IsDeleted=1 WHERE EmployeeId = @EmployeeId
+    SET IsDeleted=@IsDeleted WHERE EmployeeId = @EmployeeId
 	UPDATE [tblEmployeeAddress] 
-    SET IsDeleted=1 WHERE EmployeeId = @EmployeeId
+    SET IsDeleted=@IsDeleted WHERE EmployeeId = @EmployeeId
 END

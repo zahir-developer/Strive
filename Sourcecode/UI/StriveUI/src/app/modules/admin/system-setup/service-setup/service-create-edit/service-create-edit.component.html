@@ -3,14 +3,16 @@
         <div class="form-row">
             <div class="form-group col-lg-4">
                 <label for="inputName">Name<span class="required">*</span></label>
-                <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Service Name"  appAlphaNumeric [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
+                <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Service Name"
+                [pKeyFilter]="pattern" [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
                 <div *ngIf="submitted  && f.name.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">Name is required</div>
                 </div>
             </div>
             <div class="form-group col-lg-4">
                 <label for="inputServiceType"> Type<span class="required">*</span></label>
-                <select class="form-control" formControlName="serviceType" (change)="checkService($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
+                <select class="form-control" formControlName="serviceType" (change)="checkService($event.target.value)"
+                    [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
                     <option value="" selected hidden>Choose </option>
                     <option *ngFor="let serviceType of serviceType" value="{{serviceType.CodeId}}">
                         {{serviceType.CodeValue}}</option>
@@ -19,14 +21,16 @@
                     <div *ngIf="f.serviceType.errors.required">Type is required</div>
                 </div>
             </div>
-         
+
             <div class="form-group col-lg-4" *ngIf="isDiscounts">
                 <label for="inputServiceType">Discount Type<span class="required">*</span></label>
-                <select class="form-control" formControlName="discountServiceType" [ngClass]="{ 'is-invalid': submitted && f.discountServiceType.errors }">
-                  <option value="" selected hidden>Choose </option>
-                  <option *ngFor="let serviceType of discountServiceType" [hidden]="serviceType.CodeValue == 'Discounts'" value="{{serviceType.CodeId}}">
-                    {{serviceType.CodeValue}}
-                  </option>
+                <select class="form-control" formControlName="discountServiceType"
+                    [ngClass]="{ 'is-invalid': submitted && f.discountServiceType.errors }">
+                    <option value="" selected hidden>Choose </option>
+                    <option *ngFor="let serviceType of discountServiceType"
+                        [hidden]="serviceType.CodeValue == 'Discounts'" value="{{serviceType.CodeId}}">
+                        {{serviceType.CodeValue}}
+                    </option>
                 </select>
                 <div *ngIf="submitted && f.discountServiceType.errors" class="invalid-feedback">
                     <div *ngIf="f.discountServiceType.errors.required">Discount Type is required</div>
@@ -34,38 +38,40 @@
             </div>
             <div class="form-group col-lg-4" *ngIf="isDiscounts">
                 <label for="inputServiceType">Discount <span class="required">*</span></label>
-                <select class="form-control" formControlName="discountType" [ngClass]="{ 'is-invalid': submitted && f.discountType.errors }">
-                  <option value="" selected hidden>Choose </option>
-                  <option *ngFor="let serviceType of discountType" [hidden]="serviceType.CodeValue == 'Hourly Rate'" value="{{serviceType.CodeValue}}">
-                    {{serviceType.CodeValue}}
-                    
-                  </option>
+                <select class="form-control" formControlName="discountType"
+                    [ngClass]="{ 'is-invalid': submitted && f.discountType.errors }">
+                    <option value="" selected hidden>Choose </option>
+                    <option *ngFor="let serviceType of discountType" [hidden]="serviceType.CodeValue == 'Hourly Rate'"
+                        value="{{serviceType.CodeValue}}">
+                        {{serviceType.CodeValue}}
+
+                    </option>
                 </select>
                 <div *ngIf="submitted && f.discountType.errors" class="invalid-feedback">
                     <div *ngIf="f.discountType.errors.required">Discount Type is required</div>
                 </div>
             </div>
-            <div class="form-group col-md-4">
-                <label class="d-block">Location  <span class="required">*</span></label>
-                <ng-multiselect-dropdown [placeholder]="'Select Location'"
-                [disabled]="isEdit"
-                [ngClass]="{ 'is-invalid': submitted && f.location?.errors }"
-                    [settings]="dropdownSettings" [data]="location" formControlName="location">
+            <!-- <div class="form-group col-md-4">
+                <label class="d-block">Location <span class="required">*</span></label>
+                <ng-multiselect-dropdown [placeholder]="'Select Location'" [disabled]="isEdit"
+                    [ngClass]="{ 'is-invalid': submitted && f.location?.errors }" [settings]="dropdownSettings"
+                    [data]="location" formControlName="location">
                 </ng-multiselect-dropdown>
                 <div *ngIf="submitted && f.location?.errors" class="invalid-feedback">
-   <div *ngIf="f.location.errors?.required">Location is required</div>
+                    <div *ngIf="f.location.errors?.required">Location is required</div>
                 </div>
-            </div>
-         
+            </div> -->
+
             <div class="form-group col-lg-4">
                 <label for="inputCost">Cost</label>
-                <input type="text" appTwoDecimalNumber class="form-control" formControlName="cost" placeholder="$0.00" >
-               
+                <input type="text" appTwoDecimalNumber class="form-control" formControlName="cost" placeholder="$0.00">
+
             </div>
             <div class="form-group col-lg-4" *ngIf="!isDiscounts">
                 <label for="inputCost">Price<span class="required">*</span></label>
 
-                <input type="text" appTwoDecimalNumber class="form-control" formControlName="price" placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted  && f.price.errors }" (change) = "categoryName()">
+                <input type="text" appTwoDecimalNumber class="form-control" formControlName="price" placeholder="$0.00"
+                    [ngClass]="{ 'is-invalid': submitted  && f.price.errors }" (change)="categoryName()">
 
                 <div *ngIf="submitted  && f.price.errors" class="invalid-feedback">
                     <div *ngIf="f.price.errors.required">
@@ -81,18 +87,31 @@
 
                 </div>
             </div>
+            
             <div class="form-group col-lg-4" *ngIf="isDetails">
-                <label for="inputDescription">Description</label>
-                <textarea maxlength="100" class="form-control" formControlName="description" placeholder="Description" [ngClass]="{ 'is-invalid': submitted  && f.description.errors }"></textarea>
-                <div *ngIf="submitted  && f.description.errors" class="invalid-feedback">
-                    <div *ngIf="f.description.errors.required">Description is required</div>
-                </div>
+                <label for="inputMinutes">Estimated Time</label>
+
+                <!-- <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;"> -->
+                    <!-- <ngx-timepicker-field [format]="24" class="form-control" formControlName="hours">
+                    </ngx-timepicker-field> -->
+                <!-- </div> -->
+                <!-- <label for="inputMinutes">Minutes</label>-->
+                
+                <input type="text" appTwoDecimalNumber class="form-control" formControlName="estimatedTime" placeholder="0.00">
+
             </div>
+            <div class="form-group col-lg-4" *ngIf="isAdditional">
+                <label for="inputMinutes">EstimatedTime</label>               
+                <input type="text" appTwoDecimalNumber maxlength="4" class="form-control" formControlName="estimatedTime" placeholder="0.00">
+            </div>
+
+          
 
             <div class="form-group col-lg-4" *ngIf="isDiscounts">
                 <label for="inputCost">Price<span class="required">*</span></label>
 
-                <input type="text" appTwoDecimalNumber class="form-control" formControlName="price" placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted  && f.price.errors }">
+                <input type="text" appTwoDecimalNumber class="form-control" formControlName="price" placeholder="$0.00"
+                    [ngClass]="{ 'is-invalid': submitted  && f.price.errors }">
 
 
                 <div *ngIf="submitted  && f.price.errors" class="invalid-feedback">
@@ -108,45 +127,53 @@
 
                 </div>
             </div>
-
-
-
-            <div class="form-group col-lg-4" *ngIf="isDetails">
+            <div class="form-group col-lg-2" [ngClass]="{ 'col-lg-4' : isCommission || isAdditional }"  [ngClass]="{ 'col-lg-2' : isDetails }" *ngIf="isDetails">
                 <label></label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="commission" (change)="change($event.target.checked)">
+                    <input class="form-check-input" type="checkbox" formControlName="isCeramic"
+                        (change)="changeCeramic($event.target.checked)">
+                    <label class="form-check-label" for="gridCheck">Is Ceramic</label>
+                </div>
+            </div>
+            <div class="form-group col-lg-2" [ngClass]="{ 'col-lg-4' : isCommission }" *ngIf="isDetails || isCommission">
+                <label></label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="commission"
+                        (change)="change($event.target.checked)">
                     <label class="form-check-label" for="gridCheck">Commission</label>
                 </div>
             </div>
-            <div class="form-group col-lg-4" *ngIf=" isDetails && isChecked === true">
+            <div class="form-group col-lg-4" *ngIf=" isDetails && isChecked === true || isCommission && isChecked === true">
                 <label for="inputCommissionType">Commission Type<span class="required">*</span></label>
-                <select class="form-control" formControlName="commissionType" (change)="getCtype($event.target.value)" [ngClass]="{ 'is-invalid': submitted  && f.commissionType.errors }">
-                            <option value="" selected hidden>Choose </option>
-                            <option *ngFor="let commissionType of CommissionType" value="{{commissionType.CodeId}}">
-                                {{commissionType.CodeValue}}</option>
-                        </select>
+                <select class="form-control" formControlName="commissionType" (change)="getCtype($event.target.value)"
+                    [ngClass]="{ 'is-invalid': submitted  && f.commissionType.errors }">
+                    <option value="" selected hidden>Choose </option>
+                    <option *ngFor="let commissionType of CommissionType" value="{{commissionType.CodeId}}">
+                        {{commissionType.CodeValue}}</option>
+                </select>
                 <div *ngIf="submitted  && f.commissionType.errors" class="invalid-feedback">
                     <div *ngIf="f.commissionType.errors.required">Type is required</div>
                 </div>
             </div>
-            <div class="form-group col-lg-4" *ngIf=" isDetails && ctypeLabel !== 'none' && isChecked === true">
+            <div class="form-group col-lg-4" *ngIf=" isDetails && isChecked === true && ctypeLabel !== 'none' || isCommission && ctypeLabel !== 'none' && isChecked === true">
                 <label for="inputUpcharge">{{ctypeLabel}}<span class="required">*</span></label>
-                <input type="text" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}" appTwoDecimalNumber [ngClass]="{ 'is-invalid': submitted  && f.fee.errors }">
+                <input type="text" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}"
+                    appTwoDecimalNumber [ngClass]="{ 'is-invalid': submitted  && f.fee.errors }">
                 <div *ngIf="submitted && f.fee.errors" class="invalid-feedback">
                     <div *ngIf="f.fee.errors.required">{{ctypeLabel}} is required</div>
                 </div>
             </div>
-            <div class="form-group col-lg-4"  *ngIf="isUpcharge">
+            <div class="form-group col-lg-4" *ngIf="isUpcharge">
                 <label for="inputStatus">Category</label>
-                <select class="form-control" formControlName="serviceCategory" (change) = "categoryName()">
+                <select class="form-control" formControlName="serviceCategory" (change)="categoryName()">
 
                     <option *ngFor="let status of codeCategory" [ngValue]="status">{{status.CodeValue}}</option>
-                        </select>
+                </select>
             </div>
             <div class="form-group col-lg-4" *ngIf="isUpcharge">
                 <label for="inputUpcharge">Upcharge</label>
-                <input type="text" maxlength="100" class="form-control" 
-                formControlName="upcharge" [ngClass]="{ 'is-invalid': submitted  && f.upcharge.errors }">
+                <input type="text" maxlength="100" class="form-control" formControlName="upcharge"
+                    [ngClass]="{ 'is-invalid': submitted  && f.upcharge.errors }">
                 <div *ngIf="submitted && f.upcharge.errors" class="invalid-feedback">
                     <!-- <div *ngIf="f.upcharge.errors.required">Upcharge is required</div> -->
                 </div>
@@ -154,26 +181,27 @@
             <div class="form-group col-lg-4" *ngIf="isAdditional">
                 <label for="inputParentType">Group</label>
                 <select class="form-control" formControlName="parentName">
-                            <option value="" *ngIf="parent.length !== 0" selected hidden>Choose </option>
-                            <option value="" *ngIf="parent.length === 0" selected hidden>No Items Found</option>
-                            <option *ngFor="let parent of additional" value="{{parent.ServiceId}}">{{parent.ServiceName}}
-                            </option>
-                        </select>
+                    <option value="" *ngIf="parent.length !== 0" selected hidden>Choose </option>
+                    <option value="" *ngIf="parent.length === 0" selected hidden>No Items Found</option>
+                    <option *ngFor="let parent of additional" value="{{parent.ServiceId}}">{{parent.ServiceName}}
+                    </option>
+                </select>
             </div>
-            
-            
+
             <div class="form-group col-lg-4" *ngIf="isDetails">
-                <label></label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="isCeramic" (change)="changeCeramic($event.target.checked)">
-                    <label class="form-check-label" for="gridCheck">Is Ceramic</label>
+                <label for="inputDescription">Description</label>
+                <textarea maxlength="100" class="form-control" formControlName="description" placeholder="Description"
+                    [ngClass]="{ 'is-invalid': submitted  && f.description.errors }"></textarea>
+                <div *ngIf="submitted  && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">Description is required</div>
                 </div>
             </div>
+            
             <div class="form-group col-lg-4">
                 <label for="inputStatus">Status</label>
                 <select class="form-control" formControlName="status">
-                            <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}</option>
-                        </select>
+                    <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}</option>
+                </select>
             </div>
         </div>
         <div class="form-row">
@@ -182,6 +210,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
     <button type="button" class="btn theme-optional-button-color" tabIndex="-1" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
 </div>

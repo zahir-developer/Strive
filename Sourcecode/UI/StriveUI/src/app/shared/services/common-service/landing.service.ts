@@ -14,40 +14,39 @@ export class LandingService {
 
   constructor(private toastr: ToastrService,
     private authService: AuthService, private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
-  loadTheLandingPage(isFromLogin? : boolean): void {
+  loadTheLandingPage(isFromLogin?: boolean): void {
     const location = JSON.parse(localStorage.getItem('empLocation'));
     if (location?.length > 1 && isFromLogin) {
-     
+
       this.router.navigate([`/location`], { relativeTo: this.route });
-      
+
     }
-     else if(location !== null ? location !== undefined : false) {
+    else if (location !== null ? location !== undefined : false) {
       localStorage.setItem('empLocationName', location[0].LocationName);
       localStorage.setItem('employeeCityName', location[0].CityName);
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
       this.user.navName.subscribe((data) => {
-        
+
         const newparsedData = JSON.parse(data);
-          if (newparsedData) {
-          
-            for (let i = 0; i < newparsedData?.length; i++) {
-              const ModuleName = newparsedData[i].ModuleName;
+        if (newparsedData) {
 
-              //DashBoard Module
-              if (ModuleName === "Dashboard") {
-                this.dashBoardModule = true;
-              }
-              else {
-                this.routingPage();
-              }
+          for (let i = 0; i < newparsedData?.length; i++) {
+            const ModuleName = newparsedData[i].ModuleName;
+
+            //DashBoard Module
+            if (ModuleName === "Dashboard") {
+              this.dashBoardModule = true;
             }
+            else {
+              this.routingPage();
+            }
+          }
+        }
+        else {
+          this.routingPage();
+        }
 
-          }
-          else {
-            this.routingPage();
-          }
-         
       });
 
       if (this.dashBoardModule === true) {
@@ -55,8 +54,13 @@ export class LandingService {
       }
       else if (this.dashBoardModule === false) {
         this.routingPage();
-
       }
+    }
+    else
+    {
+      localStorage.setItem('isAuthenticated', 'true');
+      this.authService.loggedIn.next(true);
+      this.routingPage();
     }
   }
   routingPage() {
@@ -79,9 +83,13 @@ export class LandingService {
       else if (Roles === ApplicationConfig.Roles.Wash) {
         this.router.navigate([`/wash`], { relativeTo: this.route });
       }
-      else if (Roles === ApplicationConfig.Roles.Client) {
+      else if (Roles === ApplicationConfig.Roles.Customer) {
         const clientId = localStorage.getItem('clientId');
         this.router.navigate([`/customer`], { relativeTo: this.route, queryParams: { clientId: clientId } });
+      }
+      else if(Roles === ApplicationConfig.Roles.Greeter)
+      {
+        this.router.navigate([`/checkout`], { relativeTo: this.route });
       }
     }
   }

@@ -4,7 +4,9 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class VehicleImageViewModel
     {
-        public int VehicleImageId { get; set; }
+        public int VehicleIssueImageId { get; set; }
+
+        public int VehicleIssueId { get; set; }
 
         public string ImageName { get; set; }
 
@@ -14,7 +16,8 @@ namespace Strive.BusinessEntities.ViewModel
 
         public string ThumbnailFileName { get; set; }
 
-        public string Base64Thumbnail { get; set; } 
-        
+        public string Base64Thumbnail { get; set; }
+
+        public string Base64 { get; set; }
     }
 }

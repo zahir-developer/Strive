@@ -9,11 +9,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { DocumentService } from 'src/app/shared/services/data-service/document.service'
 
 @Component({
   selector: 'app-vehicle-list',
-  templateUrl: './vehicle-list.component.html',
-  styleUrls: ['./vehicle-list.component.css']
+  templateUrl: './vehicle-list.component.html'
 })
 export class VehicleListComponent implements OnInit {
   vehicleDetails = [];
@@ -43,6 +45,8 @@ export class VehicleListComponent implements OnInit {
   isOpenImage: boolean;
   originalImage = '';
   sortColumn: { sortBy: string; sortOrder: string; };
+  searchUpdate = new Subject<string>();
+
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
@@ -50,11 +54,20 @@ export class VehicleListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService,
     private memberService: MembershipService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private documentService: DocumentService
+  ) {
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.page = 1;
+        this.getAllVehicleDetails();
+      });
+  }
 
   ngOnInit() {
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
 
     this.imagePopup = false;
     this.isOpenImage = false;
@@ -107,7 +120,7 @@ export class VehicleListComponent implements OnInit {
           this.vehicleDetails = vehicle.Vehicle.clientViewModel;
           if (this.vehicleDetails?.length > 0) {
             for (let i = 0; i < this.vehicleDetails.length; i++) {
-              this.vehicleDetails[i].ModelName == 'None' ? this.vehicleDetails[i].ModelName =  'Unk' : this.vehicleDetails[i].ModelName ;
+              this.vehicleDetails[i].ModelName == 'None' ? this.vehicleDetails[i].ModelName = 'Unk' : this.vehicleDetails[i].ModelName;
             }
           }
           totalCount = vehicle.Vehicle.Count.Count;
@@ -137,7 +150,7 @@ export class VehicleListComponent implements OnInit {
         this.imagePopup = true;
         if (sType.VehicleThumbnails.length > 0) {
           this.imageList = sType.VehicleThumbnails;
-          this.imageList.forEach( item => {
+          this.imageList.forEach(item => {
             item.vehicleImage = 'data:image/png;base64,' + item.Base64Thumbnail;
           });
         }
@@ -150,7 +163,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   openImage(base64Value) {
-    this.vehicle.getVehicleImageById(base64Value.VehicleImageId).subscribe( res => {
+    this.vehicle.getVehicleImageById(base64Value.VehicleImageId).subscribe(res => {
       if (res.status === 'Success') {
         const image = JSON.parse(res.resultData);
         this.originalImage = 'data:image/png;base64,' + image.VehicleThumbnails.Base64Thumbnail;
@@ -223,13 +236,13 @@ export class VehicleListComponent implements OnInit {
   // Delete vehicle
   confirmDelete(data) {
     this.spinner.show();
-    this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
+    this.vehicle.deleteVehicle(data.ClientVehicleId, data.ClientId).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
-        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
-
+        this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+        this.page = 1;
         this.getAllVehicleDetails();
       } else {
         this.spinner.hide();
@@ -243,7 +256,7 @@ export class VehicleListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved' || event.status === 'edit') {
-      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+      this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
 
       this.getAllVehicleDetails();
     }
@@ -281,11 +294,11 @@ export class VehicleListComponent implements OnInit {
   }
 
   getService() {
-    this.vehicle.getMembershipService().subscribe(res => {
+    this.vehicle.getAllServiceDetail().subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
-        this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
-        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
+        this.upchargeServices = membership.AllServiceDetail.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+        this.additionalService = membership.AllServiceDetail.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -293,25 +306,57 @@ export class VehicleListComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.sortColumn ={
-     sortBy: column,
-     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
 
     this.selectedCls(this.sortColumn)
-   this.getAllVehicleDetails();
- }
+    this.getAllVehicleDetails();
+  }
 
- 
 
- selectedCls(column) {
-   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-     return 'fa-sort-desc';
-   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-     return 'fa-sort-asc';
-   }
-   return '';
- }
+  newgetAllVehicleDetails() {
+    this.page = 1;
+    this.getAllVehicleDetails();
+  }
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  downloadPDF(documentId) {
+    if (documentId !== null) {
+      this.spinner.show();
+      this.documentService.getDocumentById(documentId, 'MEMBERSHIPAGREEMENT').subscribe(res => {
+        if (res.status === 'Success') {
+          const documentDetails = JSON.parse(res.resultData);
+          if (documentDetails.Document !== null) {
+            const details = documentDetails.Document.Document;
+            this.selectedData = documentDetails.Document.Document;
+            const base64 = details.Base64;
+            const linkSource = 'data:application/pdf;base64,' + base64;
+            const downloadLink = document.createElement('a');
+            const fileName = details.OriginalFileName;
+            downloadLink.href = linkSource;
+            downloadLink.download = fileName;
+            downloadLink.click();
+            this.spinner.hide();
+          }
+        }
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      );
+    }
+  }
 
 }
 

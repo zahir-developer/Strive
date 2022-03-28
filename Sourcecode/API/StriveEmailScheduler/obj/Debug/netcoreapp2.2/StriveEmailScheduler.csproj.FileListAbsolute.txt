@@ -1,0 +1,4 @@
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\StriveEmailScheduler\obj\Debug\netcoreapp2.2\StriveEmailScheduler.csprojAssemblyReference.cache
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\StriveEmailScheduler\obj\Debug\netcoreapp2.2\StriveEmailScheduler.csproj.CoreCompileInputs.cache
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\StriveEmailScheduler\obj\Debug\netcoreapp2.2\StriveEmailScheduler.AssemblyInfoInputs.cache
+C:\Users\jbaskar\source\repos\strive\Sourcecode\API\StriveEmailScheduler\obj\Debug\netcoreapp2.2\StriveEmailScheduler.AssemblyInfo.cs

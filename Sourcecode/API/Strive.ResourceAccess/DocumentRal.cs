@@ -75,10 +75,11 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public DocumentViewModel GetDocument(int documentType)
+        public DocumentViewModel GetDocument(int documentType, int? documentSubType = null)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@documentType", documentType);
+            dynParams.Add("@documentSubType", documentSubType);
             var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETDOCUMENT.ToString(), dynParams);
             return result;
         }

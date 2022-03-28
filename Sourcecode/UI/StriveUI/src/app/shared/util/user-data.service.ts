@@ -29,32 +29,34 @@ export class UserDataService {
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
     console.log(token, 'token');
-
+    localStorage.setItem('isAuthenticated', 'true');
+    var dateTime = new Date();
+    var expireMinutes = 0;
     if (token.EmployeeDetails !== undefined) {
       this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
       if (token?.EmployeeDetails?.EmployeeLocations) {
-     
         this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
         this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
-
         localStorage.setItem('employeeCityName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName));
         localStorage.setItem('employeeLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
 
-      } 
-      if (token?.EmployeeDetails?.EmployeeLocations) {
-      if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
-        localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
-      } else {
-        localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
-        localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
-        this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
-        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
       }
-    }
+      if (token?.EmployeeDetails?.EmployeeLocations) {
+        if (token?.EmployeeDetails?.EmployeeLocations?.length > 2) {
+          localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
+        } else {
+          localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
+          localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
+          this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
+          this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
+        }
+        expireMinutes = +token?.EmployeeDetails.TokenExpireMinutes.TokenExpireMinutes;
 
-    this.weatherService.getWeather()
+      }
+
+      this.weatherService.getWeather()
 
       if (token?.EmployeeDetails?.EmployeeRoles?.length) {
         localStorage.setItem('empRoles', token?.EmployeeDetails?.EmployeeRoles[0]?.RoleName);
@@ -78,20 +80,37 @@ export class UserDataService {
       localStorage.setItem('employeeLastName', token?.EmployeeDetails?.EmployeeLogin?.LastName);
 
     }
-    else if (token.ClientDetails !== undefined) {
+    else if (token.ClientDetails !== undefined) {      
+      this.setViews(token?.ClientDetails?.RolePermissionViewModel);
       this.setSides(JSON.stringify(token?.ClientDetails?.RolePermissionViewModel));
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
       localStorage.setItem('clientId', token.ClientDetails.ClientDetail.ClientId);
       localStorage.setItem('employeeName', token.ClientDetails.ClientDetail.FirstName + ' ' +
         token.ClientDetails.ClientDetail.LastName);
+      this.setHeaderName(token.ClientDetails.ClientDetail.FirstName + ' ' +
+        token.ClientDetails.ClientDetail.LastName);
       localStorage.setItem('roleId', token.ClientDetails.RolePermissionViewModel[0].RoleId);
       localStorage.setItem('employeeFirstName', token.ClientDetails.ClientDetail.FirstName);
       localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail.LastName);
 
-      localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);
-
+      localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);      
+      // localStorage.setItem('isAuthenticated', 'true');
+      expireMinutes = +token?.ClientDetails.TokenExpireMinutes.TokenExpireMinutes;
     }
+
+    if (expireMinutes !== 0) {
+      var expireTime = new Date(dateTime.getTime() + ((+expireMinutes) * 60000));
+      
+      localStorage.setItem('tokenExpiry', expireTime.toString());
+      localStorage.setItem('tokenExpiryMinutes', expireMinutes.toString());
+      
+      var refreshExpireMinutes = +localStorage.getItem('refreshTokenExpiryMinutes');
+
+      var refreshExpireTime = new Date(dateTime.getTime() + (expireMinutes - refreshExpireMinutes * 60000));
+      localStorage.setItem('refreshTokenExpiry', refreshExpireTime.toString());
+    }
+
 
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }

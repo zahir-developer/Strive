@@ -1,6 +1,11 @@
 export const ApplicationConfig = {
 
 
+    Token: {
+        RefreshTokenMinute: 0.25,
+        refreshTime: 1
+    },
+
     PaginationConfig: {
         page: 1,
         TableGridSize: 10,
@@ -62,13 +67,13 @@ export const ApplicationConfig = {
                 order: 'ASC',
             },
             CheckOut: {
-                order: 'ASC',
+                order: 'DESC',
             },
             PayRoll: {
                 order: 'ASC',
             },
             Washes: {
-                order: 'ASC',
+                order: 'DESC',
             },
 
             Detail: {
@@ -104,7 +109,7 @@ export const ApplicationConfig = {
             Washes: 'TicketNumber',
             Detail: 'TicketNumber',
             GiftCard: 'GiftCardCode',
-            customerHistory : 'ClientId',
+            customerHistory: 'ClientId',
             tenantSetup: 'CompanyName'
         }
     },
@@ -164,7 +169,8 @@ export const ApplicationConfig = {
         paymentStatus: 'PAYMENTSTATUS',
         ClientType: 'CLIENTTYPE',
         ServiceCategory: 'ServiceCategory',
-        TermsAndCondition: 'TERMSANDCONDITION'
+        TermsAndCondition: 'TERMSANDCONDITION',
+        Gender: 'GENDER'
     },
     CodeValue: {
         EmployeeHandBook: 'EmployeeHandBook',
@@ -181,7 +187,22 @@ export const ApplicationConfig = {
         Details: 'Details',
         Washes: 'Washes',
         additionalServices: 'Additional Services',
-        adjustment: 'Adjustment'
+        adjustment: 'Adjustment',
+        gender: 'Gender',
+        immigrationStatus: 'ImmigrationStatus',
+        liablityType: 'LiabilityType',
+        liablityDetailType: 'LiabilityDetailType',
+        vehicleModel: 'VehicleModel',
+        vehcileMake: 'VehicleManufacturer',
+        vehcileColor: 'VehicleColor',
+        documentType: 'DocumentType',
+        documentSubType: 'DocumentSubType',
+        size: 'Size',
+        jobStatus: 'JobStatus',
+        serviceType: 'ServiceType',
+        clientType: 'ClientType',
+        paymentType: 'PaymentType',
+        paymentStatus: 'PaymentStatus'
     },
     CodeValueByType: {
         ProductType: 'ProductType',
@@ -237,10 +258,11 @@ export const ApplicationConfig = {
         Admin: 'Admin',
         Manager: 'Manager',
         Operator: 'Operator',
+        Greeter: 'Greeter',
         Cashier: 'Cashier',
         Detailer: 'Detailer',
         Wash: 'Washer',
-        Client: 'Client'
+        Customer: 'Customer'
     },
 
     dropdownSettings: {
@@ -252,12 +274,14 @@ export const ApplicationConfig = {
         enableCheckAll: false,
         allowSearchFilter: true
     },
-    refreshTime: {
-        refreshTime: 19
-    },
 
     debounceTime: {
-        sec: 1000
+        sec: 1500
+    },
+
+    modules: {
+        admin: 'Admin',
+        report: 'Report'
     }
 
 };

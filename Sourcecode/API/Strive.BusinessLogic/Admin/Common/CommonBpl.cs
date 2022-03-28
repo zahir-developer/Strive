@@ -21,6 +21,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Mail;
+
+using Azure.Storage.Blobs;
+using System.Security.Authentication;
+using Strive.BusinessLogic.EmailHelper.Dto;
+using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -71,8 +78,11 @@ namespace Strive.BusinessLogic.Common
             try
             {
                 var lstCode = new CommonRal(_tenant, false).GetCodeByCategory(codeCategory);
+
                 _resultContent.Add(lstCode.WithName("Codes"));
+
                 _result = Helper.BindSuccessResult(_resultContent);
+
             }
             catch (Exception ex)
             {
@@ -82,23 +92,37 @@ namespace Strive.BusinessLogic.Common
             return _result;
         }
 
-        internal object GetGeocode(LocationAddress locationAddress)
+        internal List<Geocode> GetGeocode(LocationAddress locationAddress)
         {
-            string osmUri = "https://nominatim.openstreetmap.org/search?q=255+South%20Main%20Street,+Alpharetta+GA+30009&format=json";
+            //string osmUri = _tenant.OSMUri + locationAddress.Address1 + "," 
+            //    + locationAddress.CityName + "+" + locationAddress.StateName + "+" + locationAddress.Zip
+            //    + "&format=json";
+            string osmUri = _tenant.OSMUri + "&street" + locationAddress.Address1 + "&city="
+              + locationAddress.CityName + "&state=" + locationAddress.StateName + "&postalcode=" + locationAddress.Zip
+              + "&format=json";
+            //"https://nominatim.openstreetmap.org/search?q=Old Milton, Barton on Sea&city=New Milton&country=UK&state=Alabama&postalcode=34432&format=json"
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(osmUri);
             request.Method = "GET";
+            request.UserAgent = _tenant.UserAgent;
             string apiResponse = String.Empty;
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            try
             {
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                apiResponse = reader.ReadToEnd();
-                reader.Close();
-                dataStream.Close();
-            }
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    Stream dataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    apiResponse = reader.ReadToEnd();
+                    reader.Close();
+                    dataStream.Close();
+                }
 
-            List<Geocode> lstGeocode = JsonConvert.DeserializeObject<List<Geocode>>(apiResponse);
-            return lstGeocode;
+                List<Geocode> lstGeocode = JsonConvert.DeserializeObject<List<Geocode>>(apiResponse);
+                return lstGeocode;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public void DeleteUser(int authId)
@@ -279,9 +303,12 @@ namespace Strive.BusinessLogic.Common
             return true;
         }
 
-        public (int authId, string password) CreateLogin(UserType userType, string emailId, string mobileNo)
+        public (int authId, string password) CreateLogin(UserType userType, string emailId, string mobileNo, string password = "")
         {
-            string randomPassword = RandomString(6);
+            string randomPassword = password;
+
+            if (randomPassword == string.Empty)
+                randomPassword = RandomString(6);
 
             string passwordHash = Pass.Hash(randomPassword);
 
@@ -298,9 +325,13 @@ namespace Strive.BusinessLogic.Common
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
-
-
             return (authId, randomPassword);
+        }
+
+        public UserDetailsViewModel GetUserPassword(string email, UserType userType)
+        {
+            var commonRal = new CommonRal(_tenant, true);
+            return  commonRal.GetUserPassword(email,userType);
         }
 
         public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)
@@ -329,7 +360,7 @@ namespace Strive.BusinessLogic.Common
 
         public string GetUserSignupInviteCode(UserType userType, bool TenantHasClientData = false, int clientId = 0)
         {
-            string invitationCode = $"{_tenant.TenatId},{userType},{TenantHasClientData.toInt()},{clientId}{DateTime.Today.ToString()}";
+            string invitationCode = $"{_tenant.TenantId},{userType},{TenantHasClientData.toInt()},{clientId}{DateTime.Today.ToString()}";
             string encryptedInvitationCode = Crypt.Encrypt(invitationCode);
             return encryptedInvitationCode;
         }
@@ -378,9 +409,9 @@ namespace Strive.BusinessLogic.Common
 
             string emailContent = GetMailContent(htmlTemplate, keyValues);
 
-            if(emailContent == string.Empty)
+            if (emailContent == string.Empty)
             {
-                foreach(var key in keyValues)
+                foreach (var key in keyValues)
                 {
                     emailContent += key.Key + ": " + key.Value + ";";
                 }
@@ -389,19 +420,29 @@ namespace Strive.BusinessLogic.Common
             SendMail(emailId, emailContent, "Welcome to Strive !!!");
         }
 
-        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues,string sub)
+        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues, string sub)
         {
             try
             {
+
+                EmailSettingDto emailSettingDto = new EmailSettingDto();
+                emailSettingDto.FromEmail = _tenant.FromMailAddress;
+                emailSettingDto.UsernameEmail = _tenant.FromMailAddress;
+                emailSettingDto.UsernamePassword = _tenant.SMTPPassword;
+                emailSettingDto.PrimaryPort = _tenant.Port.toInt();
+                emailSettingDto.PrimaryDomain = _tenant.SMTPClient;
+
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
-                SendMail(emailId, emailContent, sub);
+
+                EmailHelper.EmailSender emailSender = new EmailHelper.EmailSender(emailSettingDto);
+                emailSender.Initialize(sub, emailId, emailContent);
 
                 //SendMail(emailId, emailContent, "Welcome to Strive !!!");
 
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
         }
 
@@ -435,7 +476,34 @@ namespace Strive.BusinessLogic.Common
             _result = Helper.BindSuccessResult(_resultContent);
             return _result;
         }
+        public void SendMultipleMail(string email, string body, string subject)
+        {
 
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(_tenant.FromMailAddress); //From Email Id  
+            mailMessage.Subject = subject; //Subject of Email  
+            mailMessage.Body = body; //body or message of Email  
+            mailMessage.IsBodyHtml = true;
+
+
+            string[] BCCId = email.Split(',');
+            foreach (string BCCEmail in BCCId)
+            {
+                mailMessage.Bcc.Add(new MailAddress(BCCEmail)); //Adding Multiple BCC email Id  
+            }
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();  // creating object of smptpclient  
+            smtp.Host = _tenant.SMTPClient;
+            NetworkCredential NetworkCred = new NetworkCredential();
+            NetworkCred.UserName = _tenant.FromMailAddress;
+            NetworkCred.Password = _tenant.SMTPPassword;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = NetworkCred;
+            smtp.EnableSsl = true;
+
+            smtp.Port = _tenant.Port.toInt();
+
+            smtp.Send(mailMessage); //sending Email  
+        }
         public void SendMail(string email, string body, string subject)
         {
             var message = new MimeMessage();
@@ -448,20 +516,22 @@ namespace Strive.BusinessLogic.Common
                 Text = body
             };
 
-            using (var client = new SmtpClient())
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
-                client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
-
                 // Note: only needed if the SMTP server requires authentication
                 try
                 {
+                    client.SslProtocols |= SslProtocols.Tls;
+                    client.CheckCertificateRevocation = false;
+                    client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
                     client.Authenticate(_tenant.FromMailAddress, _tenant.SMTPPassword);
                 }
                 catch (Exception ex)
                 {
-
+                    throw ex;
                 }
-                
+
                 client.Send(message);
                 client.Disconnect(true);
             }
@@ -479,22 +549,60 @@ namespace Strive.BusinessLogic.Common
 
         public string GetMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
         {
+            return GetBlobMailContent(module, keyValues);
+        }
+
+        public string GetBlobMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
+        {
+            string blobName = _tenant.AzureBlobHtmlTemplate + module.ToString() + ".html";
+
+            string MailText = string.Empty;
+
+            BlobContainerClient container = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
+            //container.Create();
+
+            // Get a reference to a blob named "sample-file" in a container named "sample-container"
+            BlobClient blob = container.GetBlobClient(blobName);
+
+
+            if (blob != null)
+            {
+                Stream stream = new System.IO.MemoryStream();
+
+                stream = blob.OpenRead();
+
+                StreamReader str = new StreamReader(stream);
+
+                MailText = str.ReadToEnd();
+
+                foreach (var item in keyValues)
+                {
+                    MailText = MailText.Replace(item.Key, item.Value);
+                }
+                str.Close();
+            }
+
+            return MailText;
+        }
+
+        public string MailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
+        {
+            //string subPath = _tenant.AppRootPath + "\\wwwroot\\Template\\" + module.ToString() + ".html";
+
             string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
 
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
             string MailText = string.Empty;
-            if (File.Exists(subPath))
+
+            StreamReader str = new StreamReader(subPath);
+            MailText = str.ReadToEnd();
+
+            str.Close();
+
+            foreach (var item in keyValues)
             {
-                StreamReader str = new StreamReader(subPath);
-                MailText = str.ReadToEnd();
-
-                foreach (var item in keyValues)
-                {
-
-                    MailText = MailText.Replace(item.Key, item.Value);
-                }
-                str.Close();
+                MailText = MailText.Replace(item.Key, item.Value);
             }
 
             return MailText;
@@ -524,5 +632,188 @@ namespace Strive.BusinessLogic.Common
             return ResultWrap(new CommonRal(_tenant, false).GetUpchargeByType, upchargeDto, "upcharge");
 
         }
+
+
+        public string Template(string templateName)
+        {
+            //string subPath = _tenant.AppRootPath + "\\wwwroot\\Template\\" + module.ToString() + ".html";
+
+            string subPath = _tenant.HtmlTemplates + templateName.ToString() + ".html";
+
+            subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
+
+            string MailText = string.Empty;
+
+            StreamReader str = new StreamReader(subPath);
+            MailText = str.ReadToEnd();
+
+
+            str.Close();
+
+            return MailText;
+        }
+
+        public Result GetVehiclePrint(PrintTicketDto printTicketDto)
+        {
+            return ResultWrap(VehicleCopyPrint, printTicketDto, "VehiclePrint");
+        }
+
+        public string VehicleCopyPrint(PrintTicketDto print)
+        {
+            string model = "Unk";
+
+            if (print.Job.VehicleModel != null)
+            {
+                if (print.Job.VehicleModel.Contains("/"))
+                {
+                    model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
+                }
+                else
+                {
+                    model = print.Job.VehicleModel;
+                }
+            }
+
+            var body = "^XA^AJN,20^FO50,50^FD" + DateTime.Now.ToString("MM/dd/yyyy hh:mm tt") + "^FS";
+            body += "^AJN,30^FO50,90^FDIn: " + Convert.ToDateTime(print.Job.InTime).ToString("MM/dd/yyyy hh:mm tt") + "^FS^A0N,30,30^FO50,130^FDOut: " + Convert.ToDateTime(print.Job.TimeOut).ToString("hh:mm tt") + "^FS^AJN,30^FO50,170^FDClient: " + print.ClientInfo.ClientName + "^FS^AJN,20^FO50,220^FDVehicle: " + model + "^FS^AJN,20^FO50,250^GB700,3,3^FS";
+            body += "^AJN,30^FO550,90^FD" + "-" + "^FS^AJN,30^FO495,170^FD" + print.ClientInfo.PhoneNumber + "^FS^AJN,20^FO440,220^FD" + print.Job.VehicleMake + "^FS^AJN,20^FO690,220^FD" + print.Job.VehicleColor + "^FS^AJN,30";
+            int checkboxaxis = 280;
+
+            if (print.JobItem != null)
+            {
+                foreach (var jobItem in print.JobItem)
+                {
+                    body += "^FO50," + checkboxaxis + "^GB20,20,1^FS^AJN,30^FO80," + checkboxaxis + "^FD" + jobItem.ServiceName.Trim() + "^FS";
+                    checkboxaxis += 40;
+                }
+            }
+
+            body += "^BY3,2,100^FO80," + (checkboxaxis + 80) + "^FWN^BC^FD" + print.Job.TicketNumber.ToString() + "^FS";
+            body += "^AJN,30^FO80," + (checkboxaxis + 220) + "^FDTicket Number: " + print.Job.TicketNumber.ToString() + "^FS^XZ";
+
+            return body;
+
+        }
+
+        public Result GetCustomerPrint(PrintTicketDto printTicketDto)
+        {
+            return ResultWrap(CustomerCopyPrint, printTicketDto, "CustomerPrint");
+        }
+
+        public string CustomerCopyPrint(PrintTicketDto print)
+        {
+            string model = "Unk";
+            if (print.Job.VehicleModel != null)
+            {
+                if (print.Job.VehicleModel.Contains("/"))
+                {
+                    model = print.Job.VehicleModel.Substring(0, print.Job.VehicleModel.IndexOf("/"));
+                }
+                else
+                {
+                    model = print.Job.VehicleModel;
+                }
+            }
+
+            var body = "^XA^AJN,30^FO50,50^FD" + "Client: " + print.ClientInfo.ClientName + "^FS^AJN,30^FO540,50^FD" + print.ClientInfo.PhoneNumber + "^FS";
+            body += "^AJN,20^FO50,100^FD" + "Vehicle: " + model + " ^FS" +
+            "^AJN,20^FO420,100^FD" + print.Job.VehicleMake + "^FS" +
+            "^AJN,20^FO690,100^FD" + print.Job.VehicleColor + "^FS";
+
+            decimal totalAmt = 0;
+            int yaxis = 300;
+            body += "^AJN,30^A0N,30,30^FO480,200^FD" + "Hand Car Washes" + "^FS";
+
+            body += "^AJN,30^A0N,30,30^FO480,300^FD" + "Vehicle Upcharge" + "^FS";
+
+            if (print.JobItem != null)
+            {
+                var package = print.JobItem.Where(s => s.ServiceType == "Wash Package" || s.ServiceType == "Detail Package").FirstOrDefault();
+
+                string price = string.Empty;
+                if (package != null)
+                {
+                    price = package.Price != 0 ? package.Price.ToString("#.00") : "0.00";
+                    body += "^AJN,20^FO480,240^FD" + package.ServiceName.Trim() + " - $" + price + "^FS";
+
+                }
+
+                var upcharge = print.JobItem.Where(s => s.ServiceType.Contains("Upcharge")).FirstOrDefault();
+
+                if (upcharge != null)
+                {
+                    yaxis += 40;
+                    price = upcharge.Price != 0 ? upcharge.Price.ToString("#.00") : "0.00";
+                    body += "^AJN,20^FO480," + yaxis + "^FD" + upcharge.ServiceName.Trim() + " - $" + price + "^FS";
+                }
+                else
+                {
+                    yaxis += 40;
+                    body += "^AJN,20^FO480," + yaxis + "^FD" + "-" + "^FS";
+                }
+
+
+                var airFreshner = print.JobItem.Where(s => s.ServiceType.Contains("Air Fresheners")).FirstOrDefault();
+                if (airFreshner != null)
+                {
+                    yaxis += 40 + 60;
+                    price = airFreshner.Price != 0 ? airFreshner.Price.ToString("#.00") : "0.00";
+                    body += "^AJN,20^FO480," + yaxis + "^FD" + airFreshner.ServiceName.Trim() + " - $" + price + "^FS";
+                }
+                else
+                {
+                    yaxis += 40 + 60;
+                    body += "^AJN,20^FO480," + yaxis + "^FD" + "-" + "^FS";
+                }
+
+            }
+
+            totalAmt += print.JobItem.Sum(s => s.Price);
+
+            body += "^AJN,30^A0N,30,30^FO480," + (yaxis - 40) + "^FD" + "Air Fresheners" + "^FS";
+
+            TimeZoneInfo tst = TimeZoneInfo.Local;
+
+            DateTime intime = TimeZoneInfo.ConvertTime(DateTime.Parse(print.Job.InTime), TimeZoneInfo.Local, tst);
+            DateTime Outtime = TimeZoneInfo.ConvertTime(DateTime.Parse(print.Job.TimeOut), TimeZoneInfo.Local, tst);
+            var EstimatedTime = (Outtime - intime);
+
+            body += "^AJN,20^FO50,600^FD" + "In: " + intime.ToString("MM/dd/yyyy hh:mm tt") + "^FS" +
+            "^AJN,20^FO50,640^FD" + "Est. Out: " + Outtime.ToString("hh:mm tt") + "^FS" +
+            "^AJN,20^FO50,680^FD" + "Est. Time: " + EstimatedTime.TotalMinutes + "Min^FS";
+
+            body += @"^AJN,30
+                ^A0N,30,30^FO300,720^FD" + "New Vehicle Info" + "^FS" +
+                "^AJN,30^FO60,900^FD" + "Name" + "^FS" +
+                "^AJN,30^FO160,920^GB600,3,3^FS" +
+                "^AJN,30^FO60,940^FD" + "Phone" + "^FS^FO160,960^GB600,3,3^FS" +
+                "^AJN,30^FO60,980^FD" + "Email" + "^FS" +
+                "^AJN,30^FO160,1000^GB600,3,3^FS";
+
+            if (print.Job.Barcode != null)
+            {
+                body += @"^AJN,20
+                        ^AD^BY5,2,100
+                        ^AJN,20^FO100,750^BC^FD" + print.Job.Barcode + "^FS";
+            }
+
+            body += "^AJN,20^FO50,1040^FDNote^FS";
+
+            body += "^AJN,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + print.Job.TicketNumber + "^FS";
+
+            body += "^AJN,20^FO180,200^GFA,11400,11400,38," + ZebraPrint.MammothLogo + "^FS^XZ";
+
+            return body;
+        }
+        public Result GetAllPaymentGateway()
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetAllPaymentGateway, "PaymentGateway");
+        }
+        public Result InsertPaymentGateway(PaymentGatewayDTO oPayment)
+        {
+            return ResultWrap(new CommonRal(_tenant, false).InsertPaymentGateway, oPayment, "Payment");
+
+        }
+
     }
 }

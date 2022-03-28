@@ -30,15 +30,10 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result AddVehicle(VehicleDto ClientVehicle)
         {
-            foreach (var vehicleImage in ClientVehicle.VehicleImage)
-            {
-                UploadVehicleImage(vehicleImage);
-            }
-
             return ResultWrap(new VehicleRal(_tenant).AddVehicle, ClientVehicle, "Status");
         }
 
-        private void UploadVehicleImage(VehicleImage vehicleImage)
+        private void UploadVehicleImage(VehicleIssueImage vehicleImage)
         {
             var docBpl = new DocumentBpl(_cache, _tenant);
             string imageName = docBpl.Upload(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.Base64, vehicleImage.ImageName);
@@ -70,13 +65,33 @@ namespace Strive.BusinessLogic.Vehicle
             return _result;
         }
 
-        public Result DeleteVehicle(int vehicleId)
+        public Result DeleteVehicle(int id, int? clientId)
         {
-            return ResultWrap(new VehicleRal(_tenant).DeleteVehicleById, vehicleId, "Status");
+            var vehRal = new VehicleRal(_tenant);
+
+            bool result = false;
+            if (vehRal.DeleteVehicleById(id))
+            {
+                if (vehRal.UpdateVehicleNumberSequence(id, clientId.GetValueOrDefault()))
+                {
+                    result = true;
+                }
+                else
+                    result = false;
+            }
+            else
+                result = false;
+
+            return ResultWrap(result, "Status");
         }
+        
         public Result GetVehicleByClientId(int clientId)
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleByClientId, clientId, "Status");
+        }
+        public Result GetVehicleByEmailId(string emailId)
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleByEmailId, emailId, "Status");
         }
         public Result GetVehicleId(int vehicleId)
         {
@@ -88,12 +103,44 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel vehicleMembership)
         {
+            if (vehicleMembership.ClientVehicleMembershipModel != null)
+            {
+                var cardNumber = vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.CardNumber;
+                if (cardNumber.Length > 0)
+                {
+                    var lastDigits = cardNumber.Substring(cardNumber.Length - 4, 4);
+
+                    var requiredMask = new String('X', cardNumber.Length - lastDigits.Length);
+
+                    vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.CardNumber = string.Concat(requiredMask, lastDigits);
+                }
+                if (vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails != null)
+                {
+                    var startDate = Convert.ToDateTime(vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.StartDate);
+                    vehicleMembership.ClientVehicleMembershipModel.ClientVehicleMembershipDetails.StartDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
+                }
+            }
+
             if (vehicleMembership.ClientVehicle.VehicleImage != null)
             {
                 foreach (var vehicleImage in vehicleMembership.ClientVehicle.VehicleImage)
                 {
                     UploadVehicleImage(vehicleImage);
                 }
+            }
+
+            if (vehicleMembership.DeletedClientMembershipId != null && vehicleMembership.DeletedClientMembershipId.GetValueOrDefault(0) > 0)
+            {
+
+                if (vehicleMembership.ClientVehicleMembershipModel == null)
+                {
+                    var membershipVehicleDiscount = new VehicleRal(_tenant).updateMembershipVehicleDiscount(
+                        vehicleMembership.ClientVehicle.ClientVehicle.ClientId.GetValueOrDefault(),
+                        vehicleMembership.ClientVehicle.ClientVehicle.VehicleId, "ChangeMembership");
+                }
+
+                var clientMembershipDelete = new MembershipSetupRal(_tenant).DeleteVehicleMembershipById(vehicleMembership.DeletedClientMembershipId.GetValueOrDefault());
+
             }
 
             var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
@@ -115,34 +162,87 @@ namespace Strive.BusinessLogic.Vehicle
             return ResultWrap(new VehicleRal(_tenant).GetPastDetails, clientId, "PastClientDetails");
         }
 
-        public Result GetAllVehicleThumbnail(int vehicleId)
-        {
-            var vehicleThumnail = new VehicleRal(_tenant).GetAllVehicleThumbnail(vehicleId);
-
-            var documentBpl = new DocumentBpl(_cache, _tenant);
-            foreach(var vehicle in vehicleThumnail)
-            {
-                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ThumbnailFileName);
-            }
-
-            return ResultWrap(vehicleThumnail, "VehicleThumbnails");
-        }
-
-        public Result GetVehicleImageById(int vehicleImageId)
-        {
-            var vehicleImage = new VehicleRal(_tenant).GetVehicleImageById(vehicleImageId);
-            
-          
-            vehicleImage.Base64Thumbnail= new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.ImageName);
-            
-
-            return ResultWrap(vehicleImage, "VehicleThumbnails");
-        }
-
         public Result DeleteVehicleImage(int vehicleImageId)
         {
             return ResultWrap(new VehicleRal(_tenant).DeleteVehicleImage, vehicleImageId, "Status");
         }
+
+        public Result DeleteVehicleIssue(int vehicleIssueId)
+        {
+            var documentBpl = new DocumentBpl(_cache, _tenant);
+
+            var vehicleRal = new VehicleRal(_tenant);
+
+            var vehicleImages = vehicleRal.GetAllVehicleImage(vehicleIssueId);
+
+            foreach (var vImage in vehicleImages)
+            {
+                documentBpl.DeleteBlob(GlobalUpload.DocumentType.VEHICLEIMAGE, vImage.ImageName);
+                documentBpl.DeleteBlob(GlobalUpload.DocumentType.VEHICLEIMAGE, vImage.ThumbnailFileName);
+            }
+
+            return ResultWrap(vehicleRal.DeleteVehicleIssue, vehicleIssueId, "Status");
+        }
+
+
+
+        public Result GetMembershipDiscountStatus(int clientId, int vehicleId)
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetMembershipDiscountStatus, clientId, vehicleId, "Status");
+        }
+
+        public Result DeleteVehicleMembership(VehicleMembershipDeleteDto deleteDto)
+        {
+            if (deleteDto != null)
+            {
+                var membershipVehicleDiscount = new VehicleRal(_tenant).updateMembershipVehicleDiscount(
+                    deleteDto.ClientId,
+                    deleteDto.VehicleId, "ChangeMembership");
+            }
+
+            return ResultWrap(new VehicleRal(_tenant).VehicleMembershipDelete, deleteDto, "Status");
+        }
+
+        public Result AddVehicleIssue(VehicleIssueDto vehicleIssueDto)
+        {
+            foreach (var vehicleImage in vehicleIssueDto.VehicleIssueImage)
+            {
+                UploadVehicleImage(vehicleImage);
+            }
+
+            return ResultWrap(new VehicleRal(_tenant).AddVehicleIssue, vehicleIssueDto, "Status");
+        }
+
+        public Result GetAllVehicleIssueImage(int vehicleId)
+        {
+            var vehicleThumnail = new VehicleRal(_tenant).GetAllVehicleIssueImage(vehicleId);
+
+            var documentBpl = new DocumentBpl(_cache, _tenant);
+            foreach (var vehicle in vehicleThumnail?.VehicleIssueImage)
+            {
+                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ThumbnailFileName);
+            }
+
+            return ResultWrap(vehicleThumnail, "VehicleIssueThumbnail");
+        }
+
+        public Result GetVehicleIssueImageById(int vehicleIssueImageId)
+        {
+            var vehicleImage = new VehicleRal(_tenant).GetVehicleIssueImageById(vehicleIssueImageId);
+
+            if (vehicleImage != null)
+                vehicleImage.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.ImageName);
+
+            return ResultWrap(vehicleImage, "VehicleImage");
+        }
+
+        public Result UpdateVehicleNumberSequence(int? vehicleId, int clientId)
+        {
+            var result = new VehicleRal(_tenant).UpdateVehicleNumberSequence(vehicleId, clientId);
+
+            return ResultWrap(result, "Status");
+        }
+
 
     }
 }

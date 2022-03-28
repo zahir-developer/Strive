@@ -44,6 +44,9 @@ export class ProductCreateEditComponent implements OnInit {
   location: any;
   productSetupList: any = [];
   productVendorList: any = [];
+  venderGroup: any;
+  productList = [];
+  vendorList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -79,13 +82,13 @@ export class ProductCreateEditComponent implements OnInit {
       name: ['', Validators.required],
       size: ['',],
       quantity: [0, Validators.required],
-      cost: ['', Validators.required],
-      taxable: ['',],
-      taxAmount: ['',],
-      status: ['',],
-      vendor: ['',],
-      thresholdAmount: ['',],
-      other: ['',],
+      cost: [''],
+      taxable: [''],
+      taxAmount: [''],
+      status: [''],
+      vendor: [''],
+      thresholdAmount: [''],
+      other: [''],
       suggested: ['', Validators.required],
       type: ['']
     });
@@ -138,12 +141,16 @@ export class ProductCreateEditComponent implements OnInit {
   // Get Size
   getSize() {
     const sizeCodes = this.codeService.getCodeValueByType(ApplicationConfig.CodeValueByType.Size);
-    this.getCode.getCodeByCategory(ApplicationConfig.CodeValueByType.Size).subscribe(res => {
-      if (res.status === 'Success') {
-        const code = JSON.parse(res.resultData);
-        this.size = code.Codes;
-      }
-    });
+    if (sizeCodes.length > 0) {
+      this.size = sizeCodes;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.CodeValueByType.Size).subscribe(res => {
+        if (res.status === 'Success') {
+          const code = JSON.parse(res.resultData);
+          this.size = code.Codes;
+        }
+      });
+    }
   }
   // Get All Vendors
   getAllVendor() {
@@ -198,7 +205,7 @@ export class ProductCreateEditComponent implements OnInit {
         this.spinner.hide();
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product.ProductDetail;
-        const Vendors = pType.Product.ProductVendor
+        const Vendors = pType.Product.ProductVendor;
         let name = '';
 
         //location 
@@ -250,7 +257,7 @@ export class ProductCreateEditComponent implements OnInit {
           taxAmount: this.selectedProduct.TaxAmount !== 0 ? this.selectedProduct.TaxAmount : "",
           size: this.selectedProduct.Size,
           quantity: this.selectedProduct.Quantity,
-          status: this.selectedProduct.IsActive ? 0 : 1,
+          status: this.selectedProduct.IsActive ? 1 : 0,
           vendor: selectedVendors,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
@@ -324,34 +331,14 @@ export class ProductCreateEditComponent implements OnInit {
 
     const obj: any = {};
     const productObj: any = {};
-    const productList = [];
     this.productSetupForm.controls.status.enable();
     if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
-      (this.productSetupForm.value.locationName || []).forEach(item => {
-        const vendorList = [];
-        productObj.productCode = null;
-        productObj.productDescription = null;
-        productObj.productType = this.productSetupForm.value.productType;
-        productObj.productId = this.isEdit ? this.selectedProduct.ProductId : 0;
-        productObj.locationId = item.item_id;
-        productObj.productName = this.productSetupForm.value.name;
-        productObj.fileName = this.fileName;
-        productObj.OriginalFileName = this.fileName;
-        productObj.thumbFileName = this.fileThumb;
-        productObj.base64 = this.fileUploadformData;
-        productObj.cost = this.productSetupForm.value.cost;
-        productObj.isTaxable = this.isChecked;
-        productObj.taxAmount = this.isChecked ? this.productSetupForm.value.taxAmount : 0;
-        productObj.size = this.productSetupForm.value.size;
-        productObj.sizeDescription = this.textDisplay ? this.productSetupForm.value.other : null;
-        productObj.quantity = this.productSetupForm.value.quantity;
-        productObj.quantityDescription = null;
-        productObj.isActive = this.productSetupForm.value.status === 1 ? true : false;
-        productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
-        productObj.isDeleted = false;
-        productObj.price = this.productSetupForm.value.suggested;
-        (this.productSetupForm.value.vendor || []).forEach(vendor => {
-          vendorList.push({
+      this.productList = [];
+      this.vendorList = [];
+
+      if (this.productSetupForm.value.vendor.length !== 0) {
+        this.productSetupForm.value.vendor.forEach(vendor => {
+          this.vendorList.push({
             productVendorId: this.isEdit && vendor.productVendorId !== undefined ? vendor.productVendorId : 0,
             productId: this.isEdit ? this.selectedProduct.ProductId : 0,
             vendorId: vendor.item_id,
@@ -359,26 +346,52 @@ export class ProductCreateEditComponent implements OnInit {
             isDeleted: false,
           });
         });
-
         if (this.productVendorList.length > 0) {
           const deletedVendors = this.productVendorList.filter(s => s.IsDeleted === true);
 
           if (deletedVendors.length > 0) {
             deletedVendors.forEach(vendor => {
-              vendorList.push(vendor);
+              this.vendorList.push(vendor);
             });
           }
         }
+      }
 
-        obj.product = productObj;
-        obj.productVendor = vendorList;
-        productList.push(obj);
-      });
+      for (let i = 0; i < this.productSetupForm.value.locationName.length; i++) {
+        const product = {
+          "product": {
+            "productCode": null,
+            "productDescription": null,
+            "productType": this.productSetupForm.value.productType,
+            "productId": this.isEdit ? this.selectedProduct.ProductId : 0,
+            "locationId": this.productSetupForm.value.locationName[i].item_id,
+            "productName": this.productSetupForm.value.name,
+            "fileName": this.fileName,
+            "OriginalFileName": this.fileName,
+            "thumbFileName": this.fileThumb,
+            "base64": this.fileUploadformData,
+            "cost": this.productSetupForm.value.cost,
+            "isTaxable": this.isChecked,
+            "taxAmount": this.isChecked ? this.productSetupForm.value.taxAmount : 0,
+            "size": this.productSetupForm.value.size,
+            "sizeDescription": this.textDisplay ? this.productSetupForm.value.other : null,
+            "quantity": this.productSetupForm.value.quantity,
+            "quantityDescription": null,
+            "isActive": +this.productSetupForm.value.status === 1 ? true : false,
+            "thresholdLimit": this.productSetupForm.value.thresholdAmount,
+            "isDeleted": false,
+            "price": this.productSetupForm.value.suggested
+          },
+          "productVendor": this.vendorList
+        }
+        this.productList.push(product);
+      }
     }
-    const finalObj = {
-      Product: productList
-    };
 
+    const finalObj = {
+       Product: this.productList
+    };
+    console.log(finalObj, 'new object');
     if (this.isEdit === true) {
       this.spinner.show();
       this.product.updateProduct(finalObj).subscribe(data => {
@@ -388,7 +401,6 @@ export class ProductCreateEditComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.spinner.hide();
-
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.productSetupForm.reset();
           this.submitted = false;
@@ -474,17 +486,17 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   settingType(event) {
-    const type =  event.target.value;
+    const type = event.target.value;
     if (type === 'plus') {
       const quantity = this.productSetupForm.value.quantity;
       this.productSetupForm.patchValue({
-        quantity: quantity + 1
+        quantity: +quantity + 1
       });
     } else {
       const quantity = this.productSetupForm.value.quantity;
       if (+quantity !== 0) {
         this.productSetupForm.patchValue({
-          quantity: quantity - 1
+          quantity: +quantity - 1
         });
       }
     }

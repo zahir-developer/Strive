@@ -18,16 +18,33 @@ namespace Strive.ResourceAccess
 
         public int AddDetails(DetailsDto details)
         {
-            return dbRepo.InsertPK<DetailsDto>(details, "JobId");    
+            return dbRepo.InsertPK<DetailsDto>(details, "JobId");
         }
-        
-        public bool UpdateDetails(DetailsDto details)
+
+        public int UpdateDetails(DetailsDto details)
         {
-            return dbRepo.UpdatePc(details);
+            if (dbRepo.UpdatePc(details, "Job"))
+                return details.Job.JobId;
+            else
+                return 0;
         }
+
+        public JobResultDto UpdateDetailApp(DetailsDto details)
+        {
+            JobResultDto resultDto = new JobResultDto();
+
+            if (dbRepo.UpdatePc(details, "Job"))
+            {
+                resultDto.JobId = details.Job.JobId;
+                resultDto.TicketNumber = details.Job.TicketNumber;
+                resultDto.Status = true;
+            }
+            return resultDto;
+        }
+
         public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
-            return dbRepo.InsertPc(jobServiceEmployee,"JobServiceEmployeeId");
+            return dbRepo.InsertPc(jobServiceEmployee, "JobServiceEmployeeId");
         }
         public BaySchedulesDetails GetBaySchedulesDetails(DetailsGridDto detailsGrid)
         {
@@ -56,7 +73,7 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<VehiclePastHistoryViewModel>(EnumSP.Details.USPGETPASTCLIENTNOTESBYCLIENTID.ToString(), _prm);
             return result;
         }
-        
+
         public List<JobTypeViewModel> GetJobType()
         {
             var result = db.Fetch<JobTypeViewModel>(EnumSP.Details.USPGETJOBTYPE.ToString(), null);
@@ -67,9 +84,37 @@ namespace Strive.ResourceAccess
             _prm.Add("@JobDate", detailsGrid.JobDate);
             _prm.Add("@LocationId", detailsGrid.LocationId);
             _prm.Add("@ClientId", detailsGrid.ClientId);
+
             var result = db.FetchMultiResult<DetailsGridViewModel>(EnumSP.Details.USPGETALLDETAILS.ToString(), _prm);
             return result;
         }
+
+        public JobsViewModel GetAllJobByClientId(JobsGridDTO detailsGrid)
+        {
+            _prm.Add("@JobDate", detailsGrid.JobDate);
+            _prm.Add("@LocationId", detailsGrid.LocationId);
+            _prm.Add("@ClientId", detailsGrid.ClientId);
+            _prm.Add("@Type", detailsGrid.JobType);
+
+            var result = db.FetchMultiResult<JobsViewModel>(EnumSP.Details.USPGETALLJOBBYCLIENTID.ToString(), _prm);
+            return result;
+        }
+
+        public DetailsGridViewModel GetAllDetailSearch(SearchDto searchDto)
+        {
+            _prm.Add("@LocationId", searchDto.LocationId);
+            _prm.Add("@ClientId", searchDto.ClientId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Search", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+            _prm.Add("@EndDate", searchDto.EndDate);
+            var result = db.FetchMultiResult<DetailsGridViewModel>(EnumSP.Details.USPGETALLDETAILS.ToString(), _prm);
+            return result;
+        }
+
         public bool DeleteDetails(int id)
         {
             _prm.Add("@JobId", id);
@@ -85,5 +130,21 @@ namespace Strive.ResourceAccess
             return result;
         }
 
+        public bool UpdateJobStatus(JobStatusDto jobStatus)
+        {
+            _prm.Add("@Date", jobStatus.ActualTimeOut);
+            _prm.Add("@JobId", jobStatus.JobId);
+            _prm.Add("@JobStatus", jobStatus.JobStatus);
+            _prm.Add("@JobStatusId", jobStatus.JobStatusId);
+            db.Save(EnumSP.Details.USPUPDATEJOBSTATUS.ToString(), _prm);
+            return true;
+        }
+
+        public List<EmployeeDetailJobViewModel> GetEmployeeAssignedDetail(int employeeId, DateTime jobDate)
+        {
+            _prm.Add("EmployeeId", employeeId);
+            _prm.Add("JobDate", jobDate);
+            return db.Fetch<EmployeeDetailJobViewModel>(EnumSP.Details.USPGETEMPLOYEEASSIGNEDDETAIL.ToString(), _prm);
+        }
     }
 }

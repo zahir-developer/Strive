@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29905.134
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Logic", "Business Logic", "{68B4FAB5-3DE4-4A79-AD6E-33F2543277F3}"
 EndProject
@@ -37,6 +37,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperAdmin.API", "SuperAdmin.API\SuperAdmin.API.csproj", "{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messenger.API", "Messenger.API\Messenger.API.csproj", "{69D0C679-B0AF-48B6-99E2-7BCA489861F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDN.Static", "CDN.Static\CDN.Static.csproj", "{2836F025-A33E-4378-B034-341ED7F61CEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,6 +136,14 @@ Global
 		{69D0C679-B0AF-48B6-99E2-7BCA489861F2}.net46-Release|Any CPU.Build.0 = Release|Any CPU
 		{69D0C679-B0AF-48B6-99E2-7BCA489861F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69D0C679-B0AF-48B6-99E2-7BCA489861F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2836F025-A33E-4378-B034-341ED7F61CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2836F025-A33E-4378-B034-341ED7F61CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2836F025-A33E-4378-B034-341ED7F61CEA}.net46-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2836F025-A33E-4378-B034-341ED7F61CEA}.net46-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2836F025-A33E-4378-B034-341ED7F61CEA}.net46-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2836F025-A33E-4378-B034-341ED7F61CEA}.net46-Release|Any CPU.Build.0 = Release|Any CPU
+		{2836F025-A33E-4378-B034-341ED7F61CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2836F025-A33E-4378-B034-341ED7F61CEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,6 +160,7 @@ Global
 		{CF38BBEB-D331-4566-B3C7-E041D3AB03E9} = {9EA6606B-4791-4215-AA13-C6B17EFBE003}
 		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5} = {F41A20C8-A367-45A8-8909-D570C76CBAC8}
 		{69D0C679-B0AF-48B6-99E2-7BCA489861F2} = {F41A20C8-A367-45A8-8909-D570C76CBAC8}
+		{2836F025-A33E-4378-B034-341ED7F61CEA} = {F41A20C8-A367-45A8-8909-D570C76CBAC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC703EC0-43FE-46A6-84E2-D76F536FD489}

@@ -1,4 +1,5 @@
-﻿using Strive.BusinessEntities.DTO.PaymentGateway;
+﻿using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.DTO.PaymentGateway;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,15 @@ namespace Strive.BusinessLogic.PaymentGateway
 {
     public interface IPaymentGatewayBpl
     {
-
         Result VoidTrasaction(CreditCardDto cardDto);
 
-        Result authTransactionWithUserFields(PaymentDto paymentDto);
+        JObject AuthTransaction(CardPaymentDto paymentDto);
 
+        JObject CaptureTransaction(CaptureDetail captureDetail);
+        Result DeletePaymentGateway(int id);
+        JObject CreateUpdateProfile(CardPaymentDto cardPaymentDto);// string UserName, string Password, string url, string MID);
+        //List<MerchantDetails> GetMerchantDetails(int LocationId);
+        JObject AuthProfile(ProfilePaymentDto paymentDto);
+        Result GetMembershipPaymentDetails(int ClientMembershipId);
     }
 }

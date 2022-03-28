@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Location;
+using Strive.BusinessEntities.DTO.MembershipSetup;
 using Strive.BusinessLogic.Location;
 using Strive.Common;
 
@@ -37,8 +38,12 @@ namespace Admin.API.Controllers
         [Route("GetLocationSearch")]
         public Result GetLocationSearch([FromBody] LocationSearchDto search) => _bplManager.GetLocationSearch(search);
 
+        [HttpPost]
+        [Route("GetMerchantDetails")]
+        public Result GetMerchantDetails([FromBody]MerchantSearch search) => _bplManager.GetMerchantDetails(search);
 
-        
+
+
         #endregion
 
         #region GET

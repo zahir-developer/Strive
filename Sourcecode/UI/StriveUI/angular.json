@@ -41,17 +41,16 @@
               "src/assets/css/responsive.css",
               "src/assets/css/color.css",
               "src/assets/css/full-calendar.css",
-              // "src/assets/css/fullcalendar.min.css",
               "src/styles.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/popper.min.js",
-              // "src/assets/js/default.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/quill/dist/quill.js"
+              "node_modules/quill/dist/quill.js",
+              "src/assets/js/BrowserPrintZebra.js"
             ]
           },
           "configurations": {
@@ -70,7 +69,8 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              
+              "aot": true,
+              "deleteOutputPath": true                        
             }
           }
         },

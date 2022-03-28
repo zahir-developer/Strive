@@ -15,7 +15,9 @@ namespace Strive.BusinessEntities.ViewModel
         public string CommissionType { get; set; }
         public decimal? CommissionCost { get; set; }
         public string ServiceName { get; set; }
+        public string ServiceType { get; set; }
         public decimal? Cost { get; set; }
+        public decimal? Price { get; set; }
         public bool? IsCeramic { get; set; }
 
     }

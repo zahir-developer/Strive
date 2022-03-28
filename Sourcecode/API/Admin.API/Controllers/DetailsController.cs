@@ -83,6 +83,20 @@ namespace Admin.API.Controllers
         [Route("GetAllDetails")]
         public Result GetAllDetails(DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
 
+        /// <summary>
+        /// Method to retrieve All jobs based on given ClientId.
+        /// </summary>
+        [HttpGet]
+        [Route("GetAllJobByClientId")]
+        public Result GetAllJobByClientId(JobsGridDTO detailsGrid) => _bplManager.GetAllJobByClientId(detailsGrid);
+
+        /// <summary>
+        /// Method to retrieve Detail job based on search input.
+        /// </summary>
+        [HttpPost]
+        [Route("GetAllDetailSearch")]
+        public Result GetDetailSearch([FromBody]SearchDto SearchDto) => _bplManager.GetAllDetailSearch(SearchDto);
+
 
 
         [HttpGet]
@@ -96,5 +110,21 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteDetails(int id) => _bplManager.DeleteDetails(id);
+
+        /// <summary>
+        /// Update job status
+        /// </summary>
+        [HttpPost]
+        [Route("UpdateJobStatus")]
+        public Result UpdateJobStatus([FromBody]JobStatusDto jobStatus) => _bplManager.UpdateJobStatus(jobStatus);
+
+        /// <summary>
+        /// Returns list of Job Details Assigned to employee and jobDate
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetEmployeeAssignedDetail/{employeeId}/jobDate")]
+        public Result GetEmployeeAssignedDetail(int employeeId, DateTime jobDate) => _bplManager.GetEmployeeAssignedDetail(employeeId, jobDate);
+
     }
 }

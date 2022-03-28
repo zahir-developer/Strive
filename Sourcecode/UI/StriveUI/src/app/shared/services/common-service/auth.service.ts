@@ -7,6 +7,10 @@ import { UserDataService } from '../../util/user-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticateObservableService } from '../../observable-service/authenticate-observable.service';
 import { ApplicationConfig } from '../ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { LoginService } from '../login.service';
+import { WhiteLabelService } from '../data-service/white-label.service';
+import { LogoService } from './logo.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,11 +18,18 @@ export class AuthService {
   userDetails: any;
   public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   refreshTokenTimeout;
+  whiteLabelDetail: any;
+  colorTheme: any;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
   constructor(private http: HttpUtilsService, private userService: UserDataService, private router: Router,
-    private route: ActivatedRoute, private authenticate: AuthenticateObservableService) {
+    private route: ActivatedRoute, private authenticate: AuthenticateObservableService, private spinner: NgxSpinnerService,
+    private whiteLabelService: WhiteLabelService,
+    private loginService: LoginService,
+    private logoService: LogoService
+  ) {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.loggedIn.next(true);
     }
@@ -27,8 +38,11 @@ export class AuthService {
     return this.http.post(`${UrlConfig.Auth.login}`, loginData).pipe(tap((user) => {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
+          const token = JSON.parse(user.resultData);
           this.userService.setUserSettings(user.resultData);
           this.startRefreshTokenTimer();
+          this.getThemeColor();
+          this.setTokenSession(token);
           return user;
         }
       }
@@ -36,6 +50,28 @@ export class AuthService {
     }));
   }
 
+  setTokenSession(token) {
+
+    let expireMinutes = +token.TokenExpireMinutes;
+    let refreshTokenMinute = +token.RefreshTokenExpiryMinutes;
+    let sessionExpiryWarning = +token.SessionExpiryWarning;
+    let dateTime = new Date();
+
+    if (expireMinutes !== 0) {
+      var expireTime = new Date(dateTime.getTime() + ((+expireMinutes) * 60000));
+      var refreshTokenExpireTime = new Date(dateTime.getTime() + ((expireMinutes - refreshTokenMinute) * 60000));
+      
+      localStorage.setItem('tokenExpiry', expireTime.toString());
+      localStorage.setItem('tokenExpiryMinutes', expireMinutes.toString());
+
+      localStorage.setItem('refreshTokenExpiry', (refreshTokenExpireTime).toString());
+      localStorage.setItem('refreshTokenExpiryMinutes', refreshTokenMinute.toString());
+      
+      localStorage.setItem('sessionExpiryWarning', sessionExpiryWarning.toString());
+
+      localStorage.setItem('refreshTokenCalled', "0");    
+    }
+  }
   refreshToken() {
     const obj = {
       token: localStorage.getItem('authorizationToken'),
@@ -47,7 +83,19 @@ export class AuthService {
           const token = JSON.parse(user.resultData);
           localStorage.setItem('authorizationToken', token.Token);
           localStorage.setItem('refreshToken', token.RefreshToken);
-          this.startRefreshTokenTimer();
+
+          var dateTime = new Date();
+
+          var expireMinutes = +localStorage.getItem('tokenExpiryMinutes');
+
+          var expireTime = new Date(dateTime.getTime() + ((+expireMinutes) * 60000));
+          localStorage.setItem('tokenExpiry', expireTime.toString());
+
+          var refreshExpireTime = new Date(dateTime.getTime() + ((+expireMinutes - ApplicationConfig.Token.RefreshTokenMinute) * 60000));
+          localStorage.setItem('refreshTokenExpiry', refreshExpireTime.toString());
+          localStorage.setItem('refreshTokenCalled', "0");
+        
+          //this.startRefreshTokenTimer();
         }
       }
     }));
@@ -57,13 +105,13 @@ export class AuthService {
     // set a timeout to refresh the token a minute before it expires
     // const expires = new Date(1618587325 * 1000);
     // const timeout = expires.getTime() - Date.now() - (60 * 1000);
-    const timeSecs = ApplicationConfig.refreshTime.refreshTime * 60 * 1000;
+    const timeSecs = ApplicationConfig.Token.refreshTime * 60 * 1000;
     this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeSecs);
   }
 
   private stopRefreshTokenTimer() {
     clearTimeout(this.refreshTokenTimeout);
-}
+  }
 
   // refreshToken(): Observable<{accessToken: string; refreshToken: string}> {
   //   const refreshToken = localStorage.getItem('refreshToken');
@@ -81,6 +129,29 @@ export class AuthService {
   // }
 
 
+  getThemeColor() {
+    this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
+      if (res.status === 'Success') {
+        const label = JSON.parse(res.resultData);
+        this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+        const base64 = 'data:image/png;base64,';
+        const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
+        this.favIcon.href = logoBase64;
+        this.colorTheme = label.WhiteLabelling.Theme;
+        this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
+        this.colorTheme.forEach(item => {
+          if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
+            document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
+            document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
+            document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
+            document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
+            document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
+          }
+        });
+        document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
+      }
+    });
+  }
 
   logout() {
     this.clearCacheValue();
@@ -96,6 +167,25 @@ export class AuthService {
     document.documentElement.style.setProperty(`--body-color`, '#F2FCFE');
     this.router.navigate([`/login`], { relativeTo: this.route });
   }
+
+
+  logoutSecond() {
+    this.clearCacheValue();
+    this.loggedIn.next(false);
+    localStorage.removeItem('views');
+    localStorage.removeItem('navName');
+    // localStorage.clear();
+    this.stopRefreshTokenTimer();
+    document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
+    document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
+    document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
+    document.documentElement.style.setProperty(`--tertiary-color`, '#10B7A5');
+    document.documentElement.style.setProperty(`--body-color`, '#F2FCFE');
+  }
+
+
+
+
 
   refreshLogout() {
     this.clearCacheValue();
@@ -117,6 +207,7 @@ export class AuthService {
           localStorage.setItem('authorizationToken', token.Token);
           localStorage.setItem('refreshToken', token.RefreshToken);
           this.authenticate.setIsAuthenticate(true);
+          this.setTokenSession(token);
           return user;
         }
       }

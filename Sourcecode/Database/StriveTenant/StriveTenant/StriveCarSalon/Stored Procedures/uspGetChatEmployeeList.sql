@@ -6,7 +6,7 @@
 -- Description:	Returns the list of employee with chat communication details
 -- =============================================
 
-CREATE PROC [StriveCarSalon].[uspGetChatEmployeeList] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetChatEmployeeList] 
 @EmployeeId INT = NULL
 AS
 BEGIN

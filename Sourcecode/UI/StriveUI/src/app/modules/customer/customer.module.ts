@@ -11,6 +11,7 @@ import { PreviewAppointmentDetailComponent } from './preview-appointment-detail/
 import { AppointmentConfigurationComponent } from './appointment-configuration/appointment-configuration.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     CustomerRoutingModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgbPaginationModule
   ]
 })
 export class CustomerModule { }

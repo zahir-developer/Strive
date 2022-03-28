@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Messenger;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.ViewModel.Employee;
 using Strive.BusinessEntities.ViewModel.Messenger;
 using Strive.Common;
 using System;
@@ -85,6 +87,16 @@ namespace Strive.ResourceAccess
 
             db.Save(EnumSP.Messenger.USPUPDATECHATUNREADMESSAGESTATE.ToString(), _prm);
             return true;
+        }
+
+        public EmployeeNameViewModel GetAllEmployeeName(SearchDto searchDto)
+        {
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            return db.FetchMultiResult<EmployeeNameViewModel>(EnumSP.Messenger.USPGETALLEMPLOYEENAME.ToString(), _prm);
         }
     }
 }

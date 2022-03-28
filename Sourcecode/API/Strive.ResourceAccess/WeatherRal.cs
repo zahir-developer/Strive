@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Weather;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.Common;
@@ -12,11 +13,11 @@ using System.Linq;
 
 namespace Strive.ResourceAccess
 {
-    public class WeatherRal:RalBase
+    public class WeatherRal : RalBase
     {
         private readonly Db _db;
 
-        public WeatherRal(ITenantHelper tenant):base(tenant)
+        public WeatherRal(ITenantHelper tenant) : base(tenant)
         {
             var dbConnection = tenant.db();
             _db = new Db(dbConnection);
@@ -35,23 +36,32 @@ namespace Strive.ResourceAccess
             _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
 
             return db.Fetch<WeatherPredictions>(EnumSP.CashRegister.USPGETPASTWEATHERINFO.ToString(), _prm);
-            
+
+        }
+        public List<LocationWeatherPredictions> GetWeatherPredictionDetails(int locationId, DateTime dateTime)
+        {
+            _prm.Add("@LocationId", locationId);
+            _prm.Add("@date", dateTime);
+
+            return db.Fetch<LocationWeatherPredictions>(EnumSP.Location.USPGETLOCATIONWEATHER.ToString(), _prm);
+
+        }
+        public int AddWeather(WeatherDTO weatherPrediction)
+        {
+            return dbRepo.InsertPK(weatherPrediction, "WeatherId");
+
+            /*return WeatherPredictionId > 0;*/
+        }
+        public int AddWeatherPrediction(WeatherPredictionDTO weatherPrediction)
+        {
+            return dbRepo.InsertPK(weatherPrediction, "WeatherId");
+
+            /*return WeatherPredictionId > 0;*/
         }
 
-        public bool AddWeather(WeatherPrediction weatherPrediction)
+        public bool UpdateWeather(WeatherDTO weatherPrediction)
         {
-
-            int WeatherPredictionId = Convert.ToInt32(_db.Insert<WeatherPrediction>(weatherPrediction));
-
-            return WeatherPredictionId > 0;
-        }
-
-        public bool UpdateWeather(WeatherPrediction weatherPrediction)
-        {
-
-            int WeatherPredictionId = Convert.ToInt32(_db.Update<WeatherPrediction>(weatherPrediction));
-
-            return WeatherPredictionId > 0;
+            return dbRepo.Update(weatherPrediction.WeatherPrediction);
         }
         public List<ForcastedCarEmployeehoursViewModel> GetForcastedCarEmployeehours(ForecastedRainPercentageDto forecastedRainPercentage)
         {

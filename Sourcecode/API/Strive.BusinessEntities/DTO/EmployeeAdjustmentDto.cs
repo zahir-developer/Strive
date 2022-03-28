@@ -10,5 +10,6 @@ namespace Strive.BusinessEntities.DTO
     {
         public int id { get; set;}
         public decimal adjustment { get; set; }
+        public int LocationId { get; set; }
     }
 }

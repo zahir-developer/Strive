@@ -1,4 +1,4 @@
-﻿CREATE TABLE [StriveCarSalon].[tblJobProductItem] (
+CREATE TABLE [StriveCarSalon].[tblJobProductItem] (
     [JobProductItemId] INT                IDENTITY (1, 1) NOT NULL,
     [JobId]            INT                NULL,
     [ProductId]        INT                NULL,
@@ -18,5 +18,9 @@
 );
 
 
+
+
 GO
+CREATE NONCLUSTERED INDEX [Index_tblJobProductItem_JobId]
+    ON [StriveCarSalon].[tblJobProductItem]([JobId] ASC);
 

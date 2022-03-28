@@ -8,7 +8,7 @@ CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClock]
 	-- Add the parameters for the stored procedure here
 	@LocationId int,
 	@EmployeeId int, 
-	@RoleId int,
+	@RoleId int = NULL,
 	@Date DateTime
 AS
 BEGIN
@@ -16,10 +16,11 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-SELECT 	TimeClockId, EmployeeId, LocationId, RoleId, EventDate, InTime, OutTime, EventType, UpdatedFrom, [Status]
-FROM tblTimeClock
+SELECT 	TimeClockId, EmployeeId, LocationId, RoleId, rm.RoleName, EventDate, InTime, OutTime, EventType, UpdatedFrom, [Status]
+FROM tblTimeClock tc
+JOIN tblRoleMaster rm on tc.RoleId = rm.RoleMasterId
 WHERE LocationId = @LocationId and EmployeeId = @EmployeeId AND 
-RoleId = @RoleId AND CONVERT(date, EventDate) = @Date AND (IsDeleted = 0 OR IsDeleted is null)
-AND IsActive = 1
+(RoleId = @RoleId OR @RoleId is NULL OR @RoleId = 0) AND CONVERT(date, EventDate) = @Date AND tc.IsDeleted = 0
+AND tc.IsActive = 1
 
 END

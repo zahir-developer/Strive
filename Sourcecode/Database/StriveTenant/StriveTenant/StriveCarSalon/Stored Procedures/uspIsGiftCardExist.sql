@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspIsGiftCardExist]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspIsGiftCardExist]
 (@GiftCardCode varchar(10))
 as
 begin

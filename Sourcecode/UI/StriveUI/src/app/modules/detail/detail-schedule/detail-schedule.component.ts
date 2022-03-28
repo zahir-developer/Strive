@@ -15,7 +15,6 @@ declare var $: any;
 @Component({
   selector: 'app-detail-schedule',
   templateUrl: './detail-schedule.component.html',
-  styleUrls: ['./detail-schedule.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class DetailScheduleComponent implements OnInit {
@@ -201,11 +200,12 @@ export class DetailScheduleComponent implements OnInit {
     });
   }
 
-  closeModal() {
+  closeModal(refresh = false) {
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
-    this.refreshDetailGrid();
+    if (refresh)
+      this.refreshDetailGrid();
   }
 
   refreshDetailGrid() {
@@ -261,6 +261,15 @@ export class DetailScheduleComponent implements OnInit {
               this.style.color = 'red';
               this.style.fontWeight = 'bold';
             }
+            else {
+              this.style.color = '#333333';
+              this.style.fontWeight = 'normal';
+            }
+          });
+        } else {
+          $('td.ng-star-inserted a').each(function (index) {
+            this.style.color = '#333333';
+            this.style.fontWeight = 'normal';
           });
         }
       }

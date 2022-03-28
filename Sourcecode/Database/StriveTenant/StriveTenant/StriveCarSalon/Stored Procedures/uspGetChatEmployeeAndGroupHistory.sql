@@ -1,15 +1,17 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		Zahir Hussain M
 -- Create date: 10-Nov-2020
 -- Description:	Returns the list of Recent Chat employee and Chat group informations
--- Example: [StriveCarSalon].[uspGetChatEmployeeAndGroupHistory] 1496
+-- Example: [StriveCarSalon].[uspGetChatEmployeeAndGroupHistory] 1138
 -- =============================================
+-- ============-======History===================
+-- =============================================
+-- 2021-09-06 - Recent chat history issue fixes
 CREATE PROCEDURE [StriveCarSalon].[uspGetChatEmployeeAndGroupHistory] 
-	@EmployeeId INT
+@EmployeeId INT
 AS
 BEGIN
---DECLARE @EmployeeId INT = 119
+--DECLARE @EmployeeId INT = 5
 
 DROP TABLE IF EXISTS #CHATHISTORY 
 DROP TABLE IF EXISTS #GRPHISTORY
@@ -29,33 +31,44 @@ IsGroup BIT,
 Selected BIT
 )
 
-;WITH CHTMSG
-AS
-(
-SELECT RecipientId,SenderId,Max(ChatMessageId) AS ChatMessageId
-FROM 
-StriveCarSalon.tblChatMessageRecipient chtrec
-Join StriveCarSalon.tblEmployee Emp ON 
-(chtrec.SenderId=emp.EmployeeId and ChtRec.RecipientId=@EmployeeId) OR (ChtRec.RecipientId=emp.EmployeeId and ChtRec.SenderId=@EmployeeId)
-WHERE ChtRec.SenderID = @EmployeeId OR ChtRec.RecipientId<>@EmployeeId
-GROUP BY RecipientId,SenderId
-),
-MaxCht
-AS
-(
-SELECT 
-	SenderId AS ID,Max(ChatMessageId) ChatMessageId 
-FROM CHTMSG 
-WHERE SenderId<>@EmployeeId
-GROUP BY SenderId
-UNION
-SELECT 
-	RecipientId AS ID,Max(ChatMessageId) ChatMessageId 
-FROM CHTMSG 
-WHERE RecipientId<> @EmployeeId
-GROUP BY RecipientId
-)
+DROP TABLE IF EXISTS #AllChatMsg 
+DROP TABLE IF EXISTS #CHTMSG 
+DROP TABLE IF EXISTS #ReadMsg 
 
+SELECT emp.EmployeeId, ChatMessageId AS ChatMessageId, chtrec.ChatRecipientId, chtrec.SenderId, chtrec.RecipientId, chtrec.IsRead into #AllChatMsg
+FROM 
+tblChatMessageRecipient chtrec
+Join tblEmployee Emp ON 
+(chtrec.SenderId = emp.EmployeeId AND ChtRec.RecipientId = @EmployeeId) OR (ChtRec.RecipientId=emp.EmployeeId and ChtRec.SenderId=@EmployeeId)
+WHERE (ChtRec.SenderID = @EmployeeId OR ChtRec.RecipientId = @EmployeeId)
+
+SELECT EmployeeId, MAX(ChatMessageId) AS ChatMessageId into #CHTMSG
+FROM #AllChatMsg
+GROUP By EmployeeId
+
+SELECT allc.IsRead, allc.ChatRecipientId, allc.ChatMessageId into #ReadMsg
+FROM #CHTMSG cm
+INNER JOIN #AllChatMsg allc on allc.ChatMessageId = cm.ChatMessageId
+where RecipientId = @EmployeeId
+
+--Select * from #ReadMsg
+
+--,
+--MaxCht
+--AS
+--(
+--SELECT 
+--	EmployeeId AS ID,Max(ChatMessageId) ChatMessageId 
+--FROM CHTMSG 
+--WHERE EmployeeId<>@EmployeeId
+--GROUP BY EmployeeId
+--UNION
+--SELECT 
+--	EmployeeId AS ID,Max(ChatMessageId) ChatMessageId 
+--FROM CHTMSG 
+--WHERE EmployeeId<> @EmployeeId
+--GROUP BY EmployeeId
+--)
 
 SELECT Distinct
 emp.EmployeeId as Id,
@@ -63,31 +76,36 @@ emp.FirstName,
 emp.LastName,
 ISNULL(chatComm.ChatCommunicationId, 0) as ChatCommunicationId,
 ISNULL(chatComm.CommunicationId, 0) as CommunicationId,
-chatRecp.IsRead,
+Rm.IsRead as IsRead,
 Msg.CreatedDate,
 Msg.ChatMessageId,
 msg.Messagebody INTO #CHATHISTORY 
 FROM 
-StriveCarSalon.tblEmployee emp 
-LEFT JOIN StriveCarSalon.tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
-LEFT JOIN (SELECT ID,MAX(ChatMessageID)ChatMessageID FROM MaxCht 
-GROUP BY ID ) MR ON Mr.Id=Emp.EmployeeId 
-LEFT JOIN StriveCarSalon.tblChatMessage msg ON MR.ChatMessageId=Msg.ChatMessageId
-INNER JOIN StriveCarSalon.tblChatMessageRecipient chatRecp on chatRecp.RecipientId = Mr.ID AND chatrecp.ChatMessageID=Mr.ChatMessageID
+tblEmployee emp 
+LEFT JOIN tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
+LEFT JOIN #CHTMSG cMsg on cMsg.EmployeeId = Emp.EmployeeId 
+LEFT JOIN tblChatMessage msg ON cMsg.ChatMessageId=Msg.ChatMessageId
+INNER JOIN tblChatMessageRecipient chatRecp on chatRecp.RecipientId = cMsg.EmployeeId OR chatrecp.ChatMessageID = cMsg.ChatMessageID
+LEFT JOIN #ReadMsg Rm on Rm.ChatMessageId = msg.ChatMessageId 
 AND (emp.IsDeleted=0 OR emp.IsDeleted IS NULL) 
 AND (emp.IsDeleted = 0 OR emp.IsDeleted IS NULL)
-WHERE emp.EmployeeId != @employeeId and chatRecp.SenderId = @EmployeeId OR @EmployeeId is NULL
+WHERE chatRecp.SenderId = @EmployeeId OR chatRecp.RecipientId = @EmployeeId
 ORDER BY emp.EmployeeId DESC
 
 ;WITH
 CHTGRPMSG
 AS
 (
-SELECT GRP.ChatGroupId as Id, GRP.GroupId, GRP.GroupName, SenderId, Max(MsgRec.ChatMessageId) AS ChatMessageId, grpRec.IsRead
-FROM StriveCarSalon.tblChatGroup GRP
-JOIN StriveCarSalon.tblChatUserGroup UsrGRP on GRP.ChatGroupId = GRP.ChatGroupId
-JOIN StriveCarSalon.tblChatMessageRecipient MsgRec on MsgRec.RecipientGroupId = GRP.ChatGroupId
-INNER JOIN StriveCarSalon.tblChatGroupRecipient grpRec on grpRec.ChatGroupId = grp.ChatGroupId and grpRec.RecipientId = @EmployeeId
+SELECT GRP.ChatGroupId as Id, 
+GRP.GroupId, 
+GRP.GroupName, 
+SenderId,
+Max(MsgRec.ChatMessageId) AS ChatMessageId, 
+grpRec.IsRead
+FROM tblChatGroup GRP
+JOIN tblChatUserGroup UsrGRP on GRP.ChatGroupId = UsrGRP.ChatGroupId
+LEFT JOIN tblChatMessageRecipient MsgRec on MsgRec.RecipientGroupId = GRP.ChatGroupId
+LEFT JOIN tblChatGroupRecipient grpRec on grpRec.ChatGroupId = grp.ChatGroupId and grpRec.RecipientId = @EmployeeId
 WHERE UsrGRP.UserId = @EmployeeId
 GROUP BY GRP.ChatGroupId, MsgRec.RecipientId, SenderId, GroupId, GroupName, grpRec.IsRead
 ),
@@ -99,9 +117,13 @@ FROM CHTGRPMSG
 GROUP BY Id
 )
 
-Select maxGrp.Id, GRP.GroupId, GRP.GroupName as FirstName, SenderId, GRP.ChatMessageId, cMsg.Messagebody, IsRead, cMsg.CreatedDate INTO #GRPHISTORY from CHTGRPMSG GRP
-JOIN StriveCarSalon.tblChatMessage cMsg on cMsg.ChatMessageId = GRP.ChatMessageId
-JOIN MaxGROUPCHAT maxGrp on maxGrp.ChatMessageId = cMsg.ChatMessageId 
+
+Select GRP.Id, GRP.GroupId, GRP.GroupName as FirstName, SenderId, GRP.ChatMessageId, cMsg.Messagebody, IsRead, cMsg.CreatedDate 
+INTO #GRPHISTORY 
+from CHTGRPMSG GRP
+INNER JOIN tblChatMessage cMsg on cMsg.ChatMessageId = GRP.ChatMessageId and cMsg.ChatMessageId is NOT NULL
+INNER JOIN MaxGROUPCHAT maxGrp on maxGrp.ChatMessageId = cMsg.ChatMessageId and cMsg.ChatMessageId is NOT NULL
+
 
 INSERT INTO #RECENTCHAT Select Id,
 FirstName,
@@ -112,10 +134,15 @@ Messagebody,
 IsRead,
 CreatedDate,
 0 as IsGroup,
-0 as IsSelected from #CHATHISTORY
-
+0 as IsSelected from #CHATHISTORY where id != @EmployeeId
 
 INSERT INTO #RECENTCHAT Select Id, FirstName, '', GroupId, ChatMessageId, Messagebody, ISNULL(IsRead,1), CreatedDate, 1, 0 from #GRPHISTORY
+
+INSERT INTO #RECENTCHAT
+Select cg.chatGroupId as Id, GroupName as FirstName, '', cg.GroupId, '', NULL, NULL, cg.CreatedDate, 1, 0 from tblChatGroup cg
+JOIN tblChatUserGroup ug on cg.ChatGroupId = ug.ChatGroupId
+WHERE ug.UserId = @EmployeeId and cg.ChatGroupId not in (Select id from #GRPHISTORY gh) and cg.IsDeleted = 0 and ug.IsDeleted = 0
+
 
 Select * from #RECENTCHAT order by CreatedDate desc
 

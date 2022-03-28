@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-wash',
-  templateUrl: './wash.component.html',
-  styleUrls: ['./wash.component.css']
+  templateUrl: './wash.component.html'
 })
 export class WashComponent implements OnInit {
 
