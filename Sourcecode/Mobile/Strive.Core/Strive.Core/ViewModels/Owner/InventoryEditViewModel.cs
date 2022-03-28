@@ -462,7 +462,7 @@ namespace Strive.Core.ViewModels.Owner
                 await UpdateProductCommand();
                 return;
             }
-           await AddProductCommand();
+            await AddProductCommand();
         }
 
         public void AddorUpdateCommand()

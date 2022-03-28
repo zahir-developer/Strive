@@ -22,7 +22,7 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         UILabel contactIntialLabel;
         UILabel contactNameLabel;
-        UIButton selectionImageView;
+        UIImageView selectionImageView;
         private char[] firstInitial;
         private char[] secondInitial;
 
@@ -59,7 +59,7 @@ namespace StriveEmployee.iOS.Views.Messenger
             contactNameLabel.TextColor = UIColor.Black;
             ContentView.Add(contactNameLabel);
 
-            selectionImageView = new UIButton(CGRect.Empty);
+            selectionImageView = new UIImageView(CGRect.Empty);
             selectionImageView.TranslatesAutoresizingMaskIntoConstraints = false;
             selectionImageView.AddGestureRecognizer(new UITapGestureRecognizer());
             ContentView.Add(selectionImageView);
@@ -79,7 +79,7 @@ namespace StriveEmployee.iOS.Views.Messenger
             selectionImageView.CenterYAnchor.ConstraintEqualTo(ContentView.CenterYAnchor).Active = true;
             selectionImageView.WidthAnchor.ConstraintEqualTo(25).Active = true;
             selectionImageView.HeightAnchor.ConstraintEqualTo(25).Active = true;
-            selectionImageView.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            selectionImageView.Image = UIImage.FromBundle("icon-unchecked-round");
 
             //selectionImageView.Image = UIImage.FromBundle("select-Contact");
             //selectionImageView.Layer.Opacity = 0;
@@ -128,11 +128,11 @@ namespace StriveEmployee.iOS.Views.Messenger
             }
             if (Rowselections.Any(x => x.userId == employee.EmployeeId))
             {
-                selectionImageView.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                selectionImageView.Image = UIImage.FromBundle("icon-checked-round");
             }
             else
             {
-                selectionImageView.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                selectionImageView.Image = UIImage.FromBundle("icon-unchecked-round");
             }
 
 
@@ -141,12 +141,12 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         public void updateCell(NSIndexPath indexPath)
         {
-            selectionImageView.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+            selectionImageView.Image = UIImage.FromBundle("icon-checked-round");
         }
 
         public void deselectRow(NSIndexPath indexPath)
         {
-            selectionImageView.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            selectionImageView.Image = UIImage.FromBundle("icon-unchecked-round");
         }
 
     }

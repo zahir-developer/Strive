@@ -147,7 +147,7 @@ namespace StriveEmployee.iOS.Views.Messenger
             if (MessengerCreateGroupViewModel.chatUserGroups.Any(x => x.userId == list[indexPath.Row].EmployeeId))
             {
                 var itemToRemove = MessengerCreateGroupViewModel.chatUserGroups.FindIndex(r => r.userId == list[indexPath.Row].EmployeeId);
-                MessengerCreateGroupViewModel.chatUserGroups.RemoveAt(indexPath.Row);
+                MessengerCreateGroupViewModel.chatUserGroups.RemoveAt(itemToRemove);
 
                 //var itemToRemove = RowSelections.FindIndex(r => r == indexPath);
                 //RowSelections.RemoveAt(itemToRemove);
