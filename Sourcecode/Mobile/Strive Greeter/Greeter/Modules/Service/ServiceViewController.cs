@@ -44,7 +44,7 @@ namespace Greeter
         public int ColorID;
         public string Make;
         public static EmailStatus EmailStatus { get; set; }
-
+        public static string Clientemail {get;set;}
         public ServiceViewController(IntPtr handle) : base(handle)
         {
         }
@@ -379,7 +379,7 @@ namespace Greeter
                 vc.Model = EmailStatus.VehicleModel;
                 vc.ColorID = EmailStatus.VehicleColorId;
                 vc.CustName = EmailStatus.FirstName + EmailStatus.LastName;
-                vc.ClientEmail = ""; //item.Email;
+                vc.ClientEmail = Clientemail;
                 vc.ShopPhoneNumber = shopPhoneNumber;
                 //vc.IsNewBarcode = true;
 

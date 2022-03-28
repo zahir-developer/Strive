@@ -65,7 +65,7 @@ namespace Greeter.Modules.Pay
                     {
                         Account = cardNo,
                         Expiry = expiryDate,
-                        Amount = Amount,
+                        Amount = totalAmnt,
                         OrderID = ""
                     },
                     Locationid = AppSettings.LocationID
