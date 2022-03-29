@@ -36,8 +36,8 @@ export class SalesService {
   addPayemnt(paymentObj) {
     return this.http.post(`${UrlConfig.sales.addPayment}`, paymentObj);
   }
-  deleteJob(ticketNo) {
-    return this.http.delete(`${UrlConfig.sales.deleteJob}`, { params: { TicketNumber: ticketNo } });
+  deleteJob(obj) {
+    return this.http.delete(`${UrlConfig.sales.deleteJob}`, { params: { ticketNumber: obj.ticketNumber, locationId: obj.locationId } });
   }
   rollback(rollBack) {
     return this.http.post(`${UrlConfig.sales.rollbackTransaction}`, rollBack);
