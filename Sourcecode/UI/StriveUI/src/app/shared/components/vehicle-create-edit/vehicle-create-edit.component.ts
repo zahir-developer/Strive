@@ -276,8 +276,8 @@ export class VehicleCreateEditComponent implements OnInit {
           this.memberServiceId = vehicle?.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
           //this.getMemberServices(this.memberServiceId);
           this.isMembership = true;
-          this.vehicleForm.get('cardNumber').setValidators([Validators.required]);
-          this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
+          // this.vehicleForm.get('cardNumber').setValidators([Validators.required]);
+          // this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
 
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId,
@@ -381,8 +381,8 @@ export class VehicleCreateEditComponent implements OnInit {
       this.vehicleForm.get('monthlyCharge').reset();
       this.isMembership = true;
 
-      this.vehicleForm.get('cardNumber').setValidators([Validators.required]);
-      this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
+     // this.vehicleForm.get('cardNumber').setValidators([Validators.required]);
+      //this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
       if (this.memberOnchangePatchedService.length !== 0) {
         this.memberOnchangePatchedService.forEach(element => {
           this.selectedservice = this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
