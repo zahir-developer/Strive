@@ -481,7 +481,7 @@ export class SalesComponent implements OnInit {
               // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
               this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
                 item !== this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
-              this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
+              this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.InvalidTicket });
               this.showPopup = false;
             }
             if (this.multipleTicketNumber.length > 1) {
@@ -532,7 +532,7 @@ export class SalesComponent implements OnInit {
             // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
             this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
               item !== this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
-            this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
+            this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.InvalidTicket });
             this.showPopup = false;
           }
           if (this.itemList?.Status?.SalesSummaryViewModel !== null) {
@@ -1691,7 +1691,14 @@ export class SalesComponent implements OnInit {
   }
   deleteTicket() {
     if (this.multipleTicketNumber.length > 0) {
-      this.salesService.deleteJob(this.multipleTicketNumber.toString()).subscribe(data => {
+
+      var deleteObj = 
+      {
+        locationId: +localStorage.getItem('empLocationId'),
+        ticketNumber: this.multipleTicketNumber.toString()
+      }
+
+      this.salesService.deleteJob(deleteObj).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.jobDelete });
           this.getDetailByTicket(false);
