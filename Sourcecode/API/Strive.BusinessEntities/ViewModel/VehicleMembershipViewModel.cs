@@ -14,5 +14,7 @@ namespace Strive.BusinessEntities.ViewModel
         public ClientVehicleMembershipDetails ClientVehicleMembership { get; set; }
 
         public List<ClientVehicleMembershipService> ClientVehicleMembershipService { get; set; }
+
+        public InactiveMembershipDetail InactiveMembership { get; set; }
     }
 }

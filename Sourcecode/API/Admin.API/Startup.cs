@@ -82,6 +82,14 @@ namespace Admin.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            /*services.AddApiVersioning(Options =>
+            {
+                Options.AssumeDefaultVersionWhenUnspecified = true;
+                Options.DefaultApiVersion = ApiVersion.Default;
+                Options.ReportApiVersions = true;
+                Options.UseApiBehavior = true;
+            });
+            */
             services.AddScoped<ITenantHelper, TenantHelper>();
             services.AddTransient<IAuthManagerBpl, AuthManagerBpl>();
             services.AddTransient<ILocationBpl, LocationBpl>();
@@ -140,8 +148,6 @@ namespace Admin.API
                 // this formatter breaks Angular's Http response JSON parsing
                 opt.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
             });
-
-            _logger.LogInformation("Test log Strive");
 
             #region Add CORS
             services.AddCors(options =>
@@ -253,14 +259,14 @@ namespace Admin.API
             string paymentExp = Configuration.GetSection("CRON")["PaymentCRON"];
             services.AddSingleton(new JobSchedule(jobType: typeof(PaymentScheduler), cronExpression: paymentExp));
 
-            string secPaymentExp = Configuration.GetSection("CRON")["SecPaymentCRON"];
-            services.AddSingleton(new JobSchedule(jobType: typeof(SecPaymentScheduler), cronExpression: secPaymentExp));
+            //string secPaymentExp = Configuration.GetSection("CRON")["SecPaymentCRON"];
+            //services.AddSingleton(new JobSchedule(jobType: typeof(SecPaymentScheduler), cronExpression: secPaymentExp));
 
-            string thirdPaymentExp = Configuration.GetSection("CRON")["ThirdPaymentCRON"];
-            services.AddSingleton(new JobSchedule(jobType: typeof(ThirdPaymentScheduler), cronExpression: thirdPaymentExp));
+            //string thirdPaymentExp = Configuration.GetSection("CRON")["ThirdPaymentCRON"];
+            //services.AddSingleton(new JobSchedule(jobType: typeof(ThirdPaymentScheduler), cronExpression: thirdPaymentExp));
 
             string weatherExp = Configuration.GetSection("CRON")["WeatherCRON"];
-            services.AddSingleton(new JobSchedule(jobType: typeof(WeatherScheduler), cronExpression: thirdPaymentExp));
+            services.AddSingleton(new JobSchedule(jobType: typeof(WeatherScheduler), cronExpression: weatherExp));
 
             string checkExp = Configuration.GetSection("CRON")["ChecklistCRON"];
             services.AddSingleton(new JobSchedule(jobType: typeof(ChecklistJob), cronExpression: checkExp));
@@ -278,7 +284,7 @@ namespace Admin.API
                     Credential = credential
                 });
 
-            }
+            }          
             services.AddSwagger();
 
             services.AddSignalR();

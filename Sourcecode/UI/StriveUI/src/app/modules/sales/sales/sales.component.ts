@@ -481,7 +481,7 @@ export class SalesComponent implements OnInit {
               // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
               this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
                 item !== this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
-              this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
+              this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.InvalidTicket });
               this.showPopup = false;
             }
             if (this.multipleTicketNumber.length > 1) {
@@ -532,7 +532,7 @@ export class SalesComponent implements OnInit {
             // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
             this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
               item !== this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
-            this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
+            this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.InvalidTicket });
             this.showPopup = false;
           }
           if (this.itemList?.Status?.SalesSummaryViewModel !== null) {
@@ -1619,7 +1619,7 @@ export class SalesComponent implements OnInit {
         membershipId: this.isAccountButton ? this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
         jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
         drawerId: +localStorage.getItem('drawerId'),
-        amount: this.cash ? +this.cash : 0,
+        amount: this.totalPaid ? (this.totalPaid + this.tips) : this.cash,
         taxAmount: 0,
         approval: true,
         paymentStatus: +this.PaymentStatus.filter(i => i.CodeValue === 'Success')[0].CodeId,
@@ -1691,7 +1691,14 @@ export class SalesComponent implements OnInit {
   }
   deleteTicket() {
     if (this.multipleTicketNumber.length > 0) {
-      this.salesService.deleteJob(this.multipleTicketNumber.toString()).subscribe(data => {
+
+      var deleteObj = 
+      {
+        locationId: +localStorage.getItem('empLocationId'),
+        ticketNumber: this.multipleTicketNumber.toString()
+      }
+
+      this.salesService.deleteJob(deleteObj).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.jobDelete });
           this.getDetailByTicket(false);
@@ -1883,7 +1890,8 @@ export class SalesComponent implements OnInit {
         });
       }
     } else if (this.serviceGroup && this.isAccount && this.isMembership) {
-      this.confirmationPopUp();
+      //this.confirmationPopUp();
+      this.applyGroup('membership')
     }
   }
 

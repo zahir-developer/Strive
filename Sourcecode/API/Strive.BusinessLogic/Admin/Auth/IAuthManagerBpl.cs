@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.Model;
 using Strive.Common;
@@ -25,5 +26,7 @@ namespace Strive.BusinessLogic.Auth
         Result GetModelByMakeId(int makeId);
         Result GetAllMake();
         Result GetAllColor();
+        Result Login(Authentication authentication, string tenantConString);
+        Result GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatusDto);
     }
 }

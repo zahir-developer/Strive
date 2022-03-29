@@ -35,6 +35,10 @@ namespace Admin.API.Controllers
         public Result GetVehicleByClientId(int id) => _bplManager.GetVehicleByClientId(id);
 
         [HttpGet]
+        [Route("GetVehicleByEmailId")]
+        public Result GetVehicleByEmailId(string emailid) => _bplManager.GetVehicleByEmailId(emailid);
+
+        [HttpGet]
         [Route("GetVehicleId")]
         public Result GetVehicleId(int id) => _bplManager.GetVehicleId(id);
 

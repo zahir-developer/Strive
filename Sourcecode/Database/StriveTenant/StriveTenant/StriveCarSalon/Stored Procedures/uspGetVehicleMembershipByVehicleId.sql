@@ -1,13 +1,16 @@
-﻿-- =========================================================
+﻿
+-- =========================================================
 -- Author:		Vineeth B
 -- Create date: 26-08-2020
 -- Description:	Get Vehicle Membership Details for VehicleId 
--- EXEC [StriveCarSalon].[uspGetVehicleMembershipByVehicleId] 214494
+-- EXEC [StriveCarSalon].[uspGetVehicleMembershipByVehicleId] 214985
 -- =========================================================
 --						History
 -- =========================================================
 -- Zahir - 01-09-2021 - Membership service retrieved if no ClientVehicleMembershipService available.
 -- Zahir - 15-12-2021 - Added Total Price.
+-- Zahir - 14-03-2022 - Latest Inactive membership details added.
+-- Zahir - 16-03-2022 - Minor Fixes - Latest Inactive membership details added.
 
 -- =========================================================
 
@@ -15,6 +18,8 @@ CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleMembershipByVehicleId]
 (@VehicleId int)
 AS
 BEGIN
+
+--DECLARE @VehicleId INT;
 
 DECLARE @MembershipId INT;
 DECLARE @ClientMembershipId INT;
@@ -36,6 +41,16 @@ ProfileId,
 AccountId
 from [tblClientVehicleMembershipDetails] WITH(NOLOCK) WHERE ClientVehicleId=@VehicleId AND ISNULL(IsDeleted,0)=0 AND IsActive=1
 
+DROP TABLE IF EXISTS #ClientVehicleMembershipDetail
+
+select ClientMembershipId,
+MembershipId, UpdatedDate, CreatedDate, IsDeleted, IsActive into #ClientVehicleMembershipDetail from [tblClientVehicleMembershipDetails] WITH(NOLOCK) WHERE ClientVehicleId=@VehicleId
+
+--Select * from #ClientVehicleMembershipDetail
+
+select top 1
+@ClientMembershipId = ClientMembershipId,
+@MembershipId=MembershipId from #ClientVehicleMembershipDetail WHERE ISNULL(IsDeleted,0)=0 AND IsActive=1
 
 select top 1
 @ClientMembershipId = ClientMembershipId,
@@ -72,4 +87,16 @@ sIds.ClientVehicleMembershipServiceId
 from #ServiceIds sIds
 INNER JOIN tblService s on s.ServiceId = sIds.ServiceId
 INNER JOIN tblCodeValue cv on cv.id = s.serviceType
+
+IF ISNULL(@ClientMembershipId, 0) = 0
+BEGIN
+
+Select top 1 (IsDeleted) as InActive, ISNULL(UpdatedDate, CreatedDate) as UpdatedDate from #ClientVehicleMembershipDetail WHERE ISNULL(IsDeleted, 0) = 1  order by ClientMembershipId desc
+
 END
+ELSE
+Select 0 as InActive
+
+
+END
+

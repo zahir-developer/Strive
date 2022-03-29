@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Auth;
@@ -123,6 +124,16 @@ namespace Admin.Api.Controllers
         public Result GetModelByMakeId(int makeId)
         {
             return _bplManager.GetModelByMakeId(makeId);
+        }
+        [HttpGet]
+        [Route("GetLocationWashTime")]
+        public Result GetLocationWashTime(LocationStoreStatusDto locationStoreStatusDto)
+        {
+            Authentication authentication = new Authentication();
+            authentication.Email = GetUserName();
+            authentication.PasswordHash = GetPassword();
+            _bplManager.Login(authentication, GetTenantConnection());
+            return _bplManager.GetAllLocationWashTime(locationStoreStatusDto);
         }
 
         #endregion

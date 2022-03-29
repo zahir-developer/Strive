@@ -294,5 +294,9 @@ namespace Admin.API.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        [Route("MembershipPaymentDetails")]
+        public Result GetMembershipPaymentDetails(int ClientMembershipId) => _bplManager.GetMembershipPaymentDetails(ClientMembershipId);
     }
 }

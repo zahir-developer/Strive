@@ -18,10 +18,10 @@ namespace Strive.BusinessEntities.ViewModel
         public string VehicleMake { get; set; }
         public string VehicleModel { get; set; }
         public string VehicleColor { get; set; }
-        public decimal Upcharge { get; set; }       
+        public decimal Upcharge { get; set; }
         public DateTime JobDate { get; set; }
         public int LocationId { get; set; }
-        public string LocationName { get; set; }        
+        public string LocationName { get; set; }
         public decimal Cost { get; set; }
 
         public string Barcode { get; set; }
@@ -30,5 +30,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string JobPaymentId { get; set; }
         public string TipPaymentId { get; set; }
         public string TipAmount { get; set; }
+        public string AdditionalServices { get; set; }
     }
 }

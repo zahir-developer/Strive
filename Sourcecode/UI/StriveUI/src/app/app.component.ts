@@ -10,7 +10,7 @@ import { IdleLockoutComponent } from './shared/components/idle-lockout/idle-lock
 import { Subscription } from 'rxjs';
 import { AuthService } from './shared/services/common-service/auth.service';
 import { SessionLogoutComponent } from './shared/components/session-logout/session-logout.component';
-import { ApplicationConfig } from './shared/services/ApplicationConfig';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -36,7 +36,6 @@ export class AppComponent implements OnInit, OnDestroy {
   sessionRefresh = []
   RefreshTokenLog: any;
 
-
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -59,13 +58,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-      this.initializeTimeOut();
-      if (localStorage.getItem('isAuthenticated') === 'true') {
-        this.getTheme();
-        this.setHeaderName();
-        this.setNavList();
-      }
+    this.initializeTimeOut();
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      this.getTheme();
+      this.setHeaderName();
+      this.setNavList();
     }
+  }
   setNavList() {
     this.userService.navName.subscribe(data => {
       this.navData = data;
@@ -143,6 +142,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.dialogType = 'noIdles';
       this.dialogDisplay = false;
       this.authService.refreshLogout();
+      this.stopTimer();
       clearInterval(this.intervalId);
     });
 
@@ -172,7 +172,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.intervalId = setInterval(() => {
       counter = counter - 1;
       this.sessionLogoutComponent.countdown = counter;
-      this.sessionLogoutComponent.dialogType = 'idle';
+      //this.sessionLogoutComponent.dialogType = 'idle';
       this.dialogDisplay = true;
       this.sessionLogoutComponent.dialogDisplay = true;
       // this.sessionLogoutComponent.header = 'Idle Warning.';
@@ -222,8 +222,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   continueSession() {
-    this.sessionLogoutComponent.dialogType = 'noIdle';
     clearInterval(this.intervalId);
+    this.sessionLogoutComponent.dialogType = 'noIdle';
     this.header = 'Session Timeout Warning';
   }
 

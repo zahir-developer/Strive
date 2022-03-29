@@ -44,6 +44,12 @@ namespace Strive.BusinessLogic.Washes
             {
                 var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(washes.Job.LocationId, washes.Job.BarCode, washes.Job.Make, washes.Job.Model, washes.Job.Color, washes.Job.CreatedBy);
             }
+            
+            //Update barcode if it is assigned to client vehicle
+            if (washes.Job.ClientId != null && !string.IsNullOrEmpty(washes.Job.BarCode) && washes.Job.VehicleId != null)
+            {
+                var clientVehicle = new VehicleRal(_tenant).UpdateVehicleBarcode(washes.Job.LocationId, washes.Job.BarCode, washes.Job.VehicleId, washes.Job.CreatedBy);
+            }
 
             //Update jobId and ticketNumber
             var commonRal = new CommonRal(_tenant).GetTicketNumber(washes.Job.LocationId);
