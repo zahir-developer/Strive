@@ -31,22 +31,20 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                     string hashPassword = Pass.Hash(newPassword);
                     tenant.TenantViewModel.PasswordHash = hashPassword;
 
-                    string tenantGuid = new TenantRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
+                    string tenantGuid = new TenantRal(_tenant, true, true).CreateTenant(tenant.TenantViewModel);
 
                     //Change Tenant Connection
-                    /*
+
                     Guid guid = new Guid(tenantGuid);
                     TenantSchema tSchema = new TenantRal(_tenant, true).TenantAdminLogin(guid);
                     CacheLogin(tSchema, connection);
-                    */
-
-                    // Add Module
-                    //foreach (var item in tenant.Module)
-                    //{
-                    //    var tenantModule = new TenantRal(_tenant, false).AddModule(item);
-                    //}
 
 
+                    // Change active status of already added Module/Screens
+                    foreach (var item in tenant.Module)
+                    {
+                        var tenantModule = new TenantRal(_tenant, false).UpdateModule(item);
+                    }
 
                     //Send email
                     Dictionary<string, string> keyValues = new Dictionary<string, string>();

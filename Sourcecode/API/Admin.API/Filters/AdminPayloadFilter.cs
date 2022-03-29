@@ -104,7 +104,7 @@ namespace Admin.API.Filters
         private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null, string clientId = null)
         {
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
-            var strAdminConnectionString = Pick("ConnectionStrings", "StriveAuthAdmin");
+            var strAdminConnectionString = Pick("ConnectionStrings", "StriveAdminSettings");
 
             if (isAuth)
             {

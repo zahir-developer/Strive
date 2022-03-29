@@ -253,7 +253,7 @@ namespace Strive.BusinessLogic
                         if (new EmailAddressAttribute().IsValid(email))
                         {
                             SendEmployeeMail(empDetail.EmployeeInfo, email, empDetail.EmployeeLocations, empDetail.EmployeeRoles, emp.EmployeeId);
-                            new EmployeeRal(_tenant).UpdateEmployeeAddressIsNotified(empDetail.EmployeeInfo.EmployeeAddressId, true);
+                            new EmployeeRal(_tenant).UpdateEmployeeAddressIsNotified(empDetail.EmployeeInfo.EmployeeAddressId.GetValueOrDefault(0), true);
                             return false;
                         }
                     }
