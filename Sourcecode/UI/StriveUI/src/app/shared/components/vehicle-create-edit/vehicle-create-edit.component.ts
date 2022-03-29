@@ -276,8 +276,8 @@ export class VehicleCreateEditComponent implements OnInit {
           this.memberServiceId = vehicle?.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
           //this.getMemberServices(this.memberServiceId);
           this.isMembership = true;
-          this.vehicleForm.get('cardNumber').setValidators([Validators.required]);
-          this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
+          // this.vehicleForm.get('cardNumber').setValidators([Validators.required]);
+          // this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
 
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId,
@@ -381,8 +381,8 @@ export class VehicleCreateEditComponent implements OnInit {
       this.vehicleForm.get('monthlyCharge').reset();
       this.isMembership = true;
 
-      this.vehicleForm.get('cardNumber').setValidators([Validators.required]);
-      this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
+     // this.vehicleForm.get('cardNumber').setValidators([Validators.required]);
+      //this.vehicleForm.get('expiryDate').setValidators([Validators.required]);
       if (this.memberOnchangePatchedService.length !== 0) {
         this.memberOnchangePatchedService.forEach(element => {
           this.selectedservice = this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
@@ -874,7 +874,7 @@ export class VehicleCreateEditComponent implements OnInit {
         vehicleYear: null,
         vehicleColor: Number(this.vehicleForm.value.color.id),
         upcharge: Number(this.vehicleForm.value.upcharge),
-        barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
+        barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : '',
         monthlyCharge: this.vehicleForm.value.monthlyCharge,
         notes: null,
         isActive: true,
@@ -1056,7 +1056,7 @@ export class VehicleCreateEditComponent implements OnInit {
         VehicleModel: Number(this.vehicleForm.value.model.id),
         VehicleColor: Number(this.vehicleForm.value.color.id),
         Upcharge: Number(this.vehicleForm.value.upcharge),
-        Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
+        Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : '',
         VehicleModelNo: null,
         VehicleYear: null,
         Notes: null,
@@ -1076,7 +1076,7 @@ export class VehicleCreateEditComponent implements OnInit {
         MembershipName: 'No',
         Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
-        Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
+        Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : '',
       };
       const formObj = {
         clientVehicle: add,
