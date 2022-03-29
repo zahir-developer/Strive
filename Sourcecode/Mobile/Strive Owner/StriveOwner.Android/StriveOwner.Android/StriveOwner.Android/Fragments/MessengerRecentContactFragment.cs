@@ -65,7 +65,7 @@ namespace StriveOwner.Android.Fragments
             }
         }
 
-        private async void getRecentContacts()
+        public async void getRecentContacts()
         {
             try
             {

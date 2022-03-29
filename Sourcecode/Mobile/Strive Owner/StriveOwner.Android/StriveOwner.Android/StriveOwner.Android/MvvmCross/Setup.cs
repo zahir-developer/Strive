@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Acr.UserDialogs;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
-using Android.Views;
 using Android.Widget;
 using MvvmCross;
 using MvvmCross.Base;
@@ -26,6 +19,7 @@ using Strive.Core.Rest.Implementations;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Services.Interfaces;
+using Strive.Core.ViewModels.Customer;
 
 namespace StriveOwner.Android.MvvmCross
 {
@@ -66,7 +60,13 @@ namespace StriveOwner.Android.MvvmCross
         {
             return new MvxAppCompatViewPresenter(AndroidViewAssemblies);
         }
-
+        public override IEnumerable<Assembly> GetViewModelAssemblies()
+        {
+            var result = base.GetViewModelAssemblies();
+            var assemblyList = result.ToList();
+            assemblyList.Add(typeof(LoginViewModel).Assembly);
+            return assemblyList;
+        }
 
 
     }

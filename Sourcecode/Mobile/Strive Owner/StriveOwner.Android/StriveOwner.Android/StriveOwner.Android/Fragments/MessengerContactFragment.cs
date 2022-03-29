@@ -66,7 +66,7 @@ namespace StriveOwner.Android.Fragments
             }
         }
 
-        private async void getContacts()
+        public async void getContacts()
         {
             if(MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {

@@ -72,7 +72,7 @@ namespace StriveEmployee.Android.Fragments
             }
         }
 
-        private async void getGroups()
+        public async void getGroups()
         {
             try
             {

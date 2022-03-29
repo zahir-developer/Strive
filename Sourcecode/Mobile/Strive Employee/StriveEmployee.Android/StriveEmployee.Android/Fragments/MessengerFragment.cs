@@ -19,7 +19,7 @@ namespace StriveEmployee.Android.Fragments
 {
     [MvxFragmentPresentationAttribute]
     [MvxUnconventionalAttribute]
-    public class MessengerFragment : MvxFragment<MessengerPersonalChatViewModel>
+    public class MessengerFragment : MvxFragment<MessengerPersonalChatViewModel>, ViewPager.IOnPageChangeListener
     {
         private ImageButton messenger_ImageButton;
         private TabLayout messenger_TabLayout;
@@ -96,6 +96,8 @@ namespace StriveEmployee.Android.Fragments
             messenger_ViewPagerAdapter.AddFragment(groupContactFragment, "Groups");
             messenger_ViewPager.Adapter = messenger_ViewPagerAdapter;
             messenger_TabLayout.SetupWithViewPager(messenger_ViewPager);
+            messenger_ViewPager.AddOnPageChangeListener(this);
+
         }
         public override void OnPause()
         {
@@ -108,6 +110,30 @@ namespace StriveEmployee.Android.Fragments
         public override void OnDestroy()
         {
             base.OnDestroy();
+        }
+
+        public void OnPageScrollStateChanged(int state)
+        {
+        }
+
+        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+        }
+
+        public void OnPageSelected(int position)
+        {
+            if(position == 0)
+            {
+                recentContactFragment.getRecentContacts();
+            }
+            if(position == 1)
+            {
+                contactFragment.getContacts();
+            }
+            if(position == 2)
+            {
+                groupContactFragment.getGroups();
+            }
         }
     }
 }
