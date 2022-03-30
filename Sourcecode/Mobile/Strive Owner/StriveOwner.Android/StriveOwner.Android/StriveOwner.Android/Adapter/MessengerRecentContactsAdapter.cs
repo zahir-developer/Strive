@@ -71,7 +71,14 @@ namespace StriveOwner.Android.Adapter
                 return recentContacts.Count;
             }
         }
-
+        public override int GetItemViewType(int position)
+        {
+            return position;
+        }
+        public override long GetItemId(int position)
+        {
+            return position;
+        }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             recentContactsRecycleHolder = holder as MessengerRecentContactsRecycleHolder;

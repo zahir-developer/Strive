@@ -68,7 +68,11 @@ namespace StriveOwner.Android.Fragments
 
         public async void getContacts()
         {
-            if(MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
+            if (ViewModel == null)
+            {
+                this.ViewModel = new MessengerContactViewModel();
+            }
+            if (MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {
                 try
                 {

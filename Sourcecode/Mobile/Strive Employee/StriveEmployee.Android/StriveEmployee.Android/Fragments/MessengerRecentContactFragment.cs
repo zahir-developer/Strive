@@ -68,6 +68,10 @@ namespace StriveEmployee.Android.Fragments
         {
             try
             {
+                if (ViewModel == null)
+                {
+                    this.ViewModel = new MessengerRecentContactsViewModel();
+                }
                 await ViewModel.GetRecentContactsList();
                 if (ViewModel.EmployeeList != null)
                 {

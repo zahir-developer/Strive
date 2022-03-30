@@ -76,6 +76,10 @@ namespace StriveEmployee.Android.Fragments
         {
             try
             {
+                if (ViewModel == null)
+                {
+                    this.ViewModel = new MessengerGroupContactViewModel();
+                }
                 await ViewModel.GetGroupsList();
                 if (ViewModel.GroupList != null)
                 {
