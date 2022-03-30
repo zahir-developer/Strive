@@ -3,6 +3,7 @@ using Strive.Core.Resources;
 using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
 using Strive.Core.ViewModels.TIMInventory;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -515,7 +516,17 @@ namespace Strive.Core.ViewModels.Owner
 
         public async void productByIdCommand()
         {
-            editableProduct = await AdminService.GetProductByID(EditInventoryItem.Product.ProductId);
+            try
+            {
+                editableProduct = await AdminService.GetProductByID(EditInventoryItem.Product.ProductId);
+            }
+            catch (Exception ex)
+            {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
         private AddProduct PrepareUpdateProduct()
         {

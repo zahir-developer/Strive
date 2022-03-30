@@ -27,6 +27,7 @@ using MvvmCross.Binding.BindingContext;
 using StriveOwner.Android.Adapter;
 using System.Collections.ObjectModel;
 using Strive.Core.Models.TimInventory;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
@@ -59,7 +60,9 @@ namespace StriveOwner.Android.Resources.Fragments
         private bool isDefaultText;
         private bool isSaveClicked;
         private InventoryEditImagePickerFragment inventoryEditImagePickerFragment;
-
+        public AlertDialog.Builder Builder;
+        private EventHandler<DialogClickEventArgs> okHandler;
+        private EventHandler<DialogClickEventArgs> removePhotoHandler;
         private string selectedIcon;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -177,18 +180,6 @@ namespace StriveOwner.Android.Resources.Fragments
             chooseImageDialog.Dismiss();
             if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.Camera) == Permission.Granted)
             {
-                _ = TakePhotoAsync();
-            }
-            else
-            {
-                RequestPermissions(new string[] { Manifest.Permission.Camera }, 1);
-            }
-
-        }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-        {
-            if (requestCode == 1)
-            {
                 if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
                 {
                     _ = TakePhotoAsync();
@@ -196,24 +187,114 @@ namespace StriveOwner.Android.Resources.Fragments
                 else
                 {
                     RequestPermissions(new string[] { Manifest.Permission.WriteExternalStorage }, 2);
+
+                }
+            }
+            else
+            {
+                RequestPermissions(new string[] { Manifest.Permission.Camera }, 1);
+            }
+        }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            if (requestCode == 1)
+            {
+                if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.Camera) != Permission.Denied)
+                {
+                    if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+                    {
+                        _ = TakePhotoAsync();
+                    }
+                    else
+                    {
+                        RequestPermissions(new string[] { Manifest.Permission.WriteExternalStorage }, 2);
+                    }
+                }
+                else
+                {
+                    Builder = new AlertDialog.Builder(Context);
+                    Builder.SetMessage("Camera permission needed for Take Picture");
+                    Builder.SetTitle("Permission needed");
+                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+                        AppInfo.ShowSettingsUI();
+                    });
+                    removePhotoHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+
+                    });
+                    Builder.SetPositiveButton("Settings", okHandler);
+                    Builder.SetNegativeButton("Cancel", removePhotoHandler);
+                    Builder.Create();
+                    Builder.Show();
                 }
             }
             else if(requestCode == 2)
             {
-                _ = TakePhotoAsync();
+                if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.WriteExternalStorage) != Permission.Denied)
+                {
+                    if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+                    {
+                        _ = TakePhotoAsync();
+                    }  
+                }
+                else
+                {
+                    Builder = new AlertDialog.Builder(Context);
+                    Builder.SetMessage("File permission needed for Take Picture");
+                    Builder.SetTitle("Permission needed");
+                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+                        AppInfo.ShowSettingsUI();
+                    });
+                    removePhotoHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+
+                    });
+                    Builder.SetPositiveButton("Settings", okHandler);
+                    Builder.SetNegativeButton("Cancel", removePhotoHandler);
+                    Builder.Create();
+                    Builder.Show();
+                }
             }
             else if (requestCode == 3)
             {
-                _ = PickPhotoAsync();
+                if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.ReadExternalStorage) != Permission.Denied)
+                {
+                    if (ContextCompat.CheckSelfPermission(context, Manifest.Permission.ReadExternalStorage) == Permission.Granted)
+                    {
+                        _ = PickPhotoAsync();
+                    }
+                    else
+                    {
+                        RequestPermissions(new string[] { Manifest.Permission.ReadExternalStorage }, 3);
+                    }
+                }
+                else
+                {
+                    Builder = new AlertDialog.Builder(Context);
+                    Builder.SetMessage("File permission needed for Browse Image");
+                    Builder.SetTitle("Permission needed");
+                    okHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+                        AppInfo.ShowSettingsUI();
+                    });
+                    removePhotoHandler = new EventHandler<DialogClickEventArgs>((object s, DialogClickEventArgs de) =>
+                    {
+
+                    });
+                    Builder.SetPositiveButton("Settings", okHandler);
+                    Builder.SetNegativeButton("Cancel", removePhotoHandler);
+                    Builder.Create();
+                    Builder.Show();
+                }
             }
             else
             {
                 base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            } 
+          }
 
-            }
-            
-        }
-        
         async Task TakePhotoAsync()
         {
             try
