@@ -129,7 +129,7 @@
                     formControlName="monthlyCharge" placeholder="$0.00">
             </div>
             <div class="form-group col-3" *ngIf="isMembership">
-                <label for="inputCardNumber">Card Number<span class="required">*</span></label>
+                <label for="inputCardNumber">Card Number</label>
 
                 <input type="text" name="cardNumber" maxlength="16" placeholder="1234-1234-1234-1234"
                     class="form-control" (change)="getCardType($event.target.value)"
@@ -162,7 +162,7 @@
                     style="margin-top: 31px;margin-left: -63px;font-size: 40px;color: blue;"></i></div>
             <br />
             <div class="form-group col-lg-3" *ngIf="isMembership">
-                <label for="inputExpiryDate">Expiry Date<span class="required">*</span></label>
+                <label for="inputExpiryDate">Expiry Date</label>
                 <br />
                 <p-inputMask mask="99/99" size="9" name="expiryDate"
                     [ngClass]="{ 'is-invalid': submitted  && f.expiryDate.errors }" formControlName="expiryDate"

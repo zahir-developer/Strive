@@ -12,6 +12,7 @@ using FirebaseAdmin.Messaging;
 using Strive.BusinessEntities;
 using Newtonsoft.Json;
 using Strive.BusinessLogic.Auth;
+using System.IO;
 
 namespace Admin.API.Scheduler.Quartz
 {
@@ -92,8 +93,10 @@ namespace Admin.API.Scheduler.Quartz
                 TimeZoneInfo oZone = TimeZoneInfo.FindSystemTimeZoneById(_tenant.TimeZone);
                
                 DateTime oTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, oZone);
-
+//                DateTime.ParseExact(TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, oZone).ToString("dd/MM/yyyy HH:mm:ss").Replace('-', '/'),
+//"dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                
+
                 var oList = new ChecklistBpl(_cache, _tenant).GetChecklistNotificationByDate(oTime);
 
                 if (oList.ChecklistNotification !=null)
@@ -118,8 +121,17 @@ namespace Admin.API.Scheduler.Quartz
                                 Body = oObj.Name
                             }
                         };
+                        try
+                        {
+                            var response = await FirebaseMessaging.DefaultInstance.SendAsync(msg);
+                        }
+                        catch (Exception ex)
+                        {
+                            string[] lines = { "oTime: " + oTime, "utc :" + DateTime.UtcNow, "Exception :" + ex.Message };
 
-                        var response = await FirebaseMessaging.DefaultInstance.SendAsync(msg);
+                            // Append new lines of text to the file
+                            File.AppendAllLines(Path.Combine(_tenant.ErrorLog, "ErrorFile.txt"), lines);
+                        }
                     }
                 }
             }
