@@ -9,7 +9,7 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class WeatherService {
-public data: BehaviorSubject<string> = new BehaviorSubject('');
+  public data: BehaviorSubject<string> = new BehaviorSubject('');
   weatherData: any;
   weatherWeekData: any;
   weatherMonthData: any;
@@ -17,31 +17,33 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
   constructor(private http: HttpUtilsService) {
 
     setTimeout(() => {
-     this.getWeather();
+      if (localStorage.getItem('isAuthenticated')?.toString() === 'true') {
+        this.getWeather();
+      }
     }, 1000);
   }
-getWeather() {
-  const locationId = localStorage.getItem('empLocationId');
-  if(locationId != null){
-    this.http.get(`${UrlConfig.weather.getWeather}` + locationId).subscribe((data: any) => {
-      this.weatherData = data;
-      this.weatherWeekData = data?.lastWeekWeather;
-       this.weatherMonthData = data?.lastMonthWeather;
-  
-      this.data.next(this.weatherData);
-      
-  
-  
-    });
+  getWeather() {
+    const locationId = localStorage.getItem('empLocationId');
+    if (locationId != null) {
+      this.http.get(`${UrlConfig.weather.getWeather}` + locationId).subscribe((data: any) => {
+        this.weatherData = data;
+        this.weatherWeekData = data?.lastWeekWeather;
+        this.weatherMonthData = data?.lastMonthWeather;
+
+        this.data.next(this.weatherData);
+
+
+
+      });
+    }
+
   }
+  UpdateWeather(obj) {
+    return this.http.post(`${UrlConfig.weather.saveWeather}`, obj);
+  }
+  getTargetBusinessData(locationId, dateTime) {
+    locationId = localStorage.getItem('empLocationId');
 
-}
-UpdateWeather(obj){
-  return this.http.post(`${UrlConfig.weather.saveWeather}`, obj);
-}
-getTargetBusinessData(locationId, dateTime) {
-   locationId = localStorage.getItem('empLocationId');
-
-  return this.http.get(`${UrlConfig.weather.getTargetBusinessData}`+ locationId + '/' + dateTime);
-}
+    return this.http.get(`${UrlConfig.weather.getTargetBusinessData}` + locationId + '/' + dateTime);
+  }
 }

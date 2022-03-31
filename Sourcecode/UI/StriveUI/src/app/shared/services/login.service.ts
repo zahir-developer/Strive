@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpUtilsService } from '../util/http-utils.service';
 import { UrlConfig } from './url.config';
 
@@ -8,6 +8,8 @@ import { UrlConfig } from './url.config';
 })
 export class LoginService {
 
+  private userLoggedIn = new Subject<boolean>();
+  
   constructor(private http: HttpUtilsService) { }
   public userAuthentication(loginObj): Observable<any> {
     return this.http.post(`${UrlConfig.Auth.login}`, loginObj);
@@ -21,6 +23,11 @@ export class LoginService {
 
   emailIdExists(email) {
     return this.http.get(`${UrlConfig.Auth.emailIdExists}` + email );
+  }
+
+  setUserLoggedIn(loginStatus: boolean)
+  {
+    this.userLoggedIn.next(loginStatus);
   }
   
 }

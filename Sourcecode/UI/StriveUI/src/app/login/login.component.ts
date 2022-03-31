@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../shared/services/login.service';
@@ -15,6 +15,7 @@ import { tap, mapTo, share } from 'rxjs/operators';
 import { ApplicationConfig } from '../shared/services/ApplicationConfig';
 import { WeatherService } from '../shared/services/common-service/weather.service';
 import { LogoService } from '../shared/services/common-service/logo.service';
+import { BehaviorSubject } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -22,7 +23,11 @@ declare var $: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
+
+
 export class LoginComponent implements OnInit {
+  @Output() userLoggedIn = new EventEmitter();
   errorFlag = false;
   loginForm: FormGroup;
   submitted = false;
@@ -36,7 +41,6 @@ export class LoginComponent implements OnInit {
   isRememberMe: boolean;
   emailregex: RegExp = /^[ A-Za-z0-9_@.+]*$/;
   showSignup = true;
-
   constructor(
     private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
@@ -58,6 +62,7 @@ export class LoginComponent implements OnInit {
     });
     this.bindValue();
     this.sidenavsHide();
+    this.authService.userloggedIn.next(false);
   }
 
   bindValue() {
@@ -105,9 +110,10 @@ export class LoginComponent implements OnInit {
         if (data.status === 'Success') {
           this.spinner.hide();
           const token = JSON.parse(data.resultData);
-          this.landing.loadTheLandingPage(true);
           this.getCodeValue();
           this.msgService.startConnection();
+          this.userLoggedIn.emit();
+          this.landing.loadTheLandingPage(true);
         } else {
           this.errorFlag = true;
           this.isLoginLoading = false;
@@ -166,6 +172,10 @@ export class LoginComponent implements OnInit {
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('empLocation');
+    localStorage.removeItem('sessionExpiryWarning');
+    localStorage.removeItem('tokenExpiry');
+    localStorage.removeItem('tokenExpiryMinutes');
+    localStorage.removeItem('refreshTokenExpiry');
   }
 
 }

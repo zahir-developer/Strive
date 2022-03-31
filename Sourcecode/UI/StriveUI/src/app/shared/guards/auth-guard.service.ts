@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
       var currentTime = new Date();
 
       if (currentTime >= tokenExpiry)
-          return this.router.navigate(['/unauthorized']);
+          return this.router.navigate(['/session-expired']);
       else if (refreshTokenExpiry <= currentTime)
           return this.tryRefreshingTokens(token);
      

@@ -1,5 +1,6 @@
 import { Component, Output, OnInit, EventEmitter } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from '../shared/services/common-service/auth.service';
 declare var $: any;
 @Component({
   selector: 'app-unauthorized',
@@ -10,13 +11,14 @@ declare var $: any;
 export class UnauthorizedComponent implements OnInit {
 
   @Output() authorizeStatusEmitter = new EventEmitter();
-  constructor(private spinner: NgxSpinnerService) { }
+  constructor(private spinner: NgxSpinnerService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.spinner.hide();
     this.sessionClear();
     this.authorizeStatusEmitter.emit();
     this.sidenavsHide();
+    this.authService.userloggedIn.next(false);
   }
 
   sessionClear()

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { HttpUtilsService } from '../../util/http-utils.service';
 import { UrlConfig } from '../url.config';
 import { map, tap } from 'rxjs/operators';
@@ -17,6 +17,9 @@ import { LogoService } from './logo.service';
 export class AuthService {
   userDetails: any;
   public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  public userloggedIn: Subject<boolean> = new Subject<boolean>();
+
   refreshTokenTimeout;
   whiteLabelDetail: any;
   colorTheme: any;
@@ -32,8 +35,24 @@ export class AuthService {
   ) {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.loggedIn.next(true);
+      this.userloggedIn.next(true);
+      this.refreshToken().subscribe();
+    }
+    else
+    {
+      this.userloggedIn.next(false);
     }
   }
+
+  setUserLoggedIn(userLoggedIn: boolean) {
+    this.userloggedIn.next(userLoggedIn);
+  }
+
+  getUserLoggedIn(): Observable<boolean> {
+    return this.userloggedIn.asObservable();
+  }
+
+
   login(loginData: any): Observable<any> {
     return this.http.post(`${UrlConfig.Auth.login}`, loginData).pipe(tap((user) => {
       if (user !== null && user !== undefined) {
@@ -43,6 +62,7 @@ export class AuthService {
           this.startRefreshTokenTimer();
           this.getThemeColor();
           this.setTokenSession(token);
+          this.userloggedIn.next(true);
           return user;
         }
       }
@@ -60,16 +80,16 @@ export class AuthService {
     if (expireMinutes !== 0) {
       var expireTime = new Date(dateTime.getTime() + ((+expireMinutes) * 60000));
       var refreshTokenExpireTime = new Date(dateTime.getTime() + ((expireMinutes - refreshTokenMinute) * 60000));
-      
+
       localStorage.setItem('tokenExpiry', expireTime.toString());
       localStorage.setItem('tokenExpiryMinutes', expireMinutes.toString());
 
       localStorage.setItem('refreshTokenExpiry', (refreshTokenExpireTime).toString());
       localStorage.setItem('refreshTokenExpiryMinutes', refreshTokenMinute.toString());
-      
+
       localStorage.setItem('sessionExpiryWarning', sessionExpiryWarning.toString());
 
-      localStorage.setItem('refreshTokenCalled', "0");    
+      localStorage.setItem('refreshTokenCalled', "0");
     }
   }
   refreshToken() {
@@ -94,7 +114,7 @@ export class AuthService {
           var refreshExpireTime = new Date(dateTime.getTime() + ((+expireMinutes - ApplicationConfig.Token.RefreshTokenMinute) * 60000));
           localStorage.setItem('refreshTokenExpiry', refreshExpireTime.toString());
           localStorage.setItem('refreshTokenCalled', "0");
-        
+
           //this.startRefreshTokenTimer();
         }
       }

@@ -17,10 +17,21 @@
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 <p-dialog width="30" height="20" styleClass="SessionTimeoutDialog" header="{{header}}" [(visible)]="dialogDisplay"
-  [blockScroll]="true" [resizable]="true" [modal]="true" [focusOnShow]="false" [closable]="false" [baseZIndex]="10000">
+[blockScroll]="true" [resizable]="true" [modal]="true" [focusOnShow]="false" [closable]="false" [baseZIndex]="10000">
 
-  <app-session-logout [dialogDisplay]="dialogDisplay" [dialogType]="dialogType" [header]="header"
-    (closeDialog)="closeDialog()" (continueSession)="continueSession()">
-  </app-session-logout>
+<div *ngIf="dialogType === 'idle'">
+  <span>{{ idleState }}</span>
+  <div class="progress">
+      <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+          style="width: 100%" aria-valuenow="75" aria-label="test" aria-valuemax="100">
+      </div>
+  </div>
+  <div style="margin-top:10px;">
+      <div class="col-xs-12">
+          <button type="button" class="btn btn-secondary" style="float: right;"
+              (click)="continueSession()">Continue Session...</button>
+      </div>
+  </div>
+</div>
 
 </p-dialog>

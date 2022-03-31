@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/common-service/auth.service';
 declare var $: any;
 
 @Component({
@@ -9,17 +10,17 @@ declare var $: any;
 })
 export class SessionExpiredComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
-    $(document).ready(function(){ 
-     $('#sidenavSec').css('display','none');
-     $('#footerSec').css('display','none');
-     $('#headerSec').css('display','none');
+    $(document).ready(function () {
+      $('#sidenavSec').css('display', 'none');
+      $('#footerSec').css('display', 'none');
+      $('#headerSec').css('display', 'none');
     });
-
+    this.authService.userloggedIn.next(false);
     this.clearCacheValue();
-  
+
   }
 
   clearCacheValue() {
@@ -34,12 +35,12 @@ export class SessionExpiredComponent implements OnInit {
     localStorage.removeItem('refreshTokenCalled');
   }
 
-  ngOnDestroy() { 
-    $(document).ready(function(){ 
-      $('#sidenavSec').css('display','flex');
-      $('#footerSec').css('display','flex');
-      $('#headerSec').css('display','flex');
-     });
+  ngOnDestroy() {
+    $(document).ready(function () {
+      $('#sidenavSec').css('display', 'flex');
+      $('#footerSec').css('display', 'flex');
+      $('#headerSec').css('display', 'flex');
+    });
   }
 
 
