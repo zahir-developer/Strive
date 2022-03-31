@@ -19,7 +19,7 @@ using Strive.Core.Rest.Implementations;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Services.Interfaces;
-using Strive.Core.ViewModels.Customer;
+using Strive.Core.ViewModels.Owner;
 
 namespace StriveOwner.Android.MvvmCross
 {
