@@ -131,6 +131,7 @@ namespace Admin.API
             services.AddTransient<ITenantBpl, TenantBpl>();
             services.AddTransient<ILogBpl, LogBpl>();
             services.AddTransient<IPrinterBpl, PrinterBpl>();
+            services.AddTransient<IJobBpl, JobBpl>();
 
             Serilog.Log.Logger = new LoggerConfiguration()
            .MinimumLevel.Information()
