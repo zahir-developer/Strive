@@ -65,6 +65,7 @@ using Quartz.Impl;
 using Google.Apis.Auth.OAuth2;
 using FirebaseAdmin;
 using Strive.BusinessLogic.Printer;
+using Strive.BusinessLogic.Job;
 
 namespace Admin.API
 {
