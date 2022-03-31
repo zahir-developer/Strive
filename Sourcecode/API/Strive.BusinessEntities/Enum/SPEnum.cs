@@ -266,6 +266,7 @@ namespace Strive.BusinessEntities
             USPGETALLCOLOR,
             USPGETUPCHARGEBYTYPE,
             USPADDDRIVEUPVEHICLE,
+            USPUPDATEVEHICLEBARCODE,
             USPUPDATEMEMBERSHIPVEHICLEDISCOUNT,
             USPDELETEVEHICLEMEMBERSHIP,
             USPUPDATEVEHICLENUMBERSEQUENCE,
@@ -289,6 +290,12 @@ namespace Strive.BusinessEntities
             USPDELETEJOBITEM,
             USPGETLASTSERVICEVISIT
         }
+
+        public enum Printer
+        {
+            USPGETPRINTERBYLOCATION
+        }
+
         public enum Details
         {
             //Details
