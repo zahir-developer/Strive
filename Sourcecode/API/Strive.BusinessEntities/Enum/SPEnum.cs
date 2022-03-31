@@ -288,6 +288,12 @@ namespace Strive.BusinessEntities
             USPDELETEJOBITEM,
             USPGETLASTSERVICEVISIT
         }
+
+        public enum Printer
+        {
+            USPGETPRINTERBYLOCATION
+        }
+
         public enum Details
         {
             //Details
