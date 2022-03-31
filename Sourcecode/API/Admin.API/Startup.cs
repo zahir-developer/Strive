@@ -64,6 +64,7 @@ using Quartz;
 using Quartz.Impl;
 using Google.Apis.Auth.OAuth2;
 using FirebaseAdmin;
+using Strive.BusinessLogic.Job;
 
 namespace Admin.API
 {
@@ -128,6 +129,7 @@ namespace Admin.API
             services.AddTransient<IPaymentGatewayBpl, PaymentGatewayBpl>();
             services.AddTransient<ITenantBpl, TenantBpl>();
             services.AddTransient<ILogBpl, LogBpl>();
+            services.AddTransient<IJobBpl, JobBpl>();
 
             Serilog.Log.Logger = new LoggerConfiguration()
            .MinimumLevel.Information()
