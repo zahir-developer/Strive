@@ -8,4 +8,6 @@
 	<string name="confirm_password">Confirm Password</string>
     <string name="channel_name">FCM Notifications</string>
     <string name="channel_description">Firebase Cloud Messages appear in this channel</string>
+   <string name="default_notification_channel_id">com.Mammoth.StriveEmployeeMobile.urgent</string>
+
 </resources>

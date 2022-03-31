@@ -14325,82 +14325,85 @@ namespace StriveEmployee.Android
 			public const int confirm_password = 2131689537;
 			
 			// aapt resource value: 0x7F0F0042
-			public const int default_web_client_id = 2131689538;
+			public const int default_notification_channel_id = 2131689538;
 			
 			// aapt resource value: 0x7F0F0043
-			public const int email_Id = 2131689539;
+			public const int default_web_client_id = 2131689539;
 			
 			// aapt resource value: 0x7F0F0044
-			public const int email_or_phone = 2131689540;
+			public const int email_Id = 2131689540;
 			
 			// aapt resource value: 0x7F0F0045
-			public const int fab_scroll_shrink_grow_autohide_behavior = 2131689541;
+			public const int email_or_phone = 2131689541;
 			
 			// aapt resource value: 0x7F0F0046
-			public const int fab_transformation_scrim_behavior = 2131689542;
+			public const int fab_scroll_shrink_grow_autohide_behavior = 2131689542;
 			
 			// aapt resource value: 0x7F0F0047
-			public const int fab_transformation_sheet_behavior = 2131689543;
+			public const int fab_transformation_scrim_behavior = 2131689543;
 			
 			// aapt resource value: 0x7F0F0048
-			public const int fcm_fallback_notification_channel_label = 2131689544;
+			public const int fab_transformation_sheet_behavior = 2131689544;
 			
 			// aapt resource value: 0x7F0F0049
-			public const int gcm_defaultSenderId = 2131689545;
+			public const int fcm_fallback_notification_channel_label = 2131689545;
 			
 			// aapt resource value: 0x7F0F004A
-			public const int google_api_key = 2131689546;
+			public const int gcm_defaultSenderId = 2131689546;
 			
 			// aapt resource value: 0x7F0F004B
-			public const int google_app_id = 2131689547;
+			public const int google_api_key = 2131689547;
 			
 			// aapt resource value: 0x7F0F004C
-			public const int google_crash_reporting_api_key = 2131689548;
+			public const int google_app_id = 2131689548;
 			
 			// aapt resource value: 0x7F0F004D
-			public const int google_storage_bucket = 2131689549;
+			public const int google_crash_reporting_api_key = 2131689549;
 			
 			// aapt resource value: 0x7F0F004E
-			public const int hide_bottom_view_on_scroll_behavior = 2131689550;
+			public const int google_storage_bucket = 2131689550;
 			
 			// aapt resource value: 0x7F0F004F
-			public const int library_name = 2131689551;
+			public const int hide_bottom_view_on_scroll_behavior = 2131689551;
 			
 			// aapt resource value: 0x7F0F0050
-			public const int mtrl_chip_close_icon_content_description = 2131689552;
+			public const int library_name = 2131689552;
 			
 			// aapt resource value: 0x7F0F0051
-			public const int new_password = 2131689553;
+			public const int mtrl_chip_close_icon_content_description = 2131689553;
 			
 			// aapt resource value: 0x7F0F0052
-			public const int password = 2131689554;
+			public const int new_password = 2131689554;
 			
 			// aapt resource value: 0x7F0F0053
-			public const int password_toggle_content_description = 2131689555;
+			public const int password = 2131689555;
 			
 			// aapt resource value: 0x7F0F0054
-			public const int path_password_eye = 2131689556;
+			public const int password_toggle_content_description = 2131689556;
 			
 			// aapt resource value: 0x7F0F0055
-			public const int path_password_eye_mask_strike_through = 2131689557;
+			public const int path_password_eye = 2131689557;
 			
 			// aapt resource value: 0x7F0F0056
-			public const int path_password_eye_mask_visible = 2131689558;
+			public const int path_password_eye_mask_strike_through = 2131689558;
 			
 			// aapt resource value: 0x7F0F0057
-			public const int path_password_strike_through = 2131689559;
+			public const int path_password_eye_mask_visible = 2131689559;
 			
 			// aapt resource value: 0x7F0F0058
-			public const int project_id = 2131689560;
+			public const int path_password_strike_through = 2131689560;
 			
 			// aapt resource value: 0x7F0F0059
-			public const int search_menu_title = 2131689561;
+			public const int project_id = 2131689561;
 			
 			// aapt resource value: 0x7F0F005A
-			public const int status_bar_notification_info_overflow = 2131689562;
+			public const int search_menu_title = 2131689562;
 			
 			// aapt resource value: 0x7F0F005B
-			public const int view_scroll_translation_autohide_behavior = 2131689563;
+			public const int status_bar_notification_info_overflow = 2131689563;
+			
+			// aapt resource value: 0x7F0F005C
+			public const int view_scroll_translation_autohide_behavior = 2131689564;
 			
 			static String()
 			{

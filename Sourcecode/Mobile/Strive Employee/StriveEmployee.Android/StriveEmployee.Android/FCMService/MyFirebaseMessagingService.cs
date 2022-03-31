@@ -21,15 +21,23 @@ namespace StriveEmployee.Android.FCMService
         private ISharedPreferencesEditor preferenceEditor;
         public AlertDialog.Builder Builder;
         private Intent intent;
+        private string messageBody;
+        private string title;
         public override void OnMessageReceived(RemoteMessage message)
         {
             Log.Debug(TAG, "From: " + message.From);
-            if( message.Data.Count > 0)
+            if( message.Data.Count > 0 && ( message.Data.ContainsKey ("body") || message.Data.ContainsKey("title")))
             {
-                //var body = message.GetNotification().Body;
                 Log.Info(TAG, "this is an fcm message");
-                SendNotification(message.Data);
+                 messageBody = message.Data["body"];
+                 title = message.Data["title"];
             }
+            else if (message.GetNotification()!=null)
+            {
+                messageBody = message.GetNotification().Body;
+                title = message.GetNotification().Title;
+            }
+            SendNotification(message.Data, messageBody, title);
         }
         public override void OnNewToken(string s)
         {
@@ -45,10 +53,10 @@ namespace StriveEmployee.Android.FCMService
             preferenceEditor.Apply();
         }
       
-        private void SendNotification(IDictionary<string, string> data)
+        private void SendNotification(IDictionary<string, string> data, string messageBody, string title)
         {
-            string messageBody = data["body"];
-            string title = data["title"];
+            //string messageBody = data["body"];
+            //string title = data["title"];
             EmployeeTempData.EmployeeRole = int.Parse(data["RoleId"]);
             if (Constants.NOTIFICATION_EMPID == 0)
             {
