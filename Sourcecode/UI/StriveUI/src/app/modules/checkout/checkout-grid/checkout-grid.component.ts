@@ -206,8 +206,10 @@ export class CheckoutGridComponent implements OnInit {
                 this.spinner.hide();
                 this.toastr.success(MessageConfig.checkOut.Add, 'Success!');
                 this.sortColumn = {
-                  sortBy: ApplicationConfig.Sorting.SortBy.Vehicle,
-                  sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order
+                  sortBy: ApplicationConfig.Sorting.SortBy.CheckOut,
+                  sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order
+                  // sortBy: ApplicationConfig.Sorting.SortBy.Vehicle,
+                  // sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order
                 };
 
                 this.getAllUncheckedVehicleDetails();

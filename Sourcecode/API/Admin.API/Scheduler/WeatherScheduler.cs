@@ -52,6 +52,7 @@ namespace Admin.API.Scheduler
             _tenant.Port = Pick("SMTP", "Port");
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress");
 
+            _tenant.ErrorLog = Pick("Logs", "Error");
         }
         protected string GetTenantConnection()
         {
