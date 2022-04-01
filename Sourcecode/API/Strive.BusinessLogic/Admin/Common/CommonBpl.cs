@@ -97,7 +97,7 @@ namespace Strive.BusinessLogic.Common
             //string osmUri = _tenant.OSMUri + locationAddress.Address1 + "," 
             //    + locationAddress.CityName + "+" + locationAddress.StateName + "+" + locationAddress.Zip
             //    + "&format=json";
-            string osmUri = _tenant.OSMUri + "&street" + locationAddress.Address1 + "&city="
+            string osmUri = _tenant.OSMUri + "&street=" + locationAddress.Address1 + "&city="
               + locationAddress.CityName + "&state=" + locationAddress.StateName + "&postalcode=" + locationAddress.Zip
               + "&format=json";
             //"https://nominatim.openstreetmap.org/search?q=Old Milton, Barton on Sea&city=New Milton&country=UK&state=Alabama&postalcode=34432&format=json"

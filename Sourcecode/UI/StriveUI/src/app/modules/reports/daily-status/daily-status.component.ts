@@ -33,6 +33,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   totalWashHours = "";
   totalDetailHours = "";
   totalOtherHours = "";
+  totalHours = "";
   detailHours = 0;
   totalAmount = 0;
   detailInfoTotal = 0;
@@ -156,7 +157,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         n.setSeconds(+hrs[1] * 60 );
         }*/
       
-      tableBody += item?.TotalHours.toFixed(2)
+      tableBody += (item?.OtherHours + item?.WashHours).toFixed(2)
       // (n.toTimeString().slice(0, 5)).toString().replace(".",":")
         + `</td>`;
 
@@ -195,6 +196,9 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       this.totalOtherHours = this.otherHours > 0 ?
     this.otherHours.toFixed(2).toString()
       : "0";
+      this.totalHours = (this.otherHours + this.washHours) > 0 ?
+      (this.otherHours + this.washHours).toFixed(2).toString()
+        : "0";
    // this.totalWashHours = (this.washHours +this.detailHours).toString().replace(".",":");
 /*
     var hrs =  this.washHours.toString().split(".");
