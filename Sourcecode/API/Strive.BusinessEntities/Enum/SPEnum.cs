@@ -44,8 +44,6 @@ namespace Strive.BusinessEntities
             USPUPDATELOGINID
         }
 
-
-
         public enum ClockTime
         {
             USPGETTIMECLOCK,
@@ -395,7 +393,8 @@ namespace Strive.BusinessEntities
         public enum Job
         {
             USPDELETEJOBITEMBYID,
-            USPGETCLIENTMAIL
+            USPGETCLIENTMAIL,
+            USPGETPRINTJOBDETAILBYID
         }
     }
     
