@@ -13,6 +13,10 @@ namespace Greeter.Services.Api
         Task<MakeResponse> GetAllMake();
         Task<GlobalDataResponse> GetGlobalData(string dataType);
         Task<LocationWashTimeResponse> GetLocationWashTime(long locationId);
+        Task<PrinterIp> GetPrinterIp(int locationid);
+        Task<TicketModel> GetPrintDetails(long jobid);
+        Task<GeneratedTicket> GetVehiclePrint(PrintContentRequest ticket);
+        Task<GeneratedTicket> GetCustomerPrint(PrintContentRequest ticket);
         //Task<LocationWashTimeResponse> GetAllLocationWashTime();
     }
 
@@ -42,6 +46,25 @@ namespace Greeter.Services.Api
             string formattedCurrentDate = DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_FOR_API);
             var parameters = new Dictionary<string, string>() { { nameof(locationId), locationId.ToString()} ,{ "date" , formattedCurrentDate} };
             return apiService.DoApiCall<LocationWashTimeResponse>(Urls.GET_LOCATION_WASH_TIME, HttpMethod.Get, parameters);
+        }
+
+        public Task<PrinterIp> GetPrinterIp(int locationid)
+        {
+            return apiService.DoApiCall<PrinterIp>(Urls.GET_PRINTER_IP+locationid, HttpMethod.Get);
+        }
+
+        public Task<TicketModel> GetPrintDetails(long jobid)
+        {
+            string url = Urls.GET_PRINT_DETAILS + "?jobId=" + jobid;
+            return apiService.DoApiCall<TicketModel>(url, HttpMethod.Get);
+        }
+        public Task<GeneratedTicket> GetVehiclePrint(PrintContentRequest ticket)
+        {
+            return apiService.DoApiCall<GeneratedTicket>(Urls.FETCH_VEHICLE_TICKET , HttpMethod.Post, null ,ticket);
+        }
+        public Task<GeneratedTicket> GetCustomerPrint(PrintContentRequest ticket)
+        {
+            return apiService.DoApiCall<GeneratedTicket>(Urls.FETCH_CUSTOMER_TICKET, HttpMethod.Post, null, ticket);
         }
 
         //public Task<LocationWashTimeResponse> GetAllLocationWashTime()

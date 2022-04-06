@@ -80,6 +80,7 @@ namespace Greeter.Storyboards
             {
                 InvokeOnMainThread(() =>
                 {
+                    this.ReloadInputViews();
                     GetData();
                 });
             });
@@ -122,6 +123,7 @@ namespace Greeter.Storyboards
         
         async void GetData()
         {
+            
             ShowActivityIndicator();
             var testresponse = await SingleTon.VehicleApiService.GetVehicleIssue(VehicleID); //VehicleID
              vehicleIssueResponse = new VehicleIssueResponse();
@@ -138,6 +140,7 @@ namespace Greeter.Storyboards
                 Title = SCREEN_TITLE;
                 tvIssues.Source = new IssuesSource(this.vehicleIssueResponse);
                 tvIssues.ReloadData();
+                
             }
             else
             {
@@ -153,11 +156,13 @@ namespace Greeter.Storyboards
             //HideActivityIndicator();
             if (result.StatusCode == 200 )
             {
-                ShowAlertMsg("Issue Deleted Successfuly");
+
                 //var index = vehicleIssueResponse.VehicleIssueThumbnail.VehicleIssue.Find(X => X.VehicleIssueid == issueid);
                 //vehicleIssueResponse.VehicleIssueThumbnail.VehicleIssue.Remove(index);
                 //tvIssues.ReloadData();
-                ViewDidLoad();
+                //ViewDidLoad();
+                GetData();
+                ShowAlertMsg("Issue Deleted Successfuly");
                 Console.WriteLine("Issue Deleted Successfuly");
             }
             else

@@ -26,7 +26,7 @@ namespace Greeter.Modules.Pay
         UITextField securityCodeTextField;
         UICollectionView tipsTemplatesCv;
         NSLayoutConstraint heightConstraintOfTipsCollectionView;
-
+        public string CardHolderName; 
         UIEdgeInsets scrollViewInsets;
 
         const string TIP_AMOUNT_FORMAT = "{0}{1}{2}.{3}{4}";
@@ -50,7 +50,7 @@ namespace Greeter.Modules.Pay
             tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0, 0, 0);
 
             RegisterForCardDetailsScanning();
-
+            //CardHolderName = ParseMagcardName("%B4799320385017982^K LAKSHMANA/^280722600722000000?;4799320385017982=2807226722?(null)");
 #if DEBUG
             //cardNumberTextField.Text = "6011000995500000";
             //expirationDateTextField.Text = "12/21";
@@ -156,7 +156,8 @@ namespace Greeter.Modules.Pay
         private void OnMagcardRead(object sender, MagneticCardDataTrack2Track3EventArgs e)
         {
             string data = $"{e.Track1 ?? string.Empty}{e.Track2 ?? string.Empty}{e.Track3 ?? string.Empty}";
-
+            
+            //string data = "%B376537649781009^D/NARENDREN ^2310201181064102?(null)(null)";
             Console.WriteLine($"Magcard swiped: {data}");
 
             //PlaySound(100, barcodeTone);
@@ -164,6 +165,7 @@ namespace Greeter.Modules.Pay
             Logic.Vibrate(2);
 
             string cardNumber = ParseMagcardData(data);
+            string HolderName = ParseMagcardName(data);
             if (cardNumber == null)
             {
                 //ScanTypeLabel.Text = "Magcard (Error)";
@@ -173,6 +175,7 @@ namespace Greeter.Modules.Pay
             {
                 //ScanTypeLabel.Text = "Magcard";
                 cardNumberTextField.Text = cardNumber;
+                CardHolderName = HolderName;
             }
         }
 
@@ -185,6 +188,16 @@ namespace Greeter.Modules.Pay
             return numberMatch.Groups[1].Value;
         }
 
+        string ParseMagcardName(string rawData)
+        {
+            string[] CardData = rawData.Split("^");
+            char[] totrim = { '/' };
+            string name = CardData[1].Replace(" ","");
+            name = name.TrimEnd(totrim);
+            name = name.TrimStart(totrim);
+            Console.WriteLine(name);
+            return CardData[1];
+        }
         //string ParseExpiryData(string rawData)
         //{
         //    string BEFORE_EXPIRY_MONTH_YEAR = "/^";
@@ -432,7 +445,7 @@ namespace Greeter.Modules.Pay
                 if (!tipAmountTextField.Text.IsEmpty())
                     if (float.TryParse(tipAmountTextField.Text, out float tipAmount))
 
-                        _ = PayAsync(CardNumber, expirationDateTextField.Text, tipAmount);
+                        _ = PayAsync(CardNumber, expirationDateTextField.Text, tipAmount, CardHolderName);
             };
 
             backgroundImage.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
@@ -645,6 +658,7 @@ namespace Greeter.Modules.Pay
                     replacedString = (NSString)parsedCardNo;
                     string year = ParseExpiryYear(replacementString);
                     string month = ParseExpiryMonth(replacementString);
+                    CardHolderName = ParseMagcardName(replacementString);
                     //string yearMonth = ParseExpiryData(replacementString);
 
                     string monthYear = month + year;

@@ -62,7 +62,7 @@ namespace Greeter.Storyboards
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
+            GetIpAddress();
             NavigationController.NavigationBar.Hidden = true;
 
             Initialise();
@@ -557,9 +557,21 @@ namespace Greeter.Storyboards
             PrintZebraPrinterTest(printContent);
             //Print(printContentHtml);
         }
-
+        async void GetIpAddress()
+        {
+            var IpAddress = await new GeneralApiService().GetPrinterIp(AppSettings.LocationID);
+            if (IpAddress.PrinterDetail != null)
+            {
+                ConnectionManager.IpAddress = IpAddress.PrinterDetail.IpAddress;
+            }
+            //else
+            //{
+            //    ShowAlertMsg("No printers Available at This Location");
+            //}
+        }
         public void PrintZebraPrinterTest(string htmlString)
         {
+            
             ConnectionManager connectionManager = new ConnectionManager(this);
             connectionManager.CreateConnection();
             connectionManager.printImage(htmlString);
@@ -680,9 +692,9 @@ namespace Greeter.Storyboards
             DateTime intime = DateTime.Parse(CheckInTime.Substring(10));
             DateTime Outtime = DateTime.Parse(CheckOutTime);
             TimeSpan EstimatedTime = Outtime.TimeOfDay - intime.TimeOfDay;
+            
 
-
-            body += "^AJN,20^FO50,600^FDIn:" + CheckInTime +"^FS"+
+            body += "^AJN,20^FO50,600^FDIn:" + intime.ToString("M/d/yyyy") + ", " + intime.TimeOfDay.ToString().Substring(0, 8)  +"^FS"+
                      "^AJN,20^FO50,640^FDOut:" + CheckOutTime + "^FS"+
                      "^AJN,20^FO50,680^FDEst " + EstimatedTime.ToString()+"Min^FS";
 

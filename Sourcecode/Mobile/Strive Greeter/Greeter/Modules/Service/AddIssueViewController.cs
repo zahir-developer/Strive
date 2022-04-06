@@ -26,6 +26,7 @@ namespace Greeter.Storyboards
         public vehicleIssueImage vehicleIssueImage;
         public string tempFilePath;
         public static long vehicleId;
+        public static bool IsIssueAdded;
         public AddIssueViewController(IntPtr handle) : base(handle)
         {
         }
@@ -108,7 +109,6 @@ namespace Greeter.Storyboards
                 vehicleIssueImage.updatedBy = 0;
                 vehicleIssueAddRequest.vehicleIssueImage.Add(vehicleIssueImage);
             }
-
             //vehicleIssueImage = new vehicleIssueImage();
             //vehicleIssueImage.vehicleIssueImageId = 0;
             //vehicleIssueImage.vehicleIssueId = 0;
@@ -129,20 +129,38 @@ namespace Greeter.Storyboards
             
             if(testresponse.StatusCode == 200)
             {
-                ShowAlertMsg("Issue Added Successfully");
+                //ShowAlertMsg("Issue Added Successfully");
                 NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.reload_Add"), null);
+                IsIssueAdded = true;
+                await CheckIssueAdded();
                 //DismissViewController(true, null);
+                
             }
 
             else
             {
-                ShowAlertMsg("Issue Not Added");
+                
+                IsIssueAdded = false;
+                await CheckIssueAdded();
             }
-            await Task.Delay(5000);
+            await Task.Delay(2000);
             DismissViewController(true, null);
 
 
         }
+
+        public async Task CheckIssueAdded()
+        {
+            if (IsIssueAdded)
+            {
+                ShowAlertMsg("Issue added");
+            }
+            else
+            {
+                ShowAlertMsg("Issue Not Added");
+            }
+        }
+
 
         [Export("textView:shouldChangeTextInRange:replacementText:")]
         public bool ShouldChangeText(UITextView textView, NSRange range, string replacementString)
@@ -165,6 +183,7 @@ namespace Greeter.Storyboards
             try
             {
                 var cameraResponse = await MediaPicker.CapturePhotoAsync();
+                
                 var stream = await cameraResponse.OpenReadAsync();
 
                  tempFilePath = string.Empty;
@@ -184,11 +203,11 @@ namespace Greeter.Storyboards
                 imagePaths.Add(UIImage.FromFile(tempFilePath));
                 
                 cvImages.ReloadData();
-                if (imagePaths.Count == 3)
-                {
-                    ShowAlertMsg("You can add only 3 Images");
-                    lblAddPhotos.Hidden = true;
-                }
+                //if (imagePaths.Count == 3)
+                //{
+                //    ShowAlertMsg("You can add only 3 Images");
+                //    lblAddPhotos.Hidden = true;
+                //}
             }
             catch (Exception e)
             {

@@ -12,9 +12,10 @@ namespace Greeter.Services.Printer
     {
         public Connection Connection;
         public DiscoveredPrinter Printer;
-        public string ipAddress = "10.254.2.157";
+        public static string IpAddress { get; set; }
+        //public string ipAddress = "10.254.2.157";
         public int port = 6101;
-        IBaseView baseView;
+        IBaseView baseView; 
 
         public ConnectionManager(IBaseView baseView)
         {
@@ -27,7 +28,7 @@ namespace Greeter.Services.Printer
         {
             try
             {
-                Connection = new TcpConnection(ipAddress, port);
+                Connection = new TcpConnection(IpAddress, port);
                 Connection.Open();
             }
             catch (ConnectionException e)

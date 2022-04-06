@@ -210,31 +210,31 @@ namespace Greeter
             textField.InputAccessoryView = toolbarDone;
         }
 
-        public void Print(string html)
-        {
-            var printController = UIPrintInteractionController.SharedPrintController;
-            var printInfo = UIPrintInfo.PrintInfo;
-            printInfo.OutputType = UIPrintInfoOutputType.General;
-            printInfo.JobName = "myPrintJob";
+        //public void Print(string html)
+        //{
+        //    var printController = UIPrintInteractionController.SharedPrintController;
+        //    var printInfo = UIPrintInfo.PrintInfo;
+        //    printInfo.OutputType = UIPrintInfoOutputType.General;
+        //    printInfo.JobName = "myPrintJob";
 
-            printController.PrintInfo = printInfo;
+        //    printController.PrintInfo = printInfo;
 
-            var textFormatter = new UIMarkupTextPrintFormatter(html);
-            textFormatter.PerPageContentInsets = new UIEdgeInsets(top: 72, left: 72, bottom: 72, right: 72);
-            printController.PrintFormatter = textFormatter;
-            printController.ShowsPageRange = true;
+        //    var textFormatter = new UIMarkupTextPrintFormatter(html);
+        //    textFormatter.PerPageContentInsets = new UIEdgeInsets(top: 72, left: 72, bottom: 72, right: 72);
+        //    printController.PrintFormatter = textFormatter;
+        //    printController.ShowsPageRange = true;
 
-            printController.Present(true, (handler, completed, error) =>
-            {
-                if (!completed && error != null)
-                {
-                    Console.WriteLine($"Error: {error.LocalizedDescription ?? ""}");
-                }
-            });
+        //    printController.Present(true, (handler, completed, error) =>
+        //    {
+        //        if (!completed && error != null)
+        //        {
+        //            Console.WriteLine($"Error: {error.LocalizedDescription ?? ""}");
+        //        }
+        //    });
 
-            printInfo.Dispose();
-            textFormatter.Dispose();
-        }
+        //    printInfo.Dispose();
+        //    textFormatter.Dispose();
+        //}
 
         public void EmailServiceReceipt(string html, string subject)
         {

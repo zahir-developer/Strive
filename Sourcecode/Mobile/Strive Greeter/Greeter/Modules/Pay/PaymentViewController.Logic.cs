@@ -41,7 +41,7 @@ namespace Greeter.Modules.Pay
 
         }
 
-        async Task PayAsync(string cardNo, string expiryDate, float tipAmount)
+        async Task PayAsync(string cardNo, string expiryDate, float tipAmount, string HolderName)
         {
             var totalAmnt = Amount + tipAmount;
 
@@ -68,8 +68,12 @@ namespace Greeter.Modules.Pay
                         Amount = totalAmnt,
                         OrderID = ""
                     },
-                    Locationid = AppSettings.LocationID
-
+                    Locationid = AppSettings.LocationID,
+                    BillingDetail = new BillingDetail()
+                    {
+                        Name = HolderName 
+                    } 
+                    
                     
                 };
 

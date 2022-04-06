@@ -50,7 +50,7 @@ namespace Greeter.Storyboards
             base.ViewDidLoad();
 
             NavigationController.NavigationBar.Hidden = true;
-
+            GetIpAddress();
             Initialise();
             UpdateData();
 
@@ -416,13 +416,20 @@ namespace Greeter.Storyboards
             }
 
             body += "^AJN,30^A0N,30,30^FO480," + (yaxis + 80) + "^FDAir Fresheners^FS";
-
-            DateTime intime = DateTime.Parse(CheckInTime);
+            DateTime intime;
+            if (CheckInTime.Length > 5)
+            {
+                 intime = DateTime.Parse(CheckInTime.Substring(10));
+            }
+            else
+            {
+                 intime = DateTime.Parse(CheckInTime);
+            }
             DateTime Outtime = DateTime.Parse(CheckOutTime);
             TimeSpan EstimatedTime = Outtime.TimeOfDay - intime.TimeOfDay;
 
 
-            body += "^AJN,20^FO50,600^FDIn:" + CheckInTime + "^FS" +
+            body += "^AJN,20^FO50,600^FDIn:" + intime.ToString("M/d/yyyy") + ", " + intime.TimeOfDay.ToString().Substring(0, 8)  + "^FS" +
                      "^AJN,20^FO50,640^FDOut:" + CheckOutTime + "^FS" +
                      "^AJN,20^FO50,680^FDEst " + EstimatedTime.ToString() + "Min^FS";
 
@@ -442,7 +449,7 @@ namespace Greeter.Storyboards
 
             body += "^AJN,20^FO50,1040^FDNote^FS";
 
-            body += "^AJN,20^FO60,140^AD^BY4^FWB^BC,100,Y,N,N^FD" + TicketID + "^FS";
+            body += "^AJN,20^FO60,140^AD^BY3^FWB^BC,100,Y,N,N^FD" + TicketID + "^FS";
 
             body += "^AJN,20^FO180,200^GFA,11400,11400,38," + Image + "^FS^XZ";
 
@@ -455,8 +462,23 @@ namespace Greeter.Storyboards
             PrintZebraPrinterTest(printContentHtml);
         }
 
+        async void GetIpAddress()
+        {
+            var IpAddress = await new GeneralApiService().GetPrinterIp(AppSettings.LocationID);
+            if (IpAddress.PrinterDetail != null)
+            {
+                ConnectionManager.IpAddress = IpAddress.PrinterDetail.IpAddress;
+            }
+            //else
+            //{
+            //    ShowAlertMsg("No printers Available at This Location");
+            //}
+        }
+
         public void PrintZebraPrinterTest(string htmlString)
         {
+
+            
             ConnectionManager connectionManager = new ConnectionManager(this);
             connectionManager.CreateConnection();
             connectionManager.printImage(htmlString);

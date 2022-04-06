@@ -10,6 +10,7 @@ using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Api;
 using Greeter.Services.Network;
+using Greeter.Services.Printer;
 using UIKit;
 
 namespace Greeter
@@ -63,7 +64,7 @@ namespace Greeter
             };
         }
 
-        void BtnNextClicked()
+        async void BtnNextClicked()
         {
             if (!string.IsNullOrEmpty(tfLocation.Text))
             {
@@ -71,6 +72,11 @@ namespace Greeter
                 AppSettings.LocationID = locations[pos].ID;
                 AppSettings.LocationName = locations[pos].Name;
                 AppSettings.WashTime = locations[pos].WashTimeMinutes;
+                //var IpAddress = await new GeneralApiService().GetPrinterIp(AppSettings.LocationID);
+                //if (IpAddress.PrinterDetail != null)
+                //{
+                //    ConnectionManager.IpAddress = IpAddress.PrinterDetail.IpAddress;
+                //}
                 NavigateToTabsScreen();
             }
             else ShowAlertMsg(Common.Messages.LOCATION_EMPTY, titleTxt: Common.Messages.LOCATION);
@@ -132,7 +138,6 @@ namespace Greeter
         void NavigateToTabsScreen()
         {
             UIViewController vcTabs = GetViewController(GetHomeStorybpard(), nameof(TabViewController));
-
             NavigationController.ViewControllers = new UIViewController[] { vcTabs };
 
             //NavigateToWithAnim(vcTabs);

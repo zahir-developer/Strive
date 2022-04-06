@@ -184,9 +184,27 @@ namespace Greeter.Modules.Pay
              "Print",
              (flagAction, view, success) =>
              {
-                 //success(true);
+                 success(true);
+                 var alert = UIAlertController.Create("Select Ticket", "", UIAlertControllerStyle.ActionSheet);
+                 alert.View.TintColor = UIColor.Black;
                  tableView.Editing = false;
-                 PrintReceipt(checkout);
+                 alert.AddAction(UIAlertAction.Create("Customer Ticket", UIAlertActionStyle.Default, (action) =>
+                 {
+                     PrintServiceReceipt(checkout);
+                 }));
+                 alert.AddAction(UIAlertAction.Create("Vehicle Ticket", UIAlertActionStyle.Default, (action) =>
+                 {
+                     PrintVehicleReceipt(checkout);
+                 }));
+
+                 alert.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
+                 UIPopoverPresentationController presentationPopover = alert.PopoverPresentationController;
+                 if (presentationPopover != null)
+                 {
+                     presentationPopover.SourceView = searchBar;
+                     presentationPopover.PermittedArrowDirections = UIPopoverArrowDirection.Any;
+                 }
+                 PresentViewController(alert, true, null);
              });
 
             actionPrint.Image = UIImage.FromBundle("tick");

@@ -38,7 +38,7 @@ namespace Greeter.Common
         //internal const string STRIVE_DEV_BASE_URL = "https://strivedev.azurewebsites.net";
 
         //// Mamooth Dev
-        //internal const string  MAMMOTH_DEV_BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        internal const string  MAMMOTH_DEV_BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         ////QA
         //internal const string MAMMOTH_DEV_QA_BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
@@ -62,8 +62,7 @@ namespace Greeter.Common
         // Client Url by Zahir - not working - don't use this one as of now
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";
 
-        // Client
-        //internal const string BASE_URL = "https://mammothuatapi.azurewebsites.net";
+       
 
         // User
         internal const string LOGIN = "/Auth/Login";
@@ -128,6 +127,11 @@ namespace Greeter.Common
         internal const string GET_DETAIL_SERVICE = "/Admin/Details/GetDetailsById/";
         internal const string GET_VEHICLE_ISSUE_IMAGE_ID = "/Admin/Vehicle/GetVehicleIssueImageById/";
         internal const string ERROR_LOG = "/Admin/ErrorHandler/Log";
+        //Printer
+        internal const string GET_PRINTER_IP = "/Admin/Printer/GetPrinterByLocation/";
+        internal const string FETCH_CUSTOMER_TICKET = "/Admin/Common/GetCustomerPrint";
+        internal const string FETCH_VEHICLE_TICKET = "/Admin/Common/GetVehiclePrint";
+        internal const string GET_PRINT_DETAILS = "/Admin/Job/GetPrintJobDetail";
     }
 
     public class UIConstants

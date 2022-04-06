@@ -1,5 +1,5 @@
 ﻿using System;
-
+using CoreGraphics;
 using Foundation;
 using Greeter.Extensions;
 using UIKit;
@@ -48,7 +48,7 @@ namespace Greeter.Cells
             //imgvClose.ClipsToBounds = true;
 
             imgvClose.Hidden = !isCloseOptionNeeded;
-
+            imgv.Transform = CGAffineTransform.MakeRotation(3.14159f * 90 / 180f);
             if (path is not null)
                 imgv.Image = path;
         }

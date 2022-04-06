@@ -669,7 +669,7 @@ namespace Greeter.DTOs
         public PaymentDetail PaymentDetail { get; set; }
 
         [JsonProperty("billingDetail")]
-        public BillingDetail BillingDetail { get; } = new();
+        public BillingDetail BillingDetail { get; set; } 
 
         [JsonProperty("locationId")]
         public int Locationid { get; set; }
@@ -706,8 +706,8 @@ namespace Greeter.DTOs
 
     public class BillingDetail
     {
-        //[JsonProperty("name")]
-        //public string Name { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
         //[JsonProperty("address")]
         //public string Address { get; set; }
@@ -1857,4 +1857,157 @@ namespace Greeter.DTOs
         [JsonProperty("Environment")]
         public string Environment { get; set; }
     }
+
+    //Printer Related Models--Starting
+
+    public class PrinterIp :BaseResponse
+    {
+        public PrinterDetail PrinterDetail { get; set; }
+    }
+    public class PrinterDetail
+    {
+        [JsonProperty("IpAddress")]
+        public string IpAddress { get; set; }
+        [JsonProperty("PrinterName")]
+        public string PrinterName { get; set; }
+    }
+    public class TicketModel : BaseResponse
+    {
+        [JsonProperty("PrintJobDetail")]
+        public  PrintJobDetail PrintJobDetail{ get; set; }
+    }
+
+    public class PrintJobDetail
+    {
+        [JsonProperty("Job")]
+        public PrintJob Job { get; set; }
+
+        [JsonProperty("JobItem")]
+        public List<PrintJobItem> JobItem { get; set; }
+
+        [JsonProperty("ClientDetail")]
+        public PrintClientInfo ClientDetail { get; set; }
+    }
+
+    public class PrintJobItem
+    {
+        [JsonProperty("JobItemId")]
+        public int JobItemId { get; set; }
+        [JsonProperty("serviceName")]
+        public string serviceName { get; set; }
+        [JsonProperty("ServiceId")]
+        public int ServiceId { get; set; }
+        [JsonProperty("Price")]
+        public long Price { get; set; }
+        [JsonProperty("ServiceType")]
+        public string ServiceType { get; set; }
+    }
+    public class PrintClientInfo
+    {
+        
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
+        [JsonProperty("PhoneNumber")]
+        public string PhoneNumber { get; set; }
+        [JsonProperty("Email")]
+        public string Email { get; set; }
+    }
+
+    public class PrintJob
+    {
+        [JsonProperty("JobId")]
+        public int JobId { get; set; }
+        [JsonProperty("TicketNumber")]
+        public string TicketNumber { get; set; }
+        [JsonProperty("TimeIn")]
+        public string TimeIn { get; set; }
+        [JsonProperty("TimeOut")]
+        public string TimeOut { get; set; }
+        [JsonProperty("EstimatedTimeOut")]
+        public string EstimatedTimeOut { get; set; }
+        [JsonProperty("Barcode")]
+        public string Barcode { get; set; }
+        [JsonProperty("VehicleModel")]
+        public string VehicleModel { get; set; }
+        [JsonProperty("VehicleMake")]
+        public string VehicleMake { get; set; }
+        [JsonProperty("VehicleColor")]
+        public string VehicleColor { get; set; }
+        [JsonProperty("JobDate")]
+        public string JobDate { get; set; }
+        [JsonProperty("JobType")]
+        public string JobType { get; set; }
+        [JsonProperty("JobStatus")]
+        public string JobStatus { get; set; }
+        [JsonProperty("notes")]
+        public string notes { get; set; }
+
+    }
+
+
+    public class PrintContentRequest
+    {
+        [JsonProperty("job")]
+        public printJob job { get; set; }
+
+        [JsonProperty("jobItem")]
+        public List<printJobItem> jobItem { get; set; }
+
+        [JsonProperty("clientInfo")]
+        public printClientInfo clientInfo { get; set; }
+
+    }
+    public class printJob
+    {
+        [JsonProperty("ticketNumber")]
+        public string ticketNumber { get; set; }
+        [JsonProperty("inTime")]
+        public string inTime { get; set; }
+        [JsonProperty("timeOut")]
+        public string timeOut { get; set; }
+        [JsonProperty("barcode")]
+        public string? barcode { get; set; }
+        [JsonProperty("vehicleModel")]
+        public string vehicleModel { get; set; }
+        [JsonProperty("vehicleMake")]
+        public string vehicleMake { get; set; }
+        [JsonProperty("vehicleColor")]
+        public string vehicleColor { get; set; }
+    }
+    public class printJobItem
+    {
+        [JsonProperty("serviceName")]
+        public string serviceName { get; set; }
+        
+        [JsonProperty("price")]
+        public long price { get; set; }
+        [JsonProperty("serviceType")]
+        public string serviceType { get; set; }
+    }
+    public class printClientInfo
+    {
+        [JsonProperty("firstName")]
+        public string firstName { get; set; }
+        [JsonProperty("lastName")]
+        public string lastName { get; set; }
+        [JsonProperty("phoneNumber")]
+        public string phoneNumber { get; set; }
+        [JsonProperty("email")]
+        public string email { get; set; }
+        [JsonProperty("clientName")]
+        public string clientName { get; set; }
+    }
+    public class GeneratedTicket : BaseResponse
+    {
+        [JsonProperty("VehiclePrint")]
+        public string VehiclePrint { get; set; }
+
+        [JsonProperty("CustomerPrint")]
+        public string CustomerPrint { get; set; }
+    }
+
+    //Printer Related Models--Ending
+
 }

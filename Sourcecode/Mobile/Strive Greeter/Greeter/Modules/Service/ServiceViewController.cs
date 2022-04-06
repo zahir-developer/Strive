@@ -52,7 +52,7 @@ namespace Greeter
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
+            txtFieldBarcode.Text = string.Empty;
             // Initial UI Settings
             Initialise();
             UpdateStaticDataToUI();
@@ -107,6 +107,7 @@ namespace Greeter
             btnDriveUp.TouchUpInside += delegate
             {
                 NavigateToWashOrDetailScreen(null, txtFieldBarcode.Text);
+                txtFieldBarcode.Text = string.Empty;
             };
 
             lblChangeloc.AddGestureRecognizer(new UITapGestureRecognizer(LocationTap));
@@ -186,7 +187,7 @@ namespace Greeter
             //txtFieldBarcode.Text = "73051914";
             //txtFieldBarcode.Text = "73075933";
             //txtFieldBarcode.Text = "60022800";
-            txtFieldBarcode.Text = "60023615";
+            //txtFieldBarcode.Text = "60023615";--last commented*
 
             // DEV Membership Barcode
             //txtFieldBarcode.Text = "19112021p";
