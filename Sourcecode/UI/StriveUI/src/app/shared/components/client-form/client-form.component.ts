@@ -175,7 +175,7 @@ export class ClientFormComponent implements OnInit {
     this.selectedCityId = this.selectedData.City;
     this.city = this.selectedCityId;
     this.creditCheck = this.selectedData.IsCreditAccount;    
-    this.chkCreditDisable = this.selectedData.IsCreditAccount;
+    this.chkCreditDisable = this.selectedData.IsCreditAccount;    //This disables the "Is Credit" checkbox when the customer has credit account
     this.isCreditAccount.emit(this.selectedData.IsCreditAccount);      
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,

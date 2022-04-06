@@ -214,6 +214,17 @@ export class CreateEditWashesComponent implements OnInit {
     this.timeInDate = this.selectedData.Washes[0].TimeIn;
     this.timeOutDate = this.selectedData.Washes[0].EstimatedTimeOut;
     this.clientId = this.selectedData?.Washes[0]?.ClientId;
+
+    //console.log(this.isView +', '+this.isEdit);
+    if(this.isView || this.isEdit){
+      var date1: any = new Date(this.selectedData.Washes[0].TimeIn);
+      var date2: any = new Date(this.selectedData.Washes[0].EstimatedTimeOut);    
+      var diffMs: any  = (date2 - date1);
+      const secs = Math.floor(Math.abs(diffMs) / 1000);
+      const mins = Math.floor(secs / 60);      
+      this.washTime = mins;
+    }
+    
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
       this.washForm.get('vehicle').disable();
     } else if (!this.isView) {

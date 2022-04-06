@@ -156,8 +156,9 @@
         <div class="col-lg-6 col-xl-2  m-t-40">
             <div class="custom-control custom-checkbox custom-control-inline m-r-0">
                     <input class="form-check-input" tabindex="15" type="checkbox" [(ngModel)]="creditCheck"
-                        formControlName="creditAccount" (change)="change($event.target.checked)" [attr.disabled]="chkCreditDisable ? true : null">
+                        formControlName="creditAccount" (change)="change($event.target.checked)">
                     <label class="form-check-label" for="gridCheck">Credit Account</label>
+                    <!-- [attr.disabled]="chkCreditDisable ? true : null" -->
             </div>
         </div>
     </div>
