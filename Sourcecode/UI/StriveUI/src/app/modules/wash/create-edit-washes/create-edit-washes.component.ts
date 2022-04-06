@@ -191,7 +191,16 @@ export class CreateEditWashesComponent implements OnInit {
 
     this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
     this.getClientPastNotes(this.selectedData?.Washes[0]?.ClientId);
-
+    
+    // console.log(this.isView +', '+this.isEdit);
+    if(this.isView || this.isEdit){
+      var date1: any = new Date(this.selectedData.Washes[0].TimeIn);
+      var date2: any = new Date(this.selectedData.Washes[0].EstimatedTimeOut);    
+      var diffMs: any  = (date2 - date1);
+      const secs = Math.floor(Math.abs(diffMs) / 1000);
+      const mins = Math.floor(secs / 60);
+      this.washTime = mins;
+    }
 
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
@@ -210,20 +219,12 @@ export class CreateEditWashesComponent implements OnInit {
       airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId ?
         this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId : '',
     });
-    this.getModel(this.selectedData.Washes[0].Make);
-    this.timeInDate = this.selectedData.Washes[0].TimeIn;
-    this.timeOutDate = this.selectedData.Washes[0].EstimatedTimeOut;
-    this.clientId = this.selectedData?.Washes[0]?.ClientId;
-
-    //console.log(this.isView +', '+this.isEdit);
-    if(this.isView || this.isEdit){
-      var date1: any = new Date(this.selectedData.Washes[0].TimeIn);
-      var date2: any = new Date(this.selectedData.Washes[0].EstimatedTimeOut);    
-      var diffMs: any  = (date2 - date1);
-      const secs = Math.floor(Math.abs(diffMs) / 1000);
-      const mins = Math.floor(secs / 60);      
-      this.washTime = mins;
-    }
+      this.getModel(this.selectedData.Washes[0].Make);
+      this.timeInDate = this.selectedData.Washes[0].TimeIn;
+      this.timeOutDate = this.selectedData.Washes[0].EstimatedTimeOut;
+      this.clientId = this.selectedData?.Washes[0]?.ClientId;          
+      
+    
     
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
       this.washForm.get('vehicle').disable();
