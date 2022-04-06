@@ -60,6 +60,11 @@
                  android:textColor="@android:color/black"
                  android:id="@+id/fromDate"
                  android:layout_marginTop="@dimen/five"
+                 android:paddingLeft="@dimen/five"
+                 android:paddingRight="@dimen/five"
+                 android:background="@color/material_grey_300"
+                 android:outlineAmbientShadowColor="@color/material_blue_grey_800"
+                 
             />
             <Button
                  android:layout_width="80dp"
@@ -88,8 +93,12 @@
                  android:layout_alignStart="@id/fromDate"
                  android:layout_below="@id/fromDate"                 
                  android:layout_marginTop="@dimen/five"
+                 android:paddingLeft="@dimen/five"
+                 android:paddingRight="@dimen/five"
                  android:textSize="@dimen/textFifteen"
                  android:textColor="@android:color/black"
+                 android:background="@color/material_grey_300"
+                 android:outlineAmbientShadowColor="@color/material_blue_grey_800"
                  android:id="@+id/toDate"                
             />
          </RelativeLayout>

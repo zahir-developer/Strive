@@ -202,7 +202,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
 
         private void FromDate_Click(object sender, EventArgs e)
         {
-            DateTime today = DateTime.Today.Date;
+            DateTime today = DateTime.Parse(FromDate.Text);         
             DatePickerDialog dialog = new DatePickerDialog(Context, OnFromDateSet, today.Year, today.Month - 1, today.Day);
             //dialog.DatePicker.MinDate = today.Millisecond;
             var calendar = Calendar.GetInstance(Java.Util.TimeZone.Default);
@@ -220,7 +220,7 @@ namespace StriveEmployee.Android.Fragments.Payroll
 
         private void ToDate_Click(object sender, EventArgs e)
         {
-            DateTime today = DateTime.Today.Date;
+            DateTime today = DateTime.Parse(ToDate.Text);
             DatePickerDialog dialog = new DatePickerDialog(Context, OnToDateSet, today.Year, today.Month - 1, today.Day);            
             //dialog.DatePicker.MinDate = today.Millisecond;
             var calendar = Calendar.GetInstance(Java.Util.TimeZone.Default);
