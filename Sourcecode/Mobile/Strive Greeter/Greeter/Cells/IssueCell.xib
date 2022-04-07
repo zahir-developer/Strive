@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
@@ -18,13 +18,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(10/12/2020)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cTv-PZ-jf7">
-                        <rect key="frame" x="42" y="20" width="441" height="22"/>
+                        <rect key="frame" x="42" y="20" width="443" height="22"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8C3-4P-nlZ">
-                        <rect key="frame" x="42" y="47" width="388" height="39"/>
+                        <rect key="frame" x="42" y="47" width="390" height="39"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="39" id="E5s-Iz-upB"/>
                         </constraints>
@@ -32,22 +32,10 @@
                         <color key="textColor" red="0.13725490196078433" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tav-Yn-hpn">
-                        <rect key="frame" x="438" y="69.5" width="34" height="40"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="34" id="VXn-Wl-hqB"/>
-                            <constraint firstAttribute="height" constant="40" id="ewC-Kd-VVa"/>
-                        </constraints>
-                        <state key="normal" title="Button" image="close_red"/>
-                        <connections>
-                            <action selector="CloseBtnClicked:" destination="cxk-wN-pdQ" eventType="touchUpInside" id="jvx-IJ-bL6"/>
-                        </connections>
-                    </button>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="a5K-j3-t68">
-                        <rect key="frame" x="38" y="93" width="109" height="75"/>
+                        <rect key="frame" x="38" y="93" width="462" height="75"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="109" id="8SK-o9-kt5"/>
                             <constraint firstAttribute="height" constant="75" id="pfd-W0-cG4"/>
                         </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NRk-YZ-Lnu">
@@ -57,19 +45,30 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tav-Yn-hpn">
+                        <rect key="frame" x="440" y="55" width="34" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="34" id="VXn-Wl-hqB"/>
+                            <constraint firstAttribute="height" constant="40" id="ewC-Kd-VVa"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="close_red"/>
+                        <connections>
+                            <action selector="CloseBtnClicked:" destination="cxk-wN-pdQ" eventType="touchUpInside" id="jvx-IJ-bL6"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="a5K-j3-t68" firstAttribute="centerY" secondItem="Tav-Yn-hpn" secondAttribute="centerY" constant="41" id="2Bx-fJ-awt"/>
+                    <constraint firstItem="a5K-j3-t68" firstAttribute="centerY" secondItem="Tav-Yn-hpn" secondAttribute="centerY" constant="55.5" id="2Bx-fJ-awt"/>
                     <constraint firstItem="cTv-PZ-jf7" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="42" id="53N-VC-RIa"/>
                     <constraint firstAttribute="trailing" secondItem="Tav-Yn-hpn" secondAttribute="trailing" constant="31" id="5mp-I3-7hS"/>
                     <constraint firstItem="8C3-4P-nlZ" firstAttribute="top" secondItem="cTv-PZ-jf7" secondAttribute="bottom" constant="5" id="SZY-ec-neh"/>
-                    <constraint firstItem="Tav-Yn-hpn" firstAttribute="leading" secondItem="8C3-4P-nlZ" secondAttribute="trailing" constant="8" symbolic="YES" id="WrX-Ud-RZj"/>
+                    <constraint firstAttribute="trailing" secondItem="a5K-j3-t68" secondAttribute="trailing" constant="5" id="TYP-JT-EEr"/>
+                    <constraint firstItem="Tav-Yn-hpn" firstAttribute="leading" secondItem="8C3-4P-nlZ" secondAttribute="trailing" constant="8" id="WrX-Ud-RZj"/>
                     <constraint firstItem="8C3-4P-nlZ" firstAttribute="trailing" secondItem="cTv-PZ-jf7" secondAttribute="trailing" constant="-53" id="X3Q-u0-4eu"/>
                     <constraint firstItem="8C3-4P-nlZ" firstAttribute="leading" secondItem="cTv-PZ-jf7" secondAttribute="leading" id="ZVo-Ie-1i0"/>
-                    <constraint firstItem="Tav-Yn-hpn" firstAttribute="leading" secondItem="a5K-j3-t68" secondAttribute="trailing" constant="291" id="f3K-ee-RPC"/>
                     <constraint firstItem="a5K-j3-t68" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="38" id="f9i-6y-8y9"/>
                     <constraint firstAttribute="bottom" secondItem="8C3-4P-nlZ" secondAttribute="bottom" constant="93" id="hpc-w1-6c3"/>
-                    <constraint firstItem="Tav-Yn-hpn" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="iHn-ep-e4C"/>
+                    <constraint firstItem="Tav-Yn-hpn" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" constant="-14.5" id="iHn-ep-e4C"/>
                     <constraint firstAttribute="trailing" secondItem="cTv-PZ-jf7" secondAttribute="trailing" constant="20" symbolic="YES" id="n7T-Y4-GDY"/>
                     <constraint firstItem="cTv-PZ-jf7" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top" constant="20" id="rzq-ic-hhN"/>
                 </constraints>

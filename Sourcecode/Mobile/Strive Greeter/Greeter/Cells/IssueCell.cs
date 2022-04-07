@@ -8,6 +8,7 @@ using Greeter.Storyboards;
 using UIKit;
 using System.Collections.Generic;
 using System.Linq;
+using CoreGraphics;
 
 namespace Greeter.Cells
 {
@@ -57,7 +58,7 @@ namespace Greeter.Cells
                 byte[] encodedDataAsBytes = Convert.FromBase64String(item.Base64Thumbnail);
                 NSData data = NSData.FromArray(encodedDataAsBytes);
                 var uiImage = UIImage.LoadFromData(data);
-
+                //uiImage.Transform = CGAffineTransform.MakeRotation(3.14159f * 90 / 180f);
                 if (!Images.ContainsKey(item.VehicleIssueImageId))
                     Images.Add(item.VehicleIssueImageId, uiImage);
                 
