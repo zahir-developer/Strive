@@ -52,7 +52,7 @@
         <CodesignKey>Apple Development: Remees MS (7U7QD48623)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
         <MtouchLink>SdkOnly</MtouchLink>
-        <CodesignProvision>Strive Customer</CodesignProvision>
+        <CodesignProvision>iOS Team Provisioning Profile: com.Mammoth.StriveCustomerMobile</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>

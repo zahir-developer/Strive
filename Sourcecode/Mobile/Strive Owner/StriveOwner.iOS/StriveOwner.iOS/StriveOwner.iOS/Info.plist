@@ -41,5 +41,9 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App Wants to access the Camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App Wants to access the Photos</string>
 </dict>
 </plist>

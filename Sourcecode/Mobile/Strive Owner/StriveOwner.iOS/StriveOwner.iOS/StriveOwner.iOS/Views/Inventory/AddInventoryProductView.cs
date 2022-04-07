@@ -97,12 +97,28 @@ namespace StriveOwner.iOS.Views.Inventory
 
             EditImageButton.TouchUpInside += (sender, e) =>
             {
-                //AddImage.Hidden = false;
+                AddImage.Hidden = false;
             };
 
             NotNow.TouchUpInside += (sender, e) =>
             {
                 AddImage.Hidden = true;
+            };
+            FromCamera.TouchUpInside += (sender, e) =>
+            {
+                imagePicker = new UIImagePickerController();
+                CaptureFromCamera();
+            };
+            FromFiles.TouchUpInside += (sender, e) =>
+            {
+
+                imagePicker = new UIImagePickerController();
+                CaptureFromPhotoLibrary();
+            };
+            FromIcon.TouchUpInside += (sender, e) =>
+            {
+
+                ViewModel.NavigateIconViewCommand();
             };
             var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
             Tap.CancelsTouchesInView = false;
@@ -201,6 +217,7 @@ namespace StriveOwner.iOS.Views.Inventory
             ViewModel.Filename = url + ".png";
             ItemImage.Image = UIImage.FromBundle(url);
             ConvertToBase64(UIImage.FromBundle(url));
+            AddImage.Hidden = true;
         }
 
         private void PickImage()

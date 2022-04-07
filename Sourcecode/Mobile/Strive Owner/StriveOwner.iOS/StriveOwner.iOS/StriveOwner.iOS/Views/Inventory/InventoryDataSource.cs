@@ -69,11 +69,11 @@ namespace StriveOwner.iOS.Views.Inventory
                     (UIContextualActionStyle.Destructive,
                         "Delete",
                         async (FlagAction, view, success) => {
-                            if ((ItemList[indexPath.Row].Product.Quantity > 0))
-                            {
-                                success(false);
-                                return;
-                            }
+                            //if ((ItemList[indexPath.Row].Product.Quantity > 0))
+                            //{
+                            //    success(false);
+                            //    return;
+                            //}
                             var affirmative = _userDialog.ConfirmAsync("Are you sure want to delete this item?", "Delete", "Yes", "No");
                             if (await affirmative)
                             {

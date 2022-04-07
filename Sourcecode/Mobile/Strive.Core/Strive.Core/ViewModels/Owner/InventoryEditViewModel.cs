@@ -584,6 +584,12 @@ namespace Strive.Core.ViewModels.Owner
             await _navigationService.Navigate<ChooseImageViewModel>();
         }
 
+        public async Task NavigateIconViewCommand()
+        {
+            //await _navigationService.Close(this);
+            await _navigationService.Navigate<IconsViewModel>();
+        }
+
         public async Task LogoutCommand()
         {
             await _navigationService.Close(this);

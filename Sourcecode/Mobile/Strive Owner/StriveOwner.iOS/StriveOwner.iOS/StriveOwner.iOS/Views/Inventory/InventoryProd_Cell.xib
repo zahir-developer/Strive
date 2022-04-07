@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
@@ -42,7 +42,7 @@
                                 <rect key="frame" x="95" y="10" width="75" height="20"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TS-0903" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d76-uz-TAL">
-                                        <rect key="frame" x="11.5" y="0.5" width="52.5" height="19.5"/>
+                                        <rect key="frame" x="11.333333333333332" y="0.33333333333333393" width="52.333333333333343" height="19.333333333333329"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="14"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -57,32 +57,32 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Men's Western Tan T-Shirt - L" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zW2-Ym-ekG">
-                                <rect key="frame" x="95" y="33" width="246.5" height="23.5"/>
+                                <rect key="frame" x="95" y="33" width="446" height="23.666666666666671"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="17"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show your love for your favourite Hand Wash." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajJ-0F-Ced">
-                                <rect key="frame" x="95" y="56.5" width="298.5" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show your love for your favourite Hand Wash." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajJ-0F-Ced">
+                                <rect key="frame" x="95" y="56.666666666666657" width="436" height="18"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="13"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Ky-fM-kSS">
-                                <rect key="frame" x="95" y="74.5" width="80" height="33"/>
+                                <rect key="frame" x="95" y="76.666666666666671" width="80" height="33"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                                 <state key="normal" title="View More">
                                     <color key="titleColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n7Z-zE-Sth">
-                                <rect key="frame" x="551" y="42.5" width="80" height="35"/>
+                                <rect key="frame" x="551" y="42.666666666666664" width="80" height="34.999999999999993"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="00l-RJ-XmW">
                                         <rect key="frame" x="20" y="0.0" width="32" height="35"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nx-XA-GS8">
-                                                <rect key="frame" x="11" y="6" width="10" height="23.5"/>
+                                                <rect key="frame" x="11" y="5.6666666666666696" width="10" height="23.333333333333329"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -132,7 +132,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8A3-kQ-y8E">
-                                <rect key="frame" x="95" y="99.5" width="80" height="1"/>
+                                <rect key="frame" x="95" y="101.66666666666667" width="80" height="1"/>
                                 <color key="backgroundColor" red="0.14107435939999999" green="0.28358918430000002" blue="0.60295563939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="u5U-1p-A0O"/>
@@ -143,6 +143,7 @@
                             <constraint firstItem="ajJ-0F-Ced" firstAttribute="leading" secondItem="hsS-Ut-P8O" secondAttribute="leading" id="Gn4-sp-5Pf"/>
                             <constraint firstItem="zW2-Ym-ekG" firstAttribute="leading" secondItem="hsS-Ut-P8O" secondAttribute="leading" id="IH6-dk-Izz"/>
                             <constraint firstItem="8A3-kQ-y8E" firstAttribute="width" secondItem="2Ky-fM-kSS" secondAttribute="width" id="J7g-Tw-VMc"/>
+                            <constraint firstItem="n7Z-zE-Sth" firstAttribute="leading" secondItem="zW2-Ym-ekG" secondAttribute="trailing" constant="10" id="JpX-nV-SuA"/>
                             <constraint firstAttribute="width" constant="651" id="Ldx-HE-DvH"/>
                             <constraint firstItem="2Ky-fM-kSS" firstAttribute="leading" secondItem="hsS-Ut-P8O" secondAttribute="leading" id="QaU-FQ-byg"/>
                             <constraint firstItem="n7Z-zE-Sth" firstAttribute="centerY" secondItem="317-03-IND" secondAttribute="centerY" id="RfL-pS-OeO"/>
@@ -151,11 +152,12 @@
                             <constraint firstItem="NHh-yR-JtQ" firstAttribute="top" secondItem="317-03-IND" secondAttribute="top" constant="20" id="aqo-as-FI3"/>
                             <constraint firstItem="8A3-kQ-y8E" firstAttribute="centerX" secondItem="2Ky-fM-kSS" secondAttribute="centerX" id="eTm-UB-MnK"/>
                             <constraint firstItem="ajJ-0F-Ced" firstAttribute="top" secondItem="zW2-Ym-ekG" secondAttribute="bottom" id="jep-5u-GYI"/>
-                            <constraint firstItem="2Ky-fM-kSS" firstAttribute="top" secondItem="ajJ-0F-Ced" secondAttribute="bottom" id="k8G-7V-gF1"/>
+                            <constraint firstItem="2Ky-fM-kSS" firstAttribute="top" secondItem="ajJ-0F-Ced" secondAttribute="bottom" constant="2" id="k8G-7V-gF1"/>
                             <constraint firstItem="8A3-kQ-y8E" firstAttribute="top" secondItem="2Ky-fM-kSS" secondAttribute="bottom" constant="-8" id="kdK-nN-8dn"/>
                             <constraint firstItem="hsS-Ut-P8O" firstAttribute="leading" secondItem="NHh-yR-JtQ" secondAttribute="trailing" constant="20" id="ke7-AP-waL"/>
                             <constraint firstItem="zW2-Ym-ekG" firstAttribute="top" secondItem="hsS-Ut-P8O" secondAttribute="bottom" constant="3" id="opB-eW-vP8"/>
                             <constraint firstAttribute="height" constant="120" id="r55-Ff-2il"/>
+                            <constraint firstItem="n7Z-zE-Sth" firstAttribute="leading" secondItem="ajJ-0F-Ced" secondAttribute="trailing" constant="20" id="u72-xx-peM"/>
                             <constraint firstItem="NHh-yR-JtQ" firstAttribute="leading" secondItem="317-03-IND" secondAttribute="leading" constant="15" id="ziI-zk-IBS"/>
                         </constraints>
                     </view>
@@ -169,7 +171,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XkK-49-KJd">
-                                <rect key="frame" x="30" y="44" width="51.5" height="19.5"/>
+                                <rect key="frame" x="29.999999999999996" y="44" width="51.666666666666657" height="19.666666666666671"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Name :">
                                         <attributes>
@@ -181,7 +183,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ykl-E7-FgV">
-                                <rect key="frame" x="30" y="71.5" width="66.5" height="19.5"/>
+                                <rect key="frame" x="30" y="71.666666666666657" width="66.666666666666671" height="19.333333333333329"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Contact :">
                                         <attributes>
@@ -193,7 +195,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dXG-ll-f6m">
-                                <rect key="frame" x="30" y="99" width="68" height="19.5"/>
+                                <rect key="frame" x="30" y="99" width="68" height="19.666666666666671"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Address :">
                                         <attributes>
@@ -206,7 +208,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8pc-gX-ohr">
-                                <rect key="frame" x="30" y="126.5" width="47.5" height="19.5"/>
+                                <rect key="frame" x="29.999999999999996" y="126.66666666666664" width="47.666666666666657" height="19.333333333333329"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Email :">
                                         <attributes>
@@ -244,25 +246,25 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Rambo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAm-zj-1td">
-                                <rect key="frame" x="86.5" y="43" width="91" height="22"/>
+                                <rect key="frame" x="86.666666666666686" y="43" width="91" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+-202-555-0129" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FG2-Io-ulA">
-                                <rect key="frame" x="101.5" y="70.5" width="116.5" height="22"/>
+                                <rect key="frame" x="101.66666666666669" y="70.333333333333343" width="116.33333333333331" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pine Grove Township, PA 17963" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNg-DQ-FOk">
-                                <rect key="frame" x="103" y="98" width="235.5" height="22"/>
+                                <rect key="frame" x="102.99999999999999" y="98" width="235.66666666666663" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JohnRambo@gmail.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4Y-iX-ixo">
-                                <rect key="frame" x="82.5" y="125.5" width="178.5" height="22"/>
+                                <rect key="frame" x="82.666666666666671" y="125.33333333333334" width="178.33333333333331" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -326,7 +328,7 @@
                 <outlet property="SupplierName" destination="fAm-zj-1td" id="SlY-Cb-OGt"/>
                 <outlet property="ViewMoreButton" destination="2Ky-fM-kSS" id="5il-2b-7ix"/>
             </connections>
-            <point key="canvasLocation" x="105" y="1"/>
+            <point key="canvasLocation" x="103.84615384615384" y="0.7109004739336493"/>
         </tableViewCell>
     </objects>
     <resources>

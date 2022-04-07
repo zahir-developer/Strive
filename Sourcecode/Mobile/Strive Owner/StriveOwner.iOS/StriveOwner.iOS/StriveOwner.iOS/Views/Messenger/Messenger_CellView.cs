@@ -70,8 +70,10 @@ namespace StriveOwner.iOS.Views.Messenger
             userNameLabel.LeadingAnchor.ConstraintEqualTo(userIntialLabel.TrailingAnchor, constant: 20).Active = true;
             userNameLabel.TrailingAnchor.ConstraintEqualTo(dateTimeLabel.LeadingAnchor, constant: -10).Active = true;
             userNameLabel.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor, constant: 15).Active = true;
+            userNameLabel.WidthAnchor.ConstraintEqualTo(160).Active = true;
 
-            dateTimeLabel.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor, constant: -30).Active = true;
+            dateTimeLabel.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor, constant: 12).Active = true;
+            dateTimeLabel.LeadingAnchor.ConstraintEqualTo(userNameLabel.TrailingAnchor, constant: 5).Active = true;
             dateTimeLabel.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor, constant: 15).Active = true;
 
             messageContentLabel.LeadingAnchor.ConstraintEqualTo(userIntialLabel.TrailingAnchor, constant: 20).Active = true;
@@ -83,8 +85,8 @@ namespace StriveOwner.iOS.Views.Messenger
         {
             userIntialLabel.Text = "WH";
             userNameLabel.Text = "William Hoeger";
-            dateTimeLabel.Text = "5.18 PM";
-            messageContentLabel.Text = "Checkout cashier section";
+            dateTimeLabel.Text = "    ";
+            messageContentLabel.Text = "                 ";//"Checkout cashier section";
 
             if (!String.IsNullOrEmpty(recentChat.FirstName))
             {

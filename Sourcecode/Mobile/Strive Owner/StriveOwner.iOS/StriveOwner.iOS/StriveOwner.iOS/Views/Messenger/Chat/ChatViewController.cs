@@ -119,7 +119,7 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
             sendImageView.WidthAnchor.ConstraintEqualTo(40).Active = true;
             sendImageView.HeightAnchor.ConstraintEqualTo(40).Active = true;
 
-            if (ViewModel.ChatMessages != null)
+            if (ViewModel.ChatMessages!= null)
             {
                 var chatSource = new ChatDataSource(ViewModel.ChatMessages);
                 chatTableView.Source = chatSource;
@@ -265,7 +265,7 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
                     SenderId = EmployeeTempData.EmployeeID,
                     CreatedDate = DateTime.UtcNow.ToLocalTime()
                 };
-                if (ViewModel.personalChatMessages == null)
+                if (ViewModel.ChatMessages == null)
                 {
                     
                     ViewModel.ChatMessages = new MvxObservableCollection<ChatMessageDetail>();
